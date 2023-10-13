@@ -71,8 +71,12 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *this, ciot_msg_t *msg, int *size
     CIOT_ERR_NULL_CHECK(this);
     CIOT_ERR_NULL_CHECK(msg);
 
-    if(msg->id != this->id) {
+    if(msg->iface.id != this->info.id) {
         return CIOT_ERR_INVALID_ID;
+    }
+
+    if(msg->iface.type != this->info.type) {
+        return CIOT_ERR_INVALID_TYPE;
     }
 
     switch (msg->type)

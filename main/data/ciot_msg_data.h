@@ -18,7 +18,6 @@
 #include "ciot_https_data.h"
 #include "ciot_httpc_data.h"
 #include "ciot_mqttc_data.h"
-
 #define CIOT_MSG_SIZE (sizeof(ciot_msg_t) - sizeof(ciot_msg_data_u))
 #define CIOT_MSG_GET_SIZE(type) (CIOT_MSG_SIZE + sizeof(type))
 
@@ -39,7 +38,13 @@ typedef enum __attribute__((packed))
     CIOT_IFACE_TYPE_HTTP_SERVER,
     CIOT_IFACE_TYPE_HTTP_CLIENT,
     CIOT_IFACE_TYPE_MQTT,
-} ciot_iface_type_t;
+} ciot_msg_iface_type_t;
+
+typedef struct __attribute__((packed))
+{
+    uint8_t id;
+    ciot_msg_iface_type_t type;
+} ciot_msg_iface_info_t;
 
 typedef union ciot_msg_data
 {
@@ -51,9 +56,8 @@ typedef union ciot_msg_data
 
 typedef struct __attribute__((packed))
 {
-    uint8_t id;
     ciot_msg_type_t type;
-    ciot_iface_type_t iface;
+    ciot_msg_iface_info_t iface;
     ciot_err_t error;
     ciot_msg_data_u data;
 } ciot_msg_t;

@@ -38,7 +38,7 @@ ciot_httpc_t ciot_httpc_new(void *handle)
     this->iface.base.cfg.size = sizeof(this->cfg);
     this->iface.base.status.ptr = &this->status;
     this->iface.base.status.size = sizeof(this->status);
-    this->iface.base.type = CIOT_IFACE_TYPE_HTTP_CLIENT;
+    this->iface.info.type = CIOT_IFACE_TYPE_HTTP_CLIENT;
     this->mgr = handle;
     return this;
 }
@@ -100,8 +100,7 @@ static void ciot_httpc_on_msg(ciot_httpc_t this, struct mg_connection *c, struct
     {
         event.id = CIOT_HTTPC_EVENT_DATA;
         event.size = CIOT_MSG_GET_SIZE(event.msg.data.httpc);
-        event.msg.id = this->iface.id;
-        event.msg.iface = this->iface.base.type;
+        event.msg.iface = this->iface.info;
         event.msg.type = CIOT_MSG_TYPE_UNKNOWN;
         event.msg.data.httpc.msg.url = (char *)hm->uri.ptr;
         event.msg.data.httpc.msg.data = (void *)hm->body.ptr;

@@ -9,22 +9,20 @@
  * 
  */
 
+#include <stdbool.h>
+
 #include "ciot.h"
 #include "ciot_https.h"
 #include "ciot_httpc.h"
 #include "ciot_mqttc.h"
-#include "mongoose.h"
 
 static void test(ciot_httpc_t httpc);
 
-int main(void)
+int app_main(void)
 {
-    struct mg_mgr mgr;
-    mg_mgr_init(&mgr);
-
-    ciot_https_t https = ciot_https_new(&mgr);
-    ciot_httpc_t httpc = ciot_httpc_new(&mgr);
-    ciot_mqttc_t mqtt = ciot_mqttc_new(&mgr);
+    ciot_https_t https = ciot_https_new(NULL);
+    ciot_httpc_t httpc = ciot_httpc_new(NULL);
+    ciot_mqttc_t mqtt = ciot_mqttc_new(NULL);
     ciot_t ciot = ciot_new();
 
     ciot_https_cfg_t https_cfg = {
@@ -51,7 +49,7 @@ int main(void)
 
     while (true)
     {
-        mg_mgr_poll(&mgr, 1000);
+
     }
     return 0;
 }
@@ -59,7 +57,8 @@ int main(void)
 static void test(ciot_httpc_t httpc)
 {
     ciot_msg_t msg = {
-        .id = 1,
+        .iface.id = 1,
+        .iface.type = CIOT_IFACE_TYPE_HTTP_CLIENT,
         .type = CIOT_MSG_TYPE_GET_STATUS,
     };
     ciot_httpc_send_data(httpc, (uint8_t*)&msg, CIOT_MSG_SIZE - sizeof(msg.error));

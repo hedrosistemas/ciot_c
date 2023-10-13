@@ -43,7 +43,7 @@ ciot_https_t ciot_https_new(void *handle)
     this->iface.base.cfg.size = sizeof(this->cfg);
     this->iface.base.status.ptr = &this->status;
     this->iface.base.status.size = sizeof(this->status);
-    this->iface.base.type = CIOT_IFACE_TYPE_HTTP_SERVER;
+    this->iface.info.type = CIOT_IFACE_TYPE_HTTP_SERVER;
     this->mgr = handle;
     return this;
 }
@@ -103,8 +103,7 @@ static void ciot_https_on_msg(ciot_https_t this, struct mg_connection *c, struct
     else
     {
         event.id = CIOT_HTTPS_EVENT_DATA;
-        event.msg.id = this->iface.id;
-        event.msg.iface = this->iface.base.type;
+        event.msg.iface = this->iface.info;
         event.msg.type = CIOT_MSG_TYPE_UNKNOWN;
         event.msg.data.https.msg.url = (char *)hm->uri.ptr;
         event.msg.data.https.msg.method = (char *)hm->method.ptr;

@@ -43,7 +43,7 @@ ciot_err_t ciot_set_iface_list(ciot_t this, ciot_iface_t *iface_list[], int coun
 
     for (size_t i = 0; i < count; i++)
     {
-        this->iface_list.items[i]->id = i;
+        this->iface_list.items[i]->info.id = i;
         ciot_iface_register_event(this->iface_list.items[i], ciot_iface_event_handler, this);
     }
 
@@ -54,18 +54,18 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
 {
     ciot_t this = event_args;
     ciot_iface_t *iface_snd = sender;
-    ciot_iface_t *iface_sel = this->iface_list.items[event->msg.id];
+    ciot_iface_t *iface_sel = this->iface_list.items[event->msg.iface.id];
     bool sync_msg = event->msg.type == CIOT_MSG_TYPE_GET_CONFIG || event->msg.type == CIOT_MSG_TYPE_GET_STATUS;
 
     if (this->state == CIOT_STATE_BUSY)
     {
         event->msg.error = CIOT_ERR_BUSY;
-        event->msg.iface = this->iface_busy->base.type;
+        event->msg.iface = this->iface_busy->info;
         event->size = CIOT_MSG_SIZE;
         return ciot_iface_send_data(iface_snd, &event->msg, event->size);
     }
 
-    if (event->msg.id >= this->iface_list.count || event->msg.id < 0)
+    if (event->msg.iface.id >= this->iface_list.count || event->msg.iface.id < 0)
     {
         event->msg.error = CIOT_ERR_INVALID_ID;
         event->size = CIOT_MSG_SIZE;
@@ -78,7 +78,7 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
         if (sync_msg)
         {
             ciot_iface_process_msg(iface_sel, &event->msg, &event->size);
-            event->msg.iface = iface_sel->base.type;
+            event->msg.iface = iface_sel->info;
             return ciot_iface_send_data(iface_snd, &event->msg, event->size);
         }
         else
@@ -93,7 +93,7 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
         if (this->state == CIOT_STATE_BUSY)
         {
             this->state = CIOT_STATE_IDLE;
-            event->msg.iface = iface_sel->base.type;
+            event->msg.iface = iface_sel->info;
             return ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
         }
         else

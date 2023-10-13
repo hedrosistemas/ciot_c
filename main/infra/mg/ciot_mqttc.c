@@ -36,7 +36,7 @@ ciot_mqttc_t ciot_mqttc_new(void *handle)
     this->iface.base.cfg.size = sizeof(this->cfg);
     this->iface.base.status.ptr = &this->status;
     this->iface.base.status.size = sizeof(this->status);
-    this->iface.base.type = CIOT_IFACE_TYPE_MQTT;
+    this->iface.info.type = CIOT_IFACE_TYPE_MQTT;
     this->mgr = handle;
     return this;
 }
@@ -137,8 +137,7 @@ static void ciot_mqttc_on_msg(ciot_mqttc_t this, struct mg_connection *c, struct
     else
     {
         event.id = CIOT_MQTT_EVENT_DATA;
-        event.msg.id = this->iface.id;
-        event.msg.iface = this->iface.base.type;
+        event.msg.iface = this->iface.info;
         event.msg.type = CIOT_MSG_TYPE_UNKNOWN;
         event.msg.data.mqtt.msg.topic = (char *)mm->topic.ptr;
         event.msg.data.mqtt.msg.data = (void *)mm->data.ptr;
@@ -166,7 +165,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
             ciot_iface_event_t event = {0};
             event.id = CIOT_IFACE_EVENT_RESPONSE;
             event.size = CIOT_MSG_GET_SIZE(this->status);
-            event.msg.id = this->iface.id;
+            event.msg.iface = this->iface.info;
             event.msg.type = CIOT_MSG_TYPE_START;
             event.msg.data.mqtt.status = this->status;
             this->iface.event_handler(this, &event, this->iface.event_args);
@@ -193,7 +192,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
             ciot_iface_event_t event = {0};
             event.id = CIOT_IFACE_EVENT_RESPONSE;
             event.size = CIOT_MSG_GET_SIZE(this->status);
-            event.msg.id = this->iface.id;
+            event.msg.iface = this->iface.info;
             event.msg.type = CIOT_MSG_TYPE_STOP;
             event.msg.data.mqtt.status = this->status;
             this->iface.event_handler(this, &event, this->iface.event_args);

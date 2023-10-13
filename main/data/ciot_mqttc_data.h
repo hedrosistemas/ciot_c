@@ -12,8 +12,10 @@
 #ifndef __CIOT_MQTT_DATA__H__
 #define __CIOT_MQTT_DATA__H__
 
-#include "ciot_config.h"
 #include <inttypes.h>
+#include <time.h>
+
+#include "ciot_config.h"
 
 #define CIOT_MQTT_CLIENT_ID_LEN 32
 #define CIOT_MQTT_URL_LEN 64
