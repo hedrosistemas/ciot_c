@@ -28,7 +28,8 @@ typedef enum __attribute__((packed))
     CIOT_MSG_TYPE_STOP,
     CIOT_MSG_TYPE_GET_CONFIG,
     CIOT_MSG_TYPE_GET_STATUS,
-    CIOT_MSG_TYPE_REQUEST
+    CIOT_MSG_TYPE_REQUEST,
+    CIOT_MSG_TYPE_EVENT,
 } ciot_msg_type_t;
 
 typedef enum __attribute__((packed))

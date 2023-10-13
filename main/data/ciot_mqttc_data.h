@@ -29,6 +29,7 @@ typedef enum __attribute__((packed))
     CIOT_MQTT_STATE_ERROR = -1,
     CIOT_MQTT_STATE_DISCONNECTED,
     CIOT_MQTT_STATE_CONNECTING,
+    CIOT_MQTT_STATE_DISCONNECTING,
     CIOT_MQTT_STATE_CONNECTED,
 } ciot_mqttc_state_t;
 

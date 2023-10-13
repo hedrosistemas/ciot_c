@@ -95,6 +95,8 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *this, ciot_msg_t *msg, int *size
         return ciot_iface_get_status(this, &msg->data);
     case CIOT_MSG_TYPE_REQUEST:
         return ciot_iface_process_req(this, &msg->data);
+    case CIOT_MSG_TYPE_EVENT:
+        return CIOT_ERR_NOT_IMPLEMENTED;
     }
 
     return CIOT_ERR_INVALID_TYPE;

@@ -65,46 +65,48 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
         return ciot_iface_send_data(iface_snd, &event->msg, event->size);
     }
 
-    if (event->msg.iface.id >= this->iface_list.count || event->msg.iface.id < 0)
+    if (event->msg.iface.id >= this->iface_list.count)
     {
         event->msg.error = CIOT_ERR_INVALID_ID;
         event->size = CIOT_MSG_SIZE;
         return ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
     }
 
-    switch (event->id)
-    {
-    case CIOT_IFACE_EVENT_REQUEST:
-        if (sync_msg)
-        {
-            ciot_iface_process_msg(iface_sel, &event->msg, &event->size);
-            event->msg.iface = iface_sel->info;
-            return ciot_iface_send_data(iface_snd, &event->msg, event->size);
-        }
-        else
-        {
-            this->iface_rsp = iface_snd;
-            this->iface_busy = iface_sel;
-            this->state = CIOT_STATE_BUSY;
-            return ciot_iface_process_msg(iface_sel, &event->msg, &event->size);
-        }
-        break;
-    case CIOT_IFACE_EVENT_RESPONSE:
-        if (this->state == CIOT_STATE_BUSY)
-        {
-            this->state = CIOT_STATE_IDLE;
-            event->msg.iface = iface_sel->info;
-            return ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
-        }
-        else
-        {
-            return CIOT_ERR_INVALID_ID;
-        }
-    case CIOT_IFACE_EVENT_CUSTOM:
-        // return custom event to main application
-        return CIOT_OK;
-    default:
-        event->msg.error = CIOT_ERR_INVALID_TYPE;
-        return ciot_iface_send_data(iface_snd, &event->msg, CIOT_MSG_SIZE);
-    }
+    // switch (event->id)
+    // {
+    // case CIOT_IFACE_EVENT_REQUEST:
+    //     if (sync_msg)
+    //     {
+    //         ciot_iface_process_msg(iface_sel, &event->msg, &event->size);
+    //         event->msg.iface = iface_sel->info;
+    //         return ciot_iface_send_data(iface_snd, &event->msg, event->size);
+    //     }
+    //     else
+    //     {
+    //         this->iface_rsp = iface_snd;
+    //         this->iface_busy = iface_sel;
+    //         this->state = CIOT_STATE_BUSY;
+    //         return ciot_iface_process_msg(iface_sel, &event->msg, &event->size);
+    //     }
+    //     break;
+    // case CIOT_IFACE_EVENT_RESPONSE:
+    //     if (this->state == CIOT_STATE_BUSY)
+    //     {
+    //         this->state = CIOT_STATE_IDLE;
+    //         event->msg.iface = iface_sel->info;
+    //         return ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
+    //     }
+    //     else
+    //     {
+    //         return CIOT_ERR_INVALID_ID;
+    //     }
+    // case CIOT_IFACE_EVENT_CUSTOM:
+    //     // return custom event to main application
+    //     return CIOT_OK;
+    // default:
+    //     event->msg.error = CIOT_ERR_INVALID_TYPE;
+    //     return ciot_iface_send_data(iface_snd, &event->msg, CIOT_MSG_SIZE);
+    // }
+
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }

@@ -125,78 +125,54 @@ ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t this, ciot_mqttc_req_subscribe_t *r
     return CIOT_OK;
 }
 
-static void ciot_mqttc_on_msg(ciot_mqttc_t this, struct mg_connection *c, struct mg_mqtt_message *mm)
+static void ciot_mqtt_event_data(ciot_mqttc_t this, ciot_iface_event_t *event, char *topic, uint8_t *data, int size)
 {
-    ciot_iface_event_t event = {0};
-    if (strncmp(mm->topic.ptr, this->cfg.topics.b2d, CIOT_MQTT_TOPIC_LEN) == 0)
-    {
-        event.id = CIOT_IFACE_EVENT_REQUEST;
-        event.size = mm->data.len;
-        memcpy(&event.msg, mm->data.ptr, mm->data.len);
+    event->id = (strncmp(topic, this->cfg.topics.b2d, CIOT_MQTT_TOPIC_LEN) == 0) 
+        ? CIOT_IFACE_EVENT_DATA 
+        : CIOT_MQTT_EVENT_DATA;
+    if(event->id == CIOT_IFACE_EVENT_DATA) {
+        event->size = size;
+        memcpy(&event->msg.data, data, size);
     }
     else
     {
-        event.id = CIOT_MQTT_EVENT_DATA;
-        event.msg.iface = this->iface.info;
-        event.msg.type = CIOT_MSG_TYPE_UNKNOWN;
-        event.msg.data.mqtt.msg.topic = (char *)mm->topic.ptr;
-        event.msg.data.mqtt.msg.data = (void *)mm->data.ptr;
-        event.msg.data.mqtt.msg.size = mm->data.len;
+        event->msg.data.mqtt.msg.topic = topic;
+        event->msg.data.mqtt.msg.data = data;
+        event->msg.data.mqtt.msg.size = size;
     }
-    this->iface.event_handler(this, &event, this->iface.event_args);
 }
 
 static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
     ciot_mqttc_t this = fn_data;
+    ciot_iface_event_t event = { 0 };
 
     switch (ev)
     {
     case MG_EV_ERROR:
         printf("MG_EV_ERROR:%d:%s\n", c->id, (char *)ev_data);
+        this->status.error.code = c->id;
         this->status.state = CIOT_MQTT_STATE_ERROR;
+        event.id = CIOT_IFACE_EVENT_ERROR;
+        event.msg.error = this->status.error.code;
+        event.msg.data.mqtt.status = this->status;
         break;
     case MG_EV_MQTT_OPEN:
         printf("MG_EV_MQTT_OPEN\n");
         this->status.conn_count++;
         this->status.state = CIOT_MQTT_STATE_CONNECTED;
-        if (this->iface.event_handler != NULL)
-        {
-            ciot_iface_event_t event = {0};
-            event.id = CIOT_IFACE_EVENT_RESPONSE;
-            event.size = CIOT_MSG_GET_SIZE(this->status);
-            event.msg.iface = this->iface.info;
-            event.msg.type = CIOT_MSG_TYPE_START;
-            event.msg.data.mqtt.status = this->status;
-            this->iface.event_handler(this, &event, this->iface.event_args);
-        }
+        event.id = CIOT_IFACE_EVENT_STARTED;
+        event.msg.data.mqtt.status = this->status;
         break;
     case MG_EV_MQTT_MSG:
         printf("MG_EV_MQTT_MSG\n");
-        if(this->iface.event_handler != NULL)
-        {
-            struct mg_mqtt_message *hm = (struct mg_mqtt_message *)ev_data;
-            ciot_mqttc_on_msg(this, c, hm);
-        }
-        else
-        {
-            mg_error(c, "Event Handler is NULL");
-        }
+        ciot_mqtt_event_data(this, &event, mm->topic.ptr, mm->data.ptr, mm->data.len)
         break;
     case MG_EV_CLOSE:
         printf("MG_EV_CLOSE\n");
         this->status.state = CIOT_MQTT_STATE_DISCONNECTED;
-        this->connection = NULL;
-        if (this->iface.event_handler != NULL)
-        {
-            ciot_iface_event_t event = {0};
-            event.id = CIOT_IFACE_EVENT_RESPONSE;
-            event.size = CIOT_MSG_GET_SIZE(this->status);
-            event.msg.iface = this->iface.info;
-            event.msg.type = CIOT_MSG_TYPE_STOP;
-            event.msg.data.mqtt.status = this->status;
-            this->iface.event_handler(this, &event, this->iface.event_args);
-        }
+        event.id = CIOT_IFACE_EVENT_STOPPED;
+        event.msg.data.mqtt.status = this->status;
         break;
     default:
         break;

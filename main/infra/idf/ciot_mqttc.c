@@ -67,6 +67,7 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg)
 #endif
     };
 
+    this->status.state = CIOT_MQTT_STATE_CONNECTING;
     this->handle = esp_mqtt_client_init(&mqtt_client_cfg);
     esp_mqtt_client_register_event(this->handle, ESP_EVENT_ANY_ID, ciot_mqtt_event_handler, this);
     return esp_mqtt_client_start(this->handle);
@@ -75,6 +76,7 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg)
 ciot_err_t ciot_mqttc_stop(ciot_mqttc_t this)
 {
     CIOT_ERR_NULL_CHECK(this);
+    this->status.state = CIOT_MQTT_STATE_DISCONNECTING;
     return esp_mqtt_client_stop(this->handle);
 }
 
@@ -137,52 +139,81 @@ ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t this, ciot_mqttc_req_subscribe_t *r
     }
 }
 
+static void ciot_mqttc_event_data(ciot_mqttc_t this, ciot_iface_event_t *event, char *topic, uint8_t *data, int size)
+{
+    event->id = (strncmp(topic, this->cfg.topics.b2d, CIOT_MQTT_TOPIC_LEN) == 0) 
+        ? CIOT_IFACE_EVENT_DATA 
+        : CIOT_MQTT_EVENT_DATA;
+    if(event->id == CIOT_IFACE_EVENT_DATA) {
+        event->size = size;
+        memcpy(&event->msg.data, data, size);
+    }
+    else
+    {
+        event->msg.data.mqtt.msg.topic = topic;
+        event->msg.data.mqtt.msg.data = data;
+        event->msg.data.mqtt.msg.size = size;
+    }
+}
+
 static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
     ciot_mqttc_t this = (ciot_mqttc_t)handler_args;
+    esp_mqtt_event_t *ev_data = (esp_mqtt_event_t*)event_data;
     ciot_iface_event_t event = { 0 };
 
+    event.msg.type = CIOT_MSG_TYPE_EVENT;
     event.msg.iface = this->iface.info;
 
     switch ((esp_mqtt_event_id_t)event_id)
     {
     case MQTT_EVENT_ERROR:
         ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
-        event.id = this->status.state == CIOT_MQTT_STATE_CONNECTING ? CIOT_IFACE_EVENT_RESPONSE : CIOT_IFACE_EVENT_ERROR;
+        this->status.error.code = ev_data->error_handle->connect_return_code;
+        this->status.error.tls_cert_verify_flags = ev_data->error_handle->esp_tls_cert_verify_flags;
+        this->status.error.tls_last_err = ev_data->error_handle->esp_tls_last_esp_err;
+        this->status.error.tls_stack_err = ev_data->error_handle->esp_tls_stack_err;
+        this->status.error.transport_sock = ev_data->error_handle->esp_transport_sock_errno;
+        this->status.error.type = ev_data->error_handle->error_type;
         this->status.state = CIOT_MQTT_STATE_ERROR;
-        memcpy(&this->status.error, ((esp_mqtt_event_t*)event_data)->error_handle, sizeof(esp_mqtt_error_codes_t));
+        event.id = CIOT_IFACE_EVENT_ERROR;
+        event.msg.error = this->status.error.code;
+        event.msg.data.mqtt.status = this->status;
         break;
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-        // this->status.conn_count++;
-        // this->status.state = CIOT_MQTT_STATE_CONNECTED;
-        // xEventGroupSetBits(this->event_group, CIOT_MQTT_EVENT_BIT_CONNECT_DONE);
+        this->status.conn_count++;
+        this->status.state = CIOT_MQTT_STATE_CONNECTED;
+        event.id = CIOT_IFACE_EVENT_STARTED;
+        event.msg.data.mqtt.status = this->status;
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
-        // this->status.state = CIOT_MQTT_STATE_DISCONNECTED;
-        // xEventGroupSetBits(this->event_group, CIOT_MQTT_EVENT_BIT_CONNECT_DONE);
+        this->status.state = CIOT_MQTT_STATE_DISCONNECTED;
+        event.id = CIOT_IFACE_EVENT_STOPPED;
+        event.msg.data.mqtt.status = this->status;
         break;
     case MQTT_EVENT_SUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED");
+        event.id = CIOT_MQTT_EVENT_SUBSCRIBED;
+        event.msg.data.mqtt.msg.topic = ev_data->topic;
         break;
     case MQTT_EVENT_UNSUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED");
+        event.id = CIOT_MQTT_EVENT_UNSUBCRIBED;
+        event.msg.data.mqtt.msg.topic = ev_data->topic;
         break;
     case MQTT_EVENT_DATA:
         ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-        // event.data.message.topic.data = ((esp_mqtt_event_t*)event_data)->topic;
-        // event.data.message.topic.size = ((esp_mqtt_event_t*)event_data)->topic_len;
-        // event.data.message.payload.data = ((esp_mqtt_event_t*)event_data)->data;
-        // event.data.message.payload.size = ((esp_mqtt_event_t*)event_data)->data_len;
+        ciot_mqttc_event_data(this, &event, ev_data->topic, (uint8_t*)ev_data->data, ev_data->data_len);
         break;
     default:
         ESP_LOGI(TAG, "Other event id:%d", event.id);
         break;
     }
 
-    // if(this->event_handler != NULL)
-    // {
-    //     this->event_handler(this, &event, this->event_arg);
-    // }
+    if(this->iface.event_handler != NULL)
+    {
+        this->iface.event_handler(this, &event, this->iface.event_args);
+    }
 }
