@@ -21,7 +21,6 @@ struct ciot_httpc
     ciot_httpc_status_t status;
     struct mg_mgr *mgr;
     struct mg_connection *connection;
-    ciot_httpc_req_send_t req;
 };
 
 static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);

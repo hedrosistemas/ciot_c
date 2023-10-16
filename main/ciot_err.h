@@ -26,6 +26,7 @@ typedef enum __attribute__((packed)) {
     CIOT_ERR_NOT_IMPLEMENTED,
     CIOT_ERR_NOT_SUPPORTED,
     CIOT_ERR_BUSY,
+    CIOT_ERR_INVALID_STATE,
 } ciot_err_t;
 
 #endif  //!__CIOT_ERR__H__

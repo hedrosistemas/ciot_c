@@ -26,5 +26,6 @@ typedef enum ciot_state
 
 ciot_t ciot_new(void);
 ciot_err_t ciot_set_iface_list(ciot_t this, ciot_iface_t *iface_list[], int count);
+ciot_err_t ciot_register_event(ciot_t this, ciot_iface_event_handler_t event_handler, void *event_args);
 
 #endif  //!__CIOT__H__

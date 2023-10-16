@@ -33,7 +33,7 @@ int app_main(void)
 
     ciot_httpc_cfg_t httpc_cfg = {
         .url = "http://localhost:4444",
-        .method = "POST",
+        .method = CIOT_HTTPC_METHOD_POST,
         .timeout = 50000
     };
     ciot_httpc_start(httpc, &httpc_cfg);

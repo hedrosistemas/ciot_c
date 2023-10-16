@@ -18,25 +18,59 @@
 #define CIOT_HTTPC_URL_LEN 64
 #define CIOT_HTTPC_METHOD_LEN 8
 #define CIOT_HTTPC_BODY_LEN 256
+#define CIOT_HTTPC_HEADER_LEN 48
+#define CIOT_HTTPC_HEADER_VAL 48
 
 typedef enum __attribute__((packed))
 {
     CIOT_HTTPC_STATE_IDLE,
+    CIOT_HTTPC_STATE_STARTED,
     CIOT_HTTPC_STATE_CONNECTING,
     CIOT_HTTPC_STATE_CONNECTED,
     CIOT_HTTPC_STATE_TIMEOUT,
+    CIOT_HTTPC_STATE_ERROR,
 } ciot_httpc_state_t;
 
 typedef enum __attribute__((packed))
 {
     CIOT_HTTPC_REQ_UNKNOWN,
     CIOT_HTTPC_REQ_SEND_DATA,
+    CIOT_HTTPC_REQ_SET_HEADER,
 } ciot_httpc_req_id_t;
+
+typedef enum {
+    CIOT_HTTPC_METHOD_GET = 0,
+    CIOT_HTTPC_METHOD_POST,
+    CIOT_HTTPC_METHOD_PUT,
+    CIOT_HTTPC_METHOD_PATCH,
+    CIOT_HTTPC_METHOD_DELETE,
+    CIOT_HTTPC_METHOD_HEAD,
+    CIOT_HTTPC_METHOD_NOTIFY,
+    CIOT_HTTPC_METHOD_SUBSCRIBE,
+    CIOT_HTTPC_METHOD_UNSUBSCRIBE,
+    CIOT_HTTPC_METHOD_OPTIONS,
+    CIOT_HTTPC_METHOD_COPY,
+    CIOT_HTTPC_METHOD_MOVE,
+    CIOT_HTTPC_METHOD_LOCK,
+    CIOT_HTTPC_METHOD_UNLOCK,
+    CIOT_HTTPC_METHOD_PROPFIND,
+    CIOT_HTTPC_METHOD_PROPPATCH,
+    CIOT_HTTPC_METHOD_MKCOL,
+    CIOT_HTTPC_METHOD_MAX,
+} ciot_httpc_method_t;
+
+typedef enum __attribute__((packed))
+{
+    CIOT_HTTPC_TRANSPORT_UNKNOWN,
+    CIOT_HTTPC_TRANSPORT_TCP,
+    CIOT_HTTPC_TRANSPORT_SSL,
+} ciot_httpc_transport_type_t;
 
 typedef struct __attribute__((packed))
 {
     char url[CIOT_HTTPC_URL_LEN];
-    char method[CIOT_HTTPC_METHOD_LEN];
+    ciot_httpc_method_t method;
+    ciot_httpc_transport_type_t transport;
     uint16_t timeout;
 } ciot_httpc_cfg_t;
 
@@ -52,15 +86,22 @@ typedef struct __attribute__((packed))
     int content_length;
 } ciot_httpc_req_send_t;
 
-typedef union ciot_httpc_req_data
+typedef struct __attribute__((packed))
 {
-    ciot_httpc_req_send_t send;
-} ciot_httpc_req_data_u;
+    char header[CIOT_HTTPC_HEADER_LEN];
+    char value[CIOT_HTTPC_HEADER_VAL];
+} ciot_httpc_req_set_header_t;
+
+// typedef union ciot_httpc_req_data
+// {
+//     ciot_httpc_req_send_t send;
+//     ciot_httpc_req_set_header_t set_header;
+// } ciot_httpc_req_data_u;
 
 typedef struct __attribute__((packed))
 {
-    ciot_httpc_req_id_t id;
-    ciot_httpc_req_data_u data;
+    // ciot_httpc_req_id_t id;
+    // ciot_httpc_req_data_u data;
 } ciot_httpc_req_t;
 
 typedef struct __attribute__((packed))
