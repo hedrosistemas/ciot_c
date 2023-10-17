@@ -19,7 +19,7 @@
 typedef enum __attribute__((packed)) {
     CIOT_FAIL=-1,
     CIOT_OK,
-    CIOT_ERR_NULL_ARG=CIOT_ERR_BASE,
+    CIOT_ERR_NULL_ARG=CIOT_ERR_BASE+1,
     CIOT_ERR_INVALID_ID,
     CIOT_ERR_INVALID_TYPE,
     CIOT_ERR_OVERFLOW,

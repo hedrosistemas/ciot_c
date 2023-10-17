@@ -86,11 +86,11 @@ typedef struct __attribute__((packed))
     int content_length;
 } ciot_httpc_req_send_t;
 
-typedef struct __attribute__((packed))
-{
-    char header[CIOT_HTTPC_HEADER_LEN];
-    char value[CIOT_HTTPC_HEADER_VAL];
-} ciot_httpc_req_set_header_t;
+// typedef struct __attribute__((packed))
+// {
+//     char header[CIOT_HTTPC_HEADER_LEN];
+//     char value[CIOT_HTTPC_HEADER_VAL];
+// } ciot_httpc_req_set_header_t;
 
 // typedef union ciot_httpc_req_data
 // {

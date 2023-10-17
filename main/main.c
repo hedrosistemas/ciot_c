@@ -18,11 +18,33 @@
 
 static void test(ciot_httpc_t httpc);
 
+#ifdef _WIN32
+
+#include "mongoose.h"
+
+#define CIOT_HANDLE &mg
+
+struct mg_mgr mg;
+
+int app_main();
+
+int main(char **args)
+{
+    mg_mgr_init(&mg);
+    return app_main();
+}
+
+#else
+
+#define CIOT_HANDLE NULL
+
+#endif  //_WIN32
+
 int app_main(void)
 {
-    ciot_https_t https = ciot_https_new(NULL);
-    ciot_httpc_t httpc = ciot_httpc_new(NULL);
-    ciot_mqttc_t mqtt = ciot_mqttc_new(NULL);
+    ciot_https_t https = ciot_https_new(CIOT_HANDLE);
+    ciot_httpc_t httpc = ciot_httpc_new(CIOT_HANDLE);
+    ciot_mqttc_t mqtt = ciot_mqttc_new(CIOT_HANDLE);
     ciot_t ciot = ciot_new();
 
     ciot_https_cfg_t https_cfg = {
@@ -47,10 +69,6 @@ int app_main(void)
 
     test(httpc);
 
-    while (true)
-    {
-
-    }
     return 0;
 }
 

@@ -58,7 +58,7 @@ typedef union ciot_msg_data
 typedef struct __attribute__((packed))
 {
     ciot_msg_type_t type;
-    ciot_msg_iface_info_t iface;
+    ciot_msg_iface_info_t iface ;
     ciot_err_t error;
     ciot_msg_data_u data;
 } ciot_msg_t;

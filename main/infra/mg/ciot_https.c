@@ -91,50 +91,51 @@ ciot_err_t ciot_https_send_data(ciot_https_t this, uint8_t *data, int size)
     return CIOT_OK;
 }
 
-static void ciot_https_on_msg(ciot_https_t this, struct mg_connection *c, struct mg_http_message *hm)
+static void ciot_httpc_event_data(ciot_https_t this, ciot_iface_event_t *event, struct mg_connection *c, struct mg_http_message *hm)
 {
-    ciot_iface_event_t event = {0};
     bool is_post = strncmp(hm->method.ptr, "POST", hm->method.len) == 0;
     if (mg_http_match_uri(hm, this->cfg.route) && is_post)
     {
-        event.id = CIOT_IFACE_EVENT_REQUEST;
-        memcpy(&event.msg, hm->body.ptr, hm->body.len);
+        event->id = CIOT_IFACE_EVENT_DATA;
+        memcpy(&event->msg, hm->body.ptr, hm->body.len);
     }
     else
     {
-        event.id = CIOT_HTTPS_EVENT_DATA;
-        event.msg.iface = this->iface.info;
-        event.msg.type = CIOT_MSG_TYPE_UNKNOWN;
-        event.msg.data.https.msg.url = (char *)hm->uri.ptr;
-        event.msg.data.https.msg.method = (char *)hm->method.ptr;
-        event.msg.data.https.msg.data = (uint8_t *)hm->body.ptr;
-        event.msg.data.https.msg.size = hm->body.len;
-        event.size = CIOT_MSG_GET_SIZE(event.msg.data.https.msg);
+        event->id = CIOT_HTTPS_EVENT_DATA;
+        event->msg.iface = this->iface.info;
+        event->msg.type = CIOT_MSG_TYPE_UNKNOWN;
+        event->msg.data.https.msg.url = (char *)hm->uri.ptr;
+        event->msg.data.https.msg.method = (char *)hm->method.ptr;
+        event->msg.data.https.msg.data = (uint8_t *)hm->body.ptr;
+        event->msg.data.https.msg.size = hm->body.len;
+        event->size = CIOT_MSG_GET_SIZE(event->msg.data.https.msg);
     }
     this->conn_tx = c;
-    this->iface.event_handler(this, &event, this->iface.event_args);
+    this->iface.event_handler(this, event, this->iface.event_args);
 }
 
 static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
     ciot_https_t this = fn_data;
+    ciot_iface_event_t event = {0};
+    mg_event_t mg_ev = ev;
 
-    switch (ev)
+    switch (mg_ev)
     {
     case MG_EV_HTTP_MSG:
-        if (this->iface.event_handler != NULL)
-        {
-            struct mg_http_message *hm = ev_data, tmp = {0};
-            mg_http_parse((char *)c->recv.buf, c->recv.len, &tmp);
-            ciot_https_on_msg(this, c, hm);
-        }
-        else
-        {
-            mg_http_reply(this->conn_rx, 500, NULL, "Event Handler is NULL");
-        }
+    {
+        struct mg_http_message *hm = (struct mg_http_message *)ev_data, tmp = {0};
+        mg_http_parse((char*)c->recv.buf, c->recv.len, hm);
+        ciot_httpc_event_data(this, &event, c, hm);
         break;
+    }
     default:
         break;
     }
     (void)fn_data;
+
+    if(this->iface.event_handler != NULL)
+    {
+        this->iface.event_handler(this, &event, this->iface.event_args);
+    }
 }

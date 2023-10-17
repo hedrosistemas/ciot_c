@@ -98,21 +98,9 @@ ciot_err_t ciot_httpc_send_data(ciot_httpc_t this, uint8_t *data, int size)
 
 static void ciot_httpc_event_data(ciot_httpc_t this, ciot_iface_event_t *event, char *data, int size)
 {
-    event->id = (strcmp(this->req.cfg.url, this->cfg.url) == 0)
-                    ? CIOT_IFACE_EVENT_DATA
-                    : CIOT_HTTPC_EVENT_DATA;
-    if (event->id == CIOT_IFACE_EVENT_DATA)
-    {
-        event->size = size;
-        memcpy(&event->msg.data, data, size);
-    }
-    else
-    {
-        event->msg.data.httpc.msg.url = this->req.cfg.url;
-        event->msg.data.httpc.msg.data = data;
-        event->msg.data.httpc.msg.size = size;
-    }
-
+    event->id = CIOT_IFACE_EVENT_DATA;
+    event->size = size;
+    memcpy(&event->msg.data, data, size);
 }
 
 static int ciot_httpc_event_handler(esp_http_client_event_handle_t evt)

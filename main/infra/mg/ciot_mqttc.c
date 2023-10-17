@@ -165,9 +165,12 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
         event.msg.data.mqtt.status = this->status;
         break;
     case MG_EV_MQTT_MSG:
+    {
         printf("MG_EV_MQTT_MSG\n");
-        ciot_mqtt_event_data(this, &event, mm->topic.ptr, mm->data.ptr, mm->data.len)
+        struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
+        ciot_mqtt_event_data(this, &event, (char*)mm->topic.ptr, mm->data.ptr, mm->data.len);
         break;
+    }
     case MG_EV_CLOSE:
         printf("MG_EV_CLOSE\n");
         this->status.state = CIOT_MQTT_STATE_DISCONNECTED;
