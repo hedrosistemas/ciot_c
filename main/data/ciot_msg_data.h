@@ -36,15 +36,16 @@ typedef enum __attribute__((packed))
 {
     CIOT_IFACE_TYPE_UNKNOWN,
     CIOT_IFACE_TYPE_SYSTEM,
-    CIOT_IFACE_TYPE_HTTP_SERVER,
+    CIOT_IFACE_TYPE_SERIAL,
     CIOT_IFACE_TYPE_HTTP_CLIENT,
+    CIOT_IFACE_TYPE_HTTP_SERVER,
     CIOT_IFACE_TYPE_MQTT,
 } ciot_msg_iface_type_t;
 
 typedef struct __attribute__((packed))
 {
-    uint8_t id;
     ciot_msg_iface_type_t type;
+    uint8_t id;
 } ciot_msg_iface_info_t;
 
 typedef union ciot_msg_data
