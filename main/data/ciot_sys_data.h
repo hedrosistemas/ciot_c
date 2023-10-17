@@ -15,13 +15,39 @@
 #include <inttypes.h>
 #include "ciot_config.h"
 
-typedef enum ciot_sys_req_id
+typedef enum __attribute__((packed))
 {
     CIOT_SYS_REQ_UNKNONW,
     CIOT_SYS_REQ_RESTART,
-    CIOT_SYS_REQ_FACTORY_RESET,
-    CIOT_SYS_REQ_SAVE,
 } ciot_sys_req_id_t;
+
+typedef enum __attribute__((packed))
+{
+    CIOT_SYS_FEATURE_FLAGS_NONE = 0,
+    CIOT_SYS_FEATURE_FLAGS_SERIAL = 1 << 0,
+    CIOT_SYS_FEATURE_FLAGS_HTTP_CLIENT = 1 << 1,
+    CIOT_SYS_FEATURE_FLAGS_HTTP_SERVER = 1 << 2,
+    CIOT_SYS_FEATURE_FLAGS_MQTT_CLIENT = 1 << 3,
+    CIOT_SYS_FEATURE_FLAGS_MQTT_SERVER = 1 << 4,
+} ciot_sys_feature_flags_t;
+
+typedef struct __attribute__((packed))
+{
+    unsigned serial :1;
+    unsigned http_client :1;
+    unsigned http_server :1;
+    unsigned mqtt_client :1;
+    unsigned mqtt_server :1;
+} ciot_sys_features_t;
+
+int s  = sizeof(ciot_sys_features_t);
+
+typedef struct __attribute__((packed))
+{
+    char hardware_name[16];
+    uint8_t firmware_version[3];
+    ciot_sys_features_t features;
+} ciot_sys_info_t;
 
 typedef struct __attribute__((packed))
 {
@@ -29,6 +55,7 @@ typedef struct __attribute__((packed))
     int rst_count;
     uint32_t free_memory;
     uint32_t lifetime;
+    ciot_sys_info_t info;
 } ciot_sys_status_t;
 
 typedef struct __attribute__((packed))
