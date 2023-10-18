@@ -20,6 +20,7 @@
 #include "ciot_wifi_data.h"
 // #include "ciot_ble_data.h"
 #include "ciot_ntp_data.h"
+#include "ciot_ota_data.h"
 #include "ciot_https_data.h"
 #include "ciot_httpc_data.h"
 #include "ciot_mqttc_data.h"
@@ -69,6 +70,7 @@ typedef union __attribute__((packed))
     ciot_wifi_data_u wifi;
     // ciot_ble_data_u ble;
     ciot_ntp_data_u ntp;
+    ciot_ota_data_u ota;
     ciot_https_data_u https;
     ciot_httpc_data_u httpc;
     ciot_mqttc_data_u mqtt;
