@@ -18,6 +18,8 @@
 // #include "ciot_serial_data.h"
 #include "ciot_tcp_data.h"
 #include "ciot_wifi_data.h"
+// #include "ciot_ble_data.h"
+#include "ciot_ntp_data.h"
 #include "ciot_https_data.h"
 #include "ciot_httpc_data.h"
 #include "ciot_mqttc_data.h"
@@ -46,6 +48,8 @@ typedef enum __attribute__((packed))
     CIOT_IFACE_TYPE_ETH,
     CIOT_IFACE_TYPE_WIFI,
     CIOT_IFACE_TYPE_BLE,
+    CIOT_IFACE_TYPE_NTP,
+    CIOT_IFACE_TYPE_OTA,
     CIOT_IFACE_TYPE_HTTP_CLIENT,
     CIOT_IFACE_TYPE_HTTP_SERVER,
     CIOT_IFACE_TYPE_MQTT,
@@ -63,6 +67,8 @@ typedef union __attribute__((packed))
     // ciot_serial_data_u serial;
     ciot_tcp_data_u eth;
     ciot_wifi_data_u wifi;
+    // ciot_ble_data_u ble;
+    ciot_ntp_data_u ntp;
     ciot_https_data_u https;
     ciot_httpc_data_u httpc;
     ciot_mqttc_data_u mqtt;

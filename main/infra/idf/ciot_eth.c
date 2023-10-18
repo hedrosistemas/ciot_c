@@ -33,6 +33,10 @@ struct ciot_eth
 
 static const char *TAG = "ciot_eth";
 
+static ciot_err_t ciot_eth_init(ciot_eth_t this);
+static ciot_err_t ciot_eth_tcp_event_handler(void *sender, ciot_iface_event_t *event, void *event_args);
+static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
+
 ciot_eth_t ciot_eth_new(void *handle)
 {
     ciot_eth_t this = calloc(1, sizeof(struct ciot_eth));
@@ -119,15 +123,14 @@ static ciot_err_t ciot_eth_init(ciot_eth_t this)
     return CIOT_OK;
 }
 
-static ciot_err_t ciot_eth_tcp_event_handler(ciot_tcp_t tcp, ciot_iface_event_t *event, void *event_args)
+static ciot_err_t ciot_eth_tcp_event_handler(void *sender, ciot_iface_event_t *event, void *args)
 {
-    CIOT_NULL_CHECK(tcp);
-    CIOT_NULL_CHECK(event_args);
+    CIOT_NULL_CHECK(args);
 
-    ciot_eth_t this = (ciot_eth_t)event_args;
+    ciot_eth_t this = (ciot_eth_t)args;
     if (this->iface.event_handler != NULL)
     {
-        return this->iface.event_handler(this, event, event_args);
+        return this->iface.event_handler(this, event, this->iface.event_args);
     }
 
     return CIOT_ERR_INVALID_STATE;

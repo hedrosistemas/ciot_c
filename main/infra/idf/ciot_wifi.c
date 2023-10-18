@@ -43,6 +43,7 @@ static const char *TAG = "ciot_wifi";
 // static ciot_err_t ciot_wifi_init(ciot_wifi_t this, ciot_wifi_cfg_t *cfg);
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t this, ciot_wifi_cfg_t *cfg);
 static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t this, wifi_interface_t type);
+static ciot_err_t ciot_wifi_tcp_event_handler(void *sender, ciot_iface_event_t *event, void *args);
 static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
 ciot_err_t ciot_wifi_init(void)
@@ -193,20 +194,21 @@ static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t this, wifi_interface_t type)
             return WIFI_MODE_APSTA;
         }
         return WIFI_MODE_AP;
+    default:
+        return WIFI_MODE_NULL;
     }
 
     return WIFI_MODE_NULL;
 }
 
-static ciot_err_t ciot_wifi_tcp_event_handler(ciot_tcp_t tcp, ciot_iface_event_t *event, void *event_args)
+static ciot_err_t ciot_wifi_tcp_event_handler(void *sender, ciot_iface_event_t *event, void *args)
 {
-    CIOT_NULL_CHECK(tcp);
-    CIOT_NULL_CHECK(event_args);
+    CIOT_NULL_CHECK(args);
 
-    ciot_wifi_t this = (ciot_wifi_t)event_args;
+    ciot_wifi_t this = (ciot_wifi_t)args;
     if (this->iface.event_handler != NULL)
     {
-        return this->iface.event_handler(this, event, event_args);
+        return this->iface.event_handler(this, event, this->iface.event_args);
     }
 
     return CIOT_ERR_INVALID_STATE;

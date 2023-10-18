@@ -33,11 +33,13 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
+    uint32_t ntp : 1;
+    uint32_t ota: 1;
     uint32_t http_client : 1;
     uint32_t http_server : 1;
     uint32_t mqtt_client : 1;
     uint32_t mqtt_server : 1;
-    uint32_t reserved : 28;
+    uint32_t reserved : 26;
 } ciot_sys_sw_features_t;
 
 typedef struct __attribute__((packed))

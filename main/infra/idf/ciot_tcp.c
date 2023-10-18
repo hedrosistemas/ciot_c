@@ -28,6 +28,10 @@ struct ciot_tcp
 
 static const char *TAG = "ciot_tcp";
 
+static ciot_err_t ciot_tcp_set_dhcp_cfg(ciot_tcp_t this, ciot_tcp_dhcp_cfg_t dhcp);
+static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t this, ciot_tcp_cfg_t *cfg);
+static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
+
 ciot_err_t ciot_tcp_init(void)
 {
     return esp_netif_init();
@@ -195,8 +199,6 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
         ciot_tcp_status_t *status = (ciot_tcp_status_t*)this->iface.base.status.ptr;
         esp_netif_dhcp_status_t dhcpc = ESP_NETIF_DHCP_STOPPED;
         esp_netif_dhcp_status_t dhcps = ESP_NETIF_DHCP_STOPPED;
-
-        memcpy(&ip_event, event_data, sizeof(ip_event_got_ip_t));
 
         status->info.ip[0] = ip4_addr1(&ip_event->ip_info.ip);
         status->info.ip[1] = ip4_addr2(&ip_event->ip_info.ip);
