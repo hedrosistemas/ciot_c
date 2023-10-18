@@ -51,8 +51,8 @@ ciot_err_t ciot_httpc_start(ciot_httpc_t this, ciot_httpc_cfg_t *cfg)
 {
     if (this->status.state == CIOT_HTTPC_STATE_IDLE)
     {
-        CIOT_ERR_NULL_CHECK(this);
-        CIOT_ERR_NULL_CHECK(cfg);
+        CIOT_NULL_CHECK(this);
+        CIOT_NULL_CHECK(cfg);
         memcpy(&this->cfg, cfg, sizeof(this->cfg));
         esp_http_client_config_t req_cfg = {0};
         req_cfg.url = this->cfg.url;

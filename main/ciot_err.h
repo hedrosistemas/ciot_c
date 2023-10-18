@@ -1,25 +1,53 @@
 /**
  * @file ciot_err.h
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-10-09
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #ifndef __CIOT_ERR__H__
 #define __CIOT_ERR__H__
 
+#include "ciot_log.h"
+
 #define CIOT_ERR_BASE 0x0
 
-#define CIOT_ERR_NULL_CHECK(x) if(x == NULL) return CIOT_ERR_NULL_ARG
+#define CIOT_ERROR_LOG(x) CIOT_LOGE(TAG, "%s:%d %s", __FILE__, __LINE__, ciot_err_to_message(ciot_err))
 
-typedef enum __attribute__((packed)) {
-    CIOT_FAIL=-1,
+#define CIOT_NULL_CHECK(x) \
+    if (x == NULL)         \
+    return CIOT_ERR_NULL_ARG
+
+#define CIOT_ERROR_PRINT(x)           \
+    do                                \
+    {                                 \
+        ciot_err_t ciot_err = x;      \
+        if (ciot_err != CIOT_OK)      \
+        {                             \
+            CIOT_ERROR_LOG(ciot_err); \
+        }                             \
+    } while (0)
+
+#define CIOT_ERROR_RETURN(x)          \
+    do                                \
+    {                                 \
+        ciot_err_t ciot_err = x;      \
+        if (ciot_err != CIOT_OK)      \
+        {                             \
+            CIOT_ERROR_LOG(ciot_err); \
+            return ciot_err;          \
+        }                             \
+    } while (0)
+
+typedef enum __attribute__((packed))
+{
+    CIOT_FAIL = -1,
     CIOT_OK,
-    CIOT_ERR_NULL_ARG=CIOT_ERR_BASE+1,
+    CIOT_ERR_NULL_ARG = CIOT_ERR_BASE + 1,
     CIOT_ERR_INVALID_ID,
     CIOT_ERR_INVALID_TYPE,
     CIOT_ERR_OVERFLOW,
@@ -38,6 +66,9 @@ typedef enum __attribute__((packed)) {
     CIOT_ERR_DISCONNECTION,
     CIOT_ERR_EXCEPTION,
     CIOT_ERR_TERMINATOR_MISSING,
+    CIOT_ERR_INVALID_ARG,
 } ciot_err_t;
 
-#endif  //!__CIOT_ERR__H__
+const char *ciot_err_to_message(ciot_err_t err);
+
+#endif //!__CIOT_ERR__H__

@@ -120,7 +120,7 @@ typedef struct __attribute__((packed))
 
 typedef union ciot_mqttc_data
 {
-#if CIOT_CONFIG_FEATURE_MQTT
+#if CIOT_CONFIG_FEATURE_MQTTC
     ciot_mqttc_cfg_t config;
     ciot_mqttc_status_t status;
     ciot_mqttc_req_t request;

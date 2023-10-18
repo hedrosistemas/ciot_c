@@ -50,8 +50,8 @@ ciot_https_t ciot_https_new(void *handle)
 
 ciot_err_t ciot_https_start(ciot_https_t this, ciot_https_cfg_t *cfg)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(cfg);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(cfg);
     memcpy(&this->cfg, cfg, sizeof(this->cfg));
     this->conn_rx = mg_http_listen(this->mgr, cfg->address, ciot_https_event_handle, this);
     if (this->conn_rx == NULL)
@@ -68,8 +68,8 @@ ciot_err_t ciot_https_start(ciot_https_t this, ciot_https_cfg_t *cfg)
 
 ciot_err_t ciot_https_stop(ciot_https_t this)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(this->conn_rx);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this->conn_rx);
     mg_close_conn(this->conn_rx);
     this->status.state = CIOT_HTTPS_STATE_STOPPED;
     return CIOT_OK;
@@ -82,7 +82,7 @@ ciot_err_t ciot_https_process_req(ciot_https_t this, ciot_https_req_t *req)
 
 ciot_err_t ciot_https_send_data(ciot_https_t this, uint8_t *data, int size)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     mg_printf(this->conn_tx, 
               "HTTP/1.0 200 OK\r\n"
               "Content-Type: octet-stream\r\n"

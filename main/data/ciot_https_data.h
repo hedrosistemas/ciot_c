@@ -13,6 +13,7 @@
 #define __CIOT_HTTPS_DATA__H__
 
 #include <inttypes.h>
+
 #include "ciot_config.h"
 
 #define CIOT_HTTPS_ADDRESS_LEN 64

@@ -53,8 +53,8 @@ ciot_httpc_t ciot_httpc_new(void *handle)
 
 ciot_err_t ciot_httpc_start(ciot_httpc_t this, ciot_httpc_cfg_t *cfg)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(cfg);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(cfg);
     memcpy(&this->cfg, cfg, sizeof(this->cfg));
     return CIOT_OK;
 }

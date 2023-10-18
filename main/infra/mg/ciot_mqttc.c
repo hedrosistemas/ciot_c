@@ -43,8 +43,8 @@ ciot_mqttc_t ciot_mqttc_new(void *handle)
 
 ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(cfg);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(cfg);
     struct mg_mqtt_opts opts = {0};
     memcpy(&this->cfg, cfg, sizeof(this->cfg));
     opts.user = mg_str(this->cfg.user);
@@ -61,15 +61,15 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg)
 
 ciot_err_t ciot_mqttc_stop(ciot_mqttc_t this)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     mg_mqtt_disconnect(this->connection, NULL);
     return CIOT_OK;
 }
 
 ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t this, ciot_mqttc_req_t *req)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(req);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(req);
 
     switch (req->id)
     {
@@ -84,7 +84,7 @@ ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t this, ciot_mqttc_req_t *req)
 
 ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t this, uint8_t *data, int size)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     ciot_mqttc_req_publish_t req = {0};
     memcpy(req.topic, this->cfg.topics.d2b, sizeof(req.topic));
     memcpy(req.msg, data, size);
@@ -95,7 +95,7 @@ ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t this, uint8_t *data, int size)
 
 ciot_err_t ciot_mqttc_publish(ciot_mqttc_t this, ciot_mqttc_req_publish_t *req)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     if (req->size < CIOT_CONFIG_MESSAGE_LEN)
     {
         struct mg_mqtt_opts opts = {0};
@@ -117,7 +117,7 @@ ciot_err_t ciot_mqttc_publish(ciot_mqttc_t this, ciot_mqttc_req_publish_t *req)
 
 ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t this, ciot_mqttc_req_subscribe_t *req)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     struct mg_mqtt_opts opts = {0};
     opts.topic = mg_str(req->topic);
     opts.qos = req->qos;

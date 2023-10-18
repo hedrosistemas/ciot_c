@@ -52,7 +52,7 @@ ciot_err_t ciot_set_iface_list(ciot_t this, ciot_iface_t *iface_list[], int coun
 
 ciot_err_t ciot_register_event(ciot_t this, ciot_iface_event_handler_t event_handler, void *event_args)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     this->event_handler = event_handler;
     this->event_args = event_args;
     return CIOT_OK;
@@ -96,7 +96,9 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
                 err = ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
             }
         }
+        break;
     case CIOT_IFACE_EVENT_DATA:
+    case CIOT_IFACE_EVENT_REQ_DONE:
         if(this->state != CIOT_STATE_BUSY)
         {
             if(event->msg.type == CIOT_MSG_TYPE_GET_CONFIG || event->msg.type == CIOT_MSG_TYPE_GET_STATUS)

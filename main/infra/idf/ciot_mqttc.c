@@ -18,7 +18,7 @@
 
 #include "ciot_mqttc.h"
 
-struct ciot_mqtt
+struct ciot_mqttc
 {
     ciot_iface_t iface;
     ciot_mqttc_cfg_t cfg;
@@ -32,7 +32,7 @@ static const char *TAG = "ciot_mqtt";
 
 ciot_mqttc_t ciot_mqttc_new(void *handle)
 {
-    ciot_mqttc_t this = calloc(1, sizeof(struct ciot_mqtt));
+    ciot_mqttc_t this = calloc(1, sizeof(struct ciot_mqttc));
     this->iface.base.ptr = this;
     this->iface.base.start = (ciot_iface_start_fn *)ciot_mqttc_start;
     this->iface.base.stop = (ciot_iface_stop_fn *)ciot_mqttc_stop;
@@ -48,8 +48,8 @@ ciot_mqttc_t ciot_mqttc_new(void *handle)
 
 ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(cfg);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(cfg);
 
     if (this->status.state == CIOT_MQTT_STATE_CONNECTED)
     {
@@ -75,15 +75,15 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg)
 
 ciot_err_t ciot_mqttc_stop(ciot_mqttc_t this)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     this->status.state = CIOT_MQTT_STATE_DISCONNECTING;
     return esp_mqtt_client_stop(this->handle);
 }
 
 ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t this, ciot_mqttc_req_t *req)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(req);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(req);
 
     switch (req->id)
     {
@@ -98,7 +98,7 @@ ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t this, ciot_mqttc_req_t *req)
 
 ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t this, uint8_t *data, int size)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     ciot_mqttc_req_publish_t req = {0};
     memcpy(req.topic, this->cfg.topics.d2b, sizeof(req.topic));
     memcpy(req.msg, data, size);
@@ -110,8 +110,8 @@ ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t this, uint8_t *data, int size)
 
 ciot_err_t ciot_mqttc_publish(ciot_mqttc_t this, ciot_mqttc_req_publish_t *req)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(req);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(req);
     int err_code = 0;
     this->status.data_rate += req->size;
     this->status.last_msg_time = time(NULL);
@@ -128,7 +128,7 @@ ciot_err_t ciot_mqttc_publish(ciot_mqttc_t this, ciot_mqttc_req_publish_t *req)
 
 ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t this, ciot_mqttc_req_subscribe_t *req)
 {
-    CIOT_ERR_NULL_CHECK(this);
+    CIOT_NULL_CHECK(this);
     if (esp_mqtt_client_subscribe(this->handle, req->topic, req->qos) != -1)
     {
         return CIOT_OK;

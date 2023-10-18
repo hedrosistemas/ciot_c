@@ -22,6 +22,7 @@ typedef enum ciot_iface_event_id
     CIOT_IFACE_EVENT_STOPPED,
     CIOT_IFACE_EVENT_ERROR,
     CIOT_IFACE_EVENT_DATA,
+    CIOT_IFACE_EVENT_REQ_DONE,
     CIOT_IFACE_EVENT_CUSTOM,
 } ciot_iface_event_id_t;
 

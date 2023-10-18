@@ -72,9 +72,9 @@ ciot_err_t ciot_https_process_req(ciot_https_t this, ciot_https_req_t *req)
 
 ciot_err_t ciot_https_send_data(ciot_https_t this, uint8_t *data, int size)
 {
-    CIOT_ERR_NULL_CHECK(this);
-    CIOT_ERR_NULL_CHECK(data);
-    CIOT_ERR_NULL_CHECK(this->req);
+    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(data);
+    CIOT_NULL_CHECK(this->req);
     httpd_resp_set_status(this->req, HTTPD_200);
     httpd_resp_set_type(this->req, HTTPD_TYPE_OCTET);
     httpd_resp_send(this->req, (const char*)data, size);

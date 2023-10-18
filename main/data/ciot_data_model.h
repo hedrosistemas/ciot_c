@@ -12,12 +12,16 @@
 #ifndef __CIOT_DATA_MODEL__H__
 #define __CIOT_DATA_MODEL__H__
 
-typedef enum ciot_data_model_state
+#include <inttypes.h>
+
+#include "ciot_config.h"
+
+typedef enum __attribute__((packed))
 {
     CIOT_DATA_MODEL_STATE_IDLE,
 } ciot_data_model_state_t;
 
-typedef enum ciot_data_model_req_id
+typedef enum __attribute__((packed))
 {
     CIOT_DATA_MODEL_REQ_UNKNOWN,
 } ciot_data_model_req_id_t;
@@ -32,7 +36,7 @@ typedef struct __attribute__((packed))
     ciot_data_model_state_t state;
 } ciot_data_model_status_t;
 
-typedef union ciot_data_model_req_data
+typedef union __attribute__((packed))
 {
 
 } ciot_data_model_req_data_u;
@@ -43,7 +47,7 @@ typedef struct __attribute__((packed))
     ciot_data_model_req_data_u data;
 } ciot_data_model_req_t;
 
-typedef union ciot_data_model_data
+typedef union __attribute__((packed))
 {
     #if CIOT_CONFIG_FEATURE_DATA_MODEL
     ciot_data_model_cfg_t config;

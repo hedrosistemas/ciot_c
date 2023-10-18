@@ -15,9 +15,14 @@
 #include "ciot_err.h"
 #include "ciot_config.h"
 #include "ciot_sys_data.h"
+// #include "ciot_serial_data.h"
+#include "ciot_tcp_data.h"
+#include "ciot_wifi_data.h"
 #include "ciot_https_data.h"
 #include "ciot_httpc_data.h"
 #include "ciot_mqttc_data.h"
+#include "ciot_tcp_data.h"
+
 #define CIOT_MSG_SIZE (sizeof(ciot_msg_t) - sizeof(ciot_msg_data_u))
 #define CIOT_MSG_GET_SIZE(type) (CIOT_MSG_SIZE + sizeof(type))
 
@@ -37,6 +42,10 @@ typedef enum __attribute__((packed))
     CIOT_IFACE_TYPE_UNKNOWN,
     CIOT_IFACE_TYPE_SYSTEM,
     CIOT_IFACE_TYPE_SERIAL,
+    CIOT_IFACE_TYPE_TCP,
+    CIOT_IFACE_TYPE_ETH,
+    CIOT_IFACE_TYPE_WIFI,
+    CIOT_IFACE_TYPE_BLE,
     CIOT_IFACE_TYPE_HTTP_CLIENT,
     CIOT_IFACE_TYPE_HTTP_SERVER,
     CIOT_IFACE_TYPE_MQTT,
@@ -48,9 +57,12 @@ typedef struct __attribute__((packed))
     uint8_t id;
 } ciot_msg_iface_info_t;
 
-typedef union ciot_msg_data
+typedef union __attribute__((packed))
 {
     ciot_sys_data_u system;
+    // ciot_serial_data_u serial;
+    ciot_tcp_data_u eth;
+    ciot_wifi_data_u wifi;
     ciot_https_data_u https;
     ciot_httpc_data_u httpc;
     ciot_mqttc_data_u mqtt;

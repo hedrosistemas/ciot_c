@@ -16,7 +16,7 @@
 #include "ciot_iface.h"
 #include "ciot_err.h"
 
-typedef struct ciot_mqtt *ciot_mqttc_t;
+typedef struct ciot_mqttc *ciot_mqttc_t;
 
 typedef enum ciot_mqttc_event_id
 {

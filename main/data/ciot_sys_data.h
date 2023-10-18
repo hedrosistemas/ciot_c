@@ -13,6 +13,7 @@
 #define __CIOT_SYS_DATA__H__
 
 #include <inttypes.h>
+
 #include "ciot_config.h"
 
 typedef enum __attribute__((packed))
@@ -21,26 +22,29 @@ typedef enum __attribute__((packed))
     CIOT_SYS_REQ_RESTART,
 } ciot_sys_req_id_t;
 
-typedef enum __attribute__((packed))
+typedef struct __attribute__((packed))
 {
-    CIOT_SYS_FEATURE_FLAGS_NONE = 0,
-    CIOT_SYS_FEATURE_FLAGS_SERIAL = 1 << 0,
-    CIOT_SYS_FEATURE_FLAGS_HTTP_CLIENT = 1 << 1,
-    CIOT_SYS_FEATURE_FLAGS_HTTP_SERVER = 1 << 2,
-    CIOT_SYS_FEATURE_FLAGS_MQTT_CLIENT = 1 << 3,
-    CIOT_SYS_FEATURE_FLAGS_MQTT_SERVER = 1 << 4,
-} ciot_sys_feature_flags_t;
+    uint32_t serial : 1;
+    uint32_t ethernet : 1;
+    uint32_t wifi : 1;
+    uint32_t bluetooth : 1;
+    uint32_t reserved : 28;
+} ciot_sys_hw_features_t;
 
 typedef struct __attribute__((packed))
 {
-    unsigned serial :1;
-    unsigned http_client :1;
-    unsigned http_server :1;
-    unsigned mqtt_client :1;
-    unsigned mqtt_server :1;
-} ciot_sys_features_t;
+    uint32_t http_client : 1;
+    uint32_t http_server : 1;
+    uint32_t mqtt_client : 1;
+    uint32_t mqtt_server : 1;
+    uint32_t reserved : 28;
+} ciot_sys_sw_features_t;
 
-int s  = sizeof(ciot_sys_features_t);
+typedef struct __attribute__((packed))
+{
+    ciot_sys_hw_features_t hw;
+    ciot_sys_sw_features_t sw;
+} ciot_sys_features_t;
 
 typedef struct __attribute__((packed))
 {
