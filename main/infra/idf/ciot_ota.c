@@ -246,6 +246,10 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     ciot_ota_t this = (ciot_ota_t)arg;
     ciot_iface_event_t event = { 0 };
 
+    event.msg.type = CIOT_MSG_TYPE_EVENT;
+    event.msg.iface = this->iface.info;
+    event.id = CIOT_OTA_EVENT_STATE_CHANGED;
+
     switch (event_id)
     {
         case ESP_HTTPS_OTA_START:
@@ -290,10 +294,10 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
         break;
     }
 
-    // if(this->event_handler != NULL)
-    // {
-    //     this->event_handler(this, &this->status, this->event_arg);
-    // }
+    if(this->event_handler != NULL)
+    {
+        this->event_handler(this, &this->status, this->event_arg);
+    }
 }
 
 #ifdef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB

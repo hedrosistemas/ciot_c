@@ -18,6 +18,11 @@
 
 typedef struct ciot_ota *ciot_ota_t;
 
+typedef enum ciot_ota_event_id
+{
+    CIOT_OTA_EVENT_STATE_CHANGED = CIOT_IFACE_EVENT_CUSTOM,
+} ciot_ota_event_id_t;
+
 ciot_ota_t ciot_ota_new(void *handle);
 ciot_err_t ciot_ota_start(ciot_ota_t this, ciot_ota_cfg_t *cfg);
 ciot_err_t ciot_ota_stop(ciot_ota_t this);
