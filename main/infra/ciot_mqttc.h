@@ -26,7 +26,6 @@ typedef enum ciot_mqttc_event_id
 } ciot_mqttc_event_id_t;
 
 ciot_mqttc_t ciot_mqttc_new(void *handle);
-
 ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg);
 ciot_err_t ciot_mqttc_stop(ciot_mqttc_t this);
 ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t this, ciot_mqttc_req_t *req);

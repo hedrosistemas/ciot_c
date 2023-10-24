@@ -293,10 +293,10 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     default:
         break;
     }
-
-    if(this->event_handler != NULL)
+    
+    if(this->iface.event_handler != NULL)
     {
-        this->event_handler(this, &this->status, this->event_arg);
+        this->iface.event_handler(this, &event, this->iface.event_args);
     }
 }
 

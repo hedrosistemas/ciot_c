@@ -19,7 +19,6 @@
 typedef struct ciot_ntp *ciot_ntp_t;
 
 ciot_ntp_t ciot_ntp_new(void *handle);
-
 ciot_err_t ciot_ntp_start(ciot_ntp_t this, ciot_ntp_cfg_t *cfg);
 ciot_err_t ciot_ntp_stop(ciot_ntp_t this);
 ciot_err_t ciot_ntp_process_req(ciot_ntp_t this, ciot_ntp_req_t *req);

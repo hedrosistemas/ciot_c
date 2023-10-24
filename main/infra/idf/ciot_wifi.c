@@ -19,10 +19,6 @@
 #include "esp_bit_defs.h"
 #include "lwip/ip4_addr.h"
 
-// #include "freertos/FreeRTOS.h"
-// #include "freertos/event_groups.h"
-// #include "freertos/task.h"
-
 #include "ciot_wifi.h"
 #include "ciot_tcp.h"
 
@@ -32,15 +28,10 @@ struct ciot_wifi
     ciot_tcp_t tcp;
     ciot_wifi_cfg_t cfg;
     ciot_wifi_status_u status;
-    // ciot_wifi_data_t data;
-    // ciot_wifi_data_t ap;
-    // ciot_wifi_data_t sta;
-    // bool init;
 };
 
 static const char *TAG = "ciot_wifi";
 
-// static ciot_err_t ciot_wifi_init(ciot_wifi_t this, ciot_wifi_cfg_t *cfg);
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t this, ciot_wifi_cfg_t *cfg);
 static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t this, wifi_interface_t type);
 static ciot_err_t ciot_wifi_tcp_event_handler(void *sender, ciot_iface_event_t *event, void *args);
@@ -53,7 +44,6 @@ ciot_err_t ciot_wifi_init(void)
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
     ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
     return CIOT_OK;
-    // ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, ciot_wifi_event_handler, this));
 }
 
 ciot_wifi_t ciot_wifi_new(void *handle)

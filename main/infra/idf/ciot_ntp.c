@@ -91,6 +91,7 @@ ciot_err_t ciot_ntp_start(ciot_ntp_t this, ciot_ntp_cfg_t *cfg)
 
     setenv("TZ", this->cfg.timezone, 1);
     tzset();
+    ciot_ntp_set(this);
 
     return CIOT_OK;
 }

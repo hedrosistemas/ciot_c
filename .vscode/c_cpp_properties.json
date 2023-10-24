@@ -5,7 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**"
             ],
-            "compilerPath": "C:/ProgramData/chocolatey/bin/gcc.exe",
+            "compilerPath": "C:/ProgramData/mingw64/mingw64/bin/gcc.exe ",
             "cStandard": "${default}",
             "cppStandard": "${default}",
             "intelliSenseMode": "windows-gcc-x64",
@@ -19,7 +19,7 @@
             "forcedInclude": [
                 "${workspaceFolder}/build/config/sdkconfig.h"
             ],
-            "compilerPath": "C:\\Users\\BINAR\\.espressif\\tools\\xtensa-esp32-elf\\esp-12.2.0_20230208\\xtensa-esp32-elf\\bin\\xtensa-esp32-elf-gcc.exe",
+            "compilerPath": "C:/Users/BINAR/.espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe",
             "includePath": [
                 "${config:idf.espIdfPath}/components/**",
                 "${config:idf.espIdfPathWin}/components/**",

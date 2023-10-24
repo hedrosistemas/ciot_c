@@ -34,8 +34,8 @@ typedef struct ciot_tcp_handle
 typedef struct ciot_tcp *ciot_tcp_t;
 
 ciot_err_t ciot_tcp_init(void);
-ciot_tcp_t ciot_tcp_new(ciot_tcp_handle_t *handle);
 
+ciot_tcp_t ciot_tcp_new(ciot_tcp_handle_t *handle);
 ciot_err_t ciot_tcp_start(ciot_tcp_t this, ciot_tcp_cfg_t *cfg);
 ciot_err_t ciot_tcp_stop(ciot_tcp_t this);
 ciot_err_t ciot_tcp_process_req(ciot_tcp_t this, ciot_tcp_req_t *req);
