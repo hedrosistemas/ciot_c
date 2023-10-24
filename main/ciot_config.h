@@ -12,7 +12,11 @@
 #ifndef __CIOT_CONFIG__H__
 #define __CIOT_CONFIG__H__
 
-#define CIOT_CONFIG_FEATURE_SERIAL 1   ///!< Enable Serial
+#define CIOT_CONFIG_FIRMWARE_VER { 0, 3, 0 }
+#define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD"
+
+#define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
+#define CIOT_CONFIG_FEATURE_BLE 1      ///!< Enable UART
 #define CIOT_CONFIG_FEATURE_ETHERNET 1 ///!< Enable Ethernet
 #define CIOT_CONFIG_FEATURE_WIFI 1     ///!< Enable WiFi
 #define CIOT_CONFIG_FEATURE_NTP 1      ///!< Enable NTP
@@ -22,8 +26,6 @@
 #define CIOT_CONFIG_FEATURE_MQTTC 1    ///!< Enable MQTT Client
 #define CIOT_CONFIG_MESSAGE_LEN 334    ///!< CIOT expected message size
 
-// #define CIOT_CONFIG_MESSAGE_LEN sizeof(ciot_msg_u)
-
 #define CIOT_CONFIG_ETH_PHY_KSZ8081 1
 #define CIOT_CONFIG_ETH_PHY_NEW(x) esp_eth_phy_new_ksz80xx(&x)
 #define CIOT_CONFIG_ETH_PHY_ADDR 0
@@ -31,7 +33,7 @@
 #define CIOT_CONFIG_ETH_GPIO_MDC 23
 #define CIOT_CONFIG_ETH_GPIO_MDIO 18
 
-#define CIOT_CONFIG_WIFI_AP_SSID_MASK "HEDRO HG3 %s"
+#define CIOT_CONFIG_WIFI_AP_SSID_MASK "CIOT BOARD %s"
 #define CIOT_CONFIG_WIFI_AP_PASS "administrator"
 #define CIOT_CONFIG_WIFI_AP_AUTH WIFI_AUTH_WPA_WPA2_PSK
 #define CIOT_CONFIG_WIFI_AP_MAX_CONN 1
