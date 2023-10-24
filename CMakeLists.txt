@@ -21,7 +21,7 @@ else()
         ${CMAKE_SOURCE_DIR}/main
     )
 
-    add_executable(${PROJECT_NAME} ${infa_src} 
+    add_library(${PROJECT_NAME} ${infa_src} 
                                    ${ifaces_src} 
                                    ${mg_src} 
                                    ${app_src})
