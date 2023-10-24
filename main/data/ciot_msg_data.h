@@ -15,10 +15,10 @@
 #include "ciot_err.h"
 #include "ciot_config.h"
 #include "ciot_sys_data.h"
-// #include "ciot_serial_data.h"
+#include "ciot_uart_data.h"
 #include "ciot_tcp_data.h"
 #include "ciot_wifi_data.h"
-// #include "ciot_ble_data.h"
+#include "ciot_ble_data.h"
 #include "ciot_ntp_data.h"
 #include "ciot_ota_data.h"
 #include "ciot_https_data.h"
@@ -44,7 +44,7 @@ typedef enum __attribute__((packed))
 {
     CIOT_IFACE_TYPE_UNKNOWN,
     CIOT_IFACE_TYPE_SYSTEM,
-    CIOT_IFACE_TYPE_SERIAL,
+    CIOT_IFACE_TYPE_UART,
     CIOT_IFACE_TYPE_TCP,
     CIOT_IFACE_TYPE_ETH,
     CIOT_IFACE_TYPE_WIFI,
@@ -65,10 +65,10 @@ typedef struct __attribute__((packed))
 typedef union __attribute__((packed))
 {
     ciot_sys_data_u system;
-    // ciot_serial_data_u serial;
+    ciot_uart_data_u uart;
     ciot_tcp_data_u eth;
     ciot_wifi_data_u wifi;
-    // ciot_ble_data_u ble;
+    ciot_ble_data_u ble;
     ciot_ntp_data_u ntp;
     ciot_ota_data_u ota;
     ciot_https_data_u https;
