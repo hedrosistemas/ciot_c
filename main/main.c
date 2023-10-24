@@ -12,6 +12,7 @@
 #include <stdbool.h>
 
 #include "ciot.h"
+
 #include "ciot_https.h"
 #include "ciot_httpc.h"
 #include "ciot_mqttc.h"
@@ -45,6 +46,7 @@ int app_main(void)
     ciot_https_t https = ciot_https_new(CIOT_HANDLE);
     ciot_httpc_t httpc = ciot_httpc_new(CIOT_HANDLE);
     ciot_mqttc_t mqtt = ciot_mqttc_new(CIOT_HANDLE);
+
     ciot_t ciot = ciot_new();
 
     ciot_https_cfg_t https_cfg = {
