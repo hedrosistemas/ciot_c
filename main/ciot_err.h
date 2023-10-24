@@ -43,7 +43,7 @@
         }                             \
     } while (0)
 
-typedef enum __attribute__((packed))
+typedef enum
 {
     CIOT_FAIL = -1,
     CIOT_OK,

@@ -18,7 +18,7 @@
 
 typedef struct ciot_iface *ciot_sys_t;
 
-ciot_sys_t ciot_sys_init(void);
+void ciot_sys_init(void);
 ciot_sys_t ciot_sys_new(void *handle);
 ciot_err_t ciot_sys_start(ciot_sys_t this, ciot_sys_cfg_t *cfg);
 ciot_err_t ciot_sys_stop(ciot_sys_t this);

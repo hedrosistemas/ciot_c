@@ -13,7 +13,7 @@
 #include "ciot_mqttc.h"
 #include "mongoose.h"
 
-struct ciot_mqtt
+struct ciot_mqttc
 {
     ciot_iface_t iface;
     ciot_mqttc_cfg_t cfg;
@@ -26,7 +26,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
 
 ciot_mqttc_t ciot_mqttc_new(void *handle)
 {
-    ciot_mqttc_t this = calloc(1, sizeof(struct ciot_mqtt));
+    ciot_mqttc_t this = calloc(1, sizeof(struct ciot_mqttc));
     this->iface.base.ptr = this;
     this->iface.base.start = (ciot_iface_start_fn *)ciot_mqttc_start;
     this->iface.base.stop = (ciot_iface_stop_fn *)ciot_mqttc_stop;
@@ -168,7 +168,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
     {
         printf("MG_EV_MQTT_MSG\n");
         struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
-        ciot_mqtt_event_data(this, &event, (char*)mm->topic.ptr, mm->data.ptr, mm->data.len);
+        ciot_mqtt_event_data(this, &event, (char*)mm->topic.ptr, (uint8_t*)mm->data.ptr, mm->data.len);
         break;
     }
     case MG_EV_CLOSE:

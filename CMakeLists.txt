@@ -23,7 +23,6 @@ else()
 
     add_executable(${PROJECT_NAME} ${infa_src} 
                                    ${ifaces_src} 
-                                   ${ifaces_src} 
                                    ${mg_src} 
                                    ${app_src})
 

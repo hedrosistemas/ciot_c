@@ -34,7 +34,7 @@ RTC_NOINIT_ATTR int rst_count;
 
 static ciot_sys_status_t *ciot_sys_get_status();
 
-ciot_sys_t ciot_sys_init(void)
+void ciot_sys_init(void)
 {
     char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
     uint8_t fw_ver[] = CIOT_CONFIG_FIRMWARE_VER;
