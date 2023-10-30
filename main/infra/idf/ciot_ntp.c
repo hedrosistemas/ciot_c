@@ -98,6 +98,7 @@ ciot_err_t ciot_ntp_start(ciot_ntp_t this, ciot_ntp_cfg_t *cfg)
 
 ciot_err_t ciot_ntp_stop(ciot_ntp_t this)
 {
+    CIOT_NULL_CHECK(this);
     esp_sntp_stop();
     return CIOT_OK;
 }
