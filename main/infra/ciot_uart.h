@@ -19,9 +19,9 @@
 typedef struct ciot_uart *ciot_uart_t;
 
 ciot_uart_t ciot_uart_new(void *handle);
-ciot_err_t ciot_uart_start(ciot_uart_t this, ciot_uart_cfg_t *cfg);
-ciot_err_t ciot_uart_stop(ciot_uart_t this);
-ciot_err_t ciot_uart_process_req(ciot_uart_t this, ciot_uart_req_t *req);
-ciot_err_t ciot_uart_send_data(ciot_uart_t this, uint8_t *data, int size);
+ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg);
+ciot_err_t ciot_uart_stop(ciot_uart_t self);
+ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req);
+ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size);
 
 #endif  //!__CIOT_UART__H__
