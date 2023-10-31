@@ -25,10 +25,10 @@ struct ciot_uart
     ciot_iface_t iface;
     ciot_uart_cfg_t cfg;
     ciot_uart_status_t status;
+    ciot_s_t s;
     QueueHandle_t queue;
     TaskHandle_t task;
     uart_event_t event;
-    ciot_s_t s;
 };
 
 static ciot_err_t ciot_uart_on_message(ciot_s_t s, char *data, int size);
