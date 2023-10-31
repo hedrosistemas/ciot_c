@@ -27,6 +27,9 @@ struct ciot_n
     ciot_iface_event_handler_t *event_handler;
     void *event_args;
     ciot_state_t state;
+
+    // TODO:
+    // void *iface_id_queue;  // Queue of ifaces id that have sended an event to ciot
 };
 
 static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *event, void *event_args);
@@ -58,6 +61,9 @@ ciot_err_t ciot_register_event(ciot_t this, ciot_iface_event_handler_t event_han
     return CIOT_OK;
 }
 
+/*
+    TODO: implementar uma fila de eventos
+*/
 static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *event, void *event_args)
 {
     ciot_t this = event_args;
