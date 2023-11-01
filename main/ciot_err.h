@@ -67,6 +67,7 @@ typedef enum
     CIOT_ERR_EXCEPTION,
     CIOT_ERR_TERMINATOR_MISSING,
     CIOT_ERR_INVALID_ARG,
+    CIOT_ERR_NO_MEMORY,
 } ciot_err_t;
 
 const char *ciot_err_to_message(ciot_err_t err);
