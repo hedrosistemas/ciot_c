@@ -20,7 +20,8 @@ typedef enum __attribute__((packed))
 {
     CIOT_UART_STATE_IDLE,
     CIOT_UART_STATE_STARTED,
-    CIOT_UART_STATE_ERROR,
+    CIOT_UART_STATE_INTERNAL_ERROR,
+    CIOT_UART_STATE_CIOT_S_ERROR,
 } ciot_uart_state_t;
 
 typedef enum __attribute__((packed))

@@ -111,6 +111,7 @@ ciot_err_t ciot_s_write_bytes(ciot_s_t s, char *bytes, int size)
 ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
 {
     CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(data);
     return ciot_s_send(self->s, (char*)data, size);
 }
 
@@ -175,9 +176,9 @@ static void ciot_uart_event_handler(void *args)
                 break;
             }
 
-            if(self->event.type != UART_DATA && self->iface.event_handler)
+            if(self->iface.event_handler)
             {
-                event.id = CIOT_IFACE_EVENT_ERROR;
+                event.id = self->event.type != UART_DATA ? CIOT_IFACE_EVENT_ERROR : CIOT_IFACE_EVENT_DATA;
                 self->iface.event_handler(self, &event, self->iface.event_args);
             }
         }
