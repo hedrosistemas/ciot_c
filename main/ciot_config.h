@@ -12,6 +12,10 @@
 #ifndef __CIOT_CONFIG__H__
 #define __CIOT_CONFIG__H__
 
+#if __has_include("ciot_custom_config.h")
+#include "ciot_custom_config.h"
+#else
+
 #define CIOT_CONFIG_FIRMWARE_VER { 0, 3, 0 }
 #define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD"
 
@@ -60,5 +64,7 @@
 #define CIOT_CONFIG_OTA_TASK_STACK_SIZE 8192
 #define CIOT_CONFIG_OTA_TASK_TASK_PRIORITY (tskIDLE_PRIORITY + 4)
 #define CIOT_CONFIG_OTA_TASK_CORE_ID 1
+
+#endif //__has_include("ciot_custom_config.h")
 
 #endif //!__CIOT_CONFIG__H__
