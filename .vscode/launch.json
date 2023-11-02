@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "e:/Projetos/ciot-platform/ciot-c/main/infra/nrf",
-      "program": "e:/Projetos/ciot-platform/ciot-c/main/infra/nrf/build/Debug/outDebug",
+      "cwd": "e:/Projetos/ciot-platform/ciot-c/examples/windows",
+      "program": "e:/Projetos/ciot-platform/ciot-c/examples/windows/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
