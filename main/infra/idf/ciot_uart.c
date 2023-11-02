@@ -31,7 +31,7 @@ struct ciot_uart
     uart_event_t event;
 };
 
-static ciot_err_t ciot_uart_on_message(ciot_s_t s, char *data, int size);
+static ciot_err_t ciot_uart_on_message(void *user_ctx, char *data, int size);
 static void ciot_uart_event_handler(void *args);
 
 static const char *TAG = "ciot_uart";
@@ -52,7 +52,8 @@ ciot_uart_t ciot_uart_new(void *handle)
 
     ciot_s_cfg_t s_cfg = { 
         .on_message_cb = ciot_uart_on_message,
-        .handler = self
+        .send_bytes = ciot_uart_send_bytes,
+        .user_ctx = self
     };
     self->s = ciot_s_new(&s_cfg);
 
@@ -69,7 +70,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         .flow_ctrl = self->cfg.flow_control,
         .parity = self->cfg.parity,
         .baud_rate = self->cfg.baud_rate,
-        .source_clk = UART_SCLK_DEFAULT
+        .source_clk = UART_SCLK_DEFAULT,
     };
     ESP_ERROR_CHECK(uart_param_config(num, &uart_cfg));
     ESP_ERROR_CHECK(uart_set_pin(num, self->cfg.tx_pin, self->cfg.rx_pin, self->cfg.rts_pin, self->cfg.cts_pin));
@@ -100,14 +101,6 @@ ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
     return CIOT_ERR_INVALID_ID;
 }
 
-ciot_err_t ciot_s_write_bytes(ciot_s_t s, char *bytes, int size)
-{
-    ciot_uart_t self;
-    ciot_s_get_handler(s, &self);
-    uart_write_bytes(self->cfg.num, bytes, size);
-    return CIOT_OK;
-}
-
 ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
 {
     CIOT_NULL_CHECK(self);
@@ -115,13 +108,26 @@ ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
     return ciot_s_send(self->s, (char*)data, size);
 }
 
-static ciot_err_t ciot_uart_on_message(ciot_s_t s, char *data, int size)
+ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
 {
+    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(bytes);
+    uart_write_bytes(self->cfg.num, bytes, size);
+    return CIOT_OK;
+}
+
+static ciot_err_t ciot_uart_on_message(void *user_ctx, char *data, int size)
+{
+    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(data);
+    CIOT_NULL_CHECK(self->iface.event_handler);
     ciot_iface_event_t event = { 0 };
     event.id = CIOT_IFACE_EVENT_DATA;
     memcpy(&event.msg, data, size);
     event.size = size;
-    return CIOT_OK;
+    return self->iface.event_handler(self, &event, self->iface.event_args);
 }
 
 static void ciot_uart_event_handler(void *args)
@@ -149,7 +155,7 @@ static void ciot_uart_event_handler(void *args)
                         ESP_LOGE(TAG, "Process byte error: %d", err);
                     }
                 }
-                break;
+                return;
             case UART_FIFO_OVF:
                 ESP_LOGE(TAG, "hw fifo overflow");
                 event.msg.data.uart.status.error = CIOT_UART_ERR_FIFO_OVERFLOW;

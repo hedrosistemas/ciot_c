@@ -29,6 +29,7 @@ struct ciot_uart
     nrf_drv_uart_t uart;
 };
 
+static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size);
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context);
 
 ciot_uart_t ciot_uart_new(void *handle)
@@ -46,8 +47,9 @@ ciot_uart_t ciot_uart_new(void *handle)
     self->iface.info.type = CIOT_IFACE_TYPE_UART;
 
     ciot_s_cfg_t s_cfg = {
-        // .on_message_cb = ciot_uart_on_message,
-        .handler = self};
+        .on_message_cb = ciot_uart_on_message,
+        .send_bytes = ciot_uart_send_bytes,
+        .user_ctx = self};
     self->s = ciot_s_new(&s_cfg);
     return self;
 }
@@ -133,11 +135,19 @@ ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
     return CIOT_ERR_INVALID_ID;
 }
 
-ciot_err_t ciot_s_write_bytes(ciot_s_t s, char *bytes, int size)
+ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
 {
-    ciot_uart_t self;
-    ciot_s_get_handler(s, &self);
-    ret_code_t ret = nrf_drv_uart_tx(&self->uart, (uint8_t *)bytes, size);
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(data);
+    return ciot_s_send(self->s, data, size);
+}
+
+ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
+{
+    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(bytes);
+    ret_code_t ret = nrf_drv_uart_tx(&self->uart, bytes, size);
     if (NRF_ERROR_BUSY == ret)
     {
         return CIOT_ERR_NO_MEMORY;
@@ -152,11 +162,17 @@ ciot_err_t ciot_s_write_bytes(ciot_s_t s, char *bytes, int size)
     }
 }
 
-ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
+static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size)
 {
+    ciot_uart_t self = (ciot_uart_t)user_ctx;
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
-    return ciot_s_send(self->s, (char*)data, size);
+    CIOT_NULL_CHECK(self->iface.event_handler);
+    ciot_iface_event_t event = { 0 };
+    event.id = CIOT_IFACE_EVENT_DATA;
+    memcpy(&event.msg, data, size);
+    event.size = size;
+    return self->iface.event_handler(self, &event, self->iface.event_args);
 }
 
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context)
@@ -195,10 +211,8 @@ static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context)
                     self->status.state = CIOT_UART_STATE_CIOT_S_ERROR;
                 }
                 event->data.rxtx.bytes--;
-                return;
             }
-            
-            break;
+            return;
         case NRF_DRV_UART_EVT_ERROR:
             self->status.error = event->data.error.error_mask;
             self->status.state = CIOT_UART_STATE_INTERNAL_ERROR;
