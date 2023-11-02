@@ -24,6 +24,7 @@ struct ciot_s
     int idx;
     int len;
 };
+
 ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg)
 {
     ciot_s_t s = calloc(1, sizeof(struct ciot_s));
