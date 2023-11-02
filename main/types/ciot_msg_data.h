@@ -16,6 +16,7 @@
 #include "ciot_config.h"
 #include "ciot_sys_data.h"
 #include "ciot_uart_data.h"
+#include "ciot_usb_data.h"
 #include "ciot_tcp_data.h"
 #include "ciot_wifi_data.h"
 #include "ciot_ble_data.h"
@@ -45,6 +46,7 @@ typedef enum __attribute__((packed))
     CIOT_IFACE_TYPE_UNKNOWN,
     CIOT_IFACE_TYPE_SYSTEM,
     CIOT_IFACE_TYPE_UART,
+    CIOT_IFACE_TYPE_USB,
     CIOT_IFACE_TYPE_TCP,
     CIOT_IFACE_TYPE_ETH,
     CIOT_IFACE_TYPE_WIFI,
@@ -66,6 +68,7 @@ typedef union __attribute__((packed))
 {
     ciot_sys_data_u system;
     ciot_uart_data_u uart;
+    ciot_usb_data_u usb;
     ciot_tcp_data_u eth;
     ciot_wifi_data_u wifi;
     ciot_ble_data_u ble;
@@ -79,7 +82,7 @@ typedef union __attribute__((packed))
 typedef struct __attribute__((packed))
 {
     ciot_msg_type_t type;
-    ciot_msg_iface_info_t iface ;
+    ciot_msg_iface_info_t iface;
     ciot_err_t error;
     ciot_msg_data_u data;
 } ciot_msg_t;
