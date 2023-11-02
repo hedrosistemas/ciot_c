@@ -146,6 +146,7 @@ static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size)
 
 static ciot_err_t ciot_uart_init(ciot_uart_t self)
 {
+    CIOT_NULL_CHECK(self);
     self->params.BaudRate = self->cfg.baud_rate;
     self->params.ByteSize = 8;
     self->params.StopBits = ONE5STOPBITS;
@@ -172,6 +173,7 @@ static ciot_err_t ciot_uart_init(ciot_uart_t self)
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
+    CIOT_NULL_CHECK(self);
     DWORD errors;
     COMSTAT status;
     ClearCommError(self->handle, &errors, &status);
