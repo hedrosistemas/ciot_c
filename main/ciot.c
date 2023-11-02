@@ -39,25 +39,25 @@ ciot_t ciot_new(void)
     return calloc(1, sizeof(struct ciot_n));
 }
 
-ciot_err_t ciot_set_iface_list(ciot_t this, ciot_iface_t *iface_list[], int count)
+ciot_err_t ciot_set_iface_list(ciot_t self, ciot_iface_t *iface_list[], int count)
 {
-    this->iface_list.items = iface_list;
-    this->iface_list.count = count;
+    self->iface_list.items = iface_list;
+    self->iface_list.count = count;
 
     for (size_t i = 0; i < count; i++)
     {
-        this->iface_list.items[i]->info.id = i;
-        ciot_iface_register_event(this->iface_list.items[i], ciot_iface_event_handler, this);
+        self->iface_list.items[i]->info.id = i;
+        ciot_iface_register_event(self->iface_list.items[i], ciot_iface_event_handler, self);
     }
 
     return CIOT_OK;
 }
 
-ciot_err_t ciot_register_event(ciot_t this, ciot_iface_event_handler_t event_handler, void *event_args)
+ciot_err_t ciot_register_event(ciot_t self, ciot_iface_event_handler_t event_handler, void *event_args)
 {
-    CIOT_NULL_CHECK(this);
-    this->event_handler = event_handler;
-    this->event_args = event_args;
+    CIOT_NULL_CHECK(self);
+    self->event_handler = event_handler;
+    self->event_args = event_args;
     return CIOT_OK;
 }
 
@@ -66,24 +66,24 @@ ciot_err_t ciot_register_event(ciot_t this, ciot_iface_event_handler_t event_han
 */
 static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *event, void *event_args)
 {
-    ciot_t this = event_args;
+    ciot_t self = event_args;
     ciot_err_t err = CIOT_OK;
     ciot_iface_t *iface_snd = sender;
-    ciot_iface_t *iface_rcv = this->iface_list.items[event->msg.iface.id];
+    ciot_iface_t *iface_rcv = self->iface_list.items[event->msg.iface.id];
 
-    if (this->state == CIOT_STATE_BUSY && this->iface_busy->info.id != iface_snd->info.id)
+    if (self->state == CIOT_STATE_BUSY && self->iface_busy->info.id != iface_snd->info.id)
     {
         event->msg.error = CIOT_ERR_BUSY;
-        event->msg.iface = this->iface_busy->info;
+        event->msg.iface = self->iface_busy->info;
         event->size = CIOT_MSG_SIZE;
         err = ciot_iface_send_data(iface_snd, &event->msg, event->size);
     }
 
-    if (event->msg.iface.id >= this->iface_list.count)
+    if (event->msg.iface.id >= self->iface_list.count)
     {
         event->msg.error = CIOT_ERR_INVALID_ID;
         event->size = CIOT_MSG_SIZE;
-        err = ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
+        err = ciot_iface_send_data(self->iface_rsp, &event->msg, event->size);
     }
 
     switch (event->id)
@@ -94,18 +94,18 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
     case CIOT_IFACE_EVENT_STARTED:
     case CIOT_IFACE_EVENT_STOPPED:
     case CIOT_IFACE_EVENT_ERROR:
-        if(this->state == CIOT_STATE_BUSY)
+        if(self->state == CIOT_STATE_BUSY)
         {
-            if(this->iface_busy->info.id == iface_snd->info.id)
+            if(self->iface_busy->info.id == iface_snd->info.id)
             {
-                this->state = CIOT_STATE_IDLE;
-                err = ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
+                self->state = CIOT_STATE_IDLE;
+                err = ciot_iface_send_data(self->iface_rsp, &event->msg, event->size);
             }
         }
         break;
     case CIOT_IFACE_EVENT_DATA:
     case CIOT_IFACE_EVENT_REQ_DONE:
-        if(this->state != CIOT_STATE_BUSY)
+        if(self->state != CIOT_STATE_BUSY)
         {
             if(event->msg.type == CIOT_MSG_TYPE_GET_CONFIG || event->msg.type == CIOT_MSG_TYPE_GET_STATUS)
             {
@@ -115,14 +115,14 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
             }
             else
             {
-                this->state = CIOT_STATE_BUSY;
-                this->iface_rsp = sender;
+                self->state = CIOT_STATE_BUSY;
+                self->iface_rsp = sender;
             }
         }
-        else if(this->iface_busy->info.id == iface_snd->info.id)
+        else if(self->iface_busy->info.id == iface_snd->info.id)
         {
-            this->state = CIOT_STATE_IDLE;
-            err = ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
+            self->state = CIOT_STATE_IDLE;
+            err = ciot_iface_send_data(self->iface_rsp, &event->msg, event->size);
         }
         break;
     case CIOT_IFACE_EVENT_CUSTOM:
@@ -130,9 +130,9 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
         break;
     }
 
-    if(this->event_handler != NULL)
+    if(self->event_handler != NULL)
     {
-        this->event_handler(this, event, this->event_args);
+        self->event_handler(self, event, self->event_args);
     }
 
     return err;
@@ -148,18 +148,18 @@ static ciot_err_t ciot_iface_event_handler(void *sender, ciot_iface_event_t *eve
     //     }
     //     else
     //     {
-    //         this->iface_rsp = iface_snd;
-    //         this->iface_busy = iface_rcv;
-    //         this->state = CIOT_STATE_BUSY;
+    //         self->iface_rsp = iface_snd;
+    //         self->iface_busy = iface_rcv;
+    //         self->state = CIOT_STATE_BUSY;
     //         return ciot_iface_process_msg(iface_rcv, &event->msg, &event->size);
     //     }
     //     break;
     // case CIOT_IFACE_EVENT_RESPONSE:
-    //     if (this->state == CIOT_STATE_BUSY)
+    //     if (self->state == CIOT_STATE_BUSY)
     //     {
-    //         this->state = CIOT_STATE_IDLE;
+    //         self->state = CIOT_STATE_IDLE;
     //         event->msg.iface = iface_rcv->info;
-    //         return ciot_iface_send_data(this->iface_rsp, &event->msg, event->size);
+    //         return ciot_iface_send_data(self->iface_rsp, &event->msg, event->size);
     //     }
     //     else
     //     {
