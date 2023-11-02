@@ -1,3 +1,4 @@
 /.devcontainer
-/build
+**/build
+**/_build
 .vscode/settings.json
