@@ -65,37 +65,36 @@ void ciot_sys_init(void)
 
 ciot_sys_t ciot_sys_new(void *handle)
 {
-    ciot_sys_t this = calloc(1, sizeof(ciot_iface_t));
-    this->base.ptr = this;
-    this->base.start = (ciot_iface_start_fn *)ciot_sys_start;
-    this->base.stop = (ciot_iface_stop_fn *)ciot_sys_stop;
-    this->base.process_req = (ciot_iface_process_req_fn *)ciot_sys_process_req;
-    this->base.send_data = (ciot_iface_send_data_fn *)ciot_sys_send_data;
-    this->base.cfg.ptr = &sys.cfg;
-    this->base.cfg.size = sizeof(sys.cfg);
-    this->base.status.ptr = ciot_sys_get_status;
-    this->base.status.size = sizeof(ciot_sys_status_t);
-    this->info.type = CIOT_IFACE_TYPE_SYSTEM;
-
-    return this;
+    ciot_sys_t self = calloc(1, sizeof(ciot_iface_t));
+    self->base.ptr = self;
+    self->base.start = (ciot_iface_start_fn *)ciot_sys_start;
+    self->base.stop = (ciot_iface_stop_fn *)ciot_sys_stop;
+    self->base.process_req = (ciot_iface_process_req_fn *)ciot_sys_process_req;
+    self->base.send_data = (ciot_iface_send_data_fn *)ciot_sys_send_data;
+    self->base.cfg.ptr = &sys.cfg;
+    self->base.cfg.size = sizeof(sys.cfg);
+    self->base.status.ptr = ciot_sys_get_status;
+    self->base.status.size = sizeof(ciot_sys_status_t);
+    self->info.type = CIOT_IFACE_TYPE_SYSTEM;
+    return self;
 }
 
-ciot_err_t ciot_sys_start(ciot_sys_t this, ciot_sys_cfg_t *cfg)
+ciot_err_t ciot_sys_start(ciot_sys_t self, ciot_sys_cfg_t *cfg)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_sys_stop(ciot_sys_t this)
+ciot_err_t ciot_sys_stop(ciot_sys_t self)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_sys_process_req(ciot_sys_t this, ciot_sys_req_t *req)
+ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
-ciot_err_t ciot_sys_send_data(ciot_sys_t this, uint8_t *data, int size)
+ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
