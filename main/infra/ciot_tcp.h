@@ -36,10 +36,10 @@ typedef struct ciot_tcp *ciot_tcp_t;
 ciot_err_t ciot_tcp_init(void);
 
 ciot_tcp_t ciot_tcp_new(ciot_tcp_handle_t *handle);
-ciot_err_t ciot_tcp_start(ciot_tcp_t this, ciot_tcp_cfg_t *cfg);
-ciot_err_t ciot_tcp_stop(ciot_tcp_t this);
-ciot_err_t ciot_tcp_process_req(ciot_tcp_t this, ciot_tcp_req_t *req);
-ciot_err_t ciot_tcp_send_data(ciot_tcp_t this, uint8_t *data, int size);
+ciot_err_t ciot_tcp_start(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
+ciot_err_t ciot_tcp_stop(ciot_tcp_t self);
+ciot_err_t ciot_tcp_process_req(ciot_tcp_t self, ciot_tcp_req_t *req);
+ciot_err_t ciot_tcp_send_data(ciot_tcp_t self, uint8_t *data, int size);
 
 ciot_err_t ciot_tcp_register_event(ciot_tcp_t tcp, ciot_iface_event_handler_t event_handler, void *event_args);
 

@@ -24,9 +24,9 @@ typedef enum ciot_httpc_event_id
 } ciot_httpc_event_id_t;
 
 ciot_httpc_t ciot_httpc_new(void *handle);
-ciot_err_t ciot_httpc_start(ciot_httpc_t this, ciot_httpc_cfg_t *cfg);
-ciot_err_t ciot_httpc_stop(ciot_httpc_t this);
-ciot_err_t ciot_httpc_process_req(ciot_httpc_t this, ciot_httpc_req_t *req);
-ciot_err_t ciot_httpc_send_data(ciot_httpc_t this, uint8_t *data, int size);
+ciot_err_t ciot_httpc_start(ciot_httpc_t self, ciot_httpc_cfg_t *cfg);
+ciot_err_t ciot_httpc_stop(ciot_httpc_t self);
+ciot_err_t ciot_httpc_process_req(ciot_httpc_t self, ciot_httpc_req_t *req);
+ciot_err_t ciot_httpc_send_data(ciot_httpc_t self, uint8_t *data, int size);
 
 #endif  //!__CIOT_HTTPC__H__

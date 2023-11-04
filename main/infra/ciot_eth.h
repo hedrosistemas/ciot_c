@@ -27,9 +27,9 @@ typedef enum ciot_eth_event_id
 } ciot_eth_event_id_t;
 
 ciot_eth_t ciot_eth_new(void *handle);
-ciot_err_t ciot_eth_start(ciot_eth_t this, ciot_tcp_cfg_t *cfg);
-ciot_err_t ciot_eth_stop(ciot_eth_t this);
-ciot_err_t ciot_eth_process_req(ciot_eth_t this, ciot_tcp_req_t *req);
-ciot_err_t ciot_eth_send_data(ciot_eth_t this, uint8_t *data, int size);
+ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg);
+ciot_err_t ciot_eth_stop(ciot_eth_t self);
+ciot_err_t ciot_eth_process_req(ciot_eth_t self, ciot_tcp_req_t *req);
+ciot_err_t ciot_eth_send_data(ciot_eth_t self, uint8_t *data, int size);
 
 #endif  //!__CIOT_ETH__H__

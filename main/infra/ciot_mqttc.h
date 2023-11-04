@@ -20,18 +20,19 @@ typedef struct ciot_mqttc *ciot_mqttc_t;
 
 typedef enum ciot_mqttc_event_id
 {
-    CIOT_MQTT_EVENT_DATA = CIOT_IFACE_EVENT_CUSTOM,
+    CIOT_MQTT_EVENT_CONNECTING = CIOT_IFACE_EVENT_CUSTOM,
+    CIOT_MQTT_EVENT_DATA,
     CIOT_MQTT_EVENT_SUBSCRIBED,
     CIOT_MQTT_EVENT_UNSUBCRIBED,
 } ciot_mqttc_event_id_t;
 
 ciot_mqttc_t ciot_mqttc_new(void *handle);
-ciot_err_t ciot_mqttc_start(ciot_mqttc_t this, ciot_mqttc_cfg_t *cfg);
-ciot_err_t ciot_mqttc_stop(ciot_mqttc_t this);
-ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t this, ciot_mqttc_req_t *req);
-ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t this, uint8_t *data, int size);
+ciot_err_t ciot_mqttc_start(ciot_mqttc_t self, ciot_mqttc_cfg_t *cfg);
+ciot_err_t ciot_mqttc_stop(ciot_mqttc_t self);
+ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t self, ciot_mqttc_req_t *req);
+ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t self, uint8_t *data, int size);
 
-ciot_err_t ciot_mqttc_publish(ciot_mqttc_t this, ciot_mqttc_req_publish_t *req);
-ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t this, ciot_mqttc_req_subscribe_t *req);
+ciot_err_t ciot_mqttc_publish(ciot_mqttc_t self, ciot_mqttc_req_publish_t *req);
+ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t self, ciot_mqttc_req_subscribe_t *req);
 
 #endif  //!__CIOT_MQTT__H__

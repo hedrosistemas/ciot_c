@@ -24,9 +24,9 @@ typedef enum ciot_https_event_id
 } ciot_https_event_id_t;
 
 ciot_https_t ciot_https_new(void *handle);
-ciot_err_t ciot_https_start(ciot_https_t this, ciot_https_cfg_t *cfg);
-ciot_err_t ciot_https_stop(ciot_https_t this);
-ciot_err_t ciot_https_process_req(ciot_https_t this, ciot_https_req_t *req);
-ciot_err_t ciot_https_send_data(ciot_https_t this, uint8_t *data, int size);
+ciot_err_t ciot_https_start(ciot_https_t self, ciot_https_cfg_t *cfg);
+ciot_err_t ciot_https_stop(ciot_https_t self);
+ciot_err_t ciot_https_process_req(ciot_https_t self, ciot_https_req_t *req);
+ciot_err_t ciot_https_send_data(ciot_https_t self, uint8_t *data, int size);
 
 #endif  //!__CIOT_HTTPS__H__

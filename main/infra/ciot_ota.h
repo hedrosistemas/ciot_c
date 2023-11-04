@@ -24,9 +24,9 @@ typedef enum ciot_ota_event_id
 } ciot_ota_event_id_t;
 
 ciot_ota_t ciot_ota_new(void *handle);
-ciot_err_t ciot_ota_start(ciot_ota_t this, ciot_ota_cfg_t *cfg);
-ciot_err_t ciot_ota_stop(ciot_ota_t this);
-ciot_err_t ciot_ota_process_req(ciot_ota_t this, ciot_ota_req_t *req);
-ciot_err_t ciot_ota_send_data(ciot_ota_t this, uint8_t *data, int size);
+ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg);
+ciot_err_t ciot_ota_stop(ciot_ota_t self);
+ciot_err_t ciot_ota_process_req(ciot_ota_t self, ciot_ota_req_t *req);
+ciot_err_t ciot_ota_send_data(ciot_ota_t self, uint8_t *data, int size);
 
 #endif  //!__CIOT_OTA__H__
