@@ -22,90 +22,90 @@ struct ciot_https
     httpd_req_t *req;
 };
 
-static ciot_err_t ciot_https_register_routes(ciot_https_t this);
+static ciot_err_t ciot_https_register_routes(ciot_https_t self);
 static esp_err_t ciot_post_handler(httpd_req_t *req);
 
 static const char *TAG = "ciot_https";
 
 ciot_https_t ciot_https_new(void *handle)
 {
-    ciot_https_t this = calloc(1, sizeof(struct ciot_https));
-    this->iface.base.ptr = this;
-    this->iface.base.start = (ciot_iface_start_fn *)ciot_https_start;
-    this->iface.base.stop = (ciot_iface_stop_fn *)ciot_https_stop;
-    this->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_https_process_req;
-    this->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_https_send_data;
-    this->iface.base.cfg.ptr = &this->cfg;
-    this->iface.base.cfg.size = sizeof(this->cfg);
-    this->iface.base.status.ptr = &this->status;
-    this->iface.base.status.size = sizeof(this->status);
-    this->iface.info.type = CIOT_IFACE_TYPE_HTTP_SERVER;
-    return this;
+    ciot_https_t self = calloc(1, sizeof(struct ciot_https));
+    self->iface.base.ptr = self;
+    self->iface.base.start = (ciot_iface_start_fn *)ciot_https_start;
+    self->iface.base.stop = (ciot_iface_stop_fn *)ciot_https_stop;
+    self->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_https_process_req;
+    self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_https_send_data;
+    self->iface.base.cfg.ptr = &self->cfg;
+    self->iface.base.cfg.size = sizeof(self->cfg);
+    self->iface.base.status.ptr = &self->status;
+    self->iface.base.status.size = sizeof(self->status);
+    self->iface.info.type = CIOT_IFACE_TYPE_HTTP_SERVER;
+    return self;
 }
 
-ciot_err_t ciot_https_start(ciot_https_t this, ciot_https_cfg_t *cfg)
+ciot_err_t ciot_https_start(ciot_https_t self, ciot_https_cfg_t *cfg)
 {
     httpd_config_t http_config = HTTPD_DEFAULT_CONFIG();
     http_config.server_port = cfg->port;
     http_config.uri_match_fn = httpd_uri_match_wildcard;
     http_config.max_uri_handlers = 7;
 
-    int err_code = httpd_start(&this->handle, &http_config);
+    int err_code = httpd_start(&self->handle, &http_config);
     if (err_code == ESP_OK)
     {
         ESP_LOGI(TAG, "Server Started on port %d", cfg->port);
-        ciot_https_register_routes(this);
+        ciot_https_register_routes(self);
     }
 
     return err_code;
 }
 
-ciot_err_t ciot_https_stop(ciot_https_t this)
+ciot_err_t ciot_https_stop(ciot_https_t self)
 {
-    return httpd_stop(this->handle);
+    return httpd_stop(self->handle);
 }
 
-ciot_err_t ciot_https_process_req(ciot_https_t this, ciot_https_req_t *req)
+ciot_err_t ciot_https_process_req(ciot_https_t self, ciot_https_req_t *req)
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
-ciot_err_t ciot_https_send_data(ciot_https_t this, uint8_t *data, int size)
+ciot_err_t ciot_https_send_data(ciot_https_t self, uint8_t *data, int size)
 {
-    CIOT_NULL_CHECK(this);
+    CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
-    CIOT_NULL_CHECK(this->req);
-    httpd_resp_set_status(this->req, HTTPD_200);
-    httpd_resp_set_type(this->req, HTTPD_TYPE_OCTET);
-    httpd_resp_send(this->req, (const char*)data, size);
-    this->req = NULL;
+    CIOT_NULL_CHECK(self->req);
+    httpd_resp_set_status(self->req, HTTPD_200);
+    httpd_resp_set_type(self->req, HTTPD_TYPE_OCTET);
+    httpd_resp_send(self->req, (const char*)data, size);
+    self->req = NULL;
     return CIOT_OK;
 }
 
-static ciot_err_t ciot_https_register_routes(ciot_https_t this)
+static ciot_err_t ciot_https_register_routes(ciot_https_t self)
 {
     httpd_uri_t ciot_post = {
-        .uri = this->cfg.route,
+        .uri = self->cfg.route,
         .handler = ciot_post_handler,
         .method = HTTP_POST,
-        .user_ctx = this,
+        .user_ctx = self,
     };
-    return httpd_register_uri_handler(this->handle, &ciot_post);
+    return httpd_register_uri_handler(self->handle, &ciot_post);
 }
 
 static esp_err_t ciot_post_handler(httpd_req_t *req)
 {
-    ciot_https_t this = req->user_ctx;
+    ciot_https_t self = req->user_ctx;
     ciot_iface_event_t event = { 0 };
 
-    this->req = req;
+    self->req = req;
     event.id = CIOT_IFACE_EVENT_DATA;
     event.size = req->content_len;
     httpd_req_recv(req, (char*)&event.msg, sizeof(event.msg));
 
-    if(this->iface.event_handler != NULL)
+    if(self->iface.event_handler != NULL)
     {
-        this->iface.event_handler(this, &event, this->iface.event_args);
+        self->iface.event_handler(self, &event, self->iface.event_args);
     }
 
     return CIOT_OK;
