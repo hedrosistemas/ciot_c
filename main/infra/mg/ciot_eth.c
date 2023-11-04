@@ -26,22 +26,22 @@ ciot_eth_t ciot_eth_new(void *handle)
     return NULL;
 }
 
-ciot_err_t ciot_eth_start(ciot_eth_t this, ciot_tcp_cfg_t *cfg)
+ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_eth_stop(ciot_eth_t this)
+ciot_err_t ciot_eth_stop(ciot_eth_t self)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_eth_process_req(ciot_eth_t this, ciot_tcp_req_t *req)
+ciot_err_t ciot_eth_process_req(ciot_eth_t self, ciot_tcp_req_t *req)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_eth_send_data(ciot_eth_t this, uint8_t *data, int size)
+ciot_err_t ciot_eth_send_data(ciot_eth_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
