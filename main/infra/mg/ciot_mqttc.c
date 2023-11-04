@@ -154,6 +154,9 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
     ciot_iface_event_t ciot_evt = { 0 };
     mg_event_t mg_evt = ev;    
 
+    ciot_evt.msg.type = CIOT_MSG_TYPE_EVENT;
+    ciot_evt.msg.iface = self->iface.info;
+
     switch (mg_evt)
     {
     case MG_EV_ERROR:
@@ -162,6 +165,12 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
         self->status.state = CIOT_MQTT_STATE_ERROR;
         ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
         ciot_evt.msg.error = self->status.error.code;
+        ciot_evt.msg.data.mqtt.status = self->status;
+        break;
+    case MG_EV_OPEN:
+        CIOT_LOGI(TAG, "MG_EV_OPEN", "");
+        self->status.state = CIOT_MQTT_STATE_CONNECTING;
+        ciot_evt.id = CIOT_MQTT_EVENT_CONNECTING;
         ciot_evt.msg.data.mqtt.status = self->status;
         break;
     case MG_EV_MQTT_OPEN:
@@ -174,8 +183,8 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
         ciot_mqttc_req_subscribe_t subs = { .qos = self->cfg.qos };
         memcpy(subs.topic, self->cfg.topics.b2d, sizeof(subs.topic));
         ciot_mqttc_subscribe(self, &subs);
-    }
         break;
+    }
     case MG_EV_MQTT_MSG:
     {
         CIOT_LOGI(TAG, "MG_EV_MQTT_MSG", "");
@@ -192,5 +201,9 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
     default:
         break;
     }
-    (void)fn_data;
+
+    if(self->iface.event_handler != NULL)
+    {
+        self->iface.event_handler(self, &ciot_evt, self->iface.event_args);
+    }
 }
