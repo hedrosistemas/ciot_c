@@ -47,7 +47,7 @@ struct ciot_uart
 
 static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size);
 
-static const char *TAG = "ciot_uart_win";
+static const char *TAG = "ciot_uart";
 
 ciot_uart_t ciot_uart_new(void *handle)
 {
@@ -77,6 +77,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
+
     self->cfg = *cfg;
     sprintf(self->port_name, "\\\\.\\COM%d", self->cfg.num);
 
@@ -84,6 +85,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     if(self->handle == INVALID_HANDLE_VALUE)
     {
         CIOT_LOGE(TAG, "Unable to open serial port %s", self->port_name);
+        self->status.state = CIOT_UART_STATE_INTERNAL_ERROR;
         return CIOT_FAIL;
     }
 
@@ -92,8 +94,12 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     {
         CIOT_LOGE(TAG, "GetCommState failed", "");
         CloseHandle(self->handle);
+        self->status.state = CIOT_UART_STATE_INTERNAL_ERROR;
         return CIOT_FAIL;
     }
+
+    self->status.state = CIOT_UART_STATE_STARTED;
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
@@ -174,6 +180,13 @@ static ciot_err_t ciot_uart_init(ciot_uart_t self)
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
     CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(self->handle);
+
+    if(self->status.state != CIOT_UART_STATE_STARTED)
+    {
+        return CIOT_ERR_INVALID_STATE;
+    }
+
     DWORD errors;
     COMSTAT status;
     ClearCommError(self->handle, &errors, &status);
