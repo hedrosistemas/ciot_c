@@ -42,6 +42,7 @@ typedef struct __attribute__((packed))
 typedef struct __attribute__((packed))
 {
     ciot_https_state_t state;
+    int error;
 } ciot_https_status_t;
 
 typedef union ciot_https_req_data
