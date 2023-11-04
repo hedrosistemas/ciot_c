@@ -15,7 +15,7 @@
 #include "ciot_err.h"
 #include "ciot_iface.h"
 
-typedef struct ciot_n *ciot_t;
+typedef struct ciot_s *ciot_t;
 
 typedef enum ciot_state
 {
