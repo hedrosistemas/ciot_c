@@ -125,13 +125,29 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
     ciot_iface_event_t ciot_evt = {0};
     mg_event_t mg_ev = ev;
 
+    ciot_evt.msg.type = CIOT_MSG_TYPE_EVENT;
+    ciot_evt.msg.iface = self->iface.info;
+
     switch (mg_ev)
     {
+    case MG_EV_ERROR:
+        CIOT_LOGE(TAG, "MG_EV_ERROR:%d:%s", c->id, (char *)ev_data);
+        self->status.state = CIOT_HTTPS_STATE_ERROR;
+        self->status.error = c->id;
+        ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
+        ciot_evt.msg.data.https.status = self->status;
     case MG_EV_OPEN:
-    {
         CIOT_LOGI(TAG, "MG_EV_OPEN", "");
+        self->status.state = CIOT_HTTPS_STATE_STARTED;
+        ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
+        ciot_evt.msg.data.https.status = self->status;
         break;
-    }
+    case MG_EV_CLOSE:
+        CIOT_LOGI(TAG, "MG_EV_CLOSE", "");
+        self->status.state = CIOT_HTTPS_STATE_STOPPED;
+        ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
+        ciot_evt.msg.data.https.status = self->status;
+        break;
     case MG_EV_HTTP_MSG:
     {
         CIOT_LOGI(TAG, "MG_EV_HTTP_MSG", "");
