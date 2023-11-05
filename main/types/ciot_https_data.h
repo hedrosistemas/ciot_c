@@ -36,7 +36,6 @@ typedef struct __attribute__((packed))
 {
     char address[CIOT_HTTPS_ADDRESS_LEN];
     char route[CIOT_HTTPS_ROUTE_LEN];
-    int port;
 } ciot_https_cfg_t;
 
 typedef struct __attribute__((packed))

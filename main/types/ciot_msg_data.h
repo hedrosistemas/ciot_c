@@ -14,6 +14,7 @@
 
 #include "ciot_err.h"
 #include "ciot_config.h"
+#include "ciot_storage_data.h"
 #include "ciot_sys_data.h"
 #include "ciot_uart_data.h"
 #include "ciot_usb_data.h"
@@ -44,6 +45,7 @@ typedef enum __attribute__((packed))
 typedef enum __attribute__((packed))
 {
     CIOT_IFACE_TYPE_UNKNOWN,
+    CIOT_IFACE_TYPE_STORAGE,
     CIOT_IFACE_TYPE_SYSTEM,
     CIOT_IFACE_TYPE_UART,
     CIOT_IFACE_TYPE_USB,
@@ -66,6 +68,7 @@ typedef struct __attribute__((packed))
 
 typedef union __attribute__((packed))
 {
+    ciot_storage_data_u storage;
     ciot_sys_data_u system;
     ciot_uart_data_u uart;
     ciot_usb_data_u usb;

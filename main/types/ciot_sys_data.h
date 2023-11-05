@@ -24,11 +24,14 @@ typedef enum __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
+    uint32_t storage : 1;
+    uint32_t system : 1;
     uint32_t uart : 1;
+    uint32_t usb: 1;
     uint32_t ethernet : 1;
     uint32_t wifi : 1;
     uint32_t bluetooth : 1;
-    uint32_t reserved : 28;
+    uint32_t reserved : 25;
 } ciot_sys_hw_features_t;
 
 typedef struct __attribute__((packed))
@@ -38,7 +41,7 @@ typedef struct __attribute__((packed))
     uint32_t http_client : 1;
     uint32_t http_server : 1;
     uint32_t mqtt_client : 1;
-    uint32_t reserved : 26;
+    uint32_t reserved : 27;
 } ciot_sys_sw_features_t;
 
 typedef struct __attribute__((packed))
