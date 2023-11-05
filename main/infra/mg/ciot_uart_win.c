@@ -21,13 +21,7 @@
 
 #include "windows.h"
 
-typedef enum ciot_uart_write_status
-{
-    CIOT_UART_WRITE_STATUS_IDLE,
-    CIOT_UART_WRITE_STATUS_WAITING,
-    CIOT_UART_WRITE_STATUS_READY,
-    CIOT_UART_WRITE_STATUS_DONE,
-} ciot_uart_write_status_t;
+#if CIOT_CONFIG_FEATURE_UART
 
 struct ciot_uart
 {
@@ -41,11 +35,11 @@ struct ciot_uart
     DWORD bytes_written;
     DWORD bytes_read;
     char port_name[10];
-    HANDLE thread;
-    volatile ciot_uart_write_status_t write_status;
 };
 
 static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size);
+static void ciot_uart_process_error(ciot_uart_t self, DWORD error);
+static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status);
 
 static const char *TAG = "ciot_uart";
 
@@ -98,12 +92,12 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         return CIOT_FAIL;
     }
 
-    self->status.state = CIOT_UART_STATE_STARTED;
     return CIOT_OK;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
 {
+    CIOT_LOGI(TAG, "UART_CLOSE port: %s", self->port_name);
     CloseHandle(self->handle);
     return CIOT_OK;
 }
@@ -124,12 +118,17 @@ ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
 {
     ciot_uart_t self = (ciot_uart_t)user_ctx;
     CIOT_NULL_CHECK(self);
-    CIOT_NULL_CHECK(bytes);
-    self->write_status = CIOT_UART_WRITE_STATUS_WAITING;
-    while (self->write_status != CIOT_UART_WRITE_STATUS_READY) {}
-    WriteFile(self->handle, bytes, size, &self->bytes_written, NULL);
-    self->write_status = CIOT_UART_WRITE_STATUS_READY;
-    return CIOT_OK;
+    if(self->status.state == CIOT_UART_STATE_STARTED)
+    {
+        CIOT_NULL_CHECK(bytes);
+        WriteFile(self->handle, bytes, size, &self->bytes_written, NULL);
+        return CIOT_OK;
+    }
+    else
+    {
+        CIOT_LOGE(TAG, "Port %s is closed", self->port_name);
+        return CIOT_ERR_INVALID_STATE;
+    }
 }
 
 static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size)
@@ -142,13 +141,8 @@ static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size)
     event.id = CIOT_IFACE_EVENT_DATA;
     memcpy(&event.msg, data, size);
     event.size = size;
-    return self->iface.event_handler(self, &event, self->iface.event_args);
+    return self->iface.event_handler(&self->iface, &event, self->iface.event_args);
 }
-
-// static void ciot_uart_event_handler(void *args)
-// {
-
-// }
 
 static ciot_err_t ciot_uart_init(ciot_uart_t self)
 {
@@ -182,26 +176,70 @@ ciot_err_t ciot_uart_task(ciot_uart_t self)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(self->handle);
 
+    DWORD error;
+    COMSTAT status;
+    ClearCommError(self->handle, &error, &status);
+
+    ciot_uart_process_error(self, error);
+    return ciot_uart_process_status(self, &status);
+}
+
+static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
+{
+    if(self->status.state == CIOT_UART_STATE_CLOSED && error == 0)
+    {
+        ciot_iface_event_t ciot_evt = { 0 };
+        self->status.state = CIOT_UART_STATE_STARTED;
+        ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
+        ciot_evt.msg.iface = self->iface.info;
+        ciot_evt.msg.data.uart.status = self->status;
+        if(self->iface.event_handler != NULL)
+        {
+            self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
+        }
+        CIOT_LOGI(TAG, "UART_OPEN port:%s", self->port_name);
+    }
+
+    if(self->status.state == CIOT_UART_STATE_STARTED && error == CE_FRAME)
+    {
+        ciot_iface_event_t ciot_evt = { 0 };
+        self->status.state = CIOT_UART_STATE_CLOSED;
+        ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
+        ciot_evt.msg.iface = self->iface.info;
+        ciot_evt.msg.data.uart.status = self->status;
+        if(self->iface.event_handler != NULL)
+        {
+            self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
+        }
+        CIOT_LOGI(TAG, "UART_CLOSED port:%s", self->port_name);
+    }
+}
+
+static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
+{
     if(self->status.state != CIOT_UART_STATE_STARTED)
     {
         return CIOT_ERR_INVALID_STATE;
     }
 
-    DWORD errors;
-    COMSTAT status;
-    ClearCommError(self->handle, &errors, &status);
-
-    if(status.cbInQue > 0)
+    if(status->cbInQue > 0)
     {
         uint8_t byte;
-        while (status.cbInQue > 0)
+        while (status->cbInQue > 0)
         {
             if(ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL))
             {
-                ciot_s_process_byte(self->s, byte);
+                ciot_err_t err = ciot_s_process_byte(self->s, byte);
+                if(err != CIOT_OK)
+                {
+                    CIOT_LOGE(TAG, "Error %d processing byte %d", err, byte);
+                }
             }
+            status->cbInQue--;
         }
     }
 }
+
+#endif
 
 #endif
