@@ -11,6 +11,8 @@
 
 #include "ciot_ota.h"
 
+#if CIOT_CONFIG_FEATURE_OTA
+
 struct ciot_ota
 {
     ciot_iface_t iface;
@@ -40,3 +42,5 @@ ciot_err_t ciot_ota_send_data(ciot_ota_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif

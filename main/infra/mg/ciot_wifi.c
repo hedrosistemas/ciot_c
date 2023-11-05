@@ -15,6 +15,8 @@
 #include "ciot_wifi.h"
 #include "ciot_tcp.h"
 
+#if CIOT_CONFIG_FEATURE_WIFI
+
 struct ciot_wifi
 {
     ciot_iface_t iface;
@@ -44,3 +46,5 @@ ciot_err_t ciot_wifi_send_data(ciot_wifi_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif

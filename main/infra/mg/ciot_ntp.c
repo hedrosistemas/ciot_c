@@ -13,6 +13,8 @@
 
 #include "ciot_ntp.h"
 
+#if CIOT_CONFIG_FEATURE_NTP
+
 struct ciot_ntp
 {
     ciot_iface_t iface;
@@ -42,3 +44,5 @@ ciot_err_t ciot_ntp_send_data(ciot_ntp_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif

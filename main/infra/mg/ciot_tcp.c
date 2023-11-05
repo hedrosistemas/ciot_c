@@ -13,6 +13,8 @@
 
 #include "ciot_tcp.h"
 
+#if CIOT_CONFIG_FEATURE_ETHERNET || CIOT_CONFIG_FEATURE_WIFI
+
 struct ciot_tcp
 {
     ciot_iface_t iface;
@@ -42,3 +44,5 @@ ciot_err_t ciot_tcp_send_data(ciot_tcp_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif

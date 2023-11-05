@@ -14,6 +14,8 @@
 #include "ciot_tcp.h"
 #include "ciot_eth.h"
 
+#if CIOT_CONFIG_FEATURE_ETHERNET
+
 struct ciot_eth
 {
     ciot_iface_t iface;
@@ -45,3 +47,5 @@ ciot_err_t ciot_eth_send_data(ciot_eth_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif
