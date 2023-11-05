@@ -24,4 +24,6 @@ ciot_err_t ciot_sys_stop(ciot_sys_t self);
 ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req);
 ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size);
 
+ciot_err_t ciot_sys_task(ciot_sys_t self);
+
 #endif  //!__CIOT_SYS__H__
