@@ -16,9 +16,12 @@
 #include "ciot_custom_config.h"
 #else
 
+#warning "ciot_custom_config.h not found. using defaltu configuration. Create a ciot_custom_config.h file to customize the ciot lib configurations."
+
 #define CIOT_CONFIG_FIRMWARE_VER { 0, 3, 0 }
 #define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD"
 
+#define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
 #define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
 #define CIOT_CONFIG_FEATURE_BLE 1      ///!< Enable UART
 #define CIOT_CONFIG_FEATURE_ETHERNET 1 ///!< Enable Ethernet
