@@ -16,6 +16,8 @@
 #include "ciot_log.h"
 #include "ciot_mqttc.h"
 
+#if CIOT_CONFIG_FEATURE_MQTTC
+
 struct ciot_mqttc
 {
     ciot_iface_t iface;
@@ -52,6 +54,7 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t self, ciot_mqttc_cfg_t *cfg)
     CIOT_NULL_CHECK(cfg);
     struct mg_mqtt_opts opts = {0};
     memcpy(&self->cfg, cfg, sizeof(self->cfg));
+    opts.client_id = mg_str(self->cfg.client_id);
     opts.user = mg_str(self->cfg.user);
     opts.pass = mg_str(self->cfg.pass);
     opts.qos = self->cfg.qos;
@@ -62,6 +65,7 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t self, ciot_mqttc_cfg_t *cfg)
     {
         self->connection = mg_mqtt_connect(self->mgr, self->cfg.url, &opts, ciot_mqttc_event_handler, self);
     }
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_mqttc_stop(ciot_mqttc_t self)
@@ -138,7 +142,7 @@ static void ciot_mqtt_event_data(ciot_mqttc_t self, ciot_iface_event_t *ciot_evt
         : CIOT_MQTT_EVENT_DATA;
     if(ciot_evt->id == CIOT_IFACE_EVENT_DATA) {
         ciot_evt->size = size;
-        memcpy(&ciot_evt->msg.data, data, size);
+        memcpy(&ciot_evt->msg, data, size);
     }
     else
     {
@@ -150,6 +154,8 @@ static void ciot_mqtt_event_data(ciot_mqttc_t self, ciot_iface_event_t *ciot_evt
 
 static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
+    if(ev == MG_EV_POLL || ev == MG_EV_MQTT_CMD) return;
+    
     ciot_mqttc_t self = fn_data;
     ciot_iface_event_t ciot_evt = { 0 };
     mg_event_t mg_evt = ev;    
@@ -175,7 +181,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
         break;
     case MG_EV_MQTT_OPEN:
     {
-        CIOT_LOGI(TAG, "MG_EV_MQTT_OPEN", "");
+        CIOT_LOGI(TAG, "MG_EV_MQTT_OPEN url:%s", self->cfg.url);
         self->status.conn_count++;
         self->status.state = CIOT_MQTT_STATE_CONNECTED;
         ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
@@ -204,6 +210,8 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
 
     if(self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &ciot_evt, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
     }
 }
+
+#endif
