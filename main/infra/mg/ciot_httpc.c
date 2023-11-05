@@ -14,9 +14,11 @@
 #include "ciot_httpc.h"
 #include "mongoose.h"
 
+#if CIOT_CONFIG_FEATURE_HTTPC
+
 typedef struct ciot_http_data_to_send
 {
-    char *data;
+    uint8_t data[CIOT_CONFIG_MESSAGE_LEN];
     int size;
 } ciot_http_data_to_send_t;
 
@@ -33,6 +35,8 @@ struct ciot_httpc
 static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
 
 static const char *ciot_httpc_get_method(ciot_httpc_method_t method);
+
+static const char *TAG = "ciot_httpc";
 
 ciot_httpc_t ciot_httpc_new(void *handle)
 {
@@ -83,12 +87,11 @@ ciot_err_t ciot_httpc_send_data(ciot_httpc_t self, uint8_t *data, int size)
 {
     if (self->status.state == CIOT_HTTPC_STATE_IDLE || self->status.state == CIOT_HTTPC_STATE_TIMEOUT)
     {
-        //     memcpy(&self->req.cfg, &self->cfg, sizeof(self->req.cfg));
-        //     memcpy(self->req.body, data, size);
-        //     self->req.content_length = size;
-        //     self->status.state = CIOT_HTTPC_STATE_CONNECTING;
-        //     mg_http_connect(self->mgr, self->cfg.url, ciot_httpc_event_handler, self);
-        //     return CIOT_OK;
+        self->status.state = CIOT_HTTPC_STATE_CONNECTING;
+        self->data_to_send.size = size;
+        memcpy(self->data_to_send.data, data, size);
+        mg_http_connect(self->mgr, self->cfg.url, ciot_httpc_event_handler, self);
+        return CIOT_OK;
     }
     else
     {
@@ -96,44 +99,37 @@ ciot_err_t ciot_httpc_send_data(ciot_httpc_t self, uint8_t *data, int size)
     }
 }
 
-static void ciot_httpc_event_data(ciot_httpc_t self, ciot_iface_event_t *event, char *data, int size)
-{
-    event->id = CIOT_IFACE_EVENT_DATA;
-    event->size = size;
-    memcpy(&event->msg.data, data, size);
-}
-
 static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
+    if(ev == MG_EV_POLL) return;
+    
     ciot_httpc_t self = fn_data;
-    ciot_iface_event_t event = {0};
+    ciot_iface_event_t ciot_evt = {0};
     mg_event_t mg_ev = ev;
 
-    event.msg.type = CIOT_MSG_TYPE_EVENT;
-    event.msg.iface = self->iface.info;
+    ciot_evt.msg.type = CIOT_MSG_TYPE_EVENT;
+    ciot_evt.msg.iface = self->iface.info;
 
     switch (mg_ev)
     {
     case MG_EV_OPEN:
+        CIOT_LOGI(TAG, "MG_EV_OPEN url:%s", self->cfg.url);
         self->status.state = CIOT_HTTPC_STATE_CONNECTING;
         *(uint64_t *)c->data = mg_millis() + self->cfg.timeout;
         break;
     case MG_EV_POLL:
+        CIOT_LOGI(TAG, "MG_EV_POLL", "");
         if (mg_millis() > *(uint64_t *)c->data && (c->is_connecting || c->is_resolving))
         {
             self->status.state = CIOT_HTTPC_STATE_TIMEOUT;
-            event.msg.data.httpc.status = self->status;
+            ciot_evt.msg.data.httpc.status = self->status;
             mg_error(c, "Connect timeout");
-            if (self->data_to_send.data != NULL)
-            {
-                free(self->data_to_send.data);
-                self->data_to_send.data = NULL;
-            }
         }
         break;
     case MG_EV_CONNECT:
     {
-        self->status.state = CIOT_HTTPC_STATE_CONNECTED;;
+        CIOT_LOGI(TAG, "MG_EV_CONNECT", "");
+        self->status.state = CIOT_HTTPC_STATE_CONNECTED;
         struct mg_str host = mg_url_host(self->cfg.url);
         mg_printf(c,
                   "%s %s HTTP/1.0\r\n"
@@ -148,8 +144,13 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
     }
     case MG_EV_HTTP_MSG:
     {
-        struct mg_http_message *hm = (struct mg_http_message *)ev_data;
-        ciot_httpc_event_data(self, &event, (char*)hm->body.ptr, (int)hm->body.len);
+        CIOT_LOGI(TAG, "MG_EV_HTTP_MSG", "");
+        self->status.state = CIOT_HTTPC_STATE_IDLE;
+        struct mg_http_message *hm = ev_data, tmp = {0};
+        mg_http_parse((char *)c->recv.buf, c->recv.len, &tmp);
+        ciot_evt.id = CIOT_IFACE_EVENT_DATA;
+        ciot_evt.size = c->recv.len;
+        memcpy(&ciot_evt.msg, hm->body.ptr, hm->body.len);
         break;
     }
     default:
@@ -158,7 +159,7 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
 
     if(self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &event, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
     }
 }
 
@@ -204,3 +205,5 @@ static const char *ciot_httpc_get_method(ciot_httpc_method_t method)
             return "UNKNOWN"; // Tratar métodos desconhecidos
     }
 }
+
+#endif
