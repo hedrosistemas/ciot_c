@@ -25,6 +25,8 @@
 
 #else
 
+#include <stdio.h>
+
 #define CIOT_LOGI(TAG, MASK, ...) \
     do { \
         printf("[%s] <INF>: ", TAG); \
