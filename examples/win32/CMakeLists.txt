@@ -20,6 +20,7 @@ include_directories(
     ${CIOT_DIR}/main/interfaces
     ${CIOT_DIR}/main/mongoose
     ${CIOT_DIR}/main
+    .
 )
 
 add_executable(${PROJECT_NAME}
