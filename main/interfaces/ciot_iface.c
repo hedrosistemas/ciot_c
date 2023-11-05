@@ -1,15 +1,16 @@
 /**
  * @file ciot_iface.c
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-10-09
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #include <string.h>
+
 #include "ciot_err.h"
 #include "ciot_iface.h"
 
@@ -17,7 +18,8 @@ ciot_err_t ciot_iface_start(ciot_iface_t *self, ciot_msg_data_u *cfg)
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
-    CIOT_NULL_CHECK(self->base.ptr);;
+    CIOT_NULL_CHECK(self->base.ptr);
+    ;
     CIOT_NULL_CHECK(self->base.start);
     return self->base.start(self->base.ptr, cfg);
 }
@@ -48,7 +50,7 @@ ciot_err_t ciot_iface_get_status(ciot_iface_t *self, ciot_msg_data_u *status)
     return CIOT_OK;
 }
 
-ciot_err_t ciot_iface_process_req(ciot_iface_t *self, ciot_msg_data_u *req)
+ciot_err_t ciot_iface_process_req(ciot_iface_t *self, ciot_msg_data_u *req, void *sender)
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(req);
@@ -66,16 +68,33 @@ ciot_err_t ciot_iface_send_data(ciot_iface_t *self, void *data, int size)
     return self->base.send_data(self->base.ptr, data, size);
 }
 
-ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, int *size)
+ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *msg, int size)
+{
+    if (self->base.req.pending)
+    {
+        return CIOT_ERR_BUSY;
+    }
+    else
+    {
+        self->base.req.pending = true;
+        self->base.req.type = msg->type;
+        self->base.req.iface = msg->iface;
+        return ciot_iface_send_data(self, msg, size);
+    }
+}
+
+ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sender)
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(msg);
 
-    if(msg->iface.id != self->info.id) {
+    if (msg->iface.id != self->info.id)
+    {
         return CIOT_ERR_INVALID_ID;
     }
 
-    if(msg->iface.type != self->info.type) {
+    if (msg->iface.type != self->info.type)
+    {
         return CIOT_ERR_INVALID_TYPE;
     }
 
@@ -88,13 +107,13 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, int *size
     case CIOT_MSG_TYPE_STOP:
         return ciot_iface_stop(self);
     case CIOT_MSG_TYPE_GET_CONFIG:
-        *size = CIOT_MSG_GET_SIZE(self->base.cfg.size);
-        return ciot_iface_get_cfg(self, &msg->data);
+        msg->error = ciot_iface_get_cfg(self, &msg->data);
+        return ciot_iface_send_data(sender, msg, self->base.cfg.size + CIOT_MSG_SIZE);
     case CIOT_MSG_TYPE_GET_STATUS:
-        *size = CIOT_MSG_GET_SIZE(self->base.status.size);
-        return ciot_iface_get_status(self, &msg->data);
+        msg->error = ciot_iface_get_status(self, &msg->data);
+        return ciot_iface_send_data(sender, msg, self->base.status.size + CIOT_MSG_SIZE);
     case CIOT_MSG_TYPE_REQUEST:
-        return ciot_iface_process_req(self, &msg->data);
+        ciot_iface_process_req(self, &msg->data, sender);
     case CIOT_MSG_TYPE_EVENT:
         return CIOT_ERR_NOT_IMPLEMENTED;
     }
