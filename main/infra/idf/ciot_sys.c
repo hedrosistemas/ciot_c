@@ -21,13 +21,13 @@
 #include "ciot_config.h"
 #include "ciot_sys.h"
 
-typedef struct ciot_sys
+struct ciot_sys
 {
     ciot_iface_t iface;
     ciot_sys_cfg_t cfg;
     ciot_sys_status_t status;
     time_t init_time;
-} ciot_sys_t;
+};
 
 static ciot_sys_t sys;
 
@@ -46,7 +46,7 @@ ciot_sys_t ciot_sys_new(void *handle)
     self->base.send_data = (ciot_iface_send_data_fn *)ciot_sys_send_data;
     self->base.cfg.ptr = &sys.cfg;
     self->base.cfg.size = sizeof(sys.cfg);
-    self->base.status.ptr = ciot_sys_get_status;
+    self->base.status.ptr = &sys.status;
     self->base.status.size = sizeof(ciot_sys_status_t);
     self->info.type = CIOT_IFACE_TYPE_SYSTEM;
     ciot_sys_init(self);
@@ -78,13 +78,16 @@ static void ciot_sys_init(ciot_sys_t self)
     char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
     uint8_t fw_ver[] = CIOT_CONFIG_FIRMWARE_VER;
 
+    self->status.info.features.hw.storage = CIOT_CONFIG_FEATURE_STORAGE;
+    self->status.info.features.hw.system = CIOT_CONFIG_FEATURE_SYSTEM;
     self->status.info.features.hw.uart = CIOT_CONFIG_FEATURE_UART;
+    self->status.info.features.hw.usb = CIOT_CONFIG_FEATURE_USB;
     self->status.info.features.hw.ethernet = CIOT_CONFIG_FEATURE_ETHERNET;
     self->status.info.features.hw.wifi = CIOT_CONFIG_FEATURE_WIFI;
     self->status.info.features.hw.bluetooth = CIOT_CONFIG_FEATURE_BLE;
     
     self->status.info.features.sw.ntp = CIOT_CONFIG_FEATURE_NTP;
-    self->status.info.features.sw.ntp = CIOT_CONFIG_FEATURE_OTA;
+    self->status.info.features.sw.ota = CIOT_CONFIG_FEATURE_OTA;
     self->status.info.features.sw.http_client = CIOT_CONFIG_FEATURE_HTTPC;
     self->status.info.features.sw.http_server = CIOT_CONFIG_FEATURE_HTTPS;
     self->status.info.features.sw.mqtt_client = CIOT_CONFIG_FEATURE_MQTTC;
