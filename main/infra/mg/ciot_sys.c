@@ -15,6 +15,8 @@
 #include <windows.h>
 #endif  //_WIN32
 
+#if CIOT_CONFIG_FEATURE_SYSTEM
+
 struct ciot_sys
 {
     ciot_iface_t iface;
@@ -40,7 +42,7 @@ ciot_sys_t ciot_sys_new(void *handle)
     self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_sys_send_data;
     self->iface.base.cfg.ptr = &self->cfg;
     self->iface.base.cfg.size = sizeof(self->cfg);
-    self->iface.base.status.ptr = ciot_sys_get_status;
+    self->iface.base.status.ptr = &self->status;
     self->iface.base.status.size = sizeof(ciot_sys_status_t);
     self->iface.info.type = CIOT_IFACE_TYPE_SYSTEM;
     ciot_sys_init(self);
@@ -73,13 +75,16 @@ static void ciot_sys_init(ciot_sys_t self)
     char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
     uint8_t fw_ver[] = CIOT_CONFIG_FIRMWARE_VER;
 
+    self->status.info.features.hw.storage = CIOT_CONFIG_FEATURE_STORAGE;
+    self->status.info.features.hw.system = CIOT_CONFIG_FEATURE_SYSTEM;
     self->status.info.features.hw.uart = CIOT_CONFIG_FEATURE_UART;
+    self->status.info.features.hw.usb = CIOT_CONFIG_FEATURE_USB;
     self->status.info.features.hw.ethernet = CIOT_CONFIG_FEATURE_ETHERNET;
     self->status.info.features.hw.wifi = CIOT_CONFIG_FEATURE_WIFI;
     self->status.info.features.hw.bluetooth = CIOT_CONFIG_FEATURE_BLE;
     
     self->status.info.features.sw.ntp = CIOT_CONFIG_FEATURE_NTP;
-    self->status.info.features.sw.ntp = CIOT_CONFIG_FEATURE_OTA;
+    self->status.info.features.sw.ota = CIOT_CONFIG_FEATURE_OTA;
     self->status.info.features.sw.http_client = CIOT_CONFIG_FEATURE_HTTPC;
     self->status.info.features.sw.http_server = CIOT_CONFIG_FEATURE_HTTPS;
     self->status.info.features.sw.mqtt_client = CIOT_CONFIG_FEATURE_MQTTC;
@@ -93,11 +98,12 @@ static void ciot_sys_init(ciot_sys_t self)
     sys = self;
 }
 
-static ciot_sys_status_t *ciot_sys_get_status(void)
+ciot_err_t ciot_sys_task(ciot_sys_t self)
 {
+    CIOT_NULL_CHECK(self);
     sys->status.free_memory = ciot_sys_get_free_ram();
     sys->status.lifetime = time(NULL) - sys->init_time;
-    return &sys->status;
+    return CIOT_OK;
 }
 
 static uint32_t ciot_sys_get_free_ram(void)
@@ -107,3 +113,5 @@ static uint32_t ciot_sys_get_free_ram(void)
     GlobalMemoryStatusEx(&status);
     return (uint32_t)(status.ullAvailPhys / 1024);
 }
+
+#endif
