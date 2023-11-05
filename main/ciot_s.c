@@ -92,6 +92,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
                         self->cfg.on_message_cb(self->cfg.user_ctx, &self->buf[CIOT_S_HEADER_SIZE], self->len);
                     }
                     self->status = CIOT_S_STATUS_WAIT_START_DATA;
+                    return CIOT_OK;
                 }
                 else
                 {
