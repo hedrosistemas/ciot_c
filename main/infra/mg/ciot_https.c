@@ -16,6 +16,8 @@
 #include "ciot_log.h"
 #include "ciot_https.h"
 
+#if CIOT_CONFIG_FEATURE_HTTPS
+
 typedef struct ciot_https_msg
 {
     void *data;
@@ -96,12 +98,13 @@ ciot_err_t ciot_https_send_data(ciot_https_t self, uint8_t *data, int size)
     return CIOT_OK;
 }
 
-static void ciot_httpc_event_data(ciot_https_t self, ciot_iface_event_t *ciot_evt, struct mg_connection *c, struct mg_http_message *hm)
+static void ciot_https_event_data(ciot_https_t self, ciot_iface_event_t *ciot_evt, struct mg_connection *c, struct mg_http_message *hm)
 {
     bool is_post = strncmp(hm->method.ptr, "POST", hm->method.len) == 0;
     if (mg_http_match_uri(hm, self->cfg.route) && is_post)
     {
         ciot_evt->id = CIOT_IFACE_EVENT_DATA;
+        ciot_evt->size = hm->body.len;
         memcpy(&ciot_evt->msg, hm->body.ptr, hm->body.len);
     }
     else
@@ -116,11 +119,12 @@ static void ciot_httpc_event_data(ciot_https_t self, ciot_iface_event_t *ciot_ev
         ciot_evt->size = CIOT_MSG_GET_SIZE(ciot_evt->msg.data.https.msg);
     }
     self->conn_tx = c;
-    self->iface.event_handler(self, ciot_evt, self->iface.event_args);
 }
 
 static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
+    if(ev == MG_EV_POLL) return;
+
     ciot_https_t self = fn_data;
     ciot_iface_event_t ciot_evt = {0};
     mg_event_t mg_ev = ev;
@@ -137,7 +141,7 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
         ciot_evt.msg.data.https.status = self->status;
     case MG_EV_OPEN:
-        CIOT_LOGI(TAG, "MG_EV_OPEN", "");
+        CIOT_LOGI(TAG, "MG_EV_OPEN url:%s", self->cfg.address);
         self->status.state = CIOT_HTTPS_STATE_STARTED;
         ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
         ciot_evt.msg.data.https.status = self->status;
@@ -153,7 +157,7 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         CIOT_LOGI(TAG, "MG_EV_HTTP_MSG", "");
         struct mg_http_message *hm = (struct mg_http_message *)ev_data, tmp = {0};
         mg_http_parse((char*)c->recv.buf, c->recv.len, hm);
-        ciot_httpc_event_data(self, &ciot_evt, c, hm);
+        ciot_https_event_data(self, &ciot_evt, c, hm);
         break;
     }
     default:
@@ -163,6 +167,8 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
 
     if(self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &ciot_evt, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
     }
 }
+
+#endif
