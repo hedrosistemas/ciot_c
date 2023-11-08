@@ -53,8 +53,7 @@ ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg);
 ciot_err_t ciot_usb_stop(ciot_usb_t self);
 ciot_err_t ciot_usb_process_req(ciot_usb_t self, ciot_usb_req_t *req);
 ciot_err_t ciot_usb_send_data(ciot_usb_t self, uint8_t *data, int size);
-ciot_err_t ciot_usb_send_bytes(void *user_ctx, uint8_t *bytes, int size);
-
-bool ciot_usb_event_queue_process();
+ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size);
+ciot_err_t ciot_usb_task(ciot_usb_t self);
 
 #endif  //!__CIOT_USB__H__

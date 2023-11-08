@@ -23,7 +23,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg);
 ciot_err_t ciot_uart_stop(ciot_uart_t self);
 ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req);
 ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size);
-ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size);
+ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size);
 ciot_err_t ciot_uart_task(ciot_uart_t self);
 
 #endif  //!__CIOT_UART__H__
