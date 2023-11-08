@@ -52,6 +52,7 @@ typedef struct __attribute__((packed))
     uint32_t cts_pin;
     uint32_t flow_control;
     uint32_t parity;
+    bool dtr;
 } ciot_uart_cfg_t;
 
 typedef struct __attribute__((packed))
