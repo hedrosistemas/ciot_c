@@ -108,18 +108,23 @@ ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
     return ciot_s_send(self->s, (char*)data, size);
 }
 
-ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
+ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 {
-    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    ciot_uart_t self = (ciot_uart_t)self;
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(bytes);
     uart_write_bytes(self->cfg.num, bytes, size);
     return CIOT_OK;
 }
 
-static ciot_err_t ciot_uart_on_message(void *user_ctx, char *data, int size)
+ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
-    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    return CIOT_ERR_NOT_IMPLEMENTED;
+}
+
+static ciot_err_t ciot_uart_on_message(ciot_uart_t self, char *data, int size)
+{
+    ciot_uart_t self = (ciot_uart_t)self;
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(self->iface.event_handler);
