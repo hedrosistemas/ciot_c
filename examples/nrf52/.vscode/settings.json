@@ -58,6 +58,15 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "ciot.h": "c",
-    "ciot_uart.h": "c"
-  }
+    "ciot_uart.h": "c",
+    "app_uart.h": "c",
+    "ciot_sys.h": "c",
+    "ciot_uart_data.h": "c",
+    "inttypes.h": "c",
+    "nrf_uart.h": "c",
+    "nrf_drv_uart.h": "c",
+    "ciot_usb.h": "c",
+    "ciot_sys_data.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
