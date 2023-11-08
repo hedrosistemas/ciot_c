@@ -170,7 +170,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
         self->status.error.code = c->id;
         self->status.state = CIOT_MQTT_STATE_ERROR;
         ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
-        ciot_evt.msg.error = self->status.error.code;
+        // ciot_evt.msg.error = self->status.error.code;
         ciot_evt.msg.data.mqtt.status = self->status;
         break;
     case MG_EV_OPEN:
