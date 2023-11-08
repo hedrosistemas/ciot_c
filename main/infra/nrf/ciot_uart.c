@@ -9,16 +9,17 @@
  *
  */
 
+#include "ciot_uart.h"
+
+#if CIOT_CONFIG_FEATURE_UART && APP_FIFO_ENABLED == 0
+
 #include <stdlib.h>
 
 #include "sdk_common.h"
 #include "nrf_drv_uart.h"
 #include "app_util_platform.h"
 
-#include "ciot_uart.h"
 #include "ciot_s.h"
-
-#define UART_PIN_DISCONNECTED 0xFFFFFFFF /**< Value indicating that no pin is connected to this UART register. */
 
 struct ciot_uart
 {
@@ -29,8 +30,7 @@ struct ciot_uart
     nrf_drv_uart_t uart;
 };
 
-static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size);
-static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context);
+static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
 
 ciot_uart_t ciot_uart_new(void *handle)
 {
@@ -49,17 +49,20 @@ ciot_uart_t ciot_uart_new(void *handle)
     ciot_s_cfg_t s_cfg = {
         .on_message_cb = ciot_uart_on_message,
         .send_bytes = ciot_uart_send_bytes,
-        .user_ctx = self};
+        .iface = &self->iface
+    };
     self->s = ciot_s_new(&s_cfg);
     return self;
 }
 
 ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 {
+    CIOT_NULL_CHECK(self);
+    uint32_t err_code;
     self->cfg = *cfg;
 
     nrf_drv_uart_config_t config = NRF_DRV_UART_DEFAULT_CONFIG;
-    config.baudrate = self->cfg.baud_rate;
+    config.baudrate = (nrf_uart_baudrate_t)self->cfg.baud_rate;
     config.hwfc = self->cfg.flow_control;
     config.interrupt_priority = APP_IRQ_PRIORITY_LOWEST;
     config.parity = self->cfg.parity;
@@ -69,35 +72,43 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     config.pseltxd = self->cfg.tx_pin;
     config.p_context = self;
 
-    if(self->cfg.num == 0)
+    switch (cfg->num)
     {
-        nrf_drv_uart_t uart = NRF_DRV_UART_INSTANCE(0);
-        self->uart = uart;
-    }
-    #if NRFX_UARTE1_ENABLED
-    else if(self->cfg.num == 1)
-    {
-        nrf_drv_uart_t uart = NRF_DRV_UART_INSTANCE(1);
-        self->uart = uart;
-    }
-    #endif  //NRFX_UARTE1_ENABLED
-    else 
-    {
+#if UART0_ENABLED
+    case 0:
+        {
+            nrf_drv_uart_t uart_inst = NRF_DRV_UART_INSTANCE(0);
+            self->uart = uart_inst;
+            break;
+        }
+#endif
+#if UART1_ENABLED
+    case 1:
+        {
+            nrf_drv_uart_t uart_inst = NRF_DRV_UART_INSTANCE(1);
+            self->uart = uart_inst;
+            break;
+        }
+#endif
+    default:
         return CIOT_ERR_INVALID_ARG;
     }
 
-    uint32_t err_code = nrf_drv_uart_init(&self->uart, &config, ciot_uart_event_handler);
+    err_code = nrf_drv_uart_init(&self->uart, &config, NULL);
     VERIFY_SUCCESS(err_code);
 
-    if (self->cfg.rx_pin != UART_PIN_DISCONNECTED)
-    {
-        uint8_t rx_buffer[1];
-        return nrf_drv_uart_rx(&self->uart, rx_buffer, 1);
-    }
-    else
-    {
-        return NRF_SUCCESS;
-    }
+    // if (self->cfg.rx_pin != UART_PIN_DISCONNECTED)
+    // {
+    //     uint8_t buf[1];
+    //     return nrf_drv_uart_rx(&self->uart, buf, 1);
+    // }
+    // else
+    // {
+    //     return NRF_SUCCESS;
+    // }
+
+    return CIOT_OK;
+
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
@@ -142,11 +153,11 @@ ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
     return ciot_s_send(self->s, data, size);
 }
 
-ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
+ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
-    ciot_uart_t self = (ciot_uart_t)user_ctx;
-    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(iface);
     CIOT_NULL_CHECK(bytes);
+    ciot_uart_t self = (ciot_uart_t)iface;
     ret_code_t ret = nrf_drv_uart_tx(&self->uart, bytes, size);
     if (NRF_ERROR_BUSY == ret)
     {
@@ -162,9 +173,14 @@ ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
     }
 }
 
-static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size)
+ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
-    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    return CIOT_ERR_NOT_IMPLEMENTED;
+}
+
+static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
+{
+    ciot_uart_t self = (ciot_uart_t)iface;
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(self->iface.event_handler);
@@ -172,59 +188,81 @@ static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size)
     event.id = CIOT_IFACE_EVENT_DATA;
     memcpy(&event.msg, data, size);
     event.size = size;
-    return self->iface.event_handler(self, &event, self->iface.event_args);
+    return self->iface.event_handler(&self->iface, &event, self->iface.event_args);
 }
 
-static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context)
-{
-    ciot_uart_t self = (ciot_uart_t)context;
-    ciot_iface_event_t ciot_evt = { 0 };
+#endif
 
-    ciot_evt.msg.type = CIOT_MSG_TYPE_EVENT;
-    ciot_evt.msg.iface = self->iface.info;
+// static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context)
+// {
+//     ciot_uart_t self = (ciot_uart_t)context;
+//     ciot_iface_event_t ciot_evt = { 0 };
+//     uint32_t err_code;
 
-    switch (event->type)
-    {
-        case NRF_DRV_UART_EVT_TX_DONE:
-            ciot_evt.id = CIOT_IFACE_EVENT_CUSTOM;
-            break;
-        case NRF_DRV_UART_EVT_RX_DONE:
-            while (event->data.rxtx.bytes)
-            {
-                uint8_t byte;
-                uint32_t ret = nrf_drv_uart_rx(&self->uart, &byte, 1);
-                if (NRF_ERROR_BUSY == ret)
-                {
-                    self->status.error = CIOT_ERR_NO_MEMORY;
-                    self->status.state = CIOT_UART_STATE_INTERNAL_ERROR;
-                    break;
-                }
-                else if (ret != NRF_SUCCESS)
-                {
-                    self->status.error = CIOT_FAIL;
-                    self->status.state = CIOT_UART_STATE_INTERNAL_ERROR;
-                    break;
-                }
-                ret = ciot_s_process_byte(self->s, byte);
-                if(ret != CIOT_OK) {
-                    self->status.error = ret;
-                    self->status.state = CIOT_UART_STATE_CIOT_S_ERROR;
-                }
-                event->data.rxtx.bytes--;
-            }
-            return;
-        case NRF_DRV_UART_EVT_ERROR:
-            self->status.error = event->data.error.error_mask;
-            self->status.state = CIOT_UART_STATE_INTERNAL_ERROR;
-            ciot_evt.msg.data.uart.status = self->status;
-            ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
-            break;
-    default:
-        break;
-    }
+//     ciot_evt.msg.type = CIOT_MSG_TYPE_EVENT;
+//     ciot_evt.msg.iface = self->iface.info;
 
-    if(self->iface.event_handler != NULL)
-    {
-        self->iface.event_handler(self, &ciot_evt, self->iface.event_args);
-    }
-}
+//     switch (event->type)
+//     {
+//         case NRF_DRV_UART_EVT_RX_DONE:
+//             // If 0, then this is a RXTO event with no new bytes.
+//             if(event->data.rxtx.bytes == 0)
+//             {
+//                // A new start RX is needed to continue to receive data
+//                (void)nrf_drv_uart_rx(&self->uart, self->rx_byte, 1);
+//                break;
+//             }
+
+//             // Write received byte to FIFO.
+//             err_code = app_fifo_put(&self->fifo.rx, event->data.rxtx.p_data[0]);
+//             if (err_code != NRF_SUCCESS)
+//             {
+//                 // app_uart_event.evt_type          = APP_UART_FIFO_ERROR;
+//                 // app_uart_event.data.error_code   = err_code;
+//                 // m_event_handler(&app_uart_event);
+//             }
+//             // Notify that there are data available.
+//             else if (FIFO_LENGTH(self->fifo.rx) != 0)
+//             {
+//                 // app_uart_event.evt_type = APP_UART_DATA_READY;
+//                 // m_event_handler(&app_uart_event);
+//             }
+
+//             // Start new RX if size in buffer.
+//             if (FIFO_LENGTH(self->fifo.rx) <= self->fifo.rx.buf_size_mask)
+//             {
+//                 (void)nrf_drv_uart_rx(&self->uart, self->rx_byte, 1);
+//             }
+//             else
+//             {
+//                 // Overflow in RX FIFO.
+//                 self->fifo.rx_ovf = true;
+//             }
+
+//             break;
+
+//         case NRF_DRV_UART_EVT_ERROR:
+//             // app_uart_event.evt_type                 = APP_UART_COMMUNICATION_ERROR;
+//             // app_uart_event.data.error_communication = event->data.error.error_mask;
+//             // (void)nrf_drv_uart_rx(&self->uart, self->rx_byte, 1);
+//             // m_event_handler(&app_uart_event);
+//             break;
+
+//         case NRF_DRV_UART_EVT_TX_DONE:
+//             // Get next byte from FIFO.
+//             if (app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS)
+//             {
+//                 (void)nrf_drv_uart_tx(&self->uart, self->tx_byte, 1);
+//             }
+//             else
+//             {
+//                 // Last byte from FIFO transmitted, notify the application.
+//                 // app_uart_event.evt_type = APP_UART_TX_EMPTY;
+//                 // m_event_handler(&app_uart_event);
+//             }
+//             break;
+
+//         default:
+//             break;
+//     }
+// }
