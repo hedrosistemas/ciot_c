@@ -26,7 +26,16 @@
 
 #include "ciot_config.h"
 
-#define CIOT_IFACES_COUNT 6
+typedef enum app_iface
+{
+    APP_IFACE_SYS,
+    APP_IFACE_STORAGE,
+    APP_IFACE_UART,
+    APP_IFACE_HTTPS,
+    APP_IFACE_HTTPC,
+    APP_IFACE_MQTTC,
+    APP_IFACE_COUNT,
+} app_iface_t;
 
 typedef struct app
 {
@@ -37,10 +46,12 @@ typedef struct app
     ciot_https_t https;
     ciot_httpc_t httpc;
     ciot_mqttc_t mqttc;
+    ciot_iface_t *ifaces[APP_IFACE_COUNT];
     struct mg_mgr mgr;
 } app_t;
 
-static void app_init(app_t *self);
+static void app_start(app_t *self);
+static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
 
 static const ciot_storage_cfg_t storage_cfg = {
     .type = CIOT_STORAGE_TYPE_FS
@@ -49,6 +60,7 @@ static const ciot_storage_cfg_t storage_cfg = {
 static const ciot_uart_cfg_t uart_cfg = {
     .baud_rate = CIOT_CONFIG_UART_BAUD,
     .num = CIOT_CONFIG_UART_PORT,
+    .dtr = CIOT_CONFIG_UART_DTR,
 };
 
 static const ciot_https_cfg_t https_cfg = {
@@ -83,28 +95,12 @@ static const void *cfgs[] = {
     &mqttc_cfg,
 };
 
-static ciot_iface_t* ifaces[CIOT_IFACES_COUNT];
-
 static const char *TAG = "main";
 
 int main()
 {
     app_t app;
-    app_init(&app);
-
-    ifaces[0] = (ciot_iface_t*)app.storage;
-    ifaces[1] = (ciot_iface_t*)app.sys;
-    ifaces[2] = (ciot_iface_t*)app.uart;
-    ifaces[3] = (ciot_iface_t*)app.https;
-    ifaces[4] = (ciot_iface_t*)app.httpc;
-    ifaces[5] = (ciot_iface_t*)app.mqttc;
-
-    ciot_cfg_t ciot_cfg = {
-        .ifaces = ifaces,
-        .cfgs = cfgs,
-        .count = CIOT_IFACES_COUNT
-    };
-    ciot_start(app.ciot, &ciot_cfg);
+    app_start(&app);
 
     CIOT_LOGI(TAG, "App is running...", "");
     while (true)
@@ -119,7 +115,7 @@ int main()
     return 0;
 }
 
-static void app_init(app_t *self)
+static void app_start(app_t *self)
 {
     CIOT_LOGI(TAG, "App is initializing...", "");
     mg_mgr_init(&self->mgr);
@@ -130,4 +126,41 @@ static void app_init(app_t *self)
     self->https = ciot_https_new(&self->mgr);
     self->httpc = ciot_httpc_new(&self->mgr);
     self->mqttc = ciot_mqttc_new(&self->mgr);
+
+    self->ifaces[APP_IFACE_STORAGE] = (ciot_iface_t*)self->storage;
+    self->ifaces[APP_IFACE_SYS] = (ciot_iface_t*)self->sys;
+    self->ifaces[APP_IFACE_UART] = (ciot_iface_t*)self->uart;
+    self->ifaces[APP_IFACE_HTTPS] = (ciot_iface_t*)self->https;
+    self->ifaces[APP_IFACE_HTTPC] = (ciot_iface_t*)self->httpc;
+    self->ifaces[APP_IFACE_MQTTC] = (ciot_iface_t*)self->mqttc;
+
+    ciot_register_event(self->ciot, ciot_iface_event_handler, self);
+
+    ciot_cfg_t ciot_cfg = {
+        .ifaces = self->ifaces,
+        .cfgs = cfgs,
+        .count = APP_IFACE_COUNT
+    };
+    ciot_start(self->ciot, &ciot_cfg);
+}
+
+static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args)
+{
+    app_t *self = (app_t *)args;
+
+    if(event->id == CIOT_IFACE_EVENT_STARTED && event->msg.iface.type == CIOT_IFACE_TYPE_UART)
+    {
+        ciot_msg_t msg = { 0 };
+        msg.type = CIOT_MSG_TYPE_GET_STATUS;
+        msg.iface.type = CIOT_IFACE_TYPE_SYSTEM;
+        msg.iface.id = 0;
+        ciot_iface_send_msg((ciot_iface_t*)self->uart, &msg, CIOT_MSG_SIZE);
+    }
+
+    if(event->id == CIOT_IFACE_EVENT_REQ_DONE)
+    {
+        printf("Event done!\n");
+    }
+
+    return CIOT_OK;
 }
