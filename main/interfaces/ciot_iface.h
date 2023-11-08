@@ -75,7 +75,7 @@ struct ciot_iface
     ciot_iface_event_handler_t *event_handler;
     void *event_args;
     ciot_iface_base_t base;
-} ;
+};
 
 ciot_err_t ciot_iface_start(ciot_iface_t *self, ciot_msg_data_u *cfg);
 ciot_err_t ciot_iface_stop(ciot_iface_t *self);
@@ -84,7 +84,7 @@ ciot_err_t ciot_iface_get_status(ciot_iface_t *self, ciot_msg_data_u *status);
 ciot_err_t ciot_iface_process_req(ciot_iface_t *self, ciot_msg_data_u *req, void *sender);
 ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sender);
 ciot_err_t ciot_iface_send_data(ciot_iface_t *self, void *data, int size);
-ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *msg, int size);
+ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg, int size);
 ciot_err_t ciot_iface_register_event(ciot_iface_t *self, ciot_iface_event_handler_t event_handler, void *event_args);
 
 #endif  //!__CIOT_IFACE__H__
