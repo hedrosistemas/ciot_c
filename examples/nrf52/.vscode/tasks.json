@@ -22,6 +22,28 @@
                     }
                 }
             ]
+        },
+        {
+            "label": "Flash",
+            "type": "shell",
+            "command": "make flash",
+            "problemMatcher": [
+                {
+                    "owner": "armgcc",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceFolder}/pca10056/blank"
+                    ],
+                    "pattern": {
+                        "regexp": "^\\.\\.(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            ]
         }
     ]
 }
