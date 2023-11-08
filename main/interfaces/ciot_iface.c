@@ -68,7 +68,7 @@ ciot_err_t ciot_iface_send_data(ciot_iface_t *self, void *data, int size)
     return self->base.send_data(self->base.ptr, data, size);
 }
 
-ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *msg, int size)
+ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg, int size)
 {
     if (self->base.req.pending)
     {
@@ -107,10 +107,10 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sen
     case CIOT_MSG_TYPE_STOP:
         return ciot_iface_stop(self);
     case CIOT_MSG_TYPE_GET_CONFIG:
-        msg->error = ciot_iface_get_cfg(self, &msg->data);
+        ciot_iface_get_cfg(self, &msg->data);
         return ciot_iface_send_data(sender, msg, self->base.cfg.size + CIOT_MSG_SIZE);
     case CIOT_MSG_TYPE_GET_STATUS:
-        msg->error = ciot_iface_get_status(self, &msg->data);
+        ciot_iface_get_status(self, &msg->data);
         return ciot_iface_send_data(sender, msg, self->base.status.size + CIOT_MSG_SIZE);
     case CIOT_MSG_TYPE_REQUEST:
         ciot_iface_process_req(self, &msg->data, sender);
