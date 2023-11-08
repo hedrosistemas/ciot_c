@@ -59,8 +59,8 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    int rst_reason;
-    int rst_count;
+    uint32_t rst_reason;
+    uint32_t rst_count;
     uint32_t free_memory;
     uint32_t lifetime;
     ciot_sys_info_t info;
