@@ -37,7 +37,8 @@ struct ciot_uart
     char port_name[10];
 };
 
-static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size);
+static ciot_err_t ciot_uart_init(ciot_uart_t self);
+static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
 static void ciot_uart_process_error(ciot_uart_t self, DWORD error);
 static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status);
 
@@ -60,7 +61,7 @@ ciot_uart_t ciot_uart_new(void *handle)
     ciot_s_cfg_t s_cfg = { 
         .on_message_cb = ciot_uart_on_message,
         .send_bytes = ciot_uart_send_bytes,
-        .user_ctx = self,
+        .iface = (ciot_iface_t*)self,
     };
     self->s = ciot_s_new(&s_cfg);
 
@@ -92,7 +93,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         return CIOT_FAIL;
     }
 
-    return CIOT_OK;
+    return ciot_uart_init(self);
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
@@ -114,9 +115,9 @@ ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
     return ciot_s_send(self->s, (char*)data, size);
 }
 
-ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
+ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
-    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    ciot_uart_t self = (ciot_uart_t)iface;
     CIOT_NULL_CHECK(self);
     if(self->status.state == CIOT_UART_STATE_STARTED)
     {
@@ -131,9 +132,9 @@ ciot_err_t ciot_uart_send_bytes(void *user_ctx, uint8_t *bytes, int size)
     }
 }
 
-static ciot_err_t ciot_uart_on_message(void *user_ctx, uint8_t *data, int size)
+static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    ciot_uart_t self = (ciot_uart_t)user_ctx;
+    ciot_uart_t self = (ciot_uart_t)iface;
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(self->iface.event_handler);
@@ -151,6 +152,7 @@ static ciot_err_t ciot_uart_init(ciot_uart_t self)
     self->params.ByteSize = 8;
     self->params.StopBits = ONE5STOPBITS;
     self->params.Parity = self->cfg.parity;
+    self->params.fDtrControl = self->cfg.dtr;
     if(SetCommState(self->handle, &self->params) == FALSE)
     {
         CIOT_LOGE(TAG, "SetCommState error", "");
