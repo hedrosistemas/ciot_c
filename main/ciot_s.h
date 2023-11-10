@@ -15,6 +15,7 @@
 #include <inttypes.h>
 
 #include "ciot_err.h"
+#include "ciot_iface.h"
 
 #define CIOT_S_BASE_ERR 0x0  /*!< Starting number of ciot_s error codes */
 #define CIOT_S_START_CH '{'  /*!< Message start character */
@@ -44,7 +45,7 @@ typedef enum ciot_s_status
  * @brief Message handler function type definition
  *
  */
-typedef ciot_err_t(ciot_s_msg_handler_t)(void *user_ctx, uint8_t *data, int size);
+typedef ciot_err_t(ciot_s_msg_handler_t)(ciot_iface_t *iface, uint8_t *data, int size);
 
 /**
  * @brief ciot_s config struct
@@ -54,7 +55,7 @@ typedef struct ciot_s_cfg
 {
     ciot_s_msg_handler_t *send_bytes;      /*! Function used to send bytes */
     ciot_s_msg_handler_t *on_message_cb;   /*! Callback called when receiving message  */
-    void *user_ctx;                        /*! Optional handler to store data that can be used on ciot_s_write_bytes*/
+    ciot_iface_t *iface;                   /*! Iface instance ptr */
 } ciot_s_cfg_t;
 
 ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg);
