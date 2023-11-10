@@ -18,6 +18,11 @@
 
 typedef struct ciot_uart *ciot_uart_t;
 
+typedef enum ciot_uart_event_id
+{
+    CIOT_UART_EVENT_DATA = CIOT_IFACE_EVENT_CUSTOM,
+} ciot_uart_event_id_t;
+
 ciot_uart_t ciot_uart_new(void *handle);
 ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg);
 ciot_err_t ciot_uart_stop(ciot_uart_t self);

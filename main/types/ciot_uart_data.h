@@ -13,6 +13,7 @@
 #define __CIOT_UART_DATA__H__
 
 #include <inttypes.h>
+#include <stdbool.h>
 
 #include "ciot_config.h"
 
@@ -40,6 +41,7 @@ typedef enum __attribute__((packed))
 {
     CIOT_UART_REQ_UNKNOWN,
     CIOT_UART_REQ_SEND_DATA,
+    CIOT_UART_REQ_ENABLE_BRIDGE_MODE,
 } ciot_uart_req_id_t;
 
 typedef struct __attribute__((packed))
@@ -63,7 +65,7 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    uint8_t data[255];
+    uint8_t data[64];
     uint8_t size;
 } ciot_uart_req_send_data_t;
 
@@ -78,12 +80,24 @@ typedef struct __attribute__((packed))
     ciot_uart_req_data_u data;
 } ciot_uart_req_t;
 
+typedef struct ciot_uart_event_data
+{
+    uint8_t *data;
+    int size;
+} ciot_uart_event_data_t;
+
+typedef union ciot_uart_event
+{
+    ciot_uart_event_data_t data;
+} ciot_uart_event_u;
+
 typedef union __attribute__((packed))
 {
     #if CIOT_CONFIG_FEATURE_UART
     ciot_uart_cfg_t config;
     ciot_uart_status_t status;
     ciot_uart_req_t request;
+    ciot_uart_event_u event;
     #endif
 } ciot_uart_data_u;
 

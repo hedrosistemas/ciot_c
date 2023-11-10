@@ -105,12 +105,17 @@ typedef struct __attribute__((packed))
     // ciot_httpc_req_data_u data;
 } ciot_httpc_req_t;
 
-typedef struct __attribute__((packed))
+typedef struct ciot_httpc_event_data
 {
     char *url;
     void *data;
     int size;
-} ciot_httpc_msg_t;
+} ciot_httpc_event_data_t;
+
+typedef union ciot_httpc_event
+{
+    ciot_httpc_event_data_t data;
+} ciot_httpc_event_data_u;
 
 typedef union ciot_httpc_data
 {
@@ -118,7 +123,7 @@ typedef union ciot_httpc_data
     ciot_httpc_cfg_t config;
     ciot_httpc_status_t status;
     ciot_httpc_req_t request;
-    ciot_httpc_msg_t msg;
+    ciot_httpc_event_data_u event;
     #endif
 } ciot_httpc_data_u;
 

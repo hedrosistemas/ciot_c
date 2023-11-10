@@ -54,13 +54,18 @@ typedef struct __attribute__((packed))
 
 } ciot_https_req_t;
 
-typedef struct __attribute__((packed))
+typedef struct ciot_https_event_data
 {
     char *url;
     char *method;
     uint8_t *data;
     int size;
-} ciot_https_event_msg_t;
+} ciot_https_event_data_t;
+
+typedef struct ciot_https_event
+{
+    ciot_https_event_data_t data;
+} ciot_https_event_u;
 
 typedef union ciot_https_data
 {
@@ -68,7 +73,7 @@ typedef union ciot_https_data
     ciot_https_cfg_t config;
     ciot_https_status_t status;
     ciot_https_req_t request;
-    ciot_https_event_msg_t msg;
+    ciot_https_event_u event;
     #endif
 } ciot_https_data_u;
 
