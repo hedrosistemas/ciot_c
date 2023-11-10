@@ -180,14 +180,14 @@ static void app_task(app_t *self)
         msg.iface.id = host_iface_id;
         msg.iface.type = host_iface_types[host_iface_id];
         msg.type = CIOT_MSG_TYPE_GET_STATUS;
-        ciot_iface_send_req(ifaces[app_iface_id], &msg, CIOT_MSG_SIZE);
+        ciot_iface_send_msg(ifaces[app_iface_id], &msg, CIOT_MSG_SIZE);
         self->state = APP_STATE_WAITING_STATUS;
         break;
     case APP_STATE_STATUS_DONE:
         msg.iface.id = host_iface_id;
         msg.iface.type = host_iface_types[host_iface_id];
         msg.type = CIOT_MSG_TYPE_GET_CONFIG;
-        ciot_iface_send_req(ifaces[app_iface_id], &msg, CIOT_MSG_SIZE);
+        ciot_iface_send_msg(ifaces[app_iface_id], &msg, CIOT_MSG_SIZE);
         self->state = APP_STATE_WAITING_CONFIG;
         break;
     case APP_STATE_CFG_DONE:
