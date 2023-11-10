@@ -103,4 +103,5 @@ typedef union __attribute__((packed))
     ciot_wifi_req_t request;
     #endif
 } ciot_wifi_data_u;
+
 #endif  //!__CIOT_WIFI_DATA__H__
