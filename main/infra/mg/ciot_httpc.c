@@ -9,12 +9,13 @@
  *
  */
 
+#include "ciot_httpc.h"
+
+#if CIOT_CONFIG_FEATURE_HTTPC && defined(CIOT_TARGET_PC)
+
 #include <stdlib.h>
 #include <string.h>
-#include "ciot_httpc.h"
 #include "mongoose.h"
-
-#if CIOT_CONFIG_FEATURE_HTTPC
 
 typedef struct ciot_http_data_to_send
 {

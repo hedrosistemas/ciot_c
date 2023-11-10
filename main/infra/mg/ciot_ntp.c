@@ -9,11 +9,11 @@
  * 
  */
 
-#include <string.h>
-
 #include "ciot_ntp.h"
 
-#if CIOT_CONFIG_FEATURE_NTP
+#if CIOT_CONFIG_FEATURE_NTP && defined(CIOT_TARGET_PC)
+
+#include <string.h>
 
 struct ciot_ntp
 {

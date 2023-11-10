@@ -9,13 +9,14 @@
  *
  */
 
+#include "ciot_wifi.h"
+
+#if CIOT_CONFIG_FEATURE_WIFI && defined(CIOT_TARGET_PC)
+
 #include <string.h>
 #include <stdbool.h>
 
-#include "ciot_wifi.h"
 #include "ciot_tcp.h"
-
-#if CIOT_CONFIG_FEATURE_WIFI
 
 struct ciot_wifi
 {

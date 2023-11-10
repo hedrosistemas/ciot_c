@@ -9,14 +9,13 @@
  *
  */
 
-#include <stdlib.h>
-
-#include "mongoose.h"
-
-#include "ciot_log.h"
 #include "ciot_https.h"
 
-#if CIOT_CONFIG_FEATURE_HTTPS
+#if CIOT_CONFIG_FEATURE_HTTPS && defined(CIOT_TARGET_PC)
+
+#include <stdlib.h>
+#include "mongoose.h"
+#include "ciot_log.h"
 
 typedef struct ciot_https_msg
 {

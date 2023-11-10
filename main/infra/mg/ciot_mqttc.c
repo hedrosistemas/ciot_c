@@ -9,14 +9,13 @@
  *
  */
 
-#include <stdlib.h>
-
-#include "mongoose.h"
-
-#include "ciot_log.h"
 #include "ciot_mqttc.h"
 
-#if CIOT_CONFIG_FEATURE_MQTTC
+#if CIOT_CONFIG_FEATURE_MQTTC && defined(CIOT_TARGET_PC)
+
+#include <stdlib.h>
+#include "mongoose.h"
+#include "ciot_log.h"
 
 struct ciot_mqttc
 {

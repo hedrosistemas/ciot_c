@@ -9,19 +9,17 @@
  * 
  */
 
-#ifdef _WIN32
+
+#include "ciot_uart.h"
+
+#if CIOT_CONFIG_FEATURE_UART && defined(CIOT_TARGET_PC) && defined(_WIN32)
 
 #include <stdbool.h>
-
 #include "stdio.h"
-
-#include "ciot_s.h"
-#include "ciot_uart.h"
-#include "ciot_log.h"
-
 #include "windows.h"
 
-#if CIOT_CONFIG_FEATURE_UART
+#include "ciot_s.h"
+#include "ciot_log.h"
 
 struct ciot_uart
 {
@@ -241,7 +239,5 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
         }
     }
 }
-
-#endif
 
 #endif

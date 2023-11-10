@@ -9,12 +9,12 @@
  * 
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "ciot_storage.h"
 
-#if CIOT_CONFIG_FEATURE_STORAGE
+#if CIOT_CONFIG_FEATURE_STORAGE && defined(CIOT_TARGET_PC)
+
+#include <stdlib.h>
+#include <stdio.h>
 
 struct ciot_storage
 {
