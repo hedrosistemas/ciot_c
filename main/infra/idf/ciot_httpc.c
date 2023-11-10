@@ -11,6 +11,8 @@
 
 #include "ciot_httpc.h"
 
+#if CIOT_CONFIG_FEATURE_HTTPC && defined(CIOT_TARGET_ESP)
+
 #include "esp_http_client.h"
 #include "esp_log.h"
 
@@ -153,3 +155,5 @@ static int ciot_httpc_event_handler(esp_http_client_event_handle_t evt)
 
     return ESP_OK;
 }
+
+#endif

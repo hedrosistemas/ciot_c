@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_tcp.h"
+
+#if CIOT_CONFIG_FEATURE_TCP && defined(CIOT_TARGET_ESP)
+
 #include <string.h>
 
 #include "esp_event.h"
@@ -17,7 +21,6 @@
 #include "lwip/ip4_addr.h"
 #include "lwip/ip_addr.h"
 
-#include "ciot_tcp.h"
 
 struct ciot_tcp
 {
@@ -243,3 +246,5 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
         this->iface.event_handler(this, &event, this->iface.event_args);
     }
 }
+
+#endif

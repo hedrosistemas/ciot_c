@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_wifi.h"
+
+#if CIOT_CONFIG_FEATURE_WIFI && defined(CIOT_TARGET_ESP)
+
 #include <string.h>
 #include <stdbool.h>
 
@@ -19,7 +23,6 @@
 #include "esp_bit_defs.h"
 #include "lwip/ip4_addr.h"
 
-#include "ciot_wifi.h"
 #include "ciot_tcp.h"
 
 struct ciot_wifi
@@ -301,3 +304,5 @@ static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_b
         this->iface.event_handler(this, &event, this->iface.event_args);
     }
 }
+
+#endif

@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_ota.h"
+
+#if CIOT_CONFIG_FEATURE_NTP && defined(CIOT_TARGET_ESP)
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
@@ -26,7 +30,6 @@
 #include "esp_crt_bundle.h"
 #endif // CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
 
-#include "ciot_ota.h"
 
 #define CIOT_OTA_BUF_SIZE 1024
 
@@ -378,3 +381,4 @@ static ciot_err_t ciot_ota_decrypt_cb(decrypt_cb_arg_t *args, void *user_ctx)
 }
 #endif
 
+#endif

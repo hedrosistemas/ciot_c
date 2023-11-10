@@ -10,6 +10,9 @@
  */
 
 #include "ciot_https.h"
+
+#if CIOT_CONFIG_FEATURE_HTTPC && defined(CIOT_TARGET_ESP)
+
 #include "esp_log.h"
 #include "esp_http_server.h"
 
@@ -110,3 +113,5 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
 
     return CIOT_OK;
 }
+
+#endif
