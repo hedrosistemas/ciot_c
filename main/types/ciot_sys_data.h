@@ -84,9 +84,11 @@ typedef struct __attribute__((packed))
 
 typedef union ciot_sys_data
 {
+    #if CIOT_CONFIG_FEATURE_SYSTEM
     ciot_sys_cfg_t config;
     ciot_sys_status_t status;
     ciot_sys_req_t request;
+    #endif
 } ciot_sys_data_u;
 
 #endif  //!__CIOT_SYS_DATA__H__
