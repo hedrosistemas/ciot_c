@@ -45,9 +45,9 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     };
     uint8_t end = CIOT_S_END_CH;
 
-    self->cfg.send_bytes(self->cfg.user_ctx, header, sizeof(header));
-    self->cfg.send_bytes(self->cfg.user_ctx, data, size);
-    self->cfg.send_bytes(self->cfg.user_ctx, &end, 1);
+    self->cfg.send_bytes(self->cfg.iface, header, sizeof(header));
+    self->cfg.send_bytes(self->cfg.iface, data, size);
+    self->cfg.send_bytes(self->cfg.iface, &end, 1);
 
     return CIOT_OK;
 }
@@ -89,7 +89,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
                 {
                     if(self->cfg.on_message_cb != NULL)
                     {
-                        self->cfg.on_message_cb(self->cfg.user_ctx, &self->buf[CIOT_S_HEADER_SIZE], self->len);
+                        self->cfg.on_message_cb(self->cfg.iface, &self->buf[CIOT_S_HEADER_SIZE], self->len);
                     }
                     self->status = CIOT_S_STATUS_WAIT_START_DATA;
                     return CIOT_OK;
