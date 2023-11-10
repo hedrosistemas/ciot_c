@@ -9,7 +9,7 @@
  *
  */
 
-#include <string.h>
+#include <string.h> 
 
 #include "ciot_err.h"
 #include "ciot_iface.h"
@@ -19,7 +19,6 @@ ciot_err_t ciot_iface_start(ciot_iface_t *self, ciot_msg_data_u *cfg)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
     CIOT_NULL_CHECK(self->base.ptr);
-    ;
     CIOT_NULL_CHECK(self->base.start);
     return self->base.start(self->base.ptr, cfg);
 }
