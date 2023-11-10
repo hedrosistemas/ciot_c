@@ -9,11 +9,13 @@
  * 
  */
 
+#include "ciot_sys.h"
+
+#if CIOT_CONFIG_FEATURE_SYSTEM && defined(CIOT_TARGET_NRF)
+
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
-#include "ciot_sys.h"
 
 struct ciot_sys
 {
@@ -97,3 +99,5 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     self->status.lifetime = 0;
     return CIOT_OK;
 }
+
+#endif

@@ -11,7 +11,7 @@
 
 #include "ciot_uart.h"
 
-#if CIOT_CONFIG_FEATURE_UART && APP_FIFO_ENABLED == 0
+#if (CIOT_CONFIG_FEATURE_UART && APP_FIFO_ENABLED == 0) && defined(CIOT_TARGET_NRF)
 
 #include <stdlib.h>
 
@@ -191,8 +191,6 @@ static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int s
     return self->iface.event_handler(&self->iface, &event, self->iface.event_args);
 }
 
-#endif
-
 // static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context)
 // {
 //     ciot_uart_t self = (ciot_uart_t)context;
@@ -266,3 +264,5 @@ static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int s
 //             break;
 //     }
 // }
+
+#endif

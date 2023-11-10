@@ -10,10 +10,10 @@
  */
 
 #include "ciot_uart.h"
+
+#if (CIOT_CONFIG_FEATURE_UART && APP_FIFO_ENABLED == 1) && defined(CIOT_TARGET_NRF)
+
 #include "sdk_common.h"
-
-#if CIOT_CONFIG_FEATURE_UART && APP_FIFO_ENABLED == 1
-
 #include "nrf_drv_uart.h"
 #include "app_fifo.h"
 #include "app_util_platform.h"
@@ -38,6 +38,7 @@ struct ciot_uart
     ciot_uart_fifo_t fifo;
     uint8_t rx_byte[1];
     uint8_t tx_byte[1];
+    bool bridge_mode;
 };
 
 static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
