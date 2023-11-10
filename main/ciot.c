@@ -108,7 +108,9 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
     CIOT_NULL_CHECK(self->ifaces);
 
     ciot_err_t ret = CIOT_OK;
+#if CIOT_CONFIG_FEATURE_STORAGE
     ciot_storage_t storage = NULL;
+#endif
 
     if (self->ifaces_count > 0)
     {
@@ -172,7 +174,6 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
     if (event->id == CIOT_IFACE_EVENT_DATA)
     {
         uint8_t id = event->msg.iface.id;
-        ciot_msg_iface_type_t type = event->msg.iface.type;
         return ciot_iface_process_msg(self->ifaces[id], &event->msg, sender);
     }
     
@@ -180,4 +181,6 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
     {
         return self->event_handler(sender, event, self->event_args);
     }
+
+    return CIOT_OK;
 }
