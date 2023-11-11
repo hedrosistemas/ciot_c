@@ -16,7 +16,7 @@
 #include "ciot_iface.h"
 #include "ciot_storage.h"
 
-typedef struct ciot_s *ciot_t;
+typedef struct ciot *ciot_t;
 
 typedef enum ciot_state
 {

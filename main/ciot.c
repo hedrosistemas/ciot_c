@@ -1,5 +1,5 @@
 /**
- * @file ciot_s.c
+ * @file ciot.c
  * @author your name (you@domain.com)
  * @brief
  * @version 0.1
@@ -16,7 +16,7 @@
 #include "ciot_log.h"
 #include "ciot.h"
 
-struct ciot_s
+struct ciot
 {
     ciot_iface_t **ifaces;
     const void **cfgs;
@@ -37,7 +37,7 @@ static const char *TAG = "ciot";
 
 ciot_t ciot_new(void)
 {
-    return calloc(1, sizeof(struct ciot_s));
+    return calloc(1, sizeof(struct ciot));
 }
 
 ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg)
