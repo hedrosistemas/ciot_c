@@ -11,9 +11,12 @@
 
 #include "ciot_uart.h"
 
-#if (CIOT_CONFIG_FEATURE_UART && APP_FIFO_ENABLED == 1) && defined(CIOT_TARGET_NRF)
+#if (CIOT_CONFIG_FEATURE_UART) && defined(CIOT_TARGET_NRF)
 
 #include "sdk_common.h"
+
+#if APP_FIFO_ENABLED
+
 #include "nrf_drv_uart.h"
 #include "app_fifo.h"
 #include "app_util_platform.h"
@@ -139,6 +142,8 @@ ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
     {
     case CIOT_UART_REQ_SEND_DATA:
         return ciot_uart_send_bytes(&self->iface, req->data.send_data.data, req->data.send_data.size);
+    case CIOT_UART_REQ_ENABLE_BRIDGE_MODE:
+        return ciot_s_set_bridge_mode(&self->s, true);
     default:
         return CIOT_ERR_INVALID_ID;
     }
@@ -220,5 +225,7 @@ static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
         break;
     }
 }
+
+#endif
 
 #endif
