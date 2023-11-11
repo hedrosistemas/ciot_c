@@ -38,13 +38,17 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(self->cfg.send_bytes);
     
+    if(self->cfg.bridge_mode)
+    {
+        return self->cfg.send_bytes(self->cfg.iface, data, size);
+    }
+
     uint8_t header[] = { 
         CIOT_S_START_CH, 
         size & 0xFF, 
         (size >> 8) & 0xFF
     };
     uint8_t end = CIOT_S_END_CH;
-
     self->cfg.send_bytes(self->cfg.iface, header, sizeof(header));
     self->cfg.send_bytes(self->cfg.iface, data, size);
     self->cfg.send_bytes(self->cfg.iface, &end, 1);
@@ -54,6 +58,14 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
 
 ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 {
+    if(self->cfg.bridge_mode)
+    {
+        if(self->cfg.on_message_cb != NULL)
+        {
+            self->cfg.on_message_cb(self->cfg.iface, &byte, 1);
+        }
+    }
+
     if(self->idx < CIOT_S_BUF_SIZE)
     {
         self->buf[self->idx] = byte;
@@ -114,5 +126,12 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 
     self->idx++;
 
+    return CIOT_OK;
+}
+
+ciot_err_t ciot_s_set_bridge_mode(ciot_s_t self, bool mode)
+{
+    CIOT_NULL_CHECK(self);
+    self->cfg.bridge_mode = mode;
     return CIOT_OK;
 }
