@@ -55,6 +55,7 @@ typedef struct __attribute__((packed))
     uint32_t flow_control;
     uint32_t parity;
     bool dtr;
+    bool bridge_mode;
 } ciot_uart_cfg_t;
 
 typedef struct __attribute__((packed))
@@ -82,7 +83,7 @@ typedef struct __attribute__((packed))
 
 typedef struct ciot_uart_event_data
 {
-    uint8_t *data;
+    uint8_t *payload;
     int size;
 } ciot_uart_event_data_t;
 

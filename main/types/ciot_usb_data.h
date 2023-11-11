@@ -49,7 +49,7 @@ typedef struct __attribute__((packed))
 
 typedef struct ciot_usb_event_data
 {
-    uint8_t *data;
+    uint8_t *payload;
     int size;
 } ciot_usb_event_data_t;
 

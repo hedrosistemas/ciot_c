@@ -58,7 +58,7 @@ typedef struct ciot_https_event_data
 {
     char *url;
     char *method;
-    uint8_t *data;
+    uint8_t *body;
     int size;
 } ciot_https_event_data_t;
 

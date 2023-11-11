@@ -114,7 +114,7 @@ typedef struct __attribute__((packed))
 typedef struct ciot_mqttc_event_data
 {
     char *topic;
-    void *data;
+    void *payload;
     int size;
 } ciot_mqttc_event_data_t;
 
