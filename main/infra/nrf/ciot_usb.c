@@ -56,8 +56,8 @@ APP_USBD_CDC_ACM_GLOBAL_DEF(m_app_cdc_acm,
 struct ciot_usb
 {
     ciot_iface_t iface;
-    ciot_uart_cfg_t cfg;
-    ciot_uart_status_t status;
+    ciot_usb_cfg_t cfg;
+    ciot_usb_status_t status;
     ciot_s_t s;
     app_fifo_t fifo;
     uint8_t tx_buf[CIOT_CONFIG_UART_TX_BUF_SIZE];
