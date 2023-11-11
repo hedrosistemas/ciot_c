@@ -46,6 +46,7 @@ typedef enum ciot_usb_event_id
     CIOT_USB_EVENT_SUSPEND_REQ,
     CIOT_USB_EVENT_WAKEUP_REQ,
     CIOT_USB_EVENT_SETUP_SETADDRESS,
+    CIOT_USB_EVENT_DATA,
 } ciot_usb_event_id_t;
 
 ciot_usb_t ciot_usb_new(void *handle);
