@@ -56,10 +56,12 @@ typedef struct ciot_s_cfg
     ciot_s_msg_handler_t *send_bytes;      /*! Function used to send bytes */
     ciot_s_msg_handler_t *on_message_cb;   /*! Callback called when receiving message  */
     ciot_iface_t *iface;                   /*! Iface instance ptr */
+    bool bridge_mode;                      /*! Enable bridge mode. At this mode ciot_s protocol will be disabled */
 } ciot_s_cfg_t;
 
 ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg);
 ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size);
 ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte);
+ciot_err_t ciot_s_set_bridge_mode(ciot_s_t self, bool mode);
 
 #endif //!__CIOT_S__H__
