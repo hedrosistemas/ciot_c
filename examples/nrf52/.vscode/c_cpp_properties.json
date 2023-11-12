@@ -33,7 +33,7 @@
             "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/modules/**",
             "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/external/**",
             "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/integration/**",
-            "E:/Projetos/ciot-platform/ciot-c/main/**"
+            "E:/Projetos/ciot-platform/ciot-c/include/**"
         ],
         "forcedInclude": [],
         "defines": [

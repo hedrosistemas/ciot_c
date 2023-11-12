@@ -9,25 +9,19 @@ set(CIOT_DIR ../../)
 
 project(ciot_win32)
 
-FILE(GLOB_RECURSE infa_src ${CIOT_DIR}/main/infra/mg/*)
-FILE(GLOB_RECURSE ifaces_src ${CIOT_DIR}/main/interfaces/*)
-FILE(GLOB_RECURSE mg_src ${CIOT_DIR}/main/mongoose/*)
-FILE(GLOB app_src ${CIOT_DIR}/main/*)
+FILE(GLOB_RECURSE common ${CIOT_DIR}/src/common/*)
+FILE(GLOB_RECURSE platform ${CIOT_DIR}/src/platform/mongoose/*)
 
 include_directories(
-    ${CIOT_DIR}/main/types
-    ${CIOT_DIR}/main/infra
-    ${CIOT_DIR}/main/interfaces
-    ${CIOT_DIR}/main/mongoose
-    ${CIOT_DIR}/main
+    ${CIOT_DIR}/src/platform/mongoose
+    ${CIOT_DIR}/include
+    ${CIOT_DIR}/include/types
     .
 )
 
 add_executable(${PROJECT_NAME}
-    ${infa_src}
-    ${ifaces_src}
-    ${mg_src}
-    ${app_src}
+    ${common}
+    ${platform}
     main.c
 )
 

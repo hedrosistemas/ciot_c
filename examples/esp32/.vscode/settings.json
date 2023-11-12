@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "esp_log.h": "c",
+        "ciot_mqttc.h": "c",
+        "ciot_mqttc_data.h": "c",
+        "ciot_iface.h": "c",
+        "ciot_err.h": "c",
+        "inttypes.h": "c",
+        "time.h": "c",
+        "ciot_config.h": "c"
+    },
+    "idf.adapterTargetName": "esp32"
+}
