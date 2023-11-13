@@ -111,12 +111,17 @@ typedef struct __attribute__((packed))
     ciot_mqttc_req_data_u data;
 } ciot_mqttc_req_t;
 
-typedef struct __attribute__((packed))
+typedef struct ciot_mqttc_event_data
 {
     char *topic;
-    void *data;
+    void *payload;
     int size;
-} ciot_mqttc_event_msg_t;
+} ciot_mqttc_event_data_t;
+
+typedef union ciot_mqttc_event
+{
+    ciot_mqttc_event_data_t data;
+} ciot_mqttc_event_u;
 
 typedef union ciot_mqttc_data
 {
@@ -124,7 +129,7 @@ typedef union ciot_mqttc_data
     ciot_mqttc_cfg_t config;
     ciot_mqttc_status_t status;
     ciot_mqttc_req_t request;
-    ciot_mqttc_event_msg_t msg;
+    ciot_mqttc_event_u event;
 #endif
 } ciot_mqttc_data_u;
 

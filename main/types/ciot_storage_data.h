@@ -65,13 +65,13 @@ typedef struct __attribute__((packed))
 typedef struct __attribute__((packed))
 {
     char path[16];
-} ciot_storage_req_delete_t;
+} ciot_storage_req_remove_t;
 
 typedef union __attribute__((packed))
 {
     ciot_storage_req_save_t save;
     ciot_storage_req_load_t load;
-    ciot_storage_req_delete_t delete;
+    ciot_storage_req_remove_t remove;
 } ciot_storage_req_data_u;
 
 typedef struct __attribute__((packed))

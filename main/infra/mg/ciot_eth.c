@@ -9,12 +9,12 @@
  * 
  */
 
-#include <string.h>
-
-#include "ciot_tcp.h"
 #include "ciot_eth.h"
 
-#if CIOT_CONFIG_FEATURE_ETHERNET
+#if CIOT_CONFIG_FEATURE_ETHERNET && defined(CIOT_TARGET_PC)
+
+#include <string.h>
+#include "ciot_tcp.h"
 
 struct ciot_eth
 {

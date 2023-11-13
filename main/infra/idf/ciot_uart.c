@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_uart.h"
+
+#if CIOT_CONFIG_FEATURE_UART && defined(CIOT_TARGET_ESP)
+
 #include <string.h>
 
 #include "esp_log.h"
@@ -17,7 +21,6 @@
 #include "freertos/task.h"
 #include "freertos/queue.h"
 
-#include "ciot_uart.h"
 #include "ciot_s.h"
 
 struct ciot_uart
@@ -195,3 +198,5 @@ static void ciot_uart_event_handler(void *args)
         }
     }
 }
+
+#endif

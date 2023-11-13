@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_eth.h"
+
+#if CIOT_CONFIG_FEATURE_ETHERNET && defined(CIOT_TARGET_ESP)
+
 #include <string.h>
 
 #include "esp_mac.h"
@@ -19,7 +23,6 @@
 #include "esp_event.h"
 
 #include "ciot_tcp.h"
-#include "ciot_eth.h"
 
 struct ciot_eth
 {
@@ -179,3 +182,5 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
         this->iface.event_handler(this, &event, this->iface.event_args);
     }
 }
+
+#endif

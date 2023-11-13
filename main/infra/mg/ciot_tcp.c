@@ -9,11 +9,11 @@
  * 
  */
 
-#include <string.h>
-
 #include "ciot_tcp.h"
 
-#if CIOT_CONFIG_FEATURE_ETHERNET || CIOT_CONFIG_FEATURE_WIFI
+#if (CIOT_CONFIG_FEATURE_ETHERNET || CIOT_CONFIG_FEATURE_WIFI) && defined(CIOT_TARGET_PC)
+
+#include <string.h>
 
 struct ciot_tcp
 {

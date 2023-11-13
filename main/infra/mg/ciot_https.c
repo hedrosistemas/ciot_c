@@ -9,14 +9,13 @@
  *
  */
 
-#include <stdlib.h>
-
-#include "mongoose.h"
-
-#include "ciot_log.h"
 #include "ciot_https.h"
 
-#if CIOT_CONFIG_FEATURE_HTTPS
+#if CIOT_CONFIG_FEATURE_HTTPS && defined(CIOT_TARGET_PC)
+
+#include <stdlib.h>
+#include "mongoose.h"
+#include "ciot_log.h"
 
 typedef struct ciot_https_msg
 {
@@ -112,11 +111,11 @@ static void ciot_https_event_data(ciot_https_t self, ciot_iface_event_t *ciot_ev
         ciot_evt->id = CIOT_HTTPS_EVENT_DATA;
         ciot_evt->msg.iface = self->iface.info;
         ciot_evt->msg.type = CIOT_MSG_TYPE_UNKNOWN;
-        ciot_evt->msg.data.https.msg.url = (char *)hm->uri.ptr;
-        ciot_evt->msg.data.https.msg.method = (char *)hm->method.ptr;
-        ciot_evt->msg.data.https.msg.data = (uint8_t *)hm->body.ptr;
-        ciot_evt->msg.data.https.msg.size = hm->body.len;
-        ciot_evt->size = CIOT_MSG_GET_SIZE(ciot_evt->msg.data.https.msg);
+        ciot_evt->msg.data.https.event.data.url = (char *)hm->uri.ptr;
+        ciot_evt->msg.data.https.event.data.method = (char *)hm->method.ptr;
+        ciot_evt->msg.data.https.event.data.data = (uint8_t *)hm->body.ptr;
+        ciot_evt->msg.data.https.event.data.size = hm->body.len;
+        ciot_evt->size = CIOT_MSG_GET_SIZE(ciot_evt->msg.data.https.event.data);
     }
     self->conn_tx = c;
 }

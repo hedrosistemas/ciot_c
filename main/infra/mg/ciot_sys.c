@@ -11,11 +11,11 @@
 
 #include "ciot_sys.h"
 
+#if CIOT_CONFIG_FEATURE_SYSTEM && defined(CIOT_TARGET_PC)
+
 #ifdef  _WIN32
 #include <windows.h>
 #endif  //_WIN32
-
-#if CIOT_CONFIG_FEATURE_SYSTEM
 
 struct ciot_sys
 {

@@ -9,13 +9,16 @@
  * 
  */
 
+#include "ciot_ntp.h"
+
+#if CIOT_CONFIG_FEATURE_NTP && defined(CIOT_TARGET_ESP)
+
 #include <string.h>
 
 #include "esp_sntp.h"
 #include "esp_log.h"
 #include "esp_bit_defs.h"
 
-#include "ciot_ntp.h"
 
 struct ciot_ntp
 {
@@ -137,3 +140,5 @@ static void ciot_ntp_sync_notification_cb(struct timeval *tv)
         this->iface.event_handler(this, &event, this->iface.event_args);
     }
 }
+
+#endif

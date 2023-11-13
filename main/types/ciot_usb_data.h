@@ -47,12 +47,24 @@ typedef struct __attribute__((packed))
     ciot_usb_req_data_u data;
 } ciot_usb_req_t;
 
+typedef struct ciot_usb_event_data
+{
+    uint8_t *payload;
+    int size;
+} ciot_usb_event_data_t;
+
+typedef union ciot_usb_event
+{
+    ciot_usb_event_data_t data;
+} ciot_usb_event_u;
+
 typedef union __attribute__((packed))
 {
     #if CIOT_CONFIG_FEATURE_USB
     ciot_usb_cfg_t config;
     ciot_usb_status_t status;
     ciot_usb_req_t request;
+    ciot_usb_event_u event;
     #endif
 } ciot_usb_data_u;
 

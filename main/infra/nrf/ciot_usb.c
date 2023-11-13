@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_usb.h"
+
+#if (CIOT_CONFIG_FEATURE_UART && APP_FIFO_ENABLED == 0) && defined(CIOT_TARGET_NRF)
+
 #include <stdlib.h>
 
 #include "nrf_drv_usbd.h"
@@ -23,7 +27,6 @@
 #include "app_usbd_serial_num.h"
 #include "app_fifo.h"
 
-#include "ciot_usb.h"
 #include "ciot_s.h"
 
 #define CDC_ACM_COMM_INTERFACE 0
@@ -53,8 +56,8 @@ APP_USBD_CDC_ACM_GLOBAL_DEF(m_app_cdc_acm,
 struct ciot_usb
 {
     ciot_iface_t iface;
-    ciot_uart_cfg_t cfg;
-    ciot_uart_status_t status;
+    ciot_usb_cfg_t cfg;
+    ciot_usb_status_t status;
     ciot_s_t s;
     app_fifo_t fifo;
     uint8_t tx_buf[CIOT_CONFIG_UART_TX_BUF_SIZE];
@@ -281,3 +284,5 @@ static void ciot_cdc_acm_event_handler(app_usbd_class_inst_t const *p_inst, app_
         break;
     }
 }
+
+#endif

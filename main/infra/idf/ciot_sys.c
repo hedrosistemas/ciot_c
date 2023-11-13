@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_sys.h"
+
+#if CIOT_CONFIG_FEATURE_SYSTEM && defined(CIOT_TARGET_ESP)
+
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
@@ -19,7 +23,6 @@
 #include "esp_timer.h"
 
 #include "ciot_config.h"
-#include "ciot_sys.h"
 
 struct ciot_sys
 {
@@ -111,3 +114,5 @@ static ciot_sys_status_t *ciot_sys_get_status()
     sys.status.lifetime = time(NULL) - sys.init_time;
     return &sys.status;
 }
+
+#endif

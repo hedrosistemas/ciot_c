@@ -12,6 +12,19 @@
 #ifndef __CIOT_CONFIG__H__
 #define __CIOT_CONFIG__H__
 
+#if defined(ARDUINO)
+#define CIOT_TARGET_INO
+#elif defined(ESP_PLATFORM)
+#define CIOT_TARGET_ESP
+#elif defined(NRF51) || defined(NRF52) || defined(NRF52840_XXAA)
+#define CIOT_TARGET_NRF
+#elif defined(_WIN32)
+#define CIOT_TARGET_PC
+#else
+#define CIOT_TARGET_UNKNOWN
+#warning "Target undefined."
+#endif
+
 #if __has_include("ciot_custom_config.h")
 #include "ciot_custom_config.h"
 #else
@@ -22,6 +35,7 @@
 #define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD"
 
 #define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
+#define CIOT_CONFIG_FEATURE_SYSTEM 1   ///!< Enable System
 #define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
 #define CIOT_CONFIG_FEATURE_BLE 1      ///!< Enable UART
 #define CIOT_CONFIG_FEATURE_ETHERNET 1 ///!< Enable Ethernet

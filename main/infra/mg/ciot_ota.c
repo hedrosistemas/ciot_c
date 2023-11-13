@@ -11,7 +11,7 @@
 
 #include "ciot_ota.h"
 
-#if CIOT_CONFIG_FEATURE_OTA
+#if CIOT_CONFIG_FEATURE_OTA && defined(CIOT_TARGET_PC)
 
 struct ciot_ota
 {

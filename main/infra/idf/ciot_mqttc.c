@@ -9,14 +9,17 @@
  * 
  */
 
-#include "mqtt_client.h"
+#include "ciot_mqttc.h"
+
+#if CIOT_CONFIG_FEATURE_MQTTC && defined(CIOT_TARGET_ESP)
+
 #include "esp_log.h"
 
 #ifdef CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
 #include "esp_crt_bundle.h"
 #endif
 
-#include "ciot_mqttc.h"
+#include "mqtt_client.h"
 
 struct ciot_mqttc
 {
@@ -217,3 +220,5 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         self->iface.event_handler(self, &ciot_evt, self->iface.event_args);
     }
 }
+
+#endif

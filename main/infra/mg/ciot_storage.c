@@ -9,12 +9,12 @@
  * 
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "ciot_storage.h"
 
-#if CIOT_CONFIG_FEATURE_STORAGE
+#if CIOT_CONFIG_FEATURE_STORAGE && defined(CIOT_TARGET_PC)
+
+#include <stdlib.h>
+#include <stdio.h>
 
 struct ciot_storage
 {
@@ -81,7 +81,7 @@ ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req
     case CIOT_STORAGE_REQ_LOAD:
         return ciot_storage_load(self, req->data.load.path, req->data.load.data, req->data.load.size);
     case CIOT_STORAGE_REQ_DELETE:
-        return ciot_storage_delete(self, req->data.delete.path);
+        return ciot_storage_delete(self, req->data.remove.path);
     case CIOT_STORAGE_REQ_FORMAT:
         return ciot_storage_format(self);
     }
