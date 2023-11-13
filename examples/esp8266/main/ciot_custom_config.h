@@ -16,11 +16,11 @@
     {                            \
         0, 3, 0                  \
     }
-#define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD ESP32"
+#define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD ESP8266"
 
-#define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
+#define CIOT_CONFIG_FEATURE_STORAGE 0  ///!< Enable Storage
 #define CIOT_CONFIG_FEATURE_SYSTEM 1   ///!< Enable System
-#define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
+#define CIOT_CONFIG_FEATURE_UART 0     ///!< Enable UART
 #define CIOT_CONFIG_FEATURE_USB 0      ///!< Enable USB
 #define CIOT_CONFIG_FEATURE_BLE 0      ///!< Enable Bluetooth
 #define CIOT_CONFIG_FEATURE_ETHERNET 0 ///!< Enable Ethernet

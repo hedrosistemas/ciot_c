@@ -16,19 +16,26 @@
     {
       "name": "ESP8266",
       "forcedInclude": [
-        "${workspaceFolder}/build/config/sdkconfig.h"
+        "${workspaceFolder}/build/include/sdkconfig.h"
       ],
       "compilerPath": "C:/msys32/opt/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe",
+      "defines": [
+        "IDF_VER",
+        "ICACHE_FLASH"
+      ],
       "includePath": [
         "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
         "${workspaceFolder}/**",
-        "${workspaceFolder}/../../main/**"
+        "${workspaceFolder}/../../include/**",
+        "${workspaceFolder}/../../src/platform/mongoose"
       ],
       "browse": {
         "path": [
           "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
           "${workspaceFolder}/**",
-        "${workspaceFolder}/../../main/**"
+          "${workspaceFolder}/../../src/platform/mongoose/**",
+          "${workspaceFolder}/../../src"
+
       ],
         "limitSymbolsToIncludedHeaders": false
       }
