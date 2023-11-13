@@ -1,0 +1,38 @@
+{
+  "configurations": [
+    {
+      "name": "windows-gcc-x64",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "compilerPath": "C:/ProgramData/mingw64/mingw64/bin/gcc.exe",
+      "cStandard": "${default}",
+      "cppStandard": "${default}",
+      "intelliSenseMode": "windows-gcc-x64",
+      "compilerArgs": [
+        ""
+      ]
+    },
+    {
+      "name": "ESP8266",
+      "forcedInclude": [
+        "${workspaceFolder}/build/config/sdkconfig.h"
+      ],
+      "compilerPath": "C:/msys32/opt/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe",
+      "includePath": [
+        "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/../../main/**"
+      ],
+      "browse": {
+        "path": [
+          "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
+          "${workspaceFolder}/**",
+        "${workspaceFolder}/../../main/**"
+      ],
+        "limitSymbolsToIncludedHeaders": false
+      }
+    }
+  ],
+  "version": 4
+}

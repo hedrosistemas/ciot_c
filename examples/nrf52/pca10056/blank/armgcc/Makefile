@@ -123,17 +123,13 @@ INC_FOLDERS += \
   $(PROJ_DIR) \
 
 # ciot files
-SRC_FILES += $(wildcard $(CIOT_DIR)/main/infra/common/*.c)
-SRC_FILES += $(wildcard $(CIOT_DIR)/main/infra/nrf/*.c)
-SRC_FILES += $(wildcard $(CIOT_DIR)/main/interfaces/*.c)
-SRC_FILES += $(wildcard $(CIOT_DIR)/main/*.c)
+SRC_FILES += $(wildcard $(CIOT_DIR)/src/common/*.c)
+SRC_FILES += $(wildcard $(CIOT_DIR)/src/platform/nrf/*.c)
 
 # ciot dir
 INC_FOLDERS += \
-  $(CIOT_DIR)/main/types \
-  $(CIOT_DIR)/main/infra \
-  $(CIOT_DIR)/main/interfaces \
-  $(CIOT_DIR)/main \
+  $(CIOT_DIR)/include \
+  $(CIOT_DIR)/include/types \
 
 # Libraries common to all targets
 LIB_FILES += \
