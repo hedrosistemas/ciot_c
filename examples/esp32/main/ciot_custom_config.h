@@ -16,7 +16,7 @@
     {                            \
         0, 3, 0                  \
     }
-#define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD"
+#define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD ESP32"
 
 #define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
 #define CIOT_CONFIG_FEATURE_SYSTEM 1   ///!< Enable System
