@@ -12,7 +12,7 @@
 
 #include "ciot_uart.h"
 
-#if CIOT_CONFIG_FEATURE_UART && defined(CIOT_TARGET_PC) && defined(_WIN32)
+#if CIOT_CONFIG_FEATURE_UART && defined(CIOT_TARGET_PC) && defined(CIOT_TARGET_MONGOOSE)
 
 #include <stdbool.h>
 #include "stdio.h"

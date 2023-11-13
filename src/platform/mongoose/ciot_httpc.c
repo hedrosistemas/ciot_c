@@ -11,7 +11,7 @@
 
 #include "ciot_httpc.h"
 
-#if CIOT_CONFIG_FEATURE_HTTPC && defined(CIOT_TARGET_PC)
+#if CIOT_CONFIG_FEATURE_HTTPC && defined(CIOT_TARGET_MONGOOSE)
 
 #include <stdlib.h>
 #include <string.h>
@@ -119,7 +119,7 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
         *(uint64_t *)c->data = mg_millis() + self->cfg.timeout;
         break;
     case MG_EV_POLL:
-        CIOT_LOGI(TAG, "MG_EV_POLL", "");
+        CIOT_LOGI(TAG, "MG_EV_POLL");
         if (mg_millis() > *(uint64_t *)c->data && (c->is_connecting || c->is_resolving))
         {
             self->status.state = CIOT_HTTPC_STATE_TIMEOUT;
@@ -129,7 +129,7 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
         break;
     case MG_EV_CONNECT:
     {
-        CIOT_LOGI(TAG, "MG_EV_CONNECT", "");
+        CIOT_LOGI(TAG, "MG_EV_CONNECT");
         self->status.state = CIOT_HTTPC_STATE_CONNECTED;
         struct mg_str host = mg_url_host(self->cfg.url);
         mg_printf(c,
@@ -145,7 +145,7 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
     }
     case MG_EV_HTTP_MSG:
     {
-        CIOT_LOGI(TAG, "MG_EV_HTTP_MSG", "");
+        CIOT_LOGI(TAG, "MG_EV_HTTP_MSG");
         self->status.state = CIOT_HTTPC_STATE_IDLE;
         struct mg_http_message *hm = ev_data, tmp = {0};
         mg_http_parse((char *)c->recv.buf, c->recv.len, &tmp);

@@ -11,10 +11,15 @@
 
 #include "ciot_sys.h"
 
-#if CIOT_CONFIG_FEATURE_SYSTEM && defined(CIOT_TARGET_PC)
+#if CIOT_CONFIG_FEATURE_SYSTEM && defined(CIOT_TARGET_MONGOOSE)
 
-#ifdef  _WIN32
+#include <string.h>
+#include <stdlib.h>
+
+#ifdef CIOT_TARGET_WIN
 #include <windows.h>
+#elif defined(CIOT_TARGET_ESP8266) || defined(CIOT_TARGET_ESP32)
+#include "esp_system.h"
 #endif  //_WIN32
 
 struct ciot_sys
@@ -24,8 +29,6 @@ struct ciot_sys
     ciot_sys_status_t status;
     time_t init_time;
 };
-
-static ciot_sys_status_t *ciot_sys_get_status(void);
 
 static ciot_sys_t sys;
 
@@ -106,6 +109,17 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     return CIOT_OK;
 }
 
+#if defined(CIOT_TARGET_ESP8266)
+
+#include "esp_system.h"
+
+static uint32_t ciot_sys_get_free_ram(void)
+{
+    return esp_get_free_heap_size();
+}
+
+#elif defined(CIOT_TARGET_WIN)
+
 static uint32_t ciot_sys_get_free_ram(void)
 {
     MEMORYSTATUSEX status;
@@ -113,5 +127,7 @@ static uint32_t ciot_sys_get_free_ram(void)
     GlobalMemoryStatusEx(&status);
     return (uint32_t)(status.ullAvailPhys / 1024);
 }
+
+#endif
 
 #endif

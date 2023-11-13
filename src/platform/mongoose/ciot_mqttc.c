@@ -11,7 +11,7 @@
 
 #include "ciot_mqttc.h"
 
-#if CIOT_CONFIG_FEATURE_MQTTC && defined(CIOT_TARGET_PC)
+#if CIOT_CONFIG_FEATURE_MQTTC && defined(CIOT_TARGET_MONGOOSE)
 
 #include <stdlib.h>
 #include "mongoose.h"
@@ -99,6 +99,7 @@ ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t self, uint8_t *data, int size)
     req.qos = self->cfg.qos;
     req.size = size;
     ciot_mqttc_publish(self, &req);
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_mqttc_publish(ciot_mqttc_t self, ciot_mqttc_req_publish_t *req)
@@ -165,7 +166,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
     switch (mg_evt)
     {
     case MG_EV_ERROR:
-        CIOT_LOGE(TAG, "MG_EV_ERROR:%d:%s", c->id, (char *)ev_data);
+        CIOT_LOGE(TAG, "MG_EV_ERROR:%lu:%s", c->id, (char *)ev_data);
         self->status.error.code = c->id;
         self->status.state = CIOT_MQTT_STATE_ERROR;
         ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
@@ -173,7 +174,7 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
         ciot_evt.msg.data.mqtt.status = self->status;
         break;
     case MG_EV_OPEN:
-        CIOT_LOGI(TAG, "MG_EV_OPEN", "");
+        CIOT_LOGI(TAG, "MG_EV_OPEN");
         self->status.state = CIOT_MQTT_STATE_CONNECTING;
         ciot_evt.id = CIOT_MQTT_EVENT_CONNECTING;
         ciot_evt.msg.data.mqtt.status = self->status;
@@ -192,13 +193,13 @@ static void ciot_mqttc_event_handler(struct mg_connection *c, int ev, void *ev_d
     }
     case MG_EV_MQTT_MSG:
     {
-        CIOT_LOGI(TAG, "MG_EV_MQTT_MSG", "");
+        CIOT_LOGI(TAG, "MG_EV_MQTT_MSG");
         struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
         ciot_mqtt_event_data(self, &ciot_evt, (char*)mm->topic.ptr, (uint8_t*)mm->data.ptr, mm->data.len);
         break;
     }
     case MG_EV_CLOSE:
-        CIOT_LOGI(TAG, "MG_EV_CLOSE", "");
+        CIOT_LOGI(TAG, "MG_EV_CLOSE");
         self->status.state = CIOT_MQTT_STATE_DISCONNECTED;
         ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
         ciot_evt.msg.data.mqtt.status = self->status;

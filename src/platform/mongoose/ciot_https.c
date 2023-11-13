@@ -11,7 +11,7 @@
 
 #include "ciot_https.h"
 
-#if CIOT_CONFIG_FEATURE_HTTPS && defined(CIOT_TARGET_PC)
+#if CIOT_CONFIG_FEATURE_HTTPS && defined(CIOT_TARGET_MONGOOSE)
 
 #include <stdlib.h>
 #include "mongoose.h"
@@ -134,11 +134,12 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
     switch (mg_ev)
     {
     case MG_EV_ERROR:
-        CIOT_LOGE(TAG, "MG_EV_ERROR:%d:%s", c->id, (char *)ev_data);
+        CIOT_LOGE(TAG, "MG_EV_ERROR:%lu:%s", c->id, (char *)ev_data);
         self->status.state = CIOT_HTTPS_STATE_ERROR;
         self->status.error = c->id;
         ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
         ciot_evt.msg.data.https.status = self->status;
+        break;
     case MG_EV_OPEN:
         CIOT_LOGI(TAG, "MG_EV_OPEN url:%s", self->cfg.address);
         self->status.state = CIOT_HTTPS_STATE_STARTED;
@@ -146,15 +147,15 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         ciot_evt.msg.data.https.status = self->status;
         break;
     case MG_EV_CLOSE:
-        CIOT_LOGI(TAG, "MG_EV_CLOSE", "");
+        CIOT_LOGI(TAG, "MG_EV_CLOSE");
         self->status.state = CIOT_HTTPS_STATE_STOPPED;
         ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
         ciot_evt.msg.data.https.status = self->status;
         break;
     case MG_EV_HTTP_MSG:
     {
-        CIOT_LOGI(TAG, "MG_EV_HTTP_MSG", "");
-        struct mg_http_message *hm = (struct mg_http_message *)ev_data, tmp = {0};
+        CIOT_LOGI(TAG, "MG_EV_HTTP_MSG");
+        struct mg_http_message *hm = (struct mg_http_message *)ev_data;
         mg_http_parse((char*)c->recv.buf, c->recv.len, hm);
         ciot_https_event_data(self, &ciot_evt, c, hm);
         break;

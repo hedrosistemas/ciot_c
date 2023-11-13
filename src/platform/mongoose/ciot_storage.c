@@ -11,7 +11,7 @@
 
 #include "ciot_storage.h"
 
-#if CIOT_CONFIG_FEATURE_STORAGE && defined(CIOT_TARGET_PC)
+#if CIOT_CONFIG_FEATURE_STORAGE && defined(CIOT_TARGET_MONGOOSE)
 
 #include <stdlib.h>
 #include <stdio.h>
