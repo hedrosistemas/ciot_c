@@ -57,5 +57,16 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "idf.adapterTargetName": "esp8266"
+  "idf.adapterTargetName": "esp8266",
+  "files.associations": {
+    "ciot_uart.h": "c",
+    "ciot_mqttc.h": "c",
+    "stdio.h": "c",
+    "mongoose.h": "c",
+    "ciot_config.h": "c",
+    "ciot_httpc.h": "c",
+    "ciot_https.h": "c",
+    "ciot_log.h": "c",
+    "thread": "c"
+  }
 }
