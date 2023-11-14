@@ -5,5 +5,10 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-add_subdirectory(examples/win32)
-add_subdirectory(tests)
+if(DEFINED ENV{IDF_PATH})
+    add_subdirectory(examples/esp32)
+else()
+    add_subdirectory(examples/win32)
+    add_subdirectory(examples/uart_bridge)
+    add_subdirectory(tests)
+endif()
