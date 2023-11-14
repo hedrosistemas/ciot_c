@@ -26,6 +26,7 @@ struct ciot
     void *event_args;
     ciot_state_t state;
     ciot_storage_t storage;
+    int bridges_idx;
     // TODO:
     // void *iface_id_queue;  // Queue of ifaces id that have sended an event to ciot
 };
@@ -56,6 +57,8 @@ ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg)
         ret = err;
     }
 
+    self->bridges_idx = -1;
+
     err = ciot_ifaces_start(self);
     if (err != CIOT_OK && err != CIOT_ERR_NOT_IMPLEMENTED)
     {
@@ -64,6 +67,13 @@ ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg)
     }
 
     return ret;
+}
+
+ciot_err_t ciot_set_storage(ciot_t self, ciot_storage_t storage)
+{
+    CIOT_NULL_CHECK(self);
+    self->storage = storage;
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_register_event(ciot_t self, ciot_iface_event_handler_t event_handler, void *event_args)
@@ -109,20 +119,17 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
     CIOT_NULL_CHECK(self->ifaces);
 
     ciot_err_t ret = CIOT_OK;
-#if CIOT_CONFIG_FEATURE_STORAGE
-    ciot_storage_t storage = NULL;
-#endif
 
     if (self->ifaces_count > 0)
     {
         for (size_t i = 0; i < self->ifaces_count; i++)
         {
-#if CIOT_CONFIG_FEATURE_STORAGE
-            if (storage != NULL)
+#if CIOT_CONFIG_FETURE_STORAGE
+            if (self->storage != NULL)
             {
                 char filepath[32];
                 sprintf(filepath, "iface_cfg_%d.dat", i);
-                ciot_err_t err = ciot_storage_load(storage, filepath, (uint8_t *)self->cfgs[i], self->ifaces[i]->base.cfg.size);
+                ciot_err_t err = ciot_storage_load(self->storage, filepath, (uint8_t *)self->cfgs[i], self->ifaces[i]->base.cfg.size);
                 if (err == CIOT_OK)
                 {
                     CIOT_LOGI(TAG, "file:%s founded. loading cfg file into interface id:%d type:%d", filepath, i, self->ifaces[i]->info.type);
@@ -137,12 +144,10 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
                     CIOT_LOGE(TAG, "Interface id:%d type:%d cannot start. Error: %d", i, self->ifaces[i]->info.type, err);
                     ret = err;
                 }
-#if CIOT_CONFIG_FEATURE_STORAGE
-                if (i == 0 && self->ifaces[i]->info.type == CIOT_IFACE_TYPE_STORAGE && err == CIOT_OK)
+                else if(self->ifaces[i]->info.type == CIOT_IFACE_TYPE_BRIDGE && self->bridges_idx == CIOT_BRIDGE_NULL_TARGET)
                 {
-                    storage = (ciot_storage_t)self->ifaces[i];
+                    self->bridges_idx = i;
                 }
-#endif
             }
         }
     }
@@ -172,10 +177,24 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         }
     }
 
-    if (event->id == CIOT_IFACE_EVENT_DATA)
+    if (event->id == CIOT_IFACE_EVENT_REQUEST)
     {
         uint8_t id = event->msg.iface.id;
         return ciot_iface_process_msg(self->ifaces[id], &event->msg, sender);
+    }
+
+    if (event->id >= CIOT_IFACE_EVENT_DATA && self->bridges_idx != CIOT_BRIDGE_NULL_TARGET)
+    {
+        for (size_t i = self->bridges_idx; i < self->ifaces_count; i++)
+        {
+            if(self->ifaces[i]->info.type == CIOT_IFACE_TYPE_BRIDGE)
+            {
+                int target_id = ciot_bridge_get_target_id((ciot_bridge_t)self->ifaces[i], sender->info.id);
+                if(target_id != CIOT_BRIDGE_NULL_TARGET) {
+                    ciot_iface_send_data(self->ifaces[target_id], event->msg.data.common.event_data.ptr, event->msg.data.common.event_data.size);
+                }
+            }
+        }
     }
     
     if (self->event_handler != NULL)
