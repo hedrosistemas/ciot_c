@@ -58,6 +58,7 @@ typedef enum __attribute__((packed))
     CIOT_IFACE_TYPE_HTTP_CLIENT,
     CIOT_IFACE_TYPE_HTTP_SERVER,
     CIOT_IFACE_TYPE_MQTT,
+    CIOT_IFACE_TYPE_BRIDGE = 255,
 } ciot_msg_iface_type_t;
 
 typedef struct __attribute__((packed))
@@ -65,6 +66,11 @@ typedef struct __attribute__((packed))
     ciot_msg_iface_type_t type;
     uint8_t id;
 } ciot_msg_iface_info_t;
+
+typedef union ciot_common_data
+{
+    ciot_event_data_t event_data;
+} ciot_common_data_u;
 
 typedef union __attribute__((packed))
 {
@@ -80,6 +86,7 @@ typedef union __attribute__((packed))
     ciot_https_data_u https;
     ciot_httpc_data_u httpc;
     ciot_mqttc_data_u mqtt;
+    ciot_common_data_u common;
 } ciot_msg_data_u;
 
 typedef struct __attribute__((packed))
