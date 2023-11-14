@@ -71,6 +71,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     config.pselrxd = self->cfg.rx_pin;
     config.pseltxd = self->cfg.tx_pin;
     config.p_context = self;
+    ciot_s_set_bridge_mode(self->s, self->cfg.bridge_mode);
 
     switch (cfg->num)
     {
@@ -108,42 +109,12 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     // }
 
     return CIOT_OK;
-
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
 {
     nrf_drv_uart_uninit(&self->uart);
     return NRF_SUCCESS;
-}
-
-ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
-{
-    CIOT_NULL_CHECK(self);
-
-    ret_code_t ret;
-
-    switch (req->id)
-    {
-    case CIOT_UART_REQ_SEND_DATA:
-        ret = nrf_drv_uart_tx(&self->uart, req->data.send_data.data, req->data.send_data.size);
-        if (NRF_ERROR_BUSY == ret)
-        {
-            return CIOT_ERR_NO_MEMORY;
-        }
-        else if (ret != NRF_SUCCESS)
-        {
-            return CIOT_FAIL;
-        }
-        else
-        {
-            return CIOT_OK;
-        }
-        return CIOT_OK;
-    case CIOT_UART_REQ_UNKNOWN:
-        return CIOT_ERR_INVALID_ID;
-    }
-    return CIOT_ERR_INVALID_ID;
 }
 
 ciot_err_t ciot_uart_send_data(ciot_uart_t self, uint8_t *data, int size)
@@ -176,19 +147,6 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
-}
-
-static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
-{
-    ciot_uart_t self = (ciot_uart_t)iface;
-    CIOT_NULL_CHECK(self);
-    CIOT_NULL_CHECK(data);
-    CIOT_NULL_CHECK(self->iface.event_handler);
-    ciot_iface_event_t event = { 0 };
-    event.id = CIOT_IFACE_EVENT_DATA;
-    memcpy(&event.msg, data, size);
-    event.size = size;
-    return self->iface.event_handler(&self->iface, &event, self->iface.event_args);
 }
 
 // static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context)

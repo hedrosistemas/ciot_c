@@ -104,6 +104,7 @@ ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
     static const app_usbd_config_t usbd_config = {
         .ev_state_proc = ciot_usbd_event_handler,
     };
+    ciot_s_set_bridge_mode(self->s, self->cfg.bridge_mode);
 
     ret = nrf_drv_clock_init();
     APP_ERROR_CHECK(ret);
@@ -177,6 +178,12 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
         }
     }
     return err_code;
+}
+
+ciot_err_t ciot_usb_set_bridge_mode(ciot_usb_t self, bool mode)
+{
+    CIOT_NULL_CHECK(self);
+    return ciot_s_set_bridge_mode(self->s, mode);
 }
 
 ciot_err_t ciot_usb_task(ciot_usb_t self)

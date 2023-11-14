@@ -92,6 +92,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     config.pselrxd = self->cfg.rx_pin;
     config.pseltxd = self->cfg.tx_pin;
     config.p_context = self;
+    ciot_s_set_bridge_mode(self->s, self->cfg.bridge_mode);
 
     switch (cfg->num)
     {
@@ -123,7 +124,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     {
         nrf_drv_uart_rx(&self->uart, self->rx_byte, 1);
     }
-   
+       
     return CIOT_OK;
 }
 
@@ -180,22 +181,15 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     return err_code;
 }
 
+ciot_err_t ciot_uart_set_bridge_mode(ciot_uart_t self, bool mode)
+{
+    CIOT_NULL_CHECK(self);
+    return ciot_s_set_bridge_mode(self->s, mode);
+}
+
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
-}
-
-static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
-{
-    ciot_uart_t self = (ciot_uart_t)iface;
-    CIOT_NULL_CHECK(self);
-    CIOT_NULL_CHECK(data);
-    CIOT_NULL_CHECK(self->iface.event_handler);
-    ciot_iface_event_t event = { 0 };
-    event.id = CIOT_IFACE_EVENT_DATA;
-    memcpy(&event.msg, data, size);
-    event.size = size;
-    return self->iface.event_handler(&self->iface, &event, self->iface.event_args);
 }
 
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
