@@ -23,8 +23,9 @@ typedef enum ciot_iface_event_id
     CIOT_IFACE_EVENT_STARTED,
     CIOT_IFACE_EVENT_STOPPED,
     CIOT_IFACE_EVENT_ERROR,
-    CIOT_IFACE_EVENT_DATA,
+    CIOT_IFACE_EVENT_REQUEST,
     CIOT_IFACE_EVENT_REQ_DONE,
+    CIOT_IFACE_EVENT_DATA,
     CIOT_IFACE_EVENT_CUSTOM,
 } ciot_iface_event_id_t;
 
@@ -43,7 +44,7 @@ typedef ciot_err_t (ciot_iface_send_data_fn)(void *iface, void *data, int size);
 typedef struct ciot_iface_base_data
 {
     void *ptr;
-    int size;
+    uint16_t size;
 } ciot_iface_base_data_t;
 
 typedef struct ciot_iface_req_info
@@ -71,10 +72,10 @@ typedef ciot_err_t (ciot_iface_event_handler_t)(ciot_iface_t *sender, ciot_iface
 
 struct ciot_iface
 {
+    ciot_iface_base_t base;
     ciot_msg_iface_info_t info;
     ciot_iface_event_handler_t *event_handler;
     void *event_args;
-    ciot_iface_base_t base;
 };
 
 ciot_err_t ciot_iface_start(ciot_iface_t *self, ciot_msg_data_u *cfg);
