@@ -60,6 +60,7 @@ static const ciot_storage_cfg_t storage_cfg = {
 static const ciot_uart_cfg_t uart_cfg = {
     .baud_rate = CIOT_CONFIG_UART_BAUD,
     .num = CIOT_CONFIG_UART_PORT,
+    .parity = CIOT_CONFIG_UART_PARITY,
     .dtr = CIOT_CONFIG_UART_DTR,
 };
 

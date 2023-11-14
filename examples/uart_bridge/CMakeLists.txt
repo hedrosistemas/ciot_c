@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CIOT_DIR ../../)
 
-project(ciot_win32)
+project(ciot_uart_bridge)
 
 FILE(GLOB_RECURSE common ${CIOT_DIR}/src/common/*)
 FILE(GLOB_RECURSE mongoose ${CIOT_DIR}/src/platform/mongoose/*)
