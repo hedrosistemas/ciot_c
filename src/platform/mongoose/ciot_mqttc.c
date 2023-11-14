@@ -138,17 +138,17 @@ static void ciot_mqtt_event_data(ciot_mqttc_t self, ciot_iface_event_t *ciot_evt
 {
     int topic_len = (uint64_t)data - (uint64_t)topic;
     ciot_evt->id = (strncmp(topic, self->cfg.topics.b2d, topic_len) == 0) 
-        ? CIOT_IFACE_EVENT_DATA 
+        ? CIOT_IFACE_EVENT_REQUEST 
         : CIOT_MQTT_EVENT_DATA;
-    if(ciot_evt->id == CIOT_IFACE_EVENT_DATA) {
+    if(ciot_evt->id == CIOT_IFACE_EVENT_REQUEST) {
         ciot_evt->size = size;
         memcpy(&ciot_evt->msg, data, size);
     }
     else
     {
         ciot_evt->msg.data.mqtt.event.data.topic = topic;
-        ciot_evt->msg.data.mqtt.event.data.payload = data;
-        ciot_evt->msg.data.mqtt.event.data.size = size;
+        ciot_evt->msg.data.mqtt.event.data.payload.ptr = data;
+        ciot_evt->msg.data.mqtt.event.data.payload.size = size;
     }
 }
 

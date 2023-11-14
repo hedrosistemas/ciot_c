@@ -102,7 +102,7 @@ static void ciot_https_event_data(ciot_https_t self, ciot_iface_event_t *ciot_ev
     bool is_post = strncmp(hm->method.ptr, "POST", hm->method.len) == 0;
     if (mg_http_match_uri(hm, self->cfg.route) && is_post)
     {
-        ciot_evt->id = CIOT_IFACE_EVENT_DATA;
+        ciot_evt->id = CIOT_IFACE_EVENT_REQUEST;
         ciot_evt->size = hm->body.len;
         memcpy(&ciot_evt->msg, hm->body.ptr, hm->body.len);
     }
@@ -113,8 +113,8 @@ static void ciot_https_event_data(ciot_https_t self, ciot_iface_event_t *ciot_ev
         ciot_evt->msg.type = CIOT_MSG_TYPE_UNKNOWN;
         ciot_evt->msg.data.https.event.data.url = (char *)hm->uri.ptr;
         ciot_evt->msg.data.https.event.data.method = (char *)hm->method.ptr;
-        ciot_evt->msg.data.https.event.data.body = (uint8_t *)hm->body.ptr;
-        ciot_evt->msg.data.https.event.data.size = hm->body.len;
+        ciot_evt->msg.data.https.event.data.body.ptr = (uint8_t *)hm->body.ptr;
+        ciot_evt->msg.data.https.event.data.body.size = hm->body.len;
         ciot_evt->size = CIOT_MSG_GET_SIZE(ciot_evt->msg.data.https.event.data);
     }
     self->conn_tx = c;

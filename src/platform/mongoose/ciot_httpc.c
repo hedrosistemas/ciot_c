@@ -149,7 +149,7 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
         self->status.state = CIOT_HTTPC_STATE_IDLE;
         struct mg_http_message *hm = ev_data, tmp = {0};
         mg_http_parse((char *)c->recv.buf, c->recv.len, &tmp);
-        ciot_evt.id = CIOT_IFACE_EVENT_DATA;
+        ciot_evt.id = CIOT_IFACE_EVENT_REQUEST;
         ciot_evt.size = c->recv.len;
         memcpy(&ciot_evt.msg, hm->body.ptr, hm->body.len);
         break;
