@@ -16,7 +16,7 @@
 
 typedef struct ciot_event_data
 {
-    void *ptr;
+    uint8_t *ptr;
     int size;
 } ciot_event_data_t;
 

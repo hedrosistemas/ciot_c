@@ -29,6 +29,7 @@
 #define CIOT_TARGET_ESP
 #elif defined(NRF51) || defined(NRF52) || defined(NRF52840_XXAA)
 #define CIOT_TARGET_NRF
+#else
 #define CIOT_TARGET_UNKNOWN
 #warning "Target undefined."
 #endif

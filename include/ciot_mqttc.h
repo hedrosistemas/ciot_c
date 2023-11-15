@@ -21,7 +21,6 @@ typedef struct ciot_mqttc *ciot_mqttc_t;
 typedef enum ciot_mqttc_event_id
 {
     CIOT_MQTT_EVENT_CONNECTING = CIOT_IFACE_EVENT_CUSTOM,
-    CIOT_MQTT_EVENT_DATA,
     CIOT_MQTT_EVENT_SUBSCRIBED,
     CIOT_MQTT_EVENT_UNSUBCRIBED,
 } ciot_mqttc_event_id_t;

@@ -29,7 +29,7 @@ typedef enum __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-
+    bool bridge_mode;
 } ciot_usb_cfg_t;
 
 typedef struct __attribute__((packed))
