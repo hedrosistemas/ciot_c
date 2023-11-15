@@ -9,9 +9,11 @@
  * 
  */
 
-#include <string.h>
-
 #include "ciot_uart.h"
+
+#if (CIOT_CONFIG_FEATURE_UART)
+
+#include <string.h>
 
 ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
 {
@@ -37,19 +39,23 @@ ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(iface->event_handler);
     ciot_uart_base_t *self = (ciot_uart_base_t*)iface;
-    ciot_iface_event_t event = { 0 };
+    ciot_iface_event_t ciot_evt = { 0 };
+    
     if(self->cfg.bridge_mode)
     {
-        event.id = CIOT_IFACE_EVENT_DATA;
-        event.msg.data.common.event_data.ptr = data;
-        event.msg.data.common.event_data.size = size;
-        return iface->event_handler(iface, &event, iface->event_args);
+        ciot_event_data_t event_data = { 0 };
+        event_data.ptr = data;
+        event_data.size = size;
+        ciot_evt.id = CIOT_IFACE_EVENT_DATA;
+        ciot_evt.data = (ciot_iface_event_data_u*)&event_data;
+        return iface->event_handler(iface, &ciot_evt, iface->event_args);
     }
     else
     {
-        event.id = CIOT_IFACE_EVENT_REQUEST;
-        memcpy(&event.msg, data, size);
-        event.size = size;
-        return iface->event_handler(iface, &event, iface->event_args);
+        ciot_evt.id = CIOT_IFACE_EVENT_REQUEST;
+        ciot_evt.data = (ciot_iface_event_data_u*)data;
+        return iface->event_handler(iface, &ciot_evt, iface->event_args);
     }
 }
+
+#endif

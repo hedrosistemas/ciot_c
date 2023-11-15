@@ -155,21 +155,18 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
     return ret;
 }
 
-/*
-    TODO: implementar uma fila de eventos
-*/
 static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *event_args)
 {
     ciot_t self = (ciot_t)event_args;
 
     if (sender->base.req.pending)
     {
-        bool type_equal = sender->base.req.type == event->msg.type;
-        bool iface_equal = memcmp(&sender->base.req.iface, &event->msg.iface, sizeof(ciot_msg_iface_info_t)) == 0;
+        bool type_equal = sender->base.req.type == event->data->request.type;
+        bool iface_equal = memcmp(&sender->base.req.iface, &event->data->request.iface, sizeof(ciot_msg_iface_info_t)) == 0;
         if(type_equal && iface_equal)
         {
             sender->base.req.pending = false;
-            event->id = CIOT_IFACE_EVENT_REQ_DONE;
+            event->id = CIOT_IFACE_EVENT_DONE;
         }
         else
         {
@@ -179,8 +176,8 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 
     if (event->id == CIOT_IFACE_EVENT_REQUEST)
     {
-        uint8_t id = event->msg.iface.id;
-        return ciot_iface_process_msg(self->ifaces[id], &event->msg, sender);
+        uint8_t id = event->data->request.iface.id;
+        return ciot_iface_process_msg(self->ifaces[id], &event->data->request, sender);
     }
 
     if (event->id >= CIOT_IFACE_EVENT_DATA && self->bridges_idx != CIOT_BRIDGE_NULL_TARGET)
@@ -191,7 +188,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
             {
                 int target_id = ciot_bridge_get_target_id((ciot_bridge_t)self->ifaces[i], sender->info.id);
                 if(target_id != CIOT_BRIDGE_NULL_TARGET) {
-                    ciot_iface_send_data(self->ifaces[target_id], event->msg.data.common.event_data.ptr, event->msg.data.common.event_data.size);
+                    ciot_iface_send_data(self->ifaces[target_id], event->data->data.common.event_data.ptr, event->data->data.common.event_data.size);
                 }
             }
         }

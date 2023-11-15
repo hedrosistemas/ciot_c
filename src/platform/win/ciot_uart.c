@@ -130,19 +130,6 @@ ciot_err_t ciot_uart_set_bridge_mode(ciot_uart_t self, bool mode)
     return ciot_s_set_bridge_mode(self->uart.s, mode);
 }
 
-// static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
-// {
-//     ciot_uart_t self = (ciot_uart_t)iface;
-//     CIOT_NULL_CHECK(self);
-//     CIOT_NULL_CHECK(data);
-//     CIOT_NULL_CHECK(self->iface.event_handler);
-//     ciot_iface_event_t event = { 0 };
-//     event.id = CIOT_IFACE_EVENT_REQUEST;
-//     memcpy(&event.msg, data, size);
-//     event.size = size;
-//     return self->iface.event_handler(&self->iface, &event, self->iface.event_args);
-// }
-
 static ciot_err_t ciot_uart_init(ciot_uart_t self)
 {
     CIOT_NULL_CHECK(self);
@@ -189,10 +176,15 @@ static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
     if(self->uart.status.state == CIOT_UART_STATE_CLOSED && error == 0)
     {
         ciot_iface_event_t ciot_evt = { 0 };
+        ciot_iface_event_status_t evt_status = { 0 };
+        ciot_uart_status_t status = self->uart.status;
+
         self->uart.status.state = CIOT_UART_STATE_STARTED;
+        evt_status.iface = self->uart.iface.info;
+        evt_status.data = (ciot_msg_data_u*)&status;
         ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
-        ciot_evt.msg.iface = self->uart.iface.info;
-        ciot_evt.msg.data.uart.status = self->uart.status;
+        ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
+
         if(self->uart.iface.event_handler != NULL)
         {
             self->uart.iface.event_handler(&self->uart.iface, &ciot_evt, self->uart.iface.event_args);
@@ -203,10 +195,15 @@ static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
     if(self->uart.status.state == CIOT_UART_STATE_STARTED && error == CE_FRAME)
     {
         ciot_iface_event_t ciot_evt = { 0 };
+        ciot_iface_event_status_t evt_status = { 0 };
+        ciot_uart_status_t status = self->uart.status;
+
         self->uart.status.state = CIOT_UART_STATE_CLOSED;
+        evt_status.iface = self->uart.iface.info;
+        evt_status.data = (ciot_msg_data_u*)&status;
         ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
-        ciot_evt.msg.iface = self->uart.iface.info;
-        ciot_evt.msg.data.uart.status = self->uart.status;
+        ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
+        
         if(self->uart.iface.event_handler != NULL)
         {
             self->uart.iface.event_handler(&self->uart.iface, &ciot_evt, self->uart.iface.event_args);

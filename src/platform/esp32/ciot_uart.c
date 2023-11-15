@@ -29,8 +29,9 @@ struct ciot_uart
     uart_event_t event;
 };
 
-static ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
 static void ciot_uart_event_handler(void *args);
+
+ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
 
 static const char *TAG = "ciot_uart";
 
