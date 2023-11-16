@@ -24,8 +24,8 @@
 #define CIOT_CONFIG_FEATURE_USB 0      ///!< Enable USB
 #define CIOT_CONFIG_FEATURE_BLE 0      ///!< Enable Bluetooth
 #define CIOT_CONFIG_FEATURE_ETHERNET 0 ///!< Enable Ethernet
-#define CIOT_CONFIG_FEATURE_WIFI 0     ///!< Enable WiFi
-#define CIOT_CONFIG_FEATURE_NTP 0      ///!< Enable NTP
+#define CIOT_CONFIG_FEATURE_WIFI 1     ///!< Enable WiFi
+#define CIOT_CONFIG_FEATURE_NTP 1      ///!< Enable NTP
 #define CIOT_CONFIG_FEATURE_OTA 0      ///!< Enable OTA
 #define CIOT_CONFIG_FEATURE_HTTPS 1    ///!< Enable HTTP Server
 #define CIOT_CONFIG_FEATURE_HTTPC 1    ///!< Enable HTTP Client
@@ -50,11 +50,11 @@
 #define CIOT_CONFIG_HTTPC_METHOD CIOT_HTTPC_METHOD_POST
 #define CIOT_CONFIG_HTTPC_TIMEOUT 5000
 
-#define CIOT_CONFIG_MQTTC_ID "ciot_esp32_sample"
+#define CIOT_CONFIG_MQTTC_ID "ciot_esp8266_sample"
 #define CIOT_CONFIG_MQTTC_URL "mqtt://test.mosquitto.org"
 #define CIOT_CONFIG_MQTTC_PORT 1883
 #define CIOT_CONFIG_MQTTC_QOS 0
-#define CIOT_CONFIG_MQTTC_TOPIC_B2D "CIOT/B2D/esp32"
-#define CIOT_CONFIG_MQTTC_TOPIC_D2B "CIOT/D2B/esp32"
+#define CIOT_CONFIG_MQTTC_TOPIC_B2D "CIOT/B2D/esp8266"
+#define CIOT_CONFIG_MQTTC_TOPIC_D2B "CIOT/D2B/esp8266"
 
 #endif //!__CIOT_CUSTOM_CONFIG__H__
