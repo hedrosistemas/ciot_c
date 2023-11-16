@@ -15,6 +15,7 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+#include "ciot_common_types.h"
 #include "ciot_config.h"
 
 typedef enum __attribute__((packed))
@@ -41,6 +42,7 @@ typedef enum __attribute__((packed))
 {
     CIOT_UART_REQ_UNKNOWN,
     CIOT_UART_REQ_SEND_DATA,
+    CIOT_UART_REQ_SEND_BYTES,
     CIOT_UART_REQ_ENABLE_BRIDGE_MODE,
 } ciot_uart_req_id_t;
 
@@ -81,15 +83,9 @@ typedef struct __attribute__((packed))
     ciot_uart_req_data_u data;
 } ciot_uart_req_t;
 
-typedef struct ciot_uart_event_data
-{
-    uint8_t *payload;
-    int size;
-} ciot_uart_event_data_t;
-
 typedef union ciot_uart_event
 {
-    ciot_uart_event_data_t data;
+    ciot_event_data_t data;
 } ciot_uart_event_u;
 
 typedef union __attribute__((packed))

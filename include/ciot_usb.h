@@ -55,6 +55,7 @@ ciot_err_t ciot_usb_stop(ciot_usb_t self);
 ciot_err_t ciot_usb_process_req(ciot_usb_t self, ciot_usb_req_t *req);
 ciot_err_t ciot_usb_send_data(ciot_usb_t self, uint8_t *data, int size);
 ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size);
+ciot_err_t ciot_usb_set_bridge_mode(ciot_usb_t self, bool mode);
 ciot_err_t ciot_usb_task(ciot_usb_t self);
 
 #endif  //!__CIOT_USB__H__

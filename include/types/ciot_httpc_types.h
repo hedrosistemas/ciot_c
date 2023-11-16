@@ -15,6 +15,7 @@
 #include <inttypes.h>
 
 #include "ciot_config.h"
+#include "ciot_common_types.h"
 
 #define CIOT_HTTPC_URL_LEN 64
 #define CIOT_HTTPC_METHOD_LEN 8
@@ -107,9 +108,8 @@ typedef struct __attribute__((packed))
 
 typedef struct ciot_httpc_event_data
 {
+    ciot_event_data_t body;
     char *url;
-    void *data;
-    int size;
 } ciot_httpc_event_data_t;
 
 typedef union ciot_httpc_event

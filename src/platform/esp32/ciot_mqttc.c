@@ -154,8 +154,8 @@ static void ciot_mqttc_event_data(ciot_mqttc_t self, ciot_iface_event_t *event, 
     else
     {
         event->msg.data.mqtt.event.data.topic = topic;
-        event->msg.data.mqtt.event.data.payload = data;
-        event->msg.data.mqtt.event.data.size = size;
+        event->msg.data.mqtt.event.data.payload.ptr = data;
+        event->msg.data.mqtt.event.data.payload.size = size;
     }
 }
 

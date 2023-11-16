@@ -15,6 +15,7 @@
 #include "ciot_err.h"
 #include "ciot_iface.h"
 #include "ciot_storage.h"
+#include "ciot_bridge.h"
 
 typedef struct ciot *ciot_t;
 
@@ -34,6 +35,7 @@ typedef struct ciot_cfg
 
 ciot_t ciot_new(void);
 ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg);
+ciot_err_t ciot_set_storage(ciot_t self, ciot_storage_t storage);
 ciot_err_t ciot_register_event(ciot_t self, ciot_iface_event_handler_t event_handler, void *event_args);
 
 #endif  //!__CIOT__H__

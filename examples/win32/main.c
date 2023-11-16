@@ -60,6 +60,7 @@ static const ciot_storage_cfg_t storage_cfg = {
 static const ciot_uart_cfg_t uart_cfg = {
     .baud_rate = CIOT_CONFIG_UART_BAUD,
     .num = CIOT_CONFIG_UART_PORT,
+    .parity = CIOT_CONFIG_UART_PARITY,
     .dtr = CIOT_CONFIG_UART_DTR,
 };
 
@@ -148,7 +149,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 {
     app_t *self = (app_t *)args;
 
-    if(event->id == CIOT_IFACE_EVENT_STARTED && event->msg.iface.type == CIOT_IFACE_TYPE_UART)
+    if(event->id == CIOT_IFACE_EVENT_STARTED && event->data->started.iface.type == CIOT_IFACE_TYPE_UART)
     {
         ciot_msg_t msg = { 0 };
         msg.type = CIOT_MSG_TYPE_GET_STATUS;
@@ -157,7 +158,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         ciot_iface_send_msg((ciot_iface_t*)self->uart, &msg, CIOT_MSG_SIZE);
     }
 
-    if(event->id == CIOT_IFACE_EVENT_REQ_DONE)
+    if(event->id == CIOT_IFACE_EVENT_DONE)
     {
         printf("Event done!\n");
     }

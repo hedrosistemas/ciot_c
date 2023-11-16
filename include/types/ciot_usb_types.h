@@ -14,6 +14,7 @@
 
 #include <inttypes.h>
 
+#include "ciot_common_types.h"
 #include "ciot_config.h"
 
 typedef enum __attribute__((packed))
@@ -28,7 +29,7 @@ typedef enum __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-
+    bool bridge_mode;
 } ciot_usb_cfg_t;
 
 typedef struct __attribute__((packed))
@@ -47,15 +48,9 @@ typedef struct __attribute__((packed))
     ciot_usb_req_data_u data;
 } ciot_usb_req_t;
 
-typedef struct ciot_usb_event_data
-{
-    uint8_t *payload;
-    int size;
-} ciot_usb_event_data_t;
-
 typedef union ciot_usb_event
 {
-    ciot_usb_event_data_t data;
+    ciot_event_data_t data;
 } ciot_usb_event_u;
 
 typedef union __attribute__((packed))

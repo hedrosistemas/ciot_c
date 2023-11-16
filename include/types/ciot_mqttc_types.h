@@ -15,6 +15,7 @@
 #include <inttypes.h>
 #include <time.h>
 
+#include "ciot_common_types.h"
 #include "ciot_config.h"
 
 #define CIOT_MQTT_CLIENT_ID_LEN 32
@@ -113,9 +114,8 @@ typedef struct __attribute__((packed))
 
 typedef struct ciot_mqttc_event_data
 {
+    ciot_event_data_t payload;
     char *topic;
-    void *payload;
-    int size;
 } ciot_mqttc_event_data_t;
 
 typedef union ciot_mqttc_event

@@ -20,7 +20,7 @@ typedef struct ciot_httpc *ciot_httpc_t;
 
 typedef enum ciot_httpc_event_id
 {
-    CIOT_HTTPC_EVENT_DATA = CIOT_IFACE_EVENT_CUSTOM
+    CIOT_HTTPC_EVENT_CONNECTING = CIOT_IFACE_EVENT_CUSTOM
 } ciot_httpc_event_id_t;
 
 ciot_httpc_t ciot_httpc_new(void *handle);

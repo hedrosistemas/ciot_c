@@ -98,12 +98,15 @@ ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
 
     ret_code_t ret;
 
+    self->cfg = *cfg;
+
     ret = app_fifo_init(&self->fifo, self->tx_buf, CIOT_CONFIG_UART_TX_BUF_SIZE);
     VERIFY_SUCCESS(ret);
 
     static const app_usbd_config_t usbd_config = {
         .ev_state_proc = ciot_usbd_event_handler,
     };
+    ciot_s_set_bridge_mode(self->s, self->cfg.bridge_mode);
 
     ret = nrf_drv_clock_init();
     APP_ERROR_CHECK(ret);
@@ -161,7 +164,7 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
     CIOT_NULL_CHECK(iface);
     CIOT_NULL_CHECK(bytes);
-    uint32_t err_code;
+    uint32_t err_code = 0;
     uint32_t len = size;
     ciot_usb_t self = (ciot_usb_t)iface;
     err_code = app_fifo_write(&self->fifo, bytes, &len);
@@ -179,6 +182,12 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     return err_code;
 }
 
+ciot_err_t ciot_usb_set_bridge_mode(ciot_usb_t self, bool mode)
+{
+    CIOT_NULL_CHECK(self);
+    return ciot_s_set_bridge_mode(self->s, mode);
+}
+
 ciot_err_t ciot_usb_task(ciot_usb_t self)
 {
     app_usbd_event_queue_process();
@@ -187,24 +196,42 @@ ciot_err_t ciot_usb_task(ciot_usb_t self)
 
 static ciot_err_t ciot_usb_on_message(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    ciot_usb_t self = (ciot_usb_t)iface;
-    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(iface);
     CIOT_NULL_CHECK(data);
-    CIOT_NULL_CHECK(self->iface.event_handler);
-    ciot_iface_event_t event = {0};
-    event.id = CIOT_IFACE_EVENT_DATA;
-    memcpy(&event.msg, data, size);
-    event.size = size;
-    return self->iface.event_handler(&self->iface, &event, self->iface.event_args);
+    CIOT_NULL_CHECK(iface->event_handler);
+    ciot_usb_t self = (ciot_usb_t)iface;
+    ciot_iface_event_t ciot_evt = {0};
+
+    if (self->cfg.bridge_mode)
+    {
+        ciot_event_data_t event_data = {0};
+        event_data.ptr = data;
+        event_data.size = size;
+        ciot_evt.id = CIOT_IFACE_EVENT_DATA;
+        ciot_evt.data = (ciot_iface_event_data_u *)&event_data;
+        return iface->event_handler(iface, &ciot_evt, iface->event_args);
+    }
+    else
+    {
+        ciot_evt.id = CIOT_IFACE_EVENT_REQUEST;
+        ciot_evt.data = (ciot_iface_event_data_u *)data;
+        return iface->event_handler(iface, &ciot_evt, iface->event_args);
+    }
 }
 
 static void ciot_usbd_event_handler(app_usbd_event_type_t event)
 {
     ciot_usb_t self = usb;
-    ciot_iface_event_t ciot_evt = {0};
 
-    ciot_evt.msg.type = CIOT_MSG_TYPE_EVENT;
-    ciot_evt.msg.iface = self->iface.info;
+    if (self == NULL) return;
+
+    ciot_iface_event_t ciot_evt = {0};
+    ciot_iface_event_status_t evt_status = {0};
+    ciot_usb_status_t status = self->status;
+
+    evt_status.iface = self->iface.info;
+    evt_status.data = (ciot_msg_data_u*)&status;
+    ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
 
     switch (event)
     {
@@ -228,8 +255,7 @@ static void ciot_usbd_event_handler(app_usbd_event_type_t event)
         ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
         break;
     default:
-        ciot_evt.id = event + CIOT_IFACE_EVENT_CUSTOM;
-        break;
+        return;
     }
 
     if (self->iface.event_handler != NULL)
@@ -250,13 +276,13 @@ static void ciot_cdc_acm_event_handler(app_usbd_class_inst_t const *p_inst, app_
         do
         {
             ciot_err_t err = ciot_s_process_byte(self->s, self->rx_byte[0]);
-            if(err != CIOT_OK)
+            if (err != CIOT_OK)
             {
-                ciot_msg_t msg = { 0 };
+                ciot_msg_t msg = {0};
                 msg.iface = self->iface.info;
-                msg.data.usb.status.state = 
-                ciot_iface_send_msg(&self->iface, &msg, CIOT_MSG_SIZE);
-            } 
+                msg.data.usb.status.state =
+                    ciot_iface_send_msg(&self->iface, &msg, CIOT_MSG_SIZE);
+            }
             ret = app_usbd_cdc_acm_read(&m_app_cdc_acm,
                                         self->rx_byte,
                                         1);

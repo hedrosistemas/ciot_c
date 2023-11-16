@@ -235,7 +235,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 {
     app_t *self = (app_t *)args;
 
-    if (event->id != CIOT_IFACE_EVENT_REQ_DONE)
+    if (event->id != CIOT_IFACE_EVENT_DONE)
     {
         return CIOT_OK;
     }

@@ -9,8 +9,6 @@
  * 
  */
 
-#include "nrf_uart.h"
-
 #include "ciot.h"
 #include "ciot_log.h"
 #include "ciot_sys.h"
@@ -77,12 +75,19 @@ int main()
     app_start(&app);
     
     CIOT_LOGI(TAG, "%s", "App is running");
+
     while (true)
     {
+        char msg_uart0[] = "Hello World from UART 0!\n";
+        char msg_uart1[] = "Hello World from UART 1!\n";
+        char msg_usb[] = "Hello World from USB!\n";
         ciot_sys_task(app.sys);
         ciot_usb_task(app.usb);
         ciot_uart_task(app.uart0);
         ciot_uart_task(app.uart1);
+        ciot_uart_send_bytes(app.ifaces[APP_IFACE_UART0], (uint8_t*)&msg_uart0, 25);
+        ciot_uart_send_bytes(app.ifaces[APP_IFACE_UART1], (uint8_t*)&msg_uart1, 25);
+        ciot_usb_send_bytes(app.ifaces[APP_IFACE_USB], (uint8_t*)msg_usb, 22);
     }
 
     return 0;

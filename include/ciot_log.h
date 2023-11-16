@@ -30,21 +30,21 @@
 #define CIOT_LOGI(TAG, MASK, ...) \
     do { \
         printf("[%s] <INF>: ", TAG); \
-        printf(MASK, __VA_ARGS__); \
+        printf(MASK, ##__VA_ARGS__); \
         printf("\n"); \
     } while (0)
 
 #define CIOT_LOGW(TAG, MASK, ...) \
     do { \
         printf("[%s] <WAR>: ", TAG); \
-        printf(MASK, __VA_ARGS__); \
+        printf(MASK, ##__VA_ARGS__); \
         printf("\n"); \
     } while (0)
 
 #define CIOT_LOGE(TAG, MASK, ...) \
     do { \
         printf("[%s] <ERR>: ", TAG); \
-        printf(MASK, __VA_ARGS__); \
+        printf(MASK, ##__VA_ARGS__); \
         printf("\n"); \
     } while (0)
 
