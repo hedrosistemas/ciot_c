@@ -78,7 +78,32 @@
                 "UNICODE",
                 "_UNICODE"
             ]
-        }
+        },
+        {
+            "name": "ESP8266",
+            "forcedInclude": [
+              "${workspaceFolder}/examples/esp8266/build/include/sdkconfig.h"
+            ],
+            "compilerPath": "C:/msys32/opt/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe",
+            "defines": [
+              "IDF_VER",
+              "ICACHE_FLASH"
+            ],
+            "includePath": [
+              "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
+              "${workspaceFolder}/include/**",
+              "${workspaceFolder}/src/platform/mongoose",
+              "${workspaceFolder}/src/platform/esp8266",
+              "${workspaceFolder}/examples/esp8266/main"
+            ],
+            "browse": {
+              "path": [
+                "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
+      
+            ],
+              "limitSymbolsToIncludedHeaders": false
+            }
+          }
     ],
     "version": 4
 }
