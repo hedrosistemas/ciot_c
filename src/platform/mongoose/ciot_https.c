@@ -103,50 +103,40 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
 
     if(self == NULL || self->iface.event_handler == NULL) return;
 
-    ciot_iface_event_t ciot_evt = {0};
+    ciot_iface_event_t iface_event = {0};
+    ciot_https_status_t iface_status = self->status;
     mg_event_t mg_ev = ev;
+    iface_event.iface = self->iface.info;
 
     switch (mg_ev)
     {
     case MG_EV_ERROR:
     {
         CIOT_LOGE(TAG, "MG_EV_ERROR:%lu:%s", c->id, (char *)ev_data);
-        self->status.state = CIOT_HTTPS_STATE_ERROR;
-        self->status.error = c->id;
-        ciot_evt.id = CIOT_IFACE_EVENT_ERROR;
-        ciot_iface_event_status_t evt_status = { 0 };
-        ciot_https_status_t status = self->status;
-        evt_status.iface = self->iface.info;
-        evt_status.data = (ciot_msg_data_u*)&status;
-        ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
-        self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
-        return;
+        iface_status.state = CIOT_HTTPS_STATE_ERROR;
+        iface_status.error = c->id;
+        iface_event.id = CIOT_IFACE_EVENT_ERROR;
+        iface_event.data = (ciot_iface_event_data_u*)&iface_status;
+        iface_event.size = sizeof(iface_status);
+        break;
     }
     case MG_EV_OPEN:
     {
         CIOT_LOGI(TAG, "MG_EV_OPEN url:%s", self->cfg.address);
-        self->status.state = CIOT_HTTPS_STATE_STARTED;
-        ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
-        ciot_iface_event_status_t evt_status = { 0 };
-        ciot_https_status_t status = self->status;
-        evt_status.iface = self->iface.info;
-        evt_status.data = (ciot_msg_data_u*)&status;
-        ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
-        self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
-        return;
+        iface_status.state = CIOT_HTTPS_STATE_STARTED;
+        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.data = (ciot_iface_event_data_u*)&iface_status;
+        iface_event.size = sizeof(iface_status);
+        break;
     }
     case MG_EV_CLOSE:
     {
         CIOT_LOGI(TAG, "MG_EV_CLOSE");
-        self->status.state = CIOT_HTTPS_STATE_STOPPED;
-        ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
-        ciot_iface_event_status_t evt_status = { 0 };
-        ciot_https_status_t status = self->status;
-        evt_status.iface = self->iface.info;
-        evt_status.data = (ciot_msg_data_u*)&status;
-        ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
-        self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
-        return;
+        iface_status.state = CIOT_HTTPS_STATE_STOPPED;
+        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.data = (ciot_iface_event_data_u*)&iface_status;
+        iface_event.size = sizeof(iface_status);
+        break;
     }
     case MG_EV_HTTP_MSG:
     {
@@ -157,10 +147,9 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         self->conn_tx = c;
         if (mg_http_match_uri(hm, self->cfg.route) && is_post)
         {
-            ciot_evt.id = CIOT_IFACE_EVENT_REQUEST;
-            ciot_evt.data = (ciot_iface_event_data_u*)hm->body.ptr;
-            ciot_evt.size = hm->body.len;
-            self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
+            iface_event.id = CIOT_IFACE_EVENT_REQUEST;
+            iface_event.data = (ciot_iface_event_data_u*)hm->body.ptr;
+            iface_event.size = hm->body.len;
         }
         else
         {
@@ -169,14 +158,25 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
             event_data.body.size = hm->body.len;
             event_data.method = (char*)hm->method.ptr;
             event_data.url = (char*)hm->uri.ptr;
-            ciot_evt.id = CIOT_HTTPS_EVENT_DATA;
-            ciot_evt.data = (ciot_iface_event_data_u*)&event_data;
-            self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
+            iface_event.id = CIOT_HTTPS_EVENT_DATA;
+            iface_event.data = (ciot_iface_event_data_u*)&event_data;
+            if (self->iface.event_handler != NULL)
+            {
+                self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
+                return;
+            }
         }
-        return;
+        break;
     }
     default:
         return;
+    }
+
+    self->status = iface_status;
+
+    if (self->iface.event_handler != NULL)
+    {
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 }
 

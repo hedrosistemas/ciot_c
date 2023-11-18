@@ -98,13 +98,19 @@ static ciot_err_t ciot_https_register_routes(ciot_https_t self)
 
 static esp_err_t ciot_post_handler(httpd_req_t *req)
 {
-    ciot_https_t self = req->user_ctx;
+    ciot_https_t self = (ciot_https_t)req->user_ctx;
+
+    if(self == NULL) return 0;
+
     ciot_iface_event_t event = { 0 };
+    ciot_msg_t msg;
+
+    httpd_req_recv(req, (char*)&msg, event.size);
 
     self->req = req;
-    event.id = CIOT_IFACE_EVENT_DATA;
+    event.id = CIOT_IFACE_EVENT_REQUEST;
     event.size = req->content_len;
-    httpd_req_recv(req, (char*)&event.msg, sizeof(event.msg));
+    event.data = (ciot_iface_event_data_u*)&msg;
 
     if(self->iface.event_handler != NULL)
     {

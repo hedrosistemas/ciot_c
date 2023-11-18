@@ -68,7 +68,9 @@
     "ciot_usb.h": "c",
     "ciot_sys_data.h": "c",
     "ciot_log.h": "c",
-    "stdbool.h": "c"
+    "stdbool.h": "c",
+    "ciot_bridge.h": "c",
+    "ciot_iface.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

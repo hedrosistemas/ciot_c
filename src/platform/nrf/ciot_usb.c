@@ -53,14 +53,19 @@ APP_USBD_CDC_ACM_GLOBAL_DEF(m_app_cdc_acm,
                             CDC_ACM_DATA_EPOUT,
                             APP_USBD_CDC_COMM_PROTOCOL_AT_V250);
 
+typedef struct ciot_usb_fifo
+{
+    app_fifo_t tx;
+    uint8_t tx_buf[CIOT_CONFIG_UART_TX_BUF_SIZE];
+} ciot_usb_fifo_t;
+
 struct ciot_usb
 {
     ciot_iface_t iface;
     ciot_usb_cfg_t cfg;
     ciot_usb_status_t status;
     ciot_s_t s;
-    app_fifo_t fifo;
-    uint8_t tx_buf[CIOT_CONFIG_UART_TX_BUF_SIZE];
+    ciot_usb_fifo_t fifo;
     uint8_t rx_byte[1];
     uint8_t tx_byte[1];
     bool tx_in_progress;
@@ -100,7 +105,7 @@ ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
 
     self->cfg = *cfg;
 
-    ret = app_fifo_init(&self->fifo, self->tx_buf, CIOT_CONFIG_UART_TX_BUF_SIZE);
+    ret = app_fifo_init(&self->fifo.tx, self->fifo.tx_buf, CIOT_CONFIG_UART_TX_BUF_SIZE);
     VERIFY_SUCCESS(ret);
 
     static const app_usbd_config_t usbd_config = {
@@ -164,22 +169,32 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
     CIOT_NULL_CHECK(iface);
     CIOT_NULL_CHECK(bytes);
-    uint32_t err_code = 0;
-    uint32_t len = size;
+    
+    uint32_t err_code;
+    uint32_t len = 0;
     ciot_usb_t self = (ciot_usb_t)iface;
-    err_code = app_fifo_write(&self->fifo, bytes, &len);
-    if (err_code == NRF_SUCCESS)
+
+    err_code = app_fifo_write(&self->fifo.tx, NULL, &len);
+    err_code = len < size ? CIOT_ERR_OVERFLOW : CIOT_OK;
+    if(err_code == CIOT_OK)
     {
-        if (!self->tx_in_progress)
+        len = size;
+        err_code = app_fifo_write(&self->fifo.tx, bytes, &len);
+        if(err_code == NRF_SUCCESS)
         {
-            self->tx_in_progress = true;
-            if (app_fifo_get(&self->fifo, self->tx_byte) == NRF_SUCCESS)
+            if(!self->tx_in_progress)
             {
-                err_code = app_usbd_cdc_acm_write(&m_app_cdc_acm, self->tx_byte, 1);
+                self->tx_in_progress = true;
+                if(app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS) 
+                {
+                    err_code = app_usbd_cdc_acm_write(&m_app_cdc_acm, bytes, size);
+                }
             }
         }
     }
+
     return err_code;
+    // return app_usbd_cdc_acm_write(&m_app_cdc_acm, bytes, size);
 }
 
 ciot_err_t ciot_usb_set_bridge_mode(ciot_usb_t self, bool mode)
@@ -200,22 +215,22 @@ static ciot_err_t ciot_usb_on_message(ciot_iface_t *iface, uint8_t *data, int si
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(iface->event_handler);
     ciot_usb_t self = (ciot_usb_t)iface;
-    ciot_iface_event_t ciot_evt = {0};
+    ciot_iface_event_t iface_event = {0};
 
     if (self->cfg.bridge_mode)
     {
         ciot_event_data_t event_data = {0};
         event_data.ptr = data;
         event_data.size = size;
-        ciot_evt.id = CIOT_IFACE_EVENT_DATA;
-        ciot_evt.data = (ciot_iface_event_data_u *)&event_data;
-        return iface->event_handler(iface, &ciot_evt, iface->event_args);
+        iface_event.id = CIOT_IFACE_EVENT_DATA;
+        iface_event.data = (ciot_iface_event_data_u *)&event_data;
+        return iface->event_handler(iface, &iface_event, iface->event_args);
     }
     else
     {
-        ciot_evt.id = CIOT_IFACE_EVENT_REQUEST;
-        ciot_evt.data = (ciot_iface_event_data_u *)data;
-        return iface->event_handler(iface, &ciot_evt, iface->event_args);
+        iface_event.id = CIOT_IFACE_EVENT_REQUEST;
+        iface_event.data = (ciot_iface_event_data_u *)data;
+        return iface->event_handler(iface, &iface_event, iface->event_args);
     }
 }
 
@@ -225,34 +240,32 @@ static void ciot_usbd_event_handler(app_usbd_event_type_t event)
 
     if (self == NULL) return;
 
-    ciot_iface_event_t ciot_evt = {0};
-    ciot_iface_event_status_t evt_status = {0};
-    ciot_usb_status_t status = self->status;
-
-    evt_status.iface = self->iface.info;
-    evt_status.data = (ciot_msg_data_u*)&status;
-    ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
+    ciot_iface_event_t iface_event = {0};
 
     switch (event)
     {
     case APP_USBD_EVT_POWER_DETECTED:
         if (!nrf_drv_usbd_is_enabled())
         {
+            self->tx_in_progress = false;
             app_usbd_enable();
         }
-        ciot_evt.id = CIOT_USB_EVENT_POWER_DETECTED;
+        iface_event.id = CIOT_USB_EVENT_POWER_DETECTED;
         break;
     case APP_USBD_EVT_POWER_REMOVED:
         app_usbd_stop();
-        ciot_evt.id = CIOT_USB_EVENT_POWER_REMOVED;
+        self->tx_in_progress = false;
+        iface_event.id = CIOT_USB_EVENT_POWER_REMOVED;
         break;
     case APP_USBD_EVT_POWER_READY:
         app_usbd_start();
-        ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
+        self->tx_in_progress = false;
+        iface_event.id = CIOT_IFACE_EVENT_STARTED;
         break;
     case APP_USBD_EVT_STOPPED:
         app_usbd_disable();
-        ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
+        self->tx_in_progress = false;
+        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
         break;
     default:
         return;
@@ -260,7 +273,7 @@ static void ciot_usbd_event_handler(app_usbd_event_type_t event)
 
     if (self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(&self->iface, &ciot_evt, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 }
 
@@ -291,7 +304,7 @@ static void ciot_cdc_acm_event_handler(app_usbd_class_inst_t const *p_inst, app_
     }
     case APP_USBD_CDC_ACM_USER_EVT_TX_DONE:
     {
-        if (app_fifo_get(&self->fifo, self->tx_byte) == NRF_SUCCESS)
+        if (app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS)
         {
             app_usbd_cdc_acm_write(&m_app_cdc_acm, self->tx_byte, 1);
         }
@@ -303,6 +316,7 @@ static void ciot_cdc_acm_event_handler(app_usbd_class_inst_t const *p_inst, app_
     }
     case APP_USBD_CDC_ACM_USER_EVT_PORT_OPEN:
     {
+        self->tx_in_progress = false;
         app_usbd_cdc_acm_read(&m_app_cdc_acm, &self->rx_byte, 1);
         break;
     }
