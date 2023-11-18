@@ -92,65 +92,73 @@ ciot_err_t ciot_httpc_send_data(ciot_httpc_t self, uint8_t *data, int size)
 {
     if (self->status.state == CIOT_HTTPC_STATE_STARTED)
     {
-        esp_http_client_set_post_field(self->handle, (char*)data, size);
+        esp_http_client_set_post_field(self->handle, (char *)data, size);
         esp_http_client_perform(self->handle);
     }
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
-static void ciot_httpc_event_data(ciot_httpc_t self, ciot_iface_event_t *event, char *data, int size)
-{
-    event->id = CIOT_IFACE_EVENT_DATA;
-    event->size = size;
-    memcpy(&event->msg.data, data, size);
-}
 
 static int ciot_httpc_event_handler(esp_http_client_event_handle_t evt)
 {
     ciot_httpc_t self = evt->user_data;
-    ciot_iface_event_t event = {0};
+
+    if (self == NULL) return 0;
+
+    ciot_iface_event_t iface_event = {0};
+    ciot_httpc_status_t iface_status = self->status;
+    iface_event.iface = self->iface.info;
 
     switch (evt->event_id)
     {
     case HTTP_EVENT_ERROR:
         ESP_LOGD(TAG, "HTTP_EVENT_ERROR");
-        self->status.state = CIOT_HTTPC_STATE_ERROR;
-        event.id = CIOT_IFACE_EVENT_ERROR;
-        event.msg.data.httpc.status = self->status;
+        iface_status.state = CIOT_HTTPC_STATE_ERROR;
+        iface_event.id = CIOT_IFACE_EVENT_ERROR;
+        iface_event.data = (ciot_iface_event_data_u*)&iface_status;
+        iface_event.size = sizeof(iface_status);
         break;
     case HTTP_EVENT_ON_CONNECTED:
         ESP_LOGD(TAG, "HTTP_EVENT_ON_CONNECTED");
-        self->status.state = CIOT_HTTPC_STATE_CONNECTED;
+        iface_status.state = CIOT_HTTPC_STATE_CONNECTED;
+        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.data = (ciot_iface_event_data_u*)&iface_status;
+        iface_event.size = sizeof(iface_status);
         break;
     case HTTP_EVENT_HEADERS_SENT:
         ESP_LOGD(TAG, "HTTP_EVENT_HEADERS_SENT");
-        break;
+        return 0;
     case HTTP_EVENT_ON_HEADER:
         ESP_LOGD(TAG, "HTTP_EVENT_ON_HEADER");
-        break;
+        return 0;
     case HTTP_EVENT_ON_DATA:
         ESP_LOGD(TAG, "HTTP_EVENT_ON_DATA");
-        ciot_httpc_event_data(self, &event, evt->data, evt->data_len);
+        iface_status.state = CIOT_HTTPC_STATE_DATA_RECEIVED;
+        iface_event.id = CIOT_IFACE_EVENT_REQUEST;
+        iface_event.data = (ciot_iface_event_data_u*)evt->data;
+        iface_event.size = evt->data_len;
         break;
     case HTTP_EVENT_ON_FINISH:
         ESP_LOGD(TAG, "HTTP_EVENT_ON_FINISH");
         self->status.state = CIOT_HTTPC_STATE_IDLE;
-        break;
+        return 0;
     case HTTP_EVENT_DISCONNECTED:
         ESP_LOGD(TAG, "HTTP_EVENT_DISCONNECTED");
         self->status.state = CIOT_HTTPC_STATE_IDLE;
-        break;
+        return 0;
     case HTTP_EVENT_REDIRECT:
         ESP_LOGD(TAG, "HTTP_EVENT_REDIRECT");
-
-        break;
+        self->status.state = CIOT_HTTPC_STATE_IDLE;
+        return 0;
     default:
-        break;
+        return 0;
     }
 
-    if(self->iface.event_handler != NULL)
+    self->status = iface_status;
+
+    if (self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(&self->iface, &event, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 
     return ESP_OK;

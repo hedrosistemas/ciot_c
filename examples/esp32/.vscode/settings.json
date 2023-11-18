@@ -7,7 +7,24 @@
         "ciot_err.h": "c",
         "inttypes.h": "c",
         "time.h": "c",
-        "ciot_config.h": "c"
+        "ciot_config.h": "c",
+        "ciot.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "bitset": "c",
+        "initializer_list": "c",
+        "regex": "c",
+        "esp_system.h": "c",
+        "esp_idf_version.h": "c",
+        "esp_http_client.h": "c",
+        "socket.h": "c",
+        "esp_err.h": "c",
+        "sdkconfig.h": "c",
+        "sockets.h": "c"
     },
-    "idf.adapterTargetName": "esp32"
+    "idf.adapterTargetName": "esp32",
+    "idf.portWin": "COM15",
+    "idf.flashBaudRate": "460800",
+    "idf.flashType": "UART",
 }

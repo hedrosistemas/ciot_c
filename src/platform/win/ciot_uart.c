@@ -175,38 +175,36 @@ static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
 {
     if(self->uart.status.state == CIOT_UART_STATE_CLOSED && error == 0)
     {
-        ciot_iface_event_t ciot_evt = { 0 };
-        ciot_iface_event_status_t evt_status = { 0 };
-        ciot_uart_status_t status = self->uart.status;
+        ciot_iface_event_t iface_event = { 0 };
+        ciot_uart_status_t iface_status = self->uart.status;
 
-        self->uart.status.state = CIOT_UART_STATE_STARTED;
-        evt_status.iface = self->uart.iface.info;
-        evt_status.data = (ciot_msg_data_u*)&status;
-        ciot_evt.id = CIOT_IFACE_EVENT_STARTED;
-        ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
+        iface_status.state = CIOT_UART_STATE_STARTED;
+        iface_event.iface = self->uart.iface.info;
+        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.data = (ciot_iface_event_data_u*)&iface_status;
+        iface_event.size = sizeof(iface_status);
 
         if(self->uart.iface.event_handler != NULL)
         {
-            self->uart.iface.event_handler(&self->uart.iface, &ciot_evt, self->uart.iface.event_args);
+            self->uart.iface.event_handler(&self->uart.iface, &iface_event, self->uart.iface.event_args);
         }
         CIOT_LOGI(TAG, "UART_OPEN port:%s", self->port_name);
     }
 
     if(self->uart.status.state == CIOT_UART_STATE_STARTED && error == CE_FRAME)
     {
-        ciot_iface_event_t ciot_evt = { 0 };
-        ciot_iface_event_status_t evt_status = { 0 };
-        ciot_uart_status_t status = self->uart.status;
+        ciot_iface_event_t iface_event = { 0 };
+        ciot_uart_status_t iface_status = self->uart.status;
 
-        self->uart.status.state = CIOT_UART_STATE_CLOSED;
-        evt_status.iface = self->uart.iface.info;
-        evt_status.data = (ciot_msg_data_u*)&status;
-        ciot_evt.id = CIOT_IFACE_EVENT_STOPPED;
-        ciot_evt.data = (ciot_iface_event_data_u*)&evt_status;
+        iface_status.state = CIOT_UART_STATE_CLOSED;
+        iface_event.iface = self->uart.iface.info;
+        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.data = (ciot_iface_event_data_u*)&iface_status;
+        iface_event.size = sizeof(iface_status);
         
         if(self->uart.iface.event_handler != NULL)
         {
-            self->uart.iface.event_handler(&self->uart.iface, &ciot_evt, self->uart.iface.event_args);
+            self->uart.iface.event_handler(&self->uart.iface, &iface_event, self->uart.iface.event_args);
         }
         CIOT_LOGI(TAG, "UART_CLOSED port:%s", self->port_name);
     }

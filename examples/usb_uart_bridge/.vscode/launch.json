@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "e:/Projetos/ciot-platform/ciot-c/examples/nrf52",
-      "program": "e:/Projetos/ciot-platform/ciot-c/examples/nrf52/build/Debug/outDebug",
+      "cwd": "e:/Projetos/ciot-platform/ciot-c/examples/usb_uart_bridge",
+      "program": "e:/Projetos/ciot-platform/ciot-c/examples/usb_uart_bridge/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

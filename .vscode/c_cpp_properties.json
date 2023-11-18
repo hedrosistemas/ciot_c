@@ -24,9 +24,9 @@
             "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
-            "name": "ESP-IDF",
+            "name": "esp32",
             "forcedInclude": [
-                "${workspaceFolder}/build/config/sdkconfig.h"
+                "${workspaceFolder}/examples/esp32/build/config/sdkconfig.h"
             ],
             "defines": [
                 "ESP_PLATFORM"
@@ -46,6 +46,30 @@
                     "${config:idf.espAdfPath}/components/**",
                     "${config:idf.espAdfPathWin}/components/**",
                     "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            }
+        },
+        {
+            "name": "esp8266",
+            "forcedInclude": [
+                "${workspaceFolder}/examples/esp8266/build/include/sdkconfig.h"
+            ],
+            "compilerPath": "C:/msys32/opt/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe",
+            "defines": [
+                "IDF_VER",
+                "ICACHE_FLASH"
+            ],
+            "includePath": [
+                "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/src/platform/mongoose",
+                "${workspaceFolder}/src/platform/esp8266",
+                "${workspaceFolder}/examples/esp8266/main"
+            ],
+            "browse": {
+                "path": [
+                    "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
                 ],
                 "limitSymbolsToIncludedHeaders": false
             }
@@ -78,32 +102,7 @@
                 "UNICODE",
                 "_UNICODE"
             ]
-        },
-        {
-            "name": "ESP8266",
-            "forcedInclude": [
-              "${workspaceFolder}/examples/esp8266/build/include/sdkconfig.h"
-            ],
-            "compilerPath": "C:/msys32/opt/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe",
-            "defines": [
-              "IDF_VER",
-              "ICACHE_FLASH"
-            ],
-            "includePath": [
-              "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
-              "${workspaceFolder}/include/**",
-              "${workspaceFolder}/src/platform/mongoose",
-              "${workspaceFolder}/src/platform/esp8266",
-              "${workspaceFolder}/examples/esp8266/main"
-            ],
-            "browse": {
-              "path": [
-                "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
-      
-            ],
-              "limitSymbolsToIncludedHeaders": false
-            }
-          }
+        }
     ],
     "version": 4
 }

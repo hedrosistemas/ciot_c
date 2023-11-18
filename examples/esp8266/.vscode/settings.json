@@ -67,6 +67,7 @@
     "ciot_httpc.h": "c",
     "ciot_https.h": "c",
     "ciot_log.h": "c",
-    "thread": "c"
+    "thread": "c",
+    "inttypes.h": "c"
   }
 }
