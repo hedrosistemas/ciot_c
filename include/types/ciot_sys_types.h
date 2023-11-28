@@ -30,7 +30,6 @@ typedef struct __attribute__((packed))
     uint32_t usb: 1;
     uint32_t ethernet : 1;
     uint32_t wifi : 1;
-    uint32_t ble: 1;
     uint32_t ble_scn : 1;
     uint32_t reserved : 24;
 } ciot_sys_hw_features_t;
