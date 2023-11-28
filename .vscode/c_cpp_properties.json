@@ -89,7 +89,6 @@
                 "-mcpu=cortex-m4"
             ],
             "includePath": [
-                "${workspaceFolder}/**",
                 "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/components/**",
                 "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/modules/**",
                 "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/external/**",
