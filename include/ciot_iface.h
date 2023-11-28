@@ -33,15 +33,15 @@ typedef union __attribute__((packed))
 {
     ciot_msg_data_u started;
     ciot_msg_data_u stopped;
-    ciot_msg_data_u error;
+    ciot_msg_t error;
     ciot_msg_t request;
-    ciot_msg_data_u data;
+    uint8_t data;
+    ciot_msg_t done;
 } ciot_iface_event_data_u;
 
 typedef struct __attribute__((packed))
 {
     ciot_iface_event_id_t id;
-    ciot_msg_iface_info_t iface;
     ciot_iface_event_data_u *data;
     uint16_t size;
 } ciot_iface_event_t;
