@@ -63,11 +63,11 @@ typedef struct __attribute__((packed))
 
 typedef union __attribute__((packed))
 {
-    // #if CIOT_CONFIG_FEATURE_ble
+    #if CIOT_CONFIG_FEATURE_BLE_SCN
     ciot_ble_scn_cfg_t config;
     ciot_ble_scn_status_t status;
     ciot_ble_scn_req_t request;
-    // #endif
+    #endif
 } ciot_ble_scn_data_u;
 
 #endif  //!__CIOT_BLE_SCN_TYPES__H__
