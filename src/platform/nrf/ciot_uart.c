@@ -35,7 +35,6 @@ struct ciot_uart
     ciot_uart_fifo_t fifo;
     uint8_t rx_byte[1];
     uint8_t tx_byte[1];
-    bool bridge_mode;
 };
 
 ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
@@ -169,15 +168,12 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     {
         len = size;
         err_code = app_fifo_write(&self->fifo.tx, bytes, &len);
-        if(err_code == NRF_SUCCESS)
+    }
+    if(!nrf_drv_uart_tx_in_progress(&self->handle))
+    {
+        if(app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS) 
         {
-            if(!nrf_drv_uart_tx_in_progress(&self->handle))
-            {
-                if(app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS) 
-                {
-                    err_code = nrf_drv_uart_tx(&self->handle, self->tx_byte, 1);
-                }
-            }
+            err_code = nrf_drv_uart_tx(&self->handle, self->tx_byte, 1);
         }
     }
 
