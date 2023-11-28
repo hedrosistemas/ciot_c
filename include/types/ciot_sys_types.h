@@ -30,8 +30,9 @@ typedef struct __attribute__((packed))
     uint32_t usb: 1;
     uint32_t ethernet : 1;
     uint32_t wifi : 1;
-    uint32_t bluetooth : 1;
-    uint32_t reserved : 25;
+    uint32_t ble: 1;
+    uint32_t ble_scn : 1;
+    uint32_t reserved : 24;
 } ciot_sys_hw_features_t;
 
 typedef struct __attribute__((packed))
@@ -59,9 +60,9 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    uint32_t rst_reason;
-    uint32_t rst_count;
-    uint32_t free_memory;
+    uint8_t rst_reason;
+    uint16_t rst_count;
+    uint16_t free_memory;
     uint32_t lifetime;
     ciot_sys_info_t info;
 } ciot_sys_status_t;
