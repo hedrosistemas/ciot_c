@@ -23,7 +23,7 @@
     {
       "name": "nRF52 (pca10040)",
       "cwd": "${workspaceRoot}",
-      "executable": "pca10040/blank/armgcc/_build/nrf52832_xxaa.out",
+      "executable": "pca10040/s132/armgcc/_build/nrf52832_xxaa.out",
       "armToolchainPath": "C:/ProgramData/chocolatey/lib/gcc-arm-embedded/tools/gcc-arm-none-eabi-10.3-2021.10/bin",
       "request": "launch",
       "type": "cortex-debug",
@@ -34,7 +34,7 @@
     {
       "name": "nRF52 (pca10050)",
       "cwd": "${workspaceRoot}",
-      "executable": "pca10056/blank/armgcc/_build/nrf52840_xxaa.out",
+      "executable": "pca10056/s140/armgcc/_build/nrf52840_xxaa.out",
       "armToolchainPath": "C:/ProgramData/chocolatey/lib/gcc-arm-embedded/tools/gcc-arm-none-eabi-10.3-2021.10/bin",
       "request": "launch",
       "type": "cortex-debug",

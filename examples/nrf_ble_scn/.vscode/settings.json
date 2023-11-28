@@ -68,8 +68,12 @@
     "ciot_usb.h": "c",
     "ciot_sys_data.h": "c",
     "ciot_uart_types.h": "c",
-    "ciot_usb_types.h": "c",
-    "ciot_iface.h": "c"
+    "nrf_log_default_backends.h": "c",
+    "ciot_ble.h": "c",
+    "ciot_config.h": "c",
+    "ciot_ble_scn.h": "c",
+    "ciot_ble_scn_types.h": "c",
+    "ciot_bridge.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }
