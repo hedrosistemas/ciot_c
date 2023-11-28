@@ -27,8 +27,6 @@ struct ciot
     ciot_state_t state;
     ciot_storage_t storage;
     int bridges_idx;
-    // TODO:
-    // void *iface_id_queue;  // Queue of ifaces id that have sended an event to ciot
 };
 
 static ciot_err_t ciot_set_iface_list(ciot_t self, ciot_iface_t *ifaces[], int count);
@@ -161,9 +159,10 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 
     if (sender->base.req.pending)
     {
-        bool type_equal = sender->base.req.type == event->data->request.type;
         bool iface_equal = memcmp(&sender->base.req.iface, &event->data->request.iface, sizeof(ciot_msg_iface_info_t)) == 0;
-        if(type_equal && iface_equal)
+        bool type_equal = sender->base.req.type == event->data->request.type;
+        bool error = event->data->request.type == CIOT_MSG_TYPE_ERROR;
+        if(iface_equal && (type_equal || error))
         {
             sender->base.req.pending = false;
             event->id = CIOT_IFACE_EVENT_DONE;
@@ -180,7 +179,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         return ciot_iface_process_msg(self->ifaces[id], &event->data->request, sender);
     }
 
-    if (event->id >= CIOT_IFACE_EVENT_DATA && self->bridges_idx != CIOT_BRIDGE_NULL_TARGET)
+    if (event->id == CIOT_IFACE_EVENT_DATA && self->bridges_idx != CIOT_BRIDGE_NULL_TARGET)
     {
         for (size_t i = self->bridges_idx; i < self->ifaces_count; i++)
         {
@@ -188,7 +187,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
             {
                 int target_id = ciot_bridge_get_target_id((ciot_bridge_t)self->ifaces[i], sender->info.id);
                 if(target_id != CIOT_BRIDGE_NULL_TARGET) {
-                    ciot_iface_send_data(self->ifaces[target_id], event->data->data.common.event_data.ptr, event->data->data.common.event_data.size);
+                    ciot_iface_send_data(self->ifaces[target_id], event->data, event->size);
                 }
             }
         }

@@ -19,7 +19,8 @@
 
 typedef enum __attribute__((packed))
 {
-    CIOT_USB_STATE_IDLE,
+    CIOT_USB_STATE_STOPPED,
+    CIOT_USB_STATE_STARTED
 } ciot_usb_state_t;
 
 typedef enum __attribute__((packed))

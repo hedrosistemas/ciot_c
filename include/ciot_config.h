@@ -50,7 +50,7 @@
 #define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
 #define CIOT_CONFIG_FEATURE_SYSTEM 1   ///!< Enable System
 #define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
-#define CIOT_CONFIG_FEATURE_BLE 1      ///!< Enable UART
+#define CIOT_CONFIG_FEATURE_BLE_SCN 1  ///!< Enable Bluetooth Low Energy Scanner
 #define CIOT_CONFIG_FEATURE_ETHERNET 1 ///!< Enable Ethernet
 #define CIOT_CONFIG_FEATURE_WIFI 1     ///!< Enable WiFi
 #define CIOT_CONFIG_FEATURE_NTP 1      ///!< Enable NTP
@@ -58,6 +58,7 @@
 #define CIOT_CONFIG_FEATURE_HTTPS 1    ///!< Enable HTTP Server
 #define CIOT_CONFIG_FEATURE_HTTPC 1    ///!< Enable HTTP Client
 #define CIOT_CONFIG_FEATURE_MQTTC 1    ///!< Enable MQTT Client
+#define CIOT_CONFIG_FEATURE_BRIDGE 1   ///!< Enable Bridge Implementation
 #define CIOT_CONFIG_MESSAGE_LEN 330    ///!< CIOT expected message size
 
 #define CIOT_CONFIG_UART_RX_BUF_SIZE 256

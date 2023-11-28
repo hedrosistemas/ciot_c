@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "e:/Projetos/ciot-platform/ciot-c/examples/usb_uart_bridge",
-      "program": "e:/Projetos/ciot-platform/ciot-c/examples/usb_uart_bridge/build/Debug/outDebug",
+      "cwd": "e:/Projetos/ciot-platform/ciot-c/examples/nrf_ble_scn",
+      "program": "e:/Projetos/ciot-platform/ciot-c/examples/nrf_ble_scn/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -19,6 +19,28 @@
           "ignoreFailures": true
         }
       ]
+    },
+    {
+      "name": "nRF52 (pca10040)",
+      "cwd": "${workspaceRoot}",
+      "executable": "pca10040/blank/armgcc/_build/nrf52832_xxaa.out",
+      "armToolchainPath": "C:/ProgramData/chocolatey/lib/gcc-arm-embedded/tools/gcc-arm-none-eabi-10.3-2021.10/bin",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "jlink",
+      "device": "nrf52",
+      "interface": "swd"
+    },
+    {
+      "name": "nRF52 (pca10050)",
+      "cwd": "${workspaceRoot}",
+      "executable": "pca10056/blank/armgcc/_build/nrf52840_xxaa.out",
+      "armToolchainPath": "C:/ProgramData/chocolatey/lib/gcc-arm-embedded/tools/gcc-arm-none-eabi-10.3-2021.10/bin",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "jlink",
+      "device": "nrf52",
+      "interface": "swd"
     }
   ]
 }

@@ -179,13 +179,13 @@ static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
         ciot_uart_status_t iface_status = self->uart.status;
 
         iface_status.state = CIOT_UART_STATE_STARTED;
-        iface_event.iface = self->uart.iface.info;
         iface_event.id = CIOT_IFACE_EVENT_STARTED;
         iface_event.data = (ciot_iface_event_data_u*)&iface_status;
         iface_event.size = sizeof(iface_status);
 
         if(self->uart.iface.event_handler != NULL)
         {
+            self->uart.status = iface_status;
             self->uart.iface.event_handler(&self->uart.iface, &iface_event, self->uart.iface.event_args);
         }
         CIOT_LOGI(TAG, "UART_OPEN port:%s", self->port_name);
@@ -197,13 +197,13 @@ static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
         ciot_uart_status_t iface_status = self->uart.status;
 
         iface_status.state = CIOT_UART_STATE_CLOSED;
-        iface_event.iface = self->uart.iface.info;
         iface_event.id = CIOT_IFACE_EVENT_STOPPED;
         iface_event.data = (ciot_iface_event_data_u*)&iface_status;
         iface_event.size = sizeof(iface_status);
         
         if(self->uart.iface.event_handler != NULL)
         {
+            self->uart.status = iface_status;
             self->uart.iface.event_handler(&self->uart.iface, &iface_event, self->uart.iface.event_args);
         }
         CIOT_LOGI(TAG, "UART_CLOSED port:%s", self->port_name);

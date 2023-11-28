@@ -8,5 +8,8 @@ build:
 flash:
 	$(MAKE) flash -C $(TARGET)/$(SD)/armgcc -f Makefile
 
+flash_softdevice:
+	$(MAKE) flash -C $(TARGET)/$(SD)/armgcc -f Makefile
+
 erase:
 	$(MAKE) erase -C $(TARGET)/$(SD)/armgcc -f Makefile

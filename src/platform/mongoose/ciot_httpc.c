@@ -109,7 +109,6 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
     ciot_iface_event_t iface_event = {0};
     ciot_httpc_status_t iface_status = self->status;
     mg_event_t mg_event = ev;
-    iface_event.iface = self->iface.info;
 
     switch (mg_event)
     {

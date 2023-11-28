@@ -122,7 +122,6 @@ static void ciot_uart_event_handler(void *args)
 
     ciot_iface_event_t iface_event = {0};
     ciot_uart_status_t iface_status = self->uart.status;
-    iface_event.iface = self->uart.iface.info;
 
     while (true)
     {

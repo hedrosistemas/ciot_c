@@ -67,7 +67,9 @@
     "nrf_drv_uart.h": "c",
     "ciot_usb.h": "c",
     "ciot_sys_data.h": "c",
-    "ciot_uart_types.h": "c"
+    "ciot_uart_types.h": "c",
+    "ciot_usb_types.h": "c",
+    "ciot_iface.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

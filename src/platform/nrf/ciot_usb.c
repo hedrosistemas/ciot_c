@@ -180,21 +180,17 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     {
         len = size;
         err_code = app_fifo_write(&self->fifo.tx, bytes, &len);
-        if(err_code == NRF_SUCCESS)
+    }
+    if(!self->tx_in_progress)
+    {
+        self->tx_in_progress = true;
+        if(app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS) 
         {
-            if(!self->tx_in_progress)
-            {
-                self->tx_in_progress = true;
-                if(app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS) 
-                {
-                    err_code = app_usbd_cdc_acm_write(&m_app_cdc_acm, bytes, size);
-                }
-            }
+            err_code = app_usbd_cdc_acm_write(&m_app_cdc_acm, bytes, size);
         }
     }
 
     return err_code;
-    // return app_usbd_cdc_acm_write(&m_app_cdc_acm, bytes, size);
 }
 
 ciot_err_t ciot_usb_set_bridge_mode(ciot_usb_t self, bool mode)
@@ -215,23 +211,12 @@ static ciot_err_t ciot_usb_on_message(ciot_iface_t *iface, uint8_t *data, int si
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(iface->event_handler);
     ciot_usb_t self = (ciot_usb_t)iface;
-    ciot_iface_event_t iface_event = {0};
-
-    if (self->cfg.bridge_mode)
-    {
-        ciot_event_data_t event_data = {0};
-        event_data.ptr = data;
-        event_data.size = size;
-        iface_event.id = CIOT_IFACE_EVENT_DATA;
-        iface_event.data = (ciot_iface_event_data_u *)&event_data;
-        return iface->event_handler(iface, &iface_event, iface->event_args);
-    }
-    else
-    {
-        iface_event.id = CIOT_IFACE_EVENT_REQUEST;
-        iface_event.data = (ciot_iface_event_data_u *)data;
-        return iface->event_handler(iface, &iface_event, iface->event_args);
-    }
+    ciot_iface_event_t ciot_evt = { 0 };
+    
+    ciot_evt.id = self->cfg.bridge_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
+    ciot_evt.data = (ciot_iface_event_data_u*)data;
+    ciot_evt.size = size;
+    return iface->event_handler(iface, &ciot_evt, iface->event_args);
 }
 
 static void ciot_usbd_event_handler(app_usbd_event_type_t event)
@@ -293,8 +278,7 @@ static void ciot_cdc_acm_event_handler(app_usbd_class_inst_t const *p_inst, app_
             {
                 ciot_msg_t msg = {0};
                 msg.iface = self->iface.info;
-                msg.data.usb.status.state =
-                    ciot_iface_send_msg(&self->iface, &msg, CIOT_MSG_SIZE);
+                msg.data.usb.status.state = ciot_iface_send_msg(&self->iface, &msg, CIOT_MSG_HEADER_SIZE);
             }
             ret = app_usbd_cdc_acm_read(&m_app_cdc_acm,
                                         self->rx_byte,

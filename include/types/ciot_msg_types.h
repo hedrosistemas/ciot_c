@@ -20,7 +20,7 @@
 #include "ciot_usb_types.h"
 #include "ciot_tcp_types.h"
 #include "ciot_wifi_types.h"
-#include "ciot_ble_types.h"
+#include "ciot_ble_scn_types.h"
 #include "ciot_ntp_types.h"
 #include "ciot_ota_types.h"
 #include "ciot_https_types.h"
@@ -28,8 +28,8 @@
 #include "ciot_mqttc_types.h"
 #include "ciot_tcp_types.h"
 
-#define CIOT_MSG_SIZE (sizeof(ciot_msg_t) - sizeof(ciot_msg_data_u))
-#define CIOT_MSG_GET_SIZE(type) (CIOT_MSG_SIZE + sizeof(type))
+#define CIOT_MSG_HEADER_SIZE (sizeof(ciot_msg_t) - sizeof(ciot_msg_data_u))
+#define CIOT_MSG_GET_SIZE(type) (CIOT_MSG_HEADER_SIZE + sizeof(type))
 
 typedef enum __attribute__((packed))
 {
@@ -39,6 +39,7 @@ typedef enum __attribute__((packed))
     CIOT_MSG_TYPE_GET_CONFIG,
     CIOT_MSG_TYPE_GET_STATUS,
     CIOT_MSG_TYPE_REQUEST,
+    CIOT_MSG_TYPE_ERROR,
     CIOT_MSG_TYPE_EVENT,
 } ciot_msg_type_t;
 
@@ -53,7 +54,8 @@ typedef enum __attribute__((packed))
     CIOT_IFACE_TYPE_ETH,
     CIOT_IFACE_TYPE_WIFI,
     CIOT_IFACE_TYPE_BLE,
-    CIOT_IFACE_TYPE_NTP,
+    CIOT_IFACE_TYPE_BLE_SCN,
+    CIOT_IFACE_TYPE_NTP=127,
     CIOT_IFACE_TYPE_OTA,
     CIOT_IFACE_TYPE_HTTP_CLIENT,
     CIOT_IFACE_TYPE_HTTP_SERVER,
@@ -67,10 +69,12 @@ typedef struct __attribute__((packed))
     uint8_t id;
 } ciot_msg_iface_info_t;
 
-typedef union ciot_common_data
+typedef struct __attribute__((packed))
 {
-    ciot_event_data_t event_data;
-} ciot_common_data_u;
+    ciot_msg_iface_info_t iface;
+    ciot_msg_type_t msg_type;
+    ciot_err_t code;
+} ciot_error_data_t;
 
 typedef union __attribute__((packed))
 {
@@ -80,13 +84,13 @@ typedef union __attribute__((packed))
     ciot_usb_data_u usb;
     ciot_tcp_data_u eth;
     ciot_wifi_data_u wifi;
-    ciot_ble_data_u ble;
+    ciot_ble_scn_data_u ble_scn;
     ciot_ntp_data_u ntp;
     ciot_ota_data_u ota;
     ciot_https_data_u https;
     ciot_httpc_data_u httpc;
     ciot_mqttc_data_u mqtt;
-    ciot_common_data_u common;
+    ciot_error_data_t error;
 } ciot_msg_data_u;
 
 typedef struct __attribute__((packed))

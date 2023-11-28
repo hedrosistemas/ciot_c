@@ -107,7 +107,6 @@ static int ciot_httpc_event_handler(esp_http_client_event_handle_t evt)
 
     ciot_iface_event_t iface_event = {0};
     ciot_httpc_status_t iface_status = self->status;
-    iface_event.iface = self->iface.info;
 
     switch (evt->event_id)
     {

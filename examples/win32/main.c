@@ -149,13 +149,13 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 {
     app_t *self = (app_t *)args;
 
-    if(event->id == CIOT_IFACE_EVENT_STARTED && event->iface.type == CIOT_IFACE_TYPE_UART)
+    if(event->id == CIOT_IFACE_EVENT_STARTED && sender->info.type == CIOT_IFACE_TYPE_UART)
     {
         ciot_msg_t msg = { 0 };
         msg.type = CIOT_MSG_TYPE_GET_STATUS;
         msg.iface.type = CIOT_IFACE_TYPE_SYSTEM;
         msg.iface.id = 0;
-        ciot_iface_send_msg((ciot_iface_t*)self->uart, &msg, CIOT_MSG_SIZE);
+        ciot_iface_send_msg((ciot_iface_t*)self->uart, &msg, CIOT_MSG_HEADER_SIZE);
     }
 
     if(event->id == CIOT_IFACE_EVENT_DONE)

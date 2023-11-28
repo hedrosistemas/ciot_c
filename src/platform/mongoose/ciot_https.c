@@ -106,7 +106,6 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
     ciot_iface_event_t iface_event = {0};
     ciot_https_status_t iface_status = self->status;
     mg_event_t mg_ev = ev;
-    iface_event.iface = self->iface.info;
 
     switch (mg_ev)
     {

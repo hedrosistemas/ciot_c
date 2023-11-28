@@ -41,21 +41,10 @@ ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
     ciot_uart_base_t *self = (ciot_uart_base_t*)iface;
     ciot_iface_event_t ciot_evt = { 0 };
     
-    if(self->cfg.bridge_mode)
-    {
-        ciot_event_data_t event_data = { 0 };
-        event_data.ptr = data;
-        event_data.size = size;
-        ciot_evt.id = CIOT_IFACE_EVENT_DATA;
-        ciot_evt.data = (ciot_iface_event_data_u*)&event_data;
-        return iface->event_handler(iface, &ciot_evt, iface->event_args);
-    }
-    else
-    {
-        ciot_evt.id = CIOT_IFACE_EVENT_REQUEST;
-        ciot_evt.data = (ciot_iface_event_data_u*)data;
-        return iface->event_handler(iface, &ciot_evt, iface->event_args);
-    }
+    ciot_evt.id = self->cfg.bridge_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
+    ciot_evt.data = (ciot_iface_event_data_u*)data;
+    ciot_evt.size = size;
+    return iface->event_handler(iface, &ciot_evt, iface->event_args);
 }
 
 #endif

@@ -24,7 +24,7 @@
         "sockets.h": "c"
     },
     "idf.adapterTargetName": "esp32",
-    "idf.portWin": "COM15",
-    "idf.flashBaudRate": "460800",
+    "idf.portWin": "COM16",
+    "idf.flashBaudRate": "115200",
     "idf.flashType": "UART",
 }

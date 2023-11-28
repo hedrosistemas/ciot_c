@@ -2,6 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "nRF52 (pca10050)",
+      "cwd": "${workspaceRoot}",
+      "executable": "pca10056/blank/armgcc/_build/nrf52840_xxaa.out",
+      "armToolchainPath": "C:/ProgramData/chocolatey/lib/gcc-arm-embedded/tools/gcc-arm-none-eabi-10.3-2021.10/bin",
+      "request": "launch",
+      "type": "cortex-debug",
+      "servertype": "jlink",
+      "device": "nrf52",
+      "interface": "swd"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",

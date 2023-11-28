@@ -23,6 +23,7 @@
 #define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
 #define CIOT_CONFIG_FEATURE_USB 0      ///!< Enable USB
 #define CIOT_CONFIG_FEATURE_BLE 0      ///!< Enable Bluetooth
+#define CIOT_CONFIG_FEATURE_BLE_SCN 0  ///!< Enable Bluetooth Scanner
 #define CIOT_CONFIG_FEATURE_ETHERNET 0 ///!< Enable Ethernet
 #define CIOT_CONFIG_FEATURE_WIFI 0     ///!< Enable WiFi
 #define CIOT_CONFIG_FEATURE_NTP 0      ///!< Enable NTP
@@ -30,6 +31,7 @@
 #define CIOT_CONFIG_FEATURE_HTTPS 1    ///!< Enable HTTP Server
 #define CIOT_CONFIG_FEATURE_HTTPC 1    ///!< Enable HTTP Client
 #define CIOT_CONFIG_FEATURE_MQTTC 1    ///!< Enable MQTT Client
+#define CIOT_CONFIG_FEATURE_BRIDGE 0   ///!< Enable Bridge Implementation
 #define CIOT_CONFIG_MESSAGE_LEN 330    ///!< CIOT expected message size
 
 #define CIOT_CONFIG_UART_RX_BUF_SIZE 256

@@ -10,10 +10,10 @@
                     "owner": "armgcc",
                     "fileLocation": [
                         "relative",
-                        "${workspaceFolder}/pca10056/blank"
+                        "${workspaceFolder}/pca10056/s140"
                     ],
                     "pattern": {
-                        "regexp": "^\\.\\.(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                        "regexp": "^\\.\\.(.*):(\\d+):(\\d+):\\s+(warning|error|fatal error):\\s+(.*)$",
                         "file": 1,
                         "line": 2,
                         "column": 3,
@@ -32,7 +32,7 @@
                     "owner": "armgcc",
                     "fileLocation": [
                         "relative",
-                        "${workspaceFolder}/pca10056/blank"
+                        "${workspaceFolder}/pca10056/s140"
                     ],
                     "pattern": {
                         "regexp": "^\\.\\.(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
@@ -44,6 +44,16 @@
                     }
                 }
             ]
+        },
+        {
+            "label": "Flash Softdevice",
+            "type": "shell",
+            "command": "make flash_softdevice",
+        },
+        {
+            "label": "Erase",
+            "type": "shell",
+            "command": "make erase",
         }
     ]
 }

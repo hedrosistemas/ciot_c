@@ -40,7 +40,9 @@ static void app_start(app_t *self);
 
 static const ciot_sys_cfg_t sys_cfg;
 
-static const ciot_usb_cfg_t usb_cfg;
+static const ciot_usb_cfg_t usb_cfg = {
+    .bridge_mode = false
+};
 
 static const ciot_uart_cfg_t uart0_cfg = {
     .baud_rate = CIOT_CONFIG_UART_BAUD,
@@ -85,8 +87,8 @@ int main()
         ciot_usb_task(app.usb);
         ciot_uart_task(app.uart0);
         ciot_uart_task(app.uart1);
-        ciot_uart_send_bytes(app.ifaces[APP_IFACE_UART0], (uint8_t*)&msg_uart0, 25);
-        ciot_uart_send_bytes(app.ifaces[APP_IFACE_UART1], (uint8_t*)&msg_uart1, 25);
+        ciot_uart_send_bytes(app.ifaces[APP_IFACE_UART0], (uint8_t*)msg_uart0, 25);
+        ciot_uart_send_bytes(app.ifaces[APP_IFACE_UART1], (uint8_t*)msg_uart1, 25);
         ciot_usb_send_bytes(app.ifaces[APP_IFACE_USB], (uint8_t*)msg_usb, 22);
     }
 
