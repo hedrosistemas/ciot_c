@@ -86,7 +86,8 @@ static void ciot_sys_init(ciot_sys_t self)
     self->status.info.features.hw.usb = CIOT_CONFIG_FEATURE_USB;
     self->status.info.features.hw.ethernet = CIOT_CONFIG_FEATURE_ETHERNET;
     self->status.info.features.hw.wifi = CIOT_CONFIG_FEATURE_WIFI;
-    self->status.info.features.hw.bluetooth = CIOT_CONFIG_FEATURE_BLE;
+    self->status.info.features.hw.ble = CIOT_CONFIG_FEATURE_BLE;
+    self->status.info.features.hw.ble_scn = CIOT_CONFIG_FEATURE_BLE_SCN;
     
     self->status.info.features.sw.ntp = CIOT_CONFIG_FEATURE_NTP;
     self->status.info.features.sw.ota = CIOT_CONFIG_FEATURE_OTA;
