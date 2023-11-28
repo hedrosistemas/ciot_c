@@ -50,7 +50,7 @@
 #define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
 #define CIOT_CONFIG_FEATURE_SYSTEM 1   ///!< Enable System
 #define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
-#define CIOT_CONFIG_FEATURE_BLE 1      ///!< Enable UART
+#define CIOT_CONFIG_FEATURE_BLE_SCN 1  ///!< Enable Bluetooth Low Energy Scanner
 #define CIOT_CONFIG_FEATURE_ETHERNET 1 ///!< Enable Ethernet
 #define CIOT_CONFIG_FEATURE_WIFI 1     ///!< Enable WiFi
 #define CIOT_CONFIG_FEATURE_NTP 1      ///!< Enable NTP
