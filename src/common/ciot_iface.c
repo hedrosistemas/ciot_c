@@ -87,37 +87,67 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sen
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(msg);
 
+    ciot_err_t err = CIOT_OK;
+
     if (msg->iface.id != self->info.id)
     {
-        return CIOT_ERR_INVALID_ID;
+        err = CIOT_ERR_INVALID_ID;
     }
 
     if (msg->iface.type != self->info.type)
     {
-        return CIOT_ERR_INVALID_TYPE;
+        err = CIOT_ERR_INVALID_TYPE;
     }
 
-    switch (msg->type)
+    if(err == CIOT_OK)
     {
-    case CIOT_MSG_TYPE_UNKNOWN:
-        return CIOT_ERR_INVALID_TYPE;
-    case CIOT_MSG_TYPE_START:
-        return ciot_iface_start(self, &msg->data);
-    case CIOT_MSG_TYPE_STOP:
-        return ciot_iface_stop(self);
-    case CIOT_MSG_TYPE_GET_CONFIG:
-        ciot_iface_get_cfg(self, &msg->data);
-        return ciot_iface_send_data(sender, msg, self->base.cfg.size + CIOT_MSG_SIZE);
-    case CIOT_MSG_TYPE_GET_STATUS:
-        ciot_iface_get_status(self, &msg->data);
-        return ciot_iface_send_data(sender, msg, self->base.status.size + CIOT_MSG_SIZE);
-    case CIOT_MSG_TYPE_REQUEST:
-        return ciot_iface_process_req(self, &msg->data, sender);
-    case CIOT_MSG_TYPE_EVENT:
-        return CIOT_ERR_NOT_IMPLEMENTED;
+        switch (msg->type)
+        {
+        case CIOT_MSG_TYPE_UNKNOWN:
+            err = CIOT_ERR_INVALID_TYPE;
+            break;
+        case CIOT_MSG_TYPE_START:
+            err = ciot_iface_start(self, &msg->data);
+            break;
+        case CIOT_MSG_TYPE_STOP:
+            err = ciot_iface_stop(self);
+            break;
+        case CIOT_MSG_TYPE_GET_CONFIG:
+            err = ciot_iface_get_cfg(self, &msg->data);
+            if(err == CIOT_OK)
+            {
+                err = ciot_iface_send_data(sender, msg, self->base.cfg.size + CIOT_MSG_HEADER_SIZE);
+            }
+            break;
+        case CIOT_MSG_TYPE_GET_STATUS:
+            err = ciot_iface_get_status(self, &msg->data);
+            if(err == CIOT_OK)
+            {
+                err = ciot_iface_send_data(sender, msg, self->base.status.size + CIOT_MSG_HEADER_SIZE);
+            }
+            break;
+        case CIOT_MSG_TYPE_REQUEST:
+            err = ciot_iface_process_req(self, &msg->data, sender);
+            break;
+        case CIOT_MSG_TYPE_EVENT:
+            err = CIOT_ERR_NOT_IMPLEMENTED;
+            break;
+        case CIOT_MSG_TYPE_ERROR:
+            err = CIOT_ERR_INVALID_TYPE;
+            break;
+        }
     }
 
-    return CIOT_ERR_INVALID_TYPE;
+    if(err != CIOT_OK)
+    {
+        msg->data.error.msg_type = msg->type;
+        msg->data.error.iface = self->info;
+        msg->data.error.code = err;
+        msg->type = CIOT_MSG_TYPE_ERROR;
+        ciot_iface_send_data(sender, msg, CIOT_MSG_GET_SIZE(msg->data.error));
+    }
+
+    return err;
 }
 
 ciot_err_t ciot_iface_register_event(ciot_iface_t *self, ciot_iface_event_handler_t event_handler, void *event_args)
