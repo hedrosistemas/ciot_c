@@ -151,7 +151,6 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     ciot_iface_event_t iface_event = {0};
     ciot_mqttc_status_t iface_status = self->status;
     esp_mqtt_event_t *mqtt_event = (esp_mqtt_event_t*)event_data;
-    iface_event.iface = self->iface.info;
 
     switch ((esp_mqtt_event_id_t)event_id)
     {
