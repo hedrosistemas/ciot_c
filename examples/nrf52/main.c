@@ -38,13 +38,13 @@ typedef struct app
 
 static void app_start(app_t *self);
 
-static const ciot_sys_cfg_t sys_cfg;
+static ciot_sys_cfg_t sys_cfg;
 
-static const ciot_usb_cfg_t usb_cfg = {
+static ciot_usb_cfg_t usb_cfg = {
     .bridge_mode = false
 };
 
-static const ciot_uart_cfg_t uart0_cfg = {
+static ciot_uart_cfg_t uart0_cfg = {
     .baud_rate = CIOT_CONFIG_UART_BAUD,
     .num = CIOT_CONFIG_UART0_PORT,
     .rx_pin = CIOT_CONFIG_UART0_RX_PIN,
@@ -53,7 +53,7 @@ static const ciot_uart_cfg_t uart0_cfg = {
     .parity = NRF_UART_PARITY_EXCLUDED
 };
 
-static const ciot_uart_cfg_t uart1_cfg = {
+static ciot_uart_cfg_t uart1_cfg = {
     .baud_rate = CIOT_CONFIG_UART_BAUD,
     .num = CIOT_CONFIG_UART1_PORT,
     .rx_pin = CIOT_CONFIG_UART1_RX_PIN,
@@ -62,7 +62,7 @@ static const ciot_uart_cfg_t uart1_cfg = {
     .parity = NRF_UART_PARITY_EXCLUDED
 };
 
-static const void *cfgs[] = {
+static void *cfgs[] = {
     &sys_cfg,
     &uart0_cfg,
     &uart1_cfg,

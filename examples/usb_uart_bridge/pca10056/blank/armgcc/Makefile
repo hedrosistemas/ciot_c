@@ -124,12 +124,11 @@ INC_FOLDERS += \
 
 # ciot files
 SRC_FILES += $(wildcard $(CIOT_DIR)/src/common/*.c)
-SRC_FILES += $(wildcard $(CIOT_DIR)/src/platform/nrf/*.c)
+SRC_FILES += $(wildcard $(CIOT_DIR)/src/nrf/*.c)
 
 # ciot dir
 INC_FOLDERS += \
   $(CIOT_DIR)/include \
-  $(CIOT_DIR)/include/types \
 
 # Libraries common to all targets
 LIB_FILES += \

@@ -40,11 +40,11 @@ typedef struct app
 static void app_start(app_t *self);
 static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
 
-static const ciot_usb_cfg_t usb_cfg = {
+static ciot_usb_cfg_t usb_cfg = {
     .bridge_mode = CIOT_CONFIG_USB_BRIDGE_MODE,
 };
 
-static const ciot_uart_cfg_t uart_cfg = {
+static ciot_uart_cfg_t uart_cfg = {
     .baud_rate = CIOT_CONFIG_UART_BAUD,
     .num = CIOT_CONFIG_UART0_PORT,
     .rx_pin = CIOT_CONFIG_UART0_RX_PIN,
@@ -54,14 +54,14 @@ static const ciot_uart_cfg_t uart_cfg = {
     .bridge_mode = CIOT_CONFIG_UART0_BRIDGE,
 };
 
-static const ciot_bridge_cfg_t bridge_cfg = {
+static ciot_bridge_cfg_t bridge_cfg = {
     .ifaces_id = {
         APP_IFACE_UART,
         APP_IFACE_USB,
     }
 };
 
-static const void *cfgs[] = {
+static void *cfgs[] = {
     &uart_cfg,
     &usb_cfg,
     &bridge_cfg,

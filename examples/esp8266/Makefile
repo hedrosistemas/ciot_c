@@ -6,4 +6,3 @@
 PROJECT_NAME := esp8266-ciot
 
 include $(IDF_PATH)/make/project.mk
-

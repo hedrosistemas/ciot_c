@@ -10,13 +10,12 @@ set(CIOT_DIR ../../)
 project(ciot_win32)
 
 FILE(GLOB_RECURSE common ${CIOT_DIR}/src/common/*)
-FILE(GLOB_RECURSE mongoose ${CIOT_DIR}/src/platform/mongoose/*)
-FILE(GLOB_RECURSE win ${CIOT_DIR}/src/platform/win/*)
+FILE(GLOB_RECURSE mongoose ${CIOT_DIR}/src/mg/*)
+FILE(GLOB_RECURSE win ${CIOT_DIR}/src/win/*)
 
 include_directories(
-    ${CIOT_DIR}/src/platform/mongoose
+    ${CIOT_DIR}/src/mg
     ${CIOT_DIR}/include
-    ${CIOT_DIR}/include/types
     .
 )
 

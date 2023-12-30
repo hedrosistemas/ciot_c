@@ -98,7 +98,7 @@ static const void *cfgs[] = {
 
 static const char *TAG = "main";
 
-int main()
+void app_main()
 {
     app_t app;
     app_start(&app);
@@ -112,8 +112,6 @@ int main()
     }
 
     CIOT_LOGI(TAG, "App end", "");
-
-    return 0;
 }
 
 static void app_start(app_t *self)
@@ -139,7 +137,7 @@ static void app_start(app_t *self)
 
     ciot_cfg_t ciot_cfg = {
         .ifaces = self->ifaces,
-        .cfgs = cfgs,
+        .cfgs = (void**)cfgs,
         .count = APP_IFACE_COUNT
     };
     ciot_start(self->ciot, &ciot_cfg);

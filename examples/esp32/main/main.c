@@ -9,11 +9,42 @@
  * 
  */
 
-#include "ciot.h"
+#include "main.h"
 
-#include "esp_system.h"
+static const ciot_sys_cfg_t sys_cfg = APP_CONFIG_SYSTEM;
+
+static app_t app;
+
+ciot_err_t app_event_handler(ciot_iface_t *iface, ciot_iface_event_t *event, void *args)
+{
+    return CIOT_OK;
+}
+
+void app_start(void)
+{
+    app.ciot = ciot_new();
+    app.sys = ciot_sys_new(CIOT_HANDLE);
+    
+    app.ifaces[APP_IFACE_SYS] = (ciot_iface_t*)app.sys;
+    
+    app.cfgs[APP_IFACE_SYS] = (void*)&sys_cfg;
+
+    ciot_register_event(app.ciot, app_event_handler, &app);
+
+    ciot_cfg_t ciot_cfg = {
+        .ifaces = app.ifaces,
+        .cfgs = app.cfgs,
+        .count = APP_IFACE_COUNT
+    };
+    ciot_start(app.ciot, &ciot_cfg);
+}
 
 void app_main(void)
 {
-    
+    app_start();
+
+    while (true)
+    {
+        ciot_sys_task(app.sys);
+    }
 }

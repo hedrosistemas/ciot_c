@@ -84,7 +84,8 @@ int main()
     while (true)
     {
         ciot_sys_task(app.ifaces.sys);
-        ciot_ble_task(app.ifaces.ble);
+        ciot_uart_task(app.ifaces.uart);
+        // ciot_ble_task(app.ifaces.ble);
     }
 
     return 0;
@@ -97,20 +98,21 @@ static void app_start(app_t *self)
     self->ifaces.sys = ciot_sys_new(NULL);
     self->ifaces.ble_scn = ciot_ble_scn_new(NULL);
     self->ifaces.uart = ciot_uart_new(NULL);
-
-    self->ifaces.ble_ifaces.scanner = self->ifaces.ble_scn;
-    self->ifaces.ble = ciot_ble_new(NULL, &self->ifaces.ble_ifaces);
+    self->ifaces.ble = ciot_ble_new(NULL);
 
     self->ifaces.list[APP_IFACE_SYS] = (ciot_iface_t*)self->ifaces.sys;
     self->ifaces.list[APP_IFACE_BLE] = (ciot_iface_t*)self->ifaces.ble;
     self->ifaces.list[APP_IFACE_BLE_SCN] = (ciot_iface_t*)self->ifaces.ble_scn;
     self->ifaces.list[APP_IFACE_UART] = (ciot_iface_t*)self->ifaces.uart;
 
+    self->ifaces.ble_ifaces.scanner = self->ifaces.ble_scn;
+    ciot_ble_set_ifaces(self->ifaces.ble, &self->ifaces.ble_ifaces);
+
     ciot_register_event(self->ciot, app_event_handler, self);
 
     ciot_cfg_t ciot_cfg = {
         .ifaces = self->ifaces.list,
-        .cfgs = cfgs,
+        .cfgs = (void**)cfgs,
         .count = APP_IFACE_COUNT,
     };
     ciot_start(self->ciot, &ciot_cfg);

@@ -39,28 +39,28 @@ typedef struct app
 static void app_start(app_t *self);
 static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
 
-static const ciot_uart_cfg_t uart1_cfg = {
+static ciot_uart_cfg_t uart1_cfg = {
     .baud_rate = CIOT_CONFIG_UART1_BAUD,
     .num = CIOT_CONFIG_UART1_PORT,
     .dtr = CIOT_CONFIG_UART1_DTR,
     .bridge_mode = CIOT_CONFIG_UART1_BRIDGE,
 };
 
-static const ciot_uart_cfg_t uart2_cfg = {
+static ciot_uart_cfg_t uart2_cfg = {
     .baud_rate = CIOT_CONFIG_UART2_BAUD,
     .num = CIOT_CONFIG_UART2_PORT,
     .dtr = CIOT_CONFIG_UART2_DTR,
     .bridge_mode = CIOT_CONFIG_UART1_BRIDGE,
 };
 
-static const ciot_bridge_cfg_t bridge_cfg = {
+static ciot_bridge_cfg_t bridge_cfg = {
     .ifaces_id = {
         APP_IFACE_UART1,
         APP_IFACE_UART2
     }
 };
 
-static const void *cfgs[] = {
+static void *cfgs[] = {
     &uart1_cfg,
     &uart2_cfg,
     &bridge_cfg,
@@ -68,7 +68,7 @@ static const void *cfgs[] = {
 
 static const char *TAG = "main";
 
-int main()
+void app_main()
 {
     app_t app;
     app_start(&app);
@@ -81,8 +81,6 @@ int main()
     }
 
     CIOT_LOGI(TAG, "App end", "");
-
-    return 0;
 }
 
 static void app_start(app_t *self)

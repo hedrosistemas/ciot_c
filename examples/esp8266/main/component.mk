@@ -14,8 +14,8 @@ EXTRA_COMPONENT_DIRS += CIOT_DIR
 COMPONENT_ADD_INCLUDEDIRS += \
   . \
   $(CIOT_DIR)/include \
-  $(CIOT_DIR)/include/types \
-  $(CIOT_DIR)/src/platform/mongoose \
+  $(CIOT_DIR)/src/mg \
 
 COMPONENT_SRCDIRS += $(CIOT_DIR)/src/common
-COMPONENT_SRCDIRS += $(CIOT_DIR)/src/platform/mongoose
+COMPONENT_SRCDIRS += $(CIOT_DIR)/src/mg
+COMPONENT_SRCDIRS += $(CIOT_DIR)/src/esp8266

@@ -68,6 +68,15 @@
     "ciot_https.h": "c",
     "ciot_log.h": "c",
     "thread": "c",
-    "inttypes.h": "c"
+    "inttypes.h": "c",
+    "ciot_wifi.h": "c",
+    "ciot_wifi_types.h": "c",
+    "ciot_iface.h": "c",
+    "ciot_err.h": "c",
+    "ciot_ntp.h": "c",
+    "ciot_storage.h": "c",
+    "nvs.hpp": "c",
+    "nvs_pagemanager.hpp": "c",
+    "nvs_page.hpp": "c"
   }
 }

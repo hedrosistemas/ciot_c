@@ -93,7 +93,9 @@
                 "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/modules/**",
                 "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/external/**",
                 "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/integration/**",
-                "examples/nrf52/**"
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/src/platform/nrf",
+                "examples/nrf_ble_scn/**"
             ],
             "forcedInclude": [],
             "defines": [
