@@ -32,7 +32,7 @@ typedef enum __attribute__((packed))
     CIOT_REQ_SAVE_IFACE_CFG,
     CIOT_REQ_DELETE_IFACE_CFG,
     CIOT_REQ_PROXY_MSG,
-} ciot_req_id_t;
+} ciot_req_type_t;
 
 // typedef struct __attribute__((packed))
 // {
@@ -76,7 +76,7 @@ typedef union __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    ciot_req_id_t id;
+    ciot_req_type_t id;
     ciot_req_data_u data;
 } ciot_req_t;
 

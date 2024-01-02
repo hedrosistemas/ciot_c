@@ -171,10 +171,14 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sen
             break;
         case CIOT_MSG_TYPE_START:
             self->base.req.status = CIOT_IFACE_REQ_STATUS_RECEIVED;
-            self->base.req.id = msg->id;
+            self->base.req.type = msg->id;
             self->base.req.type = msg->type;
             self->base.req.iface = sender_iface->info;
             err = ciot_iface_start(self, &msg->data);
+            if(self->base.req.status == CIOT_IFACE_REQ_STATUS_IDLE)
+            {
+                err = ciot_iface_send_msg(sender, msg, CIOT_MSG_GET_SIZE(msg->data.ciot.req));
+            }
             break;
         case CIOT_MSG_TYPE_STOP:
             err = ciot_iface_stop(self);
@@ -195,7 +199,7 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sen
             break;
         case CIOT_MSG_TYPE_REQUEST:
             self->base.req.status = CIOT_IFACE_REQ_STATUS_RECEIVED;
-            self->base.req.id = msg->id;
+            self->base.req.type = msg->id;
             self->base.req.type = msg->type;
             self->base.req.iface = sender_iface->info;
             err = ciot_iface_process_req(self, &msg->data, sender);

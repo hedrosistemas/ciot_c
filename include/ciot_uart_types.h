@@ -48,7 +48,7 @@ typedef enum __attribute__((packed))
     CIOT_UART_REQ_SEND_DATA,
     CIOT_UART_REQ_SEND_BYTES,
     CIOT_UART_REQ_ENABLE_BRIDGE_MODE,
-} ciot_uart_req_id_t;
+} ciot_uart_req_type_t;
 
 typedef struct __attribute__((packed))
 {
@@ -62,7 +62,7 @@ typedef struct __attribute__((packed))
     uint8_t flow_control : 1;
     uint8_t dtr : 1;
     uint8_t bridge_mode : 1;
-    uint8_t reserved : 4;
+    uint8_t reserved : 5;
 } ciot_uart_cfg_t;
 
 typedef struct __attribute__((packed))
@@ -84,7 +84,7 @@ typedef union __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    ciot_uart_req_id_t id;
+    ciot_uart_req_type_t type;
     ciot_uart_req_data_u data;
 } ciot_uart_req_t;
 

@@ -35,7 +35,7 @@ typedef enum __attribute__((packed))
 typedef enum __attribute__((packed))
 {
     CIOT_HTTPS_REQ_UNKNOWN,
-} ciot_https_req_id_t;
+} ciot_https_req_type_t;
 
 typedef struct __attribute__((packed))
 {

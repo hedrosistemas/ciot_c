@@ -85,7 +85,7 @@ ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(req);
 
-    switch (req->id)
+    switch (req->type)
     {
     case CIOT_STORAGE_REQ_UNKNOWN:
         return CIOT_ERR_INVALID_ID;
