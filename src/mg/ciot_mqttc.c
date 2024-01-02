@@ -85,7 +85,7 @@ ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t self, ciot_mqttc_req_t *req)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(req);
 
-    switch (req->id)
+    switch (req->type)
     {
     case CIOT_MQTT_REQ_PUBLISH:
         return ciot_mqttc_publish(self, req->data.publish.topic, req->data.publish.msg, req->data.publish.size, req->data.publish.qos);

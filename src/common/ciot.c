@@ -276,7 +276,7 @@ static ciot_err_t ciot_process_req(ciot_t self, ciot_req_t *req)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(req);
 
-    switch (req->id)
+    switch (req->type)
     {
     case CIOT_REQ_UNKNOWN:
         return CIOT_ERR_INVALID_ID;

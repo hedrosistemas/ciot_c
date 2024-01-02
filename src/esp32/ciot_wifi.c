@@ -120,7 +120,7 @@ ciot_err_t ciot_wifi_process_req(ciot_wifi_t self, ciot_wifi_req_t *req)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(req);
 
-    switch (req->id)
+    switch (req->type)
     {
     case CIOT_WIFI_REQ_SCAN:
         // TODO: implement scan request

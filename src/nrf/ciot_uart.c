@@ -134,7 +134,7 @@ ciot_err_t ciot_uart_stop(ciot_uart_t self)
 //     CIOT_NULL_CHECK(self);
 //     CIOT_NULL_CHECK(req);
 
-//     switch (req->id)
+//     switch (req->type)
 //     {
 //     case CIOT_UART_REQ_SEND_DATA:
 //         return ciot_uart_send_bytes(&self->uart.iface, req->data.send_data.data, req->data.send_data.size);

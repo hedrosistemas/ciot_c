@@ -43,7 +43,7 @@ typedef enum __attribute__((packed))
     CIOT_HTTPC_REQ_UNKNOWN,
     CIOT_HTTPC_REQ_SEND_DATA,
     CIOT_HTTPC_REQ_SET_HEADER,
-} ciot_httpc_req_id_t;
+} ciot_httpc_req_type_t;
 
 typedef enum {
     CIOT_HTTPC_METHOD_GET = 0,
@@ -108,7 +108,7 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    // ciot_httpc_req_id_t id;
+    // ciot_httpc_req_type_t id;
     // ciot_httpc_req_data_u data;
 } ciot_httpc_req_t;
 

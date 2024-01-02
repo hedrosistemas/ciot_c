@@ -15,12 +15,12 @@
 
 #include <string.h>
 
-#include <Stream.h>
+#include <HardwareSerial.h>
 
 struct ciot_uart
 {
     ciot_uart_base_t uart;
-    Stream *serial;
+    HardwareSerial *serial;
 };
 
 #ifdef __cplusplus
@@ -48,7 +48,7 @@ ciot_uart_t ciot_uart_new(void *handle)
     self->uart.iface.base.status.ptr = &self->uart.status;
     self->uart.iface.base.status.size = sizeof(self->uart.status);
     self->uart.iface.info.type = CIOT_IFACE_TYPE_UART;
-    self->serial = (Stream*)handle;
+    self->serial = (HardwareSerial*)handle;
 
     ciot_s_cfg_t s_cfg = { 
         .send_bytes = ciot_uart_send_bytes,
@@ -66,6 +66,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     CIOT_NULL_CHECK(cfg);
     self->uart.cfg = *cfg;
     ciot_s_set_bridge_mode(self->uart.s, self->uart.cfg.bridge_mode);
+    self->serial->begin(cfg->baud_rate);
     return CIOT_OK;
 }
 

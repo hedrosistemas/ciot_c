@@ -30,7 +30,7 @@ typedef enum __attribute__((packed))
 typedef enum __attribute__((packed))
 {
     CIOT_USB_REQ_UNKNOWN,
-} ciot_usb_req_id_t;
+} ciot_usb_req_type_t;
 
 typedef struct __attribute__((packed))
 {
@@ -49,7 +49,7 @@ typedef union __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    ciot_usb_req_id_t id;
+    ciot_usb_req_type_t id;
     ciot_usb_req_data_u data;
 } ciot_usb_req_t;
 

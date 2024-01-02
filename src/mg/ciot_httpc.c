@@ -70,7 +70,7 @@ ciot_err_t ciot_httpc_stop(ciot_httpc_t self)
 
 ciot_err_t ciot_httpc_process_req(ciot_httpc_t self, ciot_httpc_req_t *req)
 {
-    // switch (req->id)
+    // switch (req->type)
     // {
     // case CIOT_HTTPC_REQ_SEND_DATA:
     //     memcpy(&self->req, &req->data.send, sizeof(self->req));

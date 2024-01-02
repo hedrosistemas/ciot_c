@@ -47,7 +47,7 @@ typedef enum __attribute__((packed))
 typedef enum __attribute__((packed))
 {
     CIOT_TCP_REQ_UNKNOWN,
-} ciot_tcp_req_id_t;
+} ciot_tcp_req_type_t;
 
 typedef struct __attribute__((packed))
 {
@@ -85,7 +85,7 @@ typedef union ciot_tcp_req_data
 
 typedef struct __attribute__((packed))
 {
-    ciot_tcp_req_id_t id;
+    ciot_tcp_req_type_t id;
     ciot_tcp_req_data_u data;
 } ciot_tcp_req_t;
 

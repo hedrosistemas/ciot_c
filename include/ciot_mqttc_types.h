@@ -64,7 +64,7 @@ typedef enum __attribute__((packed))
     CIOT_MQTT_REQ_UNKNONW,
     CIOT_MQTT_REQ_PUBLISH,
     CIOT_MQTT_REQ_SUBSCRIBE,
-} ciot_mqttc_req_id_t;
+} ciot_mqttc_req_type_t;
 
 typedef struct __attribute__((packed))
 {
@@ -124,7 +124,7 @@ typedef union ciot_mqttc_req_data
 
 typedef struct __attribute__((packed))
 {
-    ciot_mqttc_req_id_t id;
+    ciot_mqttc_req_type_t type;
     ciot_mqttc_req_data_u data;
 } ciot_mqttc_req_t;
 

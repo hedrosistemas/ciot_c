@@ -30,7 +30,7 @@ typedef enum __attribute__((packed))
 typedef enum __attribute__((packed))
 {
     CIOT_BRIDGE_REQ_UNKNOWN,
-} ciot_bridge_req_id_t;
+} ciot_bridge_req_type_t;
 
 typedef struct __attribute__((packed))
 {
@@ -49,7 +49,7 @@ typedef union __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    ciot_bridge_req_id_t id;
+    ciot_bridge_req_type_t type;
     ciot_bridge_req_data_u data;
 } ciot_bridge_req_t;
 
