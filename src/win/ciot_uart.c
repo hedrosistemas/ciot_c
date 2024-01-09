@@ -233,7 +233,7 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
                 ciot_err_t err = ciot_s_process_byte(self->uart.s, byte);
                 if(err != CIOT_OK)
                 {
-                    CIOT_LOGE(TAG, "Error %d processing byte %d", err, byte);
+                    CIOT_LOGE(TAG, "Error %s processing byte %d", ciot_err_to_message(err), byte);
                 }
             }
             status->cbInQue--;
