@@ -80,19 +80,7 @@ static void ciot_sys_init(ciot_sys_t self)
     char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
     uint8_t app_ver[] = {CIOT_CONFIG_APP_VER};
 
-    self->status.info.features.hw.storage = CIOT_CONFIG_FEATURE_STORAGE;
-    self->status.info.features.hw.system = CIOT_CONFIG_FEATURE_SYSTEM;
-    self->status.info.features.hw.uart = CIOT_CONFIG_FEATURE_UART;
-    self->status.info.features.hw.usb = CIOT_CONFIG_FEATURE_USB;
-    self->status.info.features.hw.ethernet = CIOT_CONFIG_FEATURE_ETHERNET;
-    self->status.info.features.hw.wifi = CIOT_CONFIG_FEATURE_WIFI;
-    self->status.info.features.hw.ble_scn = CIOT_CONFIG_FEATURE_BLE_SCN;
-
-    self->status.info.features.sw.ntp = CIOT_CONFIG_FEATURE_NTP;
-    self->status.info.features.sw.ota = CIOT_CONFIG_FEATURE_OTA;
-    self->status.info.features.sw.http_client = CIOT_CONFIG_FEATURE_HTTPC;
-    self->status.info.features.sw.http_server = CIOT_CONFIG_FEATURE_HTTPS;
-    self->status.info.features.sw.mqtt_client = CIOT_CONFIG_FEATURE_MQTTC;
+    ciot_sys_update_features(&self->status.info.features);
 
     if (esp_reset_reason() == ESP_RST_POWERON || esp_reset_reason() == ESP_RST_SW)
     {

@@ -45,7 +45,8 @@ typedef struct __attribute__((packed))
     uint16_t http_client : 1;
     uint16_t http_server : 1;
     uint16_t mqtt_client : 1;
-    uint16_t reserved : 11;
+    uint16_t timer : 1;
+    uint16_t reserved : 10;
 } ciot_sys_sw_features_t;
 
 typedef struct __attribute__((packed))

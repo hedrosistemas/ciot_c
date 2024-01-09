@@ -36,6 +36,9 @@ ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size);
 
 ciot_err_t ciot_sys_task(ciot_sys_t self);
 
+// common
+ciot_err_t ciot_sys_update_features(ciot_sys_features_t *features);
+
 #ifdef __cplusplus
 }
 #endif
