@@ -35,6 +35,7 @@ struct ciot_sys
 {
     ciot_iface_t iface;
     ciot_sys_status_t status;
+    uint64_t reset_scheduled;
 };
 
 static void ciot_sys_init(ciot_sys_t self);
@@ -50,7 +51,6 @@ ciot_sys_t ciot_sys_new(void *handle)
     self->iface.base.cfg.size = 0;
     self->iface.base.status.ptr = &self->status;
     self->iface.base.status.size = sizeof(ciot_sys_status_t);
-    self->iface.info.type = CIOT_IFACE_TYPE_SYSTEM;
     ciot_sys_init(self);
 
     return self;
@@ -73,12 +73,17 @@ ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
     case CIOT_SYS_REQ_UNKNONW:
         return CIOT_ERR_INVALID_TYPE;
     case CIOT_SYS_REQ_RESTART:
-        #ifdef SOFTDEVICE_PRESENT
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+#ifdef SOFTDEVICE_PRESENT
+#ifdef CIOT_CONFIG_FEATURE_TIMER
+        self->reset_scheduled = ciot_timer_get() + 5;
+#else
         sd_nvic_SystemReset();
+#endif
         return CIOT_OK;
-        #else
+#else
         return CIOT_ERR_NOT_SUPPORTED;
-        #endif
+#endif
     }
 
     return CIOT_ERR_INVALID_TYPE;
@@ -109,9 +114,15 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     self->status.rst_reason = 0;
     self->status.rst_count = 0;
     self->status.free_memory = 0;
-    #if CIOT_CONFIG_FEATURE_TIMER
+#if CIOT_CONFIG_FEATURE_TIMER
     self->status.lifetime = ciot_timer_get();
-    #endif
+#endif
+
+    if(self->reset_scheduled > 0 && ciot_timer_compare(&self->reset_scheduled, 5))
+    {
+        sd_nvic_SystemReset();
+    }
+
     return CIOT_OK;
 }
 
