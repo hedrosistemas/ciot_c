@@ -76,30 +76,20 @@ ciot_err_t ciot_ble_start(ciot_ble_t self, ciot_ble_cfg_t *cfg)
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
-
-    if (self->status.state == CIOT_BLE_STATE_STARTED)
-    {
-        return CIOT_OK;
-    }
-
-    uint32_t error_code = 0;
-
     self->cfg = *cfg;
 
-    ciot_ble_power_management_init(self);
-    ciot_ble_stack_init(self);
-
-    if (cfg->set_mac)
+    if (self->status.state != CIOT_BLE_STATE_STARTED)
     {
-        error_code = ciot_ble_set_mac(self, cfg->mac);
+        ciot_ble_power_management_init(self);
+        ciot_ble_stack_init(self);
+        self->status.state = CIOT_BLE_STATE_STARTED;
     }
 
-    ciot_ble_get_mac(self, CIOT_BLE_MAC_TYPE_HARDWARE, self->status.info.hw_mac);
-
+    uint32_t error_code = ciot_ble_set_mac(self, cfg->mac);
     if (error_code == NRF_SUCCESS)
     {
         memcpy(self->status.info.sw_mac, self->cfg.mac, 6);
-        self->status.state = CIOT_BLE_STATE_STARTED;
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
     }
 
     return error_code;
@@ -112,7 +102,16 @@ ciot_err_t ciot_ble_stop(ciot_ble_t self)
 
 ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(req);
+    switch (req->type)
+    {
+    case CIOT_BLE_REQ_UNKNOWN:
+        return CIOT_ERR_INVALID_TYPE;
+    case CIOT_BLE_REQ_SET_MAC:
+        return ciot_ble_set_mac(self, req->data.set_mac);
+    }
+    return CIOT_ERR_INVALID_TYPE;
 }
 
 ciot_err_t ciot_ble_send_data(ciot_ble_t self, uint8_t *data, int size)
@@ -140,14 +139,30 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(mac);
 
+    if(ciot_ble_mac_is_valid(self, mac) == false)
+    {
+        return CIOT_ERR_INVALID_ARG;
+    }
+
+    ciot_err_t err = CIOT_OK;
     ble_gap_addr_t ble_addr = {0};
-    memcpy(ble_addr.addr, self->cfg.mac, 6);
+    memcpy(ble_addr.addr, mac, 6);
+
+    ciot_ble_scn_stop(self->ifaces.scanner);
 
 #if (NRF_SD_BLE_API_VERSION == 2)
-    return sd_ble_gap_address_set(BLE_GAP_ADDR_CYCLE_MODE_NONE, &ble_addr);
+    err = sd_ble_gap_address_set(BLE_GAP_ADDR_CYCLE_MODE_NONE, &ble_addr);
 #else
-    return sd_ble_gap_addr_set(&ble_addr);
+    err = sd_ble_gap_addr_set(&ble_addr);
 #endif
+
+    if(err == CIOT_OK)
+    {
+        memcpy(self->cfg.mac, mac, 6);
+        ciot_ble_scn_start(self->ifaces.scanner, &self->cfg.ble_scn);
+    }
+
+    return err;
 }
 
 ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t mac[6])
@@ -176,6 +191,18 @@ ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces)
     CIOT_NULL_CHECK(ifaces);
     self->ifaces = *ifaces;
     return CIOT_OK;
+}
+
+bool ciot_ble_mac_is_valid(ciot_ble_t self, uint8_t mac[6])
+{
+    for (size_t i = 0; i < 6; i++)
+    {
+        if(mac[i] != 0)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 static void ciot_ble_power_management_init(ciot_ble_t self)
