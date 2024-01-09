@@ -52,16 +52,21 @@ static ciot_err_t ciot_send_data(ciot_t self, uint8_t *data, int size);
 
 static const char *TAG = "ciot";
 
-#ifdef CIOT_TARGET_PC
+#ifdef CIOT_TARGET_WIN
 
+#if defined(CIOT_TARGET_MONGOOSE)
 #include "mongoose.h"
+#endif
+
 #include "windows.h"
 
 void app_main();
 
 int main(char **args)
 {
+#if defined(CIOT_TARGET_MONGOOSE)
     mg_mgr_init(CIOT_HANDLE);
+#endif
     app_main();
 }
 
@@ -210,19 +215,34 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
     {
         bool iface_equal = memcmp(&sender->base.req.iface, &event->data->msg.iface, sizeof(ciot_msg_iface_info_t)) == 0;
         bool type_equal = sender->base.req.type == event->data->msg.type;
+        bool id_equal = sender->base.req.id == event->data->msg.id;
         bool error = event->data->msg.type == CIOT_MSG_TYPE_ERROR;
-        if(iface_equal && (type_equal || error))
+        if(!id_equal)
+        {
+            CIOT_LOGE(TAG, "Invalid response id: %d. Expecteded: %d", event->data->msg.id, sender->base.req.id);
+        }
+        if(iface_equal && id_equal && (type_equal || error))
         {
             sender->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
             event->id = CIOT_IFACE_EVENT_DONE;
 
-            CIOT_LOGV(TAG, "<-- Response received -- ");
-            CIOT_LOGV(TAG, "Origin Id: %d", sender ? sender->info.id : -1);
-            CIOT_LOGV(TAG, "Iface Type: %s", ciot_iface_to_str(sender));
-            CIOT_LOGV(TAG, "Msg Id: %d", event->data->msg.id);
-            CIOT_LOGV(TAG, "Msg Type: %s", ciot_msg_type_to_str(&event->data->msg));
-            CIOT_LOGV(TAG, "Target Id: %d", event->data->msg.iface.id);
-            CIOT_LOGV(TAG, "Target Type: %s\n\n", ciot_iface_type_to_str(event->data->msg.iface.type));
+            if(error)
+            {
+                CIOT_LOGV(TAG, "RX ERR <- id:%d sender:%s msgt:%s iface:%s error:%s", 
+                    event->data->msg.id,
+                    ciot_iface_to_str(sender),
+                    ciot_msg_type_to_str(&event->data->msg),
+                    ciot_iface_type_to_str(event->data->msg.iface.type),
+                    ciot_err_to_message(event->data->msg.data.error.code));
+            }
+            else
+            {
+                CIOT_LOGV(TAG, "RX RSP <- id:%d sender:%s msgt:%s iface:%s", 
+                    event->data->msg.id,
+                    ciot_iface_to_str(sender),
+                    ciot_msg_type_to_str(&event->data->msg),
+                    ciot_iface_type_to_str(event->data->msg.iface.type));
+            }
         }
     }
 
@@ -234,14 +254,32 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         {
             int iface_id = sender->base.req.iface.id;
             sender->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
-            ciot_iface_send_msg(self->ifaces.list[iface_id], (ciot_msg_t*)event->data, event->size);
+            event->data->msg.id = sender->base.req.id;
+            ciot_iface_send_rsp(self->ifaces.list[iface_id], (ciot_msg_t*)event->data, event->size);
         }
     }
 
-    if (event->id == CIOT_IFACE_EVENT_REQUEST && event->data->msg.type < CIOT_MSG_TYPE_CUSTOM)
+    if (event->id == CIOT_IFACE_EVENT_REQUEST)
     {
-        uint8_t id = event->data->msg.iface.id;
-        return ciot_iface_process_msg(self->ifaces.list[id], &event->data->msg, sender);
+        CIOT_LOGV(TAG, "RX REQ <- id:%d sender:%s msgt:%s iface:%s", 
+                event->data->msg.id,
+                ciot_iface_to_str(sender),
+                ciot_msg_type_to_str(&event->data->msg),
+                ciot_iface_type_to_str(event->data->msg.iface.type));
+
+        if(event->data->msg.type < CIOT_MSG_TYPE_CUSTOM)
+        {
+            uint8_t id = event->data->msg.iface.id;
+            ciot_err_t err = ciot_iface_process_msg(self->ifaces.list[id], &event->data->msg, sender);
+            if(self->ifaces.list[id]->base.req.status == CIOT_IFACE_REQ_STATUS_IDLE)
+            {
+                event->id = CIOT_IFACE_EVENT_DONE;
+            }
+            else
+            {
+                return err;
+            }
+        }
     }
 
     if (event->id == CIOT_IFACE_EVENT_DATA && self->bridges_idx != CIOT_BRIDGE_NULL_TARGET)

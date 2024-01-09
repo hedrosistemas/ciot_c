@@ -70,6 +70,7 @@ typedef struct ciot_iface_req_info
     uint8_t id;
     ciot_msg_type_t type;
     ciot_msg_iface_info_t iface;
+    uint16_t response_size;
 } ciot_iface_req_info_t;
 
 typedef struct ciot_iface_base
@@ -105,12 +106,14 @@ ciot_err_t ciot_iface_process_req(ciot_iface_t *self, ciot_msg_data_u *req, void
 ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sender);
 ciot_err_t ciot_iface_send_data(ciot_iface_t *self, void *data, int size);
 ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg, int size);
-ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *msg, int size);
+ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req, int size);
+ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp, int size);
 ciot_err_t ciot_iface_register_event(ciot_iface_t *self, ciot_iface_event_handler_t event_handler, void *event_args);
-ciot_err_t coit_iface_reset_request(ciot_iface_t *self);
+ciot_err_t ciot_iface_reset_request(ciot_iface_t *self);
 
 const char *ciot_iface_to_str(ciot_iface_t *iface);
 const char *ciot_iface_type_to_str(ciot_msg_iface_type_t iface_type);
+const char *ciot_iface_event_to_str(ciot_iface_event_t *event);
 
 #ifdef __cplusplus
 }

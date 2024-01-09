@@ -53,7 +53,7 @@ typedef enum __attribute__((packed))
 
 typedef enum __attribute__((packed))
 {
-    CIOT_IFACE_TYPE_NULL=-1,
+    // CIOT_IFACE_TYPE_NULL=-1,
     CIOT_IFACE_TYPE_UNKNOWN,
     CIOT_IFACE_TYPE_CIOT,
     CIOT_IFACE_TYPE_STORAGE,
@@ -84,7 +84,7 @@ typedef struct __attribute__((packed))
 {
     ciot_msg_iface_info_t iface;
     ciot_msg_type_t msg_type;
-    ciot_err_t code;
+    uint8_t code;
 } ciot_error_data_t;
 
 typedef union __attribute__((packed))

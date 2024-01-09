@@ -19,6 +19,7 @@ extern "C" {
 #include <inttypes.h>
 
 #include "ciot_config.h"
+#include "ciot_ble_scn_types.h"
 
 typedef enum __attribute__((packed))
 {
@@ -34,8 +35,8 @@ typedef enum __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    bool set_mac;
     uint8_t mac[6];
+    ciot_ble_scn_cfg_t ble_scn;
 } ciot_ble_cfg_t;
 
 typedef struct __attribute__((packed))

@@ -92,20 +92,36 @@ ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg, int size)
     {
         msg->id = msg_id;
         msg_id++;
-        
-        CIOT_LOGV(TAG, "\n\n -- Message send -->");
-        CIOT_LOGV(TAG, "Origin Id: %d", self ? self->info.id : -1);
-        CIOT_LOGV(TAG, "Origin Type: %s", ciot_iface_to_str(self));
-        CIOT_LOGV(TAG, "Msg Id: %d", msg->id);
-        CIOT_LOGV(TAG, "Msg Type: %s", ciot_msg_type_to_str(msg));
-        CIOT_LOGV(TAG, "Target Id: %d", msg ? msg->iface.id : -1);
-        CIOT_LOGV(TAG, "Target Type: %s\n\n", ciot_iface_type_to_str(msg->iface.type));
+
+        CIOT_LOGV("ciot", "TX MSG -> id:%d sender:%s msgt:%s iface:%s", 
+                msg->id,
+                ciot_iface_to_str(self),
+                ciot_msg_type_to_str(msg),
+                ciot_iface_type_to_str(msg->iface.type));
 
         return ciot_iface_send_data(self, msg, size);
     }
 }
 
-ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *msg, int size)
+ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp, int size)
+{
+    if (self->base.req.status != CIOT_IFACE_REQ_STATUS_IDLE)
+    {
+        return CIOT_ERR_BUSY;
+    }
+    else
+    {
+        CIOT_LOGV("ciot", "TX RSP -> id:%d sender:%s msgt:%s iface:%s", 
+                rsp->id,
+                ciot_iface_to_str(self),
+                ciot_msg_type_to_str(rsp),
+                ciot_iface_type_to_str(rsp->iface.type));
+
+        return ciot_iface_send_data(self, rsp, size);
+    }
+}
+
+ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req, int size)
 {
     if (self->base.req.status != CIOT_IFACE_REQ_STATUS_IDLE)
     {
@@ -114,37 +130,45 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *msg, int size)
     }
     else
     {
-        msg->id = msg_id;
+        req->id = msg_id;
         msg_id++;
 
         self->base.req.status = CIOT_IFACE_REQ_STATUS_SENDED;
-        self->base.req.type = msg->type;
-        self->base.req.iface = msg->iface;
-        
-        CIOT_LOGV(TAG, "\n\n -- Request send -->");
-        CIOT_LOGV(TAG, "Origin Id: %d", self ? self->info.id : -1);
-        CIOT_LOGV(TAG, "Origin Type: %s", ciot_iface_to_str(self));
-        CIOT_LOGV(TAG, "Msg Id: %d", msg->id);
-        CIOT_LOGV(TAG, "Msg Type: %s", ciot_msg_type_to_str(msg));
-        CIOT_LOGV(TAG, "Target Id: %d", msg ? msg->iface.id : -1);
-        CIOT_LOGV(TAG, "Target Type: %s\n\n", ciot_iface_type_to_str(msg->iface.type));
+        self->base.req.type = req->type;
+        self->base.req.iface = req->iface;
+        self->base.req.id = req->id;
 
-        return ciot_iface_send_data(self, msg, size);
+        CIOT_LOGV("ciot", "TX REQ -> id:%d sender:%s msgt:%s iface:%s", 
+                req->id,
+                ciot_iface_to_str(self),
+                ciot_msg_type_to_str(req),
+                ciot_iface_type_to_str(req->iface.type));
+
+        return ciot_iface_send_data(self, req, size);
     }
+}
+
+static void ciot_iface_register_request(ciot_iface_t *self, ciot_iface_t *sender, ciot_msg_t *msg)
+{
+    self->base.req.status = CIOT_IFACE_REQ_STATUS_RECEIVED;
+    self->base.req.type = msg->id;
+    self->base.req.type = msg->type;
+    self->base.req.iface = sender->info;
+}
+
+static ciot_err_t ciot_iface_process_request_result(ciot_iface_t *self, ciot_iface_t *sender, ciot_msg_t *msg, ciot_err_t err)
+{
+    if(self->base.req.status == CIOT_IFACE_REQ_STATUS_IDLE && err == CIOT_OK)
+    {
+        return ciot_iface_send_rsp(sender, msg, self->base.req.response_size);
+    }
+    return err;
 }
 
 ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sender)
 {
     ciot_iface_t *sender_iface = (ciot_iface_t*)sender;
     ciot_err_t err = CIOT_OK;
-
-    CIOT_LOGV(TAG, "\n\n <-- Request received -- ");
-    CIOT_LOGV(TAG, "Iface Id: %d", self ? self->info.id : -1);
-    CIOT_LOGV(TAG, "Iface Type: %s", ciot_iface_to_str(self));
-    CIOT_LOGV(TAG, "Msg Id: %d", msg->id);
-    CIOT_LOGV(TAG, "Msg Type: %s", ciot_msg_type_to_str(msg));
-    CIOT_LOGV(TAG, "Target Id: %d", msg ? msg->iface.id : -1);
-    CIOT_LOGV(TAG, "Target Type: %s\n\n", ciot_iface_type_to_str(msg->iface.type));
 
     if(self != NULL && msg != NULL)
     {
@@ -170,39 +194,31 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sen
             err = CIOT_ERR_INVALID_TYPE;
             break;
         case CIOT_MSG_TYPE_START:
-            self->base.req.status = CIOT_IFACE_REQ_STATUS_RECEIVED;
-            self->base.req.type = msg->id;
-            self->base.req.type = msg->type;
-            self->base.req.iface = sender_iface->info;
+            self->base.req.response_size = CIOT_MSG_HEADER_SIZE;
+            ciot_iface_register_request(self, sender_iface, msg);
             err = ciot_iface_start(self, &msg->data);
+            err = ciot_iface_process_request_result(self, sender_iface, msg, err);
             break;
         case CIOT_MSG_TYPE_STOP:
+            self->base.req.response_size = CIOT_MSG_HEADER_SIZE;
+            ciot_iface_register_request(self, sender_iface, msg);
             err = ciot_iface_stop(self);
+            err = ciot_iface_process_request_result(self, sender_iface, msg, err);
             break;
         case CIOT_MSG_TYPE_GET_CONFIG:
+            self->base.req.response_size = self->base.cfg.size + CIOT_MSG_HEADER_SIZE;
             err = ciot_iface_get_cfg(self, &msg->data);
-            if(err == CIOT_OK)
-            {
-                err = ciot_iface_send_data(sender, msg, self->base.cfg.size + CIOT_MSG_HEADER_SIZE);
-            }
+            err = ciot_iface_process_request_result(self, sender_iface, msg, err);
             break;
         case CIOT_MSG_TYPE_GET_STATUS:
+            self->base.req.response_size = self->base.status.size + CIOT_MSG_HEADER_SIZE;
             err = ciot_iface_get_status(self, &msg->data);
-            if(err == CIOT_OK)
-            {
-                err = ciot_iface_send_msg(sender, msg, self->base.status.size + CIOT_MSG_HEADER_SIZE);
-            }
+            err = ciot_iface_process_request_result(self, sender_iface, msg, err);
             break;
         case CIOT_MSG_TYPE_REQUEST:
-            self->base.req.status = CIOT_IFACE_REQ_STATUS_RECEIVED;
-            self->base.req.type = msg->id;
-            self->base.req.type = msg->type;
-            self->base.req.iface = sender_iface->info;
+            ciot_iface_register_request(self, sender_iface, msg);
             err = ciot_iface_process_req(self, &msg->data, sender);
-            if(self->base.req.status == CIOT_IFACE_REQ_STATUS_IDLE)
-            {
-                err = ciot_iface_send_msg(sender, msg, CIOT_MSG_GET_SIZE(msg->data.ciot.req));
-            }
+            err = ciot_iface_process_request_result(self, sender_iface, msg, err);
             break;
         case CIOT_MSG_TYPE_EVENT:
             err = CIOT_ERR_NOT_IMPLEMENTED;
@@ -226,11 +242,11 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, void *sen
         else
         {
             msg->data.error.iface.id = -1;
-            msg->data.error.iface.type = CIOT_IFACE_TYPE_NULL;
+            msg->data.error.iface.type = CIOT_IFACE_TYPE_UNKNOWN;
         }
         msg->data.error.code = err;
         msg->type = CIOT_MSG_TYPE_ERROR;
-        ciot_iface_send_msg(sender, msg, CIOT_MSG_GET_SIZE(msg->data.error));
+        ciot_iface_send_rsp(sender, msg, CIOT_MSG_GET_SIZE(msg->data.error));
     }
 
     return err;
@@ -244,7 +260,7 @@ ciot_err_t ciot_iface_register_event(ciot_iface_t *self, ciot_iface_event_handle
     return CIOT_OK;
 }
 
-ciot_err_t coit_iface_reset_request(ciot_iface_t *self)
+ciot_err_t ciot_iface_reset_request(ciot_iface_t *self)
 {
     CIOT_NULL_CHECK(self);
     self->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
@@ -265,45 +281,73 @@ const char *ciot_iface_type_to_str(ciot_msg_iface_type_t iface_type)
 {
     switch (iface_type)
     {
-        case CIOT_IFACE_TYPE_NULL:
-            return "CIOT_IFACE_TYPE_NULL";
         case CIOT_IFACE_TYPE_UNKNOWN:
-            return "CIOT_IFACE_TYPE_UNKNOWN";
+            return "UNKNOWN";
         case CIOT_IFACE_TYPE_CIOT:
-            return "CIOT_IFACE_TYPE_CIOT";
+            return "CIOT";
         case CIOT_IFACE_TYPE_STORAGE:
-            return "CIOT_IFACE_TYPE_STORAGE";
+            return "STORAGE";
         case CIOT_IFACE_TYPE_SYSTEM:
-            return "CIOT_IFACE_TYPE_SYSTEM";
+            return "SYSTEM";
         case CIOT_IFACE_TYPE_UART:
-            return "CIOT_IFACE_TYPE_UART";
+            return "UART";
         case CIOT_IFACE_TYPE_USB:
-            return "CIOT_IFACE_TYPE_USB";
+            return "USB";
         case CIOT_IFACE_TYPE_TCP:
-            return "CIOT_IFACE_TYPE_TCP";
+            return "TCP";
         case CIOT_IFACE_TYPE_ETH:
-            return "CIOT_IFACE_TYPE_ETH";
+            return "ETH";
         case CIOT_IFACE_TYPE_WIFI:
-            return "CIOT_IFACE_TYPE_WIFI";
+            return "WIFI";
         case CIOT_IFACE_TYPE_BLE:
-            return "CIOT_IFACE_TYPE_BLE";
+            return "BLE";
         case CIOT_IFACE_TYPE_BLE_SCN:
-            return "CIOT_IFACE_TYPE_BLE_SCN";
+            return "BLE_SCN";
         case CIOT_IFACE_TYPE_NTP:
-            return "CIOT_IFACE_TYPE_NTP";
+            return "NTP";
         case CIOT_IFACE_TYPE_OTA:
-            return "CIOT_IFACE_TYPE_OTA";
+            return "OTA";
         case CIOT_IFACE_TYPE_HTTP_CLIENT:
-            return "CIOT_IFACE_TYPE_HTTP_CLIENT";
+            return "HTTP_CLIENT";
         case CIOT_IFACE_TYPE_HTTP_SERVER:
-            return "CIOT_IFACE_TYPE_HTTP_SERVER";
+            return "HTTP_SERVER";
         case CIOT_IFACE_TYPE_MQTT:
-            return "CIOT_IFACE_TYPE_MQTT";
+            return "MQTT";
         case CIOT_IFACE_TYPE_BRIDGE:
-            return "CIOT_IFACE_TYPE_MQTT";
+            return "MQTT";
         case CIOT_IFACE_TYPE_CUSTOM:
-            return "CIOT_IFACE_TYPE_CUSTOM";
+            return "CUSTOM";
     default:
-            return "Invalid iface type";
+            return "CUSTOM";
+    }
+}
+
+const char *ciot_iface_event_to_str(ciot_iface_event_t *event)
+{
+    if(event == NULL)
+    {
+        return "NULL";
+    }
+
+    switch (event->id)
+    {
+        case CIOT_IFACE_EVENT_UNKNOWN:
+            return "EVENT_UNKNOWN";
+        case CIOT_IFACE_EVENT_STARTED:
+            return "EVENT_STARTED";
+        case CIOT_IFACE_EVENT_STOPPED:
+            return "EVENT_STOPPED";
+        case CIOT_IFACE_EVENT_ERROR:
+            return "EVENT_ERROR";
+        case CIOT_IFACE_EVENT_REQUEST:
+            return "EVENT_REQUEST";
+        case CIOT_IFACE_EVENT_DATA:
+            return "EVENT_DATA";
+        case CIOT_IFACE_EVENT_DONE:
+            return "EVENT_DONE";
+        case CIOT_IFACE_EVENT_CUSTOM:
+            return "EVENT_CUSTOM";
+    default:
+            return "EVENT_CUSTOM";
     }
 }

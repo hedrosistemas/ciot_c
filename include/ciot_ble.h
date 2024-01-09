@@ -56,6 +56,7 @@ ciot_err_t ciot_ble_task(ciot_ble_t self);
 ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6]);
 ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t mac[6]);
 ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces);
+bool ciot_ble_mac_is_valid(ciot_ble_t self, uint8_t mac[6]);
 
 #ifdef __cplusplus
 }

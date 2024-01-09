@@ -1,7 +1,7 @@
 /**
  * @file ciot_s.c
  * @author your name (you@domain.com)
- * @brief Module to parse serial messages from uart, SPI, I2C, BLE, etc
+ * @brief Module to encode/decode serial messages from uart, SPI, I2C, BLE, etc
  * @version 0.1
  * @date 2023-10-09
  *

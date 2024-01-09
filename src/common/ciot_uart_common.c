@@ -22,7 +22,7 @@ ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
     switch (req->type)
     {
         case CIOT_UART_REQ_UNKNOWN:
-            return CIOT_ERR_INVALID_ID;
+            return CIOT_ERR_INVALID_TYPE;
         case CIOT_UART_REQ_SEND_DATA:
             return ciot_uart_send_data(self, req->data.send_data.data, req->data.send_data.size);
         case CIOT_UART_REQ_SEND_BYTES:
@@ -30,7 +30,7 @@ ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
         case CIOT_UART_REQ_ENABLE_BRIDGE_MODE:
             return ciot_uart_set_bridge_mode(self, true);
     }
-    return CIOT_ERR_INVALID_ID;
+    return CIOT_ERR_INVALID_TYPE;
 }
 
 ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)

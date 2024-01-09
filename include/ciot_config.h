@@ -14,19 +14,8 @@
 
 #if defined(ICACHE_FLASH) || defined(ICACHE_RAM_ATTR)
 #define CIOT_TARGET_ESP8266
-#endif
-
-#if defined(_WIN32)
+#elif defined(_WIN32)
 #define CIOT_TARGET_WIN
-#define CIOT_TARGET_PC
-#endif
-
-#if defined(ARDUINO)
-#define CIOT_TARGET_ARDUINO
-#endif
-
-#if defined(CIOT_TARGET_ESP8266) || defined(CIOT_TARGET_WIN)
-#define CIOT_TARGET_MONGOOSE
 #elif defined(ARDUINO)
 #define CIOT_TARGET_INO
 #elif defined(ESP_PLATFORM)
@@ -36,10 +25,6 @@
 #else
 #define CIOT_TARGET_UNKNOWN
 #warning "Target undefined."
-#endif
-
-#if defined(CONFIG_IDF_TARGET_ESP8266)
-#define CIOT_TARGET_ESP8266
 #endif
 
 #if __has_include("ciot_custom_config.h")

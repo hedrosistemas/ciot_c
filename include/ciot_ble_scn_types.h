@@ -41,8 +41,9 @@ typedef struct __attribute__((packed))
     uint16_t interval;
     uint16_t window;
     uint16_t timeout;
-    bool active;
-    bool brigde_mode;
+    uint8_t active : 1;
+    uint8_t brigde_mode : 1;
+    uint8_t reserved : 6;
 } ciot_ble_scn_cfg_t;
 
 typedef struct __attribute__((packed))

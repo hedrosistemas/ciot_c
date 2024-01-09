@@ -84,7 +84,7 @@ typedef union __attribute__((packed))
 {
     // ciot_cfg_t config;
     ciot_status_t status;
-    ciot_req_t req;
+    ciot_req_t request;
 } ciot_data_u;
 
 #ifdef __cplusplus
