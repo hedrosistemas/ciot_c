@@ -26,17 +26,15 @@
 #endif
 
 #include "nrf_nvic.h"
+#include "ciot_timer.h"
 
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 
 struct ciot_sys
 {
     ciot_iface_t iface;
-    // ciot_sys_cfg_t cfg;
     ciot_sys_status_t status;
-    time_t init_time;
 };
 
 static void ciot_sys_init(ciot_sys_t self);
@@ -49,12 +47,12 @@ ciot_sys_t ciot_sys_new(void *handle)
     self->iface.base.stop = (ciot_iface_stop_fn *)ciot_sys_stop;
     self->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_sys_process_req;
     self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_sys_send_data;
-    // self->iface.base.cfg.ptr = &self->cfg;
-    self->iface.base.cfg.size = 0; //sizeof(self->cfg);
+    self->iface.base.cfg.size = 0;
     self->iface.base.status.ptr = &self->status;
     self->iface.base.status.size = sizeof(ciot_sys_status_t);
     self->iface.info.type = CIOT_IFACE_TYPE_SYSTEM;
     ciot_sys_init(self);
+
     return self;
 }
 
@@ -111,7 +109,9 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     self->status.rst_reason = 0;
     self->status.rst_count = 0;
     self->status.free_memory = 0;
-    self->status.lifetime = 0;
+    #if CIOT_CONFIG_FEATURE_TIMER
+    self->status.lifetime = ciot_timer_get();
+    #endif
     return CIOT_OK;
 }
 
