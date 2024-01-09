@@ -21,6 +21,7 @@ static uint8_t msg_id = 0;
 ciot_err_t ciot_iface_start(ciot_iface_t *self, ciot_msg_data_u *cfg)
 {
     CIOT_NULL_CHECK(self);
+    self->base.req.response_size = CIOT_MSG_HEADER_SIZE;
     CIOT_NULL_CHECK(cfg);
     CIOT_NULL_CHECK(self->base.ptr);
     CIOT_NULL_CHECK(self->base.start);
