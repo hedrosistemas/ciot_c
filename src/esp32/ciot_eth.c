@@ -37,7 +37,7 @@ struct ciot_eth
 static const char *TAG = "ciot_eth";
 
 static ciot_err_t ciot_eth_init(ciot_eth_t self);
-static ciot_err_t ciot_eth_tcp_event_handler(void *sender, ciot_iface_event_t *iface_event, void *event_args);
+static ciot_err_t ciot_eth_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *event_args);
 static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
 ciot_eth_t ciot_eth_new(void *handle)
@@ -126,14 +126,14 @@ static ciot_err_t ciot_eth_init(ciot_eth_t self)
     return CIOT_OK;
 }
 
-static ciot_err_t ciot_eth_tcp_event_handler(void *sender, ciot_iface_event_t *iface_event, void *args)
+static ciot_err_t ciot_eth_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args)
 {
     CIOT_NULL_CHECK(args);
 
     ciot_eth_t self = (ciot_eth_t)args;
     if (self->iface.event_handler != NULL)
     {
-        return self->iface.event_handler(self, iface_event, self->iface.event_args);
+        return self->iface.event_handler((ciot_iface_t*)self, iface_event, self->iface.event_args);
     }
 
     return CIOT_ERR_INVALID_STATE;
@@ -189,7 +189,7 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
 
     if (self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &iface_event, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 }
 

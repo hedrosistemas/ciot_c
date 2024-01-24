@@ -37,7 +37,7 @@
                 "${config:idf.espIdfPathWin}/components/**",
                 "${config:idf.espAdfPath}/components/**",
                 "${config:idf.espAdfPathWin}/components/**",
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/include/**"
             ],
             "browse": {
                 "path": [
@@ -46,7 +46,6 @@
                     "${config:idf.espAdfPath}/components/**",
                     "${config:idf.espAdfPathWin}/components/**",
                     "${workspaceFolder}/examples/esp32/**",
-                    "${workspaceFolder}/include/**",
                     "${workspaceFolder}/src/esp32/**"
                 ],
                 "limitSymbolsToIncludedHeaders": false

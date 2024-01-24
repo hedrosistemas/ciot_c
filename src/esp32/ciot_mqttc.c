@@ -91,9 +91,9 @@ ciot_err_t ciot_mqttc_process_req(ciot_mqttc_t self, ciot_mqttc_req_t *req)
     switch (req->type)
     {
     case CIOT_MQTT_REQ_PUBLISH:
-        return ciot_mqttc_publish(self, &req->data.publish);
+        return ciot_mqttc_publish(self, req->data.publish.topic, req->data.publish.msg, req->data.publish.size, req->data.publish.qos);
     case CIOT_MQTT_REQ_SUBSCRIBE:
-        return ciot_mqttc_subscribe(self, &req->data.subscribe);
+        return ciot_mqttc_subscribe(self, req->data.subscribe.topic, req->data.subscribe.qos);
     default:
         return CIOT_ERR_INVALID_ID;
     }
@@ -107,32 +107,31 @@ ciot_err_t ciot_mqttc_send_data(ciot_mqttc_t self, uint8_t *data, int size)
     memcpy(req.msg, data, size);
     req.qos = self->cfg.qos;
     req.size = size;
-    ciot_mqttc_publish(self, &req);
+    ciot_mqttc_publish(self, req.topic, req.msg, req.size, req.qos);
     return CIOT_OK;
 }
 
-ciot_err_t ciot_mqttc_publish(ciot_mqttc_t self, ciot_mqttc_req_publish_t *req)
+ciot_err_t ciot_mqttc_publish(ciot_mqttc_t self, char *topic, uint8_t *data, int size, uint8_t qos)
 {
     CIOT_NULL_CHECK(self);
-    CIOT_NULL_CHECK(req);
     int err_code = 0;
-    self->status.data_rate += req->size;
+    self->status.data_rate += size;
     self->status.last_msg_time = time(NULL);
-    if (req->qos == 0)
+    if (qos == 0)
     {
-        err_code = esp_mqtt_client_publish(self->handle, req->topic, (char*)req->msg, req->size, req->qos, false);
+        err_code = esp_mqtt_client_publish(self->handle, topic, (char*)data, size, qos, false);
     }
     else
     {
-        err_code = esp_mqtt_client_enqueue(self->handle, req->topic, (char*)req->msg, req->size, req->qos, false, false);
+        err_code = esp_mqtt_client_enqueue(self->handle, topic, (char*)data, size, qos, false, false);
     }
     return err_code != -1 ? CIOT_OK : CIOT_FAIL;
 }
 
-ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t self, ciot_mqttc_req_subscribe_t *req)
+ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t self, char *topic, uint8_t qos)
 {
     CIOT_NULL_CHECK(self);
-    if (esp_mqtt_client_subscribe(self->handle, req->topic, req->qos) != -1)
+    if (esp_mqtt_client_subscribe(self->handle, topic, qos) != -1)
     {
         return CIOT_OK;
     }
@@ -140,6 +139,45 @@ ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t self, ciot_mqttc_req_subscribe_t *r
     {
         return CIOT_FAIL;
     }
+}
+
+ciot_err_t ciot_mqttc_get_topics(ciot_mqttc_t self, ciot_mqttc_topics_cfg_t *topics)
+{
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(topics);
+    *topics = self->cfg.topics;
+    return CIOT_OK;
+}
+
+ciot_err_t ciot_mqttc_set_topics(ciot_mqttc_t self, ciot_mqttc_topics_cfg_t *topics)
+{
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(topics);
+    ciot_mqttc_set_d2b_topic(self, topics->d2b);
+    return ciot_mqttc_set_b2d_topic(self, topics->b2d);
+}
+
+ciot_err_t ciot_mqttc_set_d2b_topic(ciot_mqttc_t self, char *topic)
+{
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(topic);
+    strcpy(self->cfg.topics.d2b, topic);
+    return CIOT_OK;
+}
+
+ciot_err_t ciot_mqttc_set_b2d_topic(ciot_mqttc_t self, char *topic)
+{
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(topic);
+    strcpy(self->cfg.topics.b2d, topic);
+    return ciot_mqttc_subscribe(self, topic, self->cfg.qos);
+}
+
+ciot_err_t ciot_mqttc_reset_data_rate(ciot_mqttc_t self)
+{
+    CIOT_NULL_CHECK(self);
+    self->status.data_rate = 0;
+    return CIOT_OK;
 }
 
 static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
@@ -151,6 +189,10 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     ciot_iface_event_t iface_event = {0};
     ciot_mqttc_status_msg_t status_msg = {0};
     esp_mqtt_event_t *mqtt_event = (esp_mqtt_event_t*)event_data;
+
+    status_msg.header.iface = self->iface.info;
+    iface_event.data = (ciot_iface_event_data_u*)&status_msg;
+    iface_event.size = sizeof(status_msg);
 
     switch ((esp_mqtt_event_id_t)event_id)
     {

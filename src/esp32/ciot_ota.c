@@ -11,7 +11,7 @@
 
 #include "ciot_ota.h"
 
-#if CIOT_CONFIG_FEATURE_NTP && defined(CIOT_TARGET_ESP32)
+#if CIOT_CONFIG_FEATURE_OTA && defined(CIOT_TARGET_ESP32)
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -100,7 +100,7 @@ ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg)
         "ciot_ota_task",
         CIOT_CONFIG_OTA_TASK_STACK_SIZE,
         self,
-        CIOT_CONFIG_OTA_TASK_TASK_PRIORITY,
+        CIOT_CONFIG_OTA_TASK_PRIORITY,
         &self->task,
         CIOT_CONFIG_OTA_TASK_CORE_ID);
     return self->status.error;
@@ -228,12 +228,13 @@ static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self)
     self->status.state = CIOT_OTA_STATE_ERROR;
     if(self->iface.event_handler != NULL)
     {
+        
         ciot_iface_event_t event = { 0 };
         event.id = CIOT_IFACE_EVENT_ERROR;
-        event.msg.type = CIOT_MSG_TYPE_EVENT;
-        event.msg.iface = self->iface.info;
-        event.msg.data.ota.status = self->status;
-        self->iface.event_handler(self, &event, self->iface.event_args);
+        // event.msg.type = CIOT_MSG_TYPE_ERROR;
+        // event.msg.iface = self->iface.info;
+        // event.msg.
+        self->iface.event_handler(&self->iface, &event, self->iface.event_args);
     }
 
     (void)vTaskDelete(NULL);
@@ -327,7 +328,7 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     
     if(self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &event, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 }
 

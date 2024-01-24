@@ -75,6 +75,20 @@ ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size)
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
+ciot_err_t ciot_sys_rst(ciot_sys_t self)
+{
+    esp_restart();
+    return CIOT_OK;
+}
+
+ciot_err_t ciot_sys_task(ciot_sys_t self)
+{
+    CIOT_NULL_CHECK(self);
+    self->status.free_memory = esp_get_free_heap_size();
+    self->status.lifetime = time(NULL) - self->init_time;
+    return CIOT_OK;
+}
+
 static void ciot_sys_init(ciot_sys_t self)
 {
     char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
@@ -93,14 +107,6 @@ static void ciot_sys_init(ciot_sys_t self)
 
     memcpy(self->status.info.hw_name, hw_name, sizeof(hw_name));
     memcpy(self->status.info.app_ver, app_ver, sizeof(app_ver));
-}
-
-ciot_err_t ciot_sys_task(ciot_sys_t self)
-{
-    CIOT_NULL_CHECK(self);
-    self->status.free_memory = esp_get_free_heap_size();
-    self->status.lifetime = time(NULL) - self->init_time;
-    return CIOT_OK;
 }
 
 #endif

@@ -42,26 +42,6 @@ extern "C"
 
 #include <stdio.h>
 
-#define CIOT_LOG_MSG(TAG, LOG_MACRO, header, sender, msg) \
-    LOG_MACRO(TAG, header "id:%d %d:%s %d:%s %d:%s",      \
-              msg.id,                                     \
-              sender->info.id,                            \
-              ciot_iface_to_str(sender),                  \
-              msg.type,                                   \
-              ciot_msg_type_to_str(&msg),                 \
-              msg.iface.id,                               \
-              ciot_iface_type_to_str(msg.iface.type))
-
-#define CIOT_LOG_MSG_P(TAG, LOG_MACRO, header, sender, msg) \
-    LOG_MACRO(TAG, header "id:%d %d:%s %d:%s %d:%s",        \
-              msg->id,                                      \
-              sender->info.id,                              \
-              ciot_iface_to_str(sender),                    \
-              msg->type,                                    \
-              ciot_msg_type_to_str(msg),                    \
-              msg->iface.id,                                \
-              ciot_iface_type_to_str(msg->iface.type))
-
 #define CIOT_LOGD(TAG, MASK, ...)                          \
     do                                                     \
     {                                                      \
@@ -71,17 +51,6 @@ extern "C"
             printf(MASK, ##__VA_ARGS__);                   \
             printf("\n");                                  \
         }                                                  \
-    } while (0)
-
-#define CIOT_LOG_HEX(data, size)\
-    do\
-    {\
-        uint8_t *u8ptr = data;\
-        for (size_t i = 0; i < size; i++)\
-        {\
-            printf("%02X", u8ptr[i]);\
-        }\
-        printf("\n");\
     } while (0)
 
 #define CIOT_LOGV(TAG, MASK, ...)                            \
@@ -129,6 +98,37 @@ extern "C"
     } while (0)
 
 #endif // IDF_VER
+
+#define CIOT_LOG_MSG(TAG, LOG_MACRO, header, sender, msg) \
+    LOG_MACRO(TAG, header "id:%d %d:%s %d:%s %d:%s",      \
+              msg.id,                                     \
+              sender->info.id,                            \
+              ciot_iface_to_str(sender),                  \
+              msg.type,                                   \
+              ciot_msg_type_to_str(&msg),                 \
+              msg.iface.id,                               \
+              ciot_iface_type_to_str(msg.iface.type))
+
+#define CIOT_LOG_MSG_P(TAG, LOG_MACRO, header, sender, msg) \
+    LOG_MACRO(TAG, header "id:%d %d:%s %d:%s %d:%s",        \
+              msg->id,                                      \
+              sender->info.id,                              \
+              ciot_iface_to_str(sender),                    \
+              msg->type,                                    \
+              ciot_msg_type_to_str(msg),                    \
+              msg->iface.id,                                \
+              ciot_iface_type_to_str(msg->iface.type))
+
+#define CIOT_LOG_HEX(data, size)\
+    do\
+    {\
+        uint8_t *u8ptr = data;\
+        for (size_t i = 0; i < size; i++)\
+        {\
+            printf("%02X", u8ptr[i]);\
+        }\
+        printf("\n");\
+    } while (0)
 
 #ifdef __cplusplus
 }

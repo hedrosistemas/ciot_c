@@ -142,7 +142,7 @@ static void ciot_ntp_sync_notification_cb(struct timeval *tv)
 
     if(self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &iface_event, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 }
 

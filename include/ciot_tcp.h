@@ -30,7 +30,7 @@ typedef enum ciot_tcp_type
 
 typedef struct ciot_tcp_handle
 {
-    int netif;
+    void *netif;
     ciot_tcp_cfg_t *cfg;
     ciot_tcp_status_t *status;
 } ciot_tcp_handle_t;

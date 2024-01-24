@@ -37,7 +37,7 @@ static const char *TAG = "ciot_wifi";
 
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg);
 static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t self, wifi_interface_t type);
-static ciot_err_t ciot_wifi_tcp_event_handler(void *sender, ciot_iface_event_t *iface_event, void *args);
+static ciot_err_t ciot_wifi_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args);
 static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
 ciot_err_t ciot_wifi_init(void)
@@ -195,14 +195,14 @@ static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t self, wifi_interface_t type)
     return WIFI_MODE_NULL;
 }
 
-static ciot_err_t ciot_wifi_tcp_event_handler(void *sender, ciot_iface_event_t *iface_event, void *args)
+static ciot_err_t ciot_wifi_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args)
 {
     CIOT_NULL_CHECK(args);
 
     ciot_wifi_t self = (ciot_wifi_t)args;
     if (self->iface.event_handler != NULL)
     {
-        return self->iface.event_handler(self, iface_event, self->iface.event_args);
+        return self->iface.event_handler(&self->iface, iface_event, self->iface.event_args);
     }
 
     return CIOT_ERR_INVALID_STATE;
@@ -223,7 +223,7 @@ static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_b
     case WIFI_EVENT_SCAN_DONE:
     {
         ESP_LOGI(TAG, "WIFI_EVENT_SCAN_DONE");
-        wifi_event_sta_scan_done_t *data = (wifi_event_sta_scan_done_t *)event_data;
+        // wifi_event_sta_scan_done_t *data = (wifi_event_sta_scan_done_t *)event_data;
         self->status.sta.scan = CIOT_WIFI_SCAN_STATE_SCANNED;
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
@@ -254,7 +254,7 @@ static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_b
     case WIFI_EVENT_STA_CONNECTED:
     {
         ESP_LOGI(TAG, "WIFI_EVENT_STA_CONNECTED");
-        wifi_event_sta_connected_t *data = (wifi_event_sta_connected_t *)event_data;
+        // wifi_event_sta_connected_t *data = (wifi_event_sta_connected_t *)event_data;
         self->status.tcp.state = CIOT_TCP_STATE_CONNECTED;
         self->status.tcp.conn_count++;
         CIOT_ERROR_PRINT(ciot_tcp_start(self->tcp, &self->cfg.tcp));
@@ -297,7 +297,7 @@ static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_b
     case WIFI_EVENT_AP_STACONNECTED:
     {
         ESP_LOGI(TAG, "WIFI_EVENT_AP_STACONNECTED");
-        wifi_event_ap_staconnected_t *data = (wifi_event_ap_staconnected_t *)event_data;
+        // wifi_event_ap_staconnected_t *data = (wifi_event_ap_staconnected_t *)event_data;
         self->status.tcp.state = CIOT_TCP_STATE_CONNECTED;
         self->status.tcp.conn_count++;
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
@@ -308,7 +308,7 @@ static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_b
     case WIFI_EVENT_AP_STADISCONNECTED:
     {
         ESP_LOGI(TAG, "WIFI_EVENT_AP_STADISCONNECTED");
-        wifi_event_ap_stadisconnected_t *data = (wifi_event_sta_disconnected_t *)event_data;
+        // wifi_event_ap_stadisconnected_t *data = (wifi_event_sta_disconnected_t *)event_data;
         self->status.tcp.state = CIOT_TCP_STATE_STARTED;
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
@@ -321,7 +321,7 @@ static void ciot_wifi_event_handler(void *handler_args, esp_event_base_t event_b
 
     if (self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &iface_event, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 }
 

@@ -275,7 +275,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         {
             sender->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
             event->id = CIOT_IFACE_EVENT_DONE;
-            CIOT_LOG_MSG(TAG, CIOT_LOGV, error ? "RX ERR <- " : "RX RSP <- ", sender, event->data->msg);
+            CIOT_LOG_MSG(TAG, CIOT_LOGV, "RX RSP <- ", sender, event->data->msg);
         }
     }
 

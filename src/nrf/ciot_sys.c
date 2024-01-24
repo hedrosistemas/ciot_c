@@ -79,7 +79,7 @@ ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
 #ifdef CIOT_CONFIG_FEATURE_TIMER
         self->reset_scheduled = ciot_timer_get() + 5;
 #else
-        sd_nvic_SystemReset();
+        ciot_sys_rst(self);
 #endif
         return CIOT_OK;
 #else
@@ -93,6 +93,12 @@ ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
 ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size)
 {
     return CIOT_ERR_NOT_SUPPORTED;
+}
+
+ciot_err_t ciot_sys_rst(ciot_sys_t self)
+{
+    sd_nvic_SystemReset();
+    return CIOT_OK;
 }
 
 static void ciot_sys_init(ciot_sys_t self)
@@ -121,7 +127,7 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
 
     if(self->reset_scheduled > 0 && ciot_timer_compare(&self->reset_scheduled, 5))
     {
-        sd_nvic_SystemReset();
+        ciot_sys_rst();
     }
 
     return CIOT_OK;

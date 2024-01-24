@@ -188,8 +188,6 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
     ciot_tcp_t self = (ciot_tcp_t)handler_args;
     ciot_tcp_status_t *status = (ciot_tcp_status_t*)self->iface.base.status.ptr;
     
-    ciot_iface_event_t event = { 0 };
-
     ciot_iface_event_t iface_event = {0};
     ciot_tcp_status_msg_t status_msg = {0};
 
@@ -223,7 +221,7 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
 
         status_msg.header.type = CIOT_MSG_TYPE_START;
         status_msg.status = *status;
-        event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.id = CIOT_IFACE_EVENT_STARTED;
         break;
     }
     case IP_EVENT_ETH_LOST_IP:
@@ -231,7 +229,7 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
     {
         status_msg.header.type = CIOT_MSG_TYPE_STOP;
         status_msg.status = *status;
-        event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
         break;
     }
     default:
@@ -240,7 +238,7 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
 
     if (self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(self, &event, self->iface.event_args);
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }
 }
 
