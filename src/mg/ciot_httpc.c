@@ -134,7 +134,7 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
         break;
     }
     case MG_EV_POLL:
-        CIOT_LOGD(TAG, "MG_EV_POLL");
+        // CIOT_LOGD(TAG, "MG_EV_POLL");
         if (mg_millis() > *(uint64_t *)c->data && (self->status.state != CIOT_HTTPC_STATE_IDLE))
         {
             mg_error(c, "Connect timeout");

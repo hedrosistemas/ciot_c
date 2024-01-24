@@ -21,22 +21,22 @@ const char *ciot_msg_type_to_str(ciot_msg_t *msg)
     switch (msg->type)
     {
     case CIOT_MSG_TYPE_UNKNOWN:
-        return "UNKNOWN";
+        return "MSG_UNKNOWN";
     case CIOT_MSG_TYPE_START:
-        return "START";
+        return "MSG_START";
     case CIOT_MSG_TYPE_STOP:
-        return "STOP";
+        return "MSG_STOP";
     case CIOT_MSG_TYPE_GET_CONFIG:
-        return "GET_CONFIG";
+        return "MSG_GET_CONFIG";
     case CIOT_MSG_TYPE_GET_STATUS:
-        return "GET_STATUS";
+        return "MSG_GET_STATUS";
     case CIOT_MSG_TYPE_REQUEST:
-        return "REQUEST";
+        return "MSG_REQUEST";
     case CIOT_MSG_TYPE_ERROR:
-        return "ERROR";
+        return "MSG_ERROR";
     case CIOT_MSG_TYPE_EVENT:
-        return "EVENT";
+        return "MSG_EVENT";
     default:
-        return "CUSTOM";
+        return "MSG_CUSTOM";
     }
 }

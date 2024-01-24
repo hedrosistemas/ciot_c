@@ -45,7 +45,9 @@
                     "${config:idf.espIdfPathWin}/components",
                     "${config:idf.espAdfPath}/components/**",
                     "${config:idf.espAdfPathWin}/components/**",
-                    "${workspaceFolder}"
+                    "${workspaceFolder}/examples/esp32/**",
+                    "${workspaceFolder}/include/**",
+                    "${workspaceFolder}/src/esp32/**"
                 ],
                 "limitSymbolsToIncludedHeaders": false
             }
@@ -69,7 +71,7 @@
             ],
             "browse": {
                 "path": [
-                    "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
+                    "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**"
                 ],
                 "limitSymbolsToIncludedHeaders": false
             }

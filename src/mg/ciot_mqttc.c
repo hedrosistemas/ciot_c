@@ -53,7 +53,14 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t self, ciot_mqttc_cfg_t *cfg)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
     struct mg_mqtt_opts opts = {0};
-    memcpy(&self->cfg, cfg, sizeof(self->cfg));
+    if(cfg->topics.b2d[0] != '\0' && cfg->topics.d2b[0] != '\0')
+    {
+        memcpy(&self->cfg, cfg, sizeof(self->cfg));
+    }
+    else
+    {
+        memcpy(&self->cfg, cfg, sizeof(self->cfg) - sizeof(self->cfg.topics));
+    }
     opts.client_id = mg_str(self->cfg.client_id);
     opts.user = mg_str(self->cfg.user);
     opts.pass = mg_str(self->cfg.pass);

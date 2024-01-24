@@ -73,17 +73,32 @@ ciot_err_t ciot_sys_start(ciot_sys_t self, ciot_sys_cfg_t *cfg)
 
 ciot_err_t ciot_sys_stop(ciot_sys_t self)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_SUPPORTED;
+}
+
+ciot_err_t ciot_sys_rst(ciot_sys_t self)
+{
+    exit(0);
+    return CIOT_OK;
+}
+
+ciot_err_t ciot_sys_task(ciot_sys_t self)
+{
+    CIOT_NULL_CHECK(self);
+    sys->status.free_memory = ciot_sys_get_free_ram();
+    sys->status.lifetime = time(NULL) - sys->init_time;
+    mg_mgr_poll(CIOT_HANDLE, 50);
+    return CIOT_OK;
 }
 
 static void ciot_sys_init(ciot_sys_t self)
@@ -102,15 +117,6 @@ static void ciot_sys_init(ciot_sys_t self)
     mg_mgr_init(CIOT_HANDLE);
 
     sys = self;
-}
-
-ciot_err_t ciot_sys_task(ciot_sys_t self)
-{
-    CIOT_NULL_CHECK(self);
-    sys->status.free_memory = ciot_sys_get_free_ram();
-    sys->status.lifetime = time(NULL) - sys->init_time;
-    mg_mgr_poll(CIOT_HANDLE, 50);
-    return CIOT_OK;
 }
 
 #if defined(CIOT_TARGET_ESP8266)

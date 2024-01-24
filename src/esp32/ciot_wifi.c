@@ -123,7 +123,6 @@ ciot_err_t ciot_wifi_process_req(ciot_wifi_t self, ciot_wifi_req_t *req)
     switch (req->type)
     {
     case CIOT_WIFI_REQ_SCAN:
-        // TODO: implement scan request
         return CIOT_ERR_NOT_IMPLEMENTED;
     default:
         return CIOT_ERR_INVALID_ID;

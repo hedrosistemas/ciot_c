@@ -33,6 +33,7 @@ extern "C"
 #define CIOT_CONFIG_FEATURE_HTTPC 0               ///!< Enable HTTP Client
 #define CIOT_CONFIG_FEATURE_MQTTC 0               ///!< Enable MQTT Client
 #define CIOT_CONFIG_FEATURE_BRIDGE 0              ///!< Enable Bridge Implementation
+#define CIOT_CONFIG_FEATURE_TIMER 1               ///!< Enable Timer
 #define CIOT_CONFIG_MESSAGE_LEN 330               ///!< CIOT expected message size
 #define CIOT_CONFIG_MESSAGE_PAYLOAD_LEN 256       ///!< CIOT message payload size
 

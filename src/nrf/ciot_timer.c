@@ -78,7 +78,7 @@ uint64_t ciot_timer_get(void)
 
 bool ciot_timer_compare(uint64_t *timer, uint16_t interval)
 {
-    if (self.now >= *timer)
+    if (self.now > *timer)
     {
         *timer = self.now + interval;
         return true;

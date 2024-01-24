@@ -62,8 +62,9 @@ typedef struct __attribute((packed))
 
 typedef struct __attribute((packed))
 {
-    uint8_t data[CIOT_CONFIG_MESSAGE_PAYLOAD_LEN];
+    uint8_t iface;
     uint16_t size;
+    uint8_t data[CIOT_CONFIG_MESSAGE_PAYLOAD_LEN];
 } ciot_req_proxy_msg_t;
 
 typedef union __attribute__((packed))

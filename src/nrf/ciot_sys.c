@@ -51,8 +51,8 @@ ciot_sys_t ciot_sys_new(void *handle)
     self->iface.base.cfg.size = 0;
     self->iface.base.status.ptr = &self->status;
     self->iface.base.status.size = sizeof(ciot_sys_status_t);
+    self->iface.info.type = CIOT_IFACE_TYPE_SYSTEM;
     ciot_sys_init(self);
-
     return self;
 }
 
@@ -74,6 +74,7 @@ ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
         return CIOT_ERR_INVALID_TYPE;
     case CIOT_SYS_REQ_RESTART:
         self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+        self->iface.base.req.response_size++;
 #ifdef SOFTDEVICE_PRESENT
 #ifdef CIOT_CONFIG_FEATURE_TIMER
         self->reset_scheduled = ciot_timer_get() + 5;

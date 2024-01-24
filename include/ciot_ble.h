@@ -27,6 +27,7 @@ typedef enum ciot_ble_mac_type
     CIOT_BLE_MAC_TYPE_UNKNOWN,
     CIOT_BLE_MAC_TYPE_HARDWARE,
     CIOT_BLE_MAC_TYPE_SOFTWARE,
+    CIOT_BLE_MAC_TYPE_REAL,
 } ciot_ble_mac_type_t;
 
 // ciot_err_t ciot_ble_power_management_init(void);

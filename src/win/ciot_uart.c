@@ -34,6 +34,7 @@ struct ciot_uart
 static ciot_err_t ciot_uart_init(ciot_uart_t self);
 static void ciot_uart_process_error(ciot_uart_t self, DWORD error);
 static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status);
+ciot_err_t ciot_uart_task_internal(ciot_iface_t *iface, ciot_s_t ciot_s);
 
 ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
 
@@ -168,7 +169,8 @@ ciot_err_t ciot_uart_task(ciot_uart_t self)
     ClearCommError(self->handle, &error, &status);
 
     ciot_uart_process_error(self, error);
-    return ciot_uart_process_status(self, &status);
+    ciot_uart_process_status(self, &status);
+    return ciot_uart_task_internal(&self->uart.iface, self->uart.s);
 }
 
 static void ciot_uart_process_error(ciot_uart_t self, DWORD error)

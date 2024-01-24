@@ -110,6 +110,7 @@ ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg)
     }
 
     self->bridges_idx = -1;
+    self->base.iface.base.req.response_size = CIOT_MSG_HEADER_SIZE;
 
     err = ciot_ifaces_start(self);
     if (err != CIOT_OK && err != CIOT_ERR_NOT_IMPLEMENTED)
@@ -134,6 +135,59 @@ ciot_err_t ciot_register_event(ciot_t self, ciot_iface_event_handler_t event_han
     self->event_handler = event_handler;
     self->event_args = event_args;
     return CIOT_OK;
+}
+
+ciot_err_t ciot_proxy_send_req(ciot_t self, ciot_iface_t *iface, ciot_msg_iface_info_t *proxy_iface, ciot_msg_t *req, int size)
+{
+    ciot_msg_t msg = {
+        .type = CIOT_MSG_TYPE_REQUEST,
+        .iface.id = self->base.iface.info.id,
+        .iface.type = self->base.iface.info.type,
+        .data.ciot.request.type = CIOT_REQ_PROXY_MSG,
+        .data.ciot.request.data.proxy_msg.iface = proxy_iface->id,
+        .data.ciot.request.data.proxy_msg.size = size,
+    };
+    size += CIOT_MSG_HEADER_SIZE + sizeof(CIOT_REQ_PROXY_MSG) + sizeof(proxy_iface->id) + sizeof(size);
+    msg.id = ciot_iface_get_msg_id();
+    req->id = msg.id;
+    memcpy(&msg.data.ciot.request.data.proxy_msg.data, req, size);
+    CIOT_ERROR_RETURN(ciot_iface_register_request(iface, &req->iface, req, CIOT_IFACE_REQ_STATUS_SENDED));
+    CIOT_LOG_MSG("ciot", CIOT_LOGV, "TX REQ <- ", iface, msg);
+    CIOT_ERROR_RETURN(ciot_iface_send_data(iface, &msg, size));
+    return CIOT_OK;
+}
+
+
+ciot_err_t ciot_save_iface_cfg(ciot_t self, uint8_t iface_id)
+{
+    #if CIOT_CONFIG_FEATURE_STORAGE
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(self->storage);
+    char filepath[32];
+    sprintf(filepath, "iface_cfg_%d.dat", iface_id);
+    CIOT_ERROR_RETURN(ciot_storage_save(self->storage, filepath, (uint8_t *)self->ifaces.list[iface_id]->base.cfg.ptr, self->ifaces.list[iface_id]->base.cfg.size));
+    self->base.iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+    self->base.iface.base.req.response_size = CIOT_MSG_HEADER_SIZE + sizeof(ciot_req_type_t) + sizeof(iface_id);
+    return CIOT_OK;
+    #else
+    return CIOT_ERR_NOT_SUPPORTED;
+    #endif  //CIOT_CONFIG_FEATURE_STORAGE
+}
+
+ciot_err_t ciot_delete_iface_cfg(ciot_t self, uint8_t iface_id)
+{
+    #if CIOT_CONFIG_FEATURE_STORAGE
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(self->storage);
+    char filepath[32];
+    sprintf(filepath, "iface_cfg_%d.dat", iface_id);
+    CIOT_ERROR_RETURN(ciot_storage_delete(self->storage, filepath));
+    self->base.iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+    self->base.iface.base.req.response_size = CIOT_MSG_HEADER_SIZE + sizeof(ciot_req_type_t) + sizeof(iface_id);
+    return CIOT_OK;
+    #else
+    return CIOT_ERR_NOT_SUPPORTED;
+    #endif  //CIOT_CONFIG_FEATURE_STORAGE
 }
 
 static ciot_err_t ciot_set_iface_list(ciot_t self, ciot_iface_t *ifaces[], int count)
@@ -190,7 +244,7 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
 #endif
             if (self->ifaces.list[i] != NULL && self->ifaces.cfgs[i] != NULL)
             {
-                ciot_err_t err = self->ifaces.list[i]->base.start(self->ifaces.list[i], (ciot_msg_data_u *)self->ifaces.cfgs[i]);
+                ciot_err_t err = ciot_iface_start(self->ifaces.list[i], (ciot_msg_data_u *)self->ifaces.cfgs[i]);
                 if (err != CIOT_OK && err != CIOT_ERR_NOT_IMPLEMENTED)
                 {
                     CIOT_LOGE(TAG, "Interface id:%d type:%d cannot start. Error: %d", i, self->ifaces.list[i]->info.type, err);
@@ -217,32 +271,11 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         bool type_equal = sender->base.req.type == event->data->msg.type;
         bool id_equal = sender->base.req.id == event->data->msg.id;
         bool error = event->data->msg.type == CIOT_MSG_TYPE_ERROR;
-        if(!id_equal)
-        {
-            CIOT_LOGE(TAG, "Invalid response id: %d. Expecteded: %d", event->data->msg.id, sender->base.req.id);
-        }
         if(iface_equal && id_equal && (type_equal || error))
         {
             sender->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
             event->id = CIOT_IFACE_EVENT_DONE;
-
-            if(error)
-            {
-                CIOT_LOGV(TAG, "RX ERR <- id:%d sender:%s msgt:%s iface:%s error:%s", 
-                    event->data->msg.id,
-                    ciot_iface_to_str(sender),
-                    ciot_msg_type_to_str(&event->data->msg),
-                    ciot_iface_type_to_str(event->data->msg.iface.type),
-                    ciot_err_to_message(event->data->msg.data.error.code));
-            }
-            else
-            {
-                CIOT_LOGV(TAG, "RX RSP <- id:%d sender:%s msgt:%s iface:%s", 
-                    event->data->msg.id,
-                    ciot_iface_to_str(sender),
-                    ciot_msg_type_to_str(&event->data->msg),
-                    ciot_iface_type_to_str(event->data->msg.iface.type));
-            }
+            CIOT_LOG_MSG(TAG, CIOT_LOGV, error ? "RX ERR <- " : "RX RSP <- ", sender, event->data->msg);
         }
     }
 
@@ -261,15 +294,10 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 
     if (event->id == CIOT_IFACE_EVENT_REQUEST)
     {
-        CIOT_LOGV(TAG, "RX REQ <- id:%d sender:%s msgt:%s iface:%s", 
-                event->data->msg.id,
-                ciot_iface_to_str(sender),
-                ciot_msg_type_to_str(&event->data->msg),
-                ciot_iface_type_to_str(event->data->msg.iface.type));
-
-        if(event->data->msg.type < CIOT_MSG_TYPE_CUSTOM)
+        CIOT_LOG_MSG(TAG, CIOT_LOGV, "RX REQ <- ", sender, event->data->msg);
+        uint8_t id = event->data->msg.iface.id;
+        if(id < self->ifaces.count && event->data->msg.type <= CIOT_MSG_TYPE_REQUEST)
         {
-            uint8_t id = event->data->msg.iface.id;
             ciot_err_t err = ciot_iface_process_msg(self->ifaces.list[id], &event->data->msg, sender);
             if(self->ifaces.list[id]->base.req.status == CIOT_IFACE_REQ_STATUS_IDLE)
             {
@@ -321,36 +349,27 @@ static ciot_err_t ciot_process_req(ciot_t self, ciot_req_t *req)
 #if CIOT_CONFIG_FEATURE_STORAGE
     case CIOT_REQ_SAVE_IFACE_CFG:
     {
-        CIOT_NULL_CHECK(self->storage);
-        char filepath[32];
-        int iface_id = req->data.save_iface_cfg.iface_id;
-        sprintf(filepath, "iface_cfg_%d.dat", iface_id);
-        req->data.result.err = ciot_storage_save(self->storage, filepath, (uint8_t *)self->ifaces.list[iface_id]->base.cfg.ptr, self->ifaces.list[iface_id]->base.cfg.size);
-        self->base.iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
-        break;
+        return ciot_save_iface_cfg(self, req->data.save_iface_cfg.iface_id);
     }
     case CIOT_REQ_DELETE_IFACE_CFG:
     {
-        CIOT_NULL_CHECK(self->storage);
-        char filepath[32];
-        int iface_id = req->data.save_iface_cfg.iface_id;
-        sprintf(filepath, "iface_cfg_%d.dat", iface_id);
-        req->data.result.err = ciot_storage_delete(self->storage, filepath);
-        self->base.iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
-        break;
+        return ciot_delete_iface_cfg(self, req->data.delete_iface_cfg.iface_id);
     }
 #endif // CIOT_CONFIG_FEATURE_STORAGE
     case CIOT_REQ_PROXY_MSG:
     {
         ciot_msg_t *msg = (ciot_msg_t*)req->data.proxy_msg.data;
-        ciot_iface_send_req(self->ifaces.list[msg->iface.id], msg, req->data.proxy_msg.size);
+        uint8_t sender_id = req->data.proxy_msg.iface;
+        CIOT_ERROR_RETURN(ciot_iface_register_request(self->ifaces.list[sender_id], &self->base.iface.base.req.iface, msg, CIOT_IFACE_REQ_STATUS_RECEIVED));
+        CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self->ifaces.list[sender_id], msg);
+        CIOT_ERROR_RETURN(ciot_iface_send_data(self->ifaces.list[sender_id], msg, req->data.proxy_msg.size));
         break;
     }
     default:
         break;
     }
 
-    return req->data.result.err;
+    return CIOT_OK;
 }
 
 static ciot_err_t ciot_send_data(ciot_t self, uint8_t *data, int size)

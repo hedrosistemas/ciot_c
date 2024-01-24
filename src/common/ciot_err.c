@@ -20,49 +20,51 @@ const char *ciot_err_to_message(ciot_err_t err)
     switch (err)
     {
         case CIOT_FAIL:
-            return "FAIL";
+            return "ERR_FAIL";
         case CIOT_OK:
-            return "OK";
+            return "ERR_OK";
         case CIOT_ERR_NULL_ARG:
-            return "NULL_ARG";
+            return "ERR_NULL_ARG";
         case CIOT_ERR_INVALID_ID:
-            return "INVALID_ID";
+            return "ERR_INVALID_ID";
         case CIOT_ERR_INVALID_TYPE:
-            return "INVALID_TYPE";
+            return "ERR_INVALID_TYPE";
         case CIOT_ERR_OVERFLOW:
-            return "OVERFLOW";
+            return "ERR_OVERFLOW";
         case CIOT_ERR_NOT_IMPLEMENTED:
-            return "NOT_IMPLEMENTED";
+            return "ERR_NOT_IMPLEMENTED";
         case CIOT_ERR_NOT_SUPPORTED:
-            return "NOT_SUPPORTED";
+            return "ERR_NOT_SUPPORTED";
         case CIOT_ERR_BUSY:
-            return "BUSY";
+            return "ERR_BUSY";
         case CIOT_ERR_INVALID_STATE:
-            return "INVALID_STATE";
+            return "ERR_INVALID_STATE";
         case CIOT_ERR_SERIALIZATION:
-            return "SERIALIZATION";
+            return "ERR_SERIALIZATION";
         case CIOT_ERR_DESERIALIZATION:
-            return "DESERIALIZATION";
+            return "ERR_DESERIALIZATION";
         case CIOT_ERR_SEND_DATA:
-            return "SEND_DATA";
+            return "ERR_SEND_DATA";
         case CIOT_ERR_INVALID_SIZE:
-            return "INVALID_SIZE";
+            return "ERR_INVALID_SIZE";
         case CIOT_ERR_CLOSED:
-            return "CLOSED";
+            return "ERR_CLOSED";
         case CIOT_ERR_NOT_FOUND:
-            return "NOT_FOUND";
+            return "ERR_NOT_FOUND";
         case CIOT_ERR_VALIDATION_FAILED:
-            return "VALIDATION_FAILED";
+            return "ERR_VALIDATION_FAILED";
         case CIOT_ERR_CONNECTION:
-            return "CONNECTION";
+            return "ERR_CONNECTION";
         case CIOT_ERR_DISCONNECTION:
-            return "DISCONNECTION";
+            return "ERR_DISCONNECTION";
         case CIOT_ERR_EXCEPTION:
-            return "EXCEPTION";
+            return "ERR_EXCEPTION";
         case CIOT_ERR_TERMINATOR_MISSING:
-            return "TERMINATOR_MISSING";
+            return "ERR_TERMINATOR_MISSING";
         case CIOT_ERR_INVALID_ARG:
-            return "INVALID_ARG";
+            return "ERR_INVALID_ARG";
+        case CIOT_ERR_TIMEOUT:
+            return "ERR_TIMEOUT";
     default:
 #ifdef IDF_VER
     return esp_err_to_name(err);

@@ -16,6 +16,12 @@
 #include "ciot_s.h"
 #include "ciot_err.h"
 
+#ifdef  CIOT_CONFIG_FEATURE_TIMER
+#include "ciot_timer.h"
+#endif  //CIOT_CONFIG_FEATURE_TIMER
+
+#define CIOT_S_TIMEOUT 2
+
 struct ciot_s
 {
     ciot_s_cfg_t cfg;
@@ -23,6 +29,9 @@ struct ciot_s
     uint8_t buf[CIOT_S_BUF_SIZE];
     int idx;
     int len;
+#if CIOT_CONFIG_FEATURE_TIMER
+    uint64_t timer;
+#endif
 };
 
 ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg)
@@ -58,12 +67,22 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
 
 ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 {
+#if CIOT_CONFIG_FEATURE_TIMER
+    self->timer = ciot_timer_get() + CIOT_S_TIMEOUT;
+#endif
+
     if(self->cfg.bridge_mode)
     {
         if(self->cfg.on_message_cb != NULL)
         {
             self->cfg.on_message_cb(self->cfg.iface, &byte, 1);
         }
+    }
+
+    if(self->status == CIOT_S_STATUS_TIMEOUT)
+    {
+        self->idx = 0;
+        self->status = CIOT_S_STATUS_WAIT_START_DATA;
     }
 
     if(self->idx < CIOT_S_BUF_SIZE)
@@ -127,3 +146,19 @@ ciot_err_t ciot_s_set_bridge_mode(ciot_s_t self, bool mode)
     self->cfg.bridge_mode = mode;
     return CIOT_OK;
 }
+
+#if CIOT_CONFIG_FEATURE_TIMER
+ciot_err_t ciot_s_check_timeout(ciot_s_t self)
+{
+    CIOT_NULL_CHECK(self);
+    if(self->status != CIOT_S_STATUS_WAIT_START_DATA)
+    {
+        if(ciot_timer_compare(&self->timer, CIOT_S_TIMEOUT))
+        {
+            self->status = CIOT_S_STATUS_TIMEOUT;
+            return CIOT_ERR_TIMEOUT;
+        }
+    }
+    return CIOT_OK;
+}
+#endif

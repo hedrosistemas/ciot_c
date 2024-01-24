@@ -201,8 +201,9 @@ ciot_err_t ciot_usb_set_bridge_mode(ciot_usb_t self, bool mode)
 
 ciot_err_t ciot_usb_task(ciot_usb_t self)
 {
+    CIOT_NULL_CHECK(self);
     app_usbd_event_queue_process();
-    return CIOT_OK;
+    return ciot_s_check_timeout(self->iface, self->s);
 }
 
 static ciot_err_t ciot_usb_on_message(ciot_iface_t *iface, uint8_t *data, int size)

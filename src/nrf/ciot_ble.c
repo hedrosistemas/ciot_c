@@ -67,7 +67,6 @@ ciot_ble_t ciot_ble_new(void *handle)
     self->iface.base.status.ptr = &self->status;
     self->iface.base.status.size = sizeof(self->status);
     self->iface.info.type = CIOT_IFACE_TYPE_BLE;
-
     ble = self;
     return self;
 }
@@ -89,6 +88,10 @@ ciot_err_t ciot_ble_start(ciot_ble_t self, ciot_ble_cfg_t *cfg)
     if (error_code == NRF_SUCCESS)
     {
         memcpy(self->status.info.sw_mac, self->cfg.mac, 6);
+    }
+
+    if(self->iface.base.req.type == CIOT_MSG_TYPE_START)
+    {
         self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
     }
 
@@ -109,6 +112,8 @@ ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req)
     case CIOT_BLE_REQ_UNKNOWN:
         return CIOT_ERR_INVALID_TYPE;
     case CIOT_BLE_REQ_SET_MAC:
+        self->iface.base.req.response_size = CIOT_MSG_HEADER_SIZE + sizeof(req->type) + sizeof(req->data.set_mac);
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
         return ciot_ble_set_mac(self, req->data.set_mac);
     }
     return CIOT_ERR_INVALID_TYPE;
@@ -139,7 +144,7 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(mac);
 
-    if(ciot_ble_mac_is_valid(self, mac) == false)
+    if (ciot_ble_mac_is_valid(self, mac) == false)
     {
         return CIOT_ERR_INVALID_ARG;
     }
@@ -156,9 +161,10 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
     err = sd_ble_gap_addr_set(&ble_addr);
 #endif
 
-    if(err == CIOT_OK)
+    if (err == CIOT_OK)
     {
         memcpy(self->cfg.mac, mac, 6);
+        ciot_ble_get_mac(self, CIOT_BLE_MAC_TYPE_REAL, self->status.info.sw_mac);
         ciot_ble_scn_start(self->ifaces.scanner, &self->cfg.ble_scn);
     }
 
@@ -169,6 +175,7 @@ ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t m
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(mac);
+    ciot_err_t err_code = CIOT_OK;
 
     switch (type)
     {
@@ -178,11 +185,22 @@ ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t m
     case CIOT_BLE_MAC_TYPE_SOFTWARE:
         memcpy(mac, self->status.info.sw_mac, 6);
         break;
+    case CIOT_BLE_MAC_TYPE_REAL:
+    {
+        ble_gap_addr_t ble_addr;
+#if (NRF_SD_BLE_API_VERSION == 2)
+        err_code = sd_ble_gap_address_get(&ble_addr);
+#else
+        err_code = sd_ble_gap_addr_get(&ble_addr);
+#endif
+        memcpy(mac, ble_addr.addr, 6);
+        break;
+    }
     default:
         return CIOT_ERR_INVALID_TYPE;
     }
 
-    return CIOT_OK;
+    return err_code;
 }
 
 ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces)
@@ -197,7 +215,7 @@ bool ciot_ble_mac_is_valid(ciot_ble_t self, uint8_t mac[6])
 {
     for (size_t i = 0; i < 6; i++)
     {
-        if(mac[i] != 0)
+        if (mac[i] != 0)
         {
             return true;
         }
@@ -260,17 +278,7 @@ static void ciot_ble_stack_init(ciot_ble_t self)
 #endif
 
     // Get hardware MAC
-    ble_gap_addr_t ble_addr;
-#if (NRF_SD_BLE_API_VERSION == 2)
-    err_code = sd_ble_gap_address_get(&ble_addr);
-#else
-    err_code = sd_ble_gap_addr_get(&ble_addr);
-#endif
-
-    if (err_code == NRF_SUCCESS)
-    {
-        memcpy(self->status.info.hw_mac, ble_addr.addr, 6);
-    }
+    err_code = ciot_ble_get_mac(self, CIOT_BLE_MAC_TYPE_REAL, self->status.info.hw_mac);
 
     APP_ERROR_CHECK(err_code);
 }

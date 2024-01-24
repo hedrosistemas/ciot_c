@@ -55,8 +55,8 @@ typedef struct __attribute__((packed))
 typedef struct __attribute__((packed))
 {
     char path[32];
-    uint8_t data[255];
     uint8_t size;
+    uint8_t data[255];
 } ciot_storage_req_save_t;
 
 typedef struct __attribute__((packed))

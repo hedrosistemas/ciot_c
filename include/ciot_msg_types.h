@@ -76,16 +76,15 @@ typedef enum __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    ciot_msg_iface_type_t type;
     uint8_t id;
+    ciot_msg_iface_type_t type;
 } ciot_msg_iface_info_t;
 
 typedef struct __attribute__((packed))
 {
-    ciot_msg_iface_info_t iface;
     ciot_msg_type_t msg_type;
-    uint8_t code;
-} ciot_error_data_t;
+    uint32_t code;
+} ciot_msg_error_t;
 
 typedef union __attribute__((packed))
 {
@@ -103,7 +102,7 @@ typedef union __attribute__((packed))
     ciot_https_data_u https;
     ciot_httpc_data_u httpc;
     ciot_mqttc_data_u mqtt;
-    ciot_error_data_t error;
+    ciot_msg_error_t error;
     uint8_t payload[CIOT_CONFIG_MESSAGE_PAYLOAD_LEN];
 } ciot_msg_data_u;
 

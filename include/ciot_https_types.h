@@ -63,8 +63,8 @@ typedef struct __attribute__((packed))
 typedef struct ciot_https_event_data
 {
     ciot_event_data_t body;
-    char *url;
-    char *method;
+    ciot_event_data_t url;
+    ciot_event_data_t method;
 } ciot_https_event_data_t;
 
 typedef struct ciot_https_event

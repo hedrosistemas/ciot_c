@@ -23,6 +23,8 @@ struct ciot_storage
     ciot_storage_status_t status;
 };
 
+static const char *TAG = "ciot_storage";
+
 ciot_storage_t ciot_storage_new(void *handle)
 {
     ciot_storage_t self = calloc(1, sizeof(struct ciot_storage));
@@ -77,13 +79,21 @@ ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req
     case CIOT_STORAGE_REQ_UNKNOWN:
         return CIOT_ERR_INVALID_ID;
     case CIOT_STORAGE_REQ_SAVE:
-        return ciot_storage_save(self, req->data.save.path, req->data.save.data, req->data.save.size);
+        CIOT_ERROR_RETURN(ciot_storage_save(self, req->data.save.path, req->data.save.data, req->data.save.size));
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+        return CIOT_OK;
     case CIOT_STORAGE_REQ_LOAD:
-        return ciot_storage_load(self, req->data.load.path, req->data.load.data, req->data.load.size);
+        CIOT_ERROR_RETURN(ciot_storage_load(self, req->data.load.path, req->data.load.data, req->data.load.size));
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+        return CIOT_OK;
     case CIOT_STORAGE_REQ_DELETE:
-        return ciot_storage_delete(self, req->data.remove.path);
+        CIOT_ERROR_RETURN(ciot_storage_delete(self, req->data.remove.path));
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+        return CIOT_OK;
     case CIOT_STORAGE_REQ_FORMAT:
-        return ciot_storage_format(self);
+        CIOT_ERROR_RETURN(ciot_storage_format(self));
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+        return CIOT_OK;
     }
 
     return CIOT_ERR_INVALID_ID;

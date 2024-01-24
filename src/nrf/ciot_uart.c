@@ -38,6 +38,7 @@ struct ciot_uart
 };
 
 ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
+ciot_err_t ciot_uart_task_internal(ciot_iface_t *iface, ciot_s_t ciot_s);
 
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *context);
 
@@ -188,7 +189,8 @@ ciot_err_t ciot_uart_set_bridge_mode(ciot_uart_t self, bool mode)
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    CIOT_NULL_CHECK(self);
+    return ciot_uart_task_internal(&self->uart.iface, self->uart.s);
 }
 
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)

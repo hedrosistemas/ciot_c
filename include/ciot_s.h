@@ -21,6 +21,10 @@ extern "C" {
 #include "ciot_err.h"
 #include "ciot_iface.h"
 
+#if CIOT_CONFIG_FEATURE_TIMER
+#include "ciot_timer.h"
+#endif
+
 #define CIOT_S_BASE_ERR 0x0  /*!< Starting number of ciot_s error codes */
 #define CIOT_S_START_CH '{'  /*!< Message start character */
 #define CIOT_S_LENGHT_SIZE 2 /*!< Number of bytes used to receive message length */
@@ -43,6 +47,7 @@ typedef enum ciot_s_status
     CIOT_S_STATUS_WAIT_START_DATA, /*! Waiting start data character */
     CIOT_S_STATUS_WAIT_SIZE,       /*! Waiting size */
     CIOT_S_STATUS_READ_DATA,       /*! Waiting read data */
+    CIOT_S_STATUS_TIMEOUT,         /*! Data timeout */
 } ciot_s_status_t;
 
 /**
@@ -67,6 +72,9 @@ ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg);
 ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size);
 ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte);
 ciot_err_t ciot_s_set_bridge_mode(ciot_s_t self, bool mode);
+#if CIOT_CONFIG_FEATURE_TIMER
+ciot_err_t ciot_s_check_timeout(ciot_s_t self);
+#endif
 
 #ifdef __cplusplus
 }

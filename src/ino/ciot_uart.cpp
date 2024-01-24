@@ -28,6 +28,7 @@ extern "C" {
 #endif
 
 ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size);
+ciot_err_t ciot_uart_task_internal(ciot_iface_t *iface, ciot_s_t ciot_s);
 
 #ifdef __cplusplus
 }
@@ -108,7 +109,7 @@ ciot_err_t ciot_uart_task(ciot_uart_t self)
             CIOT_LOGE(TAG, "Process byte error: %d", err);
         }
     }
-    return CIOT_OK;
+    return ciot_uart_task_internal(&self->uart.iface, self->uart.s);
 }
 
 #endif

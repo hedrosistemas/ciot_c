@@ -12,7 +12,7 @@
 #include "ciot_wifi.h"
 #include <string.h>
 
-#if CIOT_CONFIG_FEATURE_WIFI && defined(CIOT_TARGET_MONGOOSE) && defined(CIOT_TARGET_PC)
+#if CIOT_CONFIG_FEATURE_WIFI && defined(CIOT_TARGET_MONGOOSE) && defined(CIOT_TARGET_WIN)
 
 #include <string.h>
 #include <stdbool.h>

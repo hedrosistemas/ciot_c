@@ -160,8 +160,10 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
             ciot_https_event_data_t event_data = { 0 };
             event_data.body.ptr = (uint8_t*)hm->body.ptr;
             event_data.body.size = hm->body.len;
-            event_data.method = (char*)hm->method.ptr;
-            event_data.url = (char*)hm->uri.ptr;
+            event_data.method.ptr = (char*)hm->method.ptr;
+            event_data.method.size = hm->method.len;
+            event_data.url.ptr = (char*)hm->uri.ptr;
+            event_data.url.size = hm->uri.len;
             iface_event.id = CIOT_HTTPS_EVENT_DATA;
             iface_event.data = (ciot_iface_event_data_u*)&event_data;
             if (self->iface.event_handler != NULL)

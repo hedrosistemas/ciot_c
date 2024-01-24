@@ -110,6 +110,8 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req, int size);
 ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp, int size);
 ciot_err_t ciot_iface_register_event(ciot_iface_t *self, ciot_iface_event_handler_t event_handler, void *event_args);
 ciot_err_t ciot_iface_reset_request(ciot_iface_t *self);
+ciot_err_t ciot_iface_register_request(ciot_iface_t *self, ciot_msg_iface_info_t *iface, ciot_msg_t *msg, ciot_iface_req_status_t status);
+uint8_t ciot_iface_get_msg_id(void);
 
 const char *ciot_iface_to_str(ciot_iface_t *iface);
 const char *ciot_iface_type_to_str(ciot_msg_iface_type_t iface_type);
