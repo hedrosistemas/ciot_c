@@ -24,13 +24,15 @@
 #include "lwip/ip4_addr.h"
 
 #include "ciot_tcp.h"
+#include "ciot_storage.h"
 
 struct ciot_wifi
 {
     ciot_iface_t iface;
     ciot_tcp_t tcp;
     ciot_wifi_cfg_t cfg;
-    ciot_wifi_status_u status;
+    ciot_wifi_status_t status;
+    ciot_wifi_scan_state_t scan_state;
 };
 
 static const char *TAG = "ciot_wifi";
@@ -47,6 +49,7 @@ static bool wifi_init = false;
 ciot_err_t ciot_wifi_init(void)
 {
     wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
+    CIOT_ERROR_RETURN(ciot_storage_init());
     ESP_ERROR_CHECK(esp_wifi_init(&config));
     ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
     ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
@@ -66,6 +69,12 @@ ciot_wifi_t ciot_wifi_new(void *handle)
     self->iface.base.status.ptr = &self->status;
     self->iface.base.status.size = sizeof(self->status);
     self->iface.info.type = CIOT_IFACE_TYPE_WIFI;
+    if(wifi_init == false)
+    {
+        wifi_init = true;
+        ESP_ERROR_CHECK(ciot_tcp_init());
+        ESP_ERROR_CHECK(ciot_wifi_init());
+    }
     return self;
 }
 
@@ -89,13 +98,6 @@ ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     CIOT_NULL_CHECK(self);
 
-    if(wifi_init == false)
-    {
-        wifi_init = true;
-        ESP_ERROR_CHECK(ciot_tcp_init());
-        ESP_ERROR_CHECK(ciot_wifi_init());
-    }
-
     if(self->cfg.type == CIOT_WIFI_IF_AP)
     {
         ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, ciot_wifi_ap_event_handler, self));
@@ -116,7 +118,7 @@ ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
     {
         wifi_conf.ap.authmode = CIOT_CONFIG_WIFI_AP_AUTH;
         wifi_conf.ap.max_connection = CIOT_CONFIG_WIFI_AP_MAX_CONN;
-        self->iface.base.status.size = sizeof(ciot_wifi_ap_status_t);
+        self->iface.base.status.size = sizeof(ciot_wifi_status_t);
     }
     else if (self->status.tcp.state == CIOT_TCP_STATE_CONNECTED)
     {
@@ -235,7 +237,7 @@ static ciot_err_t ciot_wifi_tcp_event_handler(ciot_iface_t *sender, ciot_iface_e
     ciot_wifi_t self = (ciot_wifi_t)args;
     ciot_iface_event_t new_event = {0};
     ciot_wifi_status_msg_t status_msg = { 0 };
-    self->status.tcp = iface_event->data->msg.data.wifi.status.tcp;
+    self->status.tcp = iface_event->data->msg.data.tcp.status;
     status_msg.header.iface = self->iface.info;
     new_event.data = (ciot_iface_event_data_u*)&status_msg;
     new_event.size = sizeof(status_msg);
@@ -265,7 +267,7 @@ static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t eve
     {
         ESP_LOGI(TAG, "WIFI_EVENT_SCAN_DONE");
         // wifi_event_sta_scan_done_t *data = (wifi_event_sta_scan_done_t *)event_data;
-        self->status.sta.scan = CIOT_WIFI_SCAN_STATE_SCANNED;
+        self->scan_state = CIOT_WIFI_SCAN_STATE_SCANNED;
         iface_event.id = CIOT_IFACE_EVENT_DONE;
         // TODO: get scan result and store on req data
         break;
@@ -293,10 +295,10 @@ static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t eve
         wifi_event_sta_connected_t *data = (wifi_event_sta_connected_t *)event_data;
         self->status.tcp.state = CIOT_TCP_STATE_CONNECTED;
         self->status.tcp.conn_count++;
-        self->status.sta.info.authmode = data->authmode;
-        self->status.sta.disconnect_reason = 0;
-        memcpy(self->status.sta.info.bssid, data->bssid, 6);
-        memcpy(self->status.sta.info.ssid, data->ssid, data->ssid_len);
+        self->status.info.authmode = data->authmode;
+        self->status.disconnect_reason = 0;
+        memcpy(self->status.info.bssid, data->bssid, 6);
+        memcpy(self->status.info.ssid, data->ssid, data->ssid_len);
         CIOT_ERROR_PRINT(ciot_tcp_start(self->tcp, &self->cfg.tcp));
         iface_event.id = CIOT_WIFI_EVENT_STA_STOP;
         break;
@@ -306,7 +308,7 @@ static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t eve
         ESP_LOGI(TAG, "WIFI_EVENT_STA_DISCONNECTED");
         wifi_event_sta_disconnected_t *data = (wifi_event_sta_disconnected_t *)event_data;
         self->status.tcp.state = CIOT_TCP_STATE_STARTED;
-        self->status.sta.disconnect_reason = data->reason;
+        self->status.disconnect_reason = data->reason;
         iface_event.id = CIOT_WIFI_EVENT_STA_DISCONNECTED;
         ciot_wifi_check_request(self, CIOT_MSG_TYPE_START, &iface_event);
         break;
@@ -360,10 +362,12 @@ static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t even
     case WIFI_EVENT_AP_STACONNECTED:
     {
         ESP_LOGI(TAG, "WIFI_EVENT_AP_STACONNECTED");
-        // wifi_event_ap_staconnected_t *data = (wifi_event_ap_staconnected_t *)event_data;
+        wifi_event_ap_staconnected_t *data = (wifi_event_ap_staconnected_t *)event_data;
         self->status.tcp.state = CIOT_TCP_STATE_CONNECTED;
         self->status.tcp.conn_count++;
-        self->status.ap.disconnect_reason = 0;
+        self->status.disconnect_reason = 0;
+        memcpy(self->status.info.ssid, self->cfg.ssid, 32);
+        memcpy(self->status.info.bssid, data->mac, 6);
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
         iface_event.id = CIOT_WIFI_EVENT_AP_STACONNECTED;
@@ -375,7 +379,9 @@ static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t even
         ESP_LOGI(TAG, "WIFI_EVENT_AP_STADISCONNECTED");
         wifi_event_ap_stadisconnected_t *data = (wifi_event_ap_stadisconnected_t *)event_data;
         self->status.tcp.state = CIOT_TCP_STATE_STARTED;
-        self->status.ap.disconnect_reason = data->reason;
+        self->status.disconnect_reason = data->reason;
+        memcpy(self->status.info.ssid, self->cfg.ssid, 32);
+        memcpy(self->status.info.bssid, data->mac, 6);
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
         iface_event.id = CIOT_WIFI_EVENT_AP_STADISCONNECTED;

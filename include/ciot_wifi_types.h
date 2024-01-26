@@ -64,24 +64,10 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    ciot_tcp_status_t tcp;
     uint8_t disconnect_reason;
-} ciot_wifi_ap_status_t;
-
-typedef struct __attribute__((packed))
-{
-    ciot_tcp_status_t tcp;
-    uint8_t disconnect_reason;
-    ciot_wifi_scan_state_t scan;
     ciot_wifi_ap_info_t info;
-} ciot_wifi_sta_status_t;
-
-typedef union __attribute__((packed))
-{
     ciot_tcp_status_t tcp;
-    ciot_wifi_sta_status_t sta;
-    ciot_wifi_ap_status_t ap;
-} ciot_wifi_status_u;
+} ciot_wifi_status_t;
 
 typedef struct __attribute__((packed))
 {
@@ -104,7 +90,7 @@ typedef union __attribute__((packed))
 {
     #if CIOT_CONFIG_FEATURE_WIFI
     ciot_wifi_cfg_t config;
-    ciot_wifi_status_u status;
+    ciot_wifi_status_t status;
     ciot_wifi_req_t request;
     #endif
 } ciot_wifi_data_u;

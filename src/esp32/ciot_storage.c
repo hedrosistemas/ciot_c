@@ -53,6 +53,11 @@ ciot_storage_t ciot_storage_new(void *handle)
     return self;
 }
 
+ciot_err_t ciot_storage_init(void)
+{
+    return ciot_storage_nvs_init();
+}
+
 ciot_err_t ciot_storage_start(ciot_storage_t self, ciot_storage_cfg_t *cfg)
 {
     CIOT_NULL_CHECK(self);

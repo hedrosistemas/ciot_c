@@ -29,6 +29,7 @@ typedef struct __attribute__((packed))
 } ciot_storage_status_msg_t;
 
 ciot_storage_t ciot_storage_new(void *handle);
+ciot_err_t ciot_storage_init(void);
 ciot_err_t ciot_storage_start(ciot_storage_t self, ciot_storage_cfg_t *cfg);
 ciot_err_t ciot_storage_stop(ciot_storage_t self);
 ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req);

@@ -37,7 +37,7 @@ typedef enum ciot_wifi_event_id
 typedef struct __attribute__((packed))
 {
     ciot_msg_header_t header;
-    ciot_wifi_status_u status;
+    ciot_wifi_status_t status;
 } ciot_wifi_status_msg_t;
 
 // ciot_err_t ciot_wifi_init(void);

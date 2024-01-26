@@ -93,6 +93,7 @@ typedef union __attribute__((packed))
     ciot_sys_data_u system;
     ciot_uart_data_u uart;
     ciot_usb_data_u usb;
+    ciot_tcp_data_u tcp;
     ciot_tcp_data_u eth;
     ciot_wifi_data_u wifi;
     ciot_ble_data_u ble;
