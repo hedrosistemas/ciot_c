@@ -90,8 +90,9 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     }
     
     ciot_s_set_bridge_mode(self->uart.s, self->uart.cfg.bridge_mode);
-
-    return ciot_uart_init(self);
+    ciot_err_t err = ciot_uart_init(self);
+    ciot_uart_process_error(self, err);
+    return err;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)

@@ -61,6 +61,7 @@ ciot_err_t ciot_register_event(ciot_t self, ciot_iface_event_handler_t event_han
 ciot_err_t ciot_proxy_send_req(ciot_t self, ciot_iface_t *iface, ciot_msg_iface_info_t *proxy_iface, ciot_msg_t *req, int size);
 ciot_err_t ciot_save_iface_cfg(ciot_t self, uint8_t iface_id);
 ciot_err_t ciot_delete_iface_cfg(ciot_t self, uint8_t iface_id);
+ciot_err_t ciot_task(ciot_t self);
 
 #ifdef __cplusplus
 }

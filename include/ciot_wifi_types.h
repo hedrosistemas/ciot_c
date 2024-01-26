@@ -65,17 +65,18 @@ typedef struct __attribute__((packed))
 typedef struct __attribute__((packed))
 {
     ciot_tcp_status_t tcp;
+    uint8_t disconnect_reason;
 } ciot_wifi_ap_status_t;
 
 typedef struct __attribute__((packed))
 {
     ciot_tcp_status_t tcp;
-    ciot_wifi_scan_state_t scan;
     uint8_t disconnect_reason;
+    ciot_wifi_scan_state_t scan;
     ciot_wifi_ap_info_t info;
 } ciot_wifi_sta_status_t;
 
-typedef struct __attribute__((packed))
+typedef union __attribute__((packed))
 {
     ciot_tcp_status_t tcp;
     ciot_wifi_sta_status_t sta;

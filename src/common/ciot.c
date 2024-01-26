@@ -247,7 +247,7 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
                 ciot_err_t err = ciot_iface_start(self->ifaces.list[i], (ciot_msg_data_u *)self->ifaces.cfgs[i]);
                 if (err != CIOT_OK && err != CIOT_ERR_NOT_IMPLEMENTED)
                 {
-                    CIOT_LOGE(TAG, "Interface id:%d type:%d cannot start. Error: %d", i, self->ifaces.list[i]->info.type, err);
+                    CIOT_LOGE(TAG, "Interface [%d]:%s cannot start. Error: %s[%d]", i, ciot_iface_to_str(self->ifaces.list[i]), ciot_err_to_message(err), err);
                     ret = err;
                 }
                 else if(self->ifaces.list[i]->info.type == CIOT_IFACE_TYPE_BRIDGE && self->bridges_idx == CIOT_BRIDGE_NULL_TARGET)

@@ -35,9 +35,17 @@ static ciot_err_t ciot_tcp_set_dhcp_cfg(ciot_tcp_t self, ciot_tcp_dhcp_cfg_t dhc
 static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
 static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
+static bool tcp_init = false;
+
 ciot_err_t ciot_tcp_init(void)
 {
-    return esp_netif_init();
+    if(!tcp_init)
+    {
+        ESP_ERROR_CHECK(esp_netif_init());
+        ESP_ERROR_CHECK(esp_event_loop_create_default());
+        tcp_init = true;
+    }
+    return CIOT_OK;
 }
 
 ciot_tcp_t ciot_tcp_new(ciot_tcp_handle_t *handle)
@@ -97,9 +105,17 @@ static ciot_err_t ciot_tcp_set_dhcp_cfg(ciot_tcp_t self, ciot_tcp_dhcp_cfg_t dhc
 
     esp_netif_dhcp_status_t dhcpc = ESP_NETIF_DHCP_STOPPED;
     esp_netif_dhcp_status_t dhcps = ESP_NETIF_DHCP_STOPPED;
+    esp_netif_flags_t flags = esp_netif_get_flags(self->netif);
 
-    CIOT_ERROR_PRINT(esp_netif_dhcpc_get_status(self->netif, &dhcpc));
-    CIOT_ERROR_PRINT(esp_netif_dhcps_get_status(self->netif, &dhcps));
+    if(flags & ESP_NETIF_DHCP_CLIENT)
+    {
+        CIOT_ERROR_PRINT(esp_netif_dhcpc_get_status(self->netif, &dhcpc));
+    }
+
+    if(flags & ESP_NETIF_DHCP_SERVER)
+    {
+        CIOT_ERROR_PRINT(esp_netif_dhcps_get_status(self->netif, &dhcps));
+    }
 
     switch (dhcp)
     {
@@ -201,6 +217,8 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
     case IP_EVENT_STA_GOT_IP:
     // case IP_EVENT_AP_STAIPASSIGNED:
     {
+        CIOT_LOGI(TAG, "IP_EVENT_GOT_IP");
+
         ip_event_got_ip_t *ip_event = (ip_event_got_ip_t*)event_data;
         esp_netif_dhcp_status_t dhcpc = ESP_NETIF_DHCP_STOPPED;
         esp_netif_dhcp_status_t dhcps = ESP_NETIF_DHCP_STOPPED;
@@ -227,6 +245,7 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
     case IP_EVENT_ETH_LOST_IP:
     case IP_EVENT_STA_LOST_IP:
     {
+        CIOT_LOGI(TAG, "IP_EVENT_LOST_IP");
         status_msg.header.type = CIOT_MSG_TYPE_STOP;
         status_msg.status = *status;
         iface_event.id = CIOT_IFACE_EVENT_STOPPED;

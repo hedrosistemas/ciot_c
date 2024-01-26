@@ -62,6 +62,9 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     self->cfg.send_bytes(self->cfg.iface, data, size);
     self->cfg.send_bytes(self->cfg.iface, &end, 1);
 
+    CIOT_LOG_BUFFER_HEX("ciot_s", header, sizeof(header));
+    CIOT_LOG_BUFFER_HEX("ciot_s", data, sizeof(size));
+    CIOT_LOG_BUFFER_HEX("ciot_s", &end, 1);
     return CIOT_OK;
 }
 
@@ -122,6 +125,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
                     self->cfg.on_message_cb(self->cfg.iface, &self->buf[CIOT_S_HEADER_SIZE], self->len);
                 }
                 self->status = CIOT_S_STATUS_WAIT_START_DATA;
+                CIOT_LOG_BUFFER_HEX("ciot_s", self->buf, self->idx);
                 return CIOT_OK;
             }
             if(self->idx - CIOT_S_HEADER_SIZE == self->len)

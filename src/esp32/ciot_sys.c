@@ -17,12 +17,17 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/event_groups.h"
+#include "freertos/task.h"
+
 #include "esp_system.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_timer.h"
 
 #include "ciot_config.h"
+#include "ciot_timer.h"
 
 struct ciot_sys
 {
@@ -30,6 +35,7 @@ struct ciot_sys
     ciot_sys_cfg_t cfg;
     ciot_sys_status_t status;
     time_t init_time;
+    uint64_t reset_scheduled;
 };
 
 // static ciot_sys_t sys;
@@ -57,7 +63,7 @@ ciot_sys_t ciot_sys_new(void *handle)
 
 ciot_err_t ciot_sys_start(ciot_sys_t self, ciot_sys_cfg_t *cfg)
 {
-    return CIOT_ERR_NOT_SUPPORTED;
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_sys_stop(ciot_sys_t self)
@@ -67,7 +73,22 @@ ciot_err_t ciot_sys_stop(ciot_sys_t self)
 
 ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    switch (req->type)
+    {
+    case CIOT_SYS_REQ_UNKNONW:
+        return CIOT_ERR_INVALID_TYPE;
+    case CIOT_SYS_REQ_RESTART:
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+        self->iface.base.req.response_size++;
+#ifdef CIOT_CONFIG_FEATURE_TIMER
+        self->reset_scheduled = ciot_timer_get() + 5;
+#else
+        ciot_sys_rst(self);
+#endif
+        return CIOT_OK;
+    }
+
+    return CIOT_ERR_INVALID_TYPE;
 }
 
 ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size)
@@ -86,7 +107,14 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     CIOT_NULL_CHECK(self);
     self->status.free_memory = esp_get_free_heap_size();
     self->status.lifetime = time(NULL) - self->init_time;
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+#if CIOT_CONFIG_FEATURE_TIMER
+    if(self->reset_scheduled > 0 && ciot_timer_compare(&self->reset_scheduled, 0))
+    {
+        ciot_sys_rst(self);
+    }
     return CIOT_OK;
+#endif
 }
 
 static void ciot_sys_init(ciot_sys_t self)

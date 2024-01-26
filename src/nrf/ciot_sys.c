@@ -123,13 +123,11 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     self->status.free_memory = 0;
 #if CIOT_CONFIG_FEATURE_TIMER
     self->status.lifetime = ciot_timer_get();
-#endif
-
     if(self->reset_scheduled > 0 && ciot_timer_compare(&self->reset_scheduled, 5))
     {
-        ciot_sys_rst();
+        ciot_sys_rst(self);
     }
-
+#endif
     return CIOT_OK;
 }
 

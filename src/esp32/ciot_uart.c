@@ -14,6 +14,7 @@
 #if CIOT_CONFIG_FEATURE_UART && defined(CIOT_TARGET_ESP32)
 
 #include <string.h>
+#include <stdio.h>
 
 #include "esp_log.h"
 #include "driver/uart.h"
@@ -70,13 +71,15 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         .flow_ctrl = self->uart.cfg.flow_control,
         .parity = self->uart.cfg.parity,
         .baud_rate = self->uart.cfg.baud_rate,
+        .data_bits = UART_DATA_8_BITS,
+        .stop_bits = UART_STOP_BITS_1,
         .source_clk = UART_SCLK_DEFAULT,
     };
     ciot_s_set_bridge_mode(self->uart.s, self->uart.cfg.bridge_mode);
     ESP_ERROR_CHECK(uart_param_config(num, &uart_cfg));
     ESP_ERROR_CHECK(uart_set_pin(num, self->uart.cfg.tx_pin, self->uart.cfg.rx_pin, self->uart.cfg.rts_pin, self->uart.cfg.cts_pin));
     ESP_ERROR_CHECK(uart_driver_install(num, CIOT_CONFIG_UART_RX_BUF_SIZE, CIOT_CONFIG_UART_TX_BUF_SIZE, CIOT_CONFIG_UART_QUEUE_SIZE, &self->queue, 0));
-    xTaskCreatePinnedToCore(ciot_uart_event_handler, "ciot_uart_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+    xTaskCreatePinnedToCore(ciot_uart_event_handler, "ciot_uart_event_handler", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
     return CIOT_OK;
 }
 
@@ -100,6 +103,7 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     ciot_uart_t self = (ciot_uart_t)iface;
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(bytes);
+    ESP_LOG_BUFFER_HEX(TAG, bytes, size);
     uart_write_bytes(self->uart.cfg.num, bytes, size);
     return CIOT_OK;
 }
@@ -123,9 +127,9 @@ static void ciot_uart_event_handler(void *args)
 
     ciot_iface_event_t iface_event = {0};
     ciot_uart_status_msg_t status_msg = {0};
+    ciot_msg_error_t error_msg = {0};
 
     status_msg.header.iface = self->uart.iface.info;
-    iface_event.data = (ciot_iface_event_data_u*)&status_msg;
     iface_event.size = sizeof(status_msg);
 
     while (true)
@@ -139,19 +143,20 @@ static void ciot_uart_event_handler(void *args)
                 {
                     uint8_t byte;
                     uart_read_bytes(self->uart.cfg.num, &byte, 1, portMAX_DELAY);
-                    self->event.size--;              
+                    self->event.size--;
                     ciot_err_t err = ciot_s_process_byte(self->uart.s, byte);
                     if(err != CIOT_OK) {
                         ESP_LOGE(TAG, "Process byte error: %d", err);
                     }
                 }
-                return;
+                break;;
             case UART_FIFO_OVF:
                 ESP_LOGE(TAG, "UART_FIFO_OVF");
                 self->uart.status.error = CIOT_UART_ERR_FIFO_OVERFLOW;
                 self->uart.status.state = CIOT_UART_STATE_INTERNAL_ERROR;
-                status_msg.header.type = CIOT_MSG_TYPE_ERROR;
-                status_msg.status = self->uart.status;
+                iface_event.data = (ciot_iface_event_data_u*)&error_msg;
+                error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
+                error_msg.code = CIOT_UART_ERR_FIFO_OVERFLOW;
                 iface_event.id = CIOT_IFACE_EVENT_ERROR;
                 uart_flush_input(self->uart.cfg.num);
                 xQueueReset(self->queue);
@@ -160,8 +165,9 @@ static void ciot_uart_event_handler(void *args)
                 ESP_LOGE(TAG, "UART_BUFFER_FULL: %d", self->event.size);
                 self->uart.status.error = CIOT_UART_ERR_BUFFER_FULL;
                 self->uart.status.state = CIOT_UART_STATE_INTERNAL_ERROR;
-                status_msg.header.type = CIOT_MSG_TYPE_ERROR;
-                status_msg.status = self->uart.status;
+                iface_event.data = (ciot_iface_event_data_u*)&error_msg;
+                error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
+                error_msg.code = CIOT_UART_ERR_BUFFER_FULL;
                 iface_event.id = CIOT_IFACE_EVENT_ERROR;
                 uart_flush_input(self->uart.cfg.num);
                 xQueueReset(self->queue);
@@ -170,21 +176,27 @@ static void ciot_uart_event_handler(void *args)
                 ESP_LOGE(TAG, "UART_BREAK");
                 self->uart.status.error = CIOT_UART_ERR_BREAK;
                 self->uart.status.state = CIOT_UART_STATE_INTERNAL_ERROR;
-                status_msg.header.type = CIOT_MSG_TYPE_ERROR;
-                status_msg.status = self->uart.status;
+                iface_event.data = (ciot_iface_event_data_u*)&error_msg;
+                error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
+                error_msg.code = CIOT_UART_ERR_BREAK;
                 iface_event.id = CIOT_IFACE_EVENT_ERROR;
+                uart_flush_input(self->uart.cfg.num);
+                xQueueReset(self->queue);
                 break;
             case UART_FRAME_ERR:
                 ESP_LOGE(TAG, "UART_FRAME_ERR");
                 self->uart.status.error = CIOT_UART_ERR_FRAME;
                 self->uart.status.state = CIOT_UART_STATE_INTERNAL_ERROR;
-                status_msg.header.type = CIOT_MSG_TYPE_ERROR;
-                status_msg.status = self->uart.status;
+                iface_event.data = (ciot_iface_event_data_u*)&error_msg;
+                error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
+                error_msg.code = CIOT_UART_ERR_FRAME;
                 iface_event.id = CIOT_IFACE_EVENT_ERROR;
+                uart_flush_input(self->uart.cfg.num);
+                xQueueReset(self->queue);
                 break;
             default:
                 ESP_LOGW(TAG, "unhandled event: %d", self->event.type);
-                return;
+                break;
             }
 
             if(self->uart.iface.event_handler)

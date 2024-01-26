@@ -36,11 +36,13 @@ extern "C"
 #define CIOT_LOGI ESP_LOGI
 #define CIOT_LOGW ESP_LOGW
 #define CIOT_LOGE ESP_LOGE
-#define CIOT_LOG_BUFFER_HEX ESP_LOG_BUFFER_HEX
+#define CIOT_LOG_BUFFER_HEX(tag, data, size) ESP_LOG_BUFFER_HEX_LEVEL(tag, data, size, ESP_LOG_DEBUG)
 
 #else
 
 #include <stdio.h>
+
+#define CIOT_LOG_BUFFER_HEX(TAG, data, size) CIOT_LOG_HEX(TAG, data, size)
 
 #define CIOT_LOGD(TAG, MASK, ...)                          \
     do                                                     \
@@ -119,7 +121,7 @@ extern "C"
               msg->iface.id,                                \
               ciot_iface_type_to_str(msg->iface.type))
 
-#define CIOT_LOG_HEX(data, size)\
+#define CIOT_LOG_HEX(TAG, data, size)\
     do\
     {\
         uint8_t *u8ptr = data;\

@@ -54,10 +54,10 @@ typedef struct __attribute__((packed))
 {
     uint32_t baud_rate;
     uint8_t num;
-    uint8_t rx_pin;
-    uint8_t tx_pin;
-    uint8_t rts_pin;
-    uint8_t cts_pin;
+    int8_t rx_pin;
+    int8_t tx_pin;
+    int8_t rts_pin;
+    int8_t cts_pin;
     uint16_t parity;
     uint8_t flow_control : 1;
     uint8_t dtr : 1;

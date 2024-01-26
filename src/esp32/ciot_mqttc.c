@@ -31,7 +31,7 @@ struct ciot_mqttc
 
 static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
-static const char *TAG = "ciot_mqtt";
+static const char *TAG = "ciot_mqttc";
 
 ciot_mqttc_t ciot_mqttc_new(void *handle)
 {
@@ -53,6 +53,15 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t self, ciot_mqttc_cfg_t *cfg)
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
+
+    if(cfg->topics.b2d[0] != '\0' && cfg->topics.d2b[0] != '\0')
+    {
+        memcpy(&self->cfg, cfg, sizeof(self->cfg));
+    }
+    else
+    {
+        memcpy(&self->cfg, cfg, sizeof(self->cfg) - sizeof(self->cfg.topics));
+    }
 
     if (self->status.state == CIOT_MQTT_STATE_CONNECTED)
     {
@@ -153,6 +162,8 @@ ciot_err_t ciot_mqttc_set_topics(ciot_mqttc_t self, ciot_mqttc_topics_cfg_t *top
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(topics);
+    CIOT_LOGD(TAG, "Setting mqtt topic d2b: %s", topics->d2b);
+    CIOT_LOGD(TAG, "Setting mqtt topic b2d: %s", topics->b2d);
     ciot_mqttc_set_d2b_topic(self, topics->d2b);
     return ciot_mqttc_set_b2d_topic(self, topics->b2d);
 }

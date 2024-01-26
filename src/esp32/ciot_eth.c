@@ -11,7 +11,7 @@
 
 #include "ciot_eth.h"
 
-#if CIOT_CONFIG_FEATURE_ETHERNET && defined(CIOT_TARGET_ESP32)
+#if 1 && defined(CIOT_TARGET_ESP32)
 
 #include <string.h>
 
@@ -63,6 +63,7 @@ ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
 
     if(self->init == false)
     {
+        ESP_ERROR_CHECK(ciot_tcp_init());
         CIOT_ERROR_RETURN(ciot_eth_init(self));
         self->init = true;
     }
@@ -129,8 +130,8 @@ static ciot_err_t ciot_eth_init(ciot_eth_t self)
 static ciot_err_t ciot_eth_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args)
 {
     CIOT_NULL_CHECK(args);
-
     ciot_eth_t self = (ciot_eth_t)args;
+    self->status = iface_event->data->msg.data.eth.status;
     if (self->iface.event_handler != NULL)
     {
         return self->iface.event_handler((ciot_iface_t*)self, iface_event, self->iface.event_args);

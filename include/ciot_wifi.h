@@ -40,9 +40,11 @@ typedef struct __attribute__((packed))
     ciot_wifi_status_u status;
 } ciot_wifi_status_msg_t;
 
-ciot_err_t ciot_wifi_init(void);
+// ciot_err_t ciot_wifi_init(void);
 
 ciot_wifi_t ciot_wifi_new(void *handle);
+ciot_wifi_t ciot_wifi_ap_new(void *handle);
+ciot_wifi_t ciot_wifi_sta_new(void *handle);
 ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg);
 ciot_err_t ciot_wifi_stop(ciot_wifi_t self);
 ciot_err_t ciot_wifi_process_req(ciot_wifi_t self, ciot_wifi_req_t *req);

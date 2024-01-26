@@ -109,6 +109,12 @@ ciot_err_t ciot_storage_send_data(ciot_storage_t self, uint8_t *data, int size)
 
 ciot_err_t ciot_storage_save(ciot_storage_t self, char *path, uint8_t *data, int size)
 {
+    CIOT_NULL_CHECK(self);
+    if(nvs_initialized == false)
+    {
+        return CIOT_ERR_INVALID_STATE;
+    }
+
     nvs_handle_t nvs_handle;
     CIOT_ERROR_RETURN(nvs_open(CIOT_STORAGE_NVS_NAMESPACE, NVS_READWRITE, &nvs_handle));
 
@@ -123,18 +129,33 @@ ciot_err_t ciot_storage_save(ciot_storage_t self, char *path, uint8_t *data, int
 
 ciot_err_t ciot_storage_load(ciot_storage_t self, char *path, uint8_t *data, int size)
 {
+    CIOT_NULL_CHECK(self);
+    if(nvs_initialized == false)
+    {
+        return CIOT_ERR_INVALID_STATE;
+    }
+
     nvs_handle_t nvs_handle;
-    CIOT_ERROR_RETURN(nvs_open(CIOT_STORAGE_NVS_NAMESPACE, NVS_READONLY, &nvs_handle));
+    esp_err_t err = nvs_open(CIOT_STORAGE_NVS_NAMESPACE, NVS_READONLY, &nvs_handle);
+    if(err != ESP_OK)
+    {
+        return err;
+    }
 
     size_t required_size = size;
-    esp_err_t err = nvs_get_blob(nvs_handle, path, data, &required_size);
-
+    err = nvs_get_blob(nvs_handle, path, data, &required_size);
     nvs_close(nvs_handle);
     return err;
 }
 
 ciot_err_t ciot_storage_delete(ciot_storage_t self, char *path)
 {
+    CIOT_NULL_CHECK(self);
+    if(nvs_initialized == false)
+    {
+        return CIOT_ERR_INVALID_STATE;
+    }
+
     nvs_handle_t nvs_handle;
     CIOT_ERROR_RETURN(nvs_open(CIOT_STORAGE_NVS_NAMESPACE, NVS_READWRITE, &nvs_handle));
 
@@ -151,6 +172,8 @@ ciot_err_t ciot_storage_delete(ciot_storage_t self, char *path)
 
 ciot_err_t ciot_storage_format(ciot_storage_t self)
 {
+    CIOT_NULL_CHECK(self);
+    
     nvs_handle_t nvs_handle;
     esp_err_t err = nvs_open(CIOT_STORAGE_NVS_NAMESPACE, NVS_READWRITE, &nvs_handle);
     if (err != ESP_OK) {
@@ -178,6 +201,7 @@ static ciot_err_t ciot_storage_nvs_init()
 {
     if(nvs_initialized == false)
     {
+        CIOT_LOGI(TAG, "Initializing nvs flash");
         esp_err_t ret = nvs_flash_init();
         if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND)
         {

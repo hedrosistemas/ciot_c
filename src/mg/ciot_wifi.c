@@ -68,6 +68,7 @@ ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, ciot_wifi_type_t type, uint8_t ma
     default:
         break;
     }
+    return CIOT_OK;
 }
 
 #endif
