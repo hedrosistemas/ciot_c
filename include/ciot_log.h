@@ -121,15 +121,18 @@ extern "C"
               msg->iface.id,                                \
               ciot_iface_type_to_str(msg->iface.type))
 
-#define CIOT_LOG_HEX(TAG, data, size)\
-    do\
-    {\
-        uint8_t *u8ptr = data;\
-        for (size_t i = 0; i < size; i++)\
-        {\
-            printf("%02X", u8ptr[i]);\
-        }\
-        printf("\n");\
+#define CIOT_LOG_HEX(TAG, data, size)                      \
+    do                                                     \
+    {                                                      \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_DEBUG) \
+        {                                                  \
+            uint8_t *u8ptr = data;                         \
+            for (size_t i = 0; i < size; i++)              \
+            {                                              \
+                printf("%02X", u8ptr[i]);                  \
+            }                                              \
+            printf("\n");                                  \
+        }                                                  \
     } while (0)
 
 #ifdef __cplusplus

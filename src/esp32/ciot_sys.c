@@ -36,6 +36,7 @@ struct ciot_sys
     ciot_sys_status_t status;
     time_t init_time;
     uint64_t reset_scheduled;
+    EventGroupHandle_t event_group;
 };
 
 // static ciot_sys_t sys;
@@ -57,6 +58,7 @@ ciot_sys_t ciot_sys_new(void *handle)
     self->iface.base.status.ptr = &self->status;
     self->iface.base.status.size = sizeof(ciot_sys_status_t);
     self->iface.info.type = CIOT_IFACE_TYPE_SYSTEM;
+    self->event_group = xEventGroupCreate();
     ciot_sys_init(self);
     return self;
 }
@@ -107,7 +109,7 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     CIOT_NULL_CHECK(self);
     self->status.free_memory = esp_get_free_heap_size();
     self->status.lifetime = time(NULL) - self->init_time;
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    xEventGroupWaitBits(self->event_group, CIOT_SYS_EVT_BIT_POOLING, pdTRUE, pdTRUE, 1000 / portTICK_PERIOD_MS);
 #if CIOT_CONFIG_FEATURE_TIMER
     if(self->reset_scheduled > 0 && ciot_timer_compare(&self->reset_scheduled, 0))
     {
@@ -115,6 +117,13 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     }
     return CIOT_OK;
 #endif
+}
+
+ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
+{
+    CIOT_NULL_CHECK(self);
+    xEventGroupSetBits(self->event_group, event_bits);
+    return CIOT_OK;
 }
 
 static void ciot_sys_init(ciot_sys_t self)

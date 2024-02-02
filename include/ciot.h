@@ -21,6 +21,9 @@ extern "C" {
 #include "ciot_storage.h"
 #include "ciot_bridge.h"
 
+#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat"
+
+
 #ifdef CIOT_TARGET_MONGOOSE
 
 extern struct mg_mgr mg;

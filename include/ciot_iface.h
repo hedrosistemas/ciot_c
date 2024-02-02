@@ -30,6 +30,7 @@ typedef enum ciot_iface_req_status
 
 typedef enum ciot_iface_event_id
 {
+    CIOT_IFACE_EVENT_INTERNAL=-1,
     CIOT_IFACE_EVENT_UNKNOWN,
     CIOT_IFACE_EVENT_STARTED,
     CIOT_IFACE_EVENT_STOPPED,

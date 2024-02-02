@@ -1,12 +1,12 @@
 /**
  * @file ciot_https.c
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-10-13
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #include "ciot_https.h"
@@ -22,7 +22,9 @@ struct ciot_https
     ciot_https_cfg_t cfg;
     ciot_https_status_t status;
     httpd_handle_t handle;
-    httpd_req_t *req;
+    uint8_t resp[512];
+    int resp_size;
+    bool response;
 };
 
 static ciot_err_t ciot_https_register_routes(ciot_https_t self);
@@ -57,6 +59,7 @@ ciot_err_t ciot_https_start(ciot_https_t self, ciot_https_cfg_t *cfg)
     if (err_code == ESP_OK)
     {
         ESP_LOGI(TAG, "Server Started on port %d", cfg->port);
+        self->cfg = *cfg;
         ciot_https_register_routes(self);
     }
 
@@ -77,11 +80,9 @@ ciot_err_t ciot_https_send_data(ciot_https_t self, uint8_t *data, int size)
 {
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
-    CIOT_NULL_CHECK(self->req);
-    httpd_resp_set_status(self->req, HTTPD_200);
-    httpd_resp_set_type(self->req, HTTPD_TYPE_OCTET);
-    httpd_resp_send(self->req, (const char*)data, size);
-    self->req = NULL;
+    memcpy(self->resp, data, size);
+    self->response = true;
+    self->resp_size = size;
     return CIOT_OK;
 }
 
@@ -100,21 +101,40 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
 {
     ciot_https_t self = (ciot_https_t)req->user_ctx;
 
-    if(self == NULL) return 0;
+    if (self == NULL)
+    {
+        CIOT_LOGE(TAG, "Null context");
+        return -1;
+    }
 
-    ciot_iface_event_t event = { 0 };
+    ciot_iface_event_t event = {0};
     ciot_msg_t msg;
 
-    httpd_req_recv(req, (char*)&msg, event.size);
+    httpd_req_recv(req, (char *)&msg, req->content_len);
 
-    self->req = req;
+    self->response = false;
     event.id = CIOT_IFACE_EVENT_REQUEST;
     event.size = req->content_len;
-    event.data = (ciot_iface_event_data_u*)&msg;
+    event.data = (ciot_iface_event_data_u *)&msg;
 
-    if(self->iface.event_handler != NULL)
+    if (self->iface.event_handler != NULL)
     {
         self->iface.event_handler(&self->iface, &event, self->iface.event_args);
+    }
+
+    int timeout = 0;
+    while (!self->response && timeout < 10)
+    {
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        timeout++;
+    }
+
+    if (self->response)
+    {
+        CIOT_LOGI(TAG, "Resp OK");
+        httpd_resp_set_status(req, HTTPD_200);
+        httpd_resp_set_type(req, HTTPD_TYPE_OCTET);
+        httpd_resp_send(req, (const char*)self->resp, self->resp_size);
     }
 
     return CIOT_OK;

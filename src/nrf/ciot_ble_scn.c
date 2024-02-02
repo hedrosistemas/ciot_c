@@ -66,11 +66,13 @@ ciot_ble_scn_t ciot_ble_scn_new(void *handle)
 ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
 {
 	CIOT_NULL_CHECK(self);
-	CIOT_NULL_CHECK(cfg);
 
 	uint32_t error;
 
-	self->cfg = *cfg;
+	if(cfg != NULL)
+	{
+		self->cfg = *cfg;
+	}
 
 	if (self->cfg.active && self->status.state == CIOT_BLE_SCN_STATE_ACTIVE)
 	{

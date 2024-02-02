@@ -83,7 +83,7 @@ ciot_err_t ciot_iface_send_data(ciot_iface_t *self, void *data, int size)
     CIOT_NULL_CHECK(self->base.ptr);
     CIOT_NULL_CHECK(self->base.send_data);
     #ifdef  CIOT_LOG_HEX_ENABLED
-    CIOT_LOG_HEX(data, size);
+    CIOT_LOG_BUFFER_HEX(TAG, data, size);
     #endif  //CIOT_LOG_HEX_ENABLED
     return self->base.send_data(self->base.ptr, data, size);
 }
@@ -126,9 +126,13 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req, int size)
     else
     {
         req->id = ciot_iface_get_msg_id();
-        ciot_iface_register_request(self, &req->iface, req, CIOT_IFACE_REQ_STATUS_SENDED);
-        CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self, req);
-        return ciot_iface_send_data(self, req, size);
+        ciot_err_t err = ciot_iface_send_data(self, req, size);
+        if(err == CIOT_OK)
+        {
+            ciot_iface_register_request(self, &req->iface, req, CIOT_IFACE_REQ_STATUS_SENDED);
+            CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self, req);
+        }
+        return err;
     }
 }
 

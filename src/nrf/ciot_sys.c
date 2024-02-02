@@ -131,4 +131,9 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     return CIOT_OK;
 }
 
+ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
+{
+    return CIOT_ERR_NOT_SUPPORTED;
+}
+
 #endif

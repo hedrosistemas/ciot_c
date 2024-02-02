@@ -1,12 +1,12 @@
 /**
  * @file ciot_mqttc.c
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-10-13
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #include "ciot_mqttc.h"
@@ -54,7 +54,7 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t self, ciot_mqttc_cfg_t *cfg)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
 
-    if(cfg->topics.b2d[0] != '\0' && cfg->topics.d2b[0] != '\0')
+    if (cfg->topics.b2d[0] != '\0' && cfg->topics.d2b[0] != '\0')
     {
         memcpy(&self->cfg, cfg, sizeof(self->cfg));
     }
@@ -71,6 +71,7 @@ ciot_err_t ciot_mqttc_start(ciot_mqttc_t self, ciot_mqttc_cfg_t *cfg)
     const esp_mqtt_client_config_t mqtt_client_cfg = {
         .broker.address.uri = self->cfg.url,
         .broker.address.port = self->cfg.port,
+        .broker.address.transport = self->cfg.transport,
         .credentials.username = self->cfg.user,
         .credentials.authentication.password = self->cfg.pass,
         .credentials.client_id = self->cfg.client_id,
@@ -128,11 +129,11 @@ ciot_err_t ciot_mqttc_publish(ciot_mqttc_t self, char *topic, uint8_t *data, int
     self->status.last_msg_time = time(NULL);
     if (qos == 0)
     {
-        err_code = esp_mqtt_client_publish(self->handle, topic, (char*)data, size, qos, false);
+        err_code = esp_mqtt_client_publish(self->handle, topic, (char *)data, size, qos, false);
     }
     else
     {
-        err_code = esp_mqtt_client_enqueue(self->handle, topic, (char*)data, size, qos, false, false);
+        err_code = esp_mqtt_client_enqueue(self->handle, topic, (char *)data, size, qos, false, false);
     }
     return err_code != -1 ? CIOT_OK : CIOT_FAIL;
 }
@@ -195,14 +196,15 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
 {
     ciot_mqttc_t self = (ciot_mqttc_t)handler_args;
 
-    if (self == NULL) return;
+    if (self == NULL)
+        return;
 
     ciot_iface_event_t iface_event = {0};
     ciot_mqttc_status_msg_t status_msg = {0};
-    esp_mqtt_event_t *mqtt_event = (esp_mqtt_event_t*)event_data;
+    esp_mqtt_event_t *mqtt_event = (esp_mqtt_event_t *)event_data;
 
     status_msg.header.iface = self->iface.info;
-    iface_event.data = (ciot_iface_event_data_u*)&status_msg;
+    iface_event.data = (ciot_iface_event_data_u *)&status_msg;
     iface_event.size = sizeof(status_msg);
 
     switch ((esp_mqtt_event_id_t)event_id)
@@ -227,6 +229,10 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         status_msg.header.type = CIOT_MSG_TYPE_START;
         status_msg.status = self->status;
         iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        if (self->cfg.topics.b2d[0] != '\0')
+        {
+            ciot_mqttc_subscribe(self, self->cfg.topics.b2d, self->cfg.qos);
+        }
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
@@ -244,21 +250,22 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     case MQTT_EVENT_DATA:
     {
         ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-        iface_event.id = (strncmp(mqtt_event->topic, self->cfg.topics.b2d, mqtt_event->topic_len) == 0) 
-            ? CIOT_IFACE_EVENT_REQUEST 
-            : CIOT_IFACE_EVENT_DATA;
-        if(iface_event.id == CIOT_IFACE_EVENT_REQUEST) {
-            iface_event.data = (ciot_iface_event_data_u*)mqtt_event->data;
+        iface_event.id = (strncmp(mqtt_event->topic, self->cfg.topics.b2d, mqtt_event->topic_len) == 0)
+                             ? CIOT_IFACE_EVENT_REQUEST
+                             : CIOT_IFACE_EVENT_DATA;
+        if (iface_event.id == CIOT_IFACE_EVENT_REQUEST)
+        {
+            iface_event.data = (ciot_iface_event_data_u *)mqtt_event->data;
             iface_event.size = mqtt_event->data_len;
         }
         else
         {
-            ciot_mqttc_event_data_t iface_event_data = { 0 };
-            iface_event_data.payload.ptr = (uint8_t*)mqtt_event->data;
+            ciot_mqttc_event_data_t iface_event_data = {0};
+            iface_event_data.payload.ptr = (uint8_t *)mqtt_event->data;
             iface_event_data.payload.size = mqtt_event->data_len;
             iface_event_data.topic = mqtt_event->topic;
-            iface_event.data = (ciot_iface_event_data_u*)&iface_event_data;
-            if(self->iface.event_handler != NULL)
+            iface_event.data = (ciot_iface_event_data_u *)&iface_event_data;
+            if (self->iface.event_handler != NULL)
             {
                 self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
                 return;
@@ -271,7 +278,7 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         return;
     }
 
-    if(self->iface.event_handler != NULL)
+    if (self->iface.event_handler != NULL)
     {
         self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
     }

@@ -98,6 +98,17 @@ ciot_err_t ciot_tcp_register_event(ciot_tcp_t tcp, ciot_iface_event_handler_t ev
     return esp_event_handler_register(IP_EVENT, ESP_EVENT_ANY_ID, ciot_tcp_event_handler, tcp);
 }
 
+ciot_err_t ciot_tcp_get_ip(ciot_tcp_t self, uint8_t ip[4])
+{
+    esp_netif_ip_info_t ip_info;
+    CIOT_ERROR_RETURN(esp_netif_get_ip_info(self->netif, &ip_info));
+    ip[0] = ip4_addr1(&ip_info.ip);
+    ip[1] = ip4_addr2(&ip_info.ip);
+    ip[2] = ip4_addr3(&ip_info.ip);
+    ip[3] = ip4_addr4(&ip_info.ip);
+    return CIOT_OK;
+}
+
 static ciot_err_t ciot_tcp_set_dhcp_cfg(ciot_tcp_t self, ciot_tcp_dhcp_cfg_t dhcp)
 {
     CIOT_NULL_CHECK(self);
@@ -195,6 +206,12 @@ static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg)
 
         CIOT_ERROR_RETURN(esp_netif_set_ip_info(self->netif, &ip_info));
         CIOT_ERROR_RETURN(esp_netif_set_dns_info(self->netif, ESP_NETIF_DNS_MAIN, &dns_info));
+
+        ciot_tcp_status_t *status = (ciot_tcp_status_t*)self->iface.base.status.ptr;
+        status->info.ip[0] = ip4_addr1(&ip_info.ip);
+        status->info.ip[1] = ip4_addr2(&ip_info.ip);
+        status->info.ip[2] = ip4_addr3(&ip_info.ip);
+        status->info.ip[3] = ip4_addr4(&ip_info.ip);
     }
     return CIOT_OK;
 }

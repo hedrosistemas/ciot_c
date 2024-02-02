@@ -95,6 +95,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
     else
     {
         self->idx = 0;
+        self->status = CIOT_S_STATUS_WAIT_START_DATA;
         return CIOT_ERR_OVERFLOW;
     }
 

@@ -73,8 +73,8 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    uint8_t data[255];
     uint8_t size;
+    uint8_t data[255];
 } ciot_uart_req_send_data_t;
 
 typedef union __attribute__((packed))

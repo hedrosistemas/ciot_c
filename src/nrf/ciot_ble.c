@@ -165,7 +165,7 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
     {
         memcpy(self->cfg.mac, mac, 6);
         ciot_ble_get_mac(self, CIOT_BLE_MAC_TYPE_REAL, self->status.info.sw_mac);
-        ciot_ble_scn_start(self->ifaces.scanner, &self->cfg.ble_scn);
+        err = ciot_ble_scn_start(self->ifaces.scanner, NULL);
     }
 
     return err;

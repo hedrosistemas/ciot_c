@@ -97,8 +97,13 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     CIOT_NULL_CHECK(self);
     sys->status.free_memory = ciot_sys_get_free_ram();
     sys->status.lifetime = time(NULL) - sys->init_time;
-    mg_mgr_poll(CIOT_HANDLE, 50);
+    mg_mgr_poll(CIOT_HANDLE, 10);
     return CIOT_OK;
+}
+
+ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
+{
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 static void ciot_sys_init(ciot_sys_t self)

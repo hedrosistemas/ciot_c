@@ -20,6 +20,8 @@ extern "C" {
 #include "ciot_iface.h"
 #include "ciot_err.h"
 
+#define CIOT_SYS_EVT_BIT_POOLING 0x00000001
+
 typedef struct ciot_sys *ciot_sys_t;
 
 typedef struct __attribute__((packed))
@@ -36,6 +38,7 @@ ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size);
 ciot_err_t ciot_sys_rst(ciot_sys_t self);
 
 ciot_err_t ciot_sys_task(ciot_sys_t self);
+ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits);
 
 // common
 ciot_err_t ciot_sys_update_features(ciot_sys_features_t *features);

@@ -346,6 +346,7 @@ static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t even
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
         iface_event.id = CIOT_WIFI_EVENT_AP_START;
+        ciot_tcp_get_ip(self->tcp, self->status.tcp.info.ip);
         ciot_wifi_check_request(self, CIOT_MSG_TYPE_START, &iface_event);
         break;
     }

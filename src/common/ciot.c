@@ -164,7 +164,7 @@ ciot_err_t ciot_save_iface_cfg(ciot_t self, uint8_t iface_id)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(self->storage);
     char filepath[32];
-    sprintf(filepath, "iface_cfg_%d.dat", iface_id);
+    sprintf(filepath, CIOT_IFACE_CFG_FILENAME, iface_id);
     CIOT_ERROR_RETURN(ciot_storage_save(self->storage, filepath, (uint8_t *)self->ifaces.list[iface_id]->base.cfg.ptr, self->ifaces.list[iface_id]->base.cfg.size));
     self->base.iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
     self->base.iface.base.req.response_size = CIOT_MSG_HEADER_SIZE + sizeof(ciot_req_type_t) + sizeof(iface_id);
@@ -180,7 +180,7 @@ ciot_err_t ciot_delete_iface_cfg(ciot_t self, uint8_t iface_id)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(self->storage);
     char filepath[32];
-    sprintf(filepath, "iface_cfg_%d.dat", iface_id);
+    sprintf(filepath, CIOT_IFACE_CFG_FILENAME, iface_id);
     CIOT_ERROR_RETURN(ciot_storage_delete(self->storage, filepath));
     self->base.iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
     self->base.iface.base.req.response_size = CIOT_MSG_HEADER_SIZE + sizeof(ciot_req_type_t) + sizeof(iface_id);
@@ -233,7 +233,7 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
             if (self->storage != NULL && self->ifaces.list[i] != NULL)
             {
                 char filepath[32] = {0};
-                sprintf(filepath, "iface_cfg_%d.dat", i);
+                sprintf(filepath, CIOT_IFACE_CFG_FILENAME, i);
                 ciot_err_t err = ciot_storage_load(self->storage, filepath, (uint8_t *)self->ifaces.list[i]->base.cfg.ptr, self->ifaces.list[i]->base.cfg.size);
                 if (err == CIOT_OK)
                 {
@@ -264,6 +264,8 @@ static ciot_err_t ciot_ifaces_start(ciot_t self)
 static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *event_args)
 {
     ciot_t self = (ciot_t)event_args;
+
+    CIOT_LOGD(TAG, "%s(%d) evt id: %d", ciot_iface_to_str(sender), sender->info.id, event->id);
 
     if(sender->base.req.status == CIOT_IFACE_REQ_STATUS_SENDED)
     {

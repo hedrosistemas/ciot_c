@@ -52,6 +52,7 @@ ciot_err_t ciot_tcp_process_req(ciot_tcp_t self, ciot_tcp_req_t *req);
 ciot_err_t ciot_tcp_send_data(ciot_tcp_t self, uint8_t *data, int size);
 
 ciot_err_t ciot_tcp_register_event(ciot_tcp_t tcp, ciot_iface_event_handler_t event_handler, void *event_args);
+ciot_err_t ciot_tcp_get_ip(ciot_tcp_t self, uint8_t ip[4]);
 
 #ifdef __cplusplus
 }

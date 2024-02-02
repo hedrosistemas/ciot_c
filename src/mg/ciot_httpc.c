@@ -60,6 +60,12 @@ ciot_err_t ciot_httpc_start(ciot_httpc_t self, ciot_httpc_cfg_t *cfg)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
     memcpy(&self->cfg, cfg, sizeof(self->cfg));
+    ciot_iface_event_t iface_event = { 0 };
+    iface_event.id = CIOT_IFACE_EVENT_STARTED;
+    if (self->iface.event_handler != NULL)
+    {
+        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
+    }
     return CIOT_OK;
 }
 
@@ -162,9 +168,9 @@ static void ciot_httpc_event_handler(struct mg_connection *c, int ev, void *ev_d
                   host.ptr, self->data_to_send.size);
              mg_send(c, self->data_to_send.data, self->data_to_send.size);
         self->status.state = CIOT_HTTPC_STATE_CONNECTED;
-        status_msg.header.type = CIOT_MSG_TYPE_START;
+        status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.id = CIOT_HTTPC_EVENT_CONNECTED;
         break;
     }
     case MG_EV_HTTP_MSG:

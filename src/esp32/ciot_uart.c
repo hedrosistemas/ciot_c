@@ -103,7 +103,6 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     ciot_uart_t self = (ciot_uart_t)iface;
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(bytes);
-    ESP_LOG_BUFFER_HEX(TAG, bytes, size);
     uart_write_bytes(self->uart.cfg.num, bytes, size);
     return CIOT_OK;
 }
@@ -122,7 +121,7 @@ ciot_err_t ciot_uart_task(ciot_uart_t self)
 static void ciot_uart_event_handler(void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
-
+    
     if (self == NULL) return;
 
     ciot_iface_event_t iface_event = {0};
@@ -149,7 +148,8 @@ static void ciot_uart_event_handler(void *args)
                         ESP_LOGE(TAG, "Process byte error: %d", err);
                     }
                 }
-                break;;
+                iface_event.id = CIOT_IFACE_EVENT_INTERNAL;
+                break;
             case UART_FIFO_OVF:
                 ESP_LOGE(TAG, "UART_FIFO_OVF");
                 self->uart.status.error = CIOT_UART_ERR_FIFO_OVERFLOW;
@@ -199,7 +199,7 @@ static void ciot_uart_event_handler(void *args)
                 break;
             }
 
-            if(self->uart.iface.event_handler)
+            if(iface_event.id != CIOT_IFACE_EVENT_INTERNAL && self->uart.iface.event_handler)
             {
                 self->uart.iface.event_handler(&self->uart.iface, &iface_event, self->uart.iface.event_args);
             }
