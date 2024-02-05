@@ -59,6 +59,7 @@ ciot_err_t ciot_https_start(ciot_https_t self, ciot_https_cfg_t *cfg)
     CIOT_LOGI(TAG, "https starting...");
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(cfg);
+    sprintf(cfg->address, "%s:%d", cfg->address, cfg->port);
     memcpy(&self->cfg, cfg, sizeof(self->cfg));
     self->conn_rx = mg_http_listen(self->mgr, cfg->address, ciot_https_event_handle, self);
     if (self->conn_rx == NULL)
