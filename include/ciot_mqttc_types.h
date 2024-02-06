@@ -88,10 +88,10 @@ typedef struct __attribute__((packed))
     char url[CIOT_CONFIG_MQTT_URL_LEN];
     char user[CIOT_CONFIG_MQTT_USER_LEN];
     char pass[CIOT_CONFIG_MQTT_PASS_LEN];
-    ciot_mqttc_topics_cfg_t topics;
     uint32_t port;
     uint8_t qos;
     ciot_mqttc_transport_t transport;
+    ciot_mqttc_topics_cfg_t topics;
 } ciot_mqttc_cfg_t;
 
 typedef struct __attribute__((packed))

@@ -15,7 +15,9 @@
 
 #include <string.h>
 
+#if CIOT_CONFIG_FEATURE_TIMER
 static const char *TAG = "ciot_uart_common";
+#endif
 
 ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
 {
