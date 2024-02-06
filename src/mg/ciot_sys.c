@@ -143,6 +143,30 @@ static uint32_t ciot_sys_get_free_ram(void)
     return (uint32_t)(status.ullAvailPhys / 1024);
 }
 
-#endif
+#elif defined(CIOT_TARGET_LINUX)
+static uint32_t ciot_sys_get_free_ram(void)
+{
+    FILE *meminfo = fopen("/proc/meminfo", "r");
+    if (!meminfo) {
+        perror("Error opening /proc/meminfo");
+        return 0;
+    }
+
+    char line[128];
+    uint32_t free_ram = 0;
+
+    while (fgets(line, sizeof(line), meminfo)) {
+        if (sscanf(line, "MemFree: %u kB", &free_ram) == 1) {
+            break;
+        }
+    }
+
+    fclose(meminfo);
+    return free_ram * 1024;
+}
 
 #endif
+
+
+#endif
+
