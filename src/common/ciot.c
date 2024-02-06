@@ -52,13 +52,15 @@ static ciot_err_t ciot_send_data(ciot_t self, uint8_t *data, int size);
 
 static const char *TAG = "ciot";
 
-#ifdef CIOT_TARGET_WIN
+#if defined(CIOT_TARGET_WIN) || defined(CIOT_TARGET_LINUX)
 
 #if defined(CIOT_TARGET_MONGOOSE)
 #include "mongoose.h"
 #endif
 
+#ifdef  CIOT_TARGET_WIN
 #include "windows.h"
+#endif  //CIOT_TARGET_WIN
 
 void app_main();
 
