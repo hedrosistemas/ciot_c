@@ -22,6 +22,8 @@
 #define CIOT_TARGET_ESP32
 #elif defined(NRF51) || defined(NRF52) || defined(NRF52840_XXAA)
 #define CIOT_TARGET_NRF
+#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+#define CIOT_TARGET_LINUX
 #else
 #define CIOT_TARGET_UNKNOWN
 #warning "Target undefined."
