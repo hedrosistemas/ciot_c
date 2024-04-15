@@ -22,7 +22,7 @@
 #define CIOT_TARGET_ESP32
 #elif defined(NRF51) || defined(NRF52) || defined(NRF52840_XXAA)
 #define CIOT_TARGET_NRF
-#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+#elif defined(__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
 #define CIOT_TARGET_LINUX
 #else
 #define CIOT_TARGET_UNKNOWN
@@ -36,7 +36,7 @@
 #warning "ciot_custom_config.h not found. Using default configuration. Create a ciot_custom_config.h file to customize the ciot lib configurations."
 
 #define CIOT_CONFIG_LOG_LEVEL CIOT_LOG_LEVEL_INFO
-#define CIOT_CONFIG_APP_VER 0,3,0
+#define CIOT_CONFIG_APP_VER 0, 3, 0
 #define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD"
 
 #define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
@@ -53,51 +53,10 @@
 #define CIOT_CONFIG_FEATURE_MQTTC 1    ///!< Enable MQTT Client
 #define CIOT_CONFIG_FEATURE_TIMER 1    ///!< Enable system timer
 #define CIOT_CONFIG_FEATURE_BRIDGE 1   ///!< Enable Bridge Implementation
+#define CIOT_CONFIG_FEATURE_SERIALIZER 0    ///!< Enable serializer
 
-#define CIOT_CONFIG_MESSAGE_LEN 330         ///!< CIOT expected message size
-#define CIOT_CONFIG_MESSAGE_PAYLOAD_LEN 256 ///!< CIOT message payload size
-
-#define CIOT_CONFIG_UART_RX_BUF_SIZE 256
-#define CIOT_CONFIG_UART_TX_BUF_SIZE 256
-#define CIOT_CONFIG_UART_QUEUE_SIZE 20
-#define CIOT_CONFIG_UART_TASK_SIZE 2048
-#define CIOT_CONFIG_UART_TASK_PRIO 12
-#define CIOT_CONFIG_UART_TASK_CORE 0
-
-#define CIOT_CONFIG_ETH_PHY_KSZ8081 1
-#define CIOT_CONFIG_ETH_PHY_NEW(x) esp_eth_phy_new_ksz80xx(&x)
-#define CIOT_CONFIG_ETH_PHY_ADDR 0
-#define CIOT_CONFIG_ETH_GPIO_PHY_RST 5
-#define CIOT_CONFIG_ETH_GPIO_MDC 23
-#define CIOT_CONFIG_ETH_GPIO_MDIO 18
-
-#define CIOT_CONFIG_WIFI_AP_SSID_MASK "CIOT BOARD %s"
-#define CIOT_CONFIG_WIFI_AP_PASS "administrator"
-#define CIOT_CONFIG_WIFI_AP_AUTH WIFI_AUTH_WPA_WPA2_PSK
-#define CIOT_CONFIG_WIFI_AP_MAX_CONN 1
-
-#define CIOT_CONFIG_WIFI_STA_SSID "CABO CANAVERAL"
-#define CIOT_CONFIG_WIFI_STA_PASS "16192020"
-
-#define CIOT_CONFIG_MQTT_CLIENT_ID_LEN 32
-#define CIOT_CONFIG_MQTT_URL_LEN 64
-#define CIOT_CONFIG_MQTT_USER_LEN 32
-#define CIOT_CONFIG_MQTT_PASS_LEN 32
-#define CIOT_CONFIG_MQTT_TOPIC_LEN 32
-#define CIOT_CONFIG_MQTT_MSG_LEN 256
-
-#define CIOT_CONFIG_NTP_OP_MODE 0
-#define CIOT_CONFIG_NTP_SYNC_MODE 0
-#define CIOT_CONFIG_NTP_SYNC_INTERVAL (3600 * 1000)
-#define CIOT_CONFIG_NTP_TZ "<-03>3"
-#define CIOT_CONFIG_NTP_SERVERS_COUNT 3
-#define CIOT_CONFIG_NTP_SERVER1 "pool.ntp.org"
-#define CIOT_CONFIG_NTP_SERVER2 "time.google.com"
-#define CIOT_CONFIG_NTP_SERVER3 "gps.ntp.br"
-
-#define CIOT_CONFIG_OTA_TASK_STACK_SIZE 8192
-#define CIOT_CONFIG_OTA_TASK_TASK_PRIORITY (tskIDLE_PRIORITY + 4)
-#define CIOT_CONFIG_OTA_TASK_CORE_ID 1
+#define CIOT_CONFIG_MESSAGE_LEN 330            ///!< CIOT expected message size
+#define CIOT_CONFIG_MESSAGE_PAYLOAD_LEN 256    ///!< CIOT message payload size
 
 #endif //__has_include("ciot_custom_config.h")
 

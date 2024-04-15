@@ -220,15 +220,15 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         self->status.state = CIOT_MQTT_STATE_ERROR;
         status_msg.header.type = CIOT_MSG_TYPE_ERROR;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_ERROR;
+        iface_event.type = CIOT_IFACE_EVENT_ERROR;
         break;
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
         self->status.conn_count++;
         self->status.state = CIOT_MQTT_STATE_CONNECTED;
-        status_msg.header.type = CIOT_MSG_TYPE_START;
+        status_msg.header.type = CIOT_MSG_TYPE_GET_STATUS;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.type = CIOT_IFACE_EVENT_STARTED;
         if (self->cfg.topics.b2d[0] != '\0')
         {
             ciot_mqttc_subscribe(self, self->cfg.topics.b2d, self->cfg.qos);
@@ -237,9 +237,9 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
         self->status.state = CIOT_MQTT_STATE_DISCONNECTED;
-        status_msg.header.type = CIOT_MSG_TYPE_STOP;
+        status_msg.header.type = CIOT_MSG_TYPE_GET_STATUS;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
         break;
     case MQTT_EVENT_SUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED");
@@ -250,10 +250,10 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     case MQTT_EVENT_DATA:
     {
         ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-        iface_event.id = (strncmp(mqtt_event->topic, self->cfg.topics.b2d, mqtt_event->topic_len) == 0)
+        iface_event.type = (strncmp(mqtt_event->topic, self->cfg.topics.b2d, mqtt_event->topic_len) == 0)
                              ? CIOT_IFACE_EVENT_REQUEST
                              : CIOT_IFACE_EVENT_DATA;
-        if (iface_event.id == CIOT_IFACE_EVENT_REQUEST)
+        if (iface_event.type == CIOT_IFACE_EVENT_REQUEST)
         {
             iface_event.data = (ciot_iface_event_data_u *)mqtt_event->data;
             iface_event.size = mqtt_event->data_len;

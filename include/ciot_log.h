@@ -12,6 +12,8 @@
 #ifndef __CIOT_LOG__H__
 #define __CIOT_LOG__H__
 
+#include "ciot_config.h"
+
 #ifdef __cplusplus
 extern "C"
 {

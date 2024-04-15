@@ -159,6 +159,7 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
     CIOT_NULL_CHECK(iface);
     CIOT_NULL_CHECK(bytes);
+    
     uint32_t err_code;
     uint32_t len = 0;
     ciot_uart_t self = (ciot_uart_t)iface;

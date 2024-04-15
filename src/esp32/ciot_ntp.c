@@ -19,7 +19,6 @@
 #include "esp_log.h"
 #include "esp_bit_defs.h"
 
-
 struct ciot_ntp
 {
     ciot_iface_t iface;
@@ -31,7 +30,7 @@ static const char *TAG = "ciot_ntp";
 
 static void ciot_ntp_sync_notification_cb(struct timeval *tv);
 
-ciot_ntp_t self;
+static ciot_ntp_t self;
 
 ciot_ntp_t ciot_ntp_new(void *handle)
 {
@@ -138,7 +137,7 @@ static void ciot_ntp_sync_notification_cb(struct timeval *tv)
     self->status.last_sync = time(NULL);
     status_msg.header.type = CIOT_MSG_TYPE_START;
     status_msg.status = self->status;
-    iface_event.id = CIOT_IFACE_EVENT_STARTED;
+    iface_event.type = CIOT_IFACE_EVENT_STARTED;
 
     if(self->iface.event_handler != NULL)
     {

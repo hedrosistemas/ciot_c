@@ -1,12 +1,12 @@
 {
-    "name": "Ciot",
+    "name": "Connected IoT (CIoT)",
     "version": "0.1.0",
     "description": "Library for IoT projects",
     "keywords": "IoT, Automation, TA",
     "repository":
     {
       "type": "git",
-      "url": "https://github.com/ciot-platform/ciot-c.git"
+      "url": "https://github.com/ciot-platform/ciot_c.git"
     },
     "authors":
     [

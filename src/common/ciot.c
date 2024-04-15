@@ -16,6 +16,7 @@
 
 #include "ciot_log.h"
 #include "ciot.h"
+#include "ciot_serializer.h"
 
 typedef struct
 {
@@ -267,27 +268,44 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 {
     ciot_t self = (ciot_t)event_args;
 
-    CIOT_LOGD(TAG, "%s(%d) evt id: %d", ciot_iface_to_str(sender), sender->info.id, event->id);
+    CIOT_LOGD(TAG, "%s(%d) evt id: %d", ciot_iface_to_str(sender), sender->info.id, event->type);
+
+    #if CIOT_CONFIG_FEATURE_SERIALIZER
+    if((event->type == CIOT_IFACE_EVENT_REQUEST || event->type == CIOT_IFACE_EVENT_DATA) && sender->serializer != NULL)
+    {
+        ciot_serializer_from_bytes(sender->serializer, &event->data->msg, event->data->payload, event->size);
+    }
+    #endif  //
 
     if(sender->base.req.status == CIOT_IFACE_REQ_STATUS_SENDED)
     {
+        bool event_filter = (event->type == CIOT_IFACE_EVENT_STARTED ||
+                             event->type == CIOT_IFACE_EVENT_STOPPED ||
+                             event->type == CIOT_IFACE_EVENT_REQUEST ||
+                             event->type == CIOT_IFACE_EVENT_ERROR);
         bool iface_equal = memcmp(&sender->base.req.iface, &event->data->msg.iface, sizeof(ciot_msg_iface_info_t)) == 0;
-        bool type_equal = sender->base.req.type == event->data->msg.type;
         bool id_equal = sender->base.req.id == event->data->msg.id;
-        bool error = event->data->msg.type == CIOT_MSG_TYPE_ERROR;
-        if(iface_equal && id_equal && (type_equal || error))
+        if(event_filter && iface_equal && id_equal)
         {
             sender->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
-            event->id = CIOT_IFACE_EVENT_DONE;
+            event->type = CIOT_IFACE_EVENT_DONE;
             CIOT_LOG_MSG(TAG, CIOT_LOGV, "RX RSP <- ", sender, event->data->msg);
         }
     }
 
     if(sender->base.req.status == CIOT_IFACE_REQ_STATUS_RECEIVED)
     {
-        bool type_equal = sender->base.req.type == event->data->msg.type;
-        bool error = event->id == CIOT_IFACE_EVENT_ERROR || event->data->msg.type == CIOT_MSG_TYPE_ERROR;
-        if(type_equal || error)
+        bool event_filter = (event->type == CIOT_IFACE_EVENT_STARTED ||
+                             event->type == CIOT_IFACE_EVENT_STOPPED ||
+                             event->type == CIOT_IFACE_EVENT_REQUEST ||
+                             event->type == CIOT_IFACE_EVENT_ERROR);
+        bool iface_equal = memcmp(&sender->info, &event->data->msg.iface, sizeof(ciot_msg_iface_info_t)) == 0;
+        bool id_equal = sender->base.req.id == event->data->msg.id;
+        CIOT_LOGI(TAG, "event_type: %d", event->type);
+        CIOT_LOGI(TAG, "ifaces ids: %d | %d", sender->info.id, event->data->msg.iface.id);
+        CIOT_LOGI(TAG, "ifaces types: %d | %d", sender->info.id, event->data->msg.iface.type);
+        CIOT_LOGI(TAG, "event_filter: %d, iface_equal: %d, id_equal: %d", event_filter, iface_equal, id_equal);
+        if(event_filter && iface_equal && id_equal)
         {
             int iface_id = sender->base.req.iface.id;
             sender->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
@@ -296,7 +314,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         }
     }
 
-    if (event->id == CIOT_IFACE_EVENT_REQUEST)
+    if (event->type == CIOT_IFACE_EVENT_REQUEST)
     {
         CIOT_LOG_MSG(TAG, CIOT_LOGV, "RX REQ <- ", sender, event->data->msg);
         uint8_t id = event->data->msg.iface.id;
@@ -305,7 +323,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
             ciot_err_t err = ciot_iface_process_msg(self->ifaces.list[id], &event->data->msg, sender);
             if(self->ifaces.list[id]->base.req.status == CIOT_IFACE_REQ_STATUS_IDLE)
             {
-                event->id = CIOT_IFACE_EVENT_DONE;
+                event->type = CIOT_IFACE_EVENT_DONE;
             }
             else
             {
@@ -314,7 +332,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         }
     }
 
-    if (event->id == CIOT_IFACE_EVENT_DATA && self->bridges_idx != CIOT_BRIDGE_NULL_TARGET)
+    if (event->type == CIOT_IFACE_EVENT_DATA && self->bridges_idx != CIOT_BRIDGE_NULL_TARGET)
     {
         for (size_t i = self->bridges_idx; i < self->ifaces.count; i++)
         {

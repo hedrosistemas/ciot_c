@@ -36,10 +36,6 @@
 #define CDC_ACM_DATA_EPIN NRF_DRV_USBD_EPIN1
 #define CDC_ACM_DATA_EPOUT NRF_DRV_USBD_EPOUT1
 
-#ifndef USBD_POWER_DETECTION
-#define USBD_POWER_DETECTION true
-#endif
-
 static ciot_err_t ciot_usb_on_message(ciot_iface_t *iface, uint8_t *data, int size);
 static void ciot_usbd_event_handler(app_usbd_event_type_t event);
 static void ciot_cdc_acm_event_handler(app_usbd_class_inst_t const *p_inst, app_usbd_cdc_acm_user_event_t event);
@@ -73,6 +69,10 @@ struct ciot_usb
 };
 
 static ciot_usb_t usb;
+
+#if CIOT_CONFIG_FEATURE_TIMER
+static const char *TAG = "ciot_usb";
+#endif
 
 ciot_usb_t ciot_usb_new(void *handle)
 {
@@ -114,7 +114,10 @@ ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
     ciot_s_set_bridge_mode(self->s, self->cfg.bridge_mode);
 
     ret = nrf_drv_clock_init();
-    APP_ERROR_CHECK(ret);
+    if(ret != NRF_ERROR_MODULE_ALREADY_INITIALIZED)
+    {
+        APP_ERROR_CHECK(ret);
+    }
 
     nrf_drv_clock_lfclk_request(NULL);
 
@@ -132,16 +135,13 @@ ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
     ret = app_usbd_class_append(self->usb);
     APP_ERROR_CHECK(ret);
 
-    if (USBD_POWER_DETECTION)
-    {
-        ret = app_usbd_power_events_enable();
-        APP_ERROR_CHECK(ret);
-    }
-    else
-    {
-        app_usbd_enable();
-        app_usbd_start();
-    }
+    // #if APP_USBD_CONFIG_POWER_EVENTS_PROCESS
+    // ret = app_usbd_power_events_enable();
+    // APP_ERROR_CHECK(ret);
+    // #else
+    // app_usbd_enable();
+    // app_usbd_start();
+    // #endif  //APP_USBD_CONFIG_POWER_EVENTS_PROCESS
 
     self->tx_in_progress = false;
 
@@ -186,7 +186,7 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
         self->tx_in_progress = true;
         if(app_fifo_get(&self->fifo.tx, self->tx_byte) == NRF_SUCCESS) 
         {
-            err_code = app_usbd_cdc_acm_write(&m_app_cdc_acm, bytes, size);
+            err_code = app_usbd_cdc_acm_write(&m_app_cdc_acm, self->tx_byte, 1);
         }
     }
 
@@ -202,8 +202,24 @@ ciot_err_t ciot_usb_set_bridge_mode(ciot_usb_t self, bool mode)
 ciot_err_t ciot_usb_task(ciot_usb_t self)
 {
     CIOT_NULL_CHECK(self);
+    
+    if(self->status.state == CIOT_USB_STATE_STOPPED)
+    {
+        app_usbd_enable();
+        app_usbd_start();
+    }
+
     app_usbd_event_queue_process();
-    return ciot_s_check_timeout(self->iface, self->s);
+
+    ciot_err_t err = CIOT_OK;
+#if CIOT_CONFIG_FEATURE_TIMER
+    err = ciot_s_check_timeout(self->s);
+    if (err != CIOT_OK)
+    {
+        CIOT_LOGE(TAG, "[%d]:%s %s[%d]", self->iface.info.id, ciot_iface_to_str(&self->iface), ciot_err_to_message(err), err);
+    }
+#endif
+    return err;
 }
 
 static ciot_err_t ciot_usb_on_message(ciot_iface_t *iface, uint8_t *data, int size)
@@ -214,7 +230,7 @@ static ciot_err_t ciot_usb_on_message(ciot_iface_t *iface, uint8_t *data, int si
     ciot_usb_t self = (ciot_usb_t)iface;
     ciot_iface_event_t ciot_evt = { 0 };
     
-    ciot_evt.id = self->cfg.bridge_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
+    ciot_evt.type = self->cfg.bridge_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
     ciot_evt.data = (ciot_iface_event_data_u*)data;
     ciot_evt.size = size;
     return iface->event_handler(iface, &ciot_evt, iface->event_args);
@@ -236,22 +252,26 @@ static void ciot_usbd_event_handler(app_usbd_event_type_t event)
             self->tx_in_progress = false;
             app_usbd_enable();
         }
-        iface_event.id = CIOT_USB_EVENT_POWER_DETECTED;
+        iface_event.type = CIOT_USB_EVENT_POWER_DETECTED;
         break;
     case APP_USBD_EVT_POWER_REMOVED:
         app_usbd_stop();
         self->tx_in_progress = false;
-        iface_event.id = CIOT_USB_EVENT_POWER_REMOVED;
+        iface_event.type = CIOT_USB_EVENT_POWER_REMOVED;
         break;
     case APP_USBD_EVT_POWER_READY:
         app_usbd_start();
         self->tx_in_progress = false;
-        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.type = CIOT_IFACE_EVENT_STARTED;
+        break;
+    case APP_USBD_EVT_STARTED:
+        self->status.state = CIOT_USB_STATE_STARTED;
         break;
     case APP_USBD_EVT_STOPPED:
         app_usbd_disable();
+        self->status.state = CIOT_USB_STATE_STOPPED;
         self->tx_in_progress = false;
-        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
         break;
     default:
         return;

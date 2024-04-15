@@ -18,7 +18,7 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include "ciot_usb_types.h"
+#include "types/ciot_usb_types.h"
 #include "ciot_iface.h"
 #include "ciot_err.h"
 

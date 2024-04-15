@@ -11,7 +11,7 @@
 
 #include "ciot_eth.h"
 
-#if 1 && defined(CIOT_TARGET_ESP32)
+#if CIOT_CONFIG_FEATURE_ETHERNET && defined(CIOT_TARGET_ESP32)
 
 #include <string.h>
 
@@ -159,14 +159,14 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
         self->status.state = CIOT_TCP_STATE_CONNECTING;
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
-        iface_event.id = CIOT_ETH_EVENT_START;
+        iface_event.type = CIOT_ETH_EVENT_START;
         break;
     case ETHERNET_EVENT_STOP:
         ESP_LOGI(TAG, "ETHERNET_EVENT_STOP");
         self->status.state = CIOT_TCP_STATE_STOPPED;
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
         break;
     case ETHERNET_EVENT_CONNECTED:
         ESP_LOGI(TAG, "ETHERNET_EVENT_CONNECTED");
@@ -175,14 +175,14 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
         CIOT_ERROR_PRINT(ciot_tcp_start(self->tcp, &self->cfg));
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
-        iface_event.id = CIOT_ETH_EVENT_CONNECTED;
+        iface_event.type = CIOT_ETH_EVENT_CONNECTED;
         break;
     case ETHERNET_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "ETHERNET_EVENT_DISCONNECTED");
         self->status.state = CIOT_TCP_STATE_STARTED;
         status_msg.header.type = CIOT_MSG_TYPE_EVENT;
         status_msg.status = self->status;
-        iface_event.id = CIOT_ETH_EVENT_DISCONNECTED;
+        iface_event.type = CIOT_ETH_EVENT_DISCONNECTED;
         break;
     default:
         break;

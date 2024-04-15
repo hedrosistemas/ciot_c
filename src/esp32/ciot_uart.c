@@ -148,7 +148,7 @@ static void ciot_uart_event_handler(void *args)
                         ESP_LOGE(TAG, "Process byte error: %d", err);
                     }
                 }
-                iface_event.id = CIOT_IFACE_EVENT_INTERNAL;
+                iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
                 break;
             case UART_FIFO_OVF:
                 ESP_LOGE(TAG, "UART_FIFO_OVF");
@@ -157,7 +157,7 @@ static void ciot_uart_event_handler(void *args)
                 iface_event.data = (ciot_iface_event_data_u*)&error_msg;
                 error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
                 error_msg.code = CIOT_UART_ERR_FIFO_OVERFLOW;
-                iface_event.id = CIOT_IFACE_EVENT_ERROR;
+                iface_event.type = CIOT_IFACE_EVENT_ERROR;
                 uart_flush_input(self->uart.cfg.num);
                 xQueueReset(self->queue);
                 break;
@@ -168,7 +168,7 @@ static void ciot_uart_event_handler(void *args)
                 iface_event.data = (ciot_iface_event_data_u*)&error_msg;
                 error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
                 error_msg.code = CIOT_UART_ERR_BUFFER_FULL;
-                iface_event.id = CIOT_IFACE_EVENT_ERROR;
+                iface_event.type = CIOT_IFACE_EVENT_ERROR;
                 uart_flush_input(self->uart.cfg.num);
                 xQueueReset(self->queue);
                 break;
@@ -179,7 +179,7 @@ static void ciot_uart_event_handler(void *args)
                 iface_event.data = (ciot_iface_event_data_u*)&error_msg;
                 error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
                 error_msg.code = CIOT_UART_ERR_BREAK;
-                iface_event.id = CIOT_IFACE_EVENT_ERROR;
+                iface_event.type = CIOT_IFACE_EVENT_ERROR;
                 uart_flush_input(self->uart.cfg.num);
                 xQueueReset(self->queue);
                 break;
@@ -190,7 +190,7 @@ static void ciot_uart_event_handler(void *args)
                 iface_event.data = (ciot_iface_event_data_u*)&error_msg;
                 error_msg.msg_type = CIOT_MSG_TYPE_EVENT;
                 error_msg.code = CIOT_UART_ERR_FRAME;
-                iface_event.id = CIOT_IFACE_EVENT_ERROR;
+                iface_event.type = CIOT_IFACE_EVENT_ERROR;
                 uart_flush_input(self->uart.cfg.num);
                 xQueueReset(self->queue);
                 break;
@@ -199,7 +199,7 @@ static void ciot_uart_event_handler(void *args)
                 break;
             }
 
-            if(iface_event.id != CIOT_IFACE_EVENT_INTERNAL && self->uart.iface.event_handler)
+            if(iface_event.type != CIOT_IFACE_EVENT_INTERNAL && self->uart.iface.event_handler)
             {
                 self->uart.iface.event_handler(&self->uart.iface, &iface_event, self->uart.iface.event_args);
             }

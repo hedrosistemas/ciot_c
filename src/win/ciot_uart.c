@@ -148,9 +148,9 @@ static ciot_err_t ciot_uart_init(ciot_uart_t self)
 
     self->timeouts.ReadIntervalTimeout = 50;
     self->timeouts.ReadTotalTimeoutConstant = 50;
-    self->timeouts.ReadTotalTimeoutMultiplier = 10;
+    self->timeouts.ReadTotalTimeoutMultiplier = 20;
     self->timeouts.WriteTotalTimeoutConstant = 50;
-    self->timeouts.WriteTotalTimeoutMultiplier = 10;
+    self->timeouts.WriteTotalTimeoutMultiplier = 20;
     if(SetCommTimeouts(self->handle, &self->timeouts) == FALSE)
     {
         CIOT_LOGE(TAG, "SetCommTimeouts error at %s", self->port_name);
@@ -188,7 +188,7 @@ static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
         self->uart.status.state = CIOT_UART_STATE_STARTED;
         status_msg.header.type = CIOT_MSG_TYPE_START;
         status_msg.status = self->uart.status;
-        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.type = CIOT_IFACE_EVENT_STARTED;
 
         if(self->uart.iface.event_handler != NULL)
         {
@@ -209,7 +209,7 @@ static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
         self->uart.status.state = CIOT_UART_STATE_CLOSED;
         status_msg.header.type = CIOT_MSG_TYPE_STOP;
         status_msg.status = self->uart.status;
-        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
 
         if(self->uart.iface.event_handler != NULL)
         {
@@ -241,6 +241,7 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
             }
             status->cbInQue--;
         }
+        printf("\n");
     }
 }
 

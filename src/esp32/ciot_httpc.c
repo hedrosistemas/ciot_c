@@ -119,14 +119,14 @@ static int ciot_httpc_event_handler(esp_http_client_event_handle_t evt)
         self->status.state = CIOT_HTTPC_STATE_ERROR;
         status_msg.header.type = CIOT_MSG_TYPE_ERROR;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_ERROR;
+        iface_event.type = CIOT_IFACE_EVENT_ERROR;
         break;
     case HTTP_EVENT_ON_CONNECTED:
         ESP_LOGD(TAG, "HTTP_EVENT_ON_CONNECTED");
         self->status.state = CIOT_HTTPC_STATE_CONNECTED;
         status_msg.header.type = CIOT_MSG_TYPE_START;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.type = CIOT_IFACE_EVENT_STARTED;
         break;
     case HTTP_EVENT_HEADERS_SENT:
         ESP_LOGD(TAG, "HTTP_EVENT_HEADERS_SENT");

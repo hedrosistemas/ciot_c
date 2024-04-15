@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-#include "ciot_sys_types.h"
+#include "types/ciot_sys_types.h"
 #include "ciot_iface.h"
 #include "ciot_err.h"
 
@@ -39,6 +39,7 @@ ciot_err_t ciot_sys_rst(ciot_sys_t self);
 
 ciot_err_t ciot_sys_task(ciot_sys_t self);
 ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits);
+void ciot_sys_sleep(long ms);
 
 // common
 ciot_err_t ciot_sys_update_features(ciot_sys_features_t *features);

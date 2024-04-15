@@ -13,6 +13,7 @@
 
 #if CIOT_CONFIG_FEATURE_SYSTEM && defined(CIOT_TARGET_NRF)
 
+#if defined CIOT_CONFIG_FEATURE_TIMER
 #if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)
 #include "softdevice_handler.h"
 #define BLE_GAP_ADV_SET_DATA_SIZE_MAX BLE_GAP_ADV_MAX_SIZE
@@ -23,6 +24,7 @@
 #include "nrf_pwr_mgmt.h"
 #include "nrf_log_default_backends.h"
 #include "nrf_bootloader_info.h"
+#endif
 #endif
 
 #include "nrf_nvic.h"

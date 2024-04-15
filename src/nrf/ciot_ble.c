@@ -95,7 +95,7 @@ ciot_err_t ciot_ble_start(ciot_ble_t self, ciot_ble_cfg_t *cfg)
         self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
     }
 
-    return error_code;
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_ble_stop(ciot_ble_t self)

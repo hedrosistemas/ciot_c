@@ -230,7 +230,7 @@ static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self)
     {
         
         ciot_iface_event_t event = { 0 };
-        event.id = CIOT_IFACE_EVENT_ERROR;
+        event.type = CIOT_IFACE_EVENT_ERROR;
         // event.msg.type = CIOT_MSG_TYPE_ERROR;
         // event.msg.iface = self->iface.info;
         // event.msg.
@@ -262,35 +262,35 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
             self->status.state = CIOT_OTA_STATE_START;
             status_msg.header.type = CIOT_MSG_TYPE_START;
             status_msg.status = self->status;
-            iface_event.id = CIOT_IFACE_EVENT_STARTED;
+            iface_event.type = CIOT_IFACE_EVENT_STARTED;
             break;
         case ESP_HTTPS_OTA_CONNECTED:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_CONNECTED");
             self->status.state = CIOT_OTA_STATE_CONNECTED;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.id = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
             break;
         case ESP_HTTPS_OTA_GET_IMG_DESC:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_GET_IMG_DESC");
             self->status.state = CIOT_OTA_STATE_CHECKING_DATA;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.id = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
             break;
         case ESP_HTTPS_OTA_VERIFY_CHIP_ID:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_VERIFY_CHIP_ID");
             self->status.state = CIOT_OTA_STATE_CHECKING_DATA;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.id = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
             break;
         case ESP_HTTPS_OTA_DECRYPT_CB:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_DECRYPT_CB");
             self->status.state = CIOT_OTA_STATE_DECRYPTING;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.id = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
             break;
         case ESP_HTTPS_OTA_WRITE_FLASH:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_WRITE_FLASH");
@@ -299,28 +299,28 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
             self->status.image_read = esp_https_ota_get_image_len_read(self->handle);
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.id = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
             break;
         case ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION");
             self->status.state = CIOT_OTA_STATE_UPDATE_BOOT_PARTITION;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.id = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
             break;
         case ESP_HTTPS_OTA_FINISH:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_FINISH");
             self->status.state = CIOT_OTA_STATE_DONE;
             status_msg.header.type = CIOT_MSG_TYPE_STOP;
             status_msg.status = self->status;
-            iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+            iface_event.type = CIOT_IFACE_EVENT_STOPPED;
             break;
         case ESP_HTTPS_OTA_ABORT:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_ABORT");
             self->status.state = CIOT_OTA_STATE_ERROR;
             status_msg.header.type = CIOT_MSG_TYPE_STOP;
             status_msg.status = self->status;
-            iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+            iface_event.type = CIOT_IFACE_EVENT_STOPPED;
             break;
     default:
         break;
