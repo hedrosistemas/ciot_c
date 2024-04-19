@@ -19,6 +19,14 @@
 
 #include "ciot_tcp.h"
 
+#ifndef CIOT_CONFIG_WIFI_AP_MAC
+#define CIOT_CONFIG_WIFI_AP_MAC
+#endif
+
+#ifndef CIOT_CONFIG_WIFI_STA_MAC
+#define CIOT_CONFIG_WIFI_STA_MAC
+#endif
+
 struct ciot_wifi
 {
     ciot_iface_t iface;
