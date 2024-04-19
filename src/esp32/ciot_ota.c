@@ -119,7 +119,16 @@ ciot_err_t ciot_ota_stop(ciot_ota_t self)
 
 ciot_err_t ciot_ota_process_req(ciot_ota_t self, ciot_ota_req_t *req)
 {
-    return CIOT_ERR_NOT_SUPPORTED;
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(req);
+
+    switch (req->type)
+    {
+    case CIOT_OTA_REQ_ROLLBACK:
+        return ciot_ota_rollback(self);
+    default:
+        return CIOT_ERR_INVALID_TYPE;
+    }
 }
 
 ciot_err_t ciot_ota_send_data(ciot_ota_t self, uint8_t *data, int size)
