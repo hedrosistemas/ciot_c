@@ -1,2 +1,5 @@
 gen:
-	$(MAKE) gen L=$(L) O=../src/proto -C proto -f Makefile
+	$(MAKE) gen L=c O=../src/proto -C proto -f Makefile
+
+help:
+	@echo gen: generate proto files
