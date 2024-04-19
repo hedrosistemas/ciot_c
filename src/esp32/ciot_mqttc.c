@@ -218,7 +218,7 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         self->status.error.transport_sock = mqtt_event->error_handle->esp_transport_sock_errno;
         self->status.error.type = mqtt_event->error_handle->error_type;
         self->status.state = CIOT_MQTT_STATE_ERROR;
-        status_msg.header.type = CIOT_MSG_TYPE_ERROR;
+        status_msg.header.type = CIOT_MSG_TYPE_GET_STATUS;
         status_msg.status = self->status;
         iface_event.type = CIOT_IFACE_EVENT_ERROR;
         break;
