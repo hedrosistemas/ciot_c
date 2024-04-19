@@ -127,6 +127,19 @@ ciot_err_t ciot_ota_send_data(ciot_ota_t self, uint8_t *data, int size)
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
+ciot_err_t ciot_ota_rollback(ciot_ota_t self)
+{
+    CIOT_LOGI(TAG, "OTA rollback in progress...");
+    if(esp_ota_check_rollback_is_possible())
+    {
+        return esp_ota_mark_app_invalid_rollback_and_reboot();
+    }
+    else
+    {
+        return CIOT_ERR_IMPOSSIBLE_OP;
+    }
+}
+
 static void ciot_ota_task(void *pvParameters)
 {
     ciot_ota_t self = (ciot_ota_t )pvParameters;
