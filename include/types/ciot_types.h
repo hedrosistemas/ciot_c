@@ -40,7 +40,7 @@ typedef struct __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-
+    uint8_t version[3];
 } ciot_info_t;
 
 typedef struct __attribute__((packed))
