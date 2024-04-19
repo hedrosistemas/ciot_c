@@ -298,20 +298,20 @@ const ProtobufCMessageDescriptor ciot__ciot_cfg__descriptor =
 static const ProtobufCFieldDescriptor ciot__ciot_info__field_descriptors[1] =
 {
   {
-    "serialization",
+    "version",
     1,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_ENUM,
+    PROTOBUF_C_TYPE_BYTES,
     0,   /* quantifier_offset */
-    offsetof(Ciot__CiotInfo, serialization),
-    &ciot__ciot_serialization_type__descriptor,
+    offsetof(Ciot__CiotInfo, version),
+    NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
 static const unsigned ciot__ciot_info__field_indices_by_name[] = {
-  0,   /* field[0] = serialization */
+  0,   /* field[0] = version */
 };
 static const ProtobufCIntRange ciot__ciot_info__number_ranges[1 + 1] =
 {

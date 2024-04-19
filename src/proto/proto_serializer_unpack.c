@@ -27,6 +27,7 @@ int ciot_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack)
     case CIOT_MSG_TYPE_GET_STATUS:
         if(msg_pack->data->ciot->status == NULL) break;
         msg->data.ciot.status.state = msg_pack->data->ciot->status->state;
+        memcpy(msg->data.ciot.status.info.version, msg_pack->data->ciot->status->info->version.data, msg_pack->data->ciot->status->info->version.len);
         break;
     case CIOT_MSG_TYPE_REQUEST:
         if(msg_pack->data->ciot->request == NULL) break;
@@ -85,6 +86,7 @@ int ciot_system_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack)
         msg->data.system.status.info.features.hw = *(ciot_sys_hw_features_t*)&msg_pack->data->sys->status->info->features->hw;
         msg->data.system.status.info.features.sw = *(ciot_sys_sw_features_t*)&msg_pack->data->sys->status->info->features->sw;
         memcpy(msg->data.system.status.info.app_ver, msg_pack->data->sys->status->info->app_ver.data, msg_pack->data->sys->status->info->app_ver.len);
+        msg->data.system.status.info.hardware = msg_pack->data->sys->status->info->hardware;
         strcpy(msg->data.system.status.info.hw_name, msg_pack->data->sys->status->info->hw_name);
         break;
     case CIOT_MSG_TYPE_REQUEST:

@@ -33,9 +33,12 @@ int ciot_pack(Ciot__Msg *msg_pack, ciot_msg_t *msg, uint8_t *bytes)
     {
         Ciot__CiotStatus status = CIOT__CIOT_STATUS__INIT;
         Ciot__CiotInfo info = CIOT__CIOT_INFO__INIT;
+        uint8_t ciot_ver[] = { CIOT_VER };
         msg_pack->data->ciot->status = &status;
         msg_pack->data->ciot->status->info = &info;
         msg_pack->data->ciot->status->state = msg->data.ciot.status.state;
+        msg_pack->data->ciot->status->info->version.len = sizeof(ciot_ver);
+        msg_pack->data->ciot->status->info->version.data = ciot_ver;
         return ciot__msg__pack(msg_pack, bytes);
     }
     case CIOT_MSG_TYPE_REQUEST:
@@ -116,6 +119,7 @@ int ciot_system_pack(Ciot__Msg *msg_pack, ciot_msg_t *msg, uint8_t *bytes)
         msg_pack->data->sys->status->reset_reason = msg->data.system.status.rst_reason;
         msg_pack->data->sys->status->info->app_ver.data = msg->data.system.status.info.app_ver;
         msg_pack->data->sys->status->info->app_ver.len = sizeof(msg->data.system.status.info.app_ver);
+        msg_pack->data->sys->status->info->hardware = msg->data.system.status.info.hardware;
         msg_pack->data->sys->status->info->hw_name = msg->data.system.status.info.hw_name;
         msg_pack->data->sys->status->info->features->hw = *(uint32_t*)&msg->data.system.status.info.features.hw;
         msg_pack->data->sys->status->info->features->sw = *(uint32_t*)&msg->data.system.status.info.features.sw;

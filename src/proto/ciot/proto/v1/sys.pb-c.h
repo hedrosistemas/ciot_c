@@ -107,6 +107,44 @@ typedef enum _Ciot__SysSwFeatures {
   CIOT__SYS_SW_FEATURES__SYS_FEATURE_SERIALIZATION = 6
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__SYS_SW_FEATURES)
 } Ciot__SysSwFeatures;
+/*
+ * Enum representing hardware version
+ */
+typedef enum _Ciot__SysHw {
+  /*
+   * Unknown hardware
+   */
+  CIOT__SYS_HW__SYS_HW_UNKNOWN = 0,
+  /*
+   * ESP8266
+   */
+  CIOT__SYS_HW__SYS_HW_ESP8266 = 1,
+  /*
+   * Arduino Board
+   */
+  CIOT__SYS_HW__SYS_HW_ARDUINO = 2,
+  /*
+   * ESP32
+   */
+  CIOT__SYS_HW__SYS_HW_ESP32 = 3,
+  /*
+   * NRF51
+   */
+  CIOT__SYS_HW__SYS_HW_NRF51 = 4,
+  /*
+   * NRF52
+   */
+  CIOT__SYS_HW__SYS_HW_NRF52 = 5,
+  /*
+   * Linux device
+   */
+  CIOT__SYS_HW__SYS_HW_LINUX = 6,
+  /*
+   * Windows device
+   */
+  CIOT__SYS_HW__SYS_HW_WIN32 = 7
+    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__SYS_HW)
+} Ciot__SysHw;
 
 /* --- messages --- */
 
@@ -157,13 +195,17 @@ struct  _Ciot__SysInfo
    */
   ProtobufCBinaryData app_ver;
   /*
+   * Hardware type.
+   */
+  Ciot__SysHw hardware;
+  /*
    * System features.
    */
   Ciot__SysFeatures *features;
 };
 #define CIOT__SYS_INFO__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__sys_info__descriptor) \
-    , (char *)protobuf_c_empty_string, {0,NULL}, NULL }
+    , (char *)protobuf_c_empty_string, {0,NULL}, CIOT__SYS_HW__SYS_HW_UNKNOWN, NULL }
 
 
 /*
@@ -381,6 +423,7 @@ typedef void (*Ciot__SysData_Closure)
 extern const ProtobufCEnumDescriptor    ciot__sys_req_type__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__sys_hw_features__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__sys_sw_features__descriptor;
+extern const ProtobufCEnumDescriptor    ciot__sys_hw__descriptor;
 extern const ProtobufCMessageDescriptor ciot__sys_cfg__descriptor;
 extern const ProtobufCMessageDescriptor ciot__sys_features__descriptor;
 extern const ProtobufCMessageDescriptor ciot__sys_info__descriptor;

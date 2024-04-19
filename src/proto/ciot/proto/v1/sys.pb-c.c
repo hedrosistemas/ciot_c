@@ -346,7 +346,7 @@ const ProtobufCMessageDescriptor ciot__sys_features__descriptor =
   (ProtobufCMessageInit) ciot__sys_features__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__sys_info__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__sys_info__field_descriptors[4] =
 {
   {
     "hw_name",
@@ -373,8 +373,20 @@ static const ProtobufCFieldDescriptor ciot__sys_info__field_descriptors[3] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "features",
+    "hardware",
     3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_ENUM,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysInfo, hardware),
+    &ciot__sys_hw__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "features",
+    4,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -387,13 +399,14 @@ static const ProtobufCFieldDescriptor ciot__sys_info__field_descriptors[3] =
 };
 static const unsigned ciot__sys_info__field_indices_by_name[] = {
   1,   /* field[1] = app_ver */
-  2,   /* field[2] = features */
+  3,   /* field[3] = features */
+  2,   /* field[2] = hardware */
   0,   /* field[0] = hw_name */
 };
 static const ProtobufCIntRange ciot__sys_info__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__sys_info__descriptor =
 {
@@ -403,7 +416,7 @@ const ProtobufCMessageDescriptor ciot__sys_info__descriptor =
   "Ciot__SysInfo",
   "Ciot",
   sizeof(Ciot__SysInfo),
-  3,
+  4,
   ciot__sys_info__field_descriptors,
   ciot__sys_info__field_indices_by_name,
   1,  ciot__sys_info__number_ranges,
@@ -704,5 +717,45 @@ const ProtobufCEnumDescriptor ciot__sys_sw_features__descriptor =
   ciot__sys_sw_features__enum_values_by_name,
   1,
   ciot__sys_sw_features__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCEnumValue ciot__sys_hw__enum_values_by_number[8] =
+{
+  { "SYS_HW_UNKNOWN", "CIOT__SYS_HW__SYS_HW_UNKNOWN", 0 },
+  { "SYS_HW_ESP8266", "CIOT__SYS_HW__SYS_HW_ESP8266", 1 },
+  { "SYS_HW_ARDUINO", "CIOT__SYS_HW__SYS_HW_ARDUINO", 2 },
+  { "SYS_HW_ESP32", "CIOT__SYS_HW__SYS_HW_ESP32", 3 },
+  { "SYS_HW_NRF51", "CIOT__SYS_HW__SYS_HW_NRF51", 4 },
+  { "SYS_HW_NRF52", "CIOT__SYS_HW__SYS_HW_NRF52", 5 },
+  { "SYS_HW_LINUX", "CIOT__SYS_HW__SYS_HW_LINUX", 6 },
+  { "SYS_HW_WIN32", "CIOT__SYS_HW__SYS_HW_WIN32", 7 },
+};
+static const ProtobufCIntRange ciot__sys_hw__value_ranges[] = {
+{0, 0},{0, 8}
+};
+static const ProtobufCEnumValueIndex ciot__sys_hw__enum_values_by_name[8] =
+{
+  { "SYS_HW_ARDUINO", 2 },
+  { "SYS_HW_ESP32", 3 },
+  { "SYS_HW_ESP8266", 1 },
+  { "SYS_HW_LINUX", 6 },
+  { "SYS_HW_NRF51", 4 },
+  { "SYS_HW_NRF52", 5 },
+  { "SYS_HW_UNKNOWN", 0 },
+  { "SYS_HW_WIN32", 7 },
+};
+const ProtobufCEnumDescriptor ciot__sys_hw__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "Ciot.SysHw",
+  "SysHw",
+  "Ciot__SysHw",
+  "Ciot",
+  8,
+  ciot__sys_hw__enum_values_by_number,
+  8,
+  ciot__sys_hw__enum_values_by_name,
+  1,
+  ciot__sys_hw__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };

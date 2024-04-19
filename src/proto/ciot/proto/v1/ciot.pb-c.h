@@ -101,13 +101,13 @@ struct  _Ciot__CiotInfo
 {
   ProtobufCMessage base;
   /*
-   * Serialization type used.
+   * CIOT library version
    */
-  Ciot__CiotSerializationType serialization;
+  ProtobufCBinaryData version;
 };
 #define CIOT__CIOT_INFO__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_info__descriptor) \
-    , CIOT__CIOT_SERIALIZATION_TYPE__CIOT_SERIALIZATION_NONE }
+    , {0,NULL} }
 
 
 /*
