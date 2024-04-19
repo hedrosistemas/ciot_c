@@ -86,7 +86,7 @@ ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg)
         return CIOT_ERR_INVALID_STATE;
     }
 
-    self->buffer = malloc(CIOT_OTA_BUF_SIZE);
+    self->buffer = malloc(CIOT_CONFIG_OTA_BUF_SIZE);
     self->status.state = CIOT_OTA_STATE_INIT;
     self->status.error = CIOT_OK;
     self->cfg = *cfg;
