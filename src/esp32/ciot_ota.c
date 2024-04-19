@@ -251,7 +251,6 @@ static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self)
     self->status.state = CIOT_OTA_STATE_ERROR;
     if(self->iface.event_handler != NULL)
     {
-        
         ciot_iface_event_t event = { 0 };
         event.type = CIOT_IFACE_EVENT_ERROR;
         // event.msg.type = CIOT_MSG_TYPE_ERROR;
