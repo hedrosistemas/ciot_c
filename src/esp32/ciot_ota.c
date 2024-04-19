@@ -290,44 +290,44 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
             self->status.state = CIOT_OTA_STATE_CONNECTED;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_CONNECTED;
             break;
         case ESP_HTTPS_OTA_GET_IMG_DESC:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_GET_IMG_DESC");
             self->status.state = CIOT_OTA_STATE_CHECKING_DATA;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_READING_INFO;
             break;
         case ESP_HTTPS_OTA_VERIFY_CHIP_ID:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_VERIFY_CHIP_ID");
             self->status.state = CIOT_OTA_STATE_CHECKING_DATA;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_READING_INFO;
             break;
         case ESP_HTTPS_OTA_DECRYPT_CB:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_DECRYPT_CB");
             self->status.state = CIOT_OTA_STATE_DECRYPTING;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_DECRYPTING;
             break;
         case ESP_HTTPS_OTA_WRITE_FLASH:
-            ESP_LOGI(TAG, "ESP_HTTPS_OTA_WRITE_FLASH");
+            ESP_LOGI(TAG, "ESP_HTTPS_OTA_WRITE_FLASH %lu from %lu", self->status.image_read, self->status.image_size);
             self->status.state = CIOT_OTA_STATE_FLASHING;
             self->status.image_size = esp_https_ota_get_image_size(self->handle);
             self->status.image_read = esp_https_ota_get_image_len_read(self->handle);
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_WRITING;
             break;
         case ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION");
             self->status.state = CIOT_OTA_STATE_UPDATE_BOOT_PARTITION;
             status_msg.header.type = CIOT_MSG_TYPE_EVENT;
             status_msg.status = self->status;
-            iface_event.type = CIOT_OTA_EVENT_STATE_CHANGED;
+            iface_event.type = CIOT_OTA_EVENT_UPDATING_APP;
             break;
         case ESP_HTTPS_OTA_FINISH:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_FINISH");
