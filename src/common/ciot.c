@@ -65,12 +65,12 @@ static const char *TAG = "ciot";
 
 void app_main();
 
-int main(char **args)
+int main(int argc, char *argv[])
 {
 #if defined(CIOT_TARGET_MONGOOSE)
     mg_mgr_init(CIOT_HANDLE);
 #endif
-    app_main();
+    app_main(argc, argv);
 }
 
 #endif  //_WIN32
