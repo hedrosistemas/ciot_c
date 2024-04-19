@@ -30,9 +30,6 @@
 #include "esp_crt_bundle.h"
 #endif // CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
 
-
-#define CIOT_OTA_BUF_SIZE 1024
-
 static const char *TAG = "ciot_ota";
 
 static void ciot_ota_task(void *pvParameters);
