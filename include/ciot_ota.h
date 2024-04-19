@@ -20,6 +20,19 @@ extern "C" {
 #include "ciot_iface.h"
 #include "ciot_err.h"
 
+#ifndef CIOT_CONFIG_OTA_TASK_STACK_SIZE
+#define CIOT_CONFIG_OTA_TASK_STACK_SIZE 8192
+#endif
+#ifndef CIOT_CONFIG_OTA_TASK_PRIORITY
+#define CIOT_CONFIG_OTA_TASK_PRIORITY (tskIDLE_PRIORITY + 4)
+#endif
+#ifndef CIOT_CONFIG_OTA_TASK_CORE_ID
+#define CIOT_CONFIG_OTA_TASK_CORE_ID 1
+#endif
+#ifndef CIOT_CONFIG_OTA_BUF_SIZE
+#define CIOT_CONFIG_OTA_BUF_SIZE 1024
+#endif
+
 typedef struct ciot_ota *ciot_ota_t;
 
 typedef enum ciot_ota_event_id
