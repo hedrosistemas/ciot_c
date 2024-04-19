@@ -117,9 +117,10 @@ static void ciot_sys_init(ciot_sys_t self)
     uint8_t app_ver[] = { CIOT_CONFIG_APP_VER };
 
     ciot_sys_update_features(&self->status.info.features);
-
+    
     self->status.rst_reason = 0;
     self->status.rst_count = 0;
+    self->status.info.hardware = ciot_sys_get_hw();
 
     memcpy(self->status.info.hw_name, hw_name, sizeof(hw_name));
     memcpy(self->status.info.app_ver, app_ver, sizeof(app_ver));
