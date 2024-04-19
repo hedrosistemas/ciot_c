@@ -21,6 +21,25 @@ extern "C" {
 #include "ciot_err.h"
 #include "ciot_s.h"
 
+#ifndef CIOT_CONFIG_UART_RX_BUF_SIZE
+#define CIOT_CONFIG_UART_RX_BUF_SIZE 256
+#endif
+#ifndef CIOT_CONFIG_UART_TX_BUF_SIZE
+#define CIOT_CONFIG_UART_TX_BUF_SIZE 256
+#endif
+#ifndef CIOT_CONFIG_UART_QUEUE_SIZE
+#define CIOT_CONFIG_UART_QUEUE_SIZE 20
+#endif
+#ifndef CIOT_CONFIG_UART_TASK_SIZE
+#define CIOT_CONFIG_UART_TASK_SIZE 4096
+#endif
+#ifndef CIOT_CONFIG_UART_TASK_PRIO
+#define CIOT_CONFIG_UART_TASK_PRIO (tskIDLE_PRIORITY + 1)
+#endif
+#ifndef CIOT_CONFIG_UART_TASK_CORE
+#define CIOT_CONFIG_UART_TASK_CORE 1
+#endif
+
 typedef struct ciot_uart *ciot_uart_t;
 
 typedef enum ciot_uart_event_id
