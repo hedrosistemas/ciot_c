@@ -92,6 +92,7 @@ ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg)
     self->buffer = malloc(CIOT_OTA_BUF_SIZE);
     self->status.state = CIOT_OTA_STATE_INIT;
     self->status.error = CIOT_OK;
+    self->cfg = *cfg;
 
     ESP_ERROR_CHECK(esp_event_handler_register(ESP_HTTPS_OTA_EVENT, ESP_EVENT_ANY_ID, ciot_ota_event_handler, self));
 
