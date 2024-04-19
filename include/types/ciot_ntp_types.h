@@ -19,6 +19,8 @@ extern "C" {
 #include <inttypes.h>
 #include <time.h>
 
+#include "ciot_config.h"
+
 #ifndef CIOT_CONFIG_NTP_SERVERS_COUNT
 #define CIOT_CONFIG_NTP_SERVERS_COUNT 0
 #endif
