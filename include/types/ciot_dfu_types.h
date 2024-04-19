@@ -30,7 +30,7 @@ typedef enum __attribute__((packed))
 typedef enum __attribute__((packed))
 {
     CIOT_DFU_REQ_UNKNOWN,
-    CIOT_DFU_REQ_START,
+    CIOT_DFU_REQ_SEND_FIRMWARE,
 } ciot_dfu_req_type_t;
 
 typedef enum __attribute__((packed))
@@ -44,9 +44,6 @@ typedef enum __attribute__((packed))
 typedef struct
 {
     ciot_dfu_type_t type;
-    ciot_iface_t *iface;
-    uint8_t *data_ptr;
-    uint32_t data_size;
 } ciot_dfu_cfg_t;
 
 typedef struct __attribute__((packed))
