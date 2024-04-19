@@ -24,6 +24,18 @@ typedef enum __attribute__((packed))
     CIOT_SYS_REQ_RESTART,
 } ciot_sys_req_type_t;
 
+typedef enum __attribute__((packed))
+{
+    CIOT_SYS_HW_UNKNOWN,
+    CIOT_SYS_HW_ESP8266,
+    CIOT_SYS_HW_ARDUINO,
+    CIOT_SYS_HW_ESP32,
+    CIOT_SYS_HW_NRF51,
+    CIOT_SYS_HW_NRF52,
+    CIOT_SYS_HW_LINUX,
+    CIOT_SYS_HW_WIN32
+} ciot_sys_hw_t;
+
 typedef struct __attribute__((packed))
 {
     uint16_t storage : 1;
@@ -59,6 +71,7 @@ typedef struct __attribute__((packed))
 {
     char hw_name[16];
     uint8_t app_ver[3];
+    ciot_sys_hw_t hardware;
     ciot_sys_features_t features;
 } ciot_sys_info_t;
 
