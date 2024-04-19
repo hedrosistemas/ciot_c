@@ -37,6 +37,7 @@ typedef enum __attribute__((packed))
 typedef enum __attribute__((packed))
 {
     CIOT_OTA_REQ_UNKNOWN,
+    CIOT_OTA_REQ_ROLLBACK,
 } ciot_ota_req_type_t;
 
 typedef struct __attribute__((packed))
