@@ -29,6 +29,8 @@
 #warning "Target undefined."
 #endif
 
+#define CIOT_VER 0, 1, 0
+
 #if __has_include("ciot_custom_config.h")
 #include "ciot_custom_config.h"
 #else
