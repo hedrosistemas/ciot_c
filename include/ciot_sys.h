@@ -43,6 +43,7 @@ void ciot_sys_sleep(long ms);
 
 // common
 ciot_err_t ciot_sys_update_features(ciot_sys_features_t *features);
+ciot_sys_hw_t ciot_sys_get_hw(void);
 
 #ifdef __cplusplus
 }
