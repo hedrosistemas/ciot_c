@@ -249,10 +249,12 @@ static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self)
     if(self->iface.event_handler != NULL)
     {
         ciot_iface_event_t event = { 0 };
+        ciot_ota_status_msg_t status_msg = { 0 };
         event.type = CIOT_IFACE_EVENT_ERROR;
-        // event.msg.type = CIOT_MSG_TYPE_ERROR;
-        // event.msg.iface = self->iface.info;
-        // event.msg.
+        event.data = (ciot_iface_event_data_u*)&status_msg;
+        event.size = sizeof(status_msg);
+        status_msg.header.iface = self->iface.info;
+        status_msg.header.type = CIOT_MSG_TYPE_GET_STATUS;
         self->iface.event_handler(&self->iface, &event, self->iface.event_args);
     }
 
