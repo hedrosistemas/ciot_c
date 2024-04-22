@@ -17,7 +17,6 @@ extern "C" {
 #endif
 
 #include <inttypes.h>
-#include "ciot_iface.h"
 
 typedef enum __attribute__((packed))
 {
