@@ -97,5 +97,6 @@ ciot_err_t ciot_nrf_dfu_send_data(ciot_dfu_t self, uint8_t *data, int size);
 
 ciot_err_t ciot_nrf_dfu_task(ciot_dfu_t self);
 ciot_err_t ciot_nrf_dfu_send_firmware(ciot_dfu_t self);
+ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *name);
 
 #endif  //!__CIOT_NRF_DFU__H__
