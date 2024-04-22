@@ -1,0 +1,110 @@
+{
+    "configurations": [
+        {
+            "name": "windows-gcc-x64",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/types"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/src/mg",
+                    "${workspaceFolder}/src/common",
+                    "${workspaceFolder}/src/win",
+                    "${workspaceFolder}/src/unsupported",
+                    "${workspaceFolder}/src/proto/**"
+                ]
+            },
+            "compilerPath": "C:/ProgramData/mingw64/mingw64/bin/gcc.exe",
+            "cStandard": "${default}",
+            "cppStandard": "${default}",
+            "intelliSenseMode": "windows-gcc-x64",
+            "compilerArgs": [
+                ""
+            ]
+        },
+        {
+            "name": "esp32",
+            "forcedInclude": [
+                "${workspaceFolder}/examples/esp32/build/config/sdkconfig.h"
+            ],
+            "defines": [
+                "ESP_PLATFORM"
+            ],
+            "compilerPath": "C:/Users/BINAR/.espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe",
+            "includePath": [
+                "${config:idf.espIdfPath}/components/**",
+                "${config:idf.espIdfPathWin}/components/**",
+                "${config:idf.espAdfPath}/components/**",
+                "${config:idf.espAdfPathWin}/components/**",
+                "${workspaceFolder}/include/**"
+            ],
+            "browse": {
+                "path": [
+                    "${config:idf.espIdfPath}/components",
+                    "${config:idf.espIdfPathWin}/components",
+                    "${config:idf.espAdfPath}/components/**",
+                    "${config:idf.espAdfPathWin}/components/**",
+                    "${workspaceFolder}/examples/esp32/**",
+                    "${workspaceFolder}/src/esp32/**"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            }
+        },
+        {
+            "name": "esp8266",
+            "forcedInclude": [
+                "${workspaceFolder}/examples/esp8266/build/include/sdkconfig.h"
+            ],
+            "compilerPath": "C:/msys32/opt/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe",
+            "defines": [
+                "IDF_VER",
+                "ICACHE_FLASH"
+            ],
+            "includePath": [
+                "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/src/platform/mongoose",
+                "${workspaceFolder}/src/platform/esp8266",
+                "${workspaceFolder}/examples/esp8266/main"
+            ],
+            "browse": {
+                "path": [
+                    "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            }
+        },
+        {
+            "name": "nrf-sdk17",
+            "compilerPath": "C:/ProgramData/chocolatey/lib/gcc-arm-embedded/tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-DAPP_TIMER_V2",
+                "-DAPP_TIMER_V2_RTC1_ENABLED",
+                "-DBOARD_PCA10056",
+                "-DCONFIG_GPIO_AS_PINRESET",
+                "-DFLOAT_ABI_HARD",
+                "-DNRF52840_XXAA",
+                "-DNRF_SD_BLE_API_VERSION",
+                "-DS140",
+                "-mcpu=cortex-m4"
+            ],
+            "includePath": [
+                "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/components/**",
+                "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/modules/**",
+                "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/external/**",
+                "E:/Projetos/nordic/nRF5_SDK_17.1.0_ddde560/integration/**",
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/src/platform/nrf",
+                "examples/nrf_ble_scn/**"
+            ],
+            "forcedInclude": [],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ]
+        }
+    ],
+    "version": 4
+}
