@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-#include "ciot_ntp_types.h"
+#include "types/ciot_ntp_types.h"
 #include "ciot_iface.h"
 #include "ciot_err.h"
 

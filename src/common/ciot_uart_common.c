@@ -45,7 +45,7 @@ ciot_err_t ciot_uart_on_message(ciot_iface_t *iface, uint8_t *data, int size)
     ciot_uart_base_t *self = (ciot_uart_base_t *)iface;
     ciot_iface_event_t ciot_evt = {0};
 
-    ciot_evt.id = self->cfg.bridge_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
+    ciot_evt.type = self->cfg.bridge_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
     ciot_evt.data = (ciot_iface_event_data_u *)data;
     ciot_evt.size = size;
     return iface->event_handler(iface, &ciot_evt, iface->event_args);

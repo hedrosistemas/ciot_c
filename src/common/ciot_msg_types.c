@@ -9,7 +9,7 @@
  * 
  */
 
-#include "ciot_msg_types.h"
+#include "types/ciot_msg_types.h"
 
 const char *ciot_msg_type_to_str(ciot_msg_t *msg)
 {

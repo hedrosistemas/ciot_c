@@ -22,6 +22,8 @@ extern "C" {
 
 void bytes_to_hex(char *dst, uint8_t *src, size_t size, bool reverse);
 
+uint32_t crc32_compute(uint8_t const *p_data, uint32_t size, uint32_t const *p_crc);
+
 #ifdef __cplusplus
 }
 #endif

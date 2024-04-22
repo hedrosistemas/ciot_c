@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-#include "ciot_ble_types.h"
+#include "types/ciot_ble_types.h"
 #include "ciot_err.h"
 #include "ciot_ble_scn.h"
 

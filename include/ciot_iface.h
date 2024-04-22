@@ -19,7 +19,8 @@ extern "C" {
 #include <stdbool.h>
 
 #include "ciot_err.h"
-#include "ciot_msg_types.h"
+#include "types/ciot_msg_types.h"
+#include "ciot_serializer.h"
 
 typedef enum ciot_iface_req_status
 {
@@ -28,7 +29,7 @@ typedef enum ciot_iface_req_status
     CIOT_IFACE_REQ_STATUS_RECEIVED,
 } ciot_iface_req_status_t;
 
-typedef enum ciot_iface_event_id
+typedef enum ciot_iface_event_type
 {
     CIOT_IFACE_EVENT_INTERNAL=-1,
     CIOT_IFACE_EVENT_UNKNOWN,
@@ -39,7 +40,7 @@ typedef enum ciot_iface_event_id
     CIOT_IFACE_EVENT_DATA,
     CIOT_IFACE_EVENT_DONE,
     CIOT_IFACE_EVENT_CUSTOM,
-} ciot_iface_event_id_t;
+} ciot_iface_event_type_t;
 
 typedef union __attribute__((packed))
 {
@@ -49,7 +50,7 @@ typedef union __attribute__((packed))
 
 typedef struct __attribute__((packed))
 {
-    ciot_iface_event_id_t id;
+    ciot_iface_event_type_t type;
     ciot_iface_event_data_u *data;
     uint16_t size;
 } ciot_iface_event_t;
@@ -95,6 +96,7 @@ struct ciot_iface
     ciot_iface_base_t base;
     ciot_msg_iface_info_t info;
     ciot_iface_event_handler_t *event_handler;
+    ciot_serializer_t serializer;
     void *event_args;
 };
 
@@ -112,6 +114,7 @@ ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp, int size);
 ciot_err_t ciot_iface_register_event(ciot_iface_t *self, ciot_iface_event_handler_t event_handler, void *event_args);
 ciot_err_t ciot_iface_reset_request(ciot_iface_t *self);
 ciot_err_t ciot_iface_register_request(ciot_iface_t *self, ciot_msg_iface_info_t *iface, ciot_msg_t *msg, ciot_iface_req_status_t status);
+ciot_err_t ciot_iface_set_serializer(ciot_iface_t *self, ciot_serializer_t serializer);
 uint8_t ciot_iface_get_msg_id(void);
 
 const char *ciot_iface_to_str(ciot_iface_t *iface);

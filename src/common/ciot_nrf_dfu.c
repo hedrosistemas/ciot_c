@@ -1,0 +1,399 @@
+/**
+ * @file ciot_nrf_dfu.c
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2024-03-20
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
+#include <stdlib.h>
+#include <inttypes.h>
+#include <stdio.h>
+
+#include "ciot_config.h"
+#include "ciot_nrf_dfu.h"
+#include "ciot_slip.h"
+#include "ciot_utils.h"
+
+#define MAX_OBJECT_SIZE 4096
+#define PING_ID 0x01
+#define TIMEOUT_RESET 0
+#define PKT_SET_PRN_PARAM_LEN (3) /**< Length (in bytes) of the parameters for Set Packet Receipt Notification request. */
+
+typedef enum ciot_nrf_dfu_obj
+{
+    CIOT_NRF_DFU_OBJ_PACKET = 0x01,
+    CIOT_NRF_DFU_OBJ_APP_IMG,
+} ciot_nrf_dfu_obj_t;
+
+typedef struct ciot_dfu_crc
+{
+    uint32_t expected;
+    uint32_t received;
+} ciot_dfu_crc_t;
+
+typedef struct ciot_nrf_dfu_object
+{
+    uint16_t size;
+    uint16_t remaining;
+    ciot_nrf_dfu_packet_t *packet;
+} ciot_nrf_dfu_object_t;
+
+typedef struct ciot_dfu_msg
+{
+    uint32_t size;
+    uint8_t data[32];
+    ciot_dfu_crc_t crc;
+} ciot_dfu_msg_t;
+
+typedef struct ciot_nrf_dfu_crc
+{
+    uint32_t expected;
+    uint32_t received;
+} ciot_nrf_dfu_crc_t;
+
+typedef struct ciot_nrf_dfu_slip
+{
+    ciot_slip_t handle;
+    uint8_t recv_buffer;
+    uint8_t buffer[256 + 1];
+} ciot_nrf_dfu_slip_t;
+
+struct ciot_dfu
+{
+    ciot_nrf_dfu_state_t state;
+    ciot_nrf_dfu_result_t res_code;
+    ciot_nrf_dfu_crc_t crc;
+    uint8_t data[CIOT_NRF_DFU_MAX_DFU_PKT_LEN_UART];
+    uint16_t prn_counter;
+    uint16_t data_transferred;
+    ciot_nrf_dfu_cfg_t cfg;
+    ciot_nrf_dfu_object_t object;
+
+    ciot_iface_t iface;
+    ciot_iface_t *iface_dfu;
+    ciot_dfu_status_t status;
+    ciot_nrf_dfu_slip_t slip;
+};
+
+static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
+static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self);
+static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int32_t len);
+static ciot_err_t ciot_nrf_dfu_slip_encode_and_send(ciot_dfu_t self, uint8_t *data, uint32_t len);
+static uint32_t ciot_nrf_dfu_timeout_check(uint32_t timeout);
+
+static const char *TAG = "ciot_nrf_dfu";
+
+ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg, ciot_iface_t *iface)
+{
+    ciot_dfu_t self = calloc(1, sizeof(struct ciot_dfu));
+    self->cfg = *cfg;
+    self->iface_dfu = iface;
+    self->iface.base.ptr = self;
+    self->iface.base.start = (ciot_iface_start_fn *)ciot_nrf_dfu_start;
+    self->iface.base.stop = (ciot_iface_stop_fn *)ciot_nrf_uart_stop;
+    self->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_nrf_dfu_process_req;
+    self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_nrf_dfu_send_data;
+    self->iface.base.cfg.ptr = &self->cfg.dfu;
+    self->iface.base.cfg.size = sizeof(self->cfg.dfu);
+    self->iface.base.status.ptr = &self->status;
+    self->iface.base.status.size = sizeof(self->status);
+    self->iface.info.type = CIOT_IFACE_TYPE_DFU;
+    return self;
+}
+
+ciot_err_t ciot_nrf_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg)
+{
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(cfg);
+
+    if(cfg->type != self->cfg.dfu.type)
+    {
+        return CIOT_ERR_INVALID_TYPE;
+    }
+    
+    self->slip.handle.p_buffer = &self->slip.recv_buffer;
+    self->slip.handle.buffer_len = sizeof(self->slip.recv_buffer);
+
+    ciot_iface_register_event(self->iface_dfu, ciot_nrf_dfu_event_handler, self);
+    
+    return CIOT_OK;
+}
+
+ciot_err_t ciot_nrf_uart_stop(ciot_dfu_t self)
+{
+    return CIOT_ERR_NOT_IMPLEMENTED;
+}
+
+ciot_err_t ciot_nrf_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req)
+{
+    return CIOT_ERR_NOT_IMPLEMENTED;
+}
+
+ciot_err_t ciot_nrf_dfu_send_data(ciot_dfu_t self, uint8_t *data, int size)
+{
+    if(self->iface_dfu->info.type == CIOT_IFACE_TYPE_UART)
+    {
+        return ciot_nrf_dfu_slip_encode_and_send(self, data, size);
+    }
+    else
+    {
+        return ciot_iface_send_data(self->iface_dfu, data, size);
+    }
+}
+
+ciot_err_t ciot_nrf_dfu_task(ciot_dfu_t self)
+{
+    CIOT_NULL_CHECK(self);
+
+    if(self->state == CIOT_NRF_DFU_STATE_IDLE || self->state == CIOT_NRF_DFU_STATE_COMPLETED)
+    {
+        return CIOT_OK;
+    }
+
+    ciot_err_t err = ciot_nrf_dfu_write(self);
+    if(err != CIOT_OK)
+    {
+        self->state = CIOT_NRF_DFU_STATE_ERROR;
+    }
+
+    return err;
+}
+
+static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
+{
+    CIOT_NULL_CHECK(self);
+
+    // Send Ping [x09 x01]
+    if(self->state == CIOT_NRF_DFU_STATE_SEND_PING_RESP)
+    {
+        self->data[0] = CIOT_NRF_DFU_OP_PING;
+        self->data[1] = PING_ID;
+        self->state = CIOT_NRF_DFU_STATE_WAITING_PING_RESP;
+        ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
+        return ciot_nrf_dfu_send_data(self, self->data, 2);
+    }
+
+    // Create command: size [x01 x01 xXXXXXXXX]
+    if(self->state == CIOT_NRF_DFU_STATE_CREATE_OBJECT)
+    {
+        int32_t data_remaining = self->object.packet->size - self->data_transferred;
+        self->object.remaining = data_remaining >= MAX_OBJECT_SIZE ? MAX_OBJECT_SIZE : data_remaining;
+        self->data[0] = CIOT_NRF_DFU_OP_OBJECT_CREATE;
+        self->data[1] = self->object.packet->type;
+        self->data[2] = self->object.remaining;
+        self->data[3] = self->object.remaining >> 8;
+        self->data[4] = self->object.remaining >> 16;
+        self->data[5] = self->object.remaining >> 24;
+        self->state = CIOT_NRF_DFU_STATE_WAITING_CREATE_OBJ;
+        ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
+        return ciot_nrf_dfu_send_data(self, self->data, 6);
+    }
+
+    // Transfer data up to 64 or 20 bytes [xXX .. xXX]
+    if(self->state == CIOT_NRF_DFU_STATE_WRITE_DFU_PACKAGE)
+    {
+        uint16_t bytes_to_write = self->object.remaining;
+        bytes_to_write = bytes_to_write > self->cfg.max_package_len ? self->cfg.max_package_len : bytes_to_write;
+        self->crc.expected = crc32_compute(&self->object.packet->data[self->data_transferred], bytes_to_write, &self->crc.expected);
+
+        ciot_err_t err = ciot_nrf_dfu_send_data(self, &self->object.packet->data[self->data_transferred], bytes_to_write);
+        if(err != CIOT_OK)
+        {
+            self->state = CIOT_NRF_DFU_STATE_ERROR;
+            return err;
+        }
+
+        self->data_transferred += bytes_to_write;
+        self->object.remaining -= bytes_to_write;
+        self->object.packet->transferred = self->data_transferred == self->object.packet->size;
+        self->prn_counter++;
+        if(self->prn_counter >= PKT_SET_PRN_PARAM_LEN || self->object.packet->transferred)
+        {
+            self->prn_counter = 0;
+            self->state = CIOT_NRF_DFU_STATE_REQUEST_CRC;
+            ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
+        }
+
+        return err;
+    }
+
+    // Calculate CRC [x03]
+    if(self->state == CIOT_NRF_DFU_STATE_REQUEST_CRC)
+    {
+        self->data[0] = CIOT_NRF_DFU_OP_CRC_GET;
+        self->state = CIOT_NRF_DFU_STATE_WAITING_CRC;
+        ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
+        return ciot_nrf_dfu_send_data(self, self->data, 1);
+    }
+
+    // Execute command [0x04]
+    if(self->state == CIOT_NRF_DFU_STATE_REQUEST_EXECUTE)
+    {
+        self->data[0] = CIOT_NRF_DFU_OP_OBJECT_EXECUTE;
+        self->state = CIOT_NRF_DFU_STATE_WAITING_EXECUTE;
+        ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
+        return ciot_nrf_dfu_send_data(self, self->data, 1);
+    }
+
+    return ciot_nrf_dfu_timeout_check(CIOT_NRF_DFU_TIMEOUT_SEC);
+}
+
+static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int32_t len)
+{
+    CIOT_NULL_CHECK(self);
+
+    CIOT_LOG_HEX(TAG, data, len);
+
+    // Ping Response Success [x60 x09 x01] or Opcode not supported [x60 x09 x03]
+    if(self->state == CIOT_NRF_DFU_STATE_WAITING_PING_RESP &&
+       data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
+       data[1] == CIOT_NRF_DFU_OP_PING && 
+       data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
+    {
+        CIOT_LOGI(TAG, "Ping response sucess");
+        self->state = CIOT_NRF_DFU_STATE_CREATE_OBJECT;
+        return CIOT_OK;
+    }
+
+    // Response Create Success [x60 x01 x01]
+    if(self->state == CIOT_NRF_DFU_STATE_WAITING_CREATE_OBJ && 
+       data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
+       data[1] == CIOT_NRF_DFU_OP_OBJECT_CREATE &&
+       data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
+    {
+        CIOT_LOGI(TAG, "Response create success");
+        self->state = CIOT_NRF_DFU_STATE_WRITE_DFU_PACKAGE;
+        return CIOT_OK;
+    }
+
+    // Response Calculate CRC Sucess: offset CRC32 [x60 x03 x01 XXXXXXXX XXXXXXXX]
+    // Response PRN Success: offset CRC32 [60 03 01 XXXXXXXX XXXXXXXX]
+    if(self->state == CIOT_NRF_DFU_STATE_WAITING_CRC &&
+       data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
+       data[1] == CIOT_NRF_DFU_OP_CRC_GET &&
+       data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
+    {
+        self->crc.received = data[10] << 24;
+        self->crc.received += data[9] << 16;
+        self->crc.received += data[8] << 8;
+        self->crc.received += data[7];
+        if(self->crc.received != self->crc.expected)
+        {
+            CIOT_LOGE(TAG, "CRC error: expected = %lu, received = %lu", self->crc.expected, self->crc.received);
+            self->state = CIOT_NRF_DFU_STATE_ERROR;
+            return CIOT_ERR_CHECKSUM;
+        }
+        if(self->object.remaining == 0)
+        {
+            CIOT_LOGI(TAG, "Calculate CRC Sucess: offset CRC32");
+            self->state = CIOT_NRF_DFU_STATE_REQUEST_EXECUTE;
+        }
+        else
+        {
+            CIOT_LOGI(TAG, "Response PRN Sucess: offset CRC32");
+            self->state = CIOT_NRF_DFU_STATE_WRITE_DFU_PACKAGE;
+        }
+        return CIOT_OK;
+    }
+
+    // Response Execute Sucess [x60 x04 x01]
+    if(self->state == CIOT_NRF_DFU_STATE_WAITING_EXECUTE &&
+       data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
+       data[1] == CIOT_NRF_DFU_OP_OBJECT_EXECUTE && 
+       data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
+    {
+        CIOT_LOGI(TAG, "Response Execute Success");
+        if(self->object.packet->transferred)
+        {
+            if(self->object.packet->type == CIOT_NRF_DFU_PACKET_TYPE_INIT)
+            {
+                CIOT_LOGI(TAG, "Init packet write completed");
+                self->object.packet = &self->cfg.app_image;
+                self->data_transferred = 0;
+                self->crc.expected = 0;
+                self->state = CIOT_NRF_DFU_STATE_CREATE_OBJECT;
+                return CIOT_OK;
+            }
+            if(self->object.packet->type == CIOT_NRF_DFU_PACKET_TYPE_APP_IMAGE)
+            {
+                CIOT_LOGI(TAG, "App image write completed");
+                self->state = CIOT_NRF_DFU_STATE_COMPLETED;
+                // ciot_nrf_dfu_stop(self);
+                return CIOT_OK;
+            }
+        }
+        else
+        {
+            CIOT_LOGI(TAG, "Object write completed");
+            self->state = CIOT_NRF_DFU_STATE_CREATE_OBJECT;
+            return CIOT_OK;
+        }
+    }
+
+    // DFU completed... nothing to do...
+    if(self->state == CIOT_NRF_DFU_STATE_COMPLETED)
+    {
+        return CIOT_OK;
+    }
+
+    // Invalid state
+    CIOT_LOGE(TAG, "DFU failed at state %d with response code %d", self->state, self->res_code);
+    self->state = CIOT_NRF_DFU_STATE_ERROR;
+
+    return CIOT_FAIL;
+}
+
+static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args)
+{
+    ciot_dfu_t self = (ciot_dfu_t)args;
+    static bool msg_start = false;
+    static int size = 0;
+
+    if(event->type == CIOT_IFACE_EVENT_DATA)
+    {
+        if(sender->info.type == CIOT_IFACE_TYPE_UART)
+        {
+            for (size_t i = 0; i < event->size; i++)
+            {
+                if(event->data->payload[i] == CIOT_NRF_DFU_OP_RESPONSE)
+                {
+                    msg_start = true;
+                    size = 0;
+                }
+                if(msg_start)
+                {
+                    self->slip.buffer[size] = event->data->payload[i];
+                    size++;
+                }
+                if(event->data->payload[i] == CIOT_NRF_DFU_OP_SLIP_PACKET_END)
+                {
+                    msg_start = false;
+                    ciot_nrf_dfu_process_data(self, self->slip.buffer, size);
+                }
+            }
+        }
+        else
+        {
+            ciot_nrf_dfu_process_data(self, event->data->payload, event->size);
+        }
+    }
+
+    return CIOT_OK;
+}
+
+static ciot_err_t ciot_nrf_dfu_slip_encode_and_send(ciot_dfu_t self, uint8_t *data, uint32_t len)
+{
+    uint8_t encoded_slip_packet[CIOT_NRF_DFU_MAX_DFU_PKT_LEN_UART] = {0};
+    uint32_t encoded_slip_packet_len;
+    ciot_slip_encode(encoded_slip_packet, data, len, &encoded_slip_packet_len);
+    return ciot_iface_send_data(self->iface_dfu, encoded_slip_packet, encoded_slip_packet_len);
+}
+
+static uint32_t ciot_nrf_dfu_timeout_check(uint32_t timeout)
+{
+    return 0;
+}

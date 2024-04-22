@@ -97,8 +97,16 @@ ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg, int size)
     else
     {
         msg->id = ciot_iface_get_msg_id();
-
+        
         CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX RSP <- ", self, msg);
+        #if CIOT_CONFIG_FEATURE_SERIALIZER
+        if(self->serializer != NULL)
+        {
+            ciot_msg_t data = *msg;
+            size = ciot_serializer_to_bytes(self->serializer, (uint8_t*)msg, &data);
+        }
+        #endif  //
+
         return ciot_iface_send_data(self, msg, size);
     }
 }
@@ -112,6 +120,14 @@ ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp, int size)
     else
     {
         CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX RSP <- ", self, rsp);
+        #if CIOT_CONFIG_FEATURE_SERIALIZER
+        if(self->serializer != NULL)
+        {
+            ciot_msg_t data = *rsp;
+            size = ciot_serializer_to_bytes(self->serializer, (uint8_t*)rsp, &data);
+        }
+        #endif  //
+
         return ciot_iface_send_data(self, rsp, size);
     }
 }
@@ -126,11 +142,21 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req, int size)
     else
     {
         req->id = ciot_iface_get_msg_id();
-        ciot_err_t err = ciot_iface_send_data(self, req, size);
-        if(err == CIOT_OK)
+        ciot_iface_register_request(self, &req->iface, req, CIOT_IFACE_REQ_STATUS_SENDED);
+
+        CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self, req);
+        #if CIOT_CONFIG_FEATURE_SERIALIZER
+        if(self->serializer != NULL)
         {
-            ciot_iface_register_request(self, &req->iface, req, CIOT_IFACE_REQ_STATUS_SENDED);
-            CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self, req);
+            ciot_msg_t data = *req;
+            size = ciot_serializer_to_bytes(self->serializer, (uint8_t*)req, &data);
+        }
+        #endif  //
+        
+        ciot_err_t err = ciot_iface_send_data(self, req, size);
+        if(err != CIOT_OK)
+        {
+            self->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
         }
         return err;
     }
@@ -301,7 +327,7 @@ const char *ciot_iface_event_to_str(ciot_iface_event_t *event)
         return "NULL";
     }
 
-    switch (event->id)
+    switch (event->type)
     {
         case CIOT_IFACE_EVENT_UNKNOWN:
             return "EVENT_UNKNOWN";
@@ -333,6 +359,13 @@ ciot_err_t ciot_iface_register_request(ciot_iface_t *self, ciot_msg_iface_info_t
     self->base.req.id = msg->id;
     self->base.req.type = msg->type;
     self->base.req.iface = *iface;
+    return CIOT_OK;
+}
+
+ciot_err_t ciot_iface_set_serializer(ciot_iface_t *self, ciot_serializer_t serializer)
+{
+    CIOT_NULL_CHECK(self);
+    self->serializer = serializer;
     return CIOT_OK;
 }
 

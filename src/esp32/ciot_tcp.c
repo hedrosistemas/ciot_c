@@ -21,7 +21,6 @@
 #include "lwip/ip4_addr.h"
 #include "lwip/ip_addr.h"
 
-
 struct ciot_tcp
 {
     ciot_iface_t iface;
@@ -254,18 +253,18 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
             status->dhcp.server = dhcps;
         }
 
-        status_msg.header.type = CIOT_MSG_TYPE_START;
+        status_msg.header.type = CIOT_MSG_TYPE_GET_STATUS;
         status_msg.status = *status;
-        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.type = CIOT_IFACE_EVENT_STARTED;
         break;
     }
     case IP_EVENT_ETH_LOST_IP:
     case IP_EVENT_STA_LOST_IP:
     {
         CIOT_LOGI(TAG, "IP_EVENT_LOST_IP");
-        status_msg.header.type = CIOT_MSG_TYPE_STOP;
+        status_msg.header.type = CIOT_MSG_TYPE_GET_STATUS;
         status_msg.status = *status;
-        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
         break;
     }
     default:

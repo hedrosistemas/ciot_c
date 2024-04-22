@@ -2,18 +2,6 @@
     "configurations": [
         {
             "name": "windows-gcc-x64",
-            "includePath": [
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/include/types",
-                "${workspaceFolder}/include/types",
-                "${workspaceFolder}/include/types"
-            ],
-            "browse": {
-                "path": [
-                    "${workspaceFolder}/src/platform/mongoose",
-                    "${workspaceFolder}/src/common"
-                ]
-            },
             "compilerPath": "C:/ProgramData/mingw64/mingw64/bin/gcc.exe",
             "cStandard": "${default}",
             "cppStandard": "${default}",

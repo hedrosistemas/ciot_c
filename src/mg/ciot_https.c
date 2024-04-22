@@ -122,7 +122,7 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         // self->status.error = (int)ev_data;
         status_msg.header.type = CIOT_MSG_TYPE_ERROR;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_ERROR;
+        iface_event.type = CIOT_IFACE_EVENT_ERROR;
         break;
     }
     case MG_EV_OPEN:
@@ -131,7 +131,7 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         self->status.state = CIOT_HTTPS_STATE_STARTED;
         status_msg.header.type = CIOT_MSG_TYPE_START;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_STARTED;
+        iface_event.type = CIOT_IFACE_EVENT_STARTED;
         break;
     }
     case MG_EV_CLOSE:
@@ -140,7 +140,7 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         self->status.state = CIOT_HTTPS_STATE_STOPPED;
         status_msg.header.type = CIOT_MSG_TYPE_STOP;
         status_msg.status = self->status;
-        iface_event.id = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
         break;
     }
     case MG_EV_HTTP_MSG:
@@ -152,7 +152,7 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
         self->conn_tx = c;
         if (mg_http_match_uri(hm, self->cfg.route) && is_post)
         {
-            iface_event.id = CIOT_IFACE_EVENT_REQUEST;
+            iface_event.type = CIOT_IFACE_EVENT_REQUEST;
             iface_event.data = (ciot_iface_event_data_u*)hm->body.ptr;
             iface_event.size = hm->body.len;
         }
@@ -165,7 +165,7 @@ static void ciot_https_event_handle(struct mg_connection *c, int ev, void *ev_da
             event_data.method.size = hm->method.len;
             event_data.url.ptr = (char*)hm->uri.ptr;
             event_data.url.size = hm->uri.len;
-            iface_event.id = CIOT_HTTPS_EVENT_DATA;
+            iface_event.type = CIOT_HTTPS_EVENT_DATA;
             iface_event.data = (ciot_iface_event_data_u*)&event_data;
             if (self->iface.event_handler != NULL)
             {

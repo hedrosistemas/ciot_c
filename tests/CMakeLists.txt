@@ -7,28 +7,28 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CIOT_DIR ../)
 
-project(ciot_integration_test)
+project(ciot_serialization_test)
 
-FILE(GLOB_RECURSE infa_src ${CIOT_DIR}/main/infra/mg/*)
-FILE(GLOB_RECURSE ifaces_src ${CIOT_DIR}/main/interfaces/*)
-FILE(GLOB_RECURSE mg_src ${CIOT_DIR}/main/mongoose/*)
-FILE(GLOB app_src ${CIOT_DIR}/main/*)
+FILE(GLOB_RECURSE proto ${CIOT_DIR}/src/proto/ciot/*)
+FILE(GLOB_RECURSE common ${CIOT_DIR}/src/common/*)
+FILE(GLOB_RECURSE mongoose ${CIOT_DIR}/src/mg/*)
+FILE(GLOB_RECURSE win ${CIOT_DIR}/src/win/*)
 
 include_directories(
-    ${CIOT_DIR}/main/types
-    ${CIOT_DIR}/main/infra
-    ${CIOT_DIR}/main/interfaces
-    ${CIOT_DIR}/main/mongoose
-    ${CIOT_DIR}/main
+    ${CIOT_DIR}/src/mg
+    ${CIOT_DIR}/src/ciot
+    ${CIOT_DIR}/src/proto
+    ${CIOT_DIR}/include
     .
 )
 
 add_executable(${PROJECT_NAME}
-    ${infa_src}
-    ${ifaces_src}
-    ${mg_src}
-    ${app_src}
-    integration_test.c
+    ${CIOT_DIR}/src/proto/protobuf-c/protobuf-c.c
+    ${proto}
+    ${common}
+    ${mongoose}
+    ${win}
+    serialization_test.c
 )
 
 target_link_libraries(${PROJECT_NAME} ws2_32)

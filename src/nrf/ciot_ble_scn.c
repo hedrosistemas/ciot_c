@@ -142,7 +142,7 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
 	case BLE_GAP_EVT_ADV_REPORT:
 		ciot_ble_scn_copy_mac(iface_status.adv_info.mac, (uint8_t*)ev->evt.gap_evt.params.adv_report.peer_addr.addr, true);
 		iface_status.adv_info.rssi = ev->evt.gap_evt.params.adv_report.rssi;
-		iface_event.id = self->cfg.brigde_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
+		iface_event.type = self->cfg.brigde_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
 		iface_event.data = (ciot_iface_event_data_u*)ev->evt.gap_evt.params.adv_report.data;
 		iface_event.size = ev->evt.gap_evt.params.adv_report.dlen;

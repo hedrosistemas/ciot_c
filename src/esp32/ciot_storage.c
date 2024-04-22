@@ -95,11 +95,11 @@ ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req
     case CIOT_STORAGE_REQ_UNKNOWN:
         return CIOT_ERR_INVALID_ID;
     case CIOT_STORAGE_REQ_SAVE:
-        return ciot_storage_save(self, req->data.save.path, req->data.save.data, req->data.save.size);
+        return ciot_storage_save(self, req->data.path, req->data.data, req->data.size);
     case CIOT_STORAGE_REQ_LOAD:
-        return ciot_storage_load(self, req->data.load.path, req->data.load.data, req->data.load.size);
+        return ciot_storage_load(self, req->data.path, req->data.data, req->data.size);
     case CIOT_STORAGE_REQ_DELETE:
-        return ciot_storage_delete(self, req->data.remove.path);
+        return ciot_storage_delete(self, req->data.path);
     case CIOT_STORAGE_REQ_FORMAT:
         return ciot_storage_format(self);
     }

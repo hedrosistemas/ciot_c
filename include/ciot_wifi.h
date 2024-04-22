@@ -7,8 +7,8 @@
  * 
  * @copyright Copyright (c) 2023
  * 
- */
 
+ */
 #ifndef __CIOT_WIFI__H__
 #define __CIOT_WIFI__H__
 
@@ -16,9 +16,16 @@
 extern "C" {
 #endif
 
-#include "ciot_wifi_types.h"
+#include "types/ciot_wifi_types.h"
 #include "ciot_iface.h"
 #include "ciot_err.h"
+
+#ifndef CIOT_CONFIG_WIFI_AP_AUTH
+#define CIOT_CONFIG_WIFI_AP_AUTH 0
+#endif
+#ifndef CIOT_CONFIG_WIFI_AP_MAX_CONN
+#define CIOT_CONFIG_WIFI_AP_MAX_CONN 1
+#endif
 
 typedef struct ciot_wifi *ciot_wifi_t;
 

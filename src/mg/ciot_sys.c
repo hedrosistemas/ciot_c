@@ -106,15 +106,21 @@ ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
     return CIOT_ERR_NOT_SUPPORTED;
 }
 
+void ciot_sys_sleep(long ms)
+{
+    return Sleep(ms);
+}
+
 static void ciot_sys_init(ciot_sys_t self)
 {
     char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
     uint8_t app_ver[] = { CIOT_CONFIG_APP_VER };
 
     ciot_sys_update_features(&self->status.info.features);
-
+    
     self->status.rst_reason = 0;
     self->status.rst_count = 0;
+    self->status.info.hardware = ciot_sys_get_hw();
 
     memcpy(self->status.info.hw_name, hw_name, sizeof(hw_name));
     memcpy(self->status.info.app_ver, app_ver, sizeof(app_ver));

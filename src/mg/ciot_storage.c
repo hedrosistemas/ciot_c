@@ -11,7 +11,7 @@
 
 #include "ciot_storage.h"
 
-#if CIOT_CONFIG_FEATURE_STORAGE && defined(CIOT_TARGET_MONGOOSE)
+#if CIOT_CONFIG_FEATURE_STORAGE && (defined(CIOT_TARGET_WIN) || defined(CIOT_TARGET_LINUX))
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -79,15 +79,15 @@ ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req
     case CIOT_STORAGE_REQ_UNKNOWN:
         return CIOT_ERR_INVALID_ID;
     case CIOT_STORAGE_REQ_SAVE:
-        CIOT_ERROR_RETURN(ciot_storage_save(self, req->data.save.path, req->data.save.data, req->data.save.size));
+        CIOT_ERROR_RETURN(ciot_storage_save(self, req->data.path, req->data.data, req->data.size));
         self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
         return CIOT_OK;
     case CIOT_STORAGE_REQ_LOAD:
-        CIOT_ERROR_RETURN(ciot_storage_load(self, req->data.load.path, req->data.load.data, req->data.load.size));
+        CIOT_ERROR_RETURN(ciot_storage_load(self, req->data.path, req->data.data, req->data.size));
         self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
         return CIOT_OK;
     case CIOT_STORAGE_REQ_DELETE:
-        CIOT_ERROR_RETURN(ciot_storage_delete(self, req->data.remove.path));
+        CIOT_ERROR_RETURN(ciot_storage_delete(self, req->data.path));
         self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
         return CIOT_OK;
     case CIOT_STORAGE_REQ_FORMAT:

@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-#include "ciot_https_types.h"
+#include "types/ciot_https_types.h"
 #include "ciot_iface.h"
 #include "ciot_err.h"
 

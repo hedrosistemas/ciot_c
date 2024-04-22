@@ -126,6 +126,11 @@ ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
     return CIOT_OK;
 }
 
+void ciot_sys_sleep(long ms)
+{
+    vTaskDelay(pdMS_TO_TICKS(ms));
+}
+
 static void ciot_sys_init(ciot_sys_t self)
 {
     char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
