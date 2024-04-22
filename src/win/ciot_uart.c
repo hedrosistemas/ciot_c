@@ -241,7 +241,6 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
             }
             status->cbInQue--;
         }
-        printf("\n");
     }
 }
 
