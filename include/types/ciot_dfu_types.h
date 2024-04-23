@@ -48,6 +48,7 @@ typedef struct
 typedef struct __attribute__((packed))
 {
     ciot_dfu_state_t state;
+    int code;
     int error;
     uint32_t image_size;
     uint32_t image_read;
