@@ -72,13 +72,11 @@ struct ciot_dfu
     ciot_iface_t *iface_dfu;
     ciot_nrf_dfu_slip_t slip;
     ciot_nrf_dfu_state_t state;
-    ciot_nrf_dfu_result_t res_code;
     ciot_nrf_dfu_crc_t crc;
     uint8_t data[CIOT_NRF_DFU_MAX_DFU_PKT_LEN_UART];
     uint16_t prn_counter;
     uint16_t data_transferred;
     ciot_nrf_dfu_object_t object;
-
 };
 
 static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state);
@@ -306,6 +304,8 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
 
     CIOT_LOG_HEX(TAG, data, len);
 
+    self->status.code = data[2];
+
     // Ping Response Success [x60 x09 x01] or Opcode not supported [x60 x09 x03]
     if(self->state == CIOT_NRF_DFU_STATE_WAITING_PING_RESP &&
        data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
@@ -401,8 +401,12 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
         return CIOT_OK;
     }
 
-    // Invalid state
-    CIOT_LOGE(TAG, "DFU failed at state %d with response code %d", self->state, self->res_code);
+    CIOT_LOGE(TAG, "DFU failed at state %d with response code 0x%x", self->state, data[2]);
+    if(data[2] == CIOT_NRF_DFU_RES_CODE_EXT_ERROR)
+    {
+        CIOT_LOGE(TAG, "DFU extended error code: 0x%x", data[3]);
+        self->status.error = data[3];
+    }
     if(self->state != CIOT_NRF_DFU_STATE_ERROR)
     {
         ciot_nrf_dfu_set_state(self, CIOT_DFU_STATE_ERROR);
