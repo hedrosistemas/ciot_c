@@ -1,12 +1,12 @@
 /**
  * @file ciot_nrf_dfu.h
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2024-04-18
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #ifndef __CIOT_NRF_DFU__H__
@@ -118,4 +118,4 @@ ciot_err_t ciot_nrf_dfu_send_firmware(ciot_dfu_t self);
 ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *name);
 ciot_nrf_dfu_state_t ciot_nrf_dfu_state(ciot_dfu_t self);
 
-#endif  //!__CIOT_NRF_DFU__H__
+#endif //!__CIOT_NRF_DFU__H__
