@@ -425,8 +425,9 @@ static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state
         status_event.type = CIOT_DFU_EVENT_STATE_CHANGED;
         status_event.data = (ciot_iface_event_data_u*)&status_msg;
         status_event.size = sizeof(status_msg);
-        self->iface.event_handler(&self->iface, &status_event, self->iface.event_args);
+        return self->iface.event_handler(&self->iface, &status_event, self->iface.event_args);
     }
+    return CIOT_OK;
 }
 
 static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args)
