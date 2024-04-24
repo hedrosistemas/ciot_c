@@ -218,6 +218,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
     // Send Ping [x09 x01]
     if(self->state == CIOT_NRF_DFU_STATE_SEND_PING_RESP)
     {
+        CIOT_LOGI(TAG, "Send ping");
         self->data[0] = CIOT_NRF_DFU_OP_PING;
         self->data[1] = PING_ID;
         self->state = CIOT_NRF_DFU_STATE_WAITING_PING_RESP;
@@ -228,6 +229,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
     // Create command: size [x01 x01 xXXXXXXXX]
     if(self->state == CIOT_NRF_DFU_STATE_CREATE_OBJECT)
     {
+        CIOT_LOGI(TAG, "Create command");
         int32_t data_remaining = self->object.packet->size - self->data_transferred;
         self->object.remaining = data_remaining >= MAX_OBJECT_SIZE ? MAX_OBJECT_SIZE : data_remaining;
         self->data[0] = CIOT_NRF_DFU_OP_OBJECT_CREATE;
@@ -280,6 +282,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
     // Calculate CRC [x03]
     if(self->state == CIOT_NRF_DFU_STATE_REQUEST_CRC)
     {
+        CIOT_LOGI(TAG, "Calculate CRC");
         self->data[0] = CIOT_NRF_DFU_OP_CRC_GET;
         self->state = CIOT_NRF_DFU_STATE_WAITING_CRC;
         ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
@@ -289,6 +292,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
     // Execute command [0x04]
     if(self->state == CIOT_NRF_DFU_STATE_REQUEST_EXECUTE)
     {
+        CIOT_LOGI(TAG, "Execute command");
         self->data[0] = CIOT_NRF_DFU_OP_OBJECT_EXECUTE;
         self->state = CIOT_NRF_DFU_STATE_WAITING_EXECUTE;
         ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
