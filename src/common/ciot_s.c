@@ -80,6 +80,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
         {
             self->cfg.on_message_cb(self->cfg.iface, &byte, 1);
         }
+        return CIOT_OK;
     }
 
     if(self->status == CIOT_S_STATUS_TIMEOUT)
