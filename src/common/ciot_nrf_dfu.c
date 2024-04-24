@@ -339,10 +339,10 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
        data[1] == CIOT_NRF_DFU_OP_CRC_GET &&
        data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
     {
-        self->crc.received = data[len-2] << 24;
-        self->crc.received += data[len-3] << 16;
-        self->crc.received += data[len-4] << 8;
-        self->crc.received += data[len-5];
+        self->crc.received = data[len-1] << 24;
+        self->crc.received += data[len-2] << 16;
+        self->crc.received += data[len-3] << 8;
+        self->crc.received += data[len-4];
         if(self->crc.received != self->crc.expected)
         {
             CIOT_LOGE(TAG, "CRC error: expected = %lu, received = %lu", self->crc.expected, self->crc.received);
@@ -440,8 +440,6 @@ static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state
 static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args)
 {
     ciot_dfu_t self = (ciot_dfu_t)args;
-    static bool msg_start = false;
-    static int size = 0;
 
     if(event->type == CIOT_IFACE_EVENT_DATA)
     {
@@ -449,20 +447,10 @@ static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_ev
         {
             for (size_t i = 0; i < event->size; i++)
             {
-                if(event->data->payload[i] == CIOT_NRF_DFU_OP_RESPONSE)
+                if(ciot_slip_decode_add_byte(&self->slip.handle, event->data->payload[i]) == CIOT_OK)
                 {
-                    msg_start = true;
-                    size = 0;
-                }
-                if(msg_start)
-                {
-                    self->slip.buffer[size] = event->data->payload[i];
-                    size++;
-                }
-                if(event->data->payload[i] == CIOT_NRF_DFU_OP_SLIP_PACKET_END)
-                {
-                    msg_start = false;
-                    ciot_nrf_dfu_process_data(self, self->slip.buffer, size);
+                    ciot_nrf_dfu_process_data(self, self->slip.buffer, self->slip.handle.current_index);
+                    self->slip.handle.current_index = 0;
                 }
             }
         }
