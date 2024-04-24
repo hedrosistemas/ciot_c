@@ -43,6 +43,12 @@ static ciot_err_t uart_event_handler(ciot_iface_t *iface, ciot_iface_event_t *ev
         CIOT_LOGI(TAG, "Uart interface started");
         ciot_nrf_dfu_send_firmware(self->dfu);
     }
+
+    if (event->type == CIOT_IFACE_EVENT_ERROR)
+    {
+        CIOT_LOGI(TAG, "Error received: 0x%x", event->data->msg.data.uart.status.error);
+        exit(0);
+    }
 }
 
 static ciot_err_t dfu_event_handler(ciot_iface_t *iface, ciot_iface_event_t *event, void *args)
