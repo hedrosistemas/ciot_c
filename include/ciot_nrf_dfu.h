@@ -59,20 +59,20 @@ typedef enum ciot_nrf_dfu_result
 
 typedef enum ciot_nrf_dfu_ext_error_code
 {
-    NRF_DFU_EXT_ERROR_NO_ERROR,             // No extended error code has been set. This error indicates an implementation problem.
-    NRF_DFU_EXT_ERROR_INVALID_ERROR_CODE,   // Invalid error code. This error code should never be used outside of development.
-    NRF_DFU_EXT_ERROR_WRONG_COMMAND_FORMAT, // The format of the command was incorrect. This error code is not used in the current implementation, because NRF_DFU_RES_CODE_OP_CODE_NOT_SUPPORTED and NRF_DFU_RES_CODE_INVALID_PARAMETER cover all possible format errors.
-    NRF_DFU_EXT_ERROR_UNKNOWN_COMMAND,      // The command was successfully parsed, but it is not supported or unknown.
-    NRF_DFU_EXT_ERROR_INIT_COMMAND_INVALID, // The init command is invalid. The init packet either has an invalid update type or it is missing required fields for the update type (for example, the init packet for a SoftDevice update is missing the SoftDevice size field).
-    NRF_DFU_EXT_ERROR_FW_VERSION_FAILURE,   // The firmware version is too low. For an application, the version must be greater than the current application. For a bootloader, it must be greater than or equal to the current version. This requirement prevents downgrade attacks.
-    NRF_DFU_EXT_ERROR_HW_VERSION_FAILURE,   // The hardware version of the device does not match the required hardware version for the update.
-    NRF_DFU_EXT_ERROR_SD_VERSION_FAILURE,   // The array of supported SoftDevices for the update does not contain the FWID of the current SoftDevice.
-    NRF_DFU_EXT_ERROR_SIGNATURE_MISSING,    // The init packet does not contain a signature. This error code is not used in the current implementation, because init packets without a signature are regarded as invalid.
-    NRF_DFU_EXT_ERROR_WRONG_HASH_TYPE,      // The hash type that is specified by the init packet is not supported by the DFU bootloader.
-    NRF_DFU_EXT_ERROR_HASH_FAILED,          // The hash of the firmware image cannot be calculated.
-    NRF_DFU_EXT_ERROR_WRONG_SIGNATURE_TYPE, // The type of the signature is unknown or not supported by the DFU bootloader.
-    NRF_DFU_EXT_ERROR_VERIFICATION_FAILED,  // The hash of the received firmware image does not match the hash in the init packet.
-    NRF_DFU_EXT_ERROR_INSUFFICIENT_SPACE,   // The available space on the device is insufficient to hold the firmware.
+    NRF_DFU_EXT_ERROR_NO_ERROR = 0x00,             // No extended error code has been set. This error indicates an implementation problem.
+    NRF_DFU_EXT_ERROR_INVALID_ERROR_CODE = 0x01,   // Invalid error code. This error code should never be used outside of development.
+    NRF_DFU_EXT_ERROR_WRONG_COMMAND_FORMAT = 0x02, // The format of the command was incorrect. This error code is not used in the current implementation, because NRF_DFU_RES_CODE_OP_CODE_NOT_SUPPORTED and NRF_DFU_RES_CODE_INVALID_PARAMETER cover all possible format errors.
+    NRF_DFU_EXT_ERROR_UNKNOWN_COMMAND = 0x03,      // The command was successfully parsed, but it is not supported or unknown.
+    NRF_DFU_EXT_ERROR_INIT_COMMAND_INVALID = 0x04, // The init command is invalid. The init packet either has an invalid update type or it is missing required fields for the update type (for example, the init packet for a SoftDevice update is missing the SoftDevice size field).
+    NRF_DFU_EXT_ERROR_FW_VERSION_FAILURE = 0x05,   // The firmware version is too low. For an application, the version must be greater than the current application. For a bootloader, it must be greater than or equal to the current version. This requirement prevents downgrade attacks.
+    NRF_DFU_EXT_ERROR_HW_VERSION_FAILURE = 0x06,   // The hardware version of the device does not match the required hardware version for the update.
+    NRF_DFU_EXT_ERROR_SD_VERSION_FAILURE = 0x07,   // The array of supported SoftDevices for the update does not contain the FWID of the current SoftDevice.
+    NRF_DFU_EXT_ERROR_SIGNATURE_MISSING = 0x08,    // The init packet does not contain a signature. This error code is not used in the current implementation, because init packets without a signature are regarded as invalid.
+    NRF_DFU_EXT_ERROR_WRONG_HASH_TYPE = 0x09,      // The hash type that is specified by the init packet is not supported by the DFU bootloader.
+    NRF_DFU_EXT_ERROR_HASH_FAILED = 0x0a,          // The hash of the firmware image cannot be calculated.
+    NRF_DFU_EXT_ERROR_WRONG_SIGNATURE_TYPE = 0x0b, // The type of the signature is unknown or not supported by the DFU bootloader.
+    NRF_DFU_EXT_ERROR_VERIFICATION_FAILED = 0x0c,  // The hash of the received firmware image does not match the hash in the init packet.
+    NRF_DFU_EXT_ERROR_INSUFFICIENT_SPACE = 0x0d,   // The available space on the device is insufficient to hold the firmware.
 } ciot_nrf_dfu_ext_error_code_t;
 
 typedef enum ciot_nrf_dfu_state
