@@ -59,8 +59,7 @@ typedef struct ciot_nrf_dfu_crc
 typedef struct ciot_nrf_dfu_slip
 {
     ciot_slip_t handle;
-    uint8_t recv_buffer;
-    uint8_t buffer[256 + 1];
+    uint8_t buffer[256];
 } ciot_nrf_dfu_slip_t;
 
 struct ciot_dfu
@@ -116,8 +115,8 @@ ciot_err_t ciot_nrf_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg)
         return CIOT_ERR_INVALID_TYPE;
     }
     
-    self->slip.handle.p_buffer = &self->slip.recv_buffer;
-    self->slip.handle.buffer_len = sizeof(self->slip.recv_buffer);
+    self->slip.handle.p_buffer = self->slip.buffer;
+    self->slip.handle.buffer_len = sizeof(self->slip.buffer);
 
     self->prn_counter = 0;
     self->cfg.init_packet.type = CIOT_NRF_DFU_PACKET_TYPE_INIT;
