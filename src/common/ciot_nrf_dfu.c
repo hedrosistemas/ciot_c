@@ -85,6 +85,7 @@ struct ciot_dfu
 
 static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state);
 static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
+static ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self);
 static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self);
 static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int32_t len);
 static ciot_err_t ciot_nrf_dfu_slip_encode_and_send(ciot_dfu_t self, uint8_t *data, uint32_t len);
@@ -218,6 +219,17 @@ ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *nam
     }
 
     return 0;
+}
+
+static ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self)
+{
+    ciot_msg_t msg = {
+        .type = CIOT_MSG_TYPE_REQUEST,
+        .iface.id = self->cfg.target_sys_iface_id,
+        .iface.type = CIOT_IFACE_TYPE_SYSTEM,
+        .data.system.request.type = CIOT_SYS_REQ_INIT_DFU
+    };
+    return ciot_iface_send_req(self->cfg.iface, &msg, CIOT_MSG_HEADER_SIZE + 1);
 }
 
 static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
