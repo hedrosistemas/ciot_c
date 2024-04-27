@@ -148,13 +148,13 @@ ciot_err_t ciot_nrf_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req)
 
 ciot_err_t ciot_nrf_dfu_send_data(ciot_dfu_t self, uint8_t *data, int size)
 {
-    if(self->iface_dfu->info.type == CIOT_IFACE_TYPE_UART)
+    if(self->cfg.iface->info.type == CIOT_IFACE_TYPE_UART)
     {
         return ciot_nrf_dfu_slip_encode_and_send(self, data, size);
     }
     else
     {
-        return ciot_iface_send_data(self->iface_dfu, data, size);
+        return ciot_iface_send_data(self->cfg.iface, data, size);
     }
 }
 
