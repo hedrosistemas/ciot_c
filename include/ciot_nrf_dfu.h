@@ -111,7 +111,7 @@ typedef struct ciot_nrf_dfu_cfg
 
 ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg);
 ciot_err_t ciot_nrf_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg);
-ciot_err_t ciot_nrf_uart_stop(ciot_dfu_t self);
+ciot_err_t ciot_nrf_dfu_stop(ciot_dfu_t self);
 ciot_err_t ciot_nrf_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req);
 ciot_err_t ciot_nrf_dfu_send_data(ciot_dfu_t self, uint8_t *data, int size);
 

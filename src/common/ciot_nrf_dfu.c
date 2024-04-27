@@ -92,7 +92,7 @@ ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg)
     self->cfg = *cfg;
     self->iface.base.ptr = self;
     self->iface.base.start = (ciot_iface_start_fn *)ciot_nrf_dfu_start;
-    self->iface.base.stop = (ciot_iface_stop_fn *)ciot_nrf_uart_stop;
+    self->iface.base.stop = (ciot_iface_stop_fn *)ciot_nrf_dfu_stop;
     self->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_nrf_dfu_process_req;
     self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_nrf_dfu_send_data;
     self->iface.base.cfg.ptr = &self->cfg.dfu;
@@ -124,7 +124,7 @@ ciot_err_t ciot_nrf_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg)
     return CIOT_OK;
 }
 
-ciot_err_t ciot_nrf_uart_stop(ciot_dfu_t self)
+ciot_err_t ciot_nrf_dfu_stop(ciot_dfu_t self)
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
