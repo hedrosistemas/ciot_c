@@ -507,7 +507,7 @@ static ciot_err_t ciot_nrf_dfu_slip_encode_and_send(ciot_dfu_t self, uint8_t *da
     uint8_t encoded_slip_packet[CIOT_NRF_DFU_MAX_DFU_PKT_LEN_UART] = {0};
     uint32_t encoded_slip_packet_len;
     ciot_slip_encode(encoded_slip_packet, data, len, &encoded_slip_packet_len);
-    return ciot_iface_send_data(self->iface_dfu, encoded_slip_packet, encoded_slip_packet_len);
+    return ciot_iface_send_data(self->cfg.iface, encoded_slip_packet, encoded_slip_packet_len);
 }
 
 static uint32_t ciot_nrf_dfu_timeout_check(uint32_t timeout)
