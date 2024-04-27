@@ -105,9 +105,11 @@ typedef struct ciot_nrf_dfu_cfg
     ciot_nrf_dfu_packet_t init_packet;
     ciot_nrf_dfu_packet_t app_image;
     uint32_t max_package_len;
+    ciot_iface_t *iface;
+    int target_sys_iface_id;
 } ciot_nrf_dfu_cfg_t;
 
-ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg, ciot_iface_t *iface);
+ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg);
 ciot_err_t ciot_nrf_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg);
 ciot_err_t ciot_nrf_uart_stop(ciot_dfu_t self);
 ciot_err_t ciot_nrf_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req);

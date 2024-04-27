@@ -68,7 +68,6 @@ struct ciot_dfu
     ciot_nrf_dfu_cfg_t cfg;
     ciot_dfu_status_t status;
 
-    ciot_iface_t *iface_dfu;
     ciot_nrf_dfu_slip_t slip;
     ciot_nrf_dfu_state_t state;
     ciot_nrf_dfu_crc_t crc;
@@ -87,11 +86,10 @@ static uint32_t ciot_nrf_dfu_timeout_check(uint32_t timeout);
 
 static const char *TAG = "ciot_nrf_dfu";
 
-ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg, ciot_iface_t *iface)
+ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg)
 {
     ciot_dfu_t self = calloc(1, sizeof(struct ciot_dfu));
     self->cfg = *cfg;
-    self->iface_dfu = iface;
     self->iface.base.ptr = self;
     self->iface.base.start = (ciot_iface_start_fn *)ciot_nrf_dfu_start;
     self->iface.base.stop = (ciot_iface_stop_fn *)ciot_nrf_uart_stop;
