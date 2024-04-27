@@ -15,9 +15,11 @@
 
 #include "ciot_config.h"
 #include "ciot_nrf_dfu.h"
+#include "ciot_sys.h"
 #include "ciot_slip.h"
 #include "ciot_utils.h"
 #include "ciot_crc.h"
+#include "ciot_uart.h"
 
 #define MAX_OBJECT_SIZE 4096
 #define PING_ID 0x01
@@ -75,6 +77,10 @@ struct ciot_dfu
     uint16_t prn_counter;
     uint16_t data_transferred;
     ciot_nrf_dfu_object_t object;
+
+    bool cache_bridge_mode;
+    void *cache_event_args;
+    ciot_iface_event_handler_t *cache_event_handler;
 };
 
 static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state);
@@ -126,7 +132,13 @@ ciot_err_t ciot_nrf_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg)
 
 ciot_err_t ciot_nrf_dfu_stop(ciot_dfu_t self)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    if(self->cfg.iface->info.type == CIOT_IFACE_TYPE_UART)
+    {
+        ciot_uart_set_bridge_mode((ciot_uart_t)self->cfg.iface, false);
+    }
+    self->cfg.iface->event_args = self->cache_event_args;
+    self->cfg.iface->event_handler = self->cache_event_handler;
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_nrf_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req)
@@ -384,7 +396,7 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
                 CIOT_LOGI(TAG, "App image write completed");
                 self->state = CIOT_NRF_DFU_STATE_COMPLETED;
                 ciot_nrf_dfu_set_state(self, CIOT_DFU_STATE_COMPLETED);
-                // ciot_nrf_dfu_stop(self);
+                ciot_nrf_dfu_stop(self);
                 return CIOT_OK;
             }
         }
