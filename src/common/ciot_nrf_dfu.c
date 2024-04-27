@@ -179,7 +179,14 @@ ciot_err_t ciot_nrf_dfu_task(ciot_dfu_t self)
 
 ciot_err_t ciot_nrf_dfu_send_firmware(ciot_dfu_t self)
 {
-    ciot_iface_register_event(self->iface_dfu, ciot_nrf_dfu_event_handler, self);
+    ciot_nrf_dfu_start_bootloader(self);
+    if(self->cfg.iface->info.type == CIOT_IFACE_TYPE_UART)
+    {
+        ciot_uart_set_bridge_mode((ciot_uart_t)self->cfg.iface, true);
+    }
+    self->cache_event_args = self->cfg.iface->event_args;
+    self->cache_event_handler = self->cfg.iface->event_handler;
+    ciot_iface_register_event(self->cfg.iface, ciot_nrf_dfu_event_handler, self);
     self->state = CIOT_NRF_DFU_STATE_SEND_PING_RESP;
     return CIOT_OK;
 }
