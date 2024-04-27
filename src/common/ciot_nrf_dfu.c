@@ -457,6 +457,10 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
 static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state)
 {
     self->status.state = state;
+    if(state == CIOT_DFU_STATE_ERROR)
+    {
+        ciot_nrf_dfu_stop(self);
+    }
     if(self->iface.event_handler != NULL)
     {
         ciot_iface_event_t status_event = { 0 };
