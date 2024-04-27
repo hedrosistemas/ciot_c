@@ -287,6 +287,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
         if(self->cfg.dfu.type != CIOT_DFU_TYPE_BLE)
         {
             uint8_t write_opcode[] = { CIOT_NRF_DFU_OP_OBJECT_WRITE };
+            ciot_iface_send_data(self->cfg.iface, &write_opcode, 1);
             CIOT_LOGI(TAG, "Writing %d object [%d / %ld]", self->object.packet->type, self->data_transferred, self->object.packet->size);
         }
 
