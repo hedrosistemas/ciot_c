@@ -228,6 +228,11 @@ ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *nam
     return 0;
 }
 
+ciot_nrf_dfu_state_t ciot_nrf_dfu_state(ciot_dfu_t self)
+{
+    return self->state;
+}
+
 static ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self)
 {
     ciot_msg_t msg = {
