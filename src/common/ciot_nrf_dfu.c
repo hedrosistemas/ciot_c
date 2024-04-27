@@ -197,13 +197,13 @@ ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *nam
 
     if(file == NULL)
     {
-        perror("Error opening file");
+        CIOT_LOGE(TAG, "Error opening file");
         return CIOT_ERR_NOT_FOUND;
     }
 
     if (object == NULL || object->data != NULL)
     {
-        perror("Invalid arg");
+        CIOT_LOGE(TAG, "Invalid arg");
         return CIOT_ERR_INVALID_ARG;
     }
 
@@ -215,13 +215,13 @@ ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *nam
     object->size = file_size;
     if (object->data == NULL)
     {
-        perror("Error allocating memory");
+        CIOT_LOGE(TAG, "Error allocating memory");
         return CIOT_ERR_NO_MEMORY;
     }
 
     size_t elements_read = fread(object->data, sizeof(uint8_t), file_size, file);
     if (elements_read != file_size) {
-        perror("Error reading file");
+        CIOT_LOGE(TAG, "Error reading file");
         return CIOT_FAIL;
     }
 
@@ -257,7 +257,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
     // Create command: size [x01 x01 xXXXXXXXX]
     if(self->state == CIOT_NRF_DFU_STATE_CREATE_OBJECT)
     {
-        CIOT_LOGI(TAG, "Create command");
+        CIOT_LOGD(TAG, "Create command");
         int32_t data_remaining = self->object.packet->size - self->data_transferred;
         self->object.remaining = data_remaining >= MAX_OBJECT_SIZE ? MAX_OBJECT_SIZE : data_remaining;
         self->data[0] = CIOT_NRF_DFU_OP_OBJECT_CREATE;
@@ -282,7 +282,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
         if(self->cfg.dfu.type != CIOT_DFU_TYPE_BLE)
         {
             uint8_t write_opcode[] = { CIOT_NRF_DFU_OP_OBJECT_WRITE };
-            ciot_iface_send_data(self->iface_dfu, &write_opcode, 1);
+            CIOT_LOGI(TAG, "Writing %d object [%d / %ld]", self->object.packet->type, self->data_transferred, self->object.packet->size);
         }
 
         ciot_err_t err = ciot_nrf_dfu_send_data(self, &self->object.packet->data[self->data_transferred], bytes_to_write);
@@ -310,7 +310,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
     // Calculate CRC [x03]
     if(self->state == CIOT_NRF_DFU_STATE_REQUEST_CRC)
     {
-        CIOT_LOGI(TAG, "Calculate CRC");
+        CIOT_LOGD(TAG, "Calculate CRC");
         self->data[0] = CIOT_NRF_DFU_OP_CRC_GET;
         self->state = CIOT_NRF_DFU_STATE_WAITING_CRC;
         ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
@@ -320,7 +320,7 @@ static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
     // Execute command [0x04]
     if(self->state == CIOT_NRF_DFU_STATE_REQUEST_EXECUTE)
     {
-        CIOT_LOGI(TAG, "Execute command");
+        CIOT_LOGD(TAG, "Execute command");
         self->data[0] = CIOT_NRF_DFU_OP_OBJECT_EXECUTE;
         self->state = CIOT_NRF_DFU_STATE_WAITING_EXECUTE;
         ciot_nrf_dfu_timeout_check(TIMEOUT_RESET);
@@ -344,7 +344,7 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
        data[1] == CIOT_NRF_DFU_OP_PING && 
        data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
     {
-        CIOT_LOGI(TAG, "Ping response sucess");
+        CIOT_LOGD(TAG, "Ping response sucess");
         self->state = CIOT_NRF_DFU_STATE_CREATE_OBJECT;
         ciot_nrf_dfu_set_state(self, CIOT_DFU_STATE_IN_PROGRESS);
         return CIOT_OK;
@@ -356,7 +356,7 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
        data[1] == CIOT_NRF_DFU_OP_OBJECT_CREATE &&
        data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
     {
-        CIOT_LOGI(TAG, "Response create success");
+        CIOT_LOGD(TAG, "Response create success");
         self->state = CIOT_NRF_DFU_STATE_WRITE_DFU_PACKAGE;
         return CIOT_OK;
     }
@@ -381,12 +381,12 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
         }
         if(self->object.remaining == 0)
         {
-            CIOT_LOGI(TAG, "Calculate CRC Sucess: offset CRC32");
+            CIOT_LOGD(TAG, "Calculate CRC Sucess: offset CRC32");
             self->state = CIOT_NRF_DFU_STATE_REQUEST_EXECUTE;
         }
         else
         {
-            CIOT_LOGI(TAG, "Response PRN Sucess: offset CRC32");
+            CIOT_LOGD(TAG, "Response PRN Sucess: offset CRC32");
             self->state = CIOT_NRF_DFU_STATE_WRITE_DFU_PACKAGE;
         }
         return CIOT_OK;
@@ -398,7 +398,7 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
        data[1] == CIOT_NRF_DFU_OP_OBJECT_EXECUTE && 
        data[2] == CIOT_NRF_DFU_RES_CODE_SUCCESS)
     {
-        CIOT_LOGI(TAG, "Response Execute Success");
+        CIOT_LOGD(TAG, "Response Execute Success");
         if(self->object.packet->transferred)
         {
             if(self->object.packet->type == CIOT_NRF_DFU_PACKET_TYPE_INIT)
