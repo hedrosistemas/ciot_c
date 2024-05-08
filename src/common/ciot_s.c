@@ -34,6 +34,8 @@ struct ciot_s
 #endif
 };
 
+static const char *TAG = "ciot_s";
+
 ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg)
 {
     ciot_s_t s = calloc(1, sizeof(struct ciot_s));
@@ -46,6 +48,7 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(self->cfg.send_bytes);
+    CIOT_LOGD(TAG, "Senging data");
     
     if(self->cfg.bridge_mode)
     {
@@ -62,14 +65,16 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     self->cfg.send_bytes(self->cfg.iface, data, size);
     self->cfg.send_bytes(self->cfg.iface, &end, 1);
 
-    CIOT_LOG_BUFFER_HEX("ciot_s", header, sizeof(header));
-    CIOT_LOG_BUFFER_HEX("ciot_s", data, sizeof(size));
-    CIOT_LOG_BUFFER_HEX("ciot_s", &end, 1);
+    CIOT_LOG_BUFFER_HEX(TAG, header, sizeof(header));
+    CIOT_LOG_BUFFER_HEX(TAG, data, sizeof(size));
+    CIOT_LOG_BUFFER_HEX(TAG, &end, 1);
     return CIOT_OK;
 }
 
 ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 {
+    CIOT_LOGD(TAG, "Processing byte");
+
 #if CIOT_CONFIG_FEATURE_TIMER
     self->timer = ciot_timer_get() + CIOT_S_TIMEOUT;
 #endif
@@ -78,6 +83,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
     {
         if(self->cfg.on_message_cb != NULL)
         {
+            CIOT_LOGD(TAG, "Bridge mode enabled. Skipping decode process");
             self->cfg.on_message_cb(self->cfg.iface, &byte, 1);
         }
         return CIOT_OK;
@@ -85,6 +91,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 
     if(self->status == CIOT_S_STATUS_TIMEOUT)
     {
+        CIOT_LOGD(TAG, "Timeout detected");
         self->idx = 0;
         self->status = CIOT_S_STATUS_WAIT_START_DATA;
     }
@@ -95,6 +102,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
     }
     else
     {
+        CIOT_LOGD(TAG, "Overflow detected");
         self->idx = 0;
         self->status = CIOT_S_STATUS_WAIT_START_DATA;
         return CIOT_ERR_OVERFLOW;
@@ -103,6 +111,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
     switch (self->status)
     {
         case CIOT_S_STATUS_WAIT_START_DATA:
+            CIOT_LOGD(TAG, "CIOT_S_STATUS_WAIT_START_DATA");
             self->idx = 0;
             self->len = 0;
             if(byte == CIOT_S_START_CH)
@@ -112,6 +121,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
             }
             break;
         case CIOT_S_STATUS_WAIT_SIZE:
+            CIOT_LOGD(TAG, "CIOT_S_STATUS_WAIT_SIZE");
             self->len++;
             if (self->len == CIOT_S_LENGHT_SIZE)
             {
@@ -120,6 +130,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
             }
             break;
         case CIOT_S_STATUS_READ_DATA:
+            CIOT_LOGD(TAG, "CIOT_S_STATUS_READ_DATA");
             if(byte == CIOT_S_END_CH && self->idx - CIOT_S_HEADER_SIZE == self->len)
             {
                 if(self->cfg.on_message_cb != NULL)
@@ -149,6 +160,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 ciot_err_t ciot_s_set_bridge_mode(ciot_s_t self, bool mode)
 {
     CIOT_NULL_CHECK(self);
+    CIOT_LOGD(TAG, "Set bridge mode to %d", mode);
     self->cfg.bridge_mode = mode;
     return CIOT_OK;
 }
