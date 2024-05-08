@@ -88,6 +88,8 @@ ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
         ciot_sys_rst(self);
 #endif
         return CIOT_OK;
+    default:
+        return CIOT_ERR_NOT_SUPPORTED;
     }
 
     return CIOT_ERR_INVALID_TYPE;
