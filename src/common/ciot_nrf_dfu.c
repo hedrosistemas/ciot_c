@@ -371,6 +371,17 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
         return CIOT_OK;
     }
 
+    if(self->state == CIOT_NRF_DFU_STATE_WAITING_PING_RESP &&
+       data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
+       data[2] == CIOT_NRF_DFU_RES_CODE_OP_CODE_NOT_SUPPORTED &&
+       !self->ping_refused)
+    {
+        CIOT_LOGI(TAG, "First ping refused. Trying again...");
+        self->state = CIOT_NRF_DFU_STATE_SEND_PING;
+        self->ping_refused = true;
+        return CIOT_OK;
+    }
+
     // Response Create Success [x60 x01 x01]
     if(self->state == CIOT_NRF_DFU_STATE_WAITING_CREATE_OBJ && 
        data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
