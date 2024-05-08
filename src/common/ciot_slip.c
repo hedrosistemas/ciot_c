@@ -45,15 +45,19 @@
 #define SLIP_BYTE_ESC_END         0xdc    /* ESC ESC_END means END data byte */
 #define SLIP_BYTE_ESC_ESC         0xdd    /* ESC ESC_ESC means ESC data byte */
 
+static const char *TAG = "ciot_slip";
+
 int ciot_slip_encode(uint8_t * p_output,  uint8_t * p_input, uint32_t input_length, uint32_t * p_output_buffer_length)
 {
+    CIOT_LOGD(TAG, "Encoding %lu bytes", input_length);
+
     if (p_output == NULL || p_input == NULL || p_output_buffer_length == NULL)
     {
         return CIOT_ERR_NULL_ARG;
     }
 
     *p_output_buffer_length = 0;
-    uint32_t input_index;
+    uint32_t input_index = 0;
 
     for (input_index = 0; input_index < input_length; input_index++)
     {
@@ -74,6 +78,8 @@ int ciot_slip_encode(uint8_t * p_output,  uint8_t * p_input, uint32_t input_leng
         }
     }
     p_output[(*p_output_buffer_length)++] = SLIP_BYTE_END;
+
+    CIOT_LOGD(TAG, "Encoded to %lu bytes", *p_output_buffer_length);
 
     return CIOT_OK;
 }

@@ -117,11 +117,12 @@ static void ciot_sys_init(ciot_sys_t self)
 
 static ciot_err_t ciot_sys_req_restart(ciot_sys_t self)
 {
+    ciot_sys_rst(self);
     self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
     self->iface.base.req.response_size++;
 #ifdef SOFTDEVICE_PRESENT
 #ifdef CIOT_CONFIG_FEATURE_TIMER
-    self->reset_scheduled = ciot_timer_get() + 5;
+    self->reset_scheduled = self->status.lifetime + 5;
 #else
     ciot_sys_rst(self);
 #endif
@@ -136,7 +137,8 @@ static ciot_err_t ciot_sys_req_init_dfu(ciot_sys_t self)
 #if CIOT_CONFIG_FEATURE_DFU
     CIOT_ERROR_RETURN(sd_power_gpregret_clr(0, 0xffffffff));
     CIOT_ERROR_RETURN(sd_power_gpregret_set(0, BOOTLOADER_DFU_START));
-    return ciot_sys_req_restart(self);
+    nrf_pwr_mgmt_shutdown(NRF_PWR_MGMT_SHUTDOWN_GOTO_DFU);
+    return CIOT_OK;
 #else
     return CIOT_ERR_NOT_SUPPORTED;
 #endif
@@ -150,7 +152,7 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     self->status.free_memory = 0;
 #if CIOT_CONFIG_FEATURE_TIMER
     self->status.lifetime = ciot_timer_get();
-    if (self->reset_scheduled > 0 && ciot_timer_compare(&self->reset_scheduled, 5))
+    if (self->reset_scheduled)
     {
         ciot_sys_rst(self);
     }
