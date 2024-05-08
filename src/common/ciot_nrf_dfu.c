@@ -144,7 +144,22 @@ ciot_err_t ciot_nrf_dfu_stop(ciot_dfu_t self)
 
 ciot_err_t ciot_nrf_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req)
 {
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    CIOT_NULL_CHECK(self);
+    CIOT_NULL_CHECK(req);
+
+    switch (req->type)
+    {
+    case CIOT_DFU_REQ_SEND_FIRMWARE:
+        CIOT_LOGI(TAG, "CIOT_DFU_REQ_SEND_FIRMWARE");
+        self->iface.base.req.response_size = CIOT_MSG_HEADER_SIZE + sizeof(req->type);
+        self->iface.base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+        return ciot_nrf_dfu_send_firmware(self);
+    default:
+        CIOT_LOGI(TAG, "CIOT_ERR_INVALID_TYPE");
+        return CIOT_ERR_INVALID_TYPE;
+    }
+
+    return CIOT_OK;
 }
 
 ciot_err_t ciot_nrf_dfu_send_data(ciot_dfu_t self, uint8_t *data, int size)
