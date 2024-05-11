@@ -132,6 +132,7 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 ciot_err_t ciot_uart_set_bridge_mode(ciot_uart_t self, bool mode)
 {
     CIOT_NULL_CHECK(self);
+    self->uart.cfg.bridge_mode = mode;
     return ciot_s_set_bridge_mode(self->uart.s, mode);
 }
 

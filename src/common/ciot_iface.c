@@ -82,9 +82,7 @@ ciot_err_t ciot_iface_send_data(ciot_iface_t *self, void *data, int size)
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(self->base.ptr);
     CIOT_NULL_CHECK(self->base.send_data);
-    #ifdef  CIOT_LOG_HEX_ENABLED
-    CIOT_LOG_BUFFER_HEX(TAG, data, size);
-    #endif  //CIOT_LOG_HEX_ENABLED
+    CIOT_LOG_HEX(TAG, data, size);
     return self->base.send_data(self->base.ptr, data, size);
 }
 

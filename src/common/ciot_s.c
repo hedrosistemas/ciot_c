@@ -34,6 +34,8 @@ struct ciot_s
 #endif
 };
 
+static const char *TAG = "ciot_s";
+
 ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg)
 {
     ciot_s_t s = calloc(1, sizeof(struct ciot_s));
@@ -46,6 +48,7 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     CIOT_NULL_CHECK(self);
     CIOT_NULL_CHECK(data);
     CIOT_NULL_CHECK(self->cfg.send_bytes);
+    CIOT_LOGD(TAG, "Senging data");
     
     if(self->cfg.bridge_mode)
     {
@@ -62,9 +65,9 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     self->cfg.send_bytes(self->cfg.iface, data, size);
     self->cfg.send_bytes(self->cfg.iface, &end, 1);
 
-    CIOT_LOG_BUFFER_HEX("ciot_s", header, sizeof(header));
-    CIOT_LOG_BUFFER_HEX("ciot_s", data, sizeof(size));
-    CIOT_LOG_BUFFER_HEX("ciot_s", &end, 1);
+    CIOT_LOG_BUFFER_HEX(TAG, header, sizeof(header));
+    CIOT_LOG_BUFFER_HEX(TAG, data, size);
+    CIOT_LOG_BUFFER_HEX(TAG, &end, 1);
     return CIOT_OK;
 }
 
@@ -85,6 +88,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 
     if(self->status == CIOT_S_STATUS_TIMEOUT)
     {
+        CIOT_LOGD(TAG, "Timeout detected");
         self->idx = 0;
         self->status = CIOT_S_STATUS_WAIT_START_DATA;
     }
@@ -95,6 +99,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
     }
     else
     {
+        CIOT_LOGD(TAG, "Overflow detected");
         self->idx = 0;
         self->status = CIOT_S_STATUS_WAIT_START_DATA;
         return CIOT_ERR_OVERFLOW;
@@ -149,6 +154,7 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 ciot_err_t ciot_s_set_bridge_mode(ciot_s_t self, bool mode)
 {
     CIOT_NULL_CHECK(self);
+    CIOT_LOGD(TAG, "Set bridge mode to %d", mode);
     self->cfg.bridge_mode = mode;
     return CIOT_OK;
 }

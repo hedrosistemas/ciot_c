@@ -79,7 +79,7 @@ typedef enum ciot_nrf_dfu_state
 {
     CIOT_NRF_DFU_STATE_ERROR = -1,
     CIOT_NRF_DFU_STATE_IDLE,
-    CIOT_NRF_DFU_STATE_SEND_PING_RESP,
+    CIOT_NRF_DFU_STATE_SEND_PING,
     CIOT_NRF_DFU_STATE_WAITING_PING_RESP,
     CIOT_NRF_DFU_STATE_CREATE_OBJECT,
     CIOT_NRF_DFU_STATE_WAITING_CREATE_OBJ,
@@ -105,17 +105,19 @@ typedef struct ciot_nrf_dfu_cfg
     ciot_nrf_dfu_packet_t init_packet;
     ciot_nrf_dfu_packet_t app_image;
     uint32_t max_package_len;
+    ciot_iface_t *iface;
 } ciot_nrf_dfu_cfg_t;
 
-ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg, ciot_iface_t *iface);
+ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg);
 ciot_err_t ciot_nrf_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg);
-ciot_err_t ciot_nrf_uart_stop(ciot_dfu_t self);
+ciot_err_t ciot_nrf_dfu_stop(ciot_dfu_t self);
 ciot_err_t ciot_nrf_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req);
 ciot_err_t ciot_nrf_dfu_send_data(ciot_dfu_t self, uint8_t *data, int size);
 
 ciot_err_t ciot_nrf_dfu_task(ciot_dfu_t self);
 ciot_err_t ciot_nrf_dfu_send_firmware(ciot_dfu_t self);
 ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *name);
+ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self, ciot_iface_t *iface, int sys_id);
 ciot_nrf_dfu_state_t ciot_nrf_dfu_state(ciot_dfu_t self);
 
 #endif //!__CIOT_NRF_DFU__H__
