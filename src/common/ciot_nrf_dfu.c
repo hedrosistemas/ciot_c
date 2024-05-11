@@ -86,7 +86,6 @@ struct ciot_dfu
 
 static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state);
 static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
-static ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self);
 static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self);
 static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int32_t len);
 static ciot_err_t ciot_nrf_dfu_slip_encode_and_send(ciot_dfu_t self, uint8_t *data, uint32_t len);
