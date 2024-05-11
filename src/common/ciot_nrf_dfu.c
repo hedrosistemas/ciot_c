@@ -250,21 +250,23 @@ ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *nam
     return 0;
 }
 
-ciot_nrf_dfu_state_t ciot_nrf_dfu_state(ciot_dfu_t self)
-{
-    return self->state;
-}
-
-static ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self)
+ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self, ciot_iface_t *iface, int sys_id)
 {
     CIOT_LOGI(TAG, "Starting bootloader");
     ciot_msg_t msg = {
         .type = CIOT_MSG_TYPE_REQUEST,
-        .iface.id = self->cfg.target_sys_iface_id,
+        .iface.id = sys_id,
         .iface.type = CIOT_IFACE_TYPE_SYSTEM,
         .data.system.request.type = CIOT_SYS_REQ_INIT_DFU
     };
-    return ciot_iface_send_req(self->cfg.iface, &msg, CIOT_MSG_HEADER_SIZE + 1);
+    ciot_err_t err = ciot_iface_send_req(iface, &msg, CIOT_MSG_HEADER_SIZE + 1);
+    iface->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+    return err;
+}
+
+ciot_nrf_dfu_state_t ciot_nrf_dfu_state(ciot_dfu_t self)
+{
+    return self->state;
 }
 
 static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
