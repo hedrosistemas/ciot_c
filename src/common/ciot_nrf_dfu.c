@@ -200,7 +200,6 @@ ciot_err_t ciot_nrf_dfu_task(ciot_dfu_t self)
 
 ciot_err_t ciot_nrf_dfu_send_firmware(ciot_dfu_t self)
 {
-    ciot_nrf_dfu_start_bootloader(self);
     if(self->cfg.iface->info.type == CIOT_IFACE_TYPE_UART)
     {
         ciot_uart_set_bridge_mode((ciot_uart_t)self->cfg.iface, true);
