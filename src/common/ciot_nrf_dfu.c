@@ -24,7 +24,7 @@
 #define MAX_OBJECT_SIZE 4096
 #define PING_ID 0x01
 #define TIMEOUT_RESET 0
-#define PKT_SET_PRN_PARAM_LEN (3) /**< Length (in bytes) of the parameters for Set Packet Receipt Notification request. */
+#define PKT_SET_PRN_PARAM_LEN (3) /**< Packet Receipt Notification request count. */
 
 typedef enum ciot_nrf_dfu_obj
 {
