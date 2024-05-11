@@ -106,7 +106,6 @@ typedef struct ciot_nrf_dfu_cfg
     ciot_nrf_dfu_packet_t app_image;
     uint32_t max_package_len;
     ciot_iface_t *iface;
-    int target_sys_iface_id;
 } ciot_nrf_dfu_cfg_t;
 
 ciot_dfu_t ciot_nrf_dfu_new(ciot_nrf_dfu_cfg_t *cfg);
