@@ -368,6 +368,23 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
 
     self->status.code = data[2];
 
+    for (size_t i = 0; i < len; i++)
+    {
+        if(data[i] == CIOT_NRF_DFU_OP_RESPONSE)
+        {
+            data = &data[i];
+            break;
+        }
+        CIOT_LOGD(TAG, "Invalid initial byte: %0x", data[i]);
+    }
+
+    // Invlalid message
+    if(data[0] != CIOT_NRF_DFU_OP_RESPONSE)
+    {
+        CIOT_LOGE(TAG, "Invalid msg");
+        return CIOT_ERR_VALIDATION_FAILED;
+    }
+
     // Ping Response Success [x60 x09 x01] or Opcode not supported [x60 x09 x03]
     if(self->state == CIOT_NRF_DFU_STATE_WAITING_PING_RESP &&
        data[0] == CIOT_NRF_DFU_OP_RESPONSE &&
