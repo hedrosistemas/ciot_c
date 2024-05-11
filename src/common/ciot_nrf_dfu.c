@@ -138,6 +138,12 @@ ciot_err_t ciot_nrf_dfu_stop(ciot_dfu_t self)
     {
         ciot_uart_set_bridge_mode((ciot_uart_t)self->cfg.iface, false);
     }
+    self->cfg.iface->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+    self->prn_counter = 0;
+    self->data_transferred = 0;
+    self->crc.expected = 0;
+    self->crc.received = 0;
+    self->object.packet = &self->cfg.init_packet;
     self->cfg.iface->event_args = self->cache_event_args;
     self->cfg.iface->event_handler = self->cache_event_handler;
     return CIOT_OK;
