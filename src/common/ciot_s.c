@@ -66,15 +66,13 @@ ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size)
     self->cfg.send_bytes(self->cfg.iface, &end, 1);
 
     CIOT_LOG_BUFFER_HEX(TAG, header, sizeof(header));
-    CIOT_LOG_BUFFER_HEX(TAG, data, sizeof(size));
+    CIOT_LOG_BUFFER_HEX(TAG, data, size);
     CIOT_LOG_BUFFER_HEX(TAG, &end, 1);
     return CIOT_OK;
 }
 
 ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
 {
-    CIOT_LOGD(TAG, "Processing byte");
-
 #if CIOT_CONFIG_FEATURE_TIMER
     self->timer = ciot_timer_get() + CIOT_S_TIMEOUT;
 #endif
@@ -83,7 +81,6 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
     {
         if(self->cfg.on_message_cb != NULL)
         {
-            CIOT_LOGD(TAG, "Bridge mode enabled. Skipping decode process");
             self->cfg.on_message_cb(self->cfg.iface, &byte, 1);
         }
         return CIOT_OK;
@@ -111,7 +108,6 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
     switch (self->status)
     {
         case CIOT_S_STATUS_WAIT_START_DATA:
-            CIOT_LOGD(TAG, "CIOT_S_STATUS_WAIT_START_DATA");
             self->idx = 0;
             self->len = 0;
             if(byte == CIOT_S_START_CH)
@@ -121,7 +117,6 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
             }
             break;
         case CIOT_S_STATUS_WAIT_SIZE:
-            CIOT_LOGD(TAG, "CIOT_S_STATUS_WAIT_SIZE");
             self->len++;
             if (self->len == CIOT_S_LENGHT_SIZE)
             {
@@ -130,7 +125,6 @@ ciot_err_t ciot_s_process_byte(ciot_s_t self, uint8_t byte)
             }
             break;
         case CIOT_S_STATUS_READ_DATA:
-            CIOT_LOGD(TAG, "CIOT_S_STATUS_READ_DATA");
             if(byte == CIOT_S_END_CH && self->idx - CIOT_S_HEADER_SIZE == self->len)
             {
                 if(self->cfg.on_message_cb != NULL)

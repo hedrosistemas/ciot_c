@@ -24,7 +24,7 @@
 #define MAX_OBJECT_SIZE 4096
 #define PING_ID 0x01
 #define TIMEOUT_RESET 0
-#define PKT_SET_PRN_PARAM_LEN (3) /**< Length (in bytes) of the parameters for Set Packet Receipt Notification request. */
+#define PKT_SET_PRN_PARAM_LEN (3) /**< Packet Receipt Notification request count. */
 
 typedef enum ciot_nrf_dfu_obj
 {
@@ -86,7 +86,6 @@ struct ciot_dfu
 
 static ciot_err_t ciot_nrf_dfu_set_state(ciot_dfu_t self, ciot_dfu_state_t state);
 static ciot_err_t ciot_nrf_dfu_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
-static ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self);
 static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self);
 static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int32_t len);
 static ciot_err_t ciot_nrf_dfu_slip_encode_and_send(ciot_dfu_t self, uint8_t *data, uint32_t len);
@@ -138,6 +137,12 @@ ciot_err_t ciot_nrf_dfu_stop(ciot_dfu_t self)
     {
         ciot_uart_set_bridge_mode((ciot_uart_t)self->cfg.iface, false);
     }
+    self->cfg.iface->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+    self->prn_counter = 0;
+    self->data_transferred = 0;
+    self->crc.expected = 0;
+    self->crc.received = 0;
+    self->object.packet = &self->cfg.init_packet;
     self->cfg.iface->event_args = self->cache_event_args;
     self->cfg.iface->event_handler = self->cache_event_handler;
     return CIOT_OK;
@@ -195,7 +200,6 @@ ciot_err_t ciot_nrf_dfu_task(ciot_dfu_t self)
 
 ciot_err_t ciot_nrf_dfu_send_firmware(ciot_dfu_t self)
 {
-    ciot_nrf_dfu_start_bootloader(self);
     if(self->cfg.iface->info.type == CIOT_IFACE_TYPE_UART)
     {
         ciot_uart_set_bridge_mode((ciot_uart_t)self->cfg.iface, true);
@@ -244,21 +248,23 @@ ciot_err_t ciot_nrf_dfu_read_file(ciot_nrf_dfu_packet_t *object, const char *nam
     return 0;
 }
 
-ciot_nrf_dfu_state_t ciot_nrf_dfu_state(ciot_dfu_t self)
-{
-    return self->state;
-}
-
-static ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self)
+ciot_err_t ciot_nrf_dfu_start_bootloader(ciot_dfu_t self, ciot_iface_t *iface, int sys_id)
 {
     CIOT_LOGI(TAG, "Starting bootloader");
     ciot_msg_t msg = {
         .type = CIOT_MSG_TYPE_REQUEST,
-        .iface.id = self->cfg.target_sys_iface_id,
+        .iface.id = sys_id,
         .iface.type = CIOT_IFACE_TYPE_SYSTEM,
         .data.system.request.type = CIOT_SYS_REQ_INIT_DFU
     };
-    return ciot_iface_send_req(self->cfg.iface, &msg, CIOT_MSG_HEADER_SIZE + 1);
+    ciot_err_t err = ciot_iface_send_req(iface, &msg, CIOT_MSG_HEADER_SIZE + 1);
+    iface->base.req.status = CIOT_IFACE_REQ_STATUS_IDLE;
+    return err;
+}
+
+ciot_nrf_dfu_state_t ciot_nrf_dfu_state(ciot_dfu_t self)
+{
+    return self->state;
 }
 
 static ciot_err_t ciot_nrf_dfu_write(ciot_dfu_t self)
@@ -358,9 +364,26 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
 {
     CIOT_NULL_CHECK(self);
 
-    CIOT_LOG_HEX(TAG, data, len);
+    CIOT_LOG_BUFFER_HEX(TAG, data, len);
 
     self->status.code = data[2];
+
+    for (size_t i = 0; i < len; i++)
+    {
+        if(data[i] == CIOT_NRF_DFU_OP_RESPONSE)
+        {
+            data = &data[i];
+            break;
+        }
+        CIOT_LOGD(TAG, "Invalid initial byte: %0x", data[i]);
+    }
+
+    // Invlalid message
+    if(data[0] != CIOT_NRF_DFU_OP_RESPONSE)
+    {
+        CIOT_LOGE(TAG, "Invalid msg");
+        return CIOT_ERR_VALIDATION_FAILED;
+    }
 
     // Ping Response Success [x60 x09 x01] or Opcode not supported [x60 x09 x03]
     if(self->state == CIOT_NRF_DFU_STATE_WAITING_PING_RESP &&
@@ -479,6 +502,7 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
         }
         if(self->state != CIOT_NRF_DFU_STATE_ERROR)
         {
+            ciot_nrf_dfu_stop(self);
             ciot_nrf_dfu_set_state(self, CIOT_DFU_STATE_ERROR);
         }
         self->state = CIOT_NRF_DFU_STATE_ERROR;
