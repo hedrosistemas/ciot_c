@@ -366,7 +366,7 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
 {
     CIOT_NULL_CHECK(self);
 
-    CIOT_LOG_HEX(TAG, data, len);
+    CIOT_LOG_BUFFER_HEX(TAG, data, len);
 
     self->status.code = data[2];
 
