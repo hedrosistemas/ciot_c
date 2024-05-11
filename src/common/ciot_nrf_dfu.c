@@ -504,6 +504,7 @@ static ciot_err_t ciot_nrf_dfu_process_data(ciot_dfu_t self, uint8_t *data, int3
         }
         if(self->state != CIOT_NRF_DFU_STATE_ERROR)
         {
+            ciot_nrf_dfu_stop(self);
             ciot_nrf_dfu_set_state(self, CIOT_DFU_STATE_ERROR);
         }
         self->state = CIOT_NRF_DFU_STATE_ERROR;
