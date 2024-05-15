@@ -109,6 +109,42 @@ ciot_err_t ciot_mqttc_subscribe(ciot_mqttc_t self, char *topic, uint8_t qos);
  */
 ciot_err_t ciot_mqttc_reset_data_rate(ciot_mqttc_t self);
 
+/**
+ * @brief Get the configured MQTT topics.
+ *
+ * @param self Pointer to the CIOT MQTT client instance.
+ * @param topics Pointer to the topics configuration structure.
+ * @return Error code indicating success or failure.
+ */
+ciot_err_t ciot_mqttc_get_topics(ciot_mqttc_t self, ciot_mqttc_topics_cfg_t *topics);
+
+/**
+ * @brief Set the MQTT topics configuration.
+ *
+ * @param self Pointer to the CIOT MQTT client instance.
+ * @param topics Pointer to the topics configuration structure.
+ * @return Error code indicating success or failure.
+ */
+ciot_err_t ciot_mqttc_set_topics(ciot_mqttc_t self, ciot_mqttc_topics_cfg_t *topics);
+
+/**
+ * @brief Set the device-to-backend MQTT topic.
+ *
+ * @param self Pointer to the CIOT MQTT client instance.
+ * @param topic Topic for device-to-backend communication.
+ * @return Error code indicating success or failure.
+ */
+ciot_err_t ciot_mqttc_set_d2b_topic(ciot_mqttc_t self, char *topic);
+
+/**
+ * @brief Set the backend-to-device MQTT topic.
+ *
+ * @param self Pointer to the CIOT MQTT client instance.
+ * @param topic Topic for backend-to-device communication.
+ * @return Error code indicating success or failure.
+ */
+ciot_err_t ciot_mqttc_set_b2d_topic(ciot_mqttc_t self, char *topic);
+
 #ifdef __cplusplus
 }
 #endif
