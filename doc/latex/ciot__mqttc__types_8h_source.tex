@@ -1,0 +1,150 @@
+\doxysection{ciot\+\_\+mqttc\+\_\+types.\+h}
+\hypertarget{ciot__mqttc__types_8h_source}{}\label{ciot__mqttc__types_8h_source}\index{include/types/ciot\_mqttc\_types.h@{include/types/ciot\_mqttc\_types.h}}
+\mbox{\hyperlink{ciot__mqttc__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_MQTT\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_MQTT\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__common__types_8h}{ciot\_common\_types.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#ifndef\ CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN\ 32}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#ifndef\ CIOT\_CONFIG\_MQTT\_URL\_LEN}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTT\_URL\_LEN\ 64}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#ifndef\ CIOT\_CONFIG\_MQTT\_USER\_LEN}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTT\_USER\_LEN\ 32}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#ifndef\ CIOT\_CONFIG\_MQTT\_PASS\_LEN}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTT\_PASS\_LEN\ 32}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#ifndef\ CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTT\_TOPIC\_LEN\ 48}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#ifndef\ CIOT\_CONFIG\_MQTT\_MSG\_LEN}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTT\_MSG\_LEN\ 256}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea3cd3678d8b777367f05ebeb64fa5d6e1}{CIOT\_MQTT\_STATE\_ERROR}}\ =\ -\/1,\ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea004bb3b5e1c7526ac86d715808871aab}{CIOT\_MQTT\_STATE\_DISCONNECTED}},\ }
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ceaead9e930ad102c9ab546ca112841a1a8}{CIOT\_MQTT\_STATE\_CONNECTING}},\ }
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea556288d80c5f236a85b349084936ad24}{CIOT\_MQTT\_STATE\_DISCONNECTING}},\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea79b34e4a21856bfabc772c8491525476}{CIOT\_MQTT\_STATE\_CONNECTED}},\ }
+\DoxyCodeLine{00058\ \}\ \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ce}{ciot\_mqttc\_state\_t}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a2f26568f96a771a6de885dcdecc7e83c}{CIOT\_MQTT\_TRANSPORT\_UNKNOWN}},\ }
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a525b4c85b24d94e497cb786ba050b7f9}{CIOT\_MQTT\_TRANSPORT\_OVER\_TCP}},\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5d3cd88c4c3238306de35766ebd4c119}{CIOT\_MQTT\_TRANSPORT\_OVER\_SSL}},\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5ce16156ba60d3c867acb7d960d574fd}{CIOT\_MQTT\_TRANSPORT\_OVER\_WS}},\ }
+\DoxyCodeLine{00069\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684adf27ceb8c08b58be48c97e2057e51fe4}{CIOT\_MQTT\_TRANSPORT\_OVER\_WSS}},\ }
+\DoxyCodeLine{00070\ \}\ \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684}{ciot\_mqttc\_transport\_t}};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00076\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a1832343a674951b5cc6e0b1281ac8872}{CIOT\_MQTT\_REQ\_UNKNONW}},\ }
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a5b0bc93e48a1c931162fc99240863279}{CIOT\_MQTT\_REQ\_PUBLISH}},\ }
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43ab1ca6f635ae3eb1dc067fd0058846f55}{CIOT\_MQTT\_REQ\_SUBSCRIBE}},\ }
+\DoxyCodeLine{00080\ \}\ \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43}{ciot\_mqttc\_req\_type\_t}};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00086\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__mqttc__error__t_af8b9db3223039d525df4371413d3c2f3}{tls\_last\_err}};\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__mqttc__error__t_a9006960d969e505489e2a46434d60ebb}{tls\_stack\_err}};\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__mqttc__error__t_abde2f3e27511cfb7307766339fed98e9}{tls\_cert\_verify\_flags}};\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__mqttc__error__t_ac765329451135abec74c45e1897abf26}{type}};\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__mqttc__error__t_a45a5b7c00a796a23f01673cef1dbe0a9}{code}};\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__mqttc__error__t_a2d16d2a81fde684b4c79c0d71f8090b5}{transport\_sock}};\ }
+\DoxyCodeLine{00093\ \}\ \mbox{\hyperlink{structciot__mqttc__error__t}{ciot\_mqttc\_error\_t}};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00098\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00099\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{char}\ d2b[\mbox{\hyperlink{ciot__mqttc__types_8h_af67c4f0b899c64fc5cb38c9e920abde6}{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}}];\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{char}\ b2d[\mbox{\hyperlink{ciot__mqttc__types_8h_af67c4f0b899c64fc5cb38c9e920abde6}{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}}];\ }
+\DoxyCodeLine{00102\ \}\ \mbox{\hyperlink{structciot__mqttc__topics__cfg__t}{ciot\_mqttc\_topics\_cfg\_t}};}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00108\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{char}\ client\_id[\mbox{\hyperlink{ciot__mqttc__types_8h_a6d8667859c659ff145c1ff7cc6a2296e}{CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN}}];\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{char}\ url[\mbox{\hyperlink{ciot__mqttc__types_8h_aeb924d17fcd585c2612e41f7f4ad9a1f}{CIOT\_CONFIG\_MQTT\_URL\_LEN}}];\ }
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{char}\ user[\mbox{\hyperlink{ciot__mqttc__types_8h_a2612e7ea304728eebf26c76ba9a4935e}{CIOT\_CONFIG\_MQTT\_USER\_LEN}}];\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{char}\ pass[\mbox{\hyperlink{ciot__mqttc__types_8h_ac313545fb49c7e509b76bf009b915b50}{CIOT\_CONFIG\_MQTT\_PASS\_LEN}}];\ }
+\DoxyCodeLine{00113\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structciot__mqttc__cfg__t_a83a04ad582de2b7d36b96f9db429c2c6}{port}};\ }
+\DoxyCodeLine{00114\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__mqttc__cfg__t_a65ee2b4b16f25052c441ff9959dcc7e7}{qos}};\ }
+\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684}{ciot\_mqttc\_transport\_t}}\ \mbox{\hyperlink{structciot__mqttc__cfg__t_addf4bba19daf5bd5b49b033e239931da}{transport}};\ }
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__topics__cfg__t}{ciot\_mqttc\_topics\_cfg\_t}}\ \mbox{\hyperlink{structciot__mqttc__cfg__t_a2a5888184d23c617efb05a871a705673}{topics}};\ }
+\DoxyCodeLine{00117\ \}\ \mbox{\hyperlink{structciot__mqttc__cfg__t}{ciot\_mqttc\_cfg\_t}};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00123\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ce}{ciot\_mqttc\_state\_t}}\ \mbox{\hyperlink{structciot__mqttc__status__t_a28daf783134e0bed0e611de3ea451e4a}{state}};\ }
+\DoxyCodeLine{00125\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__mqttc__status__t_acaf4be12cb0cee4fbea5e8e121f6d2e4}{conn\_count}};\ }
+\DoxyCodeLine{00126\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structciot__mqttc__status__t_af7750329f3654d2f6fe5a20adeae49dd}{data\_rate}};\ }
+\DoxyCodeLine{00127\ \ \ \ \ time\_t\ \mbox{\hyperlink{structciot__mqttc__status__t_a44794759868576e0404c9cf629863797}{last\_msg\_time}};\ }
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__error__t}{ciot\_mqttc\_error\_t}}\ \mbox{\hyperlink{structciot__mqttc__status__t_acee85046d884f9e69d341dafac56cd22}{error}};\ }
+\DoxyCodeLine{00129\ \}\ \mbox{\hyperlink{structciot__mqttc__status__t}{ciot\_mqttc\_status\_t}};}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00134\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00135\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{char}\ topic[\mbox{\hyperlink{ciot__mqttc__types_8h_af67c4f0b899c64fc5cb38c9e920abde6}{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}}];\ }
+\DoxyCodeLine{00137\ \ \ \ \ uint8\_t\ msg[\mbox{\hyperlink{ciot__mqttc__types_8h_a52eaecd264e5b7ce58372236bc489086}{CIOT\_CONFIG\_MQTT\_MSG\_LEN}}];\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__mqttc__req__publish__t_a439227feff9d7f55384e8780cfc2eb82}{size}};\ }
+\DoxyCodeLine{00139\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__mqttc__req__publish__t_a65ee2b4b16f25052c441ff9959dcc7e7}{qos}};\ }
+\DoxyCodeLine{00140\ \}\ \mbox{\hyperlink{structciot__mqttc__req__publish__t}{ciot\_mqttc\_req\_publish\_t}};}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00145\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00146\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{char}\ topic[\mbox{\hyperlink{ciot__mqttc__types_8h_af67c4f0b899c64fc5cb38c9e920abde6}{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}}];\ }
+\DoxyCodeLine{00148\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__mqttc__req__subscribe__t_a65ee2b4b16f25052c441ff9959dcc7e7}{qos}};\ }
+\DoxyCodeLine{00149\ \}\ \mbox{\hyperlink{structciot__mqttc__req__subscribe__t}{ciot\_mqttc\_req\_subscribe\_t}};}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00154\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00155\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__req__publish__t}{ciot\_mqttc\_req\_publish\_t}}\ \mbox{\hyperlink{unionciot__mqttc__req__data__u_ae7b5bde19c99952b5a737b600f3c21e6}{publish}};\ }
+\DoxyCodeLine{00157\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__req__subscribe__t}{ciot\_mqttc\_req\_subscribe\_t}}\ \mbox{\hyperlink{unionciot__mqttc__req__data__u_a061e16f43670bc7f5d29c3971b4088c3}{subscribe}};\ }
+\DoxyCodeLine{00158\ \}\ \mbox{\hyperlink{unionciot__mqttc__req__data__u}{ciot\_mqttc\_req\_data\_u}};}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00163\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00164\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43}{ciot\_mqttc\_req\_type\_t}}\ \mbox{\hyperlink{structciot__mqttc__req__t_a8e287bd3b319b246d8346f46ed6c4580}{type}};\ }
+\DoxyCodeLine{00166\ \ \ \ \ \mbox{\hyperlink{unionciot__mqttc__req__data__u}{ciot\_mqttc\_req\_data\_u}}\ \mbox{\hyperlink{structciot__mqttc__req__t_ad609e57ec1fe769dd7f41602cae320ca}{data}};\ }
+\DoxyCodeLine{00167\ \}\ \mbox{\hyperlink{structciot__mqttc__req__t}{ciot\_mqttc\_req\_t}};}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00172\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structciot__mqttc__event__data}{ciot\_mqttc\_event\_data}}}
+\DoxyCodeLine{00173\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \mbox{\hyperlink{structciot__event__data}{ciot\_event\_data\_t}}\ \mbox{\hyperlink{structciot__mqttc__event__data_a2dbb61af8fd36dccbf3662d0c7a64839}{payload}};\ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structciot__mqttc__event__data_affecb48e716753e10b44feac31f12529}{topic}};\ }
+\DoxyCodeLine{00176\ \}\ \mbox{\hyperlink{ciot__mqttc__types_8h_ac871b56a938626c38c705618405ee350}{ciot\_mqttc\_event\_data\_t}};}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structciot__mqttc__event}{ciot\_mqttc\_event}}}
+\DoxyCodeLine{00182\ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__event__data}{ciot\_mqttc\_event\_data\_t}}\ \mbox{\hyperlink{structciot__mqttc__event_acd187e9c28c27f14c5eb518411a273cb}{data}};\ }
+\DoxyCodeLine{00184\ \}\ \mbox{\hyperlink{ciot__mqttc__types_8h_ab0721513ba2621aaa8012e6a5f6e79ea}{ciot\_mqttc\_event\_u}};}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00189\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00190\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__cfg__t}{ciot\_mqttc\_cfg\_t}}\ \mbox{\hyperlink{unionciot__mqttc__data__u_a79c158a8d9a5ddac01d944ca9485764b}{config}};\ }
+\DoxyCodeLine{00192\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__status__t}{ciot\_mqttc\_status\_t}}\ \mbox{\hyperlink{unionciot__mqttc__data__u_a0bd4162002c890f2775878d4da138c03}{status}};\ }
+\DoxyCodeLine{00193\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__req__t}{ciot\_mqttc\_req\_t}}\ \mbox{\hyperlink{unionciot__mqttc__data__u_af4d809ae5adfaf23b4229995212f0ded}{request}};\ }
+\DoxyCodeLine{00194\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__event}{ciot\_mqttc\_event\_u}}\ \mbox{\hyperlink{unionciot__mqttc__data__u_aea75f103343a18512b1024505e9766de}{event}};\ }
+\DoxyCodeLine{00195\ \}\ \mbox{\hyperlink{unionciot__mqttc__data__u}{ciot\_mqttc\_data\_u}};}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00198\ \}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

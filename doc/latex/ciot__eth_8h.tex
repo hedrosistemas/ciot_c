@@ -1,0 +1,204 @@
+\doxysection{include/ciot\+\_\+eth.h File Reference}
+\hypertarget{ciot__eth_8h}{}\label{ciot__eth_8h}\index{include/ciot\_eth.h@{include/ciot\_eth.h}}
+
+
+Header file for CIOT Ethernet interface.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+tcp\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__eth__status__msg__t}{ciot\+\_\+eth\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure representing the CIOT Ethernet status message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+eth \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure representing the CIOT Ethernet interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556}{ciot\+\_\+eth\+\_\+event\+\_\+id\+\_\+t}} \{ \mbox{\hyperlink{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556aeedce4004914b72cbf5464d1f8dc6620}{CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+START}} = CIOT\+\_\+\+IFACE\+\_\+\+EVENT\+\_\+\+CUSTOM
+, \mbox{\hyperlink{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556af7a9e91956122dcb208686cf6f362f4a}{CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+STOP}}
+, \mbox{\hyperlink{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556aa06cce1cad097460e007b222417aaf7a}{CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+CONNECTED}}
+, \mbox{\hyperlink{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556a7a0a49fd6006a25ba1cf375e28fe05fe}{CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+DISCONNECTED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration of CIOT Ethernet event IDs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}} \mbox{\hyperlink{ciot__eth_8h_a2c82abdd259489cac5b0fa093497d90c}{ciot\+\_\+eth\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Creates a new CIOT Ethernet interface instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__eth_8h_abed434192140a1fae6f358608f3407a8}{ciot\+\_\+eth\+\_\+start}} (\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}} self, \mbox{\hyperlink{structciot__tcp__cfg__t}{ciot\+\_\+tcp\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Starts the CIOT Ethernet interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__eth_8h_af2d6489aa9834dcaecce9c322fd1a96e}{ciot\+\_\+eth\+\_\+stop}} (\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stops the CIOT Ethernet interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__eth_8h_a661b7975f64b8017ec7cd6c4f68a4395}{ciot\+\_\+eth\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}} self, \mbox{\hyperlink{structciot__tcp__req__t}{ciot\+\_\+tcp\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Processes a request for the CIOT Ethernet interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__eth_8h_a3952717d31db12a55731412a370ceda5}{ciot\+\_\+eth\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Sends data over the CIOT Ethernet interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT Ethernet interface. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/17 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}\label{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7} 
+\index{ciot\_eth.h@{ciot\_eth.h}!ciot\_eth\_t@{ciot\_eth\_t}}
+\index{ciot\_eth\_t@{ciot\_eth\_t}!ciot\_eth.h@{ciot\_eth.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_eth\_t}{ciot\_eth\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+eth\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}}}
+
+
+
+Structure representing the CIOT Ethernet interface. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556}\label{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556} 
+\index{ciot\_eth.h@{ciot\_eth.h}!ciot\_eth\_event\_id\_t@{ciot\_eth\_event\_id\_t}}
+\index{ciot\_eth\_event\_id\_t@{ciot\_eth\_event\_id\_t}!ciot\_eth.h@{ciot\_eth.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_eth\_event\_id\_t}{ciot\_eth\_event\_id\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556}{ciot\+\_\+eth\+\_\+event\+\_\+id\+\_\+t}}}
+
+
+
+Enumeration of CIOT Ethernet event IDs. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_ETH\_EVENT\_START@{CIOT\_ETH\_EVENT\_START}!ciot\_eth.h@{ciot\_eth.h}}\index{ciot\_eth.h@{ciot\_eth.h}!CIOT\_ETH\_EVENT\_START@{CIOT\_ETH\_EVENT\_START}}}\Hypertarget{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556aeedce4004914b72cbf5464d1f8dc6620}\label{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556aeedce4004914b72cbf5464d1f8dc6620} 
+CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+START&Ethernet start event. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_ETH\_EVENT\_STOP@{CIOT\_ETH\_EVENT\_STOP}!ciot\_eth.h@{ciot\_eth.h}}\index{ciot\_eth.h@{ciot\_eth.h}!CIOT\_ETH\_EVENT\_STOP@{CIOT\_ETH\_EVENT\_STOP}}}\Hypertarget{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556af7a9e91956122dcb208686cf6f362f4a}\label{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556af7a9e91956122dcb208686cf6f362f4a} 
+CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+STOP&Ethernet stop event. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_ETH\_EVENT\_CONNECTED@{CIOT\_ETH\_EVENT\_CONNECTED}!ciot\_eth.h@{ciot\_eth.h}}\index{ciot\_eth.h@{ciot\_eth.h}!CIOT\_ETH\_EVENT\_CONNECTED@{CIOT\_ETH\_EVENT\_CONNECTED}}}\Hypertarget{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556aa06cce1cad097460e007b222417aaf7a}\label{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556aa06cce1cad097460e007b222417aaf7a} 
+CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+CONNECTED&Ethernet connected event. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_ETH\_EVENT\_DISCONNECTED@{CIOT\_ETH\_EVENT\_DISCONNECTED}!ciot\_eth.h@{ciot\_eth.h}}\index{ciot\_eth.h@{ciot\_eth.h}!CIOT\_ETH\_EVENT\_DISCONNECTED@{CIOT\_ETH\_EVENT\_DISCONNECTED}}}\Hypertarget{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556a7a0a49fd6006a25ba1cf375e28fe05fe}\label{ciot__eth_8h_acba9cf62e11fb559248dff916f3ba556a7a0a49fd6006a25ba1cf375e28fe05fe} 
+CIOT\+\_\+\+ETH\+\_\+\+EVENT\+\_\+\+DISCONNECTED&Ethernet disconnected event. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__eth_8h_a2c82abdd259489cac5b0fa093497d90c}\label{ciot__eth_8h_a2c82abdd259489cac5b0fa093497d90c} 
+\index{ciot\_eth.h@{ciot\_eth.h}!ciot\_eth\_new@{ciot\_eth\_new}}
+\index{ciot\_eth\_new@{ciot\_eth\_new}!ciot\_eth.h@{ciot\_eth.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_eth\_new()}{ciot\_eth\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}} ciot\+\_\+eth\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Creates a new CIOT Ethernet interface instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & The handle for the Ethernet interface. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the new CIOT Ethernet instance. 
+\end{DoxyReturn}
+\Hypertarget{ciot__eth_8h_a661b7975f64b8017ec7cd6c4f68a4395}\label{ciot__eth_8h_a661b7975f64b8017ec7cd6c4f68a4395} 
+\index{ciot\_eth.h@{ciot\_eth.h}!ciot\_eth\_process\_req@{ciot\_eth\_process\_req}}
+\index{ciot\_eth\_process\_req@{ciot\_eth\_process\_req}!ciot\_eth.h@{ciot\_eth.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_eth\_process\_req()}{ciot\_eth\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+eth\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__tcp__req__t}{ciot\+\_\+tcp\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Processes a request for the CIOT Ethernet interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT Ethernet instance. \\
+\hline
+{\em req} & The TCP request to be processed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__eth_8h_a3952717d31db12a55731412a370ceda5}\label{ciot__eth_8h_a3952717d31db12a55731412a370ceda5} 
+\index{ciot\_eth.h@{ciot\_eth.h}!ciot\_eth\_send\_data@{ciot\_eth\_send\_data}}
+\index{ciot\_eth\_send\_data@{ciot\_eth\_send\_data}!ciot\_eth.h@{ciot\_eth.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_eth\_send\_data()}{ciot\_eth\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+eth\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Sends data over the CIOT Ethernet interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT Ethernet instance. \\
+\hline
+{\em data} & The data to be sent. \\
+\hline
+{\em size} & The size of the data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__eth_8h_abed434192140a1fae6f358608f3407a8}\label{ciot__eth_8h_abed434192140a1fae6f358608f3407a8} 
+\index{ciot\_eth.h@{ciot\_eth.h}!ciot\_eth\_start@{ciot\_eth\_start}}
+\index{ciot\_eth\_start@{ciot\_eth\_start}!ciot\_eth.h@{ciot\_eth.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_eth\_start()}{ciot\_eth\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+eth\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__tcp__cfg__t}{ciot\+\_\+tcp\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Starts the CIOT Ethernet interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT Ethernet instance. \\
+\hline
+{\em cfg} & The TCP configuration for Ethernet. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__eth_8h_af2d6489aa9834dcaecce9c322fd1a96e}\label{ciot__eth_8h_af2d6489aa9834dcaecce9c322fd1a96e} 
+\index{ciot\_eth.h@{ciot\_eth.h}!ciot\_eth\_stop@{ciot\_eth\_stop}}
+\index{ciot\_eth\_stop@{ciot\_eth\_stop}!ciot\_eth.h@{ciot\_eth.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_eth\_stop()}{ciot\_eth\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+eth\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__eth_8h_a3f3b88cf1c074f50fd03c724c41d9da7}{ciot\+\_\+eth\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stops the CIOT Ethernet interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT Ethernet instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}

@@ -1,0 +1,739 @@
+\doxysection{include/ciot\+\_\+nrf\+\_\+dfu.h File Reference}
+\hypertarget{ciot__nrf__dfu_8h}{}\label{ciot__nrf__dfu_8h}\index{include/ciot\_nrf\_dfu.h@{include/ciot\_nrf\_dfu.h}}
+
+
+Header file for CIOT Nordic DFU functionality.  
+
+
+{\ttfamily \#include "{}ciot\+\_\+dfu.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__nrf__dfu__packet}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Nordic DFU packet. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__nrf__dfu__cfg}{ciot\+\_\+nrf\+\_\+dfu\+\_\+cfg}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Nordic DFU configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ciot__nrf__dfu_8h_a907d5c29f7ee7e98e90243fa4f9b6caf}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+TIMEOUT\+\_\+\+SEC}}~2
+\begin{DoxyCompactList}\small\item\em Timeout value in seconds for CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{ciot__nrf__dfu_8h_a47e67583a19bb09b121e5f710d019c65}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+MAX\+\_\+\+DFU\+\_\+\+PKT\+\_\+\+LEN\+\_\+\+UART}}~64
+\begin{DoxyCompactList}\small\item\em Maximum packet length for DFU over UART. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{ciot__nrf__dfu_8h_a7f9149227c077569702eec2a6bf10eb0}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+MAX\+\_\+\+DFU\+\_\+\+PKT\+\_\+\+LEN\+\_\+\+BLE}}~20
+\begin{DoxyCompactList}\small\item\em Maximum packet length for DFU over BLE. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+type}} \mbox{\hyperlink{ciot__nrf__dfu_8h_ad1e2509ab93366447d9f971d533419b0}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+type\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU packet types. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22f}{ciot\+\_\+nrf\+\_\+dfu\+\_\+op}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a76d2a2022825679c72f023ccc3419ec0}{ciot\+\_\+nrf\+\_\+dfu\+\_\+op\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU operations. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbb}{ciot\+\_\+nrf\+\_\+dfu\+\_\+result}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a0ef11c38f41f3f2cdcafe8fb6b87f862}{ciot\+\_\+nrf\+\_\+dfu\+\_\+result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU results. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876}{ciot\+\_\+nrf\+\_\+dfu\+\_\+ext\+\_\+error\+\_\+code}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a15b30f8e9e3796c5d5ada153348a36ab}{ciot\+\_\+nrf\+\_\+dfu\+\_\+ext\+\_\+error\+\_\+code\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU extended error codes. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a4ef7cf2448bcedc88f7c278ddb30c9a9}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU states. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structciot__nrf__dfu__packet}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a6b399382dcb80638fd681cded2599bba}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Nordic DFU packet. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structciot__nrf__dfu__cfg}{ciot\+\_\+nrf\+\_\+dfu\+\_\+cfg}} \mbox{\hyperlink{ciot__nrf__dfu_8h_af6665b1af9b889771ac694b094584274}{ciot\+\_\+nrf\+\_\+dfu\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Nordic DFU configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+type}} \{ \mbox{\hyperlink{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06a58dd6cb15eff5a9634ae0673debae2ab}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+PACKET\+\_\+\+TYPE\+\_\+\+INIT}} = 0x01
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06a5ecc108cbe6e0d67b52aa89d30e6536a}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+PACKET\+\_\+\+TYPE\+\_\+\+APP\+\_\+\+IMAGE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU packet types. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22f}{ciot\+\_\+nrf\+\_\+dfu\+\_\+op}} \{ \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa66b58d6f2457c551911bf581b0b597f5}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+PROTOCOL\+\_\+\+VERSION}} = 0x00
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa949711c2a53bb4f5a0e95ede57961de5}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+CREATE}} = 0x01
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa441ab25d1d04a7731c0f5e4ce4aa4c3d}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+RECEIPT\+\_\+\+NOTIF\+\_\+\+SET}} = 0x02
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa0be8dfd4a9a263aaff04bf4286adf485}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+CRC\+\_\+\+GET}} = 0x03
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22facefebfaa540776ef026faf8ffd1d6f2c}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+EXECUTE}} = 0x04
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa34e5ddf70ff4473417abfaf2fcca9b37}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+SELECT}} = 0x06
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa7ebc56e7820cd05d85a8be13ded4be67}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+MTU\+\_\+\+GET}} = 0x07
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa8d93489a0a27db77cbb426eec1575e43}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+WRITE}} = 0x08
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa306c499e291f73d904669d4f5b452484}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+PING}} = 0x09
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa59921b1894fcdfe66347bea3b54e4e04}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+HARDWARE\+\_\+\+VERSION}} = 0x0A
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa6b6934d66b625e1c35b38924626024c6}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+FIRMWARE\+\_\+\+VERSION}} = 0x0B
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa11aec25a50a4001a3a7d1f5e2eea38b2}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+ABORT}} = 0x0C
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa384c95064568d91872ccdff4a60ed61a}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+RESPONSE}} = 0x60
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fac60c573eb055a584d3a2d6a9d81409b3}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+SLIP\+\_\+\+PACKET\+\_\+\+END}} = 0x\+C0
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22faa86c9874390b6aed30bfb676c780361a}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+INVALID}} = 0x\+FF
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU operations. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbb}{ciot\+\_\+nrf\+\_\+dfu\+\_\+result}} \{ \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba5363aba557b0d617d6b8c3d3ca2284ca}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INVALID}} = 0x00
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba535936d5b4b584ad7bb8a7af9e5552bc}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+SUCCESS}} = 0x01
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbaba90277ffa964d5019755f287e8df8e4}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+OP\+\_\+\+CODE\+\_\+\+NOT\+\_\+\+SUPPORTED}} = 0x02
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbab2a095ee2dfb1a01af69266390eab21c}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INVALID\+\_\+\+PARAMETER}} = 0x03
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba06f56145d9f3ef38be063e323c4bc33c}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INSUFFICIENT\+\_\+\+RESOURCES}} = 0x04
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba799c1d5ee8dd5574537b167e98499f16}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INVALID\+\_\+\+OBJECT}} = 0x05
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba916e351ddf13637d5dfe6c79cd2982bd}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+UNSUPPORTED\+\_\+\+TYPE}} = 0x07
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba8ae66ea17e57737330c6dbb4e4d28b69}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+OPERATION\+\_\+\+NOT\+\_\+\+PERMITTED}} = 0x08
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbae028cd46f32cc471013710a10b1748eb}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+OPERATION\+\_\+\+FAILED}} = 0x0A
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbaf20b2768859408e961a888aae72e4f83}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+EXT\+\_\+\+ERROR}} = 0x0B
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU results. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876}{ciot\+\_\+nrf\+\_\+dfu\+\_\+ext\+\_\+error\+\_\+code}} \{ \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876acd7fa6a508c1e3839856c82ebdfc617d}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+NO\+\_\+\+ERROR}} = 0x00
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876ae9642fdf6a86410f790f975077d92f8f}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+ERROR\+\_\+\+CODE}} = 0x01
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a2189d8a473d22eed4eeb95cab818dbfc}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+WRONG\+\_\+\+COMMAND\+\_\+\+FORMAT}} = 0x02
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a889fcdbcd2b35b8363e5b4fcb3c68135}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+UNKNOWN\+\_\+\+COMMAND}} = 0x03
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876aa1444e9416d8c46a6bee2f8af10a847e}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+INIT\+\_\+\+COMMAND\+\_\+\+INVALID}} = 0x04
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a6c02c9ae073844a47747ce63fa3d7130}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+FW\+\_\+\+VERSION\+\_\+\+FAILURE}} = 0x05
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a8774f8de1e6fe337794f1dd01c1372f2}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+HW\+\_\+\+VERSION\+\_\+\+FAILURE}} = 0x06
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a9d52a14d24c2c26773961819baac956d}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+SD\+\_\+\+VERSION\+\_\+\+FAILURE}} = 0x07
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a44ad275bc794402797d4b8149eadaaa9}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+SIGNATURE\+\_\+\+MISSING}} = 0x08
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876ad03f610f0b797c20379f644792d86c08}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+WRONG\+\_\+\+HASH\+\_\+\+TYPE}} = 0x09
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a7bf63807b9f68dd5b74e6ec16c4e92ee}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+HASH\+\_\+\+FAILED}} = 0x0A
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a94fbaa466d441666a84115b95711d334}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+WRONG\+\_\+\+SIGNATURE\+\_\+\+TYPE}} = 0x0B
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a4511b180056f03eb9a6d793540fc7950}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+VERIFICATION\+\_\+\+FAILED}} = 0x0C
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a1b058729e996daf5b636d9e1466196b7}{NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+INSUFFICIENT\+\_\+\+SPACE}} = 0x0D
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU extended error codes. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state}} \{ \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a60afa6e95e03b21559f0579ee7b69b04}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+ERROR}} = -\/1
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a6455d3c1186b42c96b1f97827e71342f}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+IDLE}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a21b7dbe1f859ebdefdbbac5b77930071}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+SEND\+\_\+\+PING}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3af5045df1247bf3563ed125171405b002}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+PING\+\_\+\+RESP}}
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a6b0e0c732f0b02958aa9d9d3055ecd16}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+CREATE\+\_\+\+OBJECT}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3ad8fa89ee49d7550f5f3a49e62e86aa1c}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+CREATE\+\_\+\+OBJ}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3aea9a7ecc2182f03fa6bf8ac79eb770b3}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WRITE\+\_\+\+DFU\+\_\+\+PACKAGE}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3aa1b1df86ff85c29f399dc91451405784}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+REQUEST\+\_\+\+CRC}}
+, \newline
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3abe14f277137dda905fcd4e5c798c132f}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+CRC}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a0b97b26322ad79bd6d3a725b8eef32b4}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+REQUEST\+\_\+\+EXECUTE}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3acac843800e7d29923bdc6189822bbb29}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+EXECUTE}}
+, \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a445a16b5b89db0c852dc48bc92096b58}{CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+COMPLETED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Nordic DFU states. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_aad325ff49e9a727535ba2245af2896f3}{ciot\+\_\+nrf\+\_\+dfu\+\_\+new}} (\mbox{\hyperlink{ciot__nrf__dfu_8h_af6665b1af9b889771ac694b094584274}{ciot\+\_\+nrf\+\_\+dfu\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT Nordic DFU instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_ade8e82ea98fd5f89242d3a38effba293}{ciot\+\_\+nrf\+\_\+dfu\+\_\+start}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self, \mbox{\hyperlink{structciot__dfu__cfg__t}{ciot\+\_\+dfu\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a890127344062271c54ecddd1391c80c3}{ciot\+\_\+nrf\+\_\+dfu\+\_\+stop}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stop CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a470062374eb38631c7bf20f148011ede}{ciot\+\_\+nrf\+\_\+dfu\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self, \mbox{\hyperlink{structciot__dfu__req__t}{ciot\+\_\+dfu\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Process DFU request for CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_afcbdb54986436cb9fdf421ba8f50f077}{ciot\+\_\+nrf\+\_\+dfu\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Send data for CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_aac67be0b79a25d514bb05ccf1622c07e}{ciot\+\_\+nrf\+\_\+dfu\+\_\+task}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Perform CIOT Nordic DFU task. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_af56db9aade46e176e0e286382ca04f7c}{ciot\+\_\+nrf\+\_\+dfu\+\_\+send\+\_\+firmware}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Send firmware for CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_af751feb3c4ee63d05fe6dc1b2c591d4e}{ciot\+\_\+nrf\+\_\+dfu\+\_\+read\+\_\+file}} (\mbox{\hyperlink{ciot__nrf__dfu_8h_a6b399382dcb80638fd681cded2599bba}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}object, const char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em Read file for CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a818286457b301b0a341208839ade9a90}{ciot\+\_\+nrf\+\_\+dfu\+\_\+start\+\_\+bootloader}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self, \mbox{\hyperlink{ciot__iface_8h_ac87bf8f245c1f7cc82f57bc87de9ad71}{ciot\+\_\+iface\+\_\+t}} \texorpdfstring{$\ast$}{*}iface, int sys\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Start bootloader for CIOT Nordic DFU. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__nrf__dfu_8h_a4ef7cf2448bcedc88f7c278ddb30c9a9}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_aee5e7944d29dc3c5a75706fa4b45cc35}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state}} (\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Get the state of CIOT Nordic DFU. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT Nordic DFU functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2024-\/04-\/18 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2024 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ciot__nrf__dfu_8h_a7f9149227c077569702eec2a6bf10eb0}\label{ciot__nrf__dfu_8h_a7f9149227c077569702eec2a6bf10eb0} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_BLE@{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_BLE}}
+\index{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_BLE@{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_BLE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_BLE}{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_BLE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+MAX\+\_\+\+DFU\+\_\+\+PKT\+\_\+\+LEN\+\_\+\+BLE~20}
+
+
+
+Maximum packet length for DFU over BLE. 
+
+\Hypertarget{ciot__nrf__dfu_8h_a47e67583a19bb09b121e5f710d019c65}\label{ciot__nrf__dfu_8h_a47e67583a19bb09b121e5f710d019c65} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_UART@{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_UART}}
+\index{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_UART@{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_UART}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_UART}{CIOT\_NRF\_DFU\_MAX\_DFU\_PKT\_LEN\_UART}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+MAX\+\_\+\+DFU\+\_\+\+PKT\+\_\+\+LEN\+\_\+\+UART~64}
+
+
+
+Maximum packet length for DFU over UART. 
+
+\Hypertarget{ciot__nrf__dfu_8h_a907d5c29f7ee7e98e90243fa4f9b6caf}\label{ciot__nrf__dfu_8h_a907d5c29f7ee7e98e90243fa4f9b6caf} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_TIMEOUT\_SEC@{CIOT\_NRF\_DFU\_TIMEOUT\_SEC}}
+\index{CIOT\_NRF\_DFU\_TIMEOUT\_SEC@{CIOT\_NRF\_DFU\_TIMEOUT\_SEC}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_NRF\_DFU\_TIMEOUT\_SEC}{CIOT\_NRF\_DFU\_TIMEOUT\_SEC}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+TIMEOUT\+\_\+\+SEC~2}
+
+
+
+Timeout value in seconds for CIOT Nordic DFU. 
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__nrf__dfu_8h_af6665b1af9b889771ac694b094584274}\label{ciot__nrf__dfu_8h_af6665b1af9b889771ac694b094584274} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_cfg\_t@{ciot\_nrf\_dfu\_cfg\_t}}
+\index{ciot\_nrf\_dfu\_cfg\_t@{ciot\_nrf\_dfu\_cfg\_t}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_cfg\_t}{ciot\_nrf\_dfu\_cfg\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__nrf__dfu__cfg}{ciot\+\_\+nrf\+\_\+dfu\+\_\+cfg}} \mbox{\hyperlink{ciot__nrf__dfu_8h_af6665b1af9b889771ac694b094584274}{ciot\+\_\+nrf\+\_\+dfu\+\_\+cfg\+\_\+t}}}
+
+
+
+Structure for CIOT Nordic DFU configuration. 
+
+\Hypertarget{ciot__nrf__dfu_8h_a15b30f8e9e3796c5d5ada153348a36ab}\label{ciot__nrf__dfu_8h_a15b30f8e9e3796c5d5ada153348a36ab} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_ext\_error\_code\_t@{ciot\_nrf\_dfu\_ext\_error\_code\_t}}
+\index{ciot\_nrf\_dfu\_ext\_error\_code\_t@{ciot\_nrf\_dfu\_ext\_error\_code\_t}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_ext\_error\_code\_t}{ciot\_nrf\_dfu\_ext\_error\_code\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876}{ciot\+\_\+nrf\+\_\+dfu\+\_\+ext\+\_\+error\+\_\+code}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a15b30f8e9e3796c5d5ada153348a36ab}{ciot\+\_\+nrf\+\_\+dfu\+\_\+ext\+\_\+error\+\_\+code\+\_\+t}}}
+
+
+
+Enumeration for CIOT Nordic DFU extended error codes. 
+
+\Hypertarget{ciot__nrf__dfu_8h_a76d2a2022825679c72f023ccc3419ec0}\label{ciot__nrf__dfu_8h_a76d2a2022825679c72f023ccc3419ec0} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_op\_t@{ciot\_nrf\_dfu\_op\_t}}
+\index{ciot\_nrf\_dfu\_op\_t@{ciot\_nrf\_dfu\_op\_t}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_op\_t}{ciot\_nrf\_dfu\_op\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22f}{ciot\+\_\+nrf\+\_\+dfu\+\_\+op}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a76d2a2022825679c72f023ccc3419ec0}{ciot\+\_\+nrf\+\_\+dfu\+\_\+op\+\_\+t}}}
+
+
+
+Enumeration for CIOT Nordic DFU operations. 
+
+\Hypertarget{ciot__nrf__dfu_8h_a6b399382dcb80638fd681cded2599bba}\label{ciot__nrf__dfu_8h_a6b399382dcb80638fd681cded2599bba} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_packet\_t@{ciot\_nrf\_dfu\_packet\_t}}
+\index{ciot\_nrf\_dfu\_packet\_t@{ciot\_nrf\_dfu\_packet\_t}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_packet\_t}{ciot\_nrf\_dfu\_packet\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__nrf__dfu__packet}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a6b399382dcb80638fd681cded2599bba}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+t}}}
+
+
+
+Structure for CIOT Nordic DFU packet. 
+
+\Hypertarget{ciot__nrf__dfu_8h_ad1e2509ab93366447d9f971d533419b0}\label{ciot__nrf__dfu_8h_ad1e2509ab93366447d9f971d533419b0} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_packet\_type\_t@{ciot\_nrf\_dfu\_packet\_type\_t}}
+\index{ciot\_nrf\_dfu\_packet\_type\_t@{ciot\_nrf\_dfu\_packet\_type\_t}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_packet\_type\_t}{ciot\_nrf\_dfu\_packet\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+type}} \mbox{\hyperlink{ciot__nrf__dfu_8h_ad1e2509ab93366447d9f971d533419b0}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT Nordic DFU packet types. 
+
+\Hypertarget{ciot__nrf__dfu_8h_a0ef11c38f41f3f2cdcafe8fb6b87f862}\label{ciot__nrf__dfu_8h_a0ef11c38f41f3f2cdcafe8fb6b87f862} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_result\_t@{ciot\_nrf\_dfu\_result\_t}}
+\index{ciot\_nrf\_dfu\_result\_t@{ciot\_nrf\_dfu\_result\_t}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_result\_t}{ciot\_nrf\_dfu\_result\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbb}{ciot\+\_\+nrf\+\_\+dfu\+\_\+result}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a0ef11c38f41f3f2cdcafe8fb6b87f862}{ciot\+\_\+nrf\+\_\+dfu\+\_\+result\+\_\+t}}}
+
+
+
+Enumeration for CIOT Nordic DFU results. 
+
+\Hypertarget{ciot__nrf__dfu_8h_a4ef7cf2448bcedc88f7c278ddb30c9a9}\label{ciot__nrf__dfu_8h_a4ef7cf2448bcedc88f7c278ddb30c9a9} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_state\_t@{ciot\_nrf\_dfu\_state\_t}}
+\index{ciot\_nrf\_dfu\_state\_t@{ciot\_nrf\_dfu\_state\_t}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_state\_t}{ciot\_nrf\_dfu\_state\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a4ef7cf2448bcedc88f7c278ddb30c9a9}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT Nordic DFU states. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_ext\_error\_code@{ciot\_nrf\_dfu\_ext\_error\_code}}
+\index{ciot\_nrf\_dfu\_ext\_error\_code@{ciot\_nrf\_dfu\_ext\_error\_code}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_ext\_error\_code}{ciot\_nrf\_dfu\_ext\_error\_code}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876}{ciot\+\_\+nrf\+\_\+dfu\+\_\+ext\+\_\+error\+\_\+code}}}
+
+
+
+Enumeration for CIOT Nordic DFU extended error codes. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_NO\_ERROR@{NRF\_DFU\_EXT\_ERROR\_NO\_ERROR}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_NO\_ERROR@{NRF\_DFU\_EXT\_ERROR\_NO\_ERROR}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876acd7fa6a508c1e3839856c82ebdfc617d}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876acd7fa6a508c1e3839856c82ebdfc617d} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+NO\+\_\+\+ERROR&No extended error code set. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_INVALID\_ERROR\_CODE@{NRF\_DFU\_EXT\_ERROR\_INVALID\_ERROR\_CODE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_INVALID\_ERROR\_CODE@{NRF\_DFU\_EXT\_ERROR\_INVALID\_ERROR\_CODE}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876ae9642fdf6a86410f790f975077d92f8f}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876ae9642fdf6a86410f790f975077d92f8f} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+ERROR\+\_\+\+CODE&Invalid error code. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_WRONG\_COMMAND\_FORMAT@{NRF\_DFU\_EXT\_ERROR\_WRONG\_COMMAND\_FORMAT}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_WRONG\_COMMAND\_FORMAT@{NRF\_DFU\_EXT\_ERROR\_WRONG\_COMMAND\_FORMAT}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a2189d8a473d22eed4eeb95cab818dbfc}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a2189d8a473d22eed4eeb95cab818dbfc} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+WRONG\+\_\+\+COMMAND\+\_\+\+FORMAT&Incorrect command format. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_UNKNOWN\_COMMAND@{NRF\_DFU\_EXT\_ERROR\_UNKNOWN\_COMMAND}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_UNKNOWN\_COMMAND@{NRF\_DFU\_EXT\_ERROR\_UNKNOWN\_COMMAND}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a889fcdbcd2b35b8363e5b4fcb3c68135}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a889fcdbcd2b35b8363e5b4fcb3c68135} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+UNKNOWN\+\_\+\+COMMAND&Unknown or unsupported command. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_INIT\_COMMAND\_INVALID@{NRF\_DFU\_EXT\_ERROR\_INIT\_COMMAND\_INVALID}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_INIT\_COMMAND\_INVALID@{NRF\_DFU\_EXT\_ERROR\_INIT\_COMMAND\_INVALID}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876aa1444e9416d8c46a6bee2f8af10a847e}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876aa1444e9416d8c46a6bee2f8af10a847e} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+INIT\+\_\+\+COMMAND\+\_\+\+INVALID&Invalid init command or missing fields. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_FW\_VERSION\_FAILURE@{NRF\_DFU\_EXT\_ERROR\_FW\_VERSION\_FAILURE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_FW\_VERSION\_FAILURE@{NRF\_DFU\_EXT\_ERROR\_FW\_VERSION\_FAILURE}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a6c02c9ae073844a47747ce63fa3d7130}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a6c02c9ae073844a47747ce63fa3d7130} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+FW\+\_\+\+VERSION\+\_\+\+FAILURE&Firmware version too low. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_HW\_VERSION\_FAILURE@{NRF\_DFU\_EXT\_ERROR\_HW\_VERSION\_FAILURE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_HW\_VERSION\_FAILURE@{NRF\_DFU\_EXT\_ERROR\_HW\_VERSION\_FAILURE}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a8774f8de1e6fe337794f1dd01c1372f2}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a8774f8de1e6fe337794f1dd01c1372f2} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+HW\+\_\+\+VERSION\+\_\+\+FAILURE&Hardware version mismatch. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_SD\_VERSION\_FAILURE@{NRF\_DFU\_EXT\_ERROR\_SD\_VERSION\_FAILURE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_SD\_VERSION\_FAILURE@{NRF\_DFU\_EXT\_ERROR\_SD\_VERSION\_FAILURE}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a9d52a14d24c2c26773961819baac956d}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a9d52a14d24c2c26773961819baac956d} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+SD\+\_\+\+VERSION\+\_\+\+FAILURE&Soft\+Device version mismatch. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_SIGNATURE\_MISSING@{NRF\_DFU\_EXT\_ERROR\_SIGNATURE\_MISSING}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_SIGNATURE\_MISSING@{NRF\_DFU\_EXT\_ERROR\_SIGNATURE\_MISSING}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a44ad275bc794402797d4b8149eadaaa9}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a44ad275bc794402797d4b8149eadaaa9} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+SIGNATURE\+\_\+\+MISSING&Signature missing in init packet. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_WRONG\_HASH\_TYPE@{NRF\_DFU\_EXT\_ERROR\_WRONG\_HASH\_TYPE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_WRONG\_HASH\_TYPE@{NRF\_DFU\_EXT\_ERROR\_WRONG\_HASH\_TYPE}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876ad03f610f0b797c20379f644792d86c08}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876ad03f610f0b797c20379f644792d86c08} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+WRONG\+\_\+\+HASH\+\_\+\+TYPE&Unsupported hash type. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_HASH\_FAILED@{NRF\_DFU\_EXT\_ERROR\_HASH\_FAILED}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_HASH\_FAILED@{NRF\_DFU\_EXT\_ERROR\_HASH\_FAILED}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a7bf63807b9f68dd5b74e6ec16c4e92ee}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a7bf63807b9f68dd5b74e6ec16c4e92ee} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+HASH\+\_\+\+FAILED&Hash calculation failed. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_WRONG\_SIGNATURE\_TYPE@{NRF\_DFU\_EXT\_ERROR\_WRONG\_SIGNATURE\_TYPE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_WRONG\_SIGNATURE\_TYPE@{NRF\_DFU\_EXT\_ERROR\_WRONG\_SIGNATURE\_TYPE}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a94fbaa466d441666a84115b95711d334}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a94fbaa466d441666a84115b95711d334} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+WRONG\+\_\+\+SIGNATURE\+\_\+\+TYPE&Unknown or unsupported signature type. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_VERIFICATION\_FAILED@{NRF\_DFU\_EXT\_ERROR\_VERIFICATION\_FAILED}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_VERIFICATION\_FAILED@{NRF\_DFU\_EXT\_ERROR\_VERIFICATION\_FAILED}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a4511b180056f03eb9a6d793540fc7950}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a4511b180056f03eb9a6d793540fc7950} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+VERIFICATION\+\_\+\+FAILED&Hash verification failed. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NRF\_DFU\_EXT\_ERROR\_INSUFFICIENT\_SPACE@{NRF\_DFU\_EXT\_ERROR\_INSUFFICIENT\_SPACE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!NRF\_DFU\_EXT\_ERROR\_INSUFFICIENT\_SPACE@{NRF\_DFU\_EXT\_ERROR\_INSUFFICIENT\_SPACE}}}\Hypertarget{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a1b058729e996daf5b636d9e1466196b7}\label{ciot__nrf__dfu_8h_a9b1886dcffda4260c62de821ec13d876a1b058729e996daf5b636d9e1466196b7} 
+NRF\+\_\+\+DFU\+\_\+\+EXT\+\_\+\+ERROR\+\_\+\+INSUFFICIENT\+\_\+\+SPACE&Insufficient space for firmware. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22f}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22f} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_op@{ciot\_nrf\_dfu\_op}}
+\index{ciot\_nrf\_dfu\_op@{ciot\_nrf\_dfu\_op}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_op}{ciot\_nrf\_dfu\_op}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22f}{ciot\+\_\+nrf\+\_\+dfu\+\_\+op}}}
+
+
+
+Enumeration for CIOT Nordic DFU operations. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_PROTOCOL\_VERSION@{CIOT\_NRF\_DFU\_OP\_PROTOCOL\_VERSION}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_PROTOCOL\_VERSION@{CIOT\_NRF\_DFU\_OP\_PROTOCOL\_VERSION}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa66b58d6f2457c551911bf581b0b597f5}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa66b58d6f2457c551911bf581b0b597f5} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+PROTOCOL\+\_\+\+VERSION&Retrieve protocol version. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_OBJECT\_CREATE@{CIOT\_NRF\_DFU\_OP\_OBJECT\_CREATE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_OBJECT\_CREATE@{CIOT\_NRF\_DFU\_OP\_OBJECT\_CREATE}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa949711c2a53bb4f5a0e95ede57961de5}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa949711c2a53bb4f5a0e95ede57961de5} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+CREATE&Create selected object. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_RECEIPT\_NOTIF\_SET@{CIOT\_NRF\_DFU\_OP\_RECEIPT\_NOTIF\_SET}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_RECEIPT\_NOTIF\_SET@{CIOT\_NRF\_DFU\_OP\_RECEIPT\_NOTIF\_SET}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa441ab25d1d04a7731c0f5e4ce4aa4c3d}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa441ab25d1d04a7731c0f5e4ce4aa4c3d} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+RECEIPT\+\_\+\+NOTIF\+\_\+\+SET&Set receipt notification. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_CRC\_GET@{CIOT\_NRF\_DFU\_OP\_CRC\_GET}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_CRC\_GET@{CIOT\_NRF\_DFU\_OP\_CRC\_GET}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa0be8dfd4a9a263aaff04bf4286adf485}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa0be8dfd4a9a263aaff04bf4286adf485} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+CRC\+\_\+\+GET&Request CRC of selected object. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_OBJECT\_EXECUTE@{CIOT\_NRF\_DFU\_OP\_OBJECT\_EXECUTE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_OBJECT\_EXECUTE@{CIOT\_NRF\_DFU\_OP\_OBJECT\_EXECUTE}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22facefebfaa540776ef026faf8ffd1d6f2c}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22facefebfaa540776ef026faf8ffd1d6f2c} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+EXECUTE&Execute selected object. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_OBJECT\_SELECT@{CIOT\_NRF\_DFU\_OP\_OBJECT\_SELECT}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_OBJECT\_SELECT@{CIOT\_NRF\_DFU\_OP\_OBJECT\_SELECT}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa34e5ddf70ff4473417abfaf2fcca9b37}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa34e5ddf70ff4473417abfaf2fcca9b37} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+SELECT&Select object. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_MTU\_GET@{CIOT\_NRF\_DFU\_OP\_MTU\_GET}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_MTU\_GET@{CIOT\_NRF\_DFU\_OP\_MTU\_GET}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa7ebc56e7820cd05d85a8be13ded4be67}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa7ebc56e7820cd05d85a8be13ded4be67} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+MTU\+\_\+\+GET&Retrieve MTU size. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_OBJECT\_WRITE@{CIOT\_NRF\_DFU\_OP\_OBJECT\_WRITE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_OBJECT\_WRITE@{CIOT\_NRF\_DFU\_OP\_OBJECT\_WRITE}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa8d93489a0a27db77cbb426eec1575e43}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa8d93489a0a27db77cbb426eec1575e43} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+OBJECT\+\_\+\+WRITE&Write selected object. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_PING@{CIOT\_NRF\_DFU\_OP\_PING}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_PING@{CIOT\_NRF\_DFU\_OP\_PING}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa306c499e291f73d904669d4f5b452484}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa306c499e291f73d904669d4f5b452484} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+PING&Ping. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_HARDWARE\_VERSION@{CIOT\_NRF\_DFU\_OP\_HARDWARE\_VERSION}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_HARDWARE\_VERSION@{CIOT\_NRF\_DFU\_OP\_HARDWARE\_VERSION}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa59921b1894fcdfe66347bea3b54e4e04}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa59921b1894fcdfe66347bea3b54e4e04} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+HARDWARE\+\_\+\+VERSION&Retrieve hardware version. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_FIRMWARE\_VERSION@{CIOT\_NRF\_DFU\_OP\_FIRMWARE\_VERSION}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_FIRMWARE\_VERSION@{CIOT\_NRF\_DFU\_OP\_FIRMWARE\_VERSION}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa6b6934d66b625e1c35b38924626024c6}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa6b6934d66b625e1c35b38924626024c6} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+FIRMWARE\+\_\+\+VERSION&Retrieve firmware version. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_ABORT@{CIOT\_NRF\_DFU\_OP\_ABORT}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_ABORT@{CIOT\_NRF\_DFU\_OP\_ABORT}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa11aec25a50a4001a3a7d1f5e2eea38b2}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa11aec25a50a4001a3a7d1f5e2eea38b2} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+ABORT&Abort the DFU procedure. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_RESPONSE@{CIOT\_NRF\_DFU\_OP\_RESPONSE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_RESPONSE@{CIOT\_NRF\_DFU\_OP\_RESPONSE}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa384c95064568d91872ccdff4a60ed61a}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fa384c95064568d91872ccdff4a60ed61a} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+RESPONSE&Response. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_SLIP\_PACKET\_END@{CIOT\_NRF\_DFU\_OP\_SLIP\_PACKET\_END}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_SLIP\_PACKET\_END@{CIOT\_NRF\_DFU\_OP\_SLIP\_PACKET\_END}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fac60c573eb055a584d3a2d6a9d81409b3}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22fac60c573eb055a584d3a2d6a9d81409b3} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+SLIP\+\_\+\+PACKET\+\_\+\+END&Slip end of packet. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_OP\_INVALID@{CIOT\_NRF\_DFU\_OP\_INVALID}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_OP\_INVALID@{CIOT\_NRF\_DFU\_OP\_INVALID}}}\Hypertarget{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22faa86c9874390b6aed30bfb676c780361a}\label{ciot__nrf__dfu_8h_a2abe0b961d351c9d48e8ccd6b703c22faa86c9874390b6aed30bfb676c780361a} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+OP\+\_\+\+INVALID&Invalid request. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06}\label{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_packet\_type@{ciot\_nrf\_dfu\_packet\_type}}
+\index{ciot\_nrf\_dfu\_packet\_type@{ciot\_nrf\_dfu\_packet\_type}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_packet\_type}{ciot\_nrf\_dfu\_packet\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+type}}}
+
+
+
+Enumeration for CIOT Nordic DFU packet types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_PACKET\_TYPE\_INIT@{CIOT\_NRF\_DFU\_PACKET\_TYPE\_INIT}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_PACKET\_TYPE\_INIT@{CIOT\_NRF\_DFU\_PACKET\_TYPE\_INIT}}}\Hypertarget{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06a58dd6cb15eff5a9634ae0673debae2ab}\label{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06a58dd6cb15eff5a9634ae0673debae2ab} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+PACKET\+\_\+\+TYPE\+\_\+\+INIT&DFU initialization packet type. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_PACKET\_TYPE\_APP\_IMAGE@{CIOT\_NRF\_DFU\_PACKET\_TYPE\_APP\_IMAGE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_PACKET\_TYPE\_APP\_IMAGE@{CIOT\_NRF\_DFU\_PACKET\_TYPE\_APP\_IMAGE}}}\Hypertarget{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06a5ecc108cbe6e0d67b52aa89d30e6536a}\label{ciot__nrf__dfu_8h_ab974f696095f5fdfd9a2bf98983ddc06a5ecc108cbe6e0d67b52aa89d30e6536a} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+PACKET\+\_\+\+TYPE\+\_\+\+APP\+\_\+\+IMAGE&DFU application image packet type. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbb}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbb} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_result@{ciot\_nrf\_dfu\_result}}
+\index{ciot\_nrf\_dfu\_result@{ciot\_nrf\_dfu\_result}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_result}{ciot\_nrf\_dfu\_result}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbb}{ciot\+\_\+nrf\+\_\+dfu\+\_\+result}}}
+
+
+
+Enumeration for CIOT Nordic DFU results. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID@{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_INVALID@{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba5363aba557b0d617d6b8c3d3ca2284ca}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba5363aba557b0d617d6b8c3d3ca2284ca} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INVALID&Invalid opcode. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_SUCCESS@{CIOT\_NRF\_DFU\_RES\_CODE\_SUCCESS}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_SUCCESS@{CIOT\_NRF\_DFU\_RES\_CODE\_SUCCESS}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba535936d5b4b584ad7bb8a7af9e5552bc}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba535936d5b4b584ad7bb8a7af9e5552bc} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+SUCCESS&Operation successful. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_OP\_CODE\_NOT\_SUPPORTED@{CIOT\_NRF\_DFU\_RES\_CODE\_OP\_CODE\_NOT\_SUPPORTED}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_OP\_CODE\_NOT\_SUPPORTED@{CIOT\_NRF\_DFU\_RES\_CODE\_OP\_CODE\_NOT\_SUPPORTED}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbaba90277ffa964d5019755f287e8df8e4}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbaba90277ffa964d5019755f287e8df8e4} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+OP\+\_\+\+CODE\+\_\+\+NOT\+\_\+\+SUPPORTED&Opcode not supported. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_PARAMETER@{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_PARAMETER}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_PARAMETER@{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_PARAMETER}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbab2a095ee2dfb1a01af69266390eab21c}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbab2a095ee2dfb1a01af69266390eab21c} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INVALID\+\_\+\+PARAMETER&Missing or invalid parameter value. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_INSUFFICIENT\_RESOURCES@{CIOT\_NRF\_DFU\_RES\_CODE\_INSUFFICIENT\_RESOURCES}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_INSUFFICIENT\_RESOURCES@{CIOT\_NRF\_DFU\_RES\_CODE\_INSUFFICIENT\_RESOURCES}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba06f56145d9f3ef38be063e323c4bc33c}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba06f56145d9f3ef38be063e323c4bc33c} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INSUFFICIENT\+\_\+\+RESOURCES&Not enough memory for the data object. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_OBJECT@{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_OBJECT}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_OBJECT@{CIOT\_NRF\_DFU\_RES\_CODE\_INVALID\_OBJECT}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba799c1d5ee8dd5574537b167e98499f16}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba799c1d5ee8dd5574537b167e98499f16} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+INVALID\+\_\+\+OBJECT&Data object does not match firmware and hardware requirements, wrong signature, or parsing failure. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_UNSUPPORTED\_TYPE@{CIOT\_NRF\_DFU\_RES\_CODE\_UNSUPPORTED\_TYPE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_UNSUPPORTED\_TYPE@{CIOT\_NRF\_DFU\_RES\_CODE\_UNSUPPORTED\_TYPE}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba916e351ddf13637d5dfe6c79cd2982bd}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba916e351ddf13637d5dfe6c79cd2982bd} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+UNSUPPORTED\+\_\+\+TYPE&Not a valid object type for Create request. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_NOT\_PERMITTED@{CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_NOT\_PERMITTED}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_NOT\_PERMITTED@{CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_NOT\_PERMITTED}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba8ae66ea17e57737330c6dbb4e4d28b69}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbba8ae66ea17e57737330c6dbb4e4d28b69} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+OPERATION\+\_\+\+NOT\+\_\+\+PERMITTED&DFU process state does not allow this operation. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_FAILED@{CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_FAILED}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_FAILED@{CIOT\_NRF\_DFU\_RES\_CODE\_OPERATION\_FAILED}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbae028cd46f32cc471013710a10b1748eb}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbae028cd46f32cc471013710a10b1748eb} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+OPERATION\+\_\+\+FAILED&Operation failed. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_RES\_CODE\_EXT\_ERROR@{CIOT\_NRF\_DFU\_RES\_CODE\_EXT\_ERROR}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_RES\_CODE\_EXT\_ERROR@{CIOT\_NRF\_DFU\_RES\_CODE\_EXT\_ERROR}}}\Hypertarget{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbaf20b2768859408e961a888aae72e4f83}\label{ciot__nrf__dfu_8h_a1fe3f84c3a3765c0c4138d0423e09dbbaf20b2768859408e961a888aae72e4f83} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+RES\+\_\+\+CODE\+\_\+\+EXT\+\_\+\+ERROR&Extended error. See nrf\+\_\+dfu\+\_\+ext\+\_\+error\+\_\+code\+\_\+t. \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_state@{ciot\_nrf\_dfu\_state}}
+\index{ciot\_nrf\_dfu\_state@{ciot\_nrf\_dfu\_state}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_state}{ciot\_nrf\_dfu\_state}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state}}}
+
+
+
+Enumeration for CIOT Nordic DFU states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_ERROR@{CIOT\_NRF\_DFU\_STATE\_ERROR}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_ERROR@{CIOT\_NRF\_DFU\_STATE\_ERROR}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a60afa6e95e03b21559f0579ee7b69b04}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a60afa6e95e03b21559f0579ee7b69b04} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+ERROR&Error state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_IDLE@{CIOT\_NRF\_DFU\_STATE\_IDLE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_IDLE@{CIOT\_NRF\_DFU\_STATE\_IDLE}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a6455d3c1186b42c96b1f97827e71342f}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a6455d3c1186b42c96b1f97827e71342f} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+IDLE&Idle state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_SEND\_PING@{CIOT\_NRF\_DFU\_STATE\_SEND\_PING}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_SEND\_PING@{CIOT\_NRF\_DFU\_STATE\_SEND\_PING}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a21b7dbe1f859ebdefdbbac5b77930071}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a21b7dbe1f859ebdefdbbac5b77930071} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+SEND\+\_\+\+PING&Sending ping state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_WAITING\_PING\_RESP@{CIOT\_NRF\_DFU\_STATE\_WAITING\_PING\_RESP}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_WAITING\_PING\_RESP@{CIOT\_NRF\_DFU\_STATE\_WAITING\_PING\_RESP}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3af5045df1247bf3563ed125171405b002}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3af5045df1247bf3563ed125171405b002} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+PING\+\_\+\+RESP&Waiting for ping response state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_CREATE\_OBJECT@{CIOT\_NRF\_DFU\_STATE\_CREATE\_OBJECT}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_CREATE\_OBJECT@{CIOT\_NRF\_DFU\_STATE\_CREATE\_OBJECT}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a6b0e0c732f0b02958aa9d9d3055ecd16}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a6b0e0c732f0b02958aa9d9d3055ecd16} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+CREATE\+\_\+\+OBJECT&Creating object state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_WAITING\_CREATE\_OBJ@{CIOT\_NRF\_DFU\_STATE\_WAITING\_CREATE\_OBJ}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_WAITING\_CREATE\_OBJ@{CIOT\_NRF\_DFU\_STATE\_WAITING\_CREATE\_OBJ}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3ad8fa89ee49d7550f5f3a49e62e86aa1c}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3ad8fa89ee49d7550f5f3a49e62e86aa1c} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+CREATE\+\_\+\+OBJ&Waiting for object creation state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_WRITE\_DFU\_PACKAGE@{CIOT\_NRF\_DFU\_STATE\_WRITE\_DFU\_PACKAGE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_WRITE\_DFU\_PACKAGE@{CIOT\_NRF\_DFU\_STATE\_WRITE\_DFU\_PACKAGE}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3aea9a7ecc2182f03fa6bf8ac79eb770b3}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3aea9a7ecc2182f03fa6bf8ac79eb770b3} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WRITE\+\_\+\+DFU\+\_\+\+PACKAGE&Writing DFU package state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_REQUEST\_CRC@{CIOT\_NRF\_DFU\_STATE\_REQUEST\_CRC}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_REQUEST\_CRC@{CIOT\_NRF\_DFU\_STATE\_REQUEST\_CRC}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3aa1b1df86ff85c29f399dc91451405784}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3aa1b1df86ff85c29f399dc91451405784} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+REQUEST\+\_\+\+CRC&Requesting CRC state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_WAITING\_CRC@{CIOT\_NRF\_DFU\_STATE\_WAITING\_CRC}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_WAITING\_CRC@{CIOT\_NRF\_DFU\_STATE\_WAITING\_CRC}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3abe14f277137dda905fcd4e5c798c132f}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3abe14f277137dda905fcd4e5c798c132f} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+CRC&Waiting for CRC state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_REQUEST\_EXECUTE@{CIOT\_NRF\_DFU\_STATE\_REQUEST\_EXECUTE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_REQUEST\_EXECUTE@{CIOT\_NRF\_DFU\_STATE\_REQUEST\_EXECUTE}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a0b97b26322ad79bd6d3a725b8eef32b4}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a0b97b26322ad79bd6d3a725b8eef32b4} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+REQUEST\+\_\+\+EXECUTE&Requesting execute state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_WAITING\_EXECUTE@{CIOT\_NRF\_DFU\_STATE\_WAITING\_EXECUTE}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_WAITING\_EXECUTE@{CIOT\_NRF\_DFU\_STATE\_WAITING\_EXECUTE}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3acac843800e7d29923bdc6189822bbb29}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3acac843800e7d29923bdc6189822bbb29} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+WAITING\+\_\+\+EXECUTE&Waiting for execute state. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_NRF\_DFU\_STATE\_COMPLETED@{CIOT\_NRF\_DFU\_STATE\_COMPLETED}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!CIOT\_NRF\_DFU\_STATE\_COMPLETED@{CIOT\_NRF\_DFU\_STATE\_COMPLETED}}}\Hypertarget{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a445a16b5b89db0c852dc48bc92096b58}\label{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3a445a16b5b89db0c852dc48bc92096b58} 
+CIOT\+\_\+\+NRF\+\_\+\+DFU\+\_\+\+STATE\+\_\+\+COMPLETED&Completed state. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__nrf__dfu_8h_aad325ff49e9a727535ba2245af2896f3}\label{ciot__nrf__dfu_8h_aad325ff49e9a727535ba2245af2896f3} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_new@{ciot\_nrf\_dfu\_new}}
+\index{ciot\_nrf\_dfu\_new@{ciot\_nrf\_dfu\_new}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_new()}{ciot\_nrf\_dfu\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+new (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__nrf__dfu_8h_af6665b1af9b889771ac694b094584274}{ciot\+\_\+nrf\+\_\+dfu\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT Nordic DFU instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cfg} & Pointer to the configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance of CIOT DFU. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_a470062374eb38631c7bf20f148011ede}\label{ciot__nrf__dfu_8h_a470062374eb38631c7bf20f148011ede} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_process\_req@{ciot\_nrf\_dfu\_process\_req}}
+\index{ciot\_nrf\_dfu\_process\_req@{ciot\_nrf\_dfu\_process\_req}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_process\_req()}{ciot\_nrf\_dfu\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__dfu__req__t}{ciot\+\_\+dfu\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Process DFU request for CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+{\em req} & DFU request. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_af751feb3c4ee63d05fe6dc1b2c591d4e}\label{ciot__nrf__dfu_8h_af751feb3c4ee63d05fe6dc1b2c591d4e} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_read\_file@{ciot\_nrf\_dfu\_read\_file}}
+\index{ciot\_nrf\_dfu\_read\_file@{ciot\_nrf\_dfu\_read\_file}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_read\_file()}{ciot\_nrf\_dfu\_read\_file()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+read\+\_\+file (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__nrf__dfu_8h_a6b399382dcb80638fd681cded2599bba}{ciot\+\_\+nrf\+\_\+dfu\+\_\+packet\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{object,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})}
+
+
+
+Read file for CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em object} & Object to read into. \\
+\hline
+{\em name} & Name of the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_afcbdb54986436cb9fdf421ba8f50f077}\label{ciot__nrf__dfu_8h_afcbdb54986436cb9fdf421ba8f50f077} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_send\_data@{ciot\_nrf\_dfu\_send\_data}}
+\index{ciot\_nrf\_dfu\_send\_data@{ciot\_nrf\_dfu\_send\_data}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_send\_data()}{ciot\_nrf\_dfu\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data for CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+{\em data} & Data to send. \\
+\hline
+{\em size} & Size of data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_af56db9aade46e176e0e286382ca04f7c}\label{ciot__nrf__dfu_8h_af56db9aade46e176e0e286382ca04f7c} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_send\_firmware@{ciot\_nrf\_dfu\_send\_firmware}}
+\index{ciot\_nrf\_dfu\_send\_firmware@{ciot\_nrf\_dfu\_send\_firmware}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_send\_firmware()}{ciot\_nrf\_dfu\_send\_firmware()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+send\+\_\+firmware (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Send firmware for CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_ade8e82ea98fd5f89242d3a38effba293}\label{ciot__nrf__dfu_8h_ade8e82ea98fd5f89242d3a38effba293} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_start@{ciot\_nrf\_dfu\_start}}
+\index{ciot\_nrf\_dfu\_start@{ciot\_nrf\_dfu\_start}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_start()}{ciot\_nrf\_dfu\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__dfu__cfg__t}{ciot\+\_\+dfu\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+{\em cfg} & Configuration for DFU. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_a818286457b301b0a341208839ade9a90}\label{ciot__nrf__dfu_8h_a818286457b301b0a341208839ade9a90} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_start\_bootloader@{ciot\_nrf\_dfu\_start\_bootloader}}
+\index{ciot\_nrf\_dfu\_start\_bootloader@{ciot\_nrf\_dfu\_start\_bootloader}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_start\_bootloader()}{ciot\_nrf\_dfu\_start\_bootloader()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+start\+\_\+bootloader (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{ciot__iface_8h_ac87bf8f245c1f7cc82f57bc87de9ad71}{ciot\+\_\+iface\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{iface,  }\item[{int}]{sys\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Start bootloader for CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+{\em iface} & Interface pointer. \\
+\hline
+{\em sys\+\_\+id} & System ID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_aee5e7944d29dc3c5a75706fa4b45cc35}\label{ciot__nrf__dfu_8h_aee5e7944d29dc3c5a75706fa4b45cc35} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_state@{ciot\_nrf\_dfu\_state}}
+\index{ciot\_nrf\_dfu\_state@{ciot\_nrf\_dfu\_state}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_state()}{ciot\_nrf\_dfu\_state()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__nrf__dfu_8h_a4ef7cf2448bcedc88f7c278ddb30c9a9}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state\+\_\+t}} \mbox{\hyperlink{ciot__nrf__dfu_8h_a548699ff1d8ff4bef907d5387fc33af3}{ciot\+\_\+nrf\+\_\+dfu\+\_\+state}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Get the state of CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+State of DFU. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_a890127344062271c54ecddd1391c80c3}\label{ciot__nrf__dfu_8h_a890127344062271c54ecddd1391c80c3} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_stop@{ciot\_nrf\_dfu\_stop}}
+\index{ciot\_nrf\_dfu\_stop@{ciot\_nrf\_dfu\_stop}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_stop()}{ciot\_nrf\_dfu\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stop CIOT Nordic DFU. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__nrf__dfu_8h_aac67be0b79a25d514bb05ccf1622c07e}\label{ciot__nrf__dfu_8h_aac67be0b79a25d514bb05ccf1622c07e} 
+\index{ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}!ciot\_nrf\_dfu\_task@{ciot\_nrf\_dfu\_task}}
+\index{ciot\_nrf\_dfu\_task@{ciot\_nrf\_dfu\_task}!ciot\_nrf\_dfu.h@{ciot\_nrf\_dfu.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_nrf\_dfu\_task()}{ciot\_nrf\_dfu\_task()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+nrf\+\_\+dfu\+\_\+task (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__dfu_8h_a185c613ee5be1f09245c6f2dcf92d340}{ciot\+\_\+dfu\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Perform CIOT Nordic DFU task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT DFU. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}

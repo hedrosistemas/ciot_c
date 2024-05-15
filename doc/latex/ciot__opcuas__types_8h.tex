@@ -1,0 +1,104 @@
+\doxysection{include/types/ciot\+\_\+opcuas\+\_\+types.h File Reference}
+\hypertarget{ciot__opcuas__types_8h}{}\label{ciot__opcuas__types_8h}\index{include/types/ciot\_opcuas\_types.h@{include/types/ciot\_opcuas\_types.h}}
+
+
+Defines data types and structures for CIOT OPC UA Server functionality.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__opcuas__cfg__t}{ciot\+\_\+opcuas\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OPC UA Server configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__opcuas__status__t}{ciot\+\_\+opcuas\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OPC UA Server status. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__opcuas__req__add__node__t}{ciot\+\_\+opcuas\+\_\+req\+\_\+add\+\_\+node\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OPC UA Server add node request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__opcuas__req__data__u}{ciot\+\_\+opcuas\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT OPC UA Server request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__opcuas__req__t}{ciot\+\_\+opcuas\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OPC UA Server request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__opcuas__data__u}{ciot\+\_\+opcuas\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT OPC UA Server data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1}{ciot\+\_\+opcuas\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a67398559dfbdef65155d1fc16ea24d96}{CIOT\+\_\+\+OPCUAS\+\_\+\+STATE\+\_\+\+ERROR}} = -\/1
+, \mbox{\hyperlink{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a2712146499e42ecf7da21142d2228d84}{CIOT\+\_\+\+OPCUAS\+\_\+\+STATE\+\_\+\+IDLE}}
+, \mbox{\hyperlink{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a4658fd4a9b75cead2da6dcc4e22b73fd}{CIOT\+\_\+\+OPCUAS\+\_\+\+STATE\+\_\+\+RUNNING}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT OPC UA Server state. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658c}{ciot\+\_\+opcuas\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658ca3e4c72d9a9fec403c2b7bfa0f0bb0543}{CIOT\+\_\+\+OPCUAS\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658cafc37181f45b08e2fcefb25123744dab2}{CIOT\+\_\+\+OPCUAS\+\_\+\+REQ\+\_\+\+ADD\+\_\+\+NODE}}
+, \mbox{\hyperlink{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658ca07fc86e18d23ceab74564968a2d9a895}{CIOT\+\_\+\+OPCUAS\+\_\+\+REQ\+\_\+\+RUN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT OPC UA Server request type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data types and structures for CIOT OPC UA Server functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2024-\/04-\/21 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2024 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658c}\label{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658c} 
+\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!ciot\_opcuas\_req\_type\_t@{ciot\_opcuas\_req\_type\_t}}
+\index{ciot\_opcuas\_req\_type\_t@{ciot\_opcuas\_req\_type\_t}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_req\_type\_t}{ciot\_opcuas\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658c}{ciot\+\_\+opcuas\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT OPC UA Server request type. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OPCUAS\_REQ\_UNKNOWN@{CIOT\_OPCUAS\_REQ\_UNKNOWN}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!CIOT\_OPCUAS\_REQ\_UNKNOWN@{CIOT\_OPCUAS\_REQ\_UNKNOWN}}}\Hypertarget{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658ca3e4c72d9a9fec403c2b7bfa0f0bb0543}\label{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658ca3e4c72d9a9fec403c2b7bfa0f0bb0543} 
+CIOT\+\_\+\+OPCUAS\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown OPC UA Server request type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OPCUAS\_REQ\_ADD\_NODE@{CIOT\_OPCUAS\_REQ\_ADD\_NODE}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!CIOT\_OPCUAS\_REQ\_ADD\_NODE@{CIOT\_OPCUAS\_REQ\_ADD\_NODE}}}\Hypertarget{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658cafc37181f45b08e2fcefb25123744dab2}\label{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658cafc37181f45b08e2fcefb25123744dab2} 
+CIOT\+\_\+\+OPCUAS\+\_\+\+REQ\+\_\+\+ADD\+\_\+\+NODE&Add node request \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OPCUAS\_REQ\_RUN@{CIOT\_OPCUAS\_REQ\_RUN}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!CIOT\_OPCUAS\_REQ\_RUN@{CIOT\_OPCUAS\_REQ\_RUN}}}\Hypertarget{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658ca07fc86e18d23ceab74564968a2d9a895}\label{ciot__opcuas__types_8h_a8acb0e423808124be763be38feed658ca07fc86e18d23ceab74564968a2d9a895} 
+CIOT\+\_\+\+OPCUAS\+\_\+\+REQ\+\_\+\+RUN&Run request \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1}\label{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1} 
+\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!ciot\_opcuas\_state\_t@{ciot\_opcuas\_state\_t}}
+\index{ciot\_opcuas\_state\_t@{ciot\_opcuas\_state\_t}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_state\_t}{ciot\_opcuas\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1}{ciot\+\_\+opcuas\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT OPC UA Server state. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OPCUAS\_STATE\_ERROR@{CIOT\_OPCUAS\_STATE\_ERROR}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!CIOT\_OPCUAS\_STATE\_ERROR@{CIOT\_OPCUAS\_STATE\_ERROR}}}\Hypertarget{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a67398559dfbdef65155d1fc16ea24d96}\label{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a67398559dfbdef65155d1fc16ea24d96} 
+CIOT\+\_\+\+OPCUAS\+\_\+\+STATE\+\_\+\+ERROR&OPC UA Server state\+: error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OPCUAS\_STATE\_IDLE@{CIOT\_OPCUAS\_STATE\_IDLE}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!CIOT\_OPCUAS\_STATE\_IDLE@{CIOT\_OPCUAS\_STATE\_IDLE}}}\Hypertarget{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a2712146499e42ecf7da21142d2228d84}\label{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a2712146499e42ecf7da21142d2228d84} 
+CIOT\+\_\+\+OPCUAS\+\_\+\+STATE\+\_\+\+IDLE&OPC UA Server state\+: idle \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OPCUAS\_STATE\_RUNNING@{CIOT\_OPCUAS\_STATE\_RUNNING}!ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}}\index{ciot\_opcuas\_types.h@{ciot\_opcuas\_types.h}!CIOT\_OPCUAS\_STATE\_RUNNING@{CIOT\_OPCUAS\_STATE\_RUNNING}}}\Hypertarget{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a4658fd4a9b75cead2da6dcc4e22b73fd}\label{ciot__opcuas__types_8h_ae5b6595b6e677b21cc33b747865552a1a4658fd4a9b75cead2da6dcc4e22b73fd} 
+CIOT\+\_\+\+OPCUAS\+\_\+\+STATE\+\_\+\+RUNNING&OPC UA Server state\+: running \\
+\hline
+
+\end{DoxyEnumFields}

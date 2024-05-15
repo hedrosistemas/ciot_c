@@ -1,0 +1,141 @@
+\doxysection{include/types/ciot\+\_\+ota\+\_\+types.h File Reference}
+\hypertarget{ciot__ota__types_8h}{}\label{ciot__ota__types_8h}\index{include/types/ciot\_ota\_types.h@{include/types/ciot\_ota\_types.h}}
+
+
+Defines data types and structures for CIOT Over-\/\+The-\/\+Air (OTA) functionality.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__ota__cfg__t}{ciot\+\_\+ota\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OTA configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__ota__status__t}{ciot\+\_\+ota\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OTA status. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__ota__req__data__u}{ciot\+\_\+ota\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT OTA request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__ota__req__t}{ciot\+\_\+ota\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OTA request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__ota__data__u}{ciot\+\_\+ota\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT OTA data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15}{ciot\+\_\+ota\+\_\+state\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a153fe0b4a80fd5556f1f7b6bd2bacfa9}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+ERROR}} = -\/1
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ad7642fe395ae6f6881ba24403ff160d6}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+IDLE}}
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0080d95556253115e20c3731a15be120}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+INIT}}
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ac82f16265153f90a54472489c2bb3558}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+IN\+\_\+\+PROGRESS}}
+, \newline
+\mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a8d449f644ab603947f86e4307102565e}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+START}}
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0a9339130c6c470f7c4fd9a608b4400c}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+CONNECTED}}
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a89eb2a71799c2f2f6285eb22c373df0a}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+CHECKING\+\_\+\+DATA}}
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a328e1c668f670a807f03d1c8fab8476d}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+DECRYPTING}}
+, \newline
+\mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a444e12a3d7b6bd961907a3012640918b}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+FLASHING}}
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a073d84c91e1a42ee2ef9de54b1016ea7}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+UPDATE\+\_\+\+BOOT\+\_\+\+PARTITION}}
+, \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a1a1a9c966f7c58260168ad25244adfc9}{CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+DONE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT OTA state. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20}{ciot\+\_\+ota\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aefbe0949eb768e9bd3e9038282b3c896}{CIOT\+\_\+\+OTA\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aded6cefc8280f134660da5d38911c916}{CIOT\+\_\+\+OTA\+\_\+\+REQ\+\_\+\+ROLLBACK}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT OTA request type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data types and structures for CIOT Over-\/\+The-\/\+Air (OTA) functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/18 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20}\label{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20} 
+\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!ciot\_ota\_req\_type\_t@{ciot\_ota\_req\_type\_t}}
+\index{ciot\_ota\_req\_type\_t@{ciot\_ota\_req\_type\_t}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ota\_req\_type\_t}{ciot\_ota\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20}{ciot\+\_\+ota\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT OTA request type. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_REQ\_UNKNOWN@{CIOT\_OTA\_REQ\_UNKNOWN}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_REQ\_UNKNOWN@{CIOT\_OTA\_REQ\_UNKNOWN}}}\Hypertarget{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aefbe0949eb768e9bd3e9038282b3c896}\label{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aefbe0949eb768e9bd3e9038282b3c896} 
+CIOT\+\_\+\+OTA\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown OTA request type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_REQ\_ROLLBACK@{CIOT\_OTA\_REQ\_ROLLBACK}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_REQ\_ROLLBACK@{CIOT\_OTA\_REQ\_ROLLBACK}}}\Hypertarget{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aded6cefc8280f134660da5d38911c916}\label{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aded6cefc8280f134660da5d38911c916} 
+CIOT\+\_\+\+OTA\+\_\+\+REQ\+\_\+\+ROLLBACK&Rollback request \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15} 
+\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!ciot\_ota\_state\_t@{ciot\_ota\_state\_t}}
+\index{ciot\_ota\_state\_t@{ciot\_ota\_state\_t}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ota\_state\_t}{ciot\_ota\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15}{ciot\+\_\+ota\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT OTA state. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_ERROR@{CIOT\_OTA\_STATE\_ERROR}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_ERROR@{CIOT\_OTA\_STATE\_ERROR}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a153fe0b4a80fd5556f1f7b6bd2bacfa9}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a153fe0b4a80fd5556f1f7b6bd2bacfa9} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+ERROR&OTA state\+: error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_IDLE@{CIOT\_OTA\_STATE\_IDLE}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_IDLE@{CIOT\_OTA\_STATE\_IDLE}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ad7642fe395ae6f6881ba24403ff160d6}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ad7642fe395ae6f6881ba24403ff160d6} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+IDLE&OTA state\+: idle \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_INIT@{CIOT\_OTA\_STATE\_INIT}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_INIT@{CIOT\_OTA\_STATE\_INIT}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0080d95556253115e20c3731a15be120}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0080d95556253115e20c3731a15be120} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+INIT&OTA state\+: initialization \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_IN\_PROGRESS@{CIOT\_OTA\_STATE\_IN\_PROGRESS}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_IN\_PROGRESS@{CIOT\_OTA\_STATE\_IN\_PROGRESS}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ac82f16265153f90a54472489c2bb3558}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ac82f16265153f90a54472489c2bb3558} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+IN\+\_\+\+PROGRESS&OTA state\+: in progress \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_START@{CIOT\_OTA\_STATE\_START}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_START@{CIOT\_OTA\_STATE\_START}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a8d449f644ab603947f86e4307102565e}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a8d449f644ab603947f86e4307102565e} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+START&OTA state\+: start \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_CONNECTED@{CIOT\_OTA\_STATE\_CONNECTED}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_CONNECTED@{CIOT\_OTA\_STATE\_CONNECTED}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0a9339130c6c470f7c4fd9a608b4400c}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0a9339130c6c470f7c4fd9a608b4400c} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+CONNECTED&OTA state\+: connected \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_CHECKING\_DATA@{CIOT\_OTA\_STATE\_CHECKING\_DATA}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_CHECKING\_DATA@{CIOT\_OTA\_STATE\_CHECKING\_DATA}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a89eb2a71799c2f2f6285eb22c373df0a}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a89eb2a71799c2f2f6285eb22c373df0a} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+CHECKING\+\_\+\+DATA&OTA state\+: checking data \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_DECRYPTING@{CIOT\_OTA\_STATE\_DECRYPTING}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_DECRYPTING@{CIOT\_OTA\_STATE\_DECRYPTING}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a328e1c668f670a807f03d1c8fab8476d}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a328e1c668f670a807f03d1c8fab8476d} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+DECRYPTING&OTA state\+: decrypting \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_FLASHING@{CIOT\_OTA\_STATE\_FLASHING}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_FLASHING@{CIOT\_OTA\_STATE\_FLASHING}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a444e12a3d7b6bd961907a3012640918b}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a444e12a3d7b6bd961907a3012640918b} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+FLASHING&OTA state\+: flashing \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_UPDATE\_BOOT\_PARTITION@{CIOT\_OTA\_STATE\_UPDATE\_BOOT\_PARTITION}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_UPDATE\_BOOT\_PARTITION@{CIOT\_OTA\_STATE\_UPDATE\_BOOT\_PARTITION}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a073d84c91e1a42ee2ef9de54b1016ea7}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a073d84c91e1a42ee2ef9de54b1016ea7} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+UPDATE\+\_\+\+BOOT\+\_\+\+PARTITION&OTA state\+: updating boot partition \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_OTA\_STATE\_DONE@{CIOT\_OTA\_STATE\_DONE}!ciot\_ota\_types.h@{ciot\_ota\_types.h}}\index{ciot\_ota\_types.h@{ciot\_ota\_types.h}!CIOT\_OTA\_STATE\_DONE@{CIOT\_OTA\_STATE\_DONE}}}\Hypertarget{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a1a1a9c966f7c58260168ad25244adfc9}\label{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a1a1a9c966f7c58260168ad25244adfc9} 
+CIOT\+\_\+\+OTA\+\_\+\+STATE\+\_\+\+DONE&OTA state\+: done \\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,108 @@
+\doxysection{include/types/ciot\+\_\+usb\+\_\+types.h File Reference}
+\hypertarget{ciot__usb__types_8h}{}\label{ciot__usb__types_8h}\index{include/types/ciot\_usb\_types.h@{include/types/ciot\_usb\_types.h}}
+
+
+Defines data structures and types for CIOT USB functionality.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include "{}ciot\+\_\+common\+\_\+types.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__usb__cfg__t}{ciot\+\_\+usb\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT USB configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__usb__status__t}{ciot\+\_\+usb\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT USB status. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__usb__req__data__u}{ciot\+\_\+usb\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT USB request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__usb__req__t}{ciot\+\_\+usb\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT USB request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__usb__event}{ciot\+\_\+usb\+\_\+event}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT USB event. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__usb__data__u}{ciot\+\_\+usb\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT USB data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef union \mbox{\hyperlink{unionciot__usb__event}{ciot\+\_\+usb\+\_\+event}} \mbox{\hyperlink{ciot__usb__types_8h_a666a674ab97cf1c7bdf8ca4e6ec67948}{ciot\+\_\+usb\+\_\+event\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT USB event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4}{ciot\+\_\+usb\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4a481dcefd205d22bd32f4fed57ca1c1a7}{CIOT\+\_\+\+USB\+\_\+\+STATE\+\_\+\+STOPPED}}
+, \mbox{\hyperlink{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4a6e05597b6f5e366cd8b0f7c053faa55b}{CIOT\+\_\+\+USB\+\_\+\+STATE\+\_\+\+STARTED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT USB states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__usb__types_8h_a71fe5023c4df31cb959b5b9b8aae41ef}{ciot\+\_\+usb\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__usb__types_8h_a71fe5023c4df31cb959b5b9b8aae41efa131069815baa028e3106e0f74227b5d7}{CIOT\+\_\+\+USB\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT USB request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data structures and types for CIOT USB functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/10 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__usb__types_8h_a666a674ab97cf1c7bdf8ca4e6ec67948}\label{ciot__usb__types_8h_a666a674ab97cf1c7bdf8ca4e6ec67948} 
+\index{ciot\_usb\_types.h@{ciot\_usb\_types.h}!ciot\_usb\_event\_u@{ciot\_usb\_event\_u}}
+\index{ciot\_usb\_event\_u@{ciot\_usb\_event\_u}!ciot\_usb\_types.h@{ciot\_usb\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_usb\_event\_u}{ciot\_usb\_event\_u}}
+{\footnotesize\ttfamily typedef union \mbox{\hyperlink{unionciot__usb__event}{ciot\+\_\+usb\+\_\+event}} \mbox{\hyperlink{ciot__usb__types_8h_a666a674ab97cf1c7bdf8ca4e6ec67948}{ciot\+\_\+usb\+\_\+event\+\_\+u}}}
+
+
+
+Union for CIOT USB event. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__usb__types_8h_a71fe5023c4df31cb959b5b9b8aae41ef}\label{ciot__usb__types_8h_a71fe5023c4df31cb959b5b9b8aae41ef} 
+\index{ciot\_usb\_types.h@{ciot\_usb\_types.h}!ciot\_usb\_req\_type\_t@{ciot\_usb\_req\_type\_t}}
+\index{ciot\_usb\_req\_type\_t@{ciot\_usb\_req\_type\_t}!ciot\_usb\_types.h@{ciot\_usb\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_usb\_req\_type\_t}{ciot\_usb\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__usb__types_8h_a71fe5023c4df31cb959b5b9b8aae41ef}{ciot\+\_\+usb\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT USB request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_USB\_REQ\_UNKNOWN@{CIOT\_USB\_REQ\_UNKNOWN}!ciot\_usb\_types.h@{ciot\_usb\_types.h}}\index{ciot\_usb\_types.h@{ciot\_usb\_types.h}!CIOT\_USB\_REQ\_UNKNOWN@{CIOT\_USB\_REQ\_UNKNOWN}}}\Hypertarget{ciot__usb__types_8h_a71fe5023c4df31cb959b5b9b8aae41efa131069815baa028e3106e0f74227b5d7}\label{ciot__usb__types_8h_a71fe5023c4df31cb959b5b9b8aae41efa131069815baa028e3106e0f74227b5d7} 
+CIOT\+\_\+\+USB\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown request type \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4}\label{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4} 
+\index{ciot\_usb\_types.h@{ciot\_usb\_types.h}!ciot\_usb\_state\_t@{ciot\_usb\_state\_t}}
+\index{ciot\_usb\_state\_t@{ciot\_usb\_state\_t}!ciot\_usb\_types.h@{ciot\_usb\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_usb\_state\_t}{ciot\_usb\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4}{ciot\+\_\+usb\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT USB states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_USB\_STATE\_STOPPED@{CIOT\_USB\_STATE\_STOPPED}!ciot\_usb\_types.h@{ciot\_usb\_types.h}}\index{ciot\_usb\_types.h@{ciot\_usb\_types.h}!CIOT\_USB\_STATE\_STOPPED@{CIOT\_USB\_STATE\_STOPPED}}}\Hypertarget{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4a481dcefd205d22bd32f4fed57ca1c1a7}\label{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4a481dcefd205d22bd32f4fed57ca1c1a7} 
+CIOT\+\_\+\+USB\+\_\+\+STATE\+\_\+\+STOPPED&USB stopped state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_USB\_STATE\_STARTED@{CIOT\_USB\_STATE\_STARTED}!ciot\_usb\_types.h@{ciot\_usb\_types.h}}\index{ciot\_usb\_types.h@{ciot\_usb\_types.h}!CIOT\_USB\_STATE\_STARTED@{CIOT\_USB\_STATE\_STARTED}}}\Hypertarget{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4a6e05597b6f5e366cd8b0f7c053faa55b}\label{ciot__usb__types_8h_a3dc18e37f557a829c8d80f95824d61d4a6e05597b6f5e366cd8b0f7c053faa55b} 
+CIOT\+\_\+\+USB\+\_\+\+STATE\+\_\+\+STARTED&USB started state \\
+\hline
+
+\end{DoxyEnumFields}

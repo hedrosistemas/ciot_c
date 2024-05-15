@@ -1,0 +1,73 @@
+\doxysection{ciot\+\_\+ble\+\_\+scn\+\_\+types.\+h}
+\hypertarget{ciot__ble__scn__types_8h_source}{}\label{ciot__ble__scn__types_8h_source}\index{include/types/ciot\_ble\_scn\_types.h@{include/types/ciot\_ble\_scn\_types.h}}
+\mbox{\hyperlink{ciot__ble__scn__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_BLE\_SCN\_TYPES\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_BLE\_SCN\_TYPES\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3cab5e38affddd56ac8693c35fe87d3bd43}{CIOT\_BLE\_SCN\_STATE\_IDLE}},\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca5cc9b57b36fc4add0d1468183936a625}{CIOT\_BLE\_SCN\_STATE\_PASSIVE}},\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca580d5606561bd5a7bf6ece413c1d7216}{CIOT\_BLE\_SCN\_STATE\_ACTIVE}},\ }
+\DoxyCodeLine{00028\ \}\ \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3c}{ciot\_ble\_scn\_state\_t}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaaa49cc27b8e221b0140c8440a39b7c4230}{CIOT\_BLE\_SCN\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00036\ \}\ \mbox{\hyperlink{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaa}{ciot\_ble\_scn\_req\_type\_t}};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00042\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structciot__ble__scn__cfg__t_a6c52a3d605c056768b59164ce8df8334}{interval}};\ }
+\DoxyCodeLine{00044\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structciot__ble__scn__cfg__t_a6b307b5083cf92aca29549d780b44bd5}{window}};\ }
+\DoxyCodeLine{00045\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structciot__ble__scn__cfg__t_a7f1ad43d3bf79b40bc39dbb5a6c3a5ae}{timeout}};\ }
+\DoxyCodeLine{00046\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ble__scn__cfg__t_a05c940dbc220f5a723afd70071aebff8}{active}}\ :\ 1;\ }
+\DoxyCodeLine{00047\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ble__scn__cfg__t_ad44fdec90acd6e513033d8af6d0a7774}{brigde\_mode}}\ :\ 1;\ }
+\DoxyCodeLine{00048\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ble__scn__cfg__t_acb7bc06bed6f6408d719334fc41698c7}{reserved}}\ :\ 6;\ }
+\DoxyCodeLine{00049\ \}\ \mbox{\hyperlink{structciot__ble__scn__cfg__t}{ciot\_ble\_scn\_cfg\_t}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ uint8\_t\ mac[6];\ }
+\DoxyCodeLine{00057\ \ \ \ \ int8\_t\ \mbox{\hyperlink{structciot__ble__scn__adv__info__t_a3b962e67ba74725bd60ca3c29f785abe}{rssi}};\ }
+\DoxyCodeLine{00058\ \}\ \mbox{\hyperlink{structciot__ble__scn__adv__info__t}{ciot\_ble\_scn\_adv\_info\_t}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3c}{ciot\_ble\_scn\_state\_t}}\ \mbox{\hyperlink{structciot__ble__scn__status__t_a9b3c50f82a67373296513704001266bb}{state}};\ }
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{structciot__ble__scn__adv__info__t}{ciot\_ble\_scn\_adv\_info\_t}}\ \mbox{\hyperlink{structciot__ble__scn__status__t_a9c267320c088f215b9649f93a8d955c1}{adv\_info}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__ble__scn__status__t_a18c05079c393f6c94543830ac5360604}{err\_code}};\ }
+\DoxyCodeLine{00068\ \}\ \mbox{\hyperlink{structciot__ble__scn__status__t}{ciot\_ble\_scn\_status\_t}};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00074\ \{}
+\DoxyCodeLine{00075\ \}\ \mbox{\hyperlink{unionciot__ble__scn__req__data__u}{ciot\_ble\_scn\_req\_data\_u}};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00081\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaa}{ciot\_ble\_scn\_req\_type\_t}}\ \mbox{\hyperlink{structciot__ble__scn__req__t_abc70ef515ab30b52d6a58e0c72ee3688}{type}};\ }
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{unionciot__ble__scn__req__data__u}{ciot\_ble\_scn\_req\_data\_u}}\ \mbox{\hyperlink{structciot__ble__scn__req__t_ad255c0633c486a2ba3c6d2875d5a7fe5}{data}};\ }
+\DoxyCodeLine{00084\ \}\ \mbox{\hyperlink{structciot__ble__scn__req__t}{ciot\_ble\_scn\_req\_t}};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{structciot__ble__scn__cfg__t}{ciot\_ble\_scn\_cfg\_t}}\ \mbox{\hyperlink{unionciot__ble__scn__data__u_a77ffb25407771dd73e21b56e0976b3b7}{config}};\ }
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{structciot__ble__scn__status__t}{ciot\_ble\_scn\_status\_t}}\ \mbox{\hyperlink{unionciot__ble__scn__data__u_aa7ad441170fdff42b419665a6652a09f}{status}};\ }
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{structciot__ble__scn__req__t}{ciot\_ble\_scn\_req\_t}}\ \mbox{\hyperlink{unionciot__ble__scn__data__u_a4fff0375f4b234a60fcd5e6723d9c8a9}{request}};\ }
+\DoxyCodeLine{00094\ \}\ \mbox{\hyperlink{unionciot__ble__scn__data__u}{ciot\_ble\_scn\_data\_u}};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00097\ \}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#endif\ \ }}
+
+\end{DoxyCode}

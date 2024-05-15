@@ -1,0 +1,201 @@
+\doxysection{include/ciot\+\_\+https.h File Reference}
+\hypertarget{ciot__https_8h}{}\label{ciot__https_8h}\index{include/ciot\_https.h@{include/ciot\_https.h}}
+
+
+Header file for CIOT HTTP server interface.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+https\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__https__status__msg__t}{ciot\+\_\+https\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure representing the CIOT HTTP server status message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+https \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure representing the CIOT HTTP server interface. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12}{ciot\+\_\+https\+\_\+event\+\_\+id}} \mbox{\hyperlink{ciot__https_8h_a26069470806c3c576f68c2c7108c07a0}{ciot\+\_\+https\+\_\+event\+\_\+id\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration of HTTP server event IDs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12}{ciot\+\_\+https\+\_\+event\+\_\+id}} \{ \mbox{\hyperlink{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12abda42e477b51af9bdec887127fbe6d27}{CIOT\+\_\+\+HTTPS\+\_\+\+EVENT\+\_\+\+DATA}} = CIOT\+\_\+\+IFACE\+\_\+\+EVENT\+\_\+\+CUSTOM
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration of HTTP server event IDs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}} \mbox{\hyperlink{ciot__https_8h_a50f38073c89e88e99b5bf95abbe0b18b}{ciot\+\_\+https\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Creates a new CIOT HTTP server interface instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__https_8h_a3a7dd3627113a6a829c764500112d752}{ciot\+\_\+https\+\_\+start}} (\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}} self, \mbox{\hyperlink{structciot__https__cfg__t}{ciot\+\_\+https\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Starts the CIOT HTTP server interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__https_8h_a04b4527bce08440e2643a71679575174}{ciot\+\_\+https\+\_\+stop}} (\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stops the CIOT HTTP server interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__https_8h_a585618f81c962cef6251ffecc942a333}{ciot\+\_\+https\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}} self, \mbox{\hyperlink{structciot__https__req__t}{ciot\+\_\+https\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Processes a request for the CIOT HTTP server interface. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__https_8h_ab9abc9d142e7332b9606568193d1ede0}{ciot\+\_\+https\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Sends data over the CIOT HTTP server interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT HTTP server interface. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/10 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__https_8h_a26069470806c3c576f68c2c7108c07a0}\label{ciot__https_8h_a26069470806c3c576f68c2c7108c07a0} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_event\_id\_t@{ciot\_https\_event\_id\_t}}
+\index{ciot\_https\_event\_id\_t@{ciot\_https\_event\_id\_t}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_event\_id\_t}{ciot\_https\_event\_id\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12}{ciot\+\_\+https\+\_\+event\+\_\+id}} \mbox{\hyperlink{ciot__https_8h_a26069470806c3c576f68c2c7108c07a0}{ciot\+\_\+https\+\_\+event\+\_\+id\+\_\+t}}}
+
+
+
+Enumeration of HTTP server event IDs. 
+
+\Hypertarget{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}\label{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_t@{ciot\_https\_t}}
+\index{ciot\_https\_t@{ciot\_https\_t}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_t}{ciot\_https\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+https\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}}}
+
+
+
+Structure representing the CIOT HTTP server interface. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12}\label{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_event\_id@{ciot\_https\_event\_id}}
+\index{ciot\_https\_event\_id@{ciot\_https\_event\_id}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_event\_id}{ciot\_https\_event\_id}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12}{ciot\+\_\+https\+\_\+event\+\_\+id}}}
+
+
+
+Enumeration of HTTP server event IDs. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_HTTPS\_EVENT\_DATA@{CIOT\_HTTPS\_EVENT\_DATA}!ciot\_https.h@{ciot\_https.h}}\index{ciot\_https.h@{ciot\_https.h}!CIOT\_HTTPS\_EVENT\_DATA@{CIOT\_HTTPS\_EVENT\_DATA}}}\Hypertarget{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12abda42e477b51af9bdec887127fbe6d27}\label{ciot__https_8h_a3bfe51b8fc1185d9f555a28985455f12abda42e477b51af9bdec887127fbe6d27} 
+CIOT\+\_\+\+HTTPS\+\_\+\+EVENT\+\_\+\+DATA&Event ID for data received. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__https_8h_a50f38073c89e88e99b5bf95abbe0b18b}\label{ciot__https_8h_a50f38073c89e88e99b5bf95abbe0b18b} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_new@{ciot\_https\_new}}
+\index{ciot\_https\_new@{ciot\_https\_new}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_new()}{ciot\_https\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}} ciot\+\_\+https\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Creates a new CIOT HTTP server interface instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & The handle for the HTTP server interface. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the new CIOT HTTP server instance. 
+\end{DoxyReturn}
+\Hypertarget{ciot__https_8h_a585618f81c962cef6251ffecc942a333}\label{ciot__https_8h_a585618f81c962cef6251ffecc942a333} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_process\_req@{ciot\_https\_process\_req}}
+\index{ciot\_https\_process\_req@{ciot\_https\_process\_req}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_process\_req()}{ciot\_https\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+https\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__https__req__t}{ciot\+\_\+https\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Processes a request for the CIOT HTTP server interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT HTTP server instance. \\
+\hline
+{\em req} & The HTTP server request to be processed. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__https_8h_ab9abc9d142e7332b9606568193d1ede0}\label{ciot__https_8h_ab9abc9d142e7332b9606568193d1ede0} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_send\_data@{ciot\_https\_send\_data}}
+\index{ciot\_https\_send\_data@{ciot\_https\_send\_data}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_send\_data()}{ciot\_https\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+https\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Sends data over the CIOT HTTP server interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT HTTP server instance. \\
+\hline
+{\em data} & The data to be sent. \\
+\hline
+{\em size} & The size of the data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__https_8h_a3a7dd3627113a6a829c764500112d752}\label{ciot__https_8h_a3a7dd3627113a6a829c764500112d752} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_start@{ciot\_https\_start}}
+\index{ciot\_https\_start@{ciot\_https\_start}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_start()}{ciot\_https\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+https\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__https__cfg__t}{ciot\+\_\+https\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Starts the CIOT HTTP server interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT HTTP server instance. \\
+\hline
+{\em cfg} & The HTTP server configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__https_8h_a04b4527bce08440e2643a71679575174}\label{ciot__https_8h_a04b4527bce08440e2643a71679575174} 
+\index{ciot\_https.h@{ciot\_https.h}!ciot\_https\_stop@{ciot\_https\_stop}}
+\index{ciot\_https\_stop@{ciot\_https\_stop}!ciot\_https.h@{ciot\_https.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_https\_stop()}{ciot\_https\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+https\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__https_8h_acfd2fcf5803562e750dea3815e1cbd49}{ciot\+\_\+https\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stops the CIOT HTTP server interface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The CIOT HTTP server instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the result of the operation. 
+\end{DoxyReturn}

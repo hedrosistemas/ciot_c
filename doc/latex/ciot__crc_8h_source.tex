@@ -1,0 +1,73 @@
+\doxysection{ciot\+\_\+crc.\+h}
+\hypertarget{ciot__crc_8h_source}{}\label{ciot__crc_8h_source}\index{include/ciot\_crc.h@{include/ciot\_crc.h}}
+\mbox{\hyperlink{ciot__crc_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_CRC\_\_H\_\_}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_CRC\_\_H\_\_}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ Notes\ about\ CRC\ APIs\ usage}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ *\ The\ ESP32\ ROM\ include\ some\ CRC\ tables\ and\ CRC\ APIs\ to\ speed\ up\ CRC\ calculation.}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ *\ The\ CRC\ APIs\ include\ CRC8,\ CRC16,\ CRC32\ algorithms\ for\ both\ little\ endian\ and\ big\ endian\ modes.}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ *\ Here\ are\ the\ polynomials\ for\ the\ algorithms:}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ CRC-\/8\ \ \ \ \ \ \ \ x8+x2+x1+1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x07}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ CRC16-\/CCITT\ \ x16+x12+x5+1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x1021}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ *\ CRC32\ \ \ \ \ \ \ \ x32+x26+x23+x22+x16+x12+x11+x10+x8+x7+x5+x4+x2+x1+1\ \ \ \ \ 0x04c11db7}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ *\ These\ group\ of\ CRC\ APIs\ are\ designed\ to\ calculate\ the\ data\ in\ buffers\ either\ continuous\ or\ not.}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ *\ To\ make\ it\ easy,\ we\ had\ added\ a\ \`{}\string~`\ at\ the\ beginning\ and\ the\ end\ of\ the\ functions.}}
+\DoxyCodeLine{00031\ \textcolor{comment}{\ *\ To\ calculate\ non-\/continuous\ buffers,\ we\ can\ write\ the\ code\ like\ this:}}
+\DoxyCodeLine{00032\ \textcolor{comment}{\ *\ \ \ \ \ init\ =\ \string~init;}}
+\DoxyCodeLine{00033\ \textcolor{comment}{\ *\ \ \ \ \ crc\ =\ crc32\_le(init,\ buf0,\ length0);}}
+\DoxyCodeLine{00034\ \textcolor{comment}{\ *\ \ \ \ \ crc\ =\ crc32\_le(crc,\ buf1,\ length1);}}
+\DoxyCodeLine{00035\ \textcolor{comment}{\ *\ \ \ \ \ crc\ =\ \string~crc;}}
+\DoxyCodeLine{00036\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00037\ \textcolor{comment}{\ *\ However,\ it\ is\ not\ easy\ to\ select\ which\ API\ to\ use\ and\ give\ the\ correct\ parameters.}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ *\ A\ specific\ CRC\ algorithm\ will\ include\ this\ parameters:\ width,\ polynomials,\ init,\ refin,\ refout,\ xorout}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ *\ \ \ \ \ refin\ and\ refout\ show\ the\ endian\ of\ the\ algorithm:}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ *\ \ \ \ \ \ \ \ \ if\ both\ of\ them\ are\ true,\ please\ use\ the\ little\ endian\ API.}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ *\ \ \ \ \ \ \ \ \ if\ both\ of\ them\ are\ false,\ please\ use\ the\ big\ endian\ API.}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ *\ \ \ \ \ xorout\ is\ the\ value\ which\ you\ need\ to\ be\ xored\ to\ the\ raw\ result.}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ *\ However,\ these\ group\ of\ APIs\ need\ one\ '\string~'\ before\ and\ after\ the\ APIs.}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ *\ Here\ are\ some\ examples\ for\ CRC16:}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ *\ CRC-\/16/CCITT,\ poly\ =\ 0x1021,\ init\ =\ 0x0000,\ refin\ =\ true,\ refout\ =\ true,\ xorout\ =\ 0x0000}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ *\ \ \ \ \ crc\ =\ \string~crc16\_le((uint16\_t)\string~0x0000,\ buf,\ length);}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00049\ \textcolor{comment}{\ *\ CRC-\/16/CCITT-\/FALSE,\ poly\ =\ 0x1021,\ init\ =\ 0xffff,\ refin\ =\ false,\ refout\ =\ false,\ xorout\ =\ 0x0000}}
+\DoxyCodeLine{00050\ \textcolor{comment}{\ *\ \ \ \ \ crc\ =\ \string~crc16\_be((uint16\_t)\string~0xffff,\ buf,\ length);}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ *\ CRC-\/16/X25,\ poly\ =\ 0x1021,\ init\ =\ 0xffff,\ refin\ =\ true,\ refout\ =\ true,\ xorout\ =\ 0xffff}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ *\ \ \ \ \ crc\ =\ (\string~crc16\_le((uint16\_t)\string~(0xffff),\ buf,\ length))\string^0xffff;}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00055\ \textcolor{comment}{\ *\ CRC-\/16/XMODEM,\ poly=\ 0x1021,\ init\ =\ 0x0000,\ refin\ =\ false,\ refout\ =\ false,\ xorout\ =\ 0x0000}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ *\ \ \ \ \ crc\ =\ \string~crc16\_be((uint16\_t)\string~0x0000,\ buf,\ length);}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00059\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00072\ uint32\_t\ \mbox{\hyperlink{ciot__crc_8h_ad020e1771e2ff7a25a068ccc1b3d1331}{ciot\_crc32\_le}}(uint32\_t\ crc,\ uint8\_t\ \textcolor{keyword}{const}\ *buf,\ uint32\_t\ len);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00085\ uint32\_t\ \mbox{\hyperlink{ciot__crc_8h_aeed9b1c0c84b16c8e4e4b65be0787ae4}{ciot\_crc32\_be}}(uint32\_t\ crc,\ uint8\_t\ \textcolor{keyword}{const}\ *buf,\ uint32\_t\ len);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00098\ uint16\_t\ \mbox{\hyperlink{ciot__crc_8h_a73a6ce791d6f000bad7ee2eedd0d8350}{ciot\_crc16\_le}}(uint16\_t\ crc,\ uint8\_t\ \textcolor{keyword}{const}\ *buf,\ uint32\_t\ len);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00111\ uint16\_t\ \mbox{\hyperlink{ciot__crc_8h_a5d59ce0d0ffe65eaf7944d695bde59e3}{ciot\_crc16\_be}}(uint16\_t\ crc,\ uint8\_t\ \textcolor{keyword}{const}\ *buf,\ uint32\_t\ len);}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00124\ uint8\_t\ \mbox{\hyperlink{ciot__crc_8h_a39da2d632baf462933f90f3fbe7a63e7}{ciot\_crc8\_le}}(uint8\_t\ crc,\ uint8\_t\ \textcolor{keyword}{const}\ *buf,\ uint32\_t\ len);}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00137\ uint8\_t\ \mbox{\hyperlink{ciot__crc_8h_ae831c4d3ed93d649df5ed07e5b9d1c46}{ciot\_crc8\_be}}(uint8\_t\ crc,\ uint8\_t\ \textcolor{keyword}{const}\ *buf,\ uint32\_t\ len);}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00140\ \}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif\ \ }}
+
+\end{DoxyCode}

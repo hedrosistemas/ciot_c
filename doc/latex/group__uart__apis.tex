@@ -1,0 +1,162 @@
+\doxysection{, uart configuration and communication related apis}
+\hypertarget{group__uart__apis}{}\label{group__uart__apis}\index{, uart configuration and communication related apis@{, uart configuration and communication related apis}}
+
+
+uart apis  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{group__uart__apis_gad020e1771e2ff7a25a068ccc1b3d1331}{ciot\+\_\+crc32\+\_\+le}} (uint32\+\_\+t crc, uint8\+\_\+t const \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em CRC32 value that is in little endian. \end{DoxyCompactList}\item 
+uint32\+\_\+t \mbox{\hyperlink{group__uart__apis_gaeed9b1c0c84b16c8e4e4b65be0787ae4}{ciot\+\_\+crc32\+\_\+be}} (uint32\+\_\+t crc, uint8\+\_\+t const \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em CRC32 value that is in big endian. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{group__uart__apis_ga73a6ce791d6f000bad7ee2eedd0d8350}{ciot\+\_\+crc16\+\_\+le}} (uint16\+\_\+t crc, uint8\+\_\+t const \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em CRC16 value that is in little endian. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{group__uart__apis_ga5d59ce0d0ffe65eaf7944d695bde59e3}{ciot\+\_\+crc16\+\_\+be}} (uint16\+\_\+t crc, uint8\+\_\+t const \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em CRC16 value that is in big endian. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{group__uart__apis_ga39da2d632baf462933f90f3fbe7a63e7}{ciot\+\_\+crc8\+\_\+le}} (uint8\+\_\+t crc, uint8\+\_\+t const \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em CRC8 value that is in little endian. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{group__uart__apis_gae831c4d3ed93d649df5ed07e5b9d1c46}{ciot\+\_\+crc8\+\_\+be}} (uint8\+\_\+t crc, uint8\+\_\+t const \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em CRC8 value that is in big endian. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+uart apis 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{group__uart__apis_ga5d59ce0d0ffe65eaf7944d695bde59e3}\label{group__uart__apis_ga5d59ce0d0ffe65eaf7944d695bde59e3} 
+\index{, uart configuration and communication related apis@{, uart configuration and communication related apis}!ciot\_crc16\_be@{ciot\_crc16\_be}}
+\index{ciot\_crc16\_be@{ciot\_crc16\_be}!, uart configuration and communication related apis@{, uart configuration and communication related apis}}
+\doxysubsubsection{\texorpdfstring{ciot\_crc16\_be()}{ciot\_crc16\_be()}}
+{\footnotesize\ttfamily uint16\+\_\+t ciot\+\_\+crc16\+\_\+be (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{crc,  }\item[{uint8\+\_\+t const \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+CRC16 value that is in big endian. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint16\+\_\+t} & crc \+: init crc value, use 0 at the first use.\\
+\hline
+{\em uint8\+\_\+t} & const \texorpdfstring{$\ast$}{*}buf \+: buffer to start calculate crc.\\
+\hline
+{\em uint32\+\_\+t} & len \+: buffer length in byte.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\Hypertarget{group__uart__apis_ga73a6ce791d6f000bad7ee2eedd0d8350}\label{group__uart__apis_ga73a6ce791d6f000bad7ee2eedd0d8350} 
+\index{, uart configuration and communication related apis@{, uart configuration and communication related apis}!ciot\_crc16\_le@{ciot\_crc16\_le}}
+\index{ciot\_crc16\_le@{ciot\_crc16\_le}!, uart configuration and communication related apis@{, uart configuration and communication related apis}}
+\doxysubsubsection{\texorpdfstring{ciot\_crc16\_le()}{ciot\_crc16\_le()}}
+{\footnotesize\ttfamily uint16\+\_\+t ciot\+\_\+crc16\+\_\+le (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{crc,  }\item[{uint8\+\_\+t const \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+CRC16 value that is in little endian. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint16\+\_\+t} & crc \+: init crc value, use 0 at the first use.\\
+\hline
+{\em uint8\+\_\+t} & const \texorpdfstring{$\ast$}{*}buf \+: buffer to start calculate crc.\\
+\hline
+{\em uint32\+\_\+t} & len \+: buffer length in byte.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\Hypertarget{group__uart__apis_gaeed9b1c0c84b16c8e4e4b65be0787ae4}\label{group__uart__apis_gaeed9b1c0c84b16c8e4e4b65be0787ae4} 
+\index{, uart configuration and communication related apis@{, uart configuration and communication related apis}!ciot\_crc32\_be@{ciot\_crc32\_be}}
+\index{ciot\_crc32\_be@{ciot\_crc32\_be}!, uart configuration and communication related apis@{, uart configuration and communication related apis}}
+\doxysubsubsection{\texorpdfstring{ciot\_crc32\_be()}{ciot\_crc32\_be()}}
+{\footnotesize\ttfamily uint32\+\_\+t ciot\+\_\+crc32\+\_\+be (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{crc,  }\item[{uint8\+\_\+t const \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+CRC32 value that is in big endian. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint32\+\_\+t} & crc \+: init crc value, use 0 at the first use.\\
+\hline
+{\em uint8\+\_\+t} & const \texorpdfstring{$\ast$}{*}buf \+: buffer to start calculate crc.\\
+\hline
+{\em uint32\+\_\+t} & len \+: buffer length in byte.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\Hypertarget{group__uart__apis_gad020e1771e2ff7a25a068ccc1b3d1331}\label{group__uart__apis_gad020e1771e2ff7a25a068ccc1b3d1331} 
+\index{, uart configuration and communication related apis@{, uart configuration and communication related apis}!ciot\_crc32\_le@{ciot\_crc32\_le}}
+\index{ciot\_crc32\_le@{ciot\_crc32\_le}!, uart configuration and communication related apis@{, uart configuration and communication related apis}}
+\doxysubsubsection{\texorpdfstring{ciot\_crc32\_le()}{ciot\_crc32\_le()}}
+{\footnotesize\ttfamily uint32\+\_\+t ciot\+\_\+crc32\+\_\+le (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{crc,  }\item[{uint8\+\_\+t const \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+CRC32 value that is in little endian. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint32\+\_\+t} & crc \+: init crc value, use 0 at the first use.\\
+\hline
+{\em uint8\+\_\+t} & const \texorpdfstring{$\ast$}{*}buf \+: buffer to start calculate crc.\\
+\hline
+{\em uint32\+\_\+t} & len \+: buffer length in byte.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\Hypertarget{group__uart__apis_gae831c4d3ed93d649df5ed07e5b9d1c46}\label{group__uart__apis_gae831c4d3ed93d649df5ed07e5b9d1c46} 
+\index{, uart configuration and communication related apis@{, uart configuration and communication related apis}!ciot\_crc8\_be@{ciot\_crc8\_be}}
+\index{ciot\_crc8\_be@{ciot\_crc8\_be}!, uart configuration and communication related apis@{, uart configuration and communication related apis}}
+\doxysubsubsection{\texorpdfstring{ciot\_crc8\_be()}{ciot\_crc8\_be()}}
+{\footnotesize\ttfamily uint8\+\_\+t ciot\+\_\+crc8\+\_\+be (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{crc,  }\item[{uint8\+\_\+t const \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+CRC8 value that is in big endian. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint32\+\_\+t} & crc \+: init crc value, use 0 at the first use.\\
+\hline
+{\em uint8\+\_\+t} & const \texorpdfstring{$\ast$}{*}buf \+: buffer to start calculate crc.\\
+\hline
+{\em uint32\+\_\+t} & len \+: buffer length in byte.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}
+\Hypertarget{group__uart__apis_ga39da2d632baf462933f90f3fbe7a63e7}\label{group__uart__apis_ga39da2d632baf462933f90f3fbe7a63e7} 
+\index{, uart configuration and communication related apis@{, uart configuration and communication related apis}!ciot\_crc8\_le@{ciot\_crc8\_le}}
+\index{ciot\_crc8\_le@{ciot\_crc8\_le}!, uart configuration and communication related apis@{, uart configuration and communication related apis}}
+\doxysubsubsection{\texorpdfstring{ciot\_crc8\_le()}{ciot\_crc8\_le()}}
+{\footnotesize\ttfamily uint8\+\_\+t ciot\+\_\+crc8\+\_\+le (\begin{DoxyParamCaption}\item[{uint8\+\_\+t}]{crc,  }\item[{uint8\+\_\+t const \texorpdfstring{$\ast$}{*}}]{buf,  }\item[{uint32\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+CRC8 value that is in little endian. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em uint8\+\_\+t} & crc \+: init crc value, use 0 at the first use.\\
+\hline
+{\em uint8\+\_\+t} & const \texorpdfstring{$\ast$}{*}buf \+: buffer to start calculate crc.\\
+\hline
+{\em uint32\+\_\+t} & len \+: buffer length in byte.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+None 
+\end{DoxyReturn}

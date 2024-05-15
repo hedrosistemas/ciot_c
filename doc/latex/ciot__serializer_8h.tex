@@ -1,0 +1,198 @@
+\doxysection{include/ciot\+\_\+serializer.h File Reference}
+\hypertarget{ciot__serializer_8h}{}\label{ciot__serializer_8h}\index{include/ciot\_serializer.h@{include/ciot\_serializer.h}}
+
+
+Header file for CIOT Serializer module.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+msg\+\_\+types.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__serializer}{ciot\+\_\+serializer}}
+\begin{DoxyCompactList}\small\item\em CIOT Serializer structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structciot__serializer}{ciot\+\_\+serializer}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}{ciot\+\_\+serializer\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em CIOT Serializer instance pointer. \end{DoxyCompactList}\item 
+typedef int \mbox{\hyperlink{ciot__serializer_8h_ad5f4d77f37d8f97c45e7ac3684c6240d}{ciot\+\_\+serializer\+\_\+to\+\_\+bytes\+\_\+fn}}(uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes, \mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Function pointer type for serializing to bytes. \end{DoxyCompactList}\item 
+typedef int \mbox{\hyperlink{ciot__serializer_8h_ad4e6ec6f4f6b2794af860108e701a284}{ciot\+\_\+serializer\+\_\+from\+\_\+bytes\+\_\+fn}}(\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}msg, uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes, int size)
+\begin{DoxyCompactList}\small\item\em Function pointer type for deserializing from bytes. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702b}{ciot\+\_\+serializer\+\_\+type}} \mbox{\hyperlink{ciot__serializer_8h_a3c892bb829d28086be610a8f850066f7}{ciot\+\_\+serializer\+\_\+type\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enum representing CIOT Serializer types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702b}{ciot\+\_\+serializer\+\_\+type}} \{ \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba1628b71e70eb2dcf89b24e63d9d86289}{CIOT\+\_\+\+SERIALIZER\+\_\+\+TYPE\+\_\+\+NONE}}
+, \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba0f0db27db7f111da963526dfface091e}{CIOT\+\_\+\+SERIALIZER\+\_\+\+TYPE\+\_\+\+PROTOBUF}}
+, \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba6d5cb551c26a7529e01e27c64dbc2a7a}{CIOT\+\_\+\+SERIALIZER\+\_\+\+TYPE\+\_\+\+CUSTOM}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enum representing CIOT Serializer types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{ciot__serializer_8h_acce586f0c1adcf56d07b5c09e1df2c17}{ciot\+\_\+serializer\+\_\+to\+\_\+bytes}} (\mbox{\hyperlink{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}{ciot\+\_\+serializer\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes, \mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Serialize a CIOT message to bytes using the specified serializer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ciot__serializer_8h_a2e6ad3f65b3277042564ae00d1ea9522}{ciot\+\_\+serializer\+\_\+from\+\_\+bytes}} (\mbox{\hyperlink{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}{ciot\+\_\+serializer\+\_\+t}} self, \mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}msg, uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes, int size)
+\begin{DoxyCompactList}\small\item\em Deserialize bytes to a CIOT message using the specified serializer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT Serializer module. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2024-\/04-\/13 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2024 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__serializer_8h_ad4e6ec6f4f6b2794af860108e701a284}\label{ciot__serializer_8h_ad4e6ec6f4f6b2794af860108e701a284} 
+\index{ciot\_serializer.h@{ciot\_serializer.h}!ciot\_serializer\_from\_bytes\_fn@{ciot\_serializer\_from\_bytes\_fn}}
+\index{ciot\_serializer\_from\_bytes\_fn@{ciot\_serializer\_from\_bytes\_fn}!ciot\_serializer.h@{ciot\_serializer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_serializer\_from\_bytes\_fn}{ciot\_serializer\_from\_bytes\_fn}}
+{\footnotesize\ttfamily typedef int ciot\+\_\+serializer\+\_\+from\+\_\+bytes\+\_\+fn(\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}msg, uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes, int size)}
+
+
+
+Function pointer type for deserializing from bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & CIOT message to fill with deserialized data. \\
+\hline
+{\em bytes} & Source buffer containing serialized data. \\
+\hline
+{\em size} & Size of the serialized data in bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes consumed during deserialization. 
+\end{DoxyReturn}
+\Hypertarget{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}\label{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac} 
+\index{ciot\_serializer.h@{ciot\_serializer.h}!ciot\_serializer\_t@{ciot\_serializer\_t}}
+\index{ciot\_serializer\_t@{ciot\_serializer\_t}!ciot\_serializer.h@{ciot\_serializer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_serializer\_t}{ciot\_serializer\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__serializer}{ciot\+\_\+serializer}}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}{ciot\+\_\+serializer\+\_\+t}}}
+
+
+
+CIOT Serializer instance pointer. 
+
+\Hypertarget{ciot__serializer_8h_ad5f4d77f37d8f97c45e7ac3684c6240d}\label{ciot__serializer_8h_ad5f4d77f37d8f97c45e7ac3684c6240d} 
+\index{ciot\_serializer.h@{ciot\_serializer.h}!ciot\_serializer\_to\_bytes\_fn@{ciot\_serializer\_to\_bytes\_fn}}
+\index{ciot\_serializer\_to\_bytes\_fn@{ciot\_serializer\_to\_bytes\_fn}!ciot\_serializer.h@{ciot\_serializer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_serializer\_to\_bytes\_fn}{ciot\_serializer\_to\_bytes\_fn}}
+{\footnotesize\ttfamily typedef int ciot\+\_\+serializer\+\_\+to\+\_\+bytes\+\_\+fn(uint8\+\_\+t \texorpdfstring{$\ast$}{*}bytes, \mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}msg)}
+
+
+
+Function pointer type for serializing to bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bytes} & Destination buffer for serialized data. \\
+\hline
+{\em msg} & CIOT message to serialize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes serialized. 
+\end{DoxyReturn}
+\Hypertarget{ciot__serializer_8h_a3c892bb829d28086be610a8f850066f7}\label{ciot__serializer_8h_a3c892bb829d28086be610a8f850066f7} 
+\index{ciot\_serializer.h@{ciot\_serializer.h}!ciot\_serializer\_type\_t@{ciot\_serializer\_type\_t}}
+\index{ciot\_serializer\_type\_t@{ciot\_serializer\_type\_t}!ciot\_serializer.h@{ciot\_serializer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_serializer\_type\_t}{ciot\_serializer\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702b}{ciot\+\_\+serializer\+\_\+type}} \mbox{\hyperlink{ciot__serializer_8h_a3c892bb829d28086be610a8f850066f7}{ciot\+\_\+serializer\+\_\+type\+\_\+t}}}
+
+
+
+Enum representing CIOT Serializer types. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702b}\label{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702b} 
+\index{ciot\_serializer.h@{ciot\_serializer.h}!ciot\_serializer\_type@{ciot\_serializer\_type}}
+\index{ciot\_serializer\_type@{ciot\_serializer\_type}!ciot\_serializer.h@{ciot\_serializer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_serializer\_type}{ciot\_serializer\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702b}{ciot\+\_\+serializer\+\_\+type}}}
+
+
+
+Enum representing CIOT Serializer types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_SERIALIZER\_TYPE\_NONE@{CIOT\_SERIALIZER\_TYPE\_NONE}!ciot\_serializer.h@{ciot\_serializer.h}}\index{ciot\_serializer.h@{ciot\_serializer.h}!CIOT\_SERIALIZER\_TYPE\_NONE@{CIOT\_SERIALIZER\_TYPE\_NONE}}}\Hypertarget{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba1628b71e70eb2dcf89b24e63d9d86289}\label{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba1628b71e70eb2dcf89b24e63d9d86289} 
+CIOT\+\_\+\+SERIALIZER\+\_\+\+TYPE\+\_\+\+NONE&No serializer type specified \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_SERIALIZER\_TYPE\_PROTOBUF@{CIOT\_SERIALIZER\_TYPE\_PROTOBUF}!ciot\_serializer.h@{ciot\_serializer.h}}\index{ciot\_serializer.h@{ciot\_serializer.h}!CIOT\_SERIALIZER\_TYPE\_PROTOBUF@{CIOT\_SERIALIZER\_TYPE\_PROTOBUF}}}\Hypertarget{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba0f0db27db7f111da963526dfface091e}\label{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba0f0db27db7f111da963526dfface091e} 
+CIOT\+\_\+\+SERIALIZER\+\_\+\+TYPE\+\_\+\+PROTOBUF&Protocol Buffers serializer \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_SERIALIZER\_TYPE\_CUSTOM@{CIOT\_SERIALIZER\_TYPE\_CUSTOM}!ciot\_serializer.h@{ciot\_serializer.h}}\index{ciot\_serializer.h@{ciot\_serializer.h}!CIOT\_SERIALIZER\_TYPE\_CUSTOM@{CIOT\_SERIALIZER\_TYPE\_CUSTOM}}}\Hypertarget{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba6d5cb551c26a7529e01e27c64dbc2a7a}\label{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba6d5cb551c26a7529e01e27c64dbc2a7a} 
+CIOT\+\_\+\+SERIALIZER\+\_\+\+TYPE\+\_\+\+CUSTOM&Custom serializer \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__serializer_8h_a2e6ad3f65b3277042564ae00d1ea9522}\label{ciot__serializer_8h_a2e6ad3f65b3277042564ae00d1ea9522} 
+\index{ciot\_serializer.h@{ciot\_serializer.h}!ciot\_serializer\_from\_bytes@{ciot\_serializer\_from\_bytes}}
+\index{ciot\_serializer\_from\_bytes@{ciot\_serializer\_from\_bytes}!ciot\_serializer.h@{ciot\_serializer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_serializer\_from\_bytes()}{ciot\_serializer\_from\_bytes()}}
+{\footnotesize\ttfamily int ciot\+\_\+serializer\+\_\+from\+\_\+bytes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}{ciot\+\_\+serializer\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{msg,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{bytes,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Deserialize bytes to a CIOT message using the specified serializer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT Serializer instance. \\
+\hline
+{\em msg} & CIOT message to fill with deserialized data. \\
+\hline
+{\em bytes} & Source buffer containing serialized data. \\
+\hline
+{\em size} & Size of the serialized data in bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes consumed during deserialization. 
+\end{DoxyReturn}
+\Hypertarget{ciot__serializer_8h_acce586f0c1adcf56d07b5c09e1df2c17}\label{ciot__serializer_8h_acce586f0c1adcf56d07b5c09e1df2c17} 
+\index{ciot\_serializer.h@{ciot\_serializer.h}!ciot\_serializer\_to\_bytes@{ciot\_serializer\_to\_bytes}}
+\index{ciot\_serializer\_to\_bytes@{ciot\_serializer\_to\_bytes}!ciot\_serializer.h@{ciot\_serializer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_serializer\_to\_bytes()}{ciot\_serializer\_to\_bytes()}}
+{\footnotesize\ttfamily int ciot\+\_\+serializer\+\_\+to\+\_\+bytes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}{ciot\+\_\+serializer\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{bytes,  }\item[{\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{msg }\end{DoxyParamCaption})}
+
+
+
+Serialize a CIOT message to bytes using the specified serializer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT Serializer instance. \\
+\hline
+{\em bytes} & Destination buffer for serialized data. \\
+\hline
+{\em msg} & CIOT message to serialize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of bytes serialized. 
+\end{DoxyReturn}

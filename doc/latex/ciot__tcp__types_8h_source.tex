@@ -1,0 +1,97 @@
+\doxysection{ciot\+\_\+tcp\+\_\+types.\+h}
+\hypertarget{ciot__tcp__types_8h_source}{}\label{ciot__tcp__types_8h_source}\index{include/types/ciot\_tcp\_types.h@{include/types/ciot\_tcp\_types.h}}
+\mbox{\hyperlink{ciot__tcp__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_TCP\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_TCP\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4ad830cbd0026ab149b983ca446d00da93}{CIOT\_TCP\_STATE\_ERROR}}\ =\ -\/1,\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a1133752fa7b40a274d3cdc1b1f606380}{CIOT\_TCP\_STATE\_STOPPED}},\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a7c1ef5f54de6485e51c38d35823ef474}{CIOT\_TCP\_STATE\_STARTED}},\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a8c0ce6cdcfc832aaa59eeb008720264d}{CIOT\_TCP\_STATE\_CONNECTING}},\ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a3266288819ae51df6e46bf607f97cc18}{CIOT\_TCP\_STATE\_CONNECTED}},\ }
+\DoxyCodeLine{00030\ \}\ \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4}{ciot\_tcp\_state\_t}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823ab0167afbae61b85190d4a3ce6f8e1bb6}{CIOT\_TCP\_DHCP\_STATE\_IDLE}},\ }
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a498ff82ecd47e1cc74eb97e647f9af41}{CIOT\_TCP\_DHCP\_STATE\_STARTED}},\ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a4bd1f94974adc3039a15f24009f07725}{CIOT\_TCP\_DHCP\_STATE\_STOPPED}},\ }
+\DoxyCodeLine{00040\ \}\ \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823}{ciot\_tcp\_dhcp\_state\_t}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00046\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da612a799c9f8c26c1f3b9a503712bd711}{CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE}},\ }
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da256c65576b0fdb5d6cde2ec00741053d}{CIOT\_TCP\_DHCP\_CFG\_CLIENT}},\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da687fde87cf827b9e89f391a724332b64}{CIOT\_TCP\_DHCP\_CFG\_SERVER}},\ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32daf1cef0fee46226a83db77ffb5adb78aa}{CIOT\_TCP\_DHCP\_CFG\_DISABLED}},\ }
+\DoxyCodeLine{00051\ \}\ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32d}{ciot\_tcp\_dhcp\_cfg\_t}};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210ad747f2cdac489da51cbb5d9dd8a44331}{CIOT\_TCP\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00059\ \}\ \mbox{\hyperlink{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210}{ciot\_tcp\_req\_type\_t}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32d}{ciot\_tcp\_dhcp\_cfg\_t}}\ \mbox{\hyperlink{structciot__tcp__cfg__t_a689764758640d8f794e755c07c602667}{dhcp}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ uint8\_t\ ip[4];\ }
+\DoxyCodeLine{00068\ \ \ \ \ uint8\_t\ gateway[4];\ }
+\DoxyCodeLine{00069\ \ \ \ \ uint8\_t\ mask[4];\ }
+\DoxyCodeLine{00070\ \ \ \ \ uint8\_t\ dns[4];\ }
+\DoxyCodeLine{00071\ \}\ \mbox{\hyperlink{structciot__tcp__cfg__t}{ciot\_tcp\_cfg\_t}};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00076\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00077\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823}{ciot\_tcp\_dhcp\_state\_t}}\ \mbox{\hyperlink{structciot__tcp__dhcp__status__t_acb22641cf860e836e7394d14b9adae4b}{client}};\ }
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823}{ciot\_tcp\_dhcp\_state\_t}}\ \mbox{\hyperlink{structciot__tcp__dhcp__status__t_afdb30da7a1b29e70c8b5051adcaf649b}{server}};\ }
+\DoxyCodeLine{00080\ \}\ \mbox{\hyperlink{structciot__tcp__dhcp__status__t}{ciot\_tcp\_dhcp\_status\_t}};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00086\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ uint8\_t\ mac[6];\ }
+\DoxyCodeLine{00088\ \ \ \ \ uint8\_t\ ip[4];\ }
+\DoxyCodeLine{00089\ \}\ \mbox{\hyperlink{structciot__tcp__info__t}{ciot\_tcp\_info\_t}};}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00095\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4}{ciot\_tcp\_state\_t}}\ \mbox{\hyperlink{structciot__tcp__status__t_a771cb8893000d5d94fc8bc2d21347412}{state}};\ }
+\DoxyCodeLine{00097\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__tcp__status__t_acaf4be12cb0cee4fbea5e8e121f6d2e4}{conn\_count}};\ }
+\DoxyCodeLine{00098\ \ \ \ \ \mbox{\hyperlink{structciot__tcp__dhcp__status__t}{ciot\_tcp\_dhcp\_status\_t}}\ \mbox{\hyperlink{structciot__tcp__status__t_acf265b9f6bf6e80f8d16a9aaade7e8cd}{dhcp}};\ }
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{structciot__tcp__info__t}{ciot\_tcp\_info\_t}}\ \mbox{\hyperlink{structciot__tcp__status__t_a086ac86c52dfa147af9f5afed658c7cb}{info}};\ }
+\DoxyCodeLine{00100\ \}\ \mbox{\hyperlink{structciot__tcp__status__t}{ciot\_tcp\_status\_t}};}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00105\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00106\ \{}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \}\ \mbox{\hyperlink{unionciot__tcp__req__data__u}{ciot\_tcp\_req\_data\_u}};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00113\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00114\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \mbox{\hyperlink{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210}{ciot\_tcp\_req\_type\_t}}\ \mbox{\hyperlink{structciot__tcp__req__t_acd8fb37e86ba410b191b31dc8cf154c3}{type}};\ }
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{unionciot__tcp__req__data__u}{ciot\_tcp\_req\_data\_u}}\ \mbox{\hyperlink{structciot__tcp__req__t_ab9836dbdec18617a3ddefdeb64d68c5f}{data}};\ }
+\DoxyCodeLine{00117\ \}\ \mbox{\hyperlink{structciot__tcp__req__t}{ciot\_tcp\_req\_t}};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00122\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00123\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \mbox{\hyperlink{structciot__tcp__cfg__t}{ciot\_tcp\_cfg\_t}}\ \mbox{\hyperlink{unionciot__tcp__data__u_a71821427aa3817c68209a151bed81e56}{config}};\ }
+\DoxyCodeLine{00125\ \ \ \ \ \mbox{\hyperlink{structciot__tcp__status__t}{ciot\_tcp\_status\_t}}\ \mbox{\hyperlink{unionciot__tcp__data__u_a290455b77155aab0d086fb8c69f76364}{status}};\ }
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{structciot__tcp__req__t}{ciot\_tcp\_req\_t}}\ \mbox{\hyperlink{unionciot__tcp__data__u_aaf3b24e7b5d38ca3f76ca38e5e43ad7e}{request}};\ }
+\DoxyCodeLine{00127\ \}\ \mbox{\hyperlink{unionciot__tcp__data__u}{ciot\_tcp\_data\_u}};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00130\ \}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

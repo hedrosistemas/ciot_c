@@ -1,0 +1,45 @@
+\doxysection{ciot\+\_\+httpc.\+h}
+\hypertarget{ciot__httpc_8h_source}{}\label{ciot__httpc_8h_source}\index{include/ciot\_httpc.h@{include/ciot\_httpc.h}}
+\mbox{\hyperlink{ciot__httpc_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_HTTPC\_\_H\_\_}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_HTTPC\_\_H\_\_}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00014\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__httpc__types_8h}{types/ciot\_httpc\_types.h}}"{}}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__iface_8h}{ciot\_iface.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__err_8h}{ciot\_err.h}}"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }ciot\_httpc\ *\mbox{\hyperlink{ciot__httpc_8h_a2c213f8a3a59ead35d64cf064f894fe1}{ciot\_httpc\_t}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{ciot__httpc_8h_a7867b22f4a59e270cd0aadf3165804a8}{ciot\_httpc\_event\_id}}\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{ciot__httpc_8h_a7867b22f4a59e270cd0aadf3165804a8afb97828385b4f79444b7ebfc7640bde9}{CIOT\_HTTPC\_EVENT\_CONNECTING}}\ =\ \mbox{\hyperlink{ciot__iface_8h_aab1a8c4944d96c57298e26e8bf3110cba7682c08bf60ddc6f695e62b7b2344a4f}{CIOT\_IFACE\_EVENT\_CUSTOM}},\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{ciot__httpc_8h_a7867b22f4a59e270cd0aadf3165804a8a3f5ae57e03d9b825c8fb4733c15359db}{CIOT\_HTTPC\_EVENT\_CONNECTED}},\ }
+\DoxyCodeLine{00032\ \}\ \mbox{\hyperlink{ciot__httpc_8h_a8992ff730daa4b1341950e1fcc062095}{ciot\_httpc\_event\_id\_t}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{structciot__msg__header__t}{ciot\_msg\_header\_t}}\ \mbox{\hyperlink{structciot__httpc__status__msg__t_ac82086f11a03c9e8ff189f5ca9c26f0f}{header}};\ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{structciot__httpc__status__t}{ciot\_httpc\_status\_t}}\ \mbox{\hyperlink{structciot__httpc__status__msg__t_ac5c1eb82650b9d0161a399175c459ad3}{status}};\ }
+\DoxyCodeLine{00040\ \}\ \mbox{\hyperlink{structciot__httpc__status__msg__t}{ciot\_httpc\_status\_msg\_t}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00047\ \mbox{\hyperlink{ciot__httpc_8h_a2c213f8a3a59ead35d64cf064f894fe1}{ciot\_httpc\_t}}\ \mbox{\hyperlink{ciot__httpc_8h_aa56416d08a9bcfbc90b3732204f02e4c}{ciot\_httpc\_new}}(\textcolor{keywordtype}{void}\ *handle);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00055\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__httpc_8h_a46df5188166f70dba4fdff5393db031e}{ciot\_httpc\_start}}(\mbox{\hyperlink{ciot__httpc_8h_a2c213f8a3a59ead35d64cf064f894fe1}{ciot\_httpc\_t}}\ self,\ \mbox{\hyperlink{structciot__httpc__cfg__t}{ciot\_httpc\_cfg\_t}}\ *cfg);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00062\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__httpc_8h_a34deca8f36a9ebbb7b47663a026efc71}{ciot\_httpc\_stop}}(\mbox{\hyperlink{ciot__httpc_8h_a2c213f8a3a59ead35d64cf064f894fe1}{ciot\_httpc\_t}}\ self);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00070\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__httpc_8h_aeb4ac97854627dc732459e7c0b60a900}{ciot\_httpc\_process\_req}}(\mbox{\hyperlink{ciot__httpc_8h_a2c213f8a3a59ead35d64cf064f894fe1}{ciot\_httpc\_t}}\ self,\ \mbox{\hyperlink{structciot__httpc__req__t}{ciot\_httpc\_req\_t}}\ *req);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00079\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__httpc_8h_a8b0903c7bdf6e8928d3753c06f13c564}{ciot\_httpc\_send\_data}}(\mbox{\hyperlink{ciot__httpc_8h_a2c213f8a3a59ead35d64cf064f894fe1}{ciot\_httpc\_t}}\ self,\ uint8\_t\ *data,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00082\ \}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

@@ -1,0 +1,150 @@
+\doxysection{include/types/ciot\+\_\+wifi\+\_\+types.h File Reference}
+\hypertarget{ciot__wifi__types_8h}{}\label{ciot__wifi__types_8h}\index{include/types/ciot\_wifi\_types.h@{include/types/ciot\_wifi\_types.h}}
+
+
+Defines data structures and types for CIOT Wi\+Fi functionality.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include "{}ciot\+\_\+tcp\+\_\+types.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__wifi__ap__info__t}{ciot\+\_\+wifi\+\_\+ap\+\_\+info\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Wi\+Fi access point information. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__wifi__cfg__t}{ciot\+\_\+wifi\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Wi\+Fi configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__wifi__status__t}{ciot\+\_\+wifi\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Wi\+Fi status. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__wifi__scan__result__t}{ciot\+\_\+wifi\+\_\+scan\+\_\+result\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Wi\+Fi scan result. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__wifi__req__data__u}{ciot\+\_\+wifi\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT Wi\+Fi request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__wifi__req__t}{ciot\+\_\+wifi\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT Wi\+Fi request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__wifi__data__u}{ciot\+\_\+wifi\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT Wi\+Fi data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6f}{ciot\+\_\+wifi\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa22577cd2b8c579f221be06f275674e60}{CIOT\+\_\+\+WIFI\+\_\+\+IF\+\_\+\+STA}}
+, \mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa7bfdef61a443d4e6f7e5b96acfade2fa}{CIOT\+\_\+\+WIFI\+\_\+\+IF\+\_\+\+AP}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Wi\+Fi interface types. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036}{ciot\+\_\+wifi\+\_\+scan\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036aae17584d11aca31c75f644b1ec2b0af4}{CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+ERROR}} = -\/1
+, \mbox{\hyperlink{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a4b64a2aa7491e1fc0baa7818e6b0a627}{CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+IDLE}}
+, \mbox{\hyperlink{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a7112209d7638abecd3bb12235439da52}{CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+SCANNING}}
+, \mbox{\hyperlink{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a81236e72b5b965ab3003fc7eefa172f8}{CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+SCANNED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Wi\+Fi scan states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__wifi__types_8h_ad1f8d811fc212531fc388a76b784f348}{ciot\+\_\+wifi\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__wifi__types_8h_ad1f8d811fc212531fc388a76b784f348a8c2d80f4f370ad20291a732f50de55ef}{CIOT\+\_\+\+WIFI\+\_\+\+STATE\+\_\+\+IDLE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Wi\+Fi states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395}{ciot\+\_\+wifi\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395a1cefbec3b48a7dc0c4e8333da88d9c2c}{CIOT\+\_\+\+WIFI\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395af69b99260309c1d8ba4c8a36372fbc7f}{CIOT\+\_\+\+WIFI\+\_\+\+REQ\+\_\+\+SCAN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT Wi\+Fi request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data structures and types for CIOT Wi\+Fi functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/18 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395}\label{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395} 
+\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!ciot\_wifi\_req\_type\_t@{ciot\_wifi\_req\_type\_t}}
+\index{ciot\_wifi\_req\_type\_t@{ciot\_wifi\_req\_type\_t}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_req\_type\_t}{ciot\_wifi\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395}{ciot\+\_\+wifi\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT Wi\+Fi request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_REQ\_UNKNOWN@{CIOT\_WIFI\_REQ\_UNKNOWN}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_REQ\_UNKNOWN@{CIOT\_WIFI\_REQ\_UNKNOWN}}}\Hypertarget{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395a1cefbec3b48a7dc0c4e8333da88d9c2c}\label{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395a1cefbec3b48a7dc0c4e8333da88d9c2c} 
+CIOT\+\_\+\+WIFI\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown Wi\+Fi request type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_REQ\_SCAN@{CIOT\_WIFI\_REQ\_SCAN}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_REQ\_SCAN@{CIOT\_WIFI\_REQ\_SCAN}}}\Hypertarget{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395af69b99260309c1d8ba4c8a36372fbc7f}\label{ciot__wifi__types_8h_a2408faec8016bff6cd0590f0db3b8395af69b99260309c1d8ba4c8a36372fbc7f} 
+CIOT\+\_\+\+WIFI\+\_\+\+REQ\+\_\+\+SCAN&Wi\+Fi scan request \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036}\label{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036} 
+\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!ciot\_wifi\_scan\_state\_t@{ciot\_wifi\_scan\_state\_t}}
+\index{ciot\_wifi\_scan\_state\_t@{ciot\_wifi\_scan\_state\_t}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_scan\_state\_t}{ciot\_wifi\_scan\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036}{ciot\+\_\+wifi\+\_\+scan\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT Wi\+Fi scan states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_SCAN\_STATE\_ERROR@{CIOT\_WIFI\_SCAN\_STATE\_ERROR}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_SCAN\_STATE\_ERROR@{CIOT\_WIFI\_SCAN\_STATE\_ERROR}}}\Hypertarget{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036aae17584d11aca31c75f644b1ec2b0af4}\label{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036aae17584d11aca31c75f644b1ec2b0af4} 
+CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+ERROR&Wi\+Fi scan error state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_SCAN\_STATE\_IDLE@{CIOT\_WIFI\_SCAN\_STATE\_IDLE}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_SCAN\_STATE\_IDLE@{CIOT\_WIFI\_SCAN\_STATE\_IDLE}}}\Hypertarget{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a4b64a2aa7491e1fc0baa7818e6b0a627}\label{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a4b64a2aa7491e1fc0baa7818e6b0a627} 
+CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+IDLE&Wi\+Fi scan idle state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_SCAN\_STATE\_SCANNING@{CIOT\_WIFI\_SCAN\_STATE\_SCANNING}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_SCAN\_STATE\_SCANNING@{CIOT\_WIFI\_SCAN\_STATE\_SCANNING}}}\Hypertarget{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a7112209d7638abecd3bb12235439da52}\label{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a7112209d7638abecd3bb12235439da52} 
+CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+SCANNING&Wi\+Fi scan in progress \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_SCAN\_STATE\_SCANNED@{CIOT\_WIFI\_SCAN\_STATE\_SCANNED}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_SCAN\_STATE\_SCANNED@{CIOT\_WIFI\_SCAN\_STATE\_SCANNED}}}\Hypertarget{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a81236e72b5b965ab3003fc7eefa172f8}\label{ciot__wifi__types_8h_ad99bf8f02a2d7a54b3a9a73752e74036a81236e72b5b965ab3003fc7eefa172f8} 
+CIOT\+\_\+\+WIFI\+\_\+\+SCAN\+\_\+\+STATE\+\_\+\+SCANNED&Wi\+Fi scan completed \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__wifi__types_8h_ad1f8d811fc212531fc388a76b784f348}\label{ciot__wifi__types_8h_ad1f8d811fc212531fc388a76b784f348} 
+\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!ciot\_wifi\_state\_t@{ciot\_wifi\_state\_t}}
+\index{ciot\_wifi\_state\_t@{ciot\_wifi\_state\_t}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_state\_t}{ciot\_wifi\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__wifi__types_8h_ad1f8d811fc212531fc388a76b784f348}{ciot\+\_\+wifi\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT Wi\+Fi states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_STATE\_IDLE@{CIOT\_WIFI\_STATE\_IDLE}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_STATE\_IDLE@{CIOT\_WIFI\_STATE\_IDLE}}}\Hypertarget{ciot__wifi__types_8h_ad1f8d811fc212531fc388a76b784f348a8c2d80f4f370ad20291a732f50de55ef}\label{ciot__wifi__types_8h_ad1f8d811fc212531fc388a76b784f348a8c2d80f4f370ad20291a732f50de55ef} 
+CIOT\+\_\+\+WIFI\+\_\+\+STATE\+\_\+\+IDLE&Wi\+Fi idle state \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6f}\label{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6f} 
+\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!ciot\_wifi\_type\_t@{ciot\_wifi\_type\_t}}
+\index{ciot\_wifi\_type\_t@{ciot\_wifi\_type\_t}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_type\_t}{ciot\_wifi\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6f}{ciot\+\_\+wifi\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT Wi\+Fi interface types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_IF\_STA@{CIOT\_WIFI\_IF\_STA}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_IF\_STA@{CIOT\_WIFI\_IF\_STA}}}\Hypertarget{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa22577cd2b8c579f221be06f275674e60}\label{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa22577cd2b8c579f221be06f275674e60} 
+CIOT\+\_\+\+WIFI\+\_\+\+IF\+\_\+\+STA&Wi\+Fi interface in station mode \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_IF\_AP@{CIOT\_WIFI\_IF\_AP}!ciot\_wifi\_types.h@{ciot\_wifi\_types.h}}\index{ciot\_wifi\_types.h@{ciot\_wifi\_types.h}!CIOT\_WIFI\_IF\_AP@{CIOT\_WIFI\_IF\_AP}}}\Hypertarget{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa7bfdef61a443d4e6f7e5b96acfade2fa}\label{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa7bfdef61a443d4e6f7e5b96acfade2fa} 
+CIOT\+\_\+\+WIFI\+\_\+\+IF\+\_\+\+AP&Wi\+Fi interface in access point mode \\
+\hline
+
+\end{DoxyEnumFields}

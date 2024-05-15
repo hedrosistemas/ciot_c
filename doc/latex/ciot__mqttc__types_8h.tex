@@ -1,0 +1,253 @@
+\doxysection{include/types/ciot\+\_\+mqttc\+\_\+types.h File Reference}
+\hypertarget{ciot__mqttc__types_8h}{}\label{ciot__mqttc__types_8h}\index{include/types/ciot\_mqttc\_types.h@{include/types/ciot\_mqttc\_types.h}}
+
+
+Defines data types and structures for CIOT MQTT client.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include "{}ciot\+\_\+common\+\_\+types.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__mqttc__error__t}{ciot\+\_\+mqttc\+\_\+error\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client error information. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__topics__cfg__t}{ciot\+\_\+mqttc\+\_\+topics\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client topics configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__cfg__t}{ciot\+\_\+mqttc\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__status__t}{ciot\+\_\+mqttc\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client status. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__req__publish__t}{ciot\+\_\+mqttc\+\_\+req\+\_\+publish\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client publish request. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__req__subscribe__t}{ciot\+\_\+mqttc\+\_\+req\+\_\+subscribe\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client subscribe request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__mqttc__req__data__u}{ciot\+\_\+mqttc\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT MQTT client request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__req__t}{ciot\+\_\+mqttc\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client request. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__event__data}{ciot\+\_\+mqttc\+\_\+event\+\_\+data}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client event data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__mqttc__event}{ciot\+\_\+mqttc\+\_\+event}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT MQTT client event. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__mqttc__data__u}{ciot\+\_\+mqttc\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT MQTT client data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ciot__mqttc__types_8h_a6d8667859c659ff145c1ff7cc6a2296e}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+CLIENT\+\_\+\+ID\+\_\+\+LEN}}~32
+\item 
+\#define \mbox{\hyperlink{ciot__mqttc__types_8h_aeb924d17fcd585c2612e41f7f4ad9a1f}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+URL\+\_\+\+LEN}}~64
+\item 
+\#define \mbox{\hyperlink{ciot__mqttc__types_8h_a2612e7ea304728eebf26c76ba9a4935e}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+USER\+\_\+\+LEN}}~32
+\item 
+\#define \mbox{\hyperlink{ciot__mqttc__types_8h_ac313545fb49c7e509b76bf009b915b50}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+PASS\+\_\+\+LEN}}~32
+\item 
+\#define \mbox{\hyperlink{ciot__mqttc__types_8h_af67c4f0b899c64fc5cb38c9e920abde6}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+TOPIC\+\_\+\+LEN}}~48
+\item 
+\#define \mbox{\hyperlink{ciot__mqttc__types_8h_a52eaecd264e5b7ce58372236bc489086}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+MSG\+\_\+\+LEN}}~256
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structciot__mqttc__event__data}{ciot\+\_\+mqttc\+\_\+event\+\_\+data}} \mbox{\hyperlink{ciot__mqttc__types_8h_ac871b56a938626c38c705618405ee350}{ciot\+\_\+mqttc\+\_\+event\+\_\+data\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT MQTT client event data. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structciot__mqttc__event}{ciot\+\_\+mqttc\+\_\+event}} \mbox{\hyperlink{ciot__mqttc__types_8h_ab0721513ba2621aaa8012e6a5f6e79ea}{ciot\+\_\+mqttc\+\_\+event\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT MQTT client event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ce}{ciot\+\_\+mqttc\+\_\+state\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea3cd3678d8b777367f05ebeb64fa5d6e1}{CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+ERROR}} = -\/1
+, \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea004bb3b5e1c7526ac86d715808871aab}{CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+DISCONNECTED}}
+, \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ceaead9e930ad102c9ab546ca112841a1a8}{CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+CONNECTING}}
+, \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea556288d80c5f236a85b349084936ad24}{CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+DISCONNECTING}}
+, \newline
+\mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea79b34e4a21856bfabc772c8491525476}{CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+CONNECTED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT MQTT client states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684}{ciot\+\_\+mqttc\+\_\+transport\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a2f26568f96a771a6de885dcdecc7e83c}{CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a525b4c85b24d94e497cb786ba050b7f9}{CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+TCP}}
+, \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5d3cd88c4c3238306de35766ebd4c119}{CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+SSL}}
+, \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5ce16156ba60d3c867acb7d960d574fd}{CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+WS}}
+, \newline
+\mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684adf27ceb8c08b58be48c97e2057e51fe4}{CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+WSS}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT MQTT client transport types. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43}{ciot\+\_\+mqttc\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a1832343a674951b5cc6e0b1281ac8872}{CIOT\+\_\+\+MQTT\+\_\+\+REQ\+\_\+\+UNKNONW}}
+, \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a5b0bc93e48a1c931162fc99240863279}{CIOT\+\_\+\+MQTT\+\_\+\+REQ\+\_\+\+PUBLISH}}
+, \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43ab1ca6f635ae3eb1dc067fd0058846f55}{CIOT\+\_\+\+MQTT\+\_\+\+REQ\+\_\+\+SUBSCRIBE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT MQTT client request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data types and structures for CIOT MQTT client. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/09 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ciot__mqttc__types_8h_a6d8667859c659ff145c1ff7cc6a2296e}\label{ciot__mqttc__types_8h_a6d8667859c659ff145c1ff7cc6a2296e} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN@{CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN}}
+\index{CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN@{CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN}{CIOT\_CONFIG\_MQTT\_CLIENT\_ID\_LEN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+CLIENT\+\_\+\+ID\+\_\+\+LEN~32}
+
+Default length of MQTT client ID \Hypertarget{ciot__mqttc__types_8h_a52eaecd264e5b7ce58372236bc489086}\label{ciot__mqttc__types_8h_a52eaecd264e5b7ce58372236bc489086} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_CONFIG\_MQTT\_MSG\_LEN@{CIOT\_CONFIG\_MQTT\_MSG\_LEN}}
+\index{CIOT\_CONFIG\_MQTT\_MSG\_LEN@{CIOT\_CONFIG\_MQTT\_MSG\_LEN}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTT\_MSG\_LEN}{CIOT\_CONFIG\_MQTT\_MSG\_LEN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+MSG\+\_\+\+LEN~256}
+
+Default length of MQTT message \Hypertarget{ciot__mqttc__types_8h_ac313545fb49c7e509b76bf009b915b50}\label{ciot__mqttc__types_8h_ac313545fb49c7e509b76bf009b915b50} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_CONFIG\_MQTT\_PASS\_LEN@{CIOT\_CONFIG\_MQTT\_PASS\_LEN}}
+\index{CIOT\_CONFIG\_MQTT\_PASS\_LEN@{CIOT\_CONFIG\_MQTT\_PASS\_LEN}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTT\_PASS\_LEN}{CIOT\_CONFIG\_MQTT\_PASS\_LEN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+PASS\+\_\+\+LEN~32}
+
+Default length of MQTT password \Hypertarget{ciot__mqttc__types_8h_af67c4f0b899c64fc5cb38c9e920abde6}\label{ciot__mqttc__types_8h_af67c4f0b899c64fc5cb38c9e920abde6} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_CONFIG\_MQTT\_TOPIC\_LEN@{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}}
+\index{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN@{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}{CIOT\_CONFIG\_MQTT\_TOPIC\_LEN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+TOPIC\+\_\+\+LEN~48}
+
+Default length of MQTT topic \Hypertarget{ciot__mqttc__types_8h_aeb924d17fcd585c2612e41f7f4ad9a1f}\label{ciot__mqttc__types_8h_aeb924d17fcd585c2612e41f7f4ad9a1f} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_CONFIG\_MQTT\_URL\_LEN@{CIOT\_CONFIG\_MQTT\_URL\_LEN}}
+\index{CIOT\_CONFIG\_MQTT\_URL\_LEN@{CIOT\_CONFIG\_MQTT\_URL\_LEN}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTT\_URL\_LEN}{CIOT\_CONFIG\_MQTT\_URL\_LEN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+URL\+\_\+\+LEN~64}
+
+Default length of MQTT URL \Hypertarget{ciot__mqttc__types_8h_a2612e7ea304728eebf26c76ba9a4935e}\label{ciot__mqttc__types_8h_a2612e7ea304728eebf26c76ba9a4935e} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_CONFIG\_MQTT\_USER\_LEN@{CIOT\_CONFIG\_MQTT\_USER\_LEN}}
+\index{CIOT\_CONFIG\_MQTT\_USER\_LEN@{CIOT\_CONFIG\_MQTT\_USER\_LEN}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTT\_USER\_LEN}{CIOT\_CONFIG\_MQTT\_USER\_LEN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTT\+\_\+\+USER\+\_\+\+LEN~32}
+
+Default length of MQTT username 
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__mqttc__types_8h_ac871b56a938626c38c705618405ee350}\label{ciot__mqttc__types_8h_ac871b56a938626c38c705618405ee350} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!ciot\_mqttc\_event\_data\_t@{ciot\_mqttc\_event\_data\_t}}
+\index{ciot\_mqttc\_event\_data\_t@{ciot\_mqttc\_event\_data\_t}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_event\_data\_t}{ciot\_mqttc\_event\_data\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__mqttc__event__data}{ciot\+\_\+mqttc\+\_\+event\+\_\+data}} \mbox{\hyperlink{ciot__mqttc__types_8h_ac871b56a938626c38c705618405ee350}{ciot\+\_\+mqttc\+\_\+event\+\_\+data\+\_\+t}}}
+
+
+
+Structure for CIOT MQTT client event data. 
+
+\Hypertarget{ciot__mqttc__types_8h_ab0721513ba2621aaa8012e6a5f6e79ea}\label{ciot__mqttc__types_8h_ab0721513ba2621aaa8012e6a5f6e79ea} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!ciot\_mqttc\_event\_u@{ciot\_mqttc\_event\_u}}
+\index{ciot\_mqttc\_event\_u@{ciot\_mqttc\_event\_u}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_event\_u}{ciot\_mqttc\_event\_u}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__mqttc__event}{ciot\+\_\+mqttc\+\_\+event}} \mbox{\hyperlink{ciot__mqttc__types_8h_ab0721513ba2621aaa8012e6a5f6e79ea}{ciot\+\_\+mqttc\+\_\+event\+\_\+u}}}
+
+
+
+Union for CIOT MQTT client event. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43}\label{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!ciot\_mqttc\_req\_type\_t@{ciot\_mqttc\_req\_type\_t}}
+\index{ciot\_mqttc\_req\_type\_t@{ciot\_mqttc\_req\_type\_t}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_req\_type\_t}{ciot\_mqttc\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43}{ciot\+\_\+mqttc\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT MQTT client request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_REQ\_UNKNONW@{CIOT\_MQTT\_REQ\_UNKNONW}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_REQ\_UNKNONW@{CIOT\_MQTT\_REQ\_UNKNONW}}}\Hypertarget{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a1832343a674951b5cc6e0b1281ac8872}\label{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a1832343a674951b5cc6e0b1281ac8872} 
+CIOT\+\_\+\+MQTT\+\_\+\+REQ\+\_\+\+UNKNONW&Unknown request type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_REQ\_PUBLISH@{CIOT\_MQTT\_REQ\_PUBLISH}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_REQ\_PUBLISH@{CIOT\_MQTT\_REQ\_PUBLISH}}}\Hypertarget{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a5b0bc93e48a1c931162fc99240863279}\label{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43a5b0bc93e48a1c931162fc99240863279} 
+CIOT\+\_\+\+MQTT\+\_\+\+REQ\+\_\+\+PUBLISH&Publish request type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_REQ\_SUBSCRIBE@{CIOT\_MQTT\_REQ\_SUBSCRIBE}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_REQ\_SUBSCRIBE@{CIOT\_MQTT\_REQ\_SUBSCRIBE}}}\Hypertarget{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43ab1ca6f635ae3eb1dc067fd0058846f55}\label{ciot__mqttc__types_8h_a2fcaf55ed84bd01f16ae5184e60aab43ab1ca6f635ae3eb1dc067fd0058846f55} 
+CIOT\+\_\+\+MQTT\+\_\+\+REQ\+\_\+\+SUBSCRIBE&Subscribe request type \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ce}\label{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ce} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!ciot\_mqttc\_state\_t@{ciot\_mqttc\_state\_t}}
+\index{ciot\_mqttc\_state\_t@{ciot\_mqttc\_state\_t}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_state\_t}{ciot\_mqttc\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ce}{ciot\+\_\+mqttc\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT MQTT client states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_STATE\_ERROR@{CIOT\_MQTT\_STATE\_ERROR}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_STATE\_ERROR@{CIOT\_MQTT\_STATE\_ERROR}}}\Hypertarget{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea3cd3678d8b777367f05ebeb64fa5d6e1}\label{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea3cd3678d8b777367f05ebeb64fa5d6e1} 
+CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+ERROR&Error state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_STATE\_DISCONNECTED@{CIOT\_MQTT\_STATE\_DISCONNECTED}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_STATE\_DISCONNECTED@{CIOT\_MQTT\_STATE\_DISCONNECTED}}}\Hypertarget{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea004bb3b5e1c7526ac86d715808871aab}\label{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea004bb3b5e1c7526ac86d715808871aab} 
+CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+DISCONNECTED&Disconnected state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_STATE\_CONNECTING@{CIOT\_MQTT\_STATE\_CONNECTING}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_STATE\_CONNECTING@{CIOT\_MQTT\_STATE\_CONNECTING}}}\Hypertarget{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ceaead9e930ad102c9ab546ca112841a1a8}\label{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2ceaead9e930ad102c9ab546ca112841a1a8} 
+CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+CONNECTING&Connecting state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_STATE\_DISCONNECTING@{CIOT\_MQTT\_STATE\_DISCONNECTING}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_STATE\_DISCONNECTING@{CIOT\_MQTT\_STATE\_DISCONNECTING}}}\Hypertarget{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea556288d80c5f236a85b349084936ad24}\label{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea556288d80c5f236a85b349084936ad24} 
+CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+DISCONNECTING&Disconnecting state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_STATE\_CONNECTED@{CIOT\_MQTT\_STATE\_CONNECTED}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_STATE\_CONNECTED@{CIOT\_MQTT\_STATE\_CONNECTED}}}\Hypertarget{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea79b34e4a21856bfabc772c8491525476}\label{ciot__mqttc__types_8h_a5ee7ab2e590208687470cf07d7adb2cea79b34e4a21856bfabc772c8491525476} 
+CIOT\+\_\+\+MQTT\+\_\+\+STATE\+\_\+\+CONNECTED&Connected state \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684}\label{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684} 
+\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!ciot\_mqttc\_transport\_t@{ciot\_mqttc\_transport\_t}}
+\index{ciot\_mqttc\_transport\_t@{ciot\_mqttc\_transport\_t}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_transport\_t}{ciot\_mqttc\_transport\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684}{ciot\+\_\+mqttc\+\_\+transport\+\_\+t}}}
+
+
+
+Enumeration for CIOT MQTT client transport types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_TRANSPORT\_UNKNOWN@{CIOT\_MQTT\_TRANSPORT\_UNKNOWN}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_TRANSPORT\_UNKNOWN@{CIOT\_MQTT\_TRANSPORT\_UNKNOWN}}}\Hypertarget{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a2f26568f96a771a6de885dcdecc7e83c}\label{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a2f26568f96a771a6de885dcdecc7e83c} 
+CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+UNKNOWN&Unknown transport type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_TRANSPORT\_OVER\_TCP@{CIOT\_MQTT\_TRANSPORT\_OVER\_TCP}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_TRANSPORT\_OVER\_TCP@{CIOT\_MQTT\_TRANSPORT\_OVER\_TCP}}}\Hypertarget{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a525b4c85b24d94e497cb786ba050b7f9}\label{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a525b4c85b24d94e497cb786ba050b7f9} 
+CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+TCP&TCP transport type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_TRANSPORT\_OVER\_SSL@{CIOT\_MQTT\_TRANSPORT\_OVER\_SSL}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_TRANSPORT\_OVER\_SSL@{CIOT\_MQTT\_TRANSPORT\_OVER\_SSL}}}\Hypertarget{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5d3cd88c4c3238306de35766ebd4c119}\label{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5d3cd88c4c3238306de35766ebd4c119} 
+CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+SSL&SSL transport type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_TRANSPORT\_OVER\_WS@{CIOT\_MQTT\_TRANSPORT\_OVER\_WS}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_TRANSPORT\_OVER\_WS@{CIOT\_MQTT\_TRANSPORT\_OVER\_WS}}}\Hypertarget{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5ce16156ba60d3c867acb7d960d574fd}\label{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684a5ce16156ba60d3c867acb7d960d574fd} 
+CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+WS&Web\+Socket transport type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_TRANSPORT\_OVER\_WSS@{CIOT\_MQTT\_TRANSPORT\_OVER\_WSS}!ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}}\index{ciot\_mqttc\_types.h@{ciot\_mqttc\_types.h}!CIOT\_MQTT\_TRANSPORT\_OVER\_WSS@{CIOT\_MQTT\_TRANSPORT\_OVER\_WSS}}}\Hypertarget{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684adf27ceb8c08b58be48c97e2057e51fe4}\label{ciot__mqttc__types_8h_ac27be04d218be91a37994c044f65e684adf27ceb8c08b58be48c97e2057e51fe4} 
+CIOT\+\_\+\+MQTT\+\_\+\+TRANSPORT\+\_\+\+OVER\+\_\+\+WSS&Secure Web\+Socket transport type \\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,54 @@
+\doxysection{ciot\+\_\+mqttc.\+h}
+\hypertarget{ciot__mqttc_8h_source}{}\label{ciot__mqttc_8h_source}\index{include/ciot\_mqttc.h@{include/ciot\_mqttc.h}}
+\mbox{\hyperlink{ciot__mqttc_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_MQTT\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_MQTT\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__mqttc__types_8h}{types/ciot\_mqttc\_types.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__iface_8h}{ciot\_iface.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__err_8h}{ciot\_err.h}}"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }ciot\_mqttc\ *\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898}{ciot\_mqttc\_event\_id}}}
+\DoxyCodeLine{00031\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a7fdb135e2a3ea11cafe0449a29a16d0d}{CIOT\_MQTT\_EVENT\_CONNECTING}}\ =\ \mbox{\hyperlink{ciot__iface_8h_aab1a8c4944d96c57298e26e8bf3110cba7682c08bf60ddc6f695e62b7b2344a4f}{CIOT\_IFACE\_EVENT\_CUSTOM}},\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898aa028c2dfe1e1b2a3a3efb1cc698a6b68}{CIOT\_MQTT\_EVENT\_SUBSCRIBED}},\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a6cefc05e924cb723d9f72f2e674e5ef7}{CIOT\_MQTT\_EVENT\_UNSUBSCRIBED}},\ }
+\DoxyCodeLine{00035\ \}\ \mbox{\hyperlink{ciot__mqttc_8h_a366b460dc8e7ec1e3f89c9247882842a}{ciot\_mqttc\_event\_id\_t}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{structciot__msg__header__t}{ciot\_msg\_header\_t}}\ \mbox{\hyperlink{structciot__mqttc__status__msg__t_ac82086f11a03c9e8ff189f5ca9c26f0f}{header}};\ }
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{structciot__mqttc__status__t}{ciot\_mqttc\_status\_t}}\ \mbox{\hyperlink{structciot__mqttc__status__msg__t_a0bd4162002c890f2775878d4da138c03}{status}};\ }
+\DoxyCodeLine{00044\ \}\ \mbox{\hyperlink{structciot__mqttc__status__msg__t}{ciot\_mqttc\_status\_msg\_t}};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00051\ \mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_aa6ac15e5f6cfb3346cff3247dd25c279}{ciot\_mqttc\_new}}(\textcolor{keywordtype}{void}\ *handle);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00059\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_a19c183447b4f862cb53f6ae127a80db0}{ciot\_mqttc\_start}}(\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ self,\ \mbox{\hyperlink{structciot__mqttc__cfg__t}{ciot\_mqttc\_cfg\_t}}\ *cfg);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00066\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_af81da24c4d251706f5f901e810752597}{ciot\_mqttc\_stop}}(\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ self);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00074\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_aba9394c6a08cb0c2087ffdc537f75125}{ciot\_mqttc\_process\_req}}(\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ self,\ \mbox{\hyperlink{structciot__mqttc__req__t}{ciot\_mqttc\_req\_t}}\ *req);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00083\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_aa04b6f015e9bbc8ab614027c460f899d}{ciot\_mqttc\_send\_data}}(\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ self,\ uint8\_t\ *data,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00094\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_a55aab38479c4242b37397c51e15dad37}{ciot\_mqttc\_publish}}(\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ self,\ \textcolor{keywordtype}{char}\ *topic,\ uint8\_t\ *data,\ \textcolor{keywordtype}{int}\ size,\ uint8\_t\ qos);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00103\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_aee005c5cae5b325548b381df58613742}{ciot\_mqttc\_subscribe}}(\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ self,\ \textcolor{keywordtype}{char}\ *topic,\ uint8\_t\ qos);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00110\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__mqttc_8h_ad7bcb714dbb489d3b8508cb7acf72b27}{ciot\_mqttc\_reset\_data\_rate}}(\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\_mqttc\_t}}\ self);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00113\ \}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

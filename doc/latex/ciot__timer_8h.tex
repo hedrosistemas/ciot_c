@@ -1,0 +1,130 @@
+\doxysection{include/ciot\+\_\+timer.h File Reference}
+\hypertarget{ciot__timer_8h}{}\label{ciot__timer_8h}\index{include/ciot\_timer.h@{include/ciot\_timer.h}}
+
+
+Header file for CIOT timer module.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__timer__cfg}{ciot\+\_\+timer\+\_\+cfg}}
+\begin{DoxyCompactList}\small\item\em Configuration structure for CIOT timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void(\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__timer_8h_ae11839d456d62e3e384c7122812fcefc}{ciot\+\_\+timer\+\_\+event\+\_\+handler\+\_\+t}}) (void \texorpdfstring{$\ast$}{*}args)
+\begin{DoxyCompactList}\small\item\em Event handler function type definition for CIOT timer module. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structciot__timer__cfg}{ciot\+\_\+timer\+\_\+cfg}} \mbox{\hyperlink{ciot__timer_8h_ae019e659b7b831fe1d18d0cc25a2947a}{ciot\+\_\+timer\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Configuration structure for CIOT timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__timer_8h_a8d0e55ce9c38fa27cb6cbf0adf38ea85}{ciot\+\_\+timer\+\_\+start}} (\mbox{\hyperlink{ciot__timer_8h_ae019e659b7b831fe1d18d0cc25a2947a}{ciot\+\_\+timer\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start the CIOT timer module with the given configuration. \end{DoxyCompactList}\item 
+uint64\+\_\+t \mbox{\hyperlink{ciot__timer_8h_ade8ee212546acd7193d5b55b803f64ac}{ciot\+\_\+timer\+\_\+get}} (void)
+\begin{DoxyCompactList}\small\item\em Get the current timestamp from the CIOT timer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{ciot__timer_8h_aed2d654f1ff37f47c42c87a8de300b19}{ciot\+\_\+timer\+\_\+compare}} (uint64\+\_\+t \texorpdfstring{$\ast$}{*}timer, uint16\+\_\+t interval)
+\begin{DoxyCompactList}\small\item\em Compare the current timer value with an interval. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT timer module. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2024-\/01-\/09 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2024 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__timer_8h_ae019e659b7b831fe1d18d0cc25a2947a}\label{ciot__timer_8h_ae019e659b7b831fe1d18d0cc25a2947a} 
+\index{ciot\_timer.h@{ciot\_timer.h}!ciot\_timer\_cfg\_t@{ciot\_timer\_cfg\_t}}
+\index{ciot\_timer\_cfg\_t@{ciot\_timer\_cfg\_t}!ciot\_timer.h@{ciot\_timer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_timer\_cfg\_t}{ciot\_timer\_cfg\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__timer__cfg}{ciot\+\_\+timer\+\_\+cfg}} \mbox{\hyperlink{ciot__timer_8h_ae019e659b7b831fe1d18d0cc25a2947a}{ciot\+\_\+timer\+\_\+cfg\+\_\+t}}}
+
+
+
+Configuration structure for CIOT timer. 
+
+\Hypertarget{ciot__timer_8h_ae11839d456d62e3e384c7122812fcefc}\label{ciot__timer_8h_ae11839d456d62e3e384c7122812fcefc} 
+\index{ciot\_timer.h@{ciot\_timer.h}!ciot\_timer\_event\_handler\_t@{ciot\_timer\_event\_handler\_t}}
+\index{ciot\_timer\_event\_handler\_t@{ciot\_timer\_event\_handler\_t}!ciot\_timer.h@{ciot\_timer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_timer\_event\_handler\_t}{ciot\_timer\_event\_handler\_t}}
+{\footnotesize\ttfamily typedef void(\texorpdfstring{$\ast$}{*} ciot\+\_\+timer\+\_\+event\+\_\+handler\+\_\+t) (void \texorpdfstring{$\ast$}{*}args)}
+
+
+
+Event handler function type definition for CIOT timer module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Event arguments. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__timer_8h_aed2d654f1ff37f47c42c87a8de300b19}\label{ciot__timer_8h_aed2d654f1ff37f47c42c87a8de300b19} 
+\index{ciot\_timer.h@{ciot\_timer.h}!ciot\_timer\_compare@{ciot\_timer\_compare}}
+\index{ciot\_timer\_compare@{ciot\_timer\_compare}!ciot\_timer.h@{ciot\_timer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_timer\_compare()}{ciot\_timer\_compare()}}
+{\footnotesize\ttfamily bool ciot\+\_\+timer\+\_\+compare (\begin{DoxyParamCaption}\item[{uint64\+\_\+t \texorpdfstring{$\ast$}{*}}]{timer,  }\item[{uint16\+\_\+t}]{interval }\end{DoxyParamCaption})}
+
+
+
+Compare the current timer value with an interval. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to the timer value to compare. \\
+\hline
+{\em interval} & Interval value to compare against. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the timer value is greater than or equal to the interval, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{ciot__timer_8h_ade8ee212546acd7193d5b55b803f64ac}\label{ciot__timer_8h_ade8ee212546acd7193d5b55b803f64ac} 
+\index{ciot\_timer.h@{ciot\_timer.h}!ciot\_timer\_get@{ciot\_timer\_get}}
+\index{ciot\_timer\_get@{ciot\_timer\_get}!ciot\_timer.h@{ciot\_timer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_timer\_get()}{ciot\_timer\_get()}}
+{\footnotesize\ttfamily uint64\+\_\+t ciot\+\_\+timer\+\_\+get (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the current timestamp from the CIOT timer. 
+
+\begin{DoxyReturn}{Returns}
+Current timestamp in milliseconds. 
+\end{DoxyReturn}
+\Hypertarget{ciot__timer_8h_a8d0e55ce9c38fa27cb6cbf0adf38ea85}\label{ciot__timer_8h_a8d0e55ce9c38fa27cb6cbf0adf38ea85} 
+\index{ciot\_timer.h@{ciot\_timer.h}!ciot\_timer\_start@{ciot\_timer\_start}}
+\index{ciot\_timer\_start@{ciot\_timer\_start}!ciot\_timer.h@{ciot\_timer.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_timer\_start()}{ciot\_timer\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+timer\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__timer_8h_ae019e659b7b831fe1d18d0cc25a2947a}{ciot\+\_\+timer\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start the CIOT timer module with the given configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cfg} & Configuration for the timer module. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}

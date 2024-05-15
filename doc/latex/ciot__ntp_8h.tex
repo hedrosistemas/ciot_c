@@ -1,0 +1,184 @@
+\doxysection{include/ciot\+\_\+ntp.h File Reference}
+\hypertarget{ciot__ntp_8h}{}\label{ciot__ntp_8h}\index{include/ciot\_ntp.h@{include/ciot\_ntp.h}}
+
+
+Header file for CIOT NTP (Network Time Protocol) functionality.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+ntp\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__ntp__status__msg__t}{ciot\+\_\+ntp\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT NTP status message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+ntp \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Opaque pointer to CIOT NTP structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}} \mbox{\hyperlink{ciot__ntp_8h_a21060aee75e3e21695cb1b47e9dbbea6}{ciot\+\_\+ntp\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT NTP instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ntp_8h_ab2e49de0c8bc987fcbd6ff97912e9f21}{ciot\+\_\+ntp\+\_\+start}} (\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}} self, \mbox{\hyperlink{structciot__ntp__cfg__t}{ciot\+\_\+ntp\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start CIOT NTP. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ntp_8h_a4c928f5a646bc368a33351c0508e5986}{ciot\+\_\+ntp\+\_\+stop}} (\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stop CIOT NTP. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ntp_8h_aba2cd40d3a1923cc1c69ae0784bd6f79}{ciot\+\_\+ntp\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}} self, \mbox{\hyperlink{structciot__ntp__req__t}{ciot\+\_\+ntp\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Process NTP request for CIOT NTP. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ntp_8h_a1670e17032214d1a41e0381d2c5844ac}{ciot\+\_\+ntp\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Send data for CIOT NTP. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ntp_8h_abddacb943d084ba3d40cde58b1da45fc}{ciot\+\_\+ntp\+\_\+set}} (\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}} ntp)
+\begin{DoxyCompactList}\small\item\em Set CIOT NTP configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT NTP (Network Time Protocol) functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/17 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}\label{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e} 
+\index{ciot\_ntp.h@{ciot\_ntp.h}!ciot\_ntp\_t@{ciot\_ntp\_t}}
+\index{ciot\_ntp\_t@{ciot\_ntp\_t}!ciot\_ntp.h@{ciot\_ntp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ntp\_t}{ciot\_ntp\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+ntp\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}}}
+
+
+
+Opaque pointer to CIOT NTP structure. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__ntp_8h_a21060aee75e3e21695cb1b47e9dbbea6}\label{ciot__ntp_8h_a21060aee75e3e21695cb1b47e9dbbea6} 
+\index{ciot\_ntp.h@{ciot\_ntp.h}!ciot\_ntp\_new@{ciot\_ntp\_new}}
+\index{ciot\_ntp\_new@{ciot\_ntp\_new}!ciot\_ntp.h@{ciot\_ntp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ntp\_new()}{ciot\_ntp\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}} ciot\+\_\+ntp\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT NTP instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Pointer to the handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance of CIOT NTP. 
+\end{DoxyReturn}
+\Hypertarget{ciot__ntp_8h_aba2cd40d3a1923cc1c69ae0784bd6f79}\label{ciot__ntp_8h_aba2cd40d3a1923cc1c69ae0784bd6f79} 
+\index{ciot\_ntp.h@{ciot\_ntp.h}!ciot\_ntp\_process\_req@{ciot\_ntp\_process\_req}}
+\index{ciot\_ntp\_process\_req@{ciot\_ntp\_process\_req}!ciot\_ntp.h@{ciot\_ntp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ntp\_process\_req()}{ciot\_ntp\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ntp\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__ntp__req__t}{ciot\+\_\+ntp\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Process NTP request for CIOT NTP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT NTP. \\
+\hline
+{\em req} & NTP request. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__ntp_8h_a1670e17032214d1a41e0381d2c5844ac}\label{ciot__ntp_8h_a1670e17032214d1a41e0381d2c5844ac} 
+\index{ciot\_ntp.h@{ciot\_ntp.h}!ciot\_ntp\_send\_data@{ciot\_ntp\_send\_data}}
+\index{ciot\_ntp\_send\_data@{ciot\_ntp\_send\_data}!ciot\_ntp.h@{ciot\_ntp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ntp\_send\_data()}{ciot\_ntp\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ntp\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data for CIOT NTP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT NTP. \\
+\hline
+{\em data} & Data to send. \\
+\hline
+{\em size} & Size of data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__ntp_8h_abddacb943d084ba3d40cde58b1da45fc}\label{ciot__ntp_8h_abddacb943d084ba3d40cde58b1da45fc} 
+\index{ciot\_ntp.h@{ciot\_ntp.h}!ciot\_ntp\_set@{ciot\_ntp\_set}}
+\index{ciot\_ntp\_set@{ciot\_ntp\_set}!ciot\_ntp.h@{ciot\_ntp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ntp\_set()}{ciot\_ntp\_set()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ntp\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}}}]{ntp }\end{DoxyParamCaption})}
+
+
+
+Set CIOT NTP configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ntp} & Instance of CIOT NTP. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__ntp_8h_ab2e49de0c8bc987fcbd6ff97912e9f21}\label{ciot__ntp_8h_ab2e49de0c8bc987fcbd6ff97912e9f21} 
+\index{ciot\_ntp.h@{ciot\_ntp.h}!ciot\_ntp\_start@{ciot\_ntp\_start}}
+\index{ciot\_ntp\_start@{ciot\_ntp\_start}!ciot\_ntp.h@{ciot\_ntp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ntp\_start()}{ciot\_ntp\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ntp\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__ntp__cfg__t}{ciot\+\_\+ntp\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start CIOT NTP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT NTP. \\
+\hline
+{\em cfg} & Configuration for NTP. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__ntp_8h_a4c928f5a646bc368a33351c0508e5986}\label{ciot__ntp_8h_a4c928f5a646bc368a33351c0508e5986} 
+\index{ciot\_ntp.h@{ciot\_ntp.h}!ciot\_ntp\_stop@{ciot\_ntp\_stop}}
+\index{ciot\_ntp\_stop@{ciot\_ntp\_stop}!ciot\_ntp.h@{ciot\_ntp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ntp\_stop()}{ciot\_ntp\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ntp\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\+\_\+ntp\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stop CIOT NTP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT NTP. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
