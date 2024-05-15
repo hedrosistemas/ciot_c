@@ -1,5 +1,5 @@
 /**
- * @file ciot_mqtt.h
+ * @file ciot_mqttc.h
  * @ingroup software_interfaces
  * @brief Header file for CIOT MQTT client functionality.
  * @version 0.1
