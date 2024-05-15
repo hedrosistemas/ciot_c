@@ -1,0 +1,78 @@
+\doxysection{ciot\+\_\+usb.\+h}
+\hypertarget{ciot__usb_8h_source}{}\label{ciot__usb_8h_source}\index{include/ciot\_usb.h@{include/ciot\_usb.h}}
+\mbox{\hyperlink{ciot__usb_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_USB\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_USB\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__usb__types_8h}{types/ciot\_usb\_types.h}}"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__iface_8h}{ciot\_iface.h}}"{}}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__err_8h}{ciot\_err.h}}"{}}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00027\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }ciot\_usb\ *\mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5}{ciot\_usb\_event\_id}}}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a276f27a10f2d1d8f2b9669e73f741453}{CIOT\_USB\_EVENT\_DRV\_SOF}}\ =\ \mbox{\hyperlink{ciot__iface_8h_aab1a8c4944d96c57298e26e8bf3110cba7682c08bf60ddc6f695e62b7b2344a4f}{CIOT\_IFACE\_EVENT\_CUSTOM}},\ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5ae4e25ddb62bf2e37c550da599ba49baa}{CIOT\_USB\_EVENT\_DRV\_RESET}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a491b16a86bf780ddadb881ba97be218a}{CIOT\_USB\_EVENT\_DRV\_SUSPEND}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a10a07726018e6efe25f3d1e5dca2e895}{CIOT\_USB\_EVENT\_DRV\_RESUME}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a696943e19333fb49af7bae6c62beb19b}{CIOT\_USB\_EVENT\_DRV\_WUREQ}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a9c35023883831b5dc9a630f9121f0c68}{CIOT\_USB\_EVENT\_DRV\_SETUP}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5ae4003dcdc297ffa8fc4cbd2f9207daa8}{CIOT\_USB\_EVENT\_DRV\_EPTRANSFER}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a6d8d7a8948f67370c8d7180f4e35d357}{CIOT\_USB\_EVENT\_FIRST\_POWER}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5adb38ca4f63e6efb7f66e814211e9a3ad}{CIOT\_USB\_EVENT\_POWER\_DETECTED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a8a1cc8b9386234f3133dc7c78eb0bef6}{CIOT\_USB\_EVENT\_POWER\_REMOVED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5ad179606eaf7b0171f649090a3aa447c6}{CIOT\_USB\_EVENT\_POWER\_READY}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a51f79a53cfc322086e3efd9e48c5ea6f}{CIOT\_USB\_EVENT\_FIRST\_APP}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5aaf2b626cb9e5b1be9d2eaa819fd3d386}{CIOT\_USB\_EVENT\_INST\_APPEND}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a70d9c2054d28e7851d2ab32fc21b7e64}{CIOT\_USB\_EVENT\_INST\_REMOVE}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5ac5ce262971db46bd319f96d936f97e51}{CIOT\_USB\_EVENT\_STARTED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a2876fe138403454c4c0c4bdec005b795}{CIOT\_USB\_EVENT\_STOPPED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5aaa1ee6bcea019eed94daab3193bd589b}{CIOT\_USB\_EVENT\_STATE\_CHANGED}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5ac3c161231a97b52f7b5eafdae193ef58}{CIOT\_USB\_EVENT\_FIRST\_INTERNAL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5abefb094f2be1ef915bf5e9a20cf34add}{CIOT\_USB\_EVENT\_HFCLK\_READY}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a4026d37d3f5e925bc054770b9ebe9526}{CIOT\_USB\_EVENT\_START\_REQ}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a62de26da02a6e09bcd443684af656843}{CIOT\_USB\_EVENT\_STOP\_REQ}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a727280bd1dbf820baf7166b64bd9cf4e}{CIOT\_USB\_EVENT\_SUSPEND\_REQ}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a9911a33a214c0b913128cf4c120bf737}{CIOT\_USB\_EVENT\_WAKEUP\_REQ}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a1ea491afe0afdeef5390fb08ccf65cf8}{CIOT\_USB\_EVENT\_SETUP\_SETADDRESS}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{ciot__usb_8h_a0dca39c70c3854cb378c750cf03a92a5a0f83b5f8ff28920ceaaad901510476c6}{CIOT\_USB\_EVENT\_DATA}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00059\ \}\ \mbox{\hyperlink{ciot__usb_8h_a014429fc850b705c643a7ec24bd55e1e}{ciot\_usb\_event\_id\_t}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{structciot__msg__header__t}{ciot\_msg\_header\_t}}\ \mbox{\hyperlink{structciot__usb__status__msg__t_ac82086f11a03c9e8ff189f5ca9c26f0f}{header}};\ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{structciot__usb__status__t}{ciot\_usb\_status\_t}}\ \mbox{\hyperlink{structciot__usb__status__msg__t_ab26791741e383cec2107fa1540a14342}{status}};\ \ \ }
+\DoxyCodeLine{00068\ \}\ \mbox{\hyperlink{structciot__usb__status__msg__t}{ciot\_usb\_status\_msg\_t}};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00076\ \mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}}\ \mbox{\hyperlink{ciot__usb_8h_abfc4f7cd5db3e2e5d94c4cd179d99799}{ciot\_usb\_new}}(\textcolor{keywordtype}{void}\ *handle);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00085\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__usb_8h_a6fc1bc4653f9484b79d7f6eec7b8a22e}{ciot\_usb\_start}}(\mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}}\ self,\ \mbox{\hyperlink{structciot__usb__cfg__t}{ciot\_usb\_cfg\_t}}\ *cfg);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00093\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__usb_8h_adabdd1e2583c19abdaf9c618ac48744c}{ciot\_usb\_stop}}(\mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}}\ self);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00102\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__usb_8h_aa7629e46c3c5f64fd1a03f449c9a62d9}{ciot\_usb\_process\_req}}(\mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}}\ self,\ \mbox{\hyperlink{structciot__usb__req__t}{ciot\_usb\_req\_t}}\ *req);}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00112\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__usb_8h_a1ca6b2b7d2fb270d03110baaafa69875}{ciot\_usb\_send\_data}}(\mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}}\ self,\ uint8\_t\ *data,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00122\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__usb_8h_abae2505d8aed15ad739be049f4180e28}{ciot\_usb\_send\_bytes}}(\mbox{\hyperlink{structciot__iface}{ciot\_iface\_t}}\ *iface,\ uint8\_t\ *bytes,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00131\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__usb_8h_ad2167601e42b510a7c5c23092c4c1d67}{ciot\_usb\_set\_bridge\_mode}}(\mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}}\ self,\ \textcolor{keywordtype}{bool}\ mode);}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00139\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__usb_8h_a3182f3d52d2ed6b62d50f6b28f72e17e}{ciot\_usb\_task}}(\mbox{\hyperlink{ciot__usb_8h_a5a423546430ff5b539cecd7181fdf90d}{ciot\_usb\_t}}\ self);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00142\ \}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#endif\ \ }}
+
+\end{DoxyCode}

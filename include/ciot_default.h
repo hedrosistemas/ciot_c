@@ -1,12 +1,10 @@
 /**
  * @file ciot_default.h
- * @author your name (you@domain.com)
- * @brief
+ * @brief Default configuration options for CIOT library.
  * @version 0.1
  * @date 2024-04-14
- *
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @copyright Copyright (c) 2024
- *
  */
 
 #ifndef __CIOT_DEFAULT__H__

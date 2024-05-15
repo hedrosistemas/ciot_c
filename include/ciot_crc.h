@@ -1,6 +1,6 @@
 /**
  * @file ciot_crc.h
- * @author your name (you@domain.com)
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief 
  * @version 0.1
  * @date 2024-04-19
@@ -17,15 +17,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/** \defgroup uart_apis, uart configuration and communication related apis
-  * @brief uart apis
-  */
-
-/** @addtogroup uart_apis
-  * @{
-  */
-
 
 /*           Notes about CRC APIs usage
  * The ESP32 ROM include some CRC tables and CRC APIs to speed up CRC calculation.
@@ -144,10 +135,6 @@ uint8_t ciot_crc8_le(uint8_t crc, uint8_t const *buf, uint32_t len);
   * @return None
   */
 uint8_t ciot_crc8_be(uint8_t crc, uint8_t const *buf, uint32_t len);
-
-/**
-  * @}
-  */
 
 #ifdef __cplusplus
 }

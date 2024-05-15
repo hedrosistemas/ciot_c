@@ -1,0 +1,296 @@
+\doxysection{include/ciot\+\_\+sys.h File Reference}
+\hypertarget{ciot__sys_8h}{}\label{ciot__sys_8h}\index{include/ciot\_sys.h@{include/ciot\_sys.h}}
+
+
+Header file for CIOT System module.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+sys\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__sys__status__msg__t}{ciot\+\_\+sys\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em CIOT System status message structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ciot__sys_8h_a3a3e986404de91f1c9943996fd1b7c2b}{CIOT\+\_\+\+SYS\+\_\+\+EVT\+\_\+\+BIT\+\_\+\+POOLING}}~0x00000001
+\begin{DoxyCompactList}\small\item\em Event bit for CIOT System module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+sys \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em CIOT System instance pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a22dbbf411c0235ce565adc505434a6c5}{ciot\+\_\+sys\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT System instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a4e0bd89f65a81feced88a3b45bf7f541}{ciot\+\_\+sys\+\_\+start}} (\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} self, \mbox{\hyperlink{structciot__sys__cfg__t}{ciot\+\_\+sys\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start the CIOT System module with the given configuration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a1e3d326166a820fc5716b2516bcca0c3}{ciot\+\_\+sys\+\_\+stop}} (\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stop the CIOT System module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a06ce22313cfa75dd3862bf9125cd845c}{ciot\+\_\+sys\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} self, \mbox{\hyperlink{structciot__sys__req__t}{ciot\+\_\+sys\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Process a system request. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a5fbca2415ce7a76809907b5d3217098b}{ciot\+\_\+sys\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Send data using the CIOT System module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_afcb34bf8efb97cfc6f0e87c417508147}{ciot\+\_\+sys\+\_\+rst}} (\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Reset the CIOT System module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a3a9c0875c8a82a6927c7bc27294092c4}{ciot\+\_\+sys\+\_\+task}} (\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Perform system task operations. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_ae3972ff066bf63bde44841a4c6052a14}{ciot\+\_\+sys\+\_\+set\+\_\+event\+\_\+bits}} (\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} self, int event\+\_\+bits)
+\begin{DoxyCompactList}\small\item\em Set event bits for the CIOT System module. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{ciot__sys_8h_a642db3584c187d4bfa8b34dca84ea9f8}{ciot\+\_\+sys\+\_\+sleep}} (long ms)
+\begin{DoxyCompactList}\small\item\em Put the system to sleep for the specified duration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a5e7145c78ed2af300b57879b856478af}{ciot\+\_\+sys\+\_\+update\+\_\+features}} (\mbox{\hyperlink{structciot__sys__features__t}{ciot\+\_\+sys\+\_\+features\+\_\+t}} \texorpdfstring{$\ast$}{*}features)
+\begin{DoxyCompactList}\small\item\em Update system features with the given features configuration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__sys__types_8h_a7f47e5291a35126d37482ded0232e5ef}{ciot\+\_\+sys\+\_\+hw\+\_\+t}} \mbox{\hyperlink{ciot__sys_8h_a7a01e9dc69f9e38add4b67f5d5353c65}{ciot\+\_\+sys\+\_\+get\+\_\+hw}} (void)
+\begin{DoxyCompactList}\small\item\em Get the hardware information of the system. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT System module. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/17 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ciot__sys_8h_a3a3e986404de91f1c9943996fd1b7c2b}\label{ciot__sys_8h_a3a3e986404de91f1c9943996fd1b7c2b} 
+\index{ciot\_sys.h@{ciot\_sys.h}!CIOT\_SYS\_EVT\_BIT\_POOLING@{CIOT\_SYS\_EVT\_BIT\_POOLING}}
+\index{CIOT\_SYS\_EVT\_BIT\_POOLING@{CIOT\_SYS\_EVT\_BIT\_POOLING}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_SYS\_EVT\_BIT\_POOLING}{CIOT\_SYS\_EVT\_BIT\_POOLING}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+SYS\+\_\+\+EVT\+\_\+\+BIT\+\_\+\+POOLING~0x00000001}
+
+
+
+Event bit for CIOT System module. 
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}\label{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_t@{ciot\_sys\_t}}
+\index{ciot\_sys\_t@{ciot\_sys\_t}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_t}{ciot\_sys\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+sys\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}
+
+
+
+CIOT System instance pointer. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__sys_8h_a7a01e9dc69f9e38add4b67f5d5353c65}\label{ciot__sys_8h_a7a01e9dc69f9e38add4b67f5d5353c65} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_get\_hw@{ciot\_sys\_get\_hw}}
+\index{ciot\_sys\_get\_hw@{ciot\_sys\_get\_hw}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_get\_hw()}{ciot\_sys\_get\_hw()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__sys__types_8h_a7f47e5291a35126d37482ded0232e5ef}{ciot\+\_\+sys\+\_\+hw\+\_\+t}} ciot\+\_\+sys\+\_\+get\+\_\+hw (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the hardware information of the system. 
+
+\begin{DoxyReturn}{Returns}
+Hardware information of the system. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_a22dbbf411c0235ce565adc505434a6c5}\label{ciot__sys_8h_a22dbbf411c0235ce565adc505434a6c5} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_new@{ciot\_sys\_new}}
+\index{ciot\_sys\_new@{ciot\_sys\_new}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_new()}{ciot\_sys\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}} ciot\+\_\+sys\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT System instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Pointer to the system handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT System instance pointer. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_a06ce22313cfa75dd3862bf9125cd845c}\label{ciot__sys_8h_a06ce22313cfa75dd3862bf9125cd845c} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_process\_req@{ciot\_sys\_process\_req}}
+\index{ciot\_sys\_process\_req@{ciot\_sys\_process\_req}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_process\_req()}{ciot\_sys\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__sys__req__t}{ciot\+\_\+sys\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Process a system request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT System instance. \\
+\hline
+{\em req} & System request to process. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_afcb34bf8efb97cfc6f0e87c417508147}\label{ciot__sys_8h_afcb34bf8efb97cfc6f0e87c417508147} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_rst@{ciot\_sys\_rst}}
+\index{ciot\_sys\_rst@{ciot\_sys\_rst}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_rst()}{ciot\_sys\_rst()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+rst (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Reset the CIOT System module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT System instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_a5fbca2415ce7a76809907b5d3217098b}\label{ciot__sys_8h_a5fbca2415ce7a76809907b5d3217098b} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_send\_data@{ciot\_sys\_send\_data}}
+\index{ciot\_sys\_send\_data@{ciot\_sys\_send\_data}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_send\_data()}{ciot\_sys\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data using the CIOT System module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT System instance. \\
+\hline
+{\em data} & Pointer to the data to be sent. \\
+\hline
+{\em size} & Size of the data in bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_ae3972ff066bf63bde44841a4c6052a14}\label{ciot__sys_8h_ae3972ff066bf63bde44841a4c6052a14} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_set\_event\_bits@{ciot\_sys\_set\_event\_bits}}
+\index{ciot\_sys\_set\_event\_bits@{ciot\_sys\_set\_event\_bits}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_set\_event\_bits()}{ciot\_sys\_set\_event\_bits()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+set\+\_\+event\+\_\+bits (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}]{self,  }\item[{int}]{event\+\_\+bits }\end{DoxyParamCaption})}
+
+
+
+Set event bits for the CIOT System module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT System instance. \\
+\hline
+{\em event\+\_\+bits} & Event bits to set. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_a642db3584c187d4bfa8b34dca84ea9f8}\label{ciot__sys_8h_a642db3584c187d4bfa8b34dca84ea9f8} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_sleep@{ciot\_sys\_sleep}}
+\index{ciot\_sys\_sleep@{ciot\_sys\_sleep}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_sleep()}{ciot\_sys\_sleep()}}
+{\footnotesize\ttfamily void ciot\+\_\+sys\+\_\+sleep (\begin{DoxyParamCaption}\item[{long}]{ms }\end{DoxyParamCaption})}
+
+
+
+Put the system to sleep for the specified duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ms} & Duration in milliseconds. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{ciot__sys_8h_a4e0bd89f65a81feced88a3b45bf7f541}\label{ciot__sys_8h_a4e0bd89f65a81feced88a3b45bf7f541} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_start@{ciot\_sys\_start}}
+\index{ciot\_sys\_start@{ciot\_sys\_start}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_start()}{ciot\_sys\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__sys__cfg__t}{ciot\+\_\+sys\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start the CIOT System module with the given configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT System instance. \\
+\hline
+{\em cfg} & Configuration for the system module. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_a1e3d326166a820fc5716b2516bcca0c3}\label{ciot__sys_8h_a1e3d326166a820fc5716b2516bcca0c3} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_stop@{ciot\_sys\_stop}}
+\index{ciot\_sys\_stop@{ciot\_sys\_stop}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_stop()}{ciot\_sys\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stop the CIOT System module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT System instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_a3a9c0875c8a82a6927c7bc27294092c4}\label{ciot__sys_8h_a3a9c0875c8a82a6927c7bc27294092c4} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_task@{ciot\_sys\_task}}
+\index{ciot\_sys\_task@{ciot\_sys\_task}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_task()}{ciot\_sys\_task()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+task (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__sys_8h_a000d7e2a946477d024a46584409a95cd}{ciot\+\_\+sys\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Perform system task operations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT System instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__sys_8h_a5e7145c78ed2af300b57879b856478af}\label{ciot__sys_8h_a5e7145c78ed2af300b57879b856478af} 
+\index{ciot\_sys.h@{ciot\_sys.h}!ciot\_sys\_update\_features@{ciot\_sys\_update\_features}}
+\index{ciot\_sys\_update\_features@{ciot\_sys\_update\_features}!ciot\_sys.h@{ciot\_sys.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_sys\_update\_features()}{ciot\_sys\_update\_features()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+sys\+\_\+update\+\_\+features (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structciot__sys__features__t}{ciot\+\_\+sys\+\_\+features\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{features }\end{DoxyParamCaption})}
+
+
+
+Update system features with the given features configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em features} & Pointer to the system features configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}

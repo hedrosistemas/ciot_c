@@ -1,0 +1,126 @@
+\doxysection{SLIP encoding and decoding}
+\hypertarget{group__slip}{}\label{group__slip}\index{SLIP encoding and decoding@{SLIP encoding and decoding}}
+
+
+This module encodes and decodes SLIP packages.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__slip__t}{ciot\+\_\+slip\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Representation of a SLIP packet. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{group__slip_ga290de618dbd8ce83c3c43ec2e9c393a1}{ciot\+\_\+slip\+\_\+read\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a6eac8f93f0b78328812025bc26c2515e}{CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+DECODING}}
+, \mbox{\hyperlink{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1af7e80dc7da481b7a5541ba44c10a1834}{CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+ESC\+\_\+\+RECEIVED}}
+, \mbox{\hyperlink{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a788289583399742eda50d8bd9e88fb06}{CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+CLEARING\+\_\+\+INVALID\+\_\+\+PACKET}}
+ \}
+\begin{DoxyCompactList}\small\item\em Status information that is used while receiving and decoding a packet. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{group__slip_ga31ccb83d79170663a4a74c3a073b6d45}{ciot\+\_\+slip\+\_\+encode}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}p\+\_\+output, uint8\+\_\+t \texorpdfstring{$\ast$}{*}p\+\_\+input, uint32\+\_\+t input\+\_\+length, uint32\+\_\+t \texorpdfstring{$\ast$}{*}p\+\_\+output\+\_\+buffer\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Function for encoding a SLIP packet. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{group__slip_ga13b065e0e7ef6b2b98aa59e136929654}{ciot\+\_\+slip\+\_\+decode\+\_\+add\+\_\+byte}} (\mbox{\hyperlink{structciot__slip__t}{ciot\+\_\+slip\+\_\+t}} \texorpdfstring{$\ast$}{*}p\+\_\+slip, uint8\+\_\+t c)
+\begin{DoxyCompactList}\small\item\em Function for decoding a SLIP packet. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This module encodes and decodes SLIP packages. 
+
+The SLIP protocol is described in @link\+SLIP. 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{group__slip_ga290de618dbd8ce83c3c43ec2e9c393a1}\label{group__slip_ga290de618dbd8ce83c3c43ec2e9c393a1} 
+\index{SLIP encoding and decoding@{SLIP encoding and decoding}!ciot\_slip\_read\_state\_t@{ciot\_slip\_read\_state\_t}}
+\index{ciot\_slip\_read\_state\_t@{ciot\_slip\_read\_state\_t}!SLIP encoding and decoding@{SLIP encoding and decoding}}
+\doxysubsubsection{\texorpdfstring{ciot\_slip\_read\_state\_t}{ciot\_slip\_read\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{group__slip_ga290de618dbd8ce83c3c43ec2e9c393a1}{ciot\+\_\+slip\+\_\+read\+\_\+state\+\_\+t}}}
+
+
+
+Status information that is used while receiving and decoding a packet. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_SLIP\_STATE\_DECODING@{CIOT\_SLIP\_STATE\_DECODING}!SLIP encoding and decoding@{SLIP encoding and decoding}}\index{SLIP encoding and decoding@{SLIP encoding and decoding}!CIOT\_SLIP\_STATE\_DECODING@{CIOT\_SLIP\_STATE\_DECODING}}}\Hypertarget{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a6eac8f93f0b78328812025bc26c2515e}\label{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a6eac8f93f0b78328812025bc26c2515e} 
+CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+DECODING&Ready to receive the next byte. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_SLIP\_STATE\_ESC\_RECEIVED@{CIOT\_SLIP\_STATE\_ESC\_RECEIVED}!SLIP encoding and decoding@{SLIP encoding and decoding}}\index{SLIP encoding and decoding@{SLIP encoding and decoding}!CIOT\_SLIP\_STATE\_ESC\_RECEIVED@{CIOT\_SLIP\_STATE\_ESC\_RECEIVED}}}\Hypertarget{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1af7e80dc7da481b7a5541ba44c10a1834}\label{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1af7e80dc7da481b7a5541ba44c10a1834} 
+CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+ESC\+\_\+\+RECEIVED&An ESC byte has been received and the next byte must be decoded differently. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_SLIP\_STATE\_CLEARING\_INVALID\_PACKET@{CIOT\_SLIP\_STATE\_CLEARING\_INVALID\_PACKET}!SLIP encoding and decoding@{SLIP encoding and decoding}}\index{SLIP encoding and decoding@{SLIP encoding and decoding}!CIOT\_SLIP\_STATE\_CLEARING\_INVALID\_PACKET@{CIOT\_SLIP\_STATE\_CLEARING\_INVALID\_PACKET}}}\Hypertarget{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a788289583399742eda50d8bd9e88fb06}\label{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a788289583399742eda50d8bd9e88fb06} 
+CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+CLEARING\+\_\+\+INVALID\+\_\+\+PACKET&The received data is invalid and transfer must be restarted. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{group__slip_ga13b065e0e7ef6b2b98aa59e136929654}\label{group__slip_ga13b065e0e7ef6b2b98aa59e136929654} 
+\index{SLIP encoding and decoding@{SLIP encoding and decoding}!ciot\_slip\_decode\_add\_byte@{ciot\_slip\_decode\_add\_byte}}
+\index{ciot\_slip\_decode\_add\_byte@{ciot\_slip\_decode\_add\_byte}!SLIP encoding and decoding@{SLIP encoding and decoding}}
+\doxysubsubsection{\texorpdfstring{ciot\_slip\_decode\_add\_byte()}{ciot\_slip\_decode\_add\_byte()}}
+{\footnotesize\ttfamily int ciot\+\_\+slip\+\_\+decode\+\_\+add\+\_\+byte (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structciot__slip__t}{ciot\+\_\+slip\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{p\+\_\+slip,  }\item[{uint8\+\_\+t}]{c }\end{DoxyParamCaption})}
+
+
+
+Function for decoding a SLIP packet. 
+
+The decoded packet is put into {\ttfamily p\+\_\+slip\+::p\+\_\+buffer}. The index and buffer state is updated.
+
+Ensure that {\ttfamily p\+\_\+slip} is properly initialized. The initial state must be set to \doxylink{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a6eac8f93f0b78328812025bc26c2515e}{CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+DECODING}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+slip} & State of the decoding process. \\
+\hline
+\mbox{\texttt{ in}}  & {\em c} & Byte to decode.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em NRF\+\_\+\+SUCCESS} & If a packet has been parsed. The received packet can be retrieved from {\ttfamily p\+\_\+slip}. \\
+\hline
+{\em NRF\+\_\+\+ERROR\+\_\+\+NULL} & If {\ttfamily p\+\_\+slip} is NULL. \\
+\hline
+{\em NRF\+\_\+\+ERROR\+\_\+\+NO\+\_\+\+MEM} & If there is no more room in the buffer provided by {\ttfamily p\+\_\+slip}. \\
+\hline
+{\em NRF\+\_\+\+ERROR\+\_\+\+BUSY} & If the packet has not been parsed completely yet. \\
+\hline
+{\em NRF\+\_\+\+ERROR\+\_\+\+INVALID\+\_\+\+DATA} & If the packet is encoded wrong. In this case, {\ttfamily p\+\_\+slip\+::state} is set to \doxylink{group__slip_gga290de618dbd8ce83c3c43ec2e9c393a1a788289583399742eda50d8bd9e88fb06}{CIOT\+\_\+\+SLIP\+\_\+\+STATE\+\_\+\+CLEARING\+\_\+\+INVALID\+\_\+\+PACKET}, and decoding will stay in this state until the END byte is received. \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{group__slip_ga31ccb83d79170663a4a74c3a073b6d45}\label{group__slip_ga31ccb83d79170663a4a74c3a073b6d45} 
+\index{SLIP encoding and decoding@{SLIP encoding and decoding}!ciot\_slip\_encode@{ciot\_slip\_encode}}
+\index{ciot\_slip\_encode@{ciot\_slip\_encode}!SLIP encoding and decoding@{SLIP encoding and decoding}}
+\doxysubsubsection{\texorpdfstring{ciot\_slip\_encode()}{ciot\_slip\_encode()}}
+{\footnotesize\ttfamily int ciot\+\_\+slip\+\_\+encode (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{p\+\_\+output,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{p\+\_\+input,  }\item[{uint32\+\_\+t}]{input\+\_\+length,  }\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{p\+\_\+output\+\_\+buffer\+\_\+length }\end{DoxyParamCaption})}
+
+
+
+Function for encoding a SLIP packet. 
+
+The maximum size of the output data is (2\texorpdfstring{$\ast$}{*}input size + 1) bytes. Ensure that the provided buffer is large enough.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+output} & The buffer where the encoded SLIP packet is stored. Ensure that it is large enough. \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em p\+\_\+input} & The buffer to be encoded. \\
+\hline
+\mbox{\texttt{ in,out}}  & {\em input\+\_\+length} & The length of the input buffer. \\
+\hline
+\mbox{\texttt{ out}}  & {\em p\+\_\+output\+\_\+buffer\+\_\+length} & The length of the output buffer after the input has been encoded.\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em NRF\+\_\+\+SUCCESS} & If the input was successfully encoded into output. \\
+\hline
+{\em NRF\+\_\+\+ERROR\+\_\+\+NULL} & If one of the provided parameters is NULL. \\
+\hline
+\end{DoxyRetVals}

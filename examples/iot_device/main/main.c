@@ -1,6 +1,6 @@
 /**
  * @file main.c
- * @author your name (you@domain.com)
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief 
  * @version 0.1
  * @date 2024-04-14

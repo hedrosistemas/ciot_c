@@ -1,0 +1,324 @@
+\doxysection{include/ciot\+\_\+wifi.h File Reference}
+\hypertarget{ciot__wifi_8h}{}\label{ciot__wifi_8h}\index{include/ciot\_wifi.h@{include/ciot\_wifi.h}}
+
+
+Header file for CIOT Wi-\/\+Fi module.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+wifi\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__wifi__status__msg__t}{ciot\+\_\+wifi\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Packed structure for Wi-\/\+Fi status message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ciot__wifi_8h_a42b035be0aacdd70d63a87058414db71}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+AUTH}}~0
+\begin{DoxyCompactList}\small\item\em Default configuration values for Wi-\/\+Fi Access Point (AP). \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{ciot__wifi_8h_a28cc7b020ea752969183284f9e2f4ddb}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+MAX\+\_\+\+CONN}}~1
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+wifi \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1c}{ciot\+\_\+wifi\+\_\+event\+\_\+id}} \mbox{\hyperlink{ciot__wifi_8h_aef3e522ed9507f7dbe6304d5ad31fbf9}{ciot\+\_\+wifi\+\_\+event\+\_\+id\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration of Wi-\/\+Fi event IDs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1c}{ciot\+\_\+wifi\+\_\+event\+\_\+id}} \{ \newline
+\mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca6b713b4b3920bb34f47260c7643ca2b8}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+START}} = CIOT\+\_\+\+IFACE\+\_\+\+EVENT\+\_\+\+CUSTOM
+, \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca257ec9d7ea2e07aace2c8a179405e807}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+STOP}}
+, \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca1b98996941b31dea8da9c83eb62fea37}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+CONNECTED}}
+, \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca7076a750c510b561b1f0884ddd7e50db}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+DISCONNECTED}}
+, \newline
+\mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1cac7a40b44a69f4c9761043bf78a5cded3}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+START}}
+, \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca52710095670909e218c917ec10e77363}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+STOP}}
+, \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1caa23c4adec62d9312d64a71f82f6efd03}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+STACONNECTED}}
+, \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1caf42578350701e71889e933df00f62043}{CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+STADISCONNECTED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration of Wi-\/\+Fi event IDs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_a07185c8551c5e40a05d113736a72e1d7}{ciot\+\_\+wifi\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT Wi-\/\+Fi instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_aff94df1a4c08ca1cbea37d8dcd3f8777}{ciot\+\_\+wifi\+\_\+ap\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT Wi-\/\+Fi instance for Access Point (AP) mode. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_a57c540c883f21bdfa6d5d0a92584cc90}{ciot\+\_\+wifi\+\_\+sta\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT Wi-\/\+Fi instance for Station (STA) mode. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_af030ec8963d45c8374b58b10d3c83b9a}{ciot\+\_\+wifi\+\_\+start}} (\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} self, \mbox{\hyperlink{structciot__wifi__cfg__t}{ciot\+\_\+wifi\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start the CIOT Wi-\/\+Fi module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_aed26866d40b64a5f80c4769481987cc0}{ciot\+\_\+wifi\+\_\+stop}} (\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stop the CIOT Wi-\/\+Fi module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_a37b38c412e4f11696f1e2c03852cc1b7}{ciot\+\_\+wifi\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} self, \mbox{\hyperlink{structciot__wifi__req__t}{ciot\+\_\+wifi\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Process a Wi-\/\+Fi request. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_a1444b4045430489fbf88036fe898528a}{ciot\+\_\+wifi\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Send data over Wi-\/\+Fi. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__wifi_8h_a5817f21b0b8d5b22430f3ecb3c3c37a5}{ciot\+\_\+wifi\+\_\+get\+\_\+mac}} (\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} self, \mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6f}{ciot\+\_\+wifi\+\_\+type\+\_\+t}} type, uint8\+\_\+t mac\mbox{[}6\mbox{]})
+\begin{DoxyCompactList}\small\item\em Get the MAC address of the Wi-\/\+Fi module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT Wi-\/\+Fi module. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/18 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ciot__wifi_8h_a42b035be0aacdd70d63a87058414db71}\label{ciot__wifi_8h_a42b035be0aacdd70d63a87058414db71} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_CONFIG\_WIFI\_AP\_AUTH@{CIOT\_CONFIG\_WIFI\_AP\_AUTH}}
+\index{CIOT\_CONFIG\_WIFI\_AP\_AUTH@{CIOT\_CONFIG\_WIFI\_AP\_AUTH}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_AP\_AUTH}{CIOT\_CONFIG\_WIFI\_AP\_AUTH}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+AUTH~0}
+
+
+
+Default configuration values for Wi-\/\+Fi Access Point (AP). 
+
+\Hypertarget{ciot__wifi_8h_a28cc7b020ea752969183284f9e2f4ddb}\label{ciot__wifi_8h_a28cc7b020ea752969183284f9e2f4ddb} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_CONFIG\_WIFI\_AP\_MAX\_CONN@{CIOT\_CONFIG\_WIFI\_AP\_MAX\_CONN}}
+\index{CIOT\_CONFIG\_WIFI\_AP\_MAX\_CONN@{CIOT\_CONFIG\_WIFI\_AP\_MAX\_CONN}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_AP\_MAX\_CONN}{CIOT\_CONFIG\_WIFI\_AP\_MAX\_CONN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+MAX\+\_\+\+CONN~1}
+
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__wifi_8h_aef3e522ed9507f7dbe6304d5ad31fbf9}\label{ciot__wifi_8h_aef3e522ed9507f7dbe6304d5ad31fbf9} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_event\_id\_t@{ciot\_wifi\_event\_id\_t}}
+\index{ciot\_wifi\_event\_id\_t@{ciot\_wifi\_event\_id\_t}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_event\_id\_t}{ciot\_wifi\_event\_id\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1c}{ciot\+\_\+wifi\+\_\+event\+\_\+id}} \mbox{\hyperlink{ciot__wifi_8h_aef3e522ed9507f7dbe6304d5ad31fbf9}{ciot\+\_\+wifi\+\_\+event\+\_\+id\+\_\+t}}}
+
+
+
+Enumeration of Wi-\/\+Fi event IDs. 
+
+\Hypertarget{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}\label{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_t@{ciot\_wifi\_t}}
+\index{ciot\_wifi\_t@{ciot\_wifi\_t}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_t}{ciot\_wifi\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+wifi\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1c}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1c} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_event\_id@{ciot\_wifi\_event\_id}}
+\index{ciot\_wifi\_event\_id@{ciot\_wifi\_event\_id}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_event\_id}{ciot\_wifi\_event\_id}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1c}{ciot\+\_\+wifi\+\_\+event\+\_\+id}}}
+
+
+
+Enumeration of Wi-\/\+Fi event IDs. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_STA\_START@{CIOT\_WIFI\_EVENT\_STA\_START}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_STA\_START@{CIOT\_WIFI\_EVENT\_STA\_START}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca6b713b4b3920bb34f47260c7643ca2b8}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca6b713b4b3920bb34f47260c7643ca2b8} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+START&Event for Wi-\/\+Fi STA start. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_STA\_STOP@{CIOT\_WIFI\_EVENT\_STA\_STOP}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_STA\_STOP@{CIOT\_WIFI\_EVENT\_STA\_STOP}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca257ec9d7ea2e07aace2c8a179405e807}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca257ec9d7ea2e07aace2c8a179405e807} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+STOP&Event for Wi-\/\+Fi STA stop. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_STA\_CONNECTED@{CIOT\_WIFI\_EVENT\_STA\_CONNECTED}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_STA\_CONNECTED@{CIOT\_WIFI\_EVENT\_STA\_CONNECTED}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca1b98996941b31dea8da9c83eb62fea37}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca1b98996941b31dea8da9c83eb62fea37} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+CONNECTED&Event for Wi-\/\+Fi STA connected. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_STA\_DISCONNECTED@{CIOT\_WIFI\_EVENT\_STA\_DISCONNECTED}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_STA\_DISCONNECTED@{CIOT\_WIFI\_EVENT\_STA\_DISCONNECTED}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca7076a750c510b561b1f0884ddd7e50db}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca7076a750c510b561b1f0884ddd7e50db} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+STA\+\_\+\+DISCONNECTED&Event for Wi-\/\+Fi STA disconnected. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_AP\_START@{CIOT\_WIFI\_EVENT\_AP\_START}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_AP\_START@{CIOT\_WIFI\_EVENT\_AP\_START}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1cac7a40b44a69f4c9761043bf78a5cded3}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1cac7a40b44a69f4c9761043bf78a5cded3} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+START&Event for Wi-\/\+Fi AP start. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_AP\_STOP@{CIOT\_WIFI\_EVENT\_AP\_STOP}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_AP\_STOP@{CIOT\_WIFI\_EVENT\_AP\_STOP}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca52710095670909e218c917ec10e77363}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1ca52710095670909e218c917ec10e77363} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+STOP&Event for Wi-\/\+Fi AP stop. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_AP\_STACONNECTED@{CIOT\_WIFI\_EVENT\_AP\_STACONNECTED}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_AP\_STACONNECTED@{CIOT\_WIFI\_EVENT\_AP\_STACONNECTED}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1caa23c4adec62d9312d64a71f82f6efd03}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1caa23c4adec62d9312d64a71f82f6efd03} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+STACONNECTED&Event for Wi-\/\+Fi AP STA connected. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_WIFI\_EVENT\_AP\_STADISCONNECTED@{CIOT\_WIFI\_EVENT\_AP\_STADISCONNECTED}!ciot\_wifi.h@{ciot\_wifi.h}}\index{ciot\_wifi.h@{ciot\_wifi.h}!CIOT\_WIFI\_EVENT\_AP\_STADISCONNECTED@{CIOT\_WIFI\_EVENT\_AP\_STADISCONNECTED}}}\Hypertarget{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1caf42578350701e71889e933df00f62043}\label{ciot__wifi_8h_a19c22be5088c4eab517d5814d79e3d1caf42578350701e71889e933df00f62043} 
+CIOT\+\_\+\+WIFI\+\_\+\+EVENT\+\_\+\+AP\+\_\+\+STADISCONNECTED&Event for Wi-\/\+Fi AP STA disconnected. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__wifi_8h_aff94df1a4c08ca1cbea37d8dcd3f8777}\label{ciot__wifi_8h_aff94df1a4c08ca1cbea37d8dcd3f8777} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_ap\_new@{ciot\_wifi\_ap\_new}}
+\index{ciot\_wifi\_ap\_new@{ciot\_wifi\_ap\_new}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_ap\_new()}{ciot\_wifi\_ap\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} ciot\+\_\+wifi\+\_\+ap\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT Wi-\/\+Fi instance for Access Point (AP) mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Pointer to the Wi-\/\+Fi handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created CIOT Wi-\/\+Fi instance for AP mode. 
+\end{DoxyReturn}
+\Hypertarget{ciot__wifi_8h_a5817f21b0b8d5b22430f3ecb3c3c37a5}\label{ciot__wifi_8h_a5817f21b0b8d5b22430f3ecb3c3c37a5} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_get\_mac@{ciot\_wifi\_get\_mac}}
+\index{ciot\_wifi\_get\_mac@{ciot\_wifi\_get\_mac}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_get\_mac()}{ciot\_wifi\_get\_mac()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+wifi\+\_\+get\+\_\+mac (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6f}{ciot\+\_\+wifi\+\_\+type\+\_\+t}}}]{type,  }\item[{uint8\+\_\+t}]{mac\mbox{[}6\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Get the MAC address of the Wi-\/\+Fi module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT Wi-\/\+Fi instance. \\
+\hline
+{\em type} & Type of Wi-\/\+Fi (AP or STA). \\
+\hline
+{\em mac} & Buffer to store the MAC address. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__wifi_8h_a07185c8551c5e40a05d113736a72e1d7}\label{ciot__wifi_8h_a07185c8551c5e40a05d113736a72e1d7} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_new@{ciot\_wifi\_new}}
+\index{ciot\_wifi\_new@{ciot\_wifi\_new}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_new()}{ciot\_wifi\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} ciot\+\_\+wifi\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT Wi-\/\+Fi instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Pointer to the Wi-\/\+Fi handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created CIOT Wi-\/\+Fi instance. 
+\end{DoxyReturn}
+\Hypertarget{ciot__wifi_8h_a37b38c412e4f11696f1e2c03852cc1b7}\label{ciot__wifi_8h_a37b38c412e4f11696f1e2c03852cc1b7} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_process\_req@{ciot\_wifi\_process\_req}}
+\index{ciot\_wifi\_process\_req@{ciot\_wifi\_process\_req}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_process\_req()}{ciot\_wifi\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+wifi\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__wifi__req__t}{ciot\+\_\+wifi\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Process a Wi-\/\+Fi request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT Wi-\/\+Fi instance. \\
+\hline
+{\em req} & Pointer to the Wi-\/\+Fi request. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__wifi_8h_a1444b4045430489fbf88036fe898528a}\label{ciot__wifi_8h_a1444b4045430489fbf88036fe898528a} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_send\_data@{ciot\_wifi\_send\_data}}
+\index{ciot\_wifi\_send\_data@{ciot\_wifi\_send\_data}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_send\_data()}{ciot\_wifi\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+wifi\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data over Wi-\/\+Fi. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT Wi-\/\+Fi instance. \\
+\hline
+{\em data} & Pointer to the data buffer. \\
+\hline
+{\em size} & Size of the data buffer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__wifi_8h_a57c540c883f21bdfa6d5d0a92584cc90}\label{ciot__wifi_8h_a57c540c883f21bdfa6d5d0a92584cc90} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_sta\_new@{ciot\_wifi\_sta\_new}}
+\index{ciot\_wifi\_sta\_new@{ciot\_wifi\_sta\_new}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_sta\_new()}{ciot\_wifi\_sta\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}} ciot\+\_\+wifi\+\_\+sta\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT Wi-\/\+Fi instance for Station (STA) mode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Pointer to the Wi-\/\+Fi handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created CIOT Wi-\/\+Fi instance for STA mode. 
+\end{DoxyReturn}
+\Hypertarget{ciot__wifi_8h_af030ec8963d45c8374b58b10d3c83b9a}\label{ciot__wifi_8h_af030ec8963d45c8374b58b10d3c83b9a} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_start@{ciot\_wifi\_start}}
+\index{ciot\_wifi\_start@{ciot\_wifi\_start}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_start()}{ciot\_wifi\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+wifi\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__wifi__cfg__t}{ciot\+\_\+wifi\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start the CIOT Wi-\/\+Fi module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT Wi-\/\+Fi instance. \\
+\hline
+{\em cfg} & Pointer to the Wi-\/\+Fi configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__wifi_8h_aed26866d40b64a5f80c4769481987cc0}\label{ciot__wifi_8h_aed26866d40b64a5f80c4769481987cc0} 
+\index{ciot\_wifi.h@{ciot\_wifi.h}!ciot\_wifi\_stop@{ciot\_wifi\_stop}}
+\index{ciot\_wifi\_stop@{ciot\_wifi\_stop}!ciot\_wifi.h@{ciot\_wifi.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_wifi\_stop()}{ciot\_wifi\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+wifi\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__wifi_8h_a8a68a35d54f44cd102efdaf03d75d29a}{ciot\+\_\+wifi\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stop the CIOT Wi-\/\+Fi module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT Wi-\/\+Fi instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}

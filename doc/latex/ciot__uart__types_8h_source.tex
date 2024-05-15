@@ -1,0 +1,104 @@
+\doxysection{ciot\+\_\+uart\+\_\+types.\+h}
+\hypertarget{ciot__uart__types_8h_source}{}\label{ciot__uart__types_8h_source}\index{include/types/ciot\_uart\_types.h@{include/types/ciot\_uart\_types.h}}
+\mbox{\hyperlink{ciot__uart__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_UART\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_UART\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__common__types_8h}{ciot\_common\_types.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca68e791de6f32826bfeadcc76ca60bc2e}{CIOT\_UART\_STATE\_CLOSED}},\ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca199a994bef9447f18c393c779a0892c1}{CIOT\_UART\_STATE\_STARTED}},\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca9a25df08d25fcbbeed4211d968806f23}{CIOT\_UART\_STATE\_INTERNAL\_ERROR}},\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ecab6941d4ad015b3618bb4389a6fd81b38}{CIOT\_UART\_STATE\_CIOT\_S\_ERROR}},\ }
+\DoxyCodeLine{00032\ \}\ \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ec}{ciot\_uart\_state\_t}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa247559c3b774b184eefcddff921c7e7f}{CIOT\_UART\_ERR\_NONE}},\ }
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aaad6937afc4eaec25982854d59b88c44e}{CIOT\_UART\_ERR\_BREAK}},\ }
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4980792413629568f394143146dfd34e}{CIOT\_UART\_ERR\_BUFFER\_FULL}},\ }
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4471ad6db30324129d09ef452d3f21ef}{CIOT\_UART\_ERR\_FIFO\_OVERFLOW}},\ }
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa378a518c8cbc1750b42c1ba8dc74ac53}{CIOT\_UART\_ERR\_FRAME}},\ }
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa673b4c65f8766835eb2acaad965ced62}{CIOT\_UART\_ERR\_PARITY}},\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa29325d36ddc3f3283eb395420109f403}{CIOT\_UART\_ERR\_DATA\_BREAK}},\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa156f45510839d0ea276118f836a2a60f}{CIOT\_UART\_ERR\_UNKNOWN\_EVENT}},\ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa00bbe17b442ed0e94d1f3695b32bda2a}{CIOT\_UART\_ERR\_OPEN}},\ }
+\DoxyCodeLine{00048\ \}\ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494a}{ciot\_uart\_error\_t}};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00053\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca94d082e7fecb8305a0acb0cc05384352}{CIOT\_UART\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca9a3b4577451009d87249a3afa3f5d1a7}{CIOT\_UART\_REQ\_SEND\_DATA}},\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca553ca846abf1dd6c736512c293f62134}{CIOT\_UART\_REQ\_SEND\_BYTES}},\ }
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca7db606c5c2e1124419279dae212d92b6}{CIOT\_UART\_REQ\_ENABLE\_BRIDGE\_MODE}},\ }
+\DoxyCodeLine{00059\ \}\ \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751c}{ciot\_uart\_req\_type\_t}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_a148f33bbcda8087a77d8ba30f7e3c502}{baud\_rate}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_abea371f9030e15a5d2a4c181576833d8}{num}};\ }
+\DoxyCodeLine{00068\ \ \ \ \ int8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_ab461fda70a78750930429bcc68db5a98}{rx\_pin}};\ }
+\DoxyCodeLine{00069\ \ \ \ \ int8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_abc8367b5354c54835c1d74192f355c1c}{tx\_pin}};\ }
+\DoxyCodeLine{00070\ \ \ \ \ int8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_a3c82534f71c473adbf7fa380db7badc2}{rts\_pin}};\ }
+\DoxyCodeLine{00071\ \ \ \ \ int8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_a73580a66f00a6a0ea4a56441d529797f}{cts\_pin}};\ }
+\DoxyCodeLine{00072\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_ae5290e95682932917ab6a7fd7897abb4}{parity}};\ }
+\DoxyCodeLine{00073\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_a9498b6790752dd532f6465f3efb59cbf}{flow\_control}}\ :\ 1;\ }
+\DoxyCodeLine{00074\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_a5b495a42fbde79adb797b1e9f6a4e039}{dtr}}\ :\ 1;\ }
+\DoxyCodeLine{00075\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_a7550d74d56b36307b64a75f5d4eb8dad}{bridge\_mode}}\ :\ 1;\ }
+\DoxyCodeLine{00076\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__uart__cfg__t_acb7bc06bed6f6408d719334fc41698c7}{reserved}}\ :\ 5;\ }
+\DoxyCodeLine{00077\ \}\ \mbox{\hyperlink{structciot__uart__cfg__t}{ciot\_uart\_cfg\_t}};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00083\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ec}{ciot\_uart\_state\_t}}\ \mbox{\hyperlink{structciot__uart__status__t_a00c2e8ab24db2cabd968dcd6aa86a7c3}{state}};\ }
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494a}{ciot\_uart\_error\_t}}\ \mbox{\hyperlink{structciot__uart__status__t_ad02fff01b7a3add4e201ad4fd60bb06d}{error}};\ }
+\DoxyCodeLine{00086\ \}\ \mbox{\hyperlink{structciot__uart__status__t}{ciot\_uart\_status\_t}};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__uart__req__send__data__t_ae5dc6ffcd9b7605c7787791e40cc6bb0}{size}};\ }
+\DoxyCodeLine{00094\ \ \ \ \ uint8\_t\ data[255];\ }
+\DoxyCodeLine{00095\ \}\ \mbox{\hyperlink{structciot__uart__req__send__data__t}{ciot\_uart\_req\_send\_data\_t}};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00100\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00101\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{structciot__uart__req__send__data__t}{ciot\_uart\_req\_send\_data\_t}}\ \mbox{\hyperlink{unionciot__uart__req__data__u_a64001c4b28083877216a64df74dff823}{send\_data}};\ }
+\DoxyCodeLine{00103\ \}\ \mbox{\hyperlink{unionciot__uart__req__data__u}{ciot\_uart\_req\_data\_u}};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00108\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00109\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751c}{ciot\_uart\_req\_type\_t}}\ \mbox{\hyperlink{structciot__uart__req__t_a21d88bf4d17b9837d25893a4000044db}{type}};\ }
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{unionciot__uart__req__data__u}{ciot\_uart\_req\_data\_u}}\ \mbox{\hyperlink{structciot__uart__req__t_a8abbd25f85c295a54f54d2815908d273}{data}};\ }
+\DoxyCodeLine{00112\ \}\ \mbox{\hyperlink{structciot__uart__req__t}{ciot\_uart\_req\_t}};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\mbox{\hyperlink{unionciot__uart__event}{ciot\_uart\_event}}}
+\DoxyCodeLine{00118\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \mbox{\hyperlink{structciot__event__data}{ciot\_event\_data\_t}}\ \mbox{\hyperlink{unionciot__uart__event_a998bffd5567753ef3f6b652a400de36b}{data}};\ }
+\DoxyCodeLine{00120\ \}\ \mbox{\hyperlink{ciot__uart__types_8h_a1c20b2ee6a468d46d74b5868e93a3aca}{ciot\_uart\_event\_u}};}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00125\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00126\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{structciot__uart__cfg__t}{ciot\_uart\_cfg\_t}}\ \mbox{\hyperlink{unionciot__uart__data__u_a107556abf8506af23fc4f92aa4d20cea}{config}};\ }
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{structciot__uart__status__t}{ciot\_uart\_status\_t}}\ \mbox{\hyperlink{unionciot__uart__data__u_aa311cb42bbd477c3bfd5371dd0b8bedd}{status}};\ }
+\DoxyCodeLine{00129\ \ \ \ \ \mbox{\hyperlink{structciot__uart__req__t}{ciot\_uart\_req\_t}}\ \mbox{\hyperlink{unionciot__uart__data__u_aeac55f9a4429aa466599b8875763ff38}{request}};\ }
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{unionciot__uart__event}{ciot\_uart\_event\_u}}\ \mbox{\hyperlink{unionciot__uart__data__u_af5207c84edf0697170da962f465640a0}{event}};\ }
+\DoxyCodeLine{00131\ \}\ \mbox{\hyperlink{unionciot__uart__data__u}{ciot\_uart\_data\_u}};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00134\ \}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

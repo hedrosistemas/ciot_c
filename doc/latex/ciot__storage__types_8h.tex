@@ -1,0 +1,138 @@
+\doxysection{include/types/ciot\+\_\+storage\+\_\+types.h File Reference}
+\hypertarget{ciot__storage__types_8h}{}\label{ciot__storage__types_8h}\index{include/types/ciot\_storage\_types.h@{include/types/ciot\_storage\_types.h}}
+
+
+Defines data types and structures for CIOT storage functionality.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__storage__cfg__t}{ciot\+\_\+storage\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT storage configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__storage__status__t}{ciot\+\_\+storage\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT storage status. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__storage__req__file__data__t}{ciot\+\_\+storage\+\_\+req\+\_\+file\+\_\+data\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT storage file data in a request. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__storage__req__t}{ciot\+\_\+storage\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT storage request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__storage__data__u}{ciot\+\_\+storage\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT storage data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239}{ciot\+\_\+storage\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a83d3bc245d343102f7a7ac18b036aceb}{CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239afc4a37eba78791073c18a5f63c03aeb4}{CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+EEPROM}}
+, \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239adb7bbd45322a2e288bd6915ce487bbf0}{CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+FLASH}}
+, \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a5888e89d9b87b625ea64913fdbf4b9ae}{CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+FS}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT storage types. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86}{ciot\+\_\+storage\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86ac1049db8c3ea10d4f1e581674021e625}{CIOT\+\_\+\+STORAGE\+\_\+\+STATE\+\_\+\+IDLE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT storage state. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541}{ciot\+\_\+storage\+\_\+req\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a4689fd1c078349f1583ecdbeaf7da85b}{CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a6218cd2bd3e86d2c74b59c95e3466a8e}{CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+SAVE}}
+, \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541aba02c3e6c860284b2f06654a8977bf23}{CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+LOAD}}
+, \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541af284b0fcdf84425bbd7ea1fedc16ae89}{CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+DELETE}}
+, \newline
+\mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a3dadf7c4810cb89e7bf75d0e1624db9a}{CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+FORMAT}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT storage request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data types and structures for CIOT storage functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/10 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541}\label{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541} 
+\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!ciot\_storage\_req\_type\_t@{ciot\_storage\_req\_type\_t}}
+\index{ciot\_storage\_req\_type\_t@{ciot\_storage\_req\_type\_t}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_storage\_req\_type\_t}{ciot\_storage\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541}{ciot\+\_\+storage\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT storage request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_REQ\_UNKNOWN@{CIOT\_STORAGE\_REQ\_UNKNOWN}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_REQ\_UNKNOWN@{CIOT\_STORAGE\_REQ\_UNKNOWN}}}\Hypertarget{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a4689fd1c078349f1583ecdbeaf7da85b}\label{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a4689fd1c078349f1583ecdbeaf7da85b} 
+CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown storage request type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_REQ\_SAVE@{CIOT\_STORAGE\_REQ\_SAVE}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_REQ\_SAVE@{CIOT\_STORAGE\_REQ\_SAVE}}}\Hypertarget{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a6218cd2bd3e86d2c74b59c95e3466a8e}\label{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a6218cd2bd3e86d2c74b59c95e3466a8e} 
+CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+SAVE&Save data request \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_REQ\_LOAD@{CIOT\_STORAGE\_REQ\_LOAD}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_REQ\_LOAD@{CIOT\_STORAGE\_REQ\_LOAD}}}\Hypertarget{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541aba02c3e6c860284b2f06654a8977bf23}\label{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541aba02c3e6c860284b2f06654a8977bf23} 
+CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+LOAD&Load data request \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_REQ\_DELETE@{CIOT\_STORAGE\_REQ\_DELETE}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_REQ\_DELETE@{CIOT\_STORAGE\_REQ\_DELETE}}}\Hypertarget{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541af284b0fcdf84425bbd7ea1fedc16ae89}\label{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541af284b0fcdf84425bbd7ea1fedc16ae89} 
+CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+DELETE&Delete data request \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_REQ\_FORMAT@{CIOT\_STORAGE\_REQ\_FORMAT}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_REQ\_FORMAT@{CIOT\_STORAGE\_REQ\_FORMAT}}}\Hypertarget{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a3dadf7c4810cb89e7bf75d0e1624db9a}\label{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a3dadf7c4810cb89e7bf75d0e1624db9a} 
+CIOT\+\_\+\+STORAGE\+\_\+\+REQ\+\_\+\+FORMAT&Format storage request \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86}\label{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86} 
+\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!ciot\_storage\_state\_t@{ciot\_storage\_state\_t}}
+\index{ciot\_storage\_state\_t@{ciot\_storage\_state\_t}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_storage\_state\_t}{ciot\_storage\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86}{ciot\+\_\+storage\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT storage state. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_STATE\_IDLE@{CIOT\_STORAGE\_STATE\_IDLE}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_STATE\_IDLE@{CIOT\_STORAGE\_STATE\_IDLE}}}\Hypertarget{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86ac1049db8c3ea10d4f1e581674021e625}\label{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86ac1049db8c3ea10d4f1e581674021e625} 
+CIOT\+\_\+\+STORAGE\+\_\+\+STATE\+\_\+\+IDLE&Storage state\+: idle \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239}\label{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239} 
+\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!ciot\_storage\_type\_t@{ciot\_storage\_type\_t}}
+\index{ciot\_storage\_type\_t@{ciot\_storage\_type\_t}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_storage\_type\_t}{ciot\_storage\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239}{ciot\+\_\+storage\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT storage types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_TYPE\_UNKNOWN@{CIOT\_STORAGE\_TYPE\_UNKNOWN}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_TYPE\_UNKNOWN@{CIOT\_STORAGE\_TYPE\_UNKNOWN}}}\Hypertarget{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a83d3bc245d343102f7a7ac18b036aceb}\label{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a83d3bc245d343102f7a7ac18b036aceb} 
+CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+UNKNOWN&Unknown storage type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_TYPE\_EEPROM@{CIOT\_STORAGE\_TYPE\_EEPROM}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_TYPE\_EEPROM@{CIOT\_STORAGE\_TYPE\_EEPROM}}}\Hypertarget{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239afc4a37eba78791073c18a5f63c03aeb4}\label{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239afc4a37eba78791073c18a5f63c03aeb4} 
+CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+EEPROM&EEPROM storage type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_TYPE\_FLASH@{CIOT\_STORAGE\_TYPE\_FLASH}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_TYPE\_FLASH@{CIOT\_STORAGE\_TYPE\_FLASH}}}\Hypertarget{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239adb7bbd45322a2e288bd6915ce487bbf0}\label{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239adb7bbd45322a2e288bd6915ce487bbf0} 
+CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+FLASH&Flash storage type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_STORAGE\_TYPE\_FS@{CIOT\_STORAGE\_TYPE\_FS}!ciot\_storage\_types.h@{ciot\_storage\_types.h}}\index{ciot\_storage\_types.h@{ciot\_storage\_types.h}!CIOT\_STORAGE\_TYPE\_FS@{CIOT\_STORAGE\_TYPE\_FS}}}\Hypertarget{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a5888e89d9b87b625ea64913fdbf4b9ae}\label{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a5888e89d9b87b625ea64913fdbf4b9ae} 
+CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+FS&Filesystem storage type \\
+\hline
+
+\end{DoxyEnumFields}

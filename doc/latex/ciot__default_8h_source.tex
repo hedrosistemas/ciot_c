@@ -1,0 +1,151 @@
+\doxysection{ciot\+\_\+default.\+h}
+\hypertarget{ciot__default_8h_source}{}\label{ciot__default_8h_source}\index{include/ciot\_default.h@{include/ciot\_default.h}}
+\mbox{\hyperlink{ciot__default_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_DEFAULT\_\_H\_\_}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_DEFAULT\_\_H\_\_}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_STORAGE\_TYPE\ CIOT\_STORAGE\_TYPE\_FS}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_BAUD\_RATE\ 115200}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_NUM\ 0}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_RX\_PIN\ 0}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_TX\_PIN\ 0}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_RTS\_PIN\ 0}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_CTS\_PIN\ 0}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_FLOW\_CONTROL\ 0}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_PARITY\ 0}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_DTR\ 0}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\_BRIDGE\_MODE\ 0}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_TCP\_DHCP\ CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_TCP\_IP\ 0,\ 0,\ 0,\ 0}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_TCP\_GATEWAY\ 0,\ 0,\ 0,\ 0}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_TCP\_MASK\ 0,\ 0,\ 0,\ 0}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_TCP\_DNS\ 0,\ 0,\ 0,\ 0}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_AP\_SSID\ "{}Ciot\ AP"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_AP\_PASSWORD\ "{}administrator"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_AP\_TCP\ CIOT\_CONFIG\_TCP}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_STA\_SSID\ "{}Ciot\ STA"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_STA\_PASSWORD\ "{}administrator"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_STA\_TCP\ CIOT\_CONFIG\_TCP}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_ETH\ CIOT\_CONFIG\_TCP}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_OP\_MODE\ 0}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_SYNC\_MODE\ 0}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_SYNC\_INTERVAL\ 0}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_SERVERS\_COUNT\ 3}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_SERVER1\ "{}pool.ntp.org"{}}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_SERVER2\ "{}time.google.com"{}}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_SERVER3\ "{}gps.ntp.br"{}}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPC\_URL\ "{}http://127.0.0.1:8080/v1/ciot"{}}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPC\_TRANSPORT\ CIOT\_HTTPC\_TRANSPORT\_TCP}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPC\_METHOD\ CIOT\_HTTPC\_METHOD\_POST}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPC\_TIMEOUT\ 20000}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPS\_ADDRESS\ "{}http://127.0.0.1"{}}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPS\_ROUTE\ "{}/v1/ciot"{}}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPS\_PORT\ 8080}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTTC\_URL\ "{}mqtt://test.mosquitto.org"{}}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTTC\_PORT\ 1883}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTTC\_QOS\ 0}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTTC\_USER\ "{}"{}}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTTC\_PASS\ "{}"{}}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B\ "{}v1/ciot/d2b"{}}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D\ "{}v1/ciot/b2d"{}}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_SYS\ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_STORAGE\ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .type\ =\ CIOT\_STORAGE\_TYPE\_FS\ \(\backslash\)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_UART\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .baud\_rate\ =\ CIOT\_CONFIG\_UART\_BAUD\_RATE,\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .num\ =\ CIOT\_CONFIG\_UART\_NUM,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .rx\_pin\ =\ CIOT\_CONFIG\_UART\_RX\_PIN,\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .tx\_pin\ =\ CIOT\_CONFIG\_UART\_TX\_PIN,\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .rts\_pin\ =\ CIOT\_CONFIG\_UART\_RTS\_PIN,\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .cts\_pin\ =\ CIOT\_CONFIG\_UART\_CTS\_PIN,\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .flow\_control\ =\ CIOT\_CONFIG\_UART\_FLOW\_CONTROL,\ \(\backslash\)}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .parity\ =\ CIOT\_CONFIG\_UART\_PARITY,\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .dtr\ =\ CIOT\_CONFIG\_UART\_DTR,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .bridge\_mode\ =\ CIOT\_CONFIG\_UART\_BRIDGE\_MODE,\ \ \ \(\backslash\)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_TCP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .dhcp\ =\ CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE,\ \ \(\backslash\)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .ip\ =\ \{CIOT\_CONFIG\_TCP\_IP\},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .gateway\ =\ \{CIOT\_CONFIG\_TCP\_GATEWAY\},\ \(\backslash\)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .mask\ =\ \{CIOT\_CONFIG\_TCP\_MASK\},\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .dns\ =\ \{CIOT\_CONFIG\_TCP\_DNS\},\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_AP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .ssid\ =\ CIOT\_CONFIG\_WIFI\_AP\_SSID,\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .password\ =\ CIOT\_CONFIG\_WIFI\_AP\_PASSWORD,\ \(\backslash\)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .tcp\ =\ CIOT\_CONFIG\_WIFI\_AP\_TCP,\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .type\ =\ CIOT\_WIFI\_IF\_AP,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_WIFI\_STA\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .ssid\ =\ CIOT\_CONFIG\_WIFI\_STA\_SSID,\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .password\ =\ CIOT\_CONFIG\_WIFI\_STA\_PASSWORD,\ \(\backslash\)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .tcp\ =\ CIOT\_CONFIG\_WIFI\_STA\_TCP,\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .type\ =\ CIOT\_WIFI\_IF\_STA,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ HG\_TCP\_CONFIG\_NTP\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .op\_mode\ =\ HG\_TCP\_CONFIG\_NTP\_OP\_MODE,\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .sync\_mode\ =\ HG\_TCP\_CONFIG\_NTP\_SYNC\_MODE,\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .sync\_interval\ =\ HG\_TCP\_CONFIG\_NTP\_SYNC\_INTERVAL,\ \(\backslash\)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .server\ =\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \{CIOT\_CONFIG\_NTP\_SERVER1\},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \{CIOT\_CONFIG\_NTP\_SERVER2\},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \{CIOT\_CONFIG\_NTP\_SERVER3\}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_HTTPC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .url\ =\ CIOT\_CONFIG\_HTTPC\_URL,\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .method\ =\ CIOT\_CONFIG\_HTTPC\_METHOD,\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .transport\ =\ CIOT\_CONFIG\_HTTPC\_TRANSPORT,\ \(\backslash\)}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .timeout\ =\ CIOT\_CONFIG\_HTTPC\_TIMEOUT,\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ HG\_TCP\_CONFIG\_HTTPS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .address\ =\ HG\_TCP\_CONFIG\_HTTPS\_ADDRESS,\ \(\backslash\)}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .route\ =\ HG\_TCP\_CONFIG\_HTTPS\_ROUTE,\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .port\ =\ HG\_TCP\_CONFIG\_HTTPS\_PORT,\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ HG\_TCP\_CONFIG\_MQTTC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .url\ =\ CIOT\_CONFIG\_MQTTC\_URL,\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .port\ =\ CIOT\_CONFIG\_MQTTC\_PORT,\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .qos\ =\ CIOT\_CONFIG\_MQTTC\_QOS,\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ .topics\ =\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ .b2d\ =\ CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D,\ \(\backslash\)}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ .d2b\ =\ CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B,\ \(\backslash\)}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}
