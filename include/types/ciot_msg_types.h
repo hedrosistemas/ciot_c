@@ -111,6 +111,7 @@ typedef union __attribute__((packed))
     ciot_uart_data_u uart; /**< UART data */
     ciot_usb_data_u usb; /**< USB data */
     ciot_tcp_data_u tcp; /**< TCP data */
+    ciot_tcp_data_u eth; /**< ETH data */
     ciot_wifi_data_u wifi; /**< WiFi data */
     ciot_ble_data_u ble; /**< BLE data */
     ciot_ble_scn_data_u ble_scn; /**< BLE SCN data */
