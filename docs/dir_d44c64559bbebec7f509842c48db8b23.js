@@ -34,5 +34,6 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "ciot_uart.h", "ciot__uart_8h.html", "ciot__uart_8h" ],
     [ "ciot_usb.h", "ciot__usb_8h.html", "ciot__usb_8h" ],
     [ "ciot_utils.h", "ciot__utils_8h.html", "ciot__utils_8h" ],
-    [ "ciot_wifi.h", "ciot__wifi_8h.html", "ciot__wifi_8h" ]
+    [ "ciot_wifi.h", "ciot__wifi_8h.html", "ciot__wifi_8h" ],
+    [ "mainpage.h", "mainpage_8h.html", null ]
 ];

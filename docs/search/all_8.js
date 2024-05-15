@@ -11,5 +11,6 @@ var searchData=
   ['init_8',['init',['../structciot__ntp__status__t.html#a49f666045d24aa8becc5244bc2396aca',1,'ciot_ntp_status_t']]],
   ['init_5fpacket_9',['init_packet',['../structciot__nrf__dfu__cfg.html#a795b5a3aa5d9214e635ad47549f52f15',1,'ciot_nrf_dfu_cfg']]],
   ['interval_10',['interval',['../structciot__ble__scn__cfg__t.html#a6c52a3d605c056768b59164ce8df8334',1,'ciot_ble_scn_cfg_t']]],
-  ['ip_11',['ip',['../structciot__tcp__cfg__t.html#ae81515e082f9bc33e8968181945586da',1,'ciot_tcp_cfg_t::ip'],['../structciot__tcp__info__t.html#ae81515e082f9bc33e8968181945586da',1,'ciot_tcp_info_t::ip']]]
+  ['introduction_11',['Introduction',['../index.html#intro',1,'']]],
+  ['ip_12',['ip',['../structciot__tcp__cfg__t.html#ae81515e082f9bc33e8968181945586da',1,'ciot_tcp_cfg_t::ip'],['../structciot__tcp__info__t.html#ae81515e082f9bc33e8968181945586da',1,'ciot_tcp_info_t::ip']]]
 ];

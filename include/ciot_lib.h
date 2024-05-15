@@ -13,8 +13,17 @@
 #define __CIOT_LIB__H__
 
 /**
+ * @defgroup core
+ * @brief The core of CIoT library
+*/
+#include "ciot.h"
+#include "ciot_iface.h"
+#include "ciot_err.h"
+#include "ciot_log.h"
+
+/**
  * @defgroup hardware_types
- * @brief Types definitions of hardware resources
+ * @brief Types related to hardware abstraction interfaces
  */
 #include "types/ciot_ble_types.h"
 #include "types/ciot_ble_scn_types.h"
@@ -28,7 +37,7 @@
 
 /**
  * @defgroup hardware_interfaces
- * @brief Interfaces that implements hardware resources
+ * @brief Interfaces that represents a hardware abstraction
  */
 #include "ciot_ble.h"
 #include "ciot_ble_scn.h"
@@ -42,7 +51,7 @@
 
 /**
  * @defgroup software_types
- * @brief Types definitions of software resources
+ * @brief Types related to software abstraction interfaces
  */
 #include "types/ciot_bridge_types.h"
 #include "types/ciot_dfu_types.h"
@@ -56,7 +65,7 @@
 
 /**
  * @defgroup software_interfaces
- * @brief Interfaces that implements software resources
+ * @brief Interfaces that represents a software abstraction
  */
 #include "ciot_bridge.h"
 #include "ciot_dfu.h"
@@ -69,5 +78,14 @@
 #include "ciot_opcuas.h"
 #include "ciot_ota.h"
 #include "ciot_sys.h"
+
+/**
+ * @defgroup utils
+ * @brief Auxilliary implementations like encoding/decoding, serialization/deserialization, conversions, math operations, etc
+ */
+#include "ciot_s.h"
+#include "ciot_serializer.h"
+#include "ciot_timer.h"
+#include "ciot_utils.h"
 
 #endif  //!__CIOT_LIB__H__
