@@ -1,5 +1,6 @@
 /**
  * @file ciot_s.h
+ * @ingroup utils
  * @brief Header file for CIOT_S (Communication Interface Over Transport) module.
  * @version 0.1
  * @date 2023-10-09

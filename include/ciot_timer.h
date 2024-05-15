@@ -1,5 +1,6 @@
 /**
  * @file ciot_timer.h
+ * @ingroup utils
  * @brief Header file for CIOT timer module.
  * @version 0.1
  * @date 2024-01-09

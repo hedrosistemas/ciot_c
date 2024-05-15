@@ -25,6 +25,8 @@
 var NAVTREE =
 [
   [ "CioT", "index.html", [
+    [ "CIoT - Programming Guide", "index.html", "index" ],
+    [ "Todo List", "todo.html", null ],
     [ "Topics", "topics.html", "topics" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -51,10 +53,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"ciot__log_8h.html#a1576040bae89b4db49ec4fa591cc058f",
-"structciot__ble__status__msg__t.html",
-"structciot__opcuas__req__t.html",
-"unionciot__httpc__req__data.html#aa49303f9ec122aab28d291d44dcd0da5"
+"ciot__types_8h.html#a03b3036727499342240dda078a6c69a3ad5565cc1fd1218de2af439243c69aad9",
+"structciot__iface__event__t.html#aaba88b24a21a6c70c895c0d55f4a69a0",
+"structciot__tcp__req__t.html#ab9836dbdec18617a3ddefdeb64d68c5f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CioT: Main Page</title>
+<title>CioT: CIoT - Programming Guide</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -91,10 +91,46 @@ $(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">CioT Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">CIoT - Programming Guide </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><dl class="section author"><dt>Authors</dt><dd>Wesley José Santos</dd></dl>
+<h1><a class="anchor" id="intro"></a>
+Introduction</h1>
+<p>This is the documentation for Connected IoT (CIOT). CIoT is a library created to facilitate the implementation of IoT devices. This document describes how to use CIoT APIs. This library is based on interfaces implementations. Each interface have it own tyes. CIoT implementations are divided in four topics:</p><ul>
+<li>Core: CIoT core implementation</li>
+<li>Hardware types: types related to hardware abstraction interfaces</li>
+<li>Hardware interfaces: interfaces that represents a hardware abstraction</li>
+<li>Software types: types related to software abstraction interfaces</li>
+<li>Software interfaces: interfaces that represents a software abstraction</li>
+<li>Utils: auxilliary implementations like encoding/decondig, serialization/deserialization, math operations, timers, etc. </li>
+</ul>
+<p>Each interface implementation follow an general common abstraction defined by the CIoT Core. An interface header file must implement the following methods:</p><ul>
+<li>ciot_iface_new(handle): Create a new interface instance</li>
+<li>ciot_iface_start(self, cfg): Start the interface using the specified configuration</li>
+<li>ciot_iface_stop(self): Stop the interface</li>
+<li>ciot_iface_process_req(self, req): Use the interface to process an external request</li>
+<li>ciot_iface_send_data(self, data, size): User the interface to send data <hr  />
+ </li>
+</ul>
+<h1><a class="anchor" id="notes"></a>
+Release notes</h1>
+<p>This software is under development. Use at your own risk. </p><hr  />
+ <h1><a class="anchor" id="requirements"></a>
+Requirements</h1>
+<pre class="fragment">- Mingw32 for Windows
+- ESP IDF for Espressif devices
+- nRF5 SDK 17 for Nordic devices 
+</pre> <hr  />
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo</a></b></dt><dd><p class="startdd">Create a more detailed version of this documentation </p>
+<p class="interdd">Implement ciot_mbus interface </p>
+<p class="interdd">Implement ciot_opcuas interface </p>
+<p class="interdd">Implement ciot_opcuac interface </p>
+<p class="interdd">Implement unit tests </p>
+<p class="enddd">Create GHA to generate TAGs and Releases</p>
+</dd></dl>
+</div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"/>
 </div><!-- contents -->
 </div><!-- doc-content -->

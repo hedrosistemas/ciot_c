@@ -1,5 +1,6 @@
 /**
  * @file ciot_n.h
+ * @ingroup core
  * @brief Header file for the CIOT network module.
  * @version 0.1
  * @date 2023-10-10

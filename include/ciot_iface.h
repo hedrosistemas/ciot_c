@@ -1,5 +1,6 @@
 /**
  * @file ciot_iface.h
+ * @ingroup core
  * @brief Header file for the CIOT interface.
  * @version 0.1
  * @date 2023-10-09
