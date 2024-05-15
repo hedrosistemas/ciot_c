@@ -1,0 +1,171 @@
+\doxysection{include/types/ciot\+\_\+tcp\+\_\+types.h File Reference}
+\hypertarget{ciot__tcp__types_8h}{}\label{ciot__tcp__types_8h}\index{include/types/ciot\_tcp\_types.h@{include/types/ciot\_tcp\_types.h}}
+
+
+Defines data types and structures for CIOT TCP functionality.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__tcp__cfg__t}{ciot\+\_\+tcp\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT TCP configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__tcp__dhcp__status__t}{ciot\+\_\+tcp\+\_\+dhcp\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT TCP DHCP status. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__tcp__info__t}{ciot\+\_\+tcp\+\_\+info\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT TCP information. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__tcp__status__t}{ciot\+\_\+tcp\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT TCP status. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__tcp__req__data__u}{ciot\+\_\+tcp\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT TCP request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__tcp__req__t}{ciot\+\_\+tcp\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT TCP request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__tcp__data__u}{ciot\+\_\+tcp\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT TCP data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4}{ciot\+\_\+tcp\+\_\+state\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4ad830cbd0026ab149b983ca446d00da93}{CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+ERROR}} = -\/1
+, \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a1133752fa7b40a274d3cdc1b1f606380}{CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+STOPPED}}
+, \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a7c1ef5f54de6485e51c38d35823ef474}{CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+STARTED}}
+, \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a8c0ce6cdcfc832aaa59eeb008720264d}{CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+CONNECTING}}
+, \newline
+\mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a3266288819ae51df6e46bf607f97cc18}{CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+CONNECTED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT TCP connection states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823}{ciot\+\_\+tcp\+\_\+dhcp\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823ab0167afbae61b85190d4a3ce6f8e1bb6}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+STATE\+\_\+\+IDLE}}
+, \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a498ff82ecd47e1cc74eb97e647f9af41}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+STATE\+\_\+\+STARTED}}
+, \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a4bd1f94974adc3039a15f24009f07725}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+STATE\+\_\+\+STOPPED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT TCP DHCP (Dynamic Host Configuration Protocol) states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32d}{ciot\+\_\+tcp\+\_\+dhcp\+\_\+cfg\+\_\+t}} \{ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da612a799c9f8c26c1f3b9a503712bd711}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+NO\+\_\+\+CHANGE}}
+, \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da256c65576b0fdb5d6cde2ec00741053d}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+CLIENT}}
+, \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da687fde87cf827b9e89f391a724332b64}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+SERVER}}
+, \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32daf1cef0fee46226a83db77ffb5adb78aa}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+DISABLED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT TCP DHCP configuration types. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210}{ciot\+\_\+tcp\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210ad747f2cdac489da51cbb5d9dd8a44331}{CIOT\+\_\+\+TCP\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT TCP request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data types and structures for CIOT TCP functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/10 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32d}\label{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32d} 
+\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!ciot\_tcp\_dhcp\_cfg\_t@{ciot\_tcp\_dhcp\_cfg\_t}}
+\index{ciot\_tcp\_dhcp\_cfg\_t@{ciot\_tcp\_dhcp\_cfg\_t}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_dhcp\_cfg\_t}{ciot\_tcp\_dhcp\_cfg\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32d}{ciot\+\_\+tcp\+\_\+dhcp\+\_\+cfg\+\_\+t}}}
+
+
+
+Enumeration for CIOT TCP DHCP configuration types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE@{CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE@{CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE}}}\Hypertarget{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da612a799c9f8c26c1f3b9a503712bd711}\label{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da612a799c9f8c26c1f3b9a503712bd711} 
+CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+NO\+\_\+\+CHANGE&No change in DHCP configuration \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_DHCP\_CFG\_CLIENT@{CIOT\_TCP\_DHCP\_CFG\_CLIENT}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_DHCP\_CFG\_CLIENT@{CIOT\_TCP\_DHCP\_CFG\_CLIENT}}}\Hypertarget{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da256c65576b0fdb5d6cde2ec00741053d}\label{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da256c65576b0fdb5d6cde2ec00741053d} 
+CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+CLIENT&DHCP client configuration \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_DHCP\_CFG\_SERVER@{CIOT\_TCP\_DHCP\_CFG\_SERVER}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_DHCP\_CFG\_SERVER@{CIOT\_TCP\_DHCP\_CFG\_SERVER}}}\Hypertarget{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da687fde87cf827b9e89f391a724332b64}\label{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da687fde87cf827b9e89f391a724332b64} 
+CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+SERVER&DHCP server configuration \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_DHCP\_CFG\_DISABLED@{CIOT\_TCP\_DHCP\_CFG\_DISABLED}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_DHCP\_CFG\_DISABLED@{CIOT\_TCP\_DHCP\_CFG\_DISABLED}}}\Hypertarget{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32daf1cef0fee46226a83db77ffb5adb78aa}\label{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32daf1cef0fee46226a83db77ffb5adb78aa} 
+CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+DISABLED&DHCP disabled configuration \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823}\label{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823} 
+\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!ciot\_tcp\_dhcp\_state\_t@{ciot\_tcp\_dhcp\_state\_t}}
+\index{ciot\_tcp\_dhcp\_state\_t@{ciot\_tcp\_dhcp\_state\_t}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_dhcp\_state\_t}{ciot\_tcp\_dhcp\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823}{ciot\+\_\+tcp\+\_\+dhcp\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT TCP DHCP (Dynamic Host Configuration Protocol) states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_DHCP\_STATE\_IDLE@{CIOT\_TCP\_DHCP\_STATE\_IDLE}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_DHCP\_STATE\_IDLE@{CIOT\_TCP\_DHCP\_STATE\_IDLE}}}\Hypertarget{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823ab0167afbae61b85190d4a3ce6f8e1bb6}\label{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823ab0167afbae61b85190d4a3ce6f8e1bb6} 
+CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+STATE\+\_\+\+IDLE&Idle DHCP state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_DHCP\_STATE\_STARTED@{CIOT\_TCP\_DHCP\_STATE\_STARTED}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_DHCP\_STATE\_STARTED@{CIOT\_TCP\_DHCP\_STATE\_STARTED}}}\Hypertarget{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a498ff82ecd47e1cc74eb97e647f9af41}\label{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a498ff82ecd47e1cc74eb97e647f9af41} 
+CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+STATE\+\_\+\+STARTED&Started DHCP state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_DHCP\_STATE\_STOPPED@{CIOT\_TCP\_DHCP\_STATE\_STOPPED}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_DHCP\_STATE\_STOPPED@{CIOT\_TCP\_DHCP\_STATE\_STOPPED}}}\Hypertarget{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a4bd1f94974adc3039a15f24009f07725}\label{ciot__tcp__types_8h_a5352e5a5aa4b1ddf306f31d22ceb5823a4bd1f94974adc3039a15f24009f07725} 
+CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+STATE\+\_\+\+STOPPED&Stopped DHCP state \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210}\label{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210} 
+\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!ciot\_tcp\_req\_type\_t@{ciot\_tcp\_req\_type\_t}}
+\index{ciot\_tcp\_req\_type\_t@{ciot\_tcp\_req\_type\_t}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_req\_type\_t}{ciot\_tcp\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210}{ciot\+\_\+tcp\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT TCP request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_REQ\_UNKNOWN@{CIOT\_TCP\_REQ\_UNKNOWN}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_REQ\_UNKNOWN@{CIOT\_TCP\_REQ\_UNKNOWN}}}\Hypertarget{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210ad747f2cdac489da51cbb5d9dd8a44331}\label{ciot__tcp__types_8h_a7bba37dedd9e8a5d5374ffa220088210ad747f2cdac489da51cbb5d9dd8a44331} 
+CIOT\+\_\+\+TCP\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown TCP request type \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4}\label{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4} 
+\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!ciot\_tcp\_state\_t@{ciot\_tcp\_state\_t}}
+\index{ciot\_tcp\_state\_t@{ciot\_tcp\_state\_t}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_state\_t}{ciot\_tcp\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4}{ciot\+\_\+tcp\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT TCP connection states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_STATE\_ERROR@{CIOT\_TCP\_STATE\_ERROR}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_STATE\_ERROR@{CIOT\_TCP\_STATE\_ERROR}}}\Hypertarget{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4ad830cbd0026ab149b983ca446d00da93}\label{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4ad830cbd0026ab149b983ca446d00da93} 
+CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+ERROR&Error state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_STATE\_STOPPED@{CIOT\_TCP\_STATE\_STOPPED}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_STATE\_STOPPED@{CIOT\_TCP\_STATE\_STOPPED}}}\Hypertarget{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a1133752fa7b40a274d3cdc1b1f606380}\label{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a1133752fa7b40a274d3cdc1b1f606380} 
+CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+STOPPED&Stopped state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_STATE\_STARTED@{CIOT\_TCP\_STATE\_STARTED}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_STATE\_STARTED@{CIOT\_TCP\_STATE\_STARTED}}}\Hypertarget{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a7c1ef5f54de6485e51c38d35823ef474}\label{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a7c1ef5f54de6485e51c38d35823ef474} 
+CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+STARTED&Started state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_STATE\_CONNECTING@{CIOT\_TCP\_STATE\_CONNECTING}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_STATE\_CONNECTING@{CIOT\_TCP\_STATE\_CONNECTING}}}\Hypertarget{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a8c0ce6cdcfc832aaa59eeb008720264d}\label{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a8c0ce6cdcfc832aaa59eeb008720264d} 
+CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+CONNECTING&Connecting state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_STATE\_CONNECTED@{CIOT\_TCP\_STATE\_CONNECTED}!ciot\_tcp\_types.h@{ciot\_tcp\_types.h}}\index{ciot\_tcp\_types.h@{ciot\_tcp\_types.h}!CIOT\_TCP\_STATE\_CONNECTED@{CIOT\_TCP\_STATE\_CONNECTED}}}\Hypertarget{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a3266288819ae51df6e46bf607f97cc18}\label{ciot__tcp__types_8h_aad64ae7daa8a2c6eefb794318c7c88c4a3266288819ae51df6e46bf607f97cc18} 
+CIOT\+\_\+\+TCP\+\_\+\+STATE\+\_\+\+CONNECTED&Connected state \\
+\hline
+
+\end{DoxyEnumFields}

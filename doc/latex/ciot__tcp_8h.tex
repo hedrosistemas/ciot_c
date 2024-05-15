@@ -1,0 +1,291 @@
+\doxysection{include/ciot\+\_\+tcp.h File Reference}
+\hypertarget{ciot__tcp_8h}{}\label{ciot__tcp_8h}\index{include/ciot\_tcp.h@{include/ciot\_tcp.h}}
+
+
+Header file for CIOT TCP module.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+tcp\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__tcp__handle}{ciot\+\_\+tcp\+\_\+handle}}
+\begin{DoxyCompactList}\small\item\em Handle structure for CIOT TCP. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__tcp__status__msg__t}{ciot\+\_\+tcp\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em CIOT TCP status message structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4}{ciot\+\_\+tcp\+\_\+type}} \mbox{\hyperlink{ciot__tcp_8h_a8206ed69c94c5a1a4c934d3fc89a10db}{ciot\+\_\+tcp\+\_\+type\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration of CIOT TCP connection types. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structciot__tcp__handle}{ciot\+\_\+tcp\+\_\+handle}} \mbox{\hyperlink{ciot__tcp_8h_af40757b42f3a862bda187c4480db9fdd}{ciot\+\_\+tcp\+\_\+handle\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Handle structure for CIOT TCP. \end{DoxyCompactList}\item 
+typedef struct ciot\+\_\+tcp \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em CIOT TCP instance pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4}{ciot\+\_\+tcp\+\_\+type}} \{ \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4aaa42761772eedb190594f60334e7f9b6}{CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a0653aba615cacd4d37ca017b39cac2c3}{CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+WIFI\+\_\+\+STA}}
+, \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a14d1cd4b6a8ecd2b169de66540675046}{CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+WIFI\+\_\+\+AP}}
+, \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a567e4dfbd0835d25cf6648942b584639}{CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+ETHERNET}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration of CIOT TCP connection types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_aaf33d525b69a740035727775db744789}{ciot\+\_\+tcp\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Initialize the CIOT TCP module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_aa7b4877b5e9386676e52472bc2b623fb}{ciot\+\_\+tcp\+\_\+new}} (\mbox{\hyperlink{ciot__tcp_8h_af40757b42f3a862bda187c4480db9fdd}{ciot\+\_\+tcp\+\_\+handle\+\_\+t}} \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT TCP instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_a4bc4953f648bd57ec2fd6a0607c8b3eb}{ciot\+\_\+tcp\+\_\+start}} (\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} self, \mbox{\hyperlink{structciot__tcp__cfg__t}{ciot\+\_\+tcp\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start the CIOT TCP module with the given configuration. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_a4873b02d0f4a5665258cd4ac47e83880}{ciot\+\_\+tcp\+\_\+stop}} (\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stop the CIOT TCP module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_a8e470218e3e7bbfff2d416270c012a29}{ciot\+\_\+tcp\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} self, \mbox{\hyperlink{structciot__tcp__req__t}{ciot\+\_\+tcp\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Process a TCP request. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_a21f1441d7e5b4b9c43ae51509fc12fe7}{ciot\+\_\+tcp\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Send data using the CIOT TCP module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_a6f7038a07ff7a89af6c8b228ebb99cae}{ciot\+\_\+tcp\+\_\+register\+\_\+event}} (\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} tcp, \mbox{\hyperlink{ciot__iface_8h_aa95e39f8029362c17172c4ab860b9b2c}{ciot\+\_\+iface\+\_\+event\+\_\+handler\+\_\+t}} event\+\_\+handler, void \texorpdfstring{$\ast$}{*}event\+\_\+args)
+\begin{DoxyCompactList}\small\item\em Register an event handler for the CIOT TCP module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__tcp_8h_acf0f0475005d8a35010d7d3795a83709}{ciot\+\_\+tcp\+\_\+get\+\_\+ip}} (\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} self, uint8\+\_\+t ip\mbox{[}4\mbox{]})
+\begin{DoxyCompactList}\small\item\em Get the IP address of the CIOT TCP module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT TCP module. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/17 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__tcp_8h_af40757b42f3a862bda187c4480db9fdd}\label{ciot__tcp_8h_af40757b42f3a862bda187c4480db9fdd} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_handle\_t@{ciot\_tcp\_handle\_t}}
+\index{ciot\_tcp\_handle\_t@{ciot\_tcp\_handle\_t}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_handle\_t}{ciot\_tcp\_handle\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__tcp__handle}{ciot\+\_\+tcp\+\_\+handle}} \mbox{\hyperlink{ciot__tcp_8h_af40757b42f3a862bda187c4480db9fdd}{ciot\+\_\+tcp\+\_\+handle\+\_\+t}}}
+
+
+
+Handle structure for CIOT TCP. 
+
+\Hypertarget{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}\label{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_t@{ciot\_tcp\_t}}
+\index{ciot\_tcp\_t@{ciot\_tcp\_t}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_t}{ciot\_tcp\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+tcp\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}}
+
+
+
+CIOT TCP instance pointer. 
+
+\Hypertarget{ciot__tcp_8h_a8206ed69c94c5a1a4c934d3fc89a10db}\label{ciot__tcp_8h_a8206ed69c94c5a1a4c934d3fc89a10db} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_type\_t@{ciot\_tcp\_type\_t}}
+\index{ciot\_tcp\_type\_t@{ciot\_tcp\_type\_t}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_type\_t}{ciot\_tcp\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4}{ciot\+\_\+tcp\+\_\+type}} \mbox{\hyperlink{ciot__tcp_8h_a8206ed69c94c5a1a4c934d3fc89a10db}{ciot\+\_\+tcp\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration of CIOT TCP connection types. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4}\label{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_type@{ciot\_tcp\_type}}
+\index{ciot\_tcp\_type@{ciot\_tcp\_type}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_type}{ciot\_tcp\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4}{ciot\+\_\+tcp\+\_\+type}}}
+
+
+
+Enumeration of CIOT TCP connection types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_TYPE\_UNKNOWN@{CIOT\_TCP\_TYPE\_UNKNOWN}!ciot\_tcp.h@{ciot\_tcp.h}}\index{ciot\_tcp.h@{ciot\_tcp.h}!CIOT\_TCP\_TYPE\_UNKNOWN@{CIOT\_TCP\_TYPE\_UNKNOWN}}}\Hypertarget{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4aaa42761772eedb190594f60334e7f9b6}\label{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4aaa42761772eedb190594f60334e7f9b6} 
+CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+UNKNOWN&Unknown TCP type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_TYPE\_WIFI\_STA@{CIOT\_TCP\_TYPE\_WIFI\_STA}!ciot\_tcp.h@{ciot\_tcp.h}}\index{ciot\_tcp.h@{ciot\_tcp.h}!CIOT\_TCP\_TYPE\_WIFI\_STA@{CIOT\_TCP\_TYPE\_WIFI\_STA}}}\Hypertarget{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a0653aba615cacd4d37ca017b39cac2c3}\label{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a0653aba615cacd4d37ca017b39cac2c3} 
+CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+WIFI\+\_\+\+STA&Wi\+Fi station TCP type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_TYPE\_WIFI\_AP@{CIOT\_TCP\_TYPE\_WIFI\_AP}!ciot\_tcp.h@{ciot\_tcp.h}}\index{ciot\_tcp.h@{ciot\_tcp.h}!CIOT\_TCP\_TYPE\_WIFI\_AP@{CIOT\_TCP\_TYPE\_WIFI\_AP}}}\Hypertarget{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a14d1cd4b6a8ecd2b169de66540675046}\label{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a14d1cd4b6a8ecd2b169de66540675046} 
+CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+WIFI\+\_\+\+AP&Wi\+Fi access point TCP type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_TCP\_TYPE\_ETHERNET@{CIOT\_TCP\_TYPE\_ETHERNET}!ciot\_tcp.h@{ciot\_tcp.h}}\index{ciot\_tcp.h@{ciot\_tcp.h}!CIOT\_TCP\_TYPE\_ETHERNET@{CIOT\_TCP\_TYPE\_ETHERNET}}}\Hypertarget{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a567e4dfbd0835d25cf6648942b584639}\label{ciot__tcp_8h_a420540e389b2d5f21d7bfbd640f44bd4a567e4dfbd0835d25cf6648942b584639} 
+CIOT\+\_\+\+TCP\+\_\+\+TYPE\+\_\+\+ETHERNET&Ethernet TCP type \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__tcp_8h_acf0f0475005d8a35010d7d3795a83709}\label{ciot__tcp_8h_acf0f0475005d8a35010d7d3795a83709} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_get\_ip@{ciot\_tcp\_get\_ip}}
+\index{ciot\_tcp\_get\_ip@{ciot\_tcp\_get\_ip}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_get\_ip()}{ciot\_tcp\_get\_ip()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+tcp\+\_\+get\+\_\+ip (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t}]{ip\mbox{[}4\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Get the IP address of the CIOT TCP module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT TCP instance. \\
+\hline
+{\em ip} & Array to store the IP address (4 bytes). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__tcp_8h_aaf33d525b69a740035727775db744789}\label{ciot__tcp_8h_aaf33d525b69a740035727775db744789} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_init@{ciot\_tcp\_init}}
+\index{ciot\_tcp\_init@{ciot\_tcp\_init}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_init()}{ciot\_tcp\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+tcp\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initialize the CIOT TCP module. 
+
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__tcp_8h_aa7b4877b5e9386676e52472bc2b623fb}\label{ciot__tcp_8h_aa7b4877b5e9386676e52472bc2b623fb} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_new@{ciot\_tcp\_new}}
+\index{ciot\_tcp\_new@{ciot\_tcp\_new}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_new()}{ciot\_tcp\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}} ciot\+\_\+tcp\+\_\+new (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__tcp_8h_af40757b42f3a862bda187c4480db9fdd}{ciot\+\_\+tcp\+\_\+handle\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT TCP instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Handle for the TCP instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT TCP instance pointer. 
+\end{DoxyReturn}
+\Hypertarget{ciot__tcp_8h_a8e470218e3e7bbfff2d416270c012a29}\label{ciot__tcp_8h_a8e470218e3e7bbfff2d416270c012a29} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_process\_req@{ciot\_tcp\_process\_req}}
+\index{ciot\_tcp\_process\_req@{ciot\_tcp\_process\_req}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_process\_req()}{ciot\_tcp\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+tcp\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__tcp__req__t}{ciot\+\_\+tcp\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Process a TCP request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT TCP instance. \\
+\hline
+{\em req} & TCP request to process. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__tcp_8h_a6f7038a07ff7a89af6c8b228ebb99cae}\label{ciot__tcp_8h_a6f7038a07ff7a89af6c8b228ebb99cae} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_register\_event@{ciot\_tcp\_register\_event}}
+\index{ciot\_tcp\_register\_event@{ciot\_tcp\_register\_event}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_register\_event()}{ciot\_tcp\_register\_event()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+tcp\+\_\+register\+\_\+event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}}]{tcp,  }\item[{\mbox{\hyperlink{ciot__iface_8h_aa95e39f8029362c17172c4ab860b9b2c}{ciot\+\_\+iface\+\_\+event\+\_\+handler\+\_\+t}}}]{event\+\_\+handler,  }\item[{void \texorpdfstring{$\ast$}{*}}]{event\+\_\+args }\end{DoxyParamCaption})}
+
+
+
+Register an event handler for the CIOT TCP module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tcp} & CIOT TCP instance. \\
+\hline
+{\em event\+\_\+handler} & Event handler function pointer. \\
+\hline
+{\em event\+\_\+args} & Event handler arguments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__tcp_8h_a21f1441d7e5b4b9c43ae51509fc12fe7}\label{ciot__tcp_8h_a21f1441d7e5b4b9c43ae51509fc12fe7} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_send\_data@{ciot\_tcp\_send\_data}}
+\index{ciot\_tcp\_send\_data@{ciot\_tcp\_send\_data}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_send\_data()}{ciot\_tcp\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+tcp\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data using the CIOT TCP module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT TCP instance. \\
+\hline
+{\em data} & Pointer to the data to be sent. \\
+\hline
+{\em size} & Size of the data in bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__tcp_8h_a4bc4953f648bd57ec2fd6a0607c8b3eb}\label{ciot__tcp_8h_a4bc4953f648bd57ec2fd6a0607c8b3eb} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_start@{ciot\_tcp\_start}}
+\index{ciot\_tcp\_start@{ciot\_tcp\_start}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_start()}{ciot\_tcp\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+tcp\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__tcp__cfg__t}{ciot\+\_\+tcp\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start the CIOT TCP module with the given configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT TCP instance. \\
+\hline
+{\em cfg} & Configuration for the TCP module. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}
+\Hypertarget{ciot__tcp_8h_a4873b02d0f4a5665258cd4ac47e83880}\label{ciot__tcp_8h_a4873b02d0f4a5665258cd4ac47e83880} 
+\index{ciot\_tcp.h@{ciot\_tcp.h}!ciot\_tcp\_stop@{ciot\_tcp\_stop}}
+\index{ciot\_tcp\_stop@{ciot\_tcp\_stop}!ciot\_tcp.h@{ciot\_tcp.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_tcp\_stop()}{ciot\_tcp\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+tcp\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__tcp_8h_a85ab6c7fac206851e1183e84d8920b04}{ciot\+\_\+tcp\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stop the CIOT TCP module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & CIOT TCP instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code indicating success or failure. 
+\end{DoxyReturn}

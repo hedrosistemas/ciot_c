@@ -1,0 +1,77 @@
+\doxysection{ciot\+\_\+ntp\+\_\+types.\+h}
+\hypertarget{ciot__ntp__types_8h_source}{}\label{ciot__ntp__types_8h_source}\index{include/types/ciot\_ntp\_types.h@{include/types/ciot\_ntp\_types.h}}
+\mbox{\hyperlink{ciot__ntp__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_NTP\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_NTP\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__config_8h}{ciot\_config.h}}"{}}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ CIOT\_CONFIG\_NTP\_SERVERS\_COUNT}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ CIOT\_CONFIG\_NTP\_SERVERS\_COUNT\ 0}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00031\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{ciot__ntp__types_8h_aa8a357ab71d5a3765f6444a442c00dd8a4c64b5cfa4f3a03f7292079ecef99611}{HG\_NTP\_STATE\_RESET}},\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{ciot__ntp__types_8h_aa8a357ab71d5a3765f6444a442c00dd8a6c5c848eb0bd58b8638046ab9a655fc2}{HG\_NTP\_STATE\_COMPLETED}},\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{ciot__ntp__types_8h_aa8a357ab71d5a3765f6444a442c00dd8aab0cb2237b349602daf7dc3a5bba18ca}{HG\_NTP\_STATE\_IN\_PROGRESS}},\ }
+\DoxyCodeLine{00035\ \}\ \mbox{\hyperlink{ciot__ntp__types_8h_aa8a357ab71d5a3765f6444a442c00dd8}{ciot\_ntp\_state\_t}};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00040\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{ciot__ntp__types_8h_a53a7f745407650095dbb3e38c09861faa4ef58072669af9e608f808ad52143129}{CIOT\_NTP\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00043\ \}\ \mbox{\hyperlink{ciot__ntp__types_8h_a53a7f745407650095dbb3e38c09861fa}{ciot\_ntp\_req\_type\_t}};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00049\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ntp__cfg__t_aec948fb30e99b1eda7e3d9ff741d417a}{op\_mode}};\ }
+\DoxyCodeLine{00051\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ntp__cfg__t_ac752937b32320cf191fe3abd0e8daed6}{sync\_mode}};\ }
+\DoxyCodeLine{00052\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structciot__ntp__cfg__t_a5150de065f0b170644b21514c7530542}{sync\_interval}};\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{char}\ timezone[16];\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{char}\ server[\mbox{\hyperlink{ciot__default_8h_ab853f3aa6a7e0229c80b1f5a4fae0fbf}{CIOT\_CONFIG\_NTP\_SERVERS\_COUNT}}][64];\ }
+\DoxyCodeLine{00055\ \}\ \mbox{\hyperlink{structciot__ntp__cfg__t}{ciot\_ntp\_cfg\_t}};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{ciot__ntp__types_8h_aa8a357ab71d5a3765f6444a442c00dd8}{ciot\_ntp\_state\_t}}\ \mbox{\hyperlink{structciot__ntp__status__t_a28ce8249c3bcacad6a7698b7697739b8}{state}};\ }
+\DoxyCodeLine{00063\ \ \ \ \ uint64\_t\ \mbox{\hyperlink{structciot__ntp__status__t_a1fd97d69dc5fc2ad2bd7be4f1d6e1a3d}{last\_sync}};\ }
+\DoxyCodeLine{00064\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structciot__ntp__status__t_a69671f26529c8f6076d53b96a1e1627f}{sync\_count}};\ }
+\DoxyCodeLine{00065\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ntp__status__t_a49f666045d24aa8becc5244bc2396aca}{init}}\ :\ 1;\ }
+\DoxyCodeLine{00066\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ntp__status__t_adb4b09387463cd61bf8f7217366310ef}{sync}}\ :\ 1;\ }
+\DoxyCodeLine{00067\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ntp__status__t_ac6c17ab632a9c78bc9fa846e9baeea7b}{reserve}}\ :\ 6;\ }
+\DoxyCodeLine{00068\ \}\ \mbox{\hyperlink{structciot__ntp__status__t}{ciot\_ntp\_status\_t}};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00074\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{comment}{/*\ No\ specific\ request\ data\ defined\ */}}
+\DoxyCodeLine{00076\ \}\ \mbox{\hyperlink{unionciot__ntp__req__data__u}{ciot\_ntp\_req\_data\_u}};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00081\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00082\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{ciot__ntp__types_8h_a53a7f745407650095dbb3e38c09861fa}{ciot\_ntp\_req\_type\_t}}\ \mbox{\hyperlink{structciot__ntp__req__t_a54590843a59febd0e8055f9249974adc}{type}};\ }
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{unionciot__ntp__req__data__u}{ciot\_ntp\_req\_data\_u}}\ \mbox{\hyperlink{structciot__ntp__req__t_a9401df5c514eae3e23f4468d8ca7795e}{data}};\ }
+\DoxyCodeLine{00085\ \}\ \mbox{\hyperlink{structciot__ntp__req__t}{ciot\_ntp\_req\_t}};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00091\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{structciot__ntp__cfg__t}{ciot\_ntp\_cfg\_t}}\ \mbox{\hyperlink{unionciot__ntp__data__u_a6c17383e9465f668d1e9dcb3cf8d4f4a}{config}};\ }
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{structciot__ntp__status__t}{ciot\_ntp\_status\_t}}\ \mbox{\hyperlink{unionciot__ntp__data__u_a95d5fa474c00a79ee883e78048ea7c4c}{status}};\ }
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{structciot__ntp__req__t}{ciot\_ntp\_req\_t}}\ \mbox{\hyperlink{unionciot__ntp__data__u_a0a55111acf65b88d386268c615a69499}{request}};\ }
+\DoxyCodeLine{00095\ \}\ \mbox{\hyperlink{unionciot__ntp__data__u}{ciot\_ntp\_data\_u}};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00098\ \}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

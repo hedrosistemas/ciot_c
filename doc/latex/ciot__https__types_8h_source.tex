@@ -1,0 +1,82 @@
+\doxysection{ciot\+\_\+https\+\_\+types.\+h}
+\hypertarget{ciot__https__types_8h_source}{}\label{ciot__https__types_8h_source}\index{include/types/ciot\_https\_types.h@{include/types/ciot\_https\_types.h}}
+\mbox{\hyperlink{ciot__https__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_HTTPS\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_HTTPS\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__common__types_8h}{ciot\_common\_types.h}}"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ CIOT\_HTTPS\_ADDRESS\_LEN\ 64}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ CIOT\_HTTPS\_ROUTE\_LEN\ 32}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ CIOT\_HTTPS\_METHOD\_LEN\ 8}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{ciot__https__types_8h_a17a6b65526ea731de25e9da2f1fad0fdacd46841a989b783e5bc6221a735f8e1d}{CIOT\_HTTPS\_STATE\_STOPPED}},\ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{ciot__https__types_8h_a17a6b65526ea731de25e9da2f1fad0fdaa775c25c0d8b7eeb99d8d53b11bed6c7}{CIOT\_HTTPS\_STATE\_STARTED}},\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{ciot__https__types_8h_a17a6b65526ea731de25e9da2f1fad0fda5c3019e26199226925ec1ed6790a9207}{CIOT\_HTTPS\_STATE\_ERROR}},\ }
+\DoxyCodeLine{00037\ \}\ \mbox{\hyperlink{ciot__https__types_8h_a17a6b65526ea731de25e9da2f1fad0fd}{ciot\_https\_state\_t}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{ciot__https__types_8h_ade314c7fe1c013e8f3e60935bc820de3aefeacc094012affef1849ed248027c31}{CIOT\_HTTPS\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00045\ \}\ \mbox{\hyperlink{ciot__https__types_8h_ade314c7fe1c013e8f3e60935bc820de3}{ciot\_https\_req\_type\_t}};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00051\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{char}\ address[\mbox{\hyperlink{ciot__https__types_8h_abe1cc7f5311018e78e8a49734cce3623}{CIOT\_HTTPS\_ADDRESS\_LEN}}];\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{char}\ route[\mbox{\hyperlink{ciot__https__types_8h_a8b84b36e97ad2c3a2e7ac72e4d6b2749}{CIOT\_HTTPS\_ROUTE\_LEN}}];\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__https__cfg__t_a63c89c04d1feae07ca35558055155ffb}{port}};\ }
+\DoxyCodeLine{00055\ \}\ \mbox{\hyperlink{structciot__https__cfg__t}{ciot\_https\_cfg\_t}};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00060\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00061\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{ciot__https__types_8h_a17a6b65526ea731de25e9da2f1fad0fd}{ciot\_https\_state\_t}}\ \mbox{\hyperlink{structciot__https__status__t_a28c09b101362530d97e51b712b741f63}{state}};\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__https__status__t_a11614f44ef4d939bdd984953346a7572}{error}};\ }
+\DoxyCodeLine{00064\ \}\ \mbox{\hyperlink{structciot__https__status__t}{ciot\_https\_status\_t}};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00070\ \{}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \}\ \mbox{\hyperlink{unionciot__https__req__data__u}{ciot\_https\_req\_data\_u}};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00078\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{ciot__https__types_8h_ade314c7fe1c013e8f3e60935bc820de3}{ciot\_https\_req\_type\_t}}\ \mbox{\hyperlink{structciot__https__req__t_adf00e5263d183b9b74cd9dd06dd98856}{type}};\ }
+\DoxyCodeLine{00080\ \}\ \mbox{\hyperlink{structciot__https__req__t}{ciot\_https\_req\_t}};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structciot__https__event__data}{ciot\_https\_event\_data}}}
+\DoxyCodeLine{00086\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{structciot__event__data}{ciot\_event\_data\_t}}\ \mbox{\hyperlink{structciot__https__event__data_ac824ce50cc96c6354577281b657d14b6}{body}};\ }
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{structciot__event__data}{ciot\_event\_data\_t}}\ \mbox{\hyperlink{structciot__https__event__data_ad31b04303ebf9721f2537ea359199783}{url}};\ }
+\DoxyCodeLine{00089\ \ \ \ \ \mbox{\hyperlink{structciot__event__data}{ciot\_event\_data\_t}}\ \mbox{\hyperlink{structciot__https__event__data_af63c670f07c4a0a799e8581e95d4810e}{method}};\ }
+\DoxyCodeLine{00090\ \}\ \mbox{\hyperlink{ciot__https__types_8h_a2c6c4aa32536b02785ca49d2716498b3}{ciot\_https\_event\_data\_t}};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structciot__https__event}{ciot\_https\_event}}}
+\DoxyCodeLine{00096\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{structciot__https__event__data}{ciot\_https\_event\_data\_t}}\ \mbox{\hyperlink{structciot__https__event_af26174e3b6aead3c5f7d4deea8ea6fc0}{data}};\ }
+\DoxyCodeLine{00098\ \}\ \mbox{\hyperlink{ciot__https__types_8h_aec67a3b9fe62b79e7252d89476bd4704}{ciot\_https\_event\_u}};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00103\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00104\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{structciot__https__cfg__t}{ciot\_https\_cfg\_t}}\ \mbox{\hyperlink{unionciot__https__data__u_a07d1ec38980b47dde9caaa52c42163cf}{config}};\ }
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{structciot__https__status__t}{ciot\_https\_status\_t}}\ \mbox{\hyperlink{unionciot__https__data__u_ae71d44b4ec9b04f2b3eb183ae791f6ca}{status}};\ }
+\DoxyCodeLine{00107\ \ \ \ \ \mbox{\hyperlink{structciot__https__req__t}{ciot\_https\_req\_t}}\ \mbox{\hyperlink{unionciot__https__data__u_af4b02bc60804013ff8623f078ec43efe}{request}};\ }
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{structciot__https__event}{ciot\_https\_event\_u}}\ \mbox{\hyperlink{unionciot__https__data__u_ad463eb5d86dcaf2c866494686da9ce6e}{event}};\ }
+\DoxyCodeLine{00109\ \}\ \mbox{\hyperlink{unionciot__https__data__u}{ciot\_https\_data\_u}};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00112\ \}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

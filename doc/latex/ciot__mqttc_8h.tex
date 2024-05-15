@@ -1,0 +1,261 @@
+\doxysection{include/ciot\+\_\+mqttc.h File Reference}
+\hypertarget{ciot__mqttc_8h}{}\label{ciot__mqttc_8h}\index{include/ciot\_mqttc.h@{include/ciot\_mqttc.h}}
+{\ttfamily \#include "{}types/ciot\+\_\+mqttc\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__mqttc__status__msg__t}{ciot\+\_\+mqttc\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure representing a CIOT MQTT client status message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+mqttc \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure representing a CIOT MQTT client instance. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898}{ciot\+\_\+mqttc\+\_\+event\+\_\+id}} \mbox{\hyperlink{ciot__mqttc_8h_a366b460dc8e7ec1e3f89c9247882842a}{ciot\+\_\+mqttc\+\_\+event\+\_\+id\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT MQTT client event IDs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898}{ciot\+\_\+mqttc\+\_\+event\+\_\+id}} \{ \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a7fdb135e2a3ea11cafe0449a29a16d0d}{CIOT\+\_\+\+MQTT\+\_\+\+EVENT\+\_\+\+CONNECTING}} = CIOT\+\_\+\+IFACE\+\_\+\+EVENT\+\_\+\+CUSTOM
+, \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898aa028c2dfe1e1b2a3a3efb1cc698a6b68}{CIOT\+\_\+\+MQTT\+\_\+\+EVENT\+\_\+\+SUBSCRIBED}}
+, \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a6cefc05e924cb723d9f72f2e674e5ef7}{CIOT\+\_\+\+MQTT\+\_\+\+EVENT\+\_\+\+UNSUBSCRIBED}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT MQTT client event IDs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_aa6ac15e5f6cfb3346cff3247dd25c279}{ciot\+\_\+mqttc\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Creates a new CIOT MQTT client instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_a19c183447b4f862cb53f6ae127a80db0}{ciot\+\_\+mqttc\+\_\+start}} (\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} self, \mbox{\hyperlink{structciot__mqttc__cfg__t}{ciot\+\_\+mqttc\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Starts the CIOT MQTT client. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_af81da24c4d251706f5f901e810752597}{ciot\+\_\+mqttc\+\_\+stop}} (\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stops the CIOT MQTT client. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_aba9394c6a08cb0c2087ffdc537f75125}{ciot\+\_\+mqttc\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} self, \mbox{\hyperlink{structciot__mqttc__req__t}{ciot\+\_\+mqttc\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Processes MQTT client requests. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_aa04b6f015e9bbc8ab614027c460f899d}{ciot\+\_\+mqttc\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Sends data using the MQTT client. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_a55aab38479c4242b37397c51e15dad37}{ciot\+\_\+mqttc\+\_\+publish}} (\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} self, char \texorpdfstring{$\ast$}{*}topic, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size, uint8\+\_\+t qos)
+\begin{DoxyCompactList}\small\item\em Publishes a message using the MQTT client. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_aee005c5cae5b325548b381df58613742}{ciot\+\_\+mqttc\+\_\+subscribe}} (\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} self, char \texorpdfstring{$\ast$}{*}topic, uint8\+\_\+t qos)
+\begin{DoxyCompactList}\small\item\em Subscribes to an MQTT topic using the MQTT client. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__mqttc_8h_ad7bcb714dbb489d3b8508cb7acf72b27}{ciot\+\_\+mqttc\+\_\+reset\+\_\+data\+\_\+rate}} (\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Resets the data rate for the MQTT client. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__mqttc_8h_a366b460dc8e7ec1e3f89c9247882842a}\label{ciot__mqttc_8h_a366b460dc8e7ec1e3f89c9247882842a} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_event\_id\_t@{ciot\_mqttc\_event\_id\_t}}
+\index{ciot\_mqttc\_event\_id\_t@{ciot\_mqttc\_event\_id\_t}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_event\_id\_t}{ciot\_mqttc\_event\_id\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898}{ciot\+\_\+mqttc\+\_\+event\+\_\+id}} \mbox{\hyperlink{ciot__mqttc_8h_a366b460dc8e7ec1e3f89c9247882842a}{ciot\+\_\+mqttc\+\_\+event\+\_\+id\+\_\+t}}}
+
+
+
+Enumeration for CIOT MQTT client event IDs. 
+
+\Hypertarget{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}\label{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_t@{ciot\_mqttc\_t}}
+\index{ciot\_mqttc\_t@{ciot\_mqttc\_t}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_t}{ciot\_mqttc\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+mqttc\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}
+
+
+
+Structure representing a CIOT MQTT client instance. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898}\label{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_event\_id@{ciot\_mqttc\_event\_id}}
+\index{ciot\_mqttc\_event\_id@{ciot\_mqttc\_event\_id}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_event\_id}{ciot\_mqttc\_event\_id}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898}{ciot\+\_\+mqttc\+\_\+event\+\_\+id}}}
+
+
+
+Enumeration for CIOT MQTT client event IDs. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_EVENT\_CONNECTING@{CIOT\_MQTT\_EVENT\_CONNECTING}!ciot\_mqttc.h@{ciot\_mqttc.h}}\index{ciot\_mqttc.h@{ciot\_mqttc.h}!CIOT\_MQTT\_EVENT\_CONNECTING@{CIOT\_MQTT\_EVENT\_CONNECTING}}}\Hypertarget{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a7fdb135e2a3ea11cafe0449a29a16d0d}\label{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a7fdb135e2a3ea11cafe0449a29a16d0d} 
+CIOT\+\_\+\+MQTT\+\_\+\+EVENT\+\_\+\+CONNECTING&MQTT client connecting event ID. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_EVENT\_SUBSCRIBED@{CIOT\_MQTT\_EVENT\_SUBSCRIBED}!ciot\_mqttc.h@{ciot\_mqttc.h}}\index{ciot\_mqttc.h@{ciot\_mqttc.h}!CIOT\_MQTT\_EVENT\_SUBSCRIBED@{CIOT\_MQTT\_EVENT\_SUBSCRIBED}}}\Hypertarget{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898aa028c2dfe1e1b2a3a3efb1cc698a6b68}\label{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898aa028c2dfe1e1b2a3a3efb1cc698a6b68} 
+CIOT\+\_\+\+MQTT\+\_\+\+EVENT\+\_\+\+SUBSCRIBED&MQTT client subscribed event ID. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MQTT\_EVENT\_UNSUBSCRIBED@{CIOT\_MQTT\_EVENT\_UNSUBSCRIBED}!ciot\_mqttc.h@{ciot\_mqttc.h}}\index{ciot\_mqttc.h@{ciot\_mqttc.h}!CIOT\_MQTT\_EVENT\_UNSUBSCRIBED@{CIOT\_MQTT\_EVENT\_UNSUBSCRIBED}}}\Hypertarget{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a6cefc05e924cb723d9f72f2e674e5ef7}\label{ciot__mqttc_8h_afc1eb0a89e9bcff163827db2fb32b898a6cefc05e924cb723d9f72f2e674e5ef7} 
+CIOT\+\_\+\+MQTT\+\_\+\+EVENT\+\_\+\+UNSUBSCRIBED&MQTT client unsubscribed event ID. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__mqttc_8h_aa6ac15e5f6cfb3346cff3247dd25c279}\label{ciot__mqttc_8h_aa6ac15e5f6cfb3346cff3247dd25c279} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_new@{ciot\_mqttc\_new}}
+\index{ciot\_mqttc\_new@{ciot\_mqttc\_new}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_new()}{ciot\_mqttc\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}} ciot\+\_\+mqttc\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Creates a new CIOT MQTT client instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & A handle for the MQTT client. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the new MQTT client instance. 
+\end{DoxyReturn}
+\Hypertarget{ciot__mqttc_8h_aba9394c6a08cb0c2087ffdc537f75125}\label{ciot__mqttc_8h_aba9394c6a08cb0c2087ffdc537f75125} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_process\_req@{ciot\_mqttc\_process\_req}}
+\index{ciot\_mqttc\_process\_req@{ciot\_mqttc\_process\_req}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_process\_req()}{ciot\_mqttc\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+mqttc\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__mqttc__req__t}{ciot\+\_\+mqttc\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Processes MQTT client requests. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the MQTT client instance. \\
+\hline
+{\em req} & Pointer to the MQTT client request. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the status of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__mqttc_8h_a55aab38479c4242b37397c51e15dad37}\label{ciot__mqttc_8h_a55aab38479c4242b37397c51e15dad37} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_publish@{ciot\_mqttc\_publish}}
+\index{ciot\_mqttc\_publish@{ciot\_mqttc\_publish}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_publish()}{ciot\_mqttc\_publish()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+mqttc\+\_\+publish (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}]{self,  }\item[{char \texorpdfstring{$\ast$}{*}}]{topic,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size,  }\item[{uint8\+\_\+t}]{qos }\end{DoxyParamCaption})}
+
+
+
+Publishes a message using the MQTT client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the MQTT client instance. \\
+\hline
+{\em topic} & MQTT topic to publish to. \\
+\hline
+{\em data} & Pointer to the data to be published. \\
+\hline
+{\em size} & Size of the data to be published. \\
+\hline
+{\em qos} & Quality of Service level for the message. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the status of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__mqttc_8h_ad7bcb714dbb489d3b8508cb7acf72b27}\label{ciot__mqttc_8h_ad7bcb714dbb489d3b8508cb7acf72b27} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_reset\_data\_rate@{ciot\_mqttc\_reset\_data\_rate}}
+\index{ciot\_mqttc\_reset\_data\_rate@{ciot\_mqttc\_reset\_data\_rate}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_reset\_data\_rate()}{ciot\_mqttc\_reset\_data\_rate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+mqttc\+\_\+reset\+\_\+data\+\_\+rate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Resets the data rate for the MQTT client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the MQTT client instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the status of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__mqttc_8h_aa04b6f015e9bbc8ab614027c460f899d}\label{ciot__mqttc_8h_aa04b6f015e9bbc8ab614027c460f899d} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_send\_data@{ciot\_mqttc\_send\_data}}
+\index{ciot\_mqttc\_send\_data@{ciot\_mqttc\_send\_data}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_send\_data()}{ciot\_mqttc\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+mqttc\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Sends data using the MQTT client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the MQTT client instance. \\
+\hline
+{\em data} & Pointer to the data to be sent. \\
+\hline
+{\em size} & Size of the data to be sent. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the status of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__mqttc_8h_a19c183447b4f862cb53f6ae127a80db0}\label{ciot__mqttc_8h_a19c183447b4f862cb53f6ae127a80db0} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_start@{ciot\_mqttc\_start}}
+\index{ciot\_mqttc\_start@{ciot\_mqttc\_start}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_start()}{ciot\_mqttc\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+mqttc\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__mqttc__cfg__t}{ciot\+\_\+mqttc\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Starts the CIOT MQTT client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the MQTT client instance. \\
+\hline
+{\em cfg} & Pointer to the MQTT client configuration. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the status of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__mqttc_8h_af81da24c4d251706f5f901e810752597}\label{ciot__mqttc_8h_af81da24c4d251706f5f901e810752597} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_stop@{ciot\_mqttc\_stop}}
+\index{ciot\_mqttc\_stop@{ciot\_mqttc\_stop}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_stop()}{ciot\_mqttc\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+mqttc\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stops the CIOT MQTT client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the MQTT client instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the status of the operation. 
+\end{DoxyReturn}
+\Hypertarget{ciot__mqttc_8h_aee005c5cae5b325548b381df58613742}\label{ciot__mqttc_8h_aee005c5cae5b325548b381df58613742} 
+\index{ciot\_mqttc.h@{ciot\_mqttc.h}!ciot\_mqttc\_subscribe@{ciot\_mqttc\_subscribe}}
+\index{ciot\_mqttc\_subscribe@{ciot\_mqttc\_subscribe}!ciot\_mqttc.h@{ciot\_mqttc.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_mqttc\_subscribe()}{ciot\_mqttc\_subscribe()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+mqttc\+\_\+subscribe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__mqttc_8h_a1952c9049b9ddd9b40368e332dec8374}{ciot\+\_\+mqttc\+\_\+t}}}]{self,  }\item[{char \texorpdfstring{$\ast$}{*}}]{topic,  }\item[{uint8\+\_\+t}]{qos }\end{DoxyParamCaption})}
+
+
+
+Subscribes to an MQTT topic using the MQTT client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the MQTT client instance. \\
+\hline
+{\em topic} & MQTT topic to subscribe to. \\
+\hline
+{\em qos} & Quality of Service level for the subscription. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An error code indicating the status of the operation. 
+\end{DoxyReturn}

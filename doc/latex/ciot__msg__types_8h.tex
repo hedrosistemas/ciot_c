@@ -1,0 +1,297 @@
+\doxysection{include/types/ciot\+\_\+msg\+\_\+types.h File Reference}
+\hypertarget{ciot__msg__types_8h}{}\label{ciot__msg__types_8h}\index{include/types/ciot\_msg\_types.h@{include/types/ciot\_msg\_types.h}}
+
+
+Defines data types and structures for CIOT messaging.  
+
+
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+storage\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+sys\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+uart\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+usb\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+tcp\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+wifi\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+ble\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+ble\+\_\+scn\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+ntp\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+dfu\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+ota\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+https\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+httpc\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+mqttc\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}types/ciot\+\_\+bridge\+\_\+types.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__msg__iface__info__t}{ciot\+\_\+msg\+\_\+iface\+\_\+info\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT message interface information. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__msg__error__t}{ciot\+\_\+msg\+\_\+error\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT message error information. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__msg__data__u}{ciot\+\_\+msg\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT message data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__msg__header__t}{ciot\+\_\+msg\+\_\+header\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT message header. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ciot__msg__types_8h_aa577da47450d2b604f58ee6e957c7b1a}{CIOT\+\_\+\+MSG\+\_\+\+HEADER\+\_\+\+SIZE}}~(sizeof(\mbox{\hyperlink{structciot__msg__header__t}{ciot\+\_\+msg\+\_\+header\+\_\+t}}))
+\item 
+\#define \mbox{\hyperlink{ciot__msg__types_8h_a9ba863166c0f0c740fef8994c7f21598}{CIOT\+\_\+\+MSG\+\_\+\+GET\+\_\+\+SIZE}}(data)~(\mbox{\hyperlink{ciot__msg__types_8h_aa577da47450d2b604f58ee6e957c7b1a}{CIOT\+\_\+\+MSG\+\_\+\+HEADER\+\_\+\+SIZE}} + sizeof(data))
+\item 
+\#define \mbox{\hyperlink{ciot__msg__types_8h_a3c8f8294a63f46a7a7ed043ba8dacc93}{CIOT\+\_\+\+MSG\+\_\+\+MAX\+\_\+\+SIZE}}~sizeof(\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}});
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cb}{ciot\+\_\+msg\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba65c33be2457e343493460c29d3b03e0e}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cbacada4954ca221fdc25c2c478625d6a9e}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+START}}
+, \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cbae01a23d279f8674eb8e7fbc4c8b30a28}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+STOP}}
+, \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba9ca32ac07611a36e17181e4e2dee5ba7}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+GET\+\_\+\+CONFIG}}
+, \newline
+\mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba8ebce537fc418c0a5dc2231de2660d5e}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+GET\+\_\+\+STATUS}}
+, \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba168673ee4b498d56024c3c46d5d6d53a}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+REQUEST}}
+, \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba5ca3e5de0b2ddc69c53654a0d13d713a}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+ERROR}}
+, \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba07a7987e3b4a2f82eb41213b25068458}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+EVENT}}
+, \newline
+\mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba2161a50e60627d09f6278819d93cb4f8}{CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+CUSTOM}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT message types. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608}{ciot\+\_\+msg\+\_\+iface\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a75837371354fe9353d77acc9fc49ee6d}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ad57b9f27f19fb7d16c08c4857ae7291d}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+CIOT}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a613cf065591c3e8300a4fe009a044aec}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+STORAGE}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a327aeede0ef7fba282b1911dfa988d28}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+SYSTEM}}
+, \newline
+\mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab3a691e3ca526bb17bd62366d83bbcd7}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+UART}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a2c76f658f22fa29ed49d56c697215918}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+USB}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab013ddfd461842f9031bed420c5720bc}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+TCP}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608aa3dce94aa5a8e8a6c1a0592f59cdb747}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+ETH}}
+, \newline
+\mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a53e8d8ba26c3663e0a7f9d8a70aa2770}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+WIFI}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a7ca4cc3f201a9ce47e80e5e6685e6fd5}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+BLE}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a9d8b8db1db47ef5baf0a7894264e364c}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+BLE\+\_\+\+SCN}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a22891d22cf46370531f6eb833b037235}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+GPIO}}
+, \newline
+\mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a08b41fe63e5a4b8ea4710adaac89f8b8}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+NTP}} = 127
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ae07a8e59d7924852ed66075eefcd1c3d}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+OTA}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608acf86ce5e05bba2ba30d275ce78438806}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+DFU}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ad89e327f418602211b2202c414291750}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+HTTP\+\_\+\+CLIENT}}
+, \newline
+\mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab91f2d2aa5ecf13c79d0028a487584ca}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+HTTP\+\_\+\+SERVER}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a3065d35cd0a10d31382d9c5b38249ca5}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+MQTT}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608aff200c36869c4d69a1cb8edf4d45202a}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+CUSTOM}}
+, \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a67c77e20c41ae475451f4f01a3b2fdb4}{CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+BRIDGE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT message interface types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__msg__types_8h_ad74fa5c942e63dc4c806fbfd6414db45}{ciot\+\_\+msg\+\_\+type\+\_\+to\+\_\+str}} (\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}msg)
+\begin{DoxyCompactList}\small\item\em Convert CIOT message type to string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data types and structures for CIOT messaging. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/09 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ciot__msg__types_8h_a9ba863166c0f0c740fef8994c7f21598}\label{ciot__msg__types_8h_a9ba863166c0f0c740fef8994c7f21598} 
+\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_GET\_SIZE@{CIOT\_MSG\_GET\_SIZE}}
+\index{CIOT\_MSG\_GET\_SIZE@{CIOT\_MSG\_GET\_SIZE}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_MSG\_GET\_SIZE}{CIOT\_MSG\_GET\_SIZE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+MSG\+\_\+\+GET\+\_\+\+SIZE(\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})~(\mbox{\hyperlink{ciot__msg__types_8h_aa577da47450d2b604f58ee6e957c7b1a}{CIOT\+\_\+\+MSG\+\_\+\+HEADER\+\_\+\+SIZE}} + sizeof(data))}
+
+Calculate message size \Hypertarget{ciot__msg__types_8h_aa577da47450d2b604f58ee6e957c7b1a}\label{ciot__msg__types_8h_aa577da47450d2b604f58ee6e957c7b1a} 
+\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_HEADER\_SIZE@{CIOT\_MSG\_HEADER\_SIZE}}
+\index{CIOT\_MSG\_HEADER\_SIZE@{CIOT\_MSG\_HEADER\_SIZE}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_MSG\_HEADER\_SIZE}{CIOT\_MSG\_HEADER\_SIZE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+MSG\+\_\+\+HEADER\+\_\+\+SIZE~(sizeof(\mbox{\hyperlink{structciot__msg__header__t}{ciot\+\_\+msg\+\_\+header\+\_\+t}}))}
+
+Size of the message header \Hypertarget{ciot__msg__types_8h_a3c8f8294a63f46a7a7ed043ba8dacc93}\label{ciot__msg__types_8h_a3c8f8294a63f46a7a7ed043ba8dacc93} 
+\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_MAX\_SIZE@{CIOT\_MSG\_MAX\_SIZE}}
+\index{CIOT\_MSG\_MAX\_SIZE@{CIOT\_MSG\_MAX\_SIZE}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_MSG\_MAX\_SIZE}{CIOT\_MSG\_MAX\_SIZE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+MSG\+\_\+\+MAX\+\_\+\+SIZE~sizeof(\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}});}
+
+Maximum message size 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608} 
+\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!ciot\_msg\_iface\_type\_t@{ciot\_msg\_iface\_type\_t}}
+\index{ciot\_msg\_iface\_type\_t@{ciot\_msg\_iface\_type\_t}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_msg\_iface\_type\_t}{ciot\_msg\_iface\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608}{ciot\+\_\+msg\+\_\+iface\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT message interface types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_UNKNOWN@{CIOT\_IFACE\_TYPE\_UNKNOWN}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_UNKNOWN@{CIOT\_IFACE\_TYPE\_UNKNOWN}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a75837371354fe9353d77acc9fc49ee6d}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a75837371354fe9353d77acc9fc49ee6d} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+UNKNOWN&Unknown interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_CIOT@{CIOT\_IFACE\_TYPE\_CIOT}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_CIOT@{CIOT\_IFACE\_TYPE\_CIOT}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ad57b9f27f19fb7d16c08c4857ae7291d}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ad57b9f27f19fb7d16c08c4857ae7291d} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+CIOT&CIOT interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_STORAGE@{CIOT\_IFACE\_TYPE\_STORAGE}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_STORAGE@{CIOT\_IFACE\_TYPE\_STORAGE}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a613cf065591c3e8300a4fe009a044aec}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a613cf065591c3e8300a4fe009a044aec} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+STORAGE&Storage interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_SYSTEM@{CIOT\_IFACE\_TYPE\_SYSTEM}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_SYSTEM@{CIOT\_IFACE\_TYPE\_SYSTEM}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a327aeede0ef7fba282b1911dfa988d28}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a327aeede0ef7fba282b1911dfa988d28} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+SYSTEM&System interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_UART@{CIOT\_IFACE\_TYPE\_UART}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_UART@{CIOT\_IFACE\_TYPE\_UART}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab3a691e3ca526bb17bd62366d83bbcd7}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab3a691e3ca526bb17bd62366d83bbcd7} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+UART&UART interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_USB@{CIOT\_IFACE\_TYPE\_USB}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_USB@{CIOT\_IFACE\_TYPE\_USB}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a2c76f658f22fa29ed49d56c697215918}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a2c76f658f22fa29ed49d56c697215918} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+USB&USB interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_TCP@{CIOT\_IFACE\_TYPE\_TCP}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_TCP@{CIOT\_IFACE\_TYPE\_TCP}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab013ddfd461842f9031bed420c5720bc}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab013ddfd461842f9031bed420c5720bc} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+TCP&TCP interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_ETH@{CIOT\_IFACE\_TYPE\_ETH}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_ETH@{CIOT\_IFACE\_TYPE\_ETH}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608aa3dce94aa5a8e8a6c1a0592f59cdb747}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608aa3dce94aa5a8e8a6c1a0592f59cdb747} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+ETH&Ethernet interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_WIFI@{CIOT\_IFACE\_TYPE\_WIFI}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_WIFI@{CIOT\_IFACE\_TYPE\_WIFI}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a53e8d8ba26c3663e0a7f9d8a70aa2770}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a53e8d8ba26c3663e0a7f9d8a70aa2770} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+WIFI&Wi\+Fi interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_BLE@{CIOT\_IFACE\_TYPE\_BLE}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_BLE@{CIOT\_IFACE\_TYPE\_BLE}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a7ca4cc3f201a9ce47e80e5e6685e6fd5}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a7ca4cc3f201a9ce47e80e5e6685e6fd5} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+BLE&BLE interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_BLE\_SCN@{CIOT\_IFACE\_TYPE\_BLE\_SCN}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_BLE\_SCN@{CIOT\_IFACE\_TYPE\_BLE\_SCN}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a9d8b8db1db47ef5baf0a7894264e364c}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a9d8b8db1db47ef5baf0a7894264e364c} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+BLE\+\_\+\+SCN&BLE SCN interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_GPIO@{CIOT\_IFACE\_TYPE\_GPIO}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_GPIO@{CIOT\_IFACE\_TYPE\_GPIO}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a22891d22cf46370531f6eb833b037235}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a22891d22cf46370531f6eb833b037235} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+GPIO&GPIO interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_NTP@{CIOT\_IFACE\_TYPE\_NTP}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_NTP@{CIOT\_IFACE\_TYPE\_NTP}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a08b41fe63e5a4b8ea4710adaac89f8b8}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a08b41fe63e5a4b8ea4710adaac89f8b8} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+NTP&NTP interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_OTA@{CIOT\_IFACE\_TYPE\_OTA}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_OTA@{CIOT\_IFACE\_TYPE\_OTA}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ae07a8e59d7924852ed66075eefcd1c3d}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ae07a8e59d7924852ed66075eefcd1c3d} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+OTA&OTA interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_DFU@{CIOT\_IFACE\_TYPE\_DFU}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_DFU@{CIOT\_IFACE\_TYPE\_DFU}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608acf86ce5e05bba2ba30d275ce78438806}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608acf86ce5e05bba2ba30d275ce78438806} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+DFU&DFU interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_HTTP\_CLIENT@{CIOT\_IFACE\_TYPE\_HTTP\_CLIENT}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_HTTP\_CLIENT@{CIOT\_IFACE\_TYPE\_HTTP\_CLIENT}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ad89e327f418602211b2202c414291750}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ad89e327f418602211b2202c414291750} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+HTTP\+\_\+\+CLIENT&HTTP client interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_HTTP\_SERVER@{CIOT\_IFACE\_TYPE\_HTTP\_SERVER}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_HTTP\_SERVER@{CIOT\_IFACE\_TYPE\_HTTP\_SERVER}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab91f2d2aa5ecf13c79d0028a487584ca}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608ab91f2d2aa5ecf13c79d0028a487584ca} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+HTTP\+\_\+\+SERVER&HTTP server interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_MQTT@{CIOT\_IFACE\_TYPE\_MQTT}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_MQTT@{CIOT\_IFACE\_TYPE\_MQTT}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a3065d35cd0a10d31382d9c5b38249ca5}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a3065d35cd0a10d31382d9c5b38249ca5} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+MQTT&MQTT interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_CUSTOM@{CIOT\_IFACE\_TYPE\_CUSTOM}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_CUSTOM@{CIOT\_IFACE\_TYPE\_CUSTOM}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608aff200c36869c4d69a1cb8edf4d45202a}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608aff200c36869c4d69a1cb8edf4d45202a} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+CUSTOM&Custom interface type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_IFACE\_TYPE\_BRIDGE@{CIOT\_IFACE\_TYPE\_BRIDGE}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_IFACE\_TYPE\_BRIDGE@{CIOT\_IFACE\_TYPE\_BRIDGE}}}\Hypertarget{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a67c77e20c41ae475451f4f01a3b2fdb4}\label{ciot__msg__types_8h_ab6f673a5ce5d4f6d33343a054480f608a67c77e20c41ae475451f4f01a3b2fdb4} 
+CIOT\+\_\+\+IFACE\+\_\+\+TYPE\+\_\+\+BRIDGE&Bridge interface type \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cb}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cb} 
+\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!ciot\_msg\_type\_t@{ciot\_msg\_type\_t}}
+\index{ciot\_msg\_type\_t@{ciot\_msg\_type\_t}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_msg\_type\_t}{ciot\_msg\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cb}{ciot\+\_\+msg\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT message types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_UNKNOWN@{CIOT\_MSG\_TYPE\_UNKNOWN}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_UNKNOWN@{CIOT\_MSG\_TYPE\_UNKNOWN}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba65c33be2457e343493460c29d3b03e0e}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba65c33be2457e343493460c29d3b03e0e} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+UNKNOWN&Unknown message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_START@{CIOT\_MSG\_TYPE\_START}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_START@{CIOT\_MSG\_TYPE\_START}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cbacada4954ca221fdc25c2c478625d6a9e}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cbacada4954ca221fdc25c2c478625d6a9e} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+START&Start message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_STOP@{CIOT\_MSG\_TYPE\_STOP}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_STOP@{CIOT\_MSG\_TYPE\_STOP}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cbae01a23d279f8674eb8e7fbc4c8b30a28}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cbae01a23d279f8674eb8e7fbc4c8b30a28} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+STOP&Stop message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_GET\_CONFIG@{CIOT\_MSG\_TYPE\_GET\_CONFIG}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_GET\_CONFIG@{CIOT\_MSG\_TYPE\_GET\_CONFIG}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba9ca32ac07611a36e17181e4e2dee5ba7}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba9ca32ac07611a36e17181e4e2dee5ba7} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+GET\+\_\+\+CONFIG&Get configuration message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_GET\_STATUS@{CIOT\_MSG\_TYPE\_GET\_STATUS}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_GET\_STATUS@{CIOT\_MSG\_TYPE\_GET\_STATUS}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba8ebce537fc418c0a5dc2231de2660d5e}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba8ebce537fc418c0a5dc2231de2660d5e} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+GET\+\_\+\+STATUS&Get status message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_REQUEST@{CIOT\_MSG\_TYPE\_REQUEST}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_REQUEST@{CIOT\_MSG\_TYPE\_REQUEST}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba168673ee4b498d56024c3c46d5d6d53a}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba168673ee4b498d56024c3c46d5d6d53a} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+REQUEST&Request message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_ERROR@{CIOT\_MSG\_TYPE\_ERROR}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_ERROR@{CIOT\_MSG\_TYPE\_ERROR}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba5ca3e5de0b2ddc69c53654a0d13d713a}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba5ca3e5de0b2ddc69c53654a0d13d713a} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+ERROR&Error message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_EVENT@{CIOT\_MSG\_TYPE\_EVENT}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_EVENT@{CIOT\_MSG\_TYPE\_EVENT}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba07a7987e3b4a2f82eb41213b25068458}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba07a7987e3b4a2f82eb41213b25068458} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+EVENT&Event message type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_MSG\_TYPE\_CUSTOM@{CIOT\_MSG\_TYPE\_CUSTOM}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!CIOT\_MSG\_TYPE\_CUSTOM@{CIOT\_MSG\_TYPE\_CUSTOM}}}\Hypertarget{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba2161a50e60627d09f6278819d93cb4f8}\label{ciot__msg__types_8h_a3519ce8c894c6e69c9969c9b419c09cba2161a50e60627d09f6278819d93cb4f8} 
+CIOT\+\_\+\+MSG\+\_\+\+TYPE\+\_\+\+CUSTOM&Custom message type \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__msg__types_8h_ad74fa5c942e63dc4c806fbfd6414db45}\label{ciot__msg__types_8h_ad74fa5c942e63dc4c806fbfd6414db45} 
+\index{ciot\_msg\_types.h@{ciot\_msg\_types.h}!ciot\_msg\_type\_to\_str@{ciot\_msg\_type\_to\_str}}
+\index{ciot\_msg\_type\_to\_str@{ciot\_msg\_type\_to\_str}!ciot\_msg\_types.h@{ciot\_msg\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_msg\_type\_to\_str()}{ciot\_msg\_type\_to\_str()}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} ciot\+\_\+msg\+\_\+type\+\_\+to\+\_\+str (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structciot__msg__t}{ciot\+\_\+msg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{msg }\end{DoxyParamCaption})}
+
+
+
+Convert CIOT message type to string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & The CIOT message. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The string representation of the message type. 
+\end{DoxyReturn}

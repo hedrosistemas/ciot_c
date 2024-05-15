@@ -50,10 +50,6 @@ extern "C"
 
   /** @file
    *
-   * @defgroup slip SLIP encoding and decoding
-   * @{
-   * @ingroup app_common
-   *
    * @brief  This module encodes and decodes SLIP packages.
    *
    * @details The SLIP protocol is described in @linkSLIP.
@@ -114,5 +110,3 @@ extern "C"
 #endif
 
 #endif // CIOT_SLIP_H__
-
-/** @} */

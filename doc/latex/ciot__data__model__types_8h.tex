@@ -1,0 +1,60 @@
+\doxysection{include/types/ciot\+\_\+data\+\_\+model\+\_\+types.h File Reference}
+\hypertarget{ciot__data__model__types_8h}{}\label{ciot__data__model__types_8h}\index{include/types/ciot\_data\_model\_types.h@{include/types/ciot\_data\_model\_types.h}}
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__data__model__cfg__t}{ciot\+\_\+data\+\_\+model\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT data model configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__data__model__status__t}{ciot\+\_\+data\+\_\+model\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT data model status. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__data__model__req__data__u}{ciot\+\_\+data\+\_\+model\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT data model request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__data__model__req__t}{ciot\+\_\+data\+\_\+model\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT data model request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__data__model__data__u}{ciot\+\_\+data\+\_\+model\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT data model data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__data__model__types_8h_a08dca9e6529c70ebf13cda514ebbf05a}{ciot\+\_\+data\+\_\+model\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__data__model__types_8h_a08dca9e6529c70ebf13cda514ebbf05aa3d6e53393cdb43053723613fd71b0be5}{CIOT\+\_\+\+DATA\+\_\+\+MODEL\+\_\+\+STATE\+\_\+\+IDLE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT data model states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__data__model__types_8h_a07451ab717eebb18aa8bd2b63252454c}{ciot\+\_\+data\+\_\+model\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__data__model__types_8h_a07451ab717eebb18aa8bd2b63252454ca7c15c82a2c513452266ef7531a5d1eda}{CIOT\+\_\+\+DATA\+\_\+\+MODEL\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT data model request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__data__model__types_8h_a07451ab717eebb18aa8bd2b63252454c}\label{ciot__data__model__types_8h_a07451ab717eebb18aa8bd2b63252454c} 
+\index{ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}!ciot\_data\_model\_req\_type\_t@{ciot\_data\_model\_req\_type\_t}}
+\index{ciot\_data\_model\_req\_type\_t@{ciot\_data\_model\_req\_type\_t}!ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_data\_model\_req\_type\_t}{ciot\_data\_model\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__data__model__types_8h_a07451ab717eebb18aa8bd2b63252454c}{ciot\+\_\+data\+\_\+model\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT data model request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_DATA\_MODEL\_REQ\_UNKNOWN@{CIOT\_DATA\_MODEL\_REQ\_UNKNOWN}!ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}}\index{ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}!CIOT\_DATA\_MODEL\_REQ\_UNKNOWN@{CIOT\_DATA\_MODEL\_REQ\_UNKNOWN}}}\Hypertarget{ciot__data__model__types_8h_a07451ab717eebb18aa8bd2b63252454ca7c15c82a2c513452266ef7531a5d1eda}\label{ciot__data__model__types_8h_a07451ab717eebb18aa8bd2b63252454ca7c15c82a2c513452266ef7531a5d1eda} 
+CIOT\+\_\+\+DATA\+\_\+\+MODEL\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown request type \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__data__model__types_8h_a08dca9e6529c70ebf13cda514ebbf05a}\label{ciot__data__model__types_8h_a08dca9e6529c70ebf13cda514ebbf05a} 
+\index{ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}!ciot\_data\_model\_state\_t@{ciot\_data\_model\_state\_t}}
+\index{ciot\_data\_model\_state\_t@{ciot\_data\_model\_state\_t}!ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_data\_model\_state\_t}{ciot\_data\_model\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__data__model__types_8h_a08dca9e6529c70ebf13cda514ebbf05a}{ciot\+\_\+data\+\_\+model\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT data model states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_DATA\_MODEL\_STATE\_IDLE@{CIOT\_DATA\_MODEL\_STATE\_IDLE}!ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}}\index{ciot\_data\_model\_types.h@{ciot\_data\_model\_types.h}!CIOT\_DATA\_MODEL\_STATE\_IDLE@{CIOT\_DATA\_MODEL\_STATE\_IDLE}}}\Hypertarget{ciot__data__model__types_8h_a08dca9e6529c70ebf13cda514ebbf05aa3d6e53393cdb43053723613fd71b0be5}\label{ciot__data__model__types_8h_a08dca9e6529c70ebf13cda514ebbf05aa3d6e53393cdb43053723613fd71b0be5} 
+CIOT\+\_\+\+DATA\+\_\+\+MODEL\+\_\+\+STATE\+\_\+\+IDLE&Idle state \\
+\hline
+
+\end{DoxyEnumFields}

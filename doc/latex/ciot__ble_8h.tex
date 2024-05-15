@@ -1,0 +1,340 @@
+\doxysection{include/ciot\+\_\+ble.h File Reference}
+\hypertarget{ciot__ble_8h}{}\label{ciot__ble_8h}\index{include/ciot\_ble.h@{include/ciot\_ble.h}}
+
+
+Defines functions and types for CIOT Bluetooth Low Energy (BLE) module.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+ble\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+ble\+\_\+scn.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__ble__ifaces}{ciot\+\_\+ble\+\_\+ifaces}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT BLE interface configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__ble__status__msg__t}{ciot\+\_\+ble\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT BLE status message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+ble \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Pointer to a CIOT BLE object. \end{DoxyCompactList}\item 
+typedef enum \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bb}{ciot\+\_\+ble\+\_\+mac\+\_\+type}} \mbox{\hyperlink{ciot__ble_8h_a05089e2e5330e0767d0ac074a0d48664}{ciot\+\_\+ble\+\_\+mac\+\_\+type\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT BLE MAC type. \end{DoxyCompactList}\item 
+typedef struct \mbox{\hyperlink{structciot__ble__ifaces}{ciot\+\_\+ble\+\_\+ifaces}} \mbox{\hyperlink{ciot__ble_8h_a7e2846e13398ef6ffd6def913495f5c2}{ciot\+\_\+ble\+\_\+ifaces\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT BLE interface configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bb}{ciot\+\_\+ble\+\_\+mac\+\_\+type}} \{ \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bbae978837f99a7554a6ea2a13d470d3d33}{CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bba9863cb9813d17d8384e6a4a1d1040099}{CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+HARDWARE}}
+, \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bbab0017c745f97c33b61ccf012a920f246}{CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+SOFTWARE}}
+, \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bba1620399b223e49561ca78b27fc34f548}{CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+REAL}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT BLE MAC type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_ab9cc93352ac370bae80dc47d28a18f55}{ciot\+\_\+ble\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT BLE object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_a03de82cf82dab2814fa4315b82fdb62c}{ciot\+\_\+ble\+\_\+start}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self, \mbox{\hyperlink{structciot__ble__cfg__t}{ciot\+\_\+ble\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start the CIOT BLE module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_a89c4a8b8eac676407cebe70daa7bbdee}{ciot\+\_\+ble\+\_\+stop}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stop the CIOT BLE module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_aa0249bac01c064dddf3e9327224789d8}{ciot\+\_\+ble\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self, \mbox{\hyperlink{structciot__ble__req__t}{ciot\+\_\+ble\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Process a BLE module request. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_a4a6fad82ac94edb3e85476136784ae92}{ciot\+\_\+ble\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Send data using the CIOT BLE module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_a3c3fffa1a77cc81312c4c81de699ef6b}{ciot\+\_\+ble\+\_\+task}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Perform a task for the CIOT BLE module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_a7d43433b80be91b2ee1be13c7c26ea78}{ciot\+\_\+ble\+\_\+set\+\_\+mac}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self, uint8\+\_\+t mac\mbox{[}6\mbox{]})
+\begin{DoxyCompactList}\small\item\em Set the MAC address for the CIOT BLE module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_ada2bfd0d1620ed6addb4768df6e04a1a}{ciot\+\_\+ble\+\_\+get\+\_\+mac}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self, \mbox{\hyperlink{ciot__ble_8h_a05089e2e5330e0767d0ac074a0d48664}{ciot\+\_\+ble\+\_\+mac\+\_\+type\+\_\+t}} type, uint8\+\_\+t mac\mbox{[}6\mbox{]})
+\begin{DoxyCompactList}\small\item\em Get the MAC address from the CIOT BLE module. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__ble_8h_aa7915a6de7995a7b3ddb3fad62594ec4}{ciot\+\_\+ble\+\_\+set\+\_\+ifaces}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self, \mbox{\hyperlink{ciot__ble_8h_a7e2846e13398ef6ffd6def913495f5c2}{ciot\+\_\+ble\+\_\+ifaces\+\_\+t}} \texorpdfstring{$\ast$}{*}ifaces)
+\begin{DoxyCompactList}\small\item\em Set the interfaces for the CIOT BLE module. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{ciot__ble_8h_afb9a5b45554f53c423a114f63e2b67fd}{ciot\+\_\+ble\+\_\+mac\+\_\+is\+\_\+valid}} (\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} self, uint8\+\_\+t mac\mbox{[}6\mbox{]})
+\begin{DoxyCompactList}\small\item\em Check if a MAC address is valid for the CIOT BLE module. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines functions and types for CIOT Bluetooth Low Energy (BLE) module. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/11-\/20 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__ble_8h_a7e2846e13398ef6ffd6def913495f5c2}\label{ciot__ble_8h_a7e2846e13398ef6ffd6def913495f5c2} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_ifaces\_t@{ciot\_ble\_ifaces\_t}}
+\index{ciot\_ble\_ifaces\_t@{ciot\_ble\_ifaces\_t}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_ifaces\_t}{ciot\_ble\_ifaces\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structciot__ble__ifaces}{ciot\+\_\+ble\+\_\+ifaces}} \mbox{\hyperlink{ciot__ble_8h_a7e2846e13398ef6ffd6def913495f5c2}{ciot\+\_\+ble\+\_\+ifaces\+\_\+t}}}
+
+
+
+Structure for CIOT BLE interface configuration. 
+
+\Hypertarget{ciot__ble_8h_a05089e2e5330e0767d0ac074a0d48664}\label{ciot__ble_8h_a05089e2e5330e0767d0ac074a0d48664} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_mac\_type\_t@{ciot\_ble\_mac\_type\_t}}
+\index{ciot\_ble\_mac\_type\_t@{ciot\_ble\_mac\_type\_t}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_mac\_type\_t}{ciot\_ble\_mac\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bb}{ciot\+\_\+ble\+\_\+mac\+\_\+type}} \mbox{\hyperlink{ciot__ble_8h_a05089e2e5330e0767d0ac074a0d48664}{ciot\+\_\+ble\+\_\+mac\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT BLE MAC type. 
+
+\Hypertarget{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}\label{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_t@{ciot\_ble\_t}}
+\index{ciot\_ble\_t@{ciot\_ble\_t}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_t}{ciot\_ble\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+ble\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}
+
+
+
+Pointer to a CIOT BLE object. 
+
+\texorpdfstring{$<$}{<} Include BLE types \texorpdfstring{$<$}{<} Include CIOT error handling \texorpdfstring{$<$}{<} Include CIOT BLE scanner 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bb}\label{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bb} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_mac\_type@{ciot\_ble\_mac\_type}}
+\index{ciot\_ble\_mac\_type@{ciot\_ble\_mac\_type}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_mac\_type}{ciot\_ble\_mac\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bb}{ciot\+\_\+ble\+\_\+mac\+\_\+type}}}
+
+
+
+Enumeration for CIOT BLE MAC type. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_MAC\_TYPE\_UNKNOWN@{CIOT\_BLE\_MAC\_TYPE\_UNKNOWN}!ciot\_ble.h@{ciot\_ble.h}}\index{ciot\_ble.h@{ciot\_ble.h}!CIOT\_BLE\_MAC\_TYPE\_UNKNOWN@{CIOT\_BLE\_MAC\_TYPE\_UNKNOWN}}}\Hypertarget{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bbae978837f99a7554a6ea2a13d470d3d33}\label{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bbae978837f99a7554a6ea2a13d470d3d33} 
+CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+UNKNOWN&Unknown MAC type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_MAC\_TYPE\_HARDWARE@{CIOT\_BLE\_MAC\_TYPE\_HARDWARE}!ciot\_ble.h@{ciot\_ble.h}}\index{ciot\_ble.h@{ciot\_ble.h}!CIOT\_BLE\_MAC\_TYPE\_HARDWARE@{CIOT\_BLE\_MAC\_TYPE\_HARDWARE}}}\Hypertarget{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bba9863cb9813d17d8384e6a4a1d1040099}\label{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bba9863cb9813d17d8384e6a4a1d1040099} 
+CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+HARDWARE&Hardware MAC type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_MAC\_TYPE\_SOFTWARE@{CIOT\_BLE\_MAC\_TYPE\_SOFTWARE}!ciot\_ble.h@{ciot\_ble.h}}\index{ciot\_ble.h@{ciot\_ble.h}!CIOT\_BLE\_MAC\_TYPE\_SOFTWARE@{CIOT\_BLE\_MAC\_TYPE\_SOFTWARE}}}\Hypertarget{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bbab0017c745f97c33b61ccf012a920f246}\label{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bbab0017c745f97c33b61ccf012a920f246} 
+CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+SOFTWARE&Software MAC type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_MAC\_TYPE\_REAL@{CIOT\_BLE\_MAC\_TYPE\_REAL}!ciot\_ble.h@{ciot\_ble.h}}\index{ciot\_ble.h@{ciot\_ble.h}!CIOT\_BLE\_MAC\_TYPE\_REAL@{CIOT\_BLE\_MAC\_TYPE\_REAL}}}\Hypertarget{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bba1620399b223e49561ca78b27fc34f548}\label{ciot__ble_8h_a8f93d371d8add01e842d3888601f65bba1620399b223e49561ca78b27fc34f548} 
+CIOT\+\_\+\+BLE\+\_\+\+MAC\+\_\+\+TYPE\+\_\+\+REAL&Real MAC type \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__ble_8h_ada2bfd0d1620ed6addb4768df6e04a1a}\label{ciot__ble_8h_ada2bfd0d1620ed6addb4768df6e04a1a} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_get\_mac@{ciot\_ble\_get\_mac}}
+\index{ciot\_ble\_get\_mac@{ciot\_ble\_get\_mac}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_get\_mac()}{ciot\_ble\_get\_mac()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+get\+\_\+mac (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{ciot__ble_8h_a05089e2e5330e0767d0ac074a0d48664}{ciot\+\_\+ble\+\_\+mac\+\_\+type\+\_\+t}}}]{type,  }\item[{uint8\+\_\+t}]{mac\mbox{[}6\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Get the MAC address from the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+{\em type} & Type of MAC address to retrieve \\
+\hline
+{\em mac} & Pointer to store the retrieved MAC address \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_afb9a5b45554f53c423a114f63e2b67fd}\label{ciot__ble_8h_afb9a5b45554f53c423a114f63e2b67fd} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_mac\_is\_valid@{ciot\_ble\_mac\_is\_valid}}
+\index{ciot\_ble\_mac\_is\_valid@{ciot\_ble\_mac\_is\_valid}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_mac\_is\_valid()}{ciot\_ble\_mac\_is\_valid()}}
+{\footnotesize\ttfamily bool ciot\+\_\+ble\+\_\+mac\+\_\+is\+\_\+valid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t}]{mac\mbox{[}6\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Check if a MAC address is valid for the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+{\em mac} & MAC address to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the MAC address is valid, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_ab9cc93352ac370bae80dc47d28a18f55}\label{ciot__ble_8h_ab9cc93352ac370bae80dc47d28a18f55} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_new@{ciot\_ble\_new}}
+\index{ciot\_ble\_new@{ciot\_ble\_new}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_new()}{ciot\_ble\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}} ciot\+\_\+ble\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT BLE object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Pointer to the handle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the created CIOT BLE object 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_aa0249bac01c064dddf3e9327224789d8}\label{ciot__ble_8h_aa0249bac01c064dddf3e9327224789d8} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_process\_req@{ciot\_ble\_process\_req}}
+\index{ciot\_ble\_process\_req@{ciot\_ble\_process\_req}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_process\_req()}{ciot\_ble\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__ble__req__t}{ciot\+\_\+ble\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Process a BLE module request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+{\em req} & Pointer to the BLE request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_a4a6fad82ac94edb3e85476136784ae92}\label{ciot__ble_8h_a4a6fad82ac94edb3e85476136784ae92} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_send\_data@{ciot\_ble\_send\_data}}
+\index{ciot\_ble\_send\_data@{ciot\_ble\_send\_data}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_send\_data()}{ciot\_ble\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data using the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+{\em data} & Pointer to the data to be sent \\
+\hline
+{\em size} & Size of the data in bytes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_aa7915a6de7995a7b3ddb3fad62594ec4}\label{ciot__ble_8h_aa7915a6de7995a7b3ddb3fad62594ec4} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_set\_ifaces@{ciot\_ble\_set\_ifaces}}
+\index{ciot\_ble\_set\_ifaces@{ciot\_ble\_set\_ifaces}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_set\_ifaces()}{ciot\_ble\_set\_ifaces()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+set\+\_\+ifaces (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{ciot__ble_8h_a7e2846e13398ef6ffd6def913495f5c2}{ciot\+\_\+ble\+\_\+ifaces\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{ifaces }\end{DoxyParamCaption})}
+
+
+
+Set the interfaces for the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+{\em ifaces} & Pointer to the BLE interfaces configuration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_a7d43433b80be91b2ee1be13c7c26ea78}\label{ciot__ble_8h_a7d43433b80be91b2ee1be13c7c26ea78} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_set\_mac@{ciot\_ble\_set\_mac}}
+\index{ciot\_ble\_set\_mac@{ciot\_ble\_set\_mac}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_set\_mac()}{ciot\_ble\_set\_mac()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+set\+\_\+mac (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t}]{mac\mbox{[}6\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Set the MAC address for the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+{\em mac} & MAC address to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_a03de82cf82dab2814fa4315b82fdb62c}\label{ciot__ble_8h_a03de82cf82dab2814fa4315b82fdb62c} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_start@{ciot\_ble\_start}}
+\index{ciot\_ble\_start@{ciot\_ble\_start}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_start()}{ciot\_ble\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__ble__cfg__t}{ciot\+\_\+ble\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+{\em cfg} & Pointer to the BLE configuration \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_a89c4a8b8eac676407cebe70daa7bbdee}\label{ciot__ble_8h_a89c4a8b8eac676407cebe70daa7bbdee} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_stop@{ciot\_ble\_stop}}
+\index{ciot\_ble\_stop@{ciot\_ble\_stop}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_stop()}{ciot\_ble\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stop the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}
+\Hypertarget{ciot__ble_8h_a3c3fffa1a77cc81312c4c81de699ef6b}\label{ciot__ble_8h_a3c3fffa1a77cc81312c4c81de699ef6b} 
+\index{ciot\_ble.h@{ciot\_ble.h}!ciot\_ble\_task@{ciot\_ble\_task}}
+\index{ciot\_ble\_task@{ciot\_ble\_task}!ciot\_ble.h@{ciot\_ble.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_task()}{ciot\_ble\_task()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+ble\+\_\+task (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__ble_8h_a04af8d5e1d4ca0f72ceacb6e313d9087}{ciot\+\_\+ble\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Perform a task for the CIOT BLE module. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Pointer to the CIOT BLE object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CIOT error code indicating success or failure 
+\end{DoxyReturn}

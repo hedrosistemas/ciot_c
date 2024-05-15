@@ -1,0 +1,568 @@
+\doxysection{include/ciot\+\_\+default.h File Reference}
+\hypertarget{ciot__default_8h}{}\label{ciot__default_8h}\index{include/ciot\_default.h@{include/ciot\_default.h}}
+
+
+Default configuration options for CIOT library.  
+
+
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ac9389de4857fca429528b43c0e70bc08}{CIOT\+\_\+\+CONFIG\+\_\+\+STORAGE\+\_\+\+TYPE}}~\mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a5888e89d9b87b625ea64913fdbf4b9ae}{CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+FS}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_aae6ed2cc1f62936138b7b12cb78eab19}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+BAUD\+\_\+\+RATE}}~115200
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_af9d6ddc888416ceda770bd6ba0666adf}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+NUM}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a47a6c4735b406987793ff61a3748c356}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+RX\+\_\+\+PIN}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_afe80a6e24ff36484761b8a0740e21cd3}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+TX\+\_\+\+PIN}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ac915c58485a09a470ab105dcd7fdb438}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+RTS\+\_\+\+PIN}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a39b5dff57834d4a9f00b09ff9d7e0586}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+CTS\+\_\+\+PIN}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a0b574bd3271269a00ef9a3364564a650}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+FLOW\+\_\+\+CONTROL}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ad5a0b532b36ce2e64548273d4694de52}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+PARITY}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a5e191db9399c301be511e6024b2f402d}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+DTR}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ac64f70fbc40557ffc7f0f6c9d4aed430}{CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+BRIDGE\+\_\+\+MODE}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_abe942f163ef66924c29e63adb6e91cc3}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+DHCP}}~\mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da612a799c9f8c26c1f3b9a503712bd711}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+NO\+\_\+\+CHANGE}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a26d8ac3e34dcb0faaf41977b7dc54607}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+IP}}~0, 0, 0, 0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_abc5eb2049e9aab488e1bb1846c71b481}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+GATEWAY}}~0, 0, 0, 0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ab361b51c2b4bb8324a0767a6680cab25}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+MASK}}~0, 0, 0, 0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_aa196f69c014910ca0e0f37d44b83ad30}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+DNS}}~0, 0, 0, 0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a7f79abe5ea5f7e3260843192069bdcaa}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+SSID}}~"{}Ciot AP"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_afdccac291d2c1de6425402fec83189cf}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+PASSWORD}}~"{}administrator"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a82cca16f86e1276f9a325ebbd1ec5d68}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+TCP}}~\mbox{\hyperlink{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a69173d99aec57142ba91edc18300f781}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA\+\_\+\+SSID}}~"{}Ciot STA"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a89cc8bb6906a26e085cd6d79e881717f}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA\+\_\+\+PASSWORD}}~"{}administrator"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a195751f0292e7d1046fa7a4b08e5fc23}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA\+\_\+\+TCP}}~\mbox{\hyperlink{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a7a33c55b1ce3269738b939eeb19cb71b}{CIOT\+\_\+\+CONFIG\+\_\+\+ETH}}~\mbox{\hyperlink{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a33bf5b2e0676207bb01e529a4adcf59e}{CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+OP\+\_\+\+MODE}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a81124436ceaf4bdbf7fd16ec51729aa7}{CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SYNC\+\_\+\+MODE}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ab4fbb783d249bcf33ad25052b6072474}{CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SYNC\+\_\+\+INTERVAL}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ab853f3aa6a7e0229c80b1f5a4fae0fbf}{CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVERS\+\_\+\+COUNT}}~3
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ad52d4acc5014fec93b596267a4267489}{CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVER1}}~"{}pool.\+ntp.\+org"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a7e2f6267fdbe83b93e2220a3733f9774}{CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVER2}}~"{}time.\+google.\+com"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ade7f6e32e02db936bfd97768500c7c74}{CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVER3}}~"{}gps.\+ntp.\+br"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ae5e243b358058e660e46de4d92ec23dd}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+URL}}~"{}http\+://127.\+0.\+0.\+1\+:8080/v1/ciot"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ae166c8150eec3860c86266fbafa30164}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+TRANSPORT}}~\mbox{\hyperlink{ciot__httpc__types_8h_ae5d45fa37052b0149488422933d4b7c2ac0b77b7cf582d3d2adb20f67dac8cea1}{CIOT\+\_\+\+HTTPC\+\_\+\+TRANSPORT\+\_\+\+TCP}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_abf9505c4cab01e148100b048a372663f}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+METHOD}}~\mbox{\hyperlink{ciot__httpc__types_8h_adb6734aba3ebc70d40f85695053de4a7ac0f3e0c43ca1d9895d911a61aa3a0a3d}{CIOT\+\_\+\+HTTPC\+\_\+\+METHOD\+\_\+\+POST}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ab26205cfa1af914695c961fe6a7c37f7}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+TIMEOUT}}~20000
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a1a18adba17f39adbcca041afd38dc988}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPS\+\_\+\+ADDRESS}}~"{}http\+://127.\+0.\+0.\+1"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ab7eacba51c8ae0c580dbe9fbf5996cc1}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPS\+\_\+\+ROUTE}}~"{}/v1/ciot"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a67e3c6ac14d049d86edac23aeae48833}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPS\+\_\+\+PORT}}~8080
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a3ae1f5c8551422aca407ba0e0d7d051a}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+URL}}~"{}mqtt\+://test.\+mosquitto.\+org"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a04e894147896f6ba01229a76c6c1f976}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+PORT}}~1883
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a66e76a6c3a0b20620bee393047c462e6}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+QOS}}~0
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a0bb103892cbaabdd15fb9f93ef6ebfb8}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+USER}}~"{}"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ac7f8eb636e1dfd5e75ca8a2ccf174981}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+PASS}}~"{}"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a9835f697325cb7920259cad52e13b0a1}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+TOPIC\+\_\+\+D2B}}~"{}v1/ciot/d2b"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a0dad743975d309bddcfe83e7db9f4c43}{CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+TOPIC\+\_\+\+B2D}}~"{}v1/ciot/b2d"{}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ad1c730d9022fce47870a8de547c63721}{CIOT\+\_\+\+CONFIG\+\_\+\+SYS}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_ab398686897078b551d637f058ec072f7}{CIOT\+\_\+\+CONFIG\+\_\+\+STORAGE}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a0aa6817a5c88e8290142061b6b933252}{CIOT\+\_\+\+CONFIG\+\_\+\+UART}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a27de0c03a642d79eb31e712994646733}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a7c09f75e4ebc749a5c225c760c2befde}{CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a030e60462692de23e6989b3b23d894eb}{HG\+\_\+\+TCP\+\_\+\+CONFIG\+\_\+\+NTP}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_aef3854df37260fcf01c87b0acabf03dd}{CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a86eea122295995d6664aae9037c34a1d}{HG\+\_\+\+TCP\+\_\+\+CONFIG\+\_\+\+HTTPS}}
+\item 
+\#define \mbox{\hyperlink{ciot__default_8h_a132bac5d5f62fa38121a52690971284c}{HG\+\_\+\+TCP\+\_\+\+CONFIG\+\_\+\+MQTTC}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Default configuration options for CIOT library. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2024-\/04-\/14 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2024 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{ciot__default_8h_a7a33c55b1ce3269738b939eeb19cb71b}\label{ciot__default_8h_a7a33c55b1ce3269738b939eeb19cb71b} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_ETH@{CIOT\_CONFIG\_ETH}}
+\index{CIOT\_CONFIG\_ETH@{CIOT\_CONFIG\_ETH}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_ETH}{CIOT\_CONFIG\_ETH}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+ETH~\mbox{\hyperlink{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP}}}
+
+\Hypertarget{ciot__default_8h_aef3854df37260fcf01c87b0acabf03dd}\label{ciot__default_8h_aef3854df37260fcf01c87b0acabf03dd} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPC@{CIOT\_CONFIG\_HTTPC}}
+\index{CIOT\_CONFIG\_HTTPC@{CIOT\_CONFIG\_HTTPC}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPC}{CIOT\_CONFIG\_HTTPC}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .url\ =\ \mbox{\hyperlink{ciot__default_8h_ae5e243b358058e660e46de4d92ec23dd}{CIOT\_CONFIG\_HTTPC\_URL}},\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .method\ =\ \mbox{\hyperlink{ciot__default_8h_abf9505c4cab01e148100b048a372663f}{CIOT\_CONFIG\_HTTPC\_METHOD}},\ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .transport\ =\ \mbox{\hyperlink{ciot__default_8h_ae166c8150eec3860c86266fbafa30164}{CIOT\_CONFIG\_HTTPC\_TRANSPORT}},\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .timeout\ =\ \mbox{\hyperlink{ciot__default_8h_ab26205cfa1af914695c961fe6a7c37f7}{CIOT\_CONFIG\_HTTPC\_TIMEOUT}},\ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_abf9505c4cab01e148100b048a372663f}\label{ciot__default_8h_abf9505c4cab01e148100b048a372663f} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPC\_METHOD@{CIOT\_CONFIG\_HTTPC\_METHOD}}
+\index{CIOT\_CONFIG\_HTTPC\_METHOD@{CIOT\_CONFIG\_HTTPC\_METHOD}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPC\_METHOD}{CIOT\_CONFIG\_HTTPC\_METHOD}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+METHOD~\mbox{\hyperlink{ciot__httpc__types_8h_adb6734aba3ebc70d40f85695053de4a7ac0f3e0c43ca1d9895d911a61aa3a0a3d}{CIOT\+\_\+\+HTTPC\+\_\+\+METHOD\+\_\+\+POST}}}
+
+\Hypertarget{ciot__default_8h_ab26205cfa1af914695c961fe6a7c37f7}\label{ciot__default_8h_ab26205cfa1af914695c961fe6a7c37f7} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPC\_TIMEOUT@{CIOT\_CONFIG\_HTTPC\_TIMEOUT}}
+\index{CIOT\_CONFIG\_HTTPC\_TIMEOUT@{CIOT\_CONFIG\_HTTPC\_TIMEOUT}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPC\_TIMEOUT}{CIOT\_CONFIG\_HTTPC\_TIMEOUT}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+TIMEOUT~20000}
+
+\Hypertarget{ciot__default_8h_ae166c8150eec3860c86266fbafa30164}\label{ciot__default_8h_ae166c8150eec3860c86266fbafa30164} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPC\_TRANSPORT@{CIOT\_CONFIG\_HTTPC\_TRANSPORT}}
+\index{CIOT\_CONFIG\_HTTPC\_TRANSPORT@{CIOT\_CONFIG\_HTTPC\_TRANSPORT}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPC\_TRANSPORT}{CIOT\_CONFIG\_HTTPC\_TRANSPORT}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+TRANSPORT~\mbox{\hyperlink{ciot__httpc__types_8h_ae5d45fa37052b0149488422933d4b7c2ac0b77b7cf582d3d2adb20f67dac8cea1}{CIOT\+\_\+\+HTTPC\+\_\+\+TRANSPORT\+\_\+\+TCP}}}
+
+\Hypertarget{ciot__default_8h_ae5e243b358058e660e46de4d92ec23dd}\label{ciot__default_8h_ae5e243b358058e660e46de4d92ec23dd} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPC\_URL@{CIOT\_CONFIG\_HTTPC\_URL}}
+\index{CIOT\_CONFIG\_HTTPC\_URL@{CIOT\_CONFIG\_HTTPC\_URL}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPC\_URL}{CIOT\_CONFIG\_HTTPC\_URL}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPC\+\_\+\+URL~"{}http\+://127.\+0.\+0.\+1\+:8080/v1/ciot"{}}
+
+\Hypertarget{ciot__default_8h_a1a18adba17f39adbcca041afd38dc988}\label{ciot__default_8h_a1a18adba17f39adbcca041afd38dc988} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPS\_ADDRESS@{CIOT\_CONFIG\_HTTPS\_ADDRESS}}
+\index{CIOT\_CONFIG\_HTTPS\_ADDRESS@{CIOT\_CONFIG\_HTTPS\_ADDRESS}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPS\_ADDRESS}{CIOT\_CONFIG\_HTTPS\_ADDRESS}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPS\+\_\+\+ADDRESS~"{}http\+://127.\+0.\+0.\+1"{}}
+
+\Hypertarget{ciot__default_8h_a67e3c6ac14d049d86edac23aeae48833}\label{ciot__default_8h_a67e3c6ac14d049d86edac23aeae48833} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPS\_PORT@{CIOT\_CONFIG\_HTTPS\_PORT}}
+\index{CIOT\_CONFIG\_HTTPS\_PORT@{CIOT\_CONFIG\_HTTPS\_PORT}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPS\_PORT}{CIOT\_CONFIG\_HTTPS\_PORT}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPS\+\_\+\+PORT~8080}
+
+\Hypertarget{ciot__default_8h_ab7eacba51c8ae0c580dbe9fbf5996cc1}\label{ciot__default_8h_ab7eacba51c8ae0c580dbe9fbf5996cc1} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_HTTPS\_ROUTE@{CIOT\_CONFIG\_HTTPS\_ROUTE}}
+\index{CIOT\_CONFIG\_HTTPS\_ROUTE@{CIOT\_CONFIG\_HTTPS\_ROUTE}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_HTTPS\_ROUTE}{CIOT\_CONFIG\_HTTPS\_ROUTE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+HTTPS\+\_\+\+ROUTE~"{}/v1/ciot"{}}
+
+\Hypertarget{ciot__default_8h_ac7f8eb636e1dfd5e75ca8a2ccf174981}\label{ciot__default_8h_ac7f8eb636e1dfd5e75ca8a2ccf174981} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_MQTTC\_PASS@{CIOT\_CONFIG\_MQTTC\_PASS}}
+\index{CIOT\_CONFIG\_MQTTC\_PASS@{CIOT\_CONFIG\_MQTTC\_PASS}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTTC\_PASS}{CIOT\_CONFIG\_MQTTC\_PASS}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+PASS~"{}"{}}
+
+\Hypertarget{ciot__default_8h_a04e894147896f6ba01229a76c6c1f976}\label{ciot__default_8h_a04e894147896f6ba01229a76c6c1f976} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_MQTTC\_PORT@{CIOT\_CONFIG\_MQTTC\_PORT}}
+\index{CIOT\_CONFIG\_MQTTC\_PORT@{CIOT\_CONFIG\_MQTTC\_PORT}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTTC\_PORT}{CIOT\_CONFIG\_MQTTC\_PORT}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+PORT~1883}
+
+\Hypertarget{ciot__default_8h_a66e76a6c3a0b20620bee393047c462e6}\label{ciot__default_8h_a66e76a6c3a0b20620bee393047c462e6} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_MQTTC\_QOS@{CIOT\_CONFIG\_MQTTC\_QOS}}
+\index{CIOT\_CONFIG\_MQTTC\_QOS@{CIOT\_CONFIG\_MQTTC\_QOS}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTTC\_QOS}{CIOT\_CONFIG\_MQTTC\_QOS}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+QOS~0}
+
+\Hypertarget{ciot__default_8h_a0dad743975d309bddcfe83e7db9f4c43}\label{ciot__default_8h_a0dad743975d309bddcfe83e7db9f4c43} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D@{CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D}}
+\index{CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D@{CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D}{CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+TOPIC\+\_\+\+B2D~"{}v1/ciot/b2d"{}}
+
+\Hypertarget{ciot__default_8h_a9835f697325cb7920259cad52e13b0a1}\label{ciot__default_8h_a9835f697325cb7920259cad52e13b0a1} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B@{CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B}}
+\index{CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B@{CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B}{CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+TOPIC\+\_\+\+D2B~"{}v1/ciot/d2b"{}}
+
+\Hypertarget{ciot__default_8h_a3ae1f5c8551422aca407ba0e0d7d051a}\label{ciot__default_8h_a3ae1f5c8551422aca407ba0e0d7d051a} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_MQTTC\_URL@{CIOT\_CONFIG\_MQTTC\_URL}}
+\index{CIOT\_CONFIG\_MQTTC\_URL@{CIOT\_CONFIG\_MQTTC\_URL}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTTC\_URL}{CIOT\_CONFIG\_MQTTC\_URL}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+URL~"{}mqtt\+://test.\+mosquitto.\+org"{}}
+
+\Hypertarget{ciot__default_8h_a0bb103892cbaabdd15fb9f93ef6ebfb8}\label{ciot__default_8h_a0bb103892cbaabdd15fb9f93ef6ebfb8} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_MQTTC\_USER@{CIOT\_CONFIG\_MQTTC\_USER}}
+\index{CIOT\_CONFIG\_MQTTC\_USER@{CIOT\_CONFIG\_MQTTC\_USER}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_MQTTC\_USER}{CIOT\_CONFIG\_MQTTC\_USER}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+MQTTC\+\_\+\+USER~"{}"{}}
+
+\Hypertarget{ciot__default_8h_a33bf5b2e0676207bb01e529a4adcf59e}\label{ciot__default_8h_a33bf5b2e0676207bb01e529a4adcf59e} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_NTP\_OP\_MODE@{CIOT\_CONFIG\_NTP\_OP\_MODE}}
+\index{CIOT\_CONFIG\_NTP\_OP\_MODE@{CIOT\_CONFIG\_NTP\_OP\_MODE}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_NTP\_OP\_MODE}{CIOT\_CONFIG\_NTP\_OP\_MODE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+OP\+\_\+\+MODE~0}
+
+\Hypertarget{ciot__default_8h_ad52d4acc5014fec93b596267a4267489}\label{ciot__default_8h_ad52d4acc5014fec93b596267a4267489} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_NTP\_SERVER1@{CIOT\_CONFIG\_NTP\_SERVER1}}
+\index{CIOT\_CONFIG\_NTP\_SERVER1@{CIOT\_CONFIG\_NTP\_SERVER1}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_NTP\_SERVER1}{CIOT\_CONFIG\_NTP\_SERVER1}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVER1~"{}pool.\+ntp.\+org"{}}
+
+\Hypertarget{ciot__default_8h_a7e2f6267fdbe83b93e2220a3733f9774}\label{ciot__default_8h_a7e2f6267fdbe83b93e2220a3733f9774} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_NTP\_SERVER2@{CIOT\_CONFIG\_NTP\_SERVER2}}
+\index{CIOT\_CONFIG\_NTP\_SERVER2@{CIOT\_CONFIG\_NTP\_SERVER2}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_NTP\_SERVER2}{CIOT\_CONFIG\_NTP\_SERVER2}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVER2~"{}time.\+google.\+com"{}}
+
+\Hypertarget{ciot__default_8h_ade7f6e32e02db936bfd97768500c7c74}\label{ciot__default_8h_ade7f6e32e02db936bfd97768500c7c74} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_NTP\_SERVER3@{CIOT\_CONFIG\_NTP\_SERVER3}}
+\index{CIOT\_CONFIG\_NTP\_SERVER3@{CIOT\_CONFIG\_NTP\_SERVER3}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_NTP\_SERVER3}{CIOT\_CONFIG\_NTP\_SERVER3}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVER3~"{}gps.\+ntp.\+br"{}}
+
+\Hypertarget{ciot__default_8h_ab853f3aa6a7e0229c80b1f5a4fae0fbf}\label{ciot__default_8h_ab853f3aa6a7e0229c80b1f5a4fae0fbf} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_NTP\_SERVERS\_COUNT@{CIOT\_CONFIG\_NTP\_SERVERS\_COUNT}}
+\index{CIOT\_CONFIG\_NTP\_SERVERS\_COUNT@{CIOT\_CONFIG\_NTP\_SERVERS\_COUNT}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_NTP\_SERVERS\_COUNT}{CIOT\_CONFIG\_NTP\_SERVERS\_COUNT}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SERVERS\+\_\+\+COUNT~3}
+
+\Hypertarget{ciot__default_8h_ab4fbb783d249bcf33ad25052b6072474}\label{ciot__default_8h_ab4fbb783d249bcf33ad25052b6072474} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_NTP\_SYNC\_INTERVAL@{CIOT\_CONFIG\_NTP\_SYNC\_INTERVAL}}
+\index{CIOT\_CONFIG\_NTP\_SYNC\_INTERVAL@{CIOT\_CONFIG\_NTP\_SYNC\_INTERVAL}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_NTP\_SYNC\_INTERVAL}{CIOT\_CONFIG\_NTP\_SYNC\_INTERVAL}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SYNC\+\_\+\+INTERVAL~0}
+
+\Hypertarget{ciot__default_8h_a81124436ceaf4bdbf7fd16ec51729aa7}\label{ciot__default_8h_a81124436ceaf4bdbf7fd16ec51729aa7} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_NTP\_SYNC\_MODE@{CIOT\_CONFIG\_NTP\_SYNC\_MODE}}
+\index{CIOT\_CONFIG\_NTP\_SYNC\_MODE@{CIOT\_CONFIG\_NTP\_SYNC\_MODE}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_NTP\_SYNC\_MODE}{CIOT\_CONFIG\_NTP\_SYNC\_MODE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+NTP\+\_\+\+SYNC\+\_\+\+MODE~0}
+
+\Hypertarget{ciot__default_8h_ab398686897078b551d637f058ec072f7}\label{ciot__default_8h_ab398686897078b551d637f058ec072f7} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_STORAGE@{CIOT\_CONFIG\_STORAGE}}
+\index{CIOT\_CONFIG\_STORAGE@{CIOT\_CONFIG\_STORAGE}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_STORAGE}{CIOT\_CONFIG\_STORAGE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+STORAGE}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .type\ =\ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a5888e89d9b87b625ea64913fdbf4b9ae}{CIOT\_STORAGE\_TYPE\_FS}}\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_ac9389de4857fca429528b43c0e70bc08}\label{ciot__default_8h_ac9389de4857fca429528b43c0e70bc08} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_STORAGE\_TYPE@{CIOT\_CONFIG\_STORAGE\_TYPE}}
+\index{CIOT\_CONFIG\_STORAGE\_TYPE@{CIOT\_CONFIG\_STORAGE\_TYPE}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_STORAGE\_TYPE}{CIOT\_CONFIG\_STORAGE\_TYPE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+STORAGE\+\_\+\+TYPE~\mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a5888e89d9b87b625ea64913fdbf4b9ae}{CIOT\+\_\+\+STORAGE\+\_\+\+TYPE\+\_\+\+FS}}}
+
+\Hypertarget{ciot__default_8h_ad1c730d9022fce47870a8de547c63721}\label{ciot__default_8h_ad1c730d9022fce47870a8de547c63721} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_SYS@{CIOT\_CONFIG\_SYS}}
+\index{CIOT\_CONFIG\_SYS@{CIOT\_CONFIG\_SYS}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_SYS}{CIOT\_CONFIG\_SYS}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+SYS}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}\label{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_TCP@{CIOT\_CONFIG\_TCP}}
+\index{CIOT\_CONFIG\_TCP@{CIOT\_CONFIG\_TCP}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_TCP}{CIOT\_CONFIG\_TCP}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+TCP}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .dhcp\ =\ \mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da612a799c9f8c26c1f3b9a503712bd711}{CIOT\_TCP\_DHCP\_CFG\_NO\_CHANGE}},\ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .ip\ =\ \{\mbox{\hyperlink{ciot__default_8h_a26d8ac3e34dcb0faaf41977b7dc54607}{CIOT\_CONFIG\_TCP\_IP}}\},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .gateway\ =\ \{\mbox{\hyperlink{ciot__default_8h_abc5eb2049e9aab488e1bb1846c71b481}{CIOT\_CONFIG\_TCP\_GATEWAY}}\},\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .mask\ =\ \{\mbox{\hyperlink{ciot__default_8h_ab361b51c2b4bb8324a0767a6680cab25}{CIOT\_CONFIG\_TCP\_MASK}}\},\ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .dns\ =\ \{\mbox{\hyperlink{ciot__default_8h_aa196f69c014910ca0e0f37d44b83ad30}{CIOT\_CONFIG\_TCP\_DNS}}\},\ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_abe942f163ef66924c29e63adb6e91cc3}\label{ciot__default_8h_abe942f163ef66924c29e63adb6e91cc3} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_TCP\_DHCP@{CIOT\_CONFIG\_TCP\_DHCP}}
+\index{CIOT\_CONFIG\_TCP\_DHCP@{CIOT\_CONFIG\_TCP\_DHCP}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_TCP\_DHCP}{CIOT\_CONFIG\_TCP\_DHCP}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+DHCP~\mbox{\hyperlink{ciot__tcp__types_8h_a6b9f05d16358111acd3b846a7086f32da612a799c9f8c26c1f3b9a503712bd711}{CIOT\+\_\+\+TCP\+\_\+\+DHCP\+\_\+\+CFG\+\_\+\+NO\+\_\+\+CHANGE}}}
+
+\Hypertarget{ciot__default_8h_aa196f69c014910ca0e0f37d44b83ad30}\label{ciot__default_8h_aa196f69c014910ca0e0f37d44b83ad30} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_TCP\_DNS@{CIOT\_CONFIG\_TCP\_DNS}}
+\index{CIOT\_CONFIG\_TCP\_DNS@{CIOT\_CONFIG\_TCP\_DNS}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_TCP\_DNS}{CIOT\_CONFIG\_TCP\_DNS}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+DNS~0, 0, 0, 0}
+
+\Hypertarget{ciot__default_8h_abc5eb2049e9aab488e1bb1846c71b481}\label{ciot__default_8h_abc5eb2049e9aab488e1bb1846c71b481} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_TCP\_GATEWAY@{CIOT\_CONFIG\_TCP\_GATEWAY}}
+\index{CIOT\_CONFIG\_TCP\_GATEWAY@{CIOT\_CONFIG\_TCP\_GATEWAY}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_TCP\_GATEWAY}{CIOT\_CONFIG\_TCP\_GATEWAY}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+GATEWAY~0, 0, 0, 0}
+
+\Hypertarget{ciot__default_8h_a26d8ac3e34dcb0faaf41977b7dc54607}\label{ciot__default_8h_a26d8ac3e34dcb0faaf41977b7dc54607} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_TCP\_IP@{CIOT\_CONFIG\_TCP\_IP}}
+\index{CIOT\_CONFIG\_TCP\_IP@{CIOT\_CONFIG\_TCP\_IP}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_TCP\_IP}{CIOT\_CONFIG\_TCP\_IP}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+IP~0, 0, 0, 0}
+
+\Hypertarget{ciot__default_8h_ab361b51c2b4bb8324a0767a6680cab25}\label{ciot__default_8h_ab361b51c2b4bb8324a0767a6680cab25} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_TCP\_MASK@{CIOT\_CONFIG\_TCP\_MASK}}
+\index{CIOT\_CONFIG\_TCP\_MASK@{CIOT\_CONFIG\_TCP\_MASK}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_TCP\_MASK}{CIOT\_CONFIG\_TCP\_MASK}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+TCP\+\_\+\+MASK~0, 0, 0, 0}
+
+\Hypertarget{ciot__default_8h_a0aa6817a5c88e8290142061b6b933252}\label{ciot__default_8h_a0aa6817a5c88e8290142061b6b933252} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART@{CIOT\_CONFIG\_UART}}
+\index{CIOT\_CONFIG\_UART@{CIOT\_CONFIG\_UART}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART}{CIOT\_CONFIG\_UART}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .baud\_rate\ =\ \mbox{\hyperlink{ciot__default_8h_aae6ed2cc1f62936138b7b12cb78eab19}{CIOT\_CONFIG\_UART\_BAUD\_RATE}},\ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .num\ =\ \mbox{\hyperlink{ciot__default_8h_af9d6ddc888416ceda770bd6ba0666adf}{CIOT\_CONFIG\_UART\_NUM}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .rx\_pin\ =\ \mbox{\hyperlink{ciot__default_8h_a47a6c4735b406987793ff61a3748c356}{CIOT\_CONFIG\_UART\_RX\_PIN}},\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .tx\_pin\ =\ \mbox{\hyperlink{ciot__default_8h_afe80a6e24ff36484761b8a0740e21cd3}{CIOT\_CONFIG\_UART\_TX\_PIN}},\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .rts\_pin\ =\ \mbox{\hyperlink{ciot__default_8h_ac915c58485a09a470ab105dcd7fdb438}{CIOT\_CONFIG\_UART\_RTS\_PIN}},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .cts\_pin\ =\ \mbox{\hyperlink{ciot__default_8h_a39b5dff57834d4a9f00b09ff9d7e0586}{CIOT\_CONFIG\_UART\_CTS\_PIN}},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .flow\_control\ =\ \mbox{\hyperlink{ciot__default_8h_a0b574bd3271269a00ef9a3364564a650}{CIOT\_CONFIG\_UART\_FLOW\_CONTROL}},\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .parity\ =\ \mbox{\hyperlink{ciot__default_8h_ad5a0b532b36ce2e64548273d4694de52}{CIOT\_CONFIG\_UART\_PARITY}},\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .dtr\ =\ \mbox{\hyperlink{ciot__default_8h_a5e191db9399c301be511e6024b2f402d}{CIOT\_CONFIG\_UART\_DTR}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .bridge\_mode\ =\ \mbox{\hyperlink{ciot__default_8h_ac64f70fbc40557ffc7f0f6c9d4aed430}{CIOT\_CONFIG\_UART\_BRIDGE\_MODE}},\ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_aae6ed2cc1f62936138b7b12cb78eab19}\label{ciot__default_8h_aae6ed2cc1f62936138b7b12cb78eab19} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_BAUD\_RATE@{CIOT\_CONFIG\_UART\_BAUD\_RATE}}
+\index{CIOT\_CONFIG\_UART\_BAUD\_RATE@{CIOT\_CONFIG\_UART\_BAUD\_RATE}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_BAUD\_RATE}{CIOT\_CONFIG\_UART\_BAUD\_RATE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+BAUD\+\_\+\+RATE~115200}
+
+\Hypertarget{ciot__default_8h_ac64f70fbc40557ffc7f0f6c9d4aed430}\label{ciot__default_8h_ac64f70fbc40557ffc7f0f6c9d4aed430} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_BRIDGE\_MODE@{CIOT\_CONFIG\_UART\_BRIDGE\_MODE}}
+\index{CIOT\_CONFIG\_UART\_BRIDGE\_MODE@{CIOT\_CONFIG\_UART\_BRIDGE\_MODE}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_BRIDGE\_MODE}{CIOT\_CONFIG\_UART\_BRIDGE\_MODE}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+BRIDGE\+\_\+\+MODE~0}
+
+\Hypertarget{ciot__default_8h_a39b5dff57834d4a9f00b09ff9d7e0586}\label{ciot__default_8h_a39b5dff57834d4a9f00b09ff9d7e0586} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_CTS\_PIN@{CIOT\_CONFIG\_UART\_CTS\_PIN}}
+\index{CIOT\_CONFIG\_UART\_CTS\_PIN@{CIOT\_CONFIG\_UART\_CTS\_PIN}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_CTS\_PIN}{CIOT\_CONFIG\_UART\_CTS\_PIN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+CTS\+\_\+\+PIN~0}
+
+\Hypertarget{ciot__default_8h_a5e191db9399c301be511e6024b2f402d}\label{ciot__default_8h_a5e191db9399c301be511e6024b2f402d} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_DTR@{CIOT\_CONFIG\_UART\_DTR}}
+\index{CIOT\_CONFIG\_UART\_DTR@{CIOT\_CONFIG\_UART\_DTR}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_DTR}{CIOT\_CONFIG\_UART\_DTR}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+DTR~0}
+
+\Hypertarget{ciot__default_8h_a0b574bd3271269a00ef9a3364564a650}\label{ciot__default_8h_a0b574bd3271269a00ef9a3364564a650} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_FLOW\_CONTROL@{CIOT\_CONFIG\_UART\_FLOW\_CONTROL}}
+\index{CIOT\_CONFIG\_UART\_FLOW\_CONTROL@{CIOT\_CONFIG\_UART\_FLOW\_CONTROL}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_FLOW\_CONTROL}{CIOT\_CONFIG\_UART\_FLOW\_CONTROL}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+FLOW\+\_\+\+CONTROL~0}
+
+\Hypertarget{ciot__default_8h_af9d6ddc888416ceda770bd6ba0666adf}\label{ciot__default_8h_af9d6ddc888416ceda770bd6ba0666adf} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_NUM@{CIOT\_CONFIG\_UART\_NUM}}
+\index{CIOT\_CONFIG\_UART\_NUM@{CIOT\_CONFIG\_UART\_NUM}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_NUM}{CIOT\_CONFIG\_UART\_NUM}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+NUM~0}
+
+\Hypertarget{ciot__default_8h_ad5a0b532b36ce2e64548273d4694de52}\label{ciot__default_8h_ad5a0b532b36ce2e64548273d4694de52} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_PARITY@{CIOT\_CONFIG\_UART\_PARITY}}
+\index{CIOT\_CONFIG\_UART\_PARITY@{CIOT\_CONFIG\_UART\_PARITY}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_PARITY}{CIOT\_CONFIG\_UART\_PARITY}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+PARITY~0}
+
+\Hypertarget{ciot__default_8h_ac915c58485a09a470ab105dcd7fdb438}\label{ciot__default_8h_ac915c58485a09a470ab105dcd7fdb438} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_RTS\_PIN@{CIOT\_CONFIG\_UART\_RTS\_PIN}}
+\index{CIOT\_CONFIG\_UART\_RTS\_PIN@{CIOT\_CONFIG\_UART\_RTS\_PIN}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_RTS\_PIN}{CIOT\_CONFIG\_UART\_RTS\_PIN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+RTS\+\_\+\+PIN~0}
+
+\Hypertarget{ciot__default_8h_a47a6c4735b406987793ff61a3748c356}\label{ciot__default_8h_a47a6c4735b406987793ff61a3748c356} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_RX\_PIN@{CIOT\_CONFIG\_UART\_RX\_PIN}}
+\index{CIOT\_CONFIG\_UART\_RX\_PIN@{CIOT\_CONFIG\_UART\_RX\_PIN}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_RX\_PIN}{CIOT\_CONFIG\_UART\_RX\_PIN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+RX\+\_\+\+PIN~0}
+
+\Hypertarget{ciot__default_8h_afe80a6e24ff36484761b8a0740e21cd3}\label{ciot__default_8h_afe80a6e24ff36484761b8a0740e21cd3} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_UART\_TX\_PIN@{CIOT\_CONFIG\_UART\_TX\_PIN}}
+\index{CIOT\_CONFIG\_UART\_TX\_PIN@{CIOT\_CONFIG\_UART\_TX\_PIN}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_UART\_TX\_PIN}{CIOT\_CONFIG\_UART\_TX\_PIN}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+UART\+\_\+\+TX\+\_\+\+PIN~0}
+
+\Hypertarget{ciot__default_8h_a27de0c03a642d79eb31e712994646733}\label{ciot__default_8h_a27de0c03a642d79eb31e712994646733} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_AP@{CIOT\_CONFIG\_WIFI\_AP}}
+\index{CIOT\_CONFIG\_WIFI\_AP@{CIOT\_CONFIG\_WIFI\_AP}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_AP}{CIOT\_CONFIG\_WIFI\_AP}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .ssid\ =\ \mbox{\hyperlink{ciot__default_8h_a7f79abe5ea5f7e3260843192069bdcaa}{CIOT\_CONFIG\_WIFI\_AP\_SSID}},\ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .password\ =\ \mbox{\hyperlink{ciot__default_8h_afdccac291d2c1de6425402fec83189cf}{CIOT\_CONFIG\_WIFI\_AP\_PASSWORD}},\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .tcp\ =\ \mbox{\hyperlink{ciot__default_8h_a82cca16f86e1276f9a325ebbd1ec5d68}{CIOT\_CONFIG\_WIFI\_AP\_TCP}},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .type\ =\ \mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa7bfdef61a443d4e6f7e5b96acfade2fa}{CIOT\_WIFI\_IF\_AP}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_afdccac291d2c1de6425402fec83189cf}\label{ciot__default_8h_afdccac291d2c1de6425402fec83189cf} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_AP\_PASSWORD@{CIOT\_CONFIG\_WIFI\_AP\_PASSWORD}}
+\index{CIOT\_CONFIG\_WIFI\_AP\_PASSWORD@{CIOT\_CONFIG\_WIFI\_AP\_PASSWORD}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_AP\_PASSWORD}{CIOT\_CONFIG\_WIFI\_AP\_PASSWORD}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+PASSWORD~"{}administrator"{}}
+
+\Hypertarget{ciot__default_8h_a7f79abe5ea5f7e3260843192069bdcaa}\label{ciot__default_8h_a7f79abe5ea5f7e3260843192069bdcaa} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_AP\_SSID@{CIOT\_CONFIG\_WIFI\_AP\_SSID}}
+\index{CIOT\_CONFIG\_WIFI\_AP\_SSID@{CIOT\_CONFIG\_WIFI\_AP\_SSID}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_AP\_SSID}{CIOT\_CONFIG\_WIFI\_AP\_SSID}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+SSID~"{}Ciot AP"{}}
+
+\Hypertarget{ciot__default_8h_a82cca16f86e1276f9a325ebbd1ec5d68}\label{ciot__default_8h_a82cca16f86e1276f9a325ebbd1ec5d68} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_AP\_TCP@{CIOT\_CONFIG\_WIFI\_AP\_TCP}}
+\index{CIOT\_CONFIG\_WIFI\_AP\_TCP@{CIOT\_CONFIG\_WIFI\_AP\_TCP}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_AP\_TCP}{CIOT\_CONFIG\_WIFI\_AP\_TCP}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+AP\+\_\+\+TCP~\mbox{\hyperlink{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP}}}
+
+\Hypertarget{ciot__default_8h_a7c09f75e4ebc749a5c225c760c2befde}\label{ciot__default_8h_a7c09f75e4ebc749a5c225c760c2befde} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_STA@{CIOT\_CONFIG\_WIFI\_STA}}
+\index{CIOT\_CONFIG\_WIFI\_STA@{CIOT\_CONFIG\_WIFI\_STA}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_STA}{CIOT\_CONFIG\_WIFI\_STA}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .ssid\ =\ \mbox{\hyperlink{ciot__default_8h_a69173d99aec57142ba91edc18300f781}{CIOT\_CONFIG\_WIFI\_STA\_SSID}},\ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .password\ =\ \mbox{\hyperlink{ciot__default_8h_a89cc8bb6906a26e085cd6d79e881717f}{CIOT\_CONFIG\_WIFI\_STA\_PASSWORD}},\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .tcp\ =\ \mbox{\hyperlink{ciot__default_8h_a195751f0292e7d1046fa7a4b08e5fc23}{CIOT\_CONFIG\_WIFI\_STA\_TCP}},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .type\ =\ \mbox{\hyperlink{ciot__wifi__types_8h_af32b4aaa2c6d9132e310a2d368ca3a6fa22577cd2b8c579f221be06f275674e60}{CIOT\_WIFI\_IF\_STA}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_a89cc8bb6906a26e085cd6d79e881717f}\label{ciot__default_8h_a89cc8bb6906a26e085cd6d79e881717f} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_STA\_PASSWORD@{CIOT\_CONFIG\_WIFI\_STA\_PASSWORD}}
+\index{CIOT\_CONFIG\_WIFI\_STA\_PASSWORD@{CIOT\_CONFIG\_WIFI\_STA\_PASSWORD}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_STA\_PASSWORD}{CIOT\_CONFIG\_WIFI\_STA\_PASSWORD}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA\+\_\+\+PASSWORD~"{}administrator"{}}
+
+\Hypertarget{ciot__default_8h_a69173d99aec57142ba91edc18300f781}\label{ciot__default_8h_a69173d99aec57142ba91edc18300f781} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_STA\_SSID@{CIOT\_CONFIG\_WIFI\_STA\_SSID}}
+\index{CIOT\_CONFIG\_WIFI\_STA\_SSID@{CIOT\_CONFIG\_WIFI\_STA\_SSID}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_STA\_SSID}{CIOT\_CONFIG\_WIFI\_STA\_SSID}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA\+\_\+\+SSID~"{}Ciot STA"{}}
+
+\Hypertarget{ciot__default_8h_a195751f0292e7d1046fa7a4b08e5fc23}\label{ciot__default_8h_a195751f0292e7d1046fa7a4b08e5fc23} 
+\index{ciot\_default.h@{ciot\_default.h}!CIOT\_CONFIG\_WIFI\_STA\_TCP@{CIOT\_CONFIG\_WIFI\_STA\_TCP}}
+\index{CIOT\_CONFIG\_WIFI\_STA\_TCP@{CIOT\_CONFIG\_WIFI\_STA\_TCP}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{CIOT\_CONFIG\_WIFI\_STA\_TCP}{CIOT\_CONFIG\_WIFI\_STA\_TCP}}
+{\footnotesize\ttfamily \#define CIOT\+\_\+\+CONFIG\+\_\+\+WIFI\+\_\+\+STA\+\_\+\+TCP~\mbox{\hyperlink{ciot__default_8h_a59fb15004027f7b6a0be6bda1b0568b1}{CIOT\+\_\+\+CONFIG\+\_\+\+TCP}}}
+
+\Hypertarget{ciot__default_8h_a86eea122295995d6664aae9037c34a1d}\label{ciot__default_8h_a86eea122295995d6664aae9037c34a1d} 
+\index{ciot\_default.h@{ciot\_default.h}!HG\_TCP\_CONFIG\_HTTPS@{HG\_TCP\_CONFIG\_HTTPS}}
+\index{HG\_TCP\_CONFIG\_HTTPS@{HG\_TCP\_CONFIG\_HTTPS}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{HG\_TCP\_CONFIG\_HTTPS}{HG\_TCP\_CONFIG\_HTTPS}}
+{\footnotesize\ttfamily \#define HG\+\_\+\+TCP\+\_\+\+CONFIG\+\_\+\+HTTPS}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .address\ =\ HG\_TCP\_CONFIG\_HTTPS\_ADDRESS,\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .route\ =\ HG\_TCP\_CONFIG\_HTTPS\_ROUTE,\ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .port\ =\ HG\_TCP\_CONFIG\_HTTPS\_PORT,\ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_a132bac5d5f62fa38121a52690971284c}\label{ciot__default_8h_a132bac5d5f62fa38121a52690971284c} 
+\index{ciot\_default.h@{ciot\_default.h}!HG\_TCP\_CONFIG\_MQTTC@{HG\_TCP\_CONFIG\_MQTTC}}
+\index{HG\_TCP\_CONFIG\_MQTTC@{HG\_TCP\_CONFIG\_MQTTC}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{HG\_TCP\_CONFIG\_MQTTC}{HG\_TCP\_CONFIG\_MQTTC}}
+{\footnotesize\ttfamily \#define HG\+\_\+\+TCP\+\_\+\+CONFIG\+\_\+\+MQTTC}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .url\ =\ \mbox{\hyperlink{ciot__default_8h_a3ae1f5c8551422aca407ba0e0d7d051a}{CIOT\_CONFIG\_MQTTC\_URL}},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .port\ =\ \mbox{\hyperlink{ciot__default_8h_a04e894147896f6ba01229a76c6c1f976}{CIOT\_CONFIG\_MQTTC\_PORT}},\ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .qos\ =\ \mbox{\hyperlink{ciot__default_8h_a66e76a6c3a0b20620bee393047c462e6}{CIOT\_CONFIG\_MQTTC\_QOS}},\ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .topics\ =\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .b2d\ =\ \mbox{\hyperlink{ciot__default_8h_a0dad743975d309bddcfe83e7db9f4c43}{CIOT\_CONFIG\_MQTTC\_TOPIC\_B2D}},\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ .d2b\ =\ \mbox{\hyperlink{ciot__default_8h_a9835f697325cb7920259cad52e13b0a1}{CIOT\_CONFIG\_MQTTC\_TOPIC\_D2B}},\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{ciot__default_8h_a030e60462692de23e6989b3b23d894eb}\label{ciot__default_8h_a030e60462692de23e6989b3b23d894eb} 
+\index{ciot\_default.h@{ciot\_default.h}!HG\_TCP\_CONFIG\_NTP@{HG\_TCP\_CONFIG\_NTP}}
+\index{HG\_TCP\_CONFIG\_NTP@{HG\_TCP\_CONFIG\_NTP}!ciot\_default.h@{ciot\_default.h}}
+\doxysubsubsection{\texorpdfstring{HG\_TCP\_CONFIG\_NTP}{HG\_TCP\_CONFIG\_NTP}}
+{\footnotesize\ttfamily \#define HG\+\_\+\+TCP\+\_\+\+CONFIG\+\_\+\+NTP}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .op\_mode\ =\ HG\_TCP\_CONFIG\_NTP\_OP\_MODE,\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .sync\_mode\ =\ HG\_TCP\_CONFIG\_NTP\_SYNC\_MODE,\ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .sync\_interval\ =\ HG\_TCP\_CONFIG\_NTP\_SYNC\_INTERVAL,\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ .server\ =\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{ciot__default_8h_ad52d4acc5014fec93b596267a4267489}{CIOT\_CONFIG\_NTP\_SERVER1}}\},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{ciot__default_8h_a7e2f6267fdbe83b93e2220a3733f9774}{CIOT\_CONFIG\_NTP\_SERVER2}}\},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \{\mbox{\hyperlink{ciot__default_8h_ade7f6e32e02db936bfd97768500c7c74}{CIOT\_CONFIG\_NTP\_SERVER3}}\}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}

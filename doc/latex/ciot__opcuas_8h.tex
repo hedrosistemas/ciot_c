@@ -1,0 +1,192 @@
+\doxysection{include/ciot\+\_\+opcuas.h File Reference}
+\hypertarget{ciot__opcuas_8h}{}\label{ciot__opcuas_8h}\index{include/ciot\_opcuas.h@{include/ciot\_opcuas.h}}
+
+
+Header file for CIOT OPC UA Server (OPCUAS) functionality.  
+
+
+{\ttfamily \#include "{}types/ciot\+\_\+opcuas\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+iface.\+h"{}}\newline
+{\ttfamily \#include "{}ciot\+\_\+err.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__opcuas__status__msg__t}{ciot\+\_\+opcuas\+\_\+status\+\_\+msg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT OPCUAS status message. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct ciot\+\_\+opcuas \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Opaque pointer to CIOT OPCUAS structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}} \mbox{\hyperlink{ciot__opcuas_8h_a2a20908ad8a9104fa199239f790e72a8}{ciot\+\_\+opcuas\+\_\+new}} (void \texorpdfstring{$\ast$}{*}handle)
+\begin{DoxyCompactList}\small\item\em Create a new CIOT OPCUAS instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__opcuas_8h_a86fd44bf128861a3cca1f57b680c137e}{ciot\+\_\+opcuas\+\_\+start}} (\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}} self, \mbox{\hyperlink{structciot__opcuas__cfg__t}{ciot\+\_\+opcuas\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}cfg)
+\begin{DoxyCompactList}\small\item\em Start CIOT OPCUAS. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__opcuas_8h_a7db26a1290536e33bcad744e00ecf954}{ciot\+\_\+opcuas\+\_\+stop}} (\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}} self)
+\begin{DoxyCompactList}\small\item\em Stop CIOT OPCUAS. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__opcuas_8h_a12d974a4c1fd3dfc906cef2a92d7decc}{ciot\+\_\+opcuas\+\_\+process\+\_\+req}} (\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}} self, \mbox{\hyperlink{structciot__opcuas__req__t}{ciot\+\_\+opcuas\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}req)
+\begin{DoxyCompactList}\small\item\em Process OPCUAS request for CIOT OPCUAS. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__opcuas_8h_adce1d391f5b3a5aa5f638a8410d95cbc}{ciot\+\_\+opcuas\+\_\+send\+\_\+data}} (\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}} self, uint8\+\_\+t \texorpdfstring{$\ast$}{*}data, int size)
+\begin{DoxyCompactList}\small\item\em Send data for CIOT OPCUAS. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} \mbox{\hyperlink{ciot__opcuas_8h_a0a3f5503c7a8cee3326a00a7b251b9b2}{ciot\+\_\+opcuas\+\_\+add\+\_\+node}} (\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}} self, uint16\+\_\+t type, char \texorpdfstring{$\ast$}{*}localization, char \texorpdfstring{$\ast$}{*}display\+\_\+name, char \texorpdfstring{$\ast$}{*}node\+\_\+id)
+\begin{DoxyCompactList}\small\item\em Add a node to CIOT OPCUAS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for CIOT OPC UA Server (OPCUAS) functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2024-\/04-\/21 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2024 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}\label{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf} 
+\index{ciot\_opcuas.h@{ciot\_opcuas.h}!ciot\_opcuas\_t@{ciot\_opcuas\_t}}
+\index{ciot\_opcuas\_t@{ciot\_opcuas\_t}!ciot\_opcuas.h@{ciot\_opcuas.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_t}{ciot\_opcuas\_t}}
+{\footnotesize\ttfamily typedef struct ciot\+\_\+opcuas\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}}}
+
+
+
+Opaque pointer to CIOT OPCUAS structure. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{ciot__opcuas_8h_a0a3f5503c7a8cee3326a00a7b251b9b2}\label{ciot__opcuas_8h_a0a3f5503c7a8cee3326a00a7b251b9b2} 
+\index{ciot\_opcuas.h@{ciot\_opcuas.h}!ciot\_opcuas\_add\_node@{ciot\_opcuas\_add\_node}}
+\index{ciot\_opcuas\_add\_node@{ciot\_opcuas\_add\_node}!ciot\_opcuas.h@{ciot\_opcuas.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_add\_node()}{ciot\_opcuas\_add\_node()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+opcuas\+\_\+add\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}}}]{self,  }\item[{uint16\+\_\+t}]{type,  }\item[{char \texorpdfstring{$\ast$}{*}}]{localization,  }\item[{char \texorpdfstring{$\ast$}{*}}]{display\+\_\+name,  }\item[{char \texorpdfstring{$\ast$}{*}}]{node\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+Add a node to CIOT OPCUAS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT OPCUAS. \\
+\hline
+{\em type} & Type of the node. \\
+\hline
+{\em localization} & Localization of the node. \\
+\hline
+{\em display\+\_\+name} & Display name of the node. \\
+\hline
+{\em node\+\_\+id} & Node ID of the node. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__opcuas_8h_a2a20908ad8a9104fa199239f790e72a8}\label{ciot__opcuas_8h_a2a20908ad8a9104fa199239f790e72a8} 
+\index{ciot\_opcuas.h@{ciot\_opcuas.h}!ciot\_opcuas\_new@{ciot\_opcuas\_new}}
+\index{ciot\_opcuas\_new@{ciot\_opcuas\_new}!ciot\_opcuas.h@{ciot\_opcuas.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_new()}{ciot\_opcuas\_new()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}} ciot\+\_\+opcuas\+\_\+new (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+
+
+Create a new CIOT OPCUAS instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em handle} & Pointer to the handle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Instance of CIOT OPCUAS. 
+\end{DoxyReturn}
+\Hypertarget{ciot__opcuas_8h_a12d974a4c1fd3dfc906cef2a92d7decc}\label{ciot__opcuas_8h_a12d974a4c1fd3dfc906cef2a92d7decc} 
+\index{ciot\_opcuas.h@{ciot\_opcuas.h}!ciot\_opcuas\_process\_req@{ciot\_opcuas\_process\_req}}
+\index{ciot\_opcuas\_process\_req@{ciot\_opcuas\_process\_req}!ciot\_opcuas.h@{ciot\_opcuas.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_process\_req()}{ciot\_opcuas\_process\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+opcuas\+\_\+process\+\_\+req (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__opcuas__req__t}{ciot\+\_\+opcuas\+\_\+req\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{req }\end{DoxyParamCaption})}
+
+
+
+Process OPCUAS request for CIOT OPCUAS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT OPCUAS. \\
+\hline
+{\em req} & OPCUAS request. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__opcuas_8h_adce1d391f5b3a5aa5f638a8410d95cbc}\label{ciot__opcuas_8h_adce1d391f5b3a5aa5f638a8410d95cbc} 
+\index{ciot\_opcuas.h@{ciot\_opcuas.h}!ciot\_opcuas\_send\_data@{ciot\_opcuas\_send\_data}}
+\index{ciot\_opcuas\_send\_data@{ciot\_opcuas\_send\_data}!ciot\_opcuas.h@{ciot\_opcuas.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_send\_data()}{ciot\_opcuas\_send\_data()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+opcuas\+\_\+send\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}}}]{self,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{data,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+Send data for CIOT OPCUAS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT OPCUAS. \\
+\hline
+{\em data} & Data to send. \\
+\hline
+{\em size} & Size of data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__opcuas_8h_a86fd44bf128861a3cca1f57b680c137e}\label{ciot__opcuas_8h_a86fd44bf128861a3cca1f57b680c137e} 
+\index{ciot\_opcuas.h@{ciot\_opcuas.h}!ciot\_opcuas\_start@{ciot\_opcuas\_start}}
+\index{ciot\_opcuas\_start@{ciot\_opcuas\_start}!ciot\_opcuas.h@{ciot\_opcuas.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_start()}{ciot\_opcuas\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+opcuas\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}}}]{self,  }\item[{\mbox{\hyperlink{structciot__opcuas__cfg__t}{ciot\+\_\+opcuas\+\_\+cfg\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{cfg }\end{DoxyParamCaption})}
+
+
+
+Start CIOT OPCUAS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT OPCUAS. \\
+\hline
+{\em cfg} & Configuration for OPCUAS. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}
+\Hypertarget{ciot__opcuas_8h_a7db26a1290536e33bcad744e00ecf954}\label{ciot__opcuas_8h_a7db26a1290536e33bcad744e00ecf954} 
+\index{ciot\_opcuas.h@{ciot\_opcuas.h}!ciot\_opcuas\_stop@{ciot\_opcuas\_stop}}
+\index{ciot\_opcuas\_stop@{ciot\_opcuas\_stop}!ciot\_opcuas.h@{ciot\_opcuas.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_opcuas\_stop()}{ciot\_opcuas\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\+\_\+err\+\_\+t}} ciot\+\_\+opcuas\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ciot__opcuas_8h_a2a6f8d1050e1c57937371e12b3c850bf}{ciot\+\_\+opcuas\+\_\+t}}}]{self }\end{DoxyParamCaption})}
+
+
+
+Stop CIOT OPCUAS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & Instance of CIOT OPCUAS. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Error code. 
+\end{DoxyReturn}

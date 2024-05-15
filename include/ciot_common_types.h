@@ -1,12 +1,10 @@
 /**
  * @file ciot_common_types.h
- * @author your name (you@domain.com)
- * @brief 
+w * @brief Defines common types used in CIOT modules.
  * @version 0.1
  * @date 2023-11-14
- * 
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @copyright Copyright (c) 2023
- * 
  */
 
 #ifndef __CIOT_COMMON_TYPES__H__
@@ -18,14 +16,15 @@ extern "C" {
 
 #include <inttypes.h>
 
+/** @brief Structure for event data in CIOT modules */
 typedef struct ciot_event_data
 {
-    uint8_t *ptr;
-    int size;
+    uint8_t *ptr; /**< Pointer to the event data */
+    int size; /**< Size of the event data in bytes */
 } ciot_event_data_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  //!__CIOT_COMMON_TYPES__H__
+#endif //!__CIOT_COMMON_TYPES__H__

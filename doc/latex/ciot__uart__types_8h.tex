@@ -1,0 +1,198 @@
+\doxysection{include/types/ciot\+\_\+uart\+\_\+types.h File Reference}
+\hypertarget{ciot__uart__types_8h}{}\label{ciot__uart__types_8h}\index{include/types/ciot\_uart\_types.h@{include/types/ciot\_uart\_types.h}}
+
+
+Defines data structures and types for CIOT UART functionality.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}ciot\+\_\+common\+\_\+types.\+h"{}}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__uart__cfg__t}{ciot\+\_\+uart\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT UART configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__uart__status__t}{ciot\+\_\+uart\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT UART status. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__uart__req__send__data__t}{ciot\+\_\+uart\+\_\+req\+\_\+send\+\_\+data\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT UART send data request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__uart__req__data__u}{ciot\+\_\+uart\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT UART request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__uart__req__t}{ciot\+\_\+uart\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT UART request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__uart__event}{ciot\+\_\+uart\+\_\+event}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT UART event. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__uart__data__u}{ciot\+\_\+uart\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT UART data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef union \mbox{\hyperlink{unionciot__uart__event}{ciot\+\_\+uart\+\_\+event}} \mbox{\hyperlink{ciot__uart__types_8h_a1c20b2ee6a468d46d74b5868e93a3aca}{ciot\+\_\+uart\+\_\+event\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT UART event. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ec}{ciot\+\_\+uart\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca68e791de6f32826bfeadcc76ca60bc2e}{CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+CLOSED}}
+, \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca199a994bef9447f18c393c779a0892c1}{CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+STARTED}}
+, \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca9a25df08d25fcbbeed4211d968806f23}{CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+INTERNAL\+\_\+\+ERROR}}
+, \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ecab6941d4ad015b3618bb4389a6fd81b38}{CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+CIOT\+\_\+\+S\+\_\+\+ERROR}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT UART states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494a}{ciot\+\_\+uart\+\_\+error\+\_\+t}} \{ \newline
+\mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa247559c3b774b184eefcddff921c7e7f}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+NONE}}
+, \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aaad6937afc4eaec25982854d59b88c44e}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+BREAK}}
+, \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4980792413629568f394143146dfd34e}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+BUFFER\+\_\+\+FULL}}
+, \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4471ad6db30324129d09ef452d3f21ef}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+FIFO\+\_\+\+OVERFLOW}}
+, \newline
+\mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa378a518c8cbc1750b42c1ba8dc74ac53}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+FRAME}}
+, \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa673b4c65f8766835eb2acaad965ced62}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+PARITY}}
+, \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa29325d36ddc3f3283eb395420109f403}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+DATA\+\_\+\+BREAK}}
+, \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa156f45510839d0ea276118f836a2a60f}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+UNKNOWN\+\_\+\+EVENT}}
+, \newline
+\mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa00bbe17b442ed0e94d1f3695b32bda2a}{CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+OPEN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT UART errors. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751c}{ciot\+\_\+uart\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca94d082e7fecb8305a0acb0cc05384352}{CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+, \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca9a3b4577451009d87249a3afa3f5d1a7}{CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+SEND\+\_\+\+DATA}}
+, \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca553ca846abf1dd6c736512c293f62134}{CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+SEND\+\_\+\+BYTES}}
+, \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca7db606c5c2e1124419279dae212d92b6}{CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+ENABLE\+\_\+\+BRIDGE\+\_\+\+MODE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT UART request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data structures and types for CIOT UART functionality. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/10 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{ciot__uart__types_8h_a1c20b2ee6a468d46d74b5868e93a3aca}\label{ciot__uart__types_8h_a1c20b2ee6a468d46d74b5868e93a3aca} 
+\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!ciot\_uart\_event\_u@{ciot\_uart\_event\_u}}
+\index{ciot\_uart\_event\_u@{ciot\_uart\_event\_u}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_uart\_event\_u}{ciot\_uart\_event\_u}}
+{\footnotesize\ttfamily typedef union \mbox{\hyperlink{unionciot__uart__event}{ciot\+\_\+uart\+\_\+event}} \mbox{\hyperlink{ciot__uart__types_8h_a1c20b2ee6a468d46d74b5868e93a3aca}{ciot\+\_\+uart\+\_\+event\+\_\+u}}}
+
+
+
+Union for CIOT UART event. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494a}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494a} 
+\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!ciot\_uart\_error\_t@{ciot\_uart\_error\_t}}
+\index{ciot\_uart\_error\_t@{ciot\_uart\_error\_t}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_uart\_error\_t}{ciot\_uart\_error\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494a}{ciot\+\_\+uart\+\_\+error\+\_\+t}}}
+
+
+
+Enumeration for CIOT UART errors. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_NONE@{CIOT\_UART\_ERR\_NONE}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_NONE@{CIOT\_UART\_ERR\_NONE}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa247559c3b774b184eefcddff921c7e7f}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa247559c3b774b184eefcddff921c7e7f} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+NONE&No error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_BREAK@{CIOT\_UART\_ERR\_BREAK}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_BREAK@{CIOT\_UART\_ERR\_BREAK}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aaad6937afc4eaec25982854d59b88c44e}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aaad6937afc4eaec25982854d59b88c44e} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+BREAK&Break error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_BUFFER\_FULL@{CIOT\_UART\_ERR\_BUFFER\_FULL}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_BUFFER\_FULL@{CIOT\_UART\_ERR\_BUFFER\_FULL}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4980792413629568f394143146dfd34e}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4980792413629568f394143146dfd34e} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+BUFFER\+\_\+\+FULL&Buffer full error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_FIFO\_OVERFLOW@{CIOT\_UART\_ERR\_FIFO\_OVERFLOW}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_FIFO\_OVERFLOW@{CIOT\_UART\_ERR\_FIFO\_OVERFLOW}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4471ad6db30324129d09ef452d3f21ef}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa4471ad6db30324129d09ef452d3f21ef} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+FIFO\+\_\+\+OVERFLOW&FIFO overflow error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_FRAME@{CIOT\_UART\_ERR\_FRAME}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_FRAME@{CIOT\_UART\_ERR\_FRAME}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa378a518c8cbc1750b42c1ba8dc74ac53}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa378a518c8cbc1750b42c1ba8dc74ac53} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+FRAME&Frame error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_PARITY@{CIOT\_UART\_ERR\_PARITY}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_PARITY@{CIOT\_UART\_ERR\_PARITY}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa673b4c65f8766835eb2acaad965ced62}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa673b4c65f8766835eb2acaad965ced62} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+PARITY&Parity error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_DATA\_BREAK@{CIOT\_UART\_ERR\_DATA\_BREAK}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_DATA\_BREAK@{CIOT\_UART\_ERR\_DATA\_BREAK}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa29325d36ddc3f3283eb395420109f403}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa29325d36ddc3f3283eb395420109f403} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+DATA\+\_\+\+BREAK&Data break error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_UNKNOWN\_EVENT@{CIOT\_UART\_ERR\_UNKNOWN\_EVENT}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_UNKNOWN\_EVENT@{CIOT\_UART\_ERR\_UNKNOWN\_EVENT}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa156f45510839d0ea276118f836a2a60f}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa156f45510839d0ea276118f836a2a60f} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+UNKNOWN\+\_\+\+EVENT&Unknown event error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_ERR\_OPEN@{CIOT\_UART\_ERR\_OPEN}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_ERR\_OPEN@{CIOT\_UART\_ERR\_OPEN}}}\Hypertarget{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa00bbe17b442ed0e94d1f3695b32bda2a}\label{ciot__uart__types_8h_aef6ecadc19ff8f271719099d4858494aa00bbe17b442ed0e94d1f3695b32bda2a} 
+CIOT\+\_\+\+UART\+\_\+\+ERR\+\_\+\+OPEN&Open error \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751c}\label{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751c} 
+\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!ciot\_uart\_req\_type\_t@{ciot\_uart\_req\_type\_t}}
+\index{ciot\_uart\_req\_type\_t@{ciot\_uart\_req\_type\_t}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_uart\_req\_type\_t}{ciot\_uart\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751c}{ciot\+\_\+uart\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT UART request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_REQ\_UNKNOWN@{CIOT\_UART\_REQ\_UNKNOWN}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_REQ\_UNKNOWN@{CIOT\_UART\_REQ\_UNKNOWN}}}\Hypertarget{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca94d082e7fecb8305a0acb0cc05384352}\label{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca94d082e7fecb8305a0acb0cc05384352} 
+CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown request type \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_REQ\_SEND\_DATA@{CIOT\_UART\_REQ\_SEND\_DATA}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_REQ\_SEND\_DATA@{CIOT\_UART\_REQ\_SEND\_DATA}}}\Hypertarget{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca9a3b4577451009d87249a3afa3f5d1a7}\label{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca9a3b4577451009d87249a3afa3f5d1a7} 
+CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+SEND\+\_\+\+DATA&Send data request \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_REQ\_SEND\_BYTES@{CIOT\_UART\_REQ\_SEND\_BYTES}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_REQ\_SEND\_BYTES@{CIOT\_UART\_REQ\_SEND\_BYTES}}}\Hypertarget{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca553ca846abf1dd6c736512c293f62134}\label{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca553ca846abf1dd6c736512c293f62134} 
+CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+SEND\+\_\+\+BYTES&Send bytes request \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_REQ\_ENABLE\_BRIDGE\_MODE@{CIOT\_UART\_REQ\_ENABLE\_BRIDGE\_MODE}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_REQ\_ENABLE\_BRIDGE\_MODE@{CIOT\_UART\_REQ\_ENABLE\_BRIDGE\_MODE}}}\Hypertarget{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca7db606c5c2e1124419279dae212d92b6}\label{ciot__uart__types_8h_a9b29402e0c8e8eaed7be0fa4ca22751ca7db606c5c2e1124419279dae212d92b6} 
+CIOT\+\_\+\+UART\+\_\+\+REQ\+\_\+\+ENABLE\+\_\+\+BRIDGE\+\_\+\+MODE&Enable bridge mode request \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ec}\label{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ec} 
+\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!ciot\_uart\_state\_t@{ciot\_uart\_state\_t}}
+\index{ciot\_uart\_state\_t@{ciot\_uart\_state\_t}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_uart\_state\_t}{ciot\_uart\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ec}{ciot\+\_\+uart\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT UART states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_STATE\_CLOSED@{CIOT\_UART\_STATE\_CLOSED}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_STATE\_CLOSED@{CIOT\_UART\_STATE\_CLOSED}}}\Hypertarget{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca68e791de6f32826bfeadcc76ca60bc2e}\label{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca68e791de6f32826bfeadcc76ca60bc2e} 
+CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+CLOSED&UART closed state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_STATE\_STARTED@{CIOT\_UART\_STATE\_STARTED}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_STATE\_STARTED@{CIOT\_UART\_STATE\_STARTED}}}\Hypertarget{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca199a994bef9447f18c393c779a0892c1}\label{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca199a994bef9447f18c393c779a0892c1} 
+CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+STARTED&UART started state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_STATE\_INTERNAL\_ERROR@{CIOT\_UART\_STATE\_INTERNAL\_ERROR}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_STATE\_INTERNAL\_ERROR@{CIOT\_UART\_STATE\_INTERNAL\_ERROR}}}\Hypertarget{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca9a25df08d25fcbbeed4211d968806f23}\label{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48eca9a25df08d25fcbbeed4211d968806f23} 
+CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+INTERNAL\+\_\+\+ERROR&Internal UART error state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_UART\_STATE\_CIOT\_S\_ERROR@{CIOT\_UART\_STATE\_CIOT\_S\_ERROR}!ciot\_uart\_types.h@{ciot\_uart\_types.h}}\index{ciot\_uart\_types.h@{ciot\_uart\_types.h}!CIOT\_UART\_STATE\_CIOT\_S\_ERROR@{CIOT\_UART\_STATE\_CIOT\_S\_ERROR}}}\Hypertarget{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ecab6941d4ad015b3618bb4389a6fd81b38}\label{ciot__uart__types_8h_a00c2af7c6795f37afe35ce3882ab48ecab6941d4ad015b3618bb4389a6fd81b38} 
+CIOT\+\_\+\+UART\+\_\+\+STATE\+\_\+\+CIOT\+\_\+\+S\+\_\+\+ERROR&CIOT-\/specific UART error state \\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,73 @@
+\doxysection{ciot\+\_\+storage\+\_\+types.\+h}
+\hypertarget{ciot__storage__types_8h_source}{}\label{ciot__storage__types_8h_source}\index{include/types/ciot\_storage\_types.h@{include/types/ciot\_storage\_types.h}}
+\mbox{\hyperlink{ciot__storage__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_STORAGE\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_STORAGE\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a83d3bc245d343102f7a7ac18b036aceb}{CIOT\_STORAGE\_TYPE\_UNKNOWN}},\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239afc4a37eba78791073c18a5f63c03aeb4}{CIOT\_STORAGE\_TYPE\_EEPROM}},\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239adb7bbd45322a2e288bd6915ce487bbf0}{CIOT\_STORAGE\_TYPE\_FLASH}},\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239a5888e89d9b87b625ea64913fdbf4b9ae}{CIOT\_STORAGE\_TYPE\_FS}},\ }
+\DoxyCodeLine{00029\ \}\ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239}{ciot\_storage\_type\_t}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00035\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86ac1049db8c3ea10d4f1e581674021e625}{CIOT\_STORAGE\_STATE\_IDLE}},\ }
+\DoxyCodeLine{00037\ \}\ \mbox{\hyperlink{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86}{ciot\_storage\_state\_t}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a4689fd1c078349f1583ecdbeaf7da85b}{CIOT\_STORAGE\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a6218cd2bd3e86d2c74b59c95e3466a8e}{CIOT\_STORAGE\_REQ\_SAVE}},\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541aba02c3e6c860284b2f06654a8977bf23}{CIOT\_STORAGE\_REQ\_LOAD}},\ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541af284b0fcdf84425bbd7ea1fedc16ae89}{CIOT\_STORAGE\_REQ\_DELETE}},\ }
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541a3dadf7c4810cb89e7bf75d0e1624db9a}{CIOT\_STORAGE\_REQ\_FORMAT}},\ }
+\DoxyCodeLine{00049\ \}\ \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541}{ciot\_storage\_req\_type\_t}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_abb72c818894c3c97f955258320bae239}{ciot\_storage\_type\_t}}\ \mbox{\hyperlink{structciot__storage__cfg__t_aa03a710482f738f9fe6095f1d4c6774a}{type}};\ }
+\DoxyCodeLine{00057\ \}\ \mbox{\hyperlink{structciot__storage__cfg__t}{ciot\_storage\_cfg\_t}};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00063\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_a904b5a0e6bb3f9a7880c9d25250ddb86}{ciot\_storage\_state\_t}}\ \mbox{\hyperlink{structciot__storage__status__t_aabc97b8fe1b1624b67ee7bc472d5b0b0}{state}};\ }
+\DoxyCodeLine{00065\ \}\ \mbox{\hyperlink{structciot__storage__status__t}{ciot\_storage\_status\_t}};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00071\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{char}\ path[16];\ }
+\DoxyCodeLine{00073\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__storage__req__file__data__t_ae5dc6ffcd9b7605c7787791e40cc6bb0}{size}};\ }
+\DoxyCodeLine{00074\ \ \ \ \ uint8\_t\ data[255];\ }
+\DoxyCodeLine{00075\ \}\ \mbox{\hyperlink{structciot__storage__req__file__data__t}{ciot\_storage\_req\_file\_data\_t}};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00081\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \mbox{\hyperlink{ciot__storage__types_8h_ab7057228a41784a8075f122e0c436541}{ciot\_storage\_req\_type\_t}}\ \mbox{\hyperlink{structciot__storage__req__t_a7b3cbcb3aea8c25ecc00d1316d1a79d6}{type}};\ }
+\DoxyCodeLine{00083\ \ \ \ \ \mbox{\hyperlink{structciot__storage__req__file__data__t}{ciot\_storage\_req\_file\_data\_t}}\ \mbox{\hyperlink{structciot__storage__req__t_a6b5e08e2800e812e2ee5294c83ac9fe6}{data}};\ }
+\DoxyCodeLine{00084\ \}\ \mbox{\hyperlink{structciot__storage__req__t}{ciot\_storage\_req\_t}};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{structciot__storage__cfg__t}{ciot\_storage\_cfg\_t}}\ \mbox{\hyperlink{unionciot__storage__data__u_aabe6a902449529e66a1bb460116af784}{config}};\ }
+\DoxyCodeLine{00092\ \ \ \ \ \mbox{\hyperlink{structciot__storage__status__t}{ciot\_storage\_status\_t}}\ \mbox{\hyperlink{unionciot__storage__data__u_ac1a66aa256f203858bb2477b812e36fb}{status}};\ }
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{structciot__storage__req__t}{ciot\_storage\_req\_t}}\ \mbox{\hyperlink{unionciot__storage__data__u_ae35bc5d21998e1401aa886359cafd044}{request}};\ }
+\DoxyCodeLine{00094\ \}\ \mbox{\hyperlink{unionciot__storage__data__u}{ciot\_storage\_data\_u}};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00097\ \}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

@@ -1,0 +1,46 @@
+\doxysection{ciot\+\_\+serializer.\+h}
+\hypertarget{ciot__serializer_8h_source}{}\label{ciot__serializer_8h_source}\index{include/ciot\_serializer.h@{include/ciot\_serializer.h}}
+\mbox{\hyperlink{ciot__serializer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_SERIALIZER\_\_H\_\_}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_SERIALIZER\_\_H\_\_}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__msg__types_8h}{types/ciot\_msg\_types.h}}"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00017\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structciot__serializer}{ciot\_serializer}}\ *\mbox{\hyperlink{ciot__serializer_8h_ad996f78559d787df7e8f20e6e2c837ac}{ciot\_serializer\_t}};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{typedef}\ int\ (\mbox{\hyperlink{ciot__serializer_8h_ad5f4d77f37d8f97c45e7ac3684c6240d}{ciot\_serializer\_to\_bytes\_fn}})(uint8\_t\ *bytes,\ \mbox{\hyperlink{structciot__msg__t}{ciot\_msg\_t}}\ *msg);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ int\ (\mbox{\hyperlink{ciot__serializer_8h_ad4e6ec6f4f6b2794af860108e701a284}{ciot\_serializer\_from\_bytes\_fn}})(\mbox{\hyperlink{structciot__msg__t}{ciot\_msg\_t}}\ *msg,\ uint8\_t\ *bytes,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702b}{ciot\_serializer\_type}}}
+\DoxyCodeLine{00048\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba1628b71e70eb2dcf89b24e63d9d86289}{CIOT\_SERIALIZER\_TYPE\_NONE}},\ \ \ }
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba0f0db27db7f111da963526dfface091e}{CIOT\_SERIALIZER\_TYPE\_PROTOBUF}},\ }
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{ciot__serializer_8h_ae62dc58498158eda5c753d6c3397702ba6d5cb551c26a7529e01e27c64dbc2a7a}{CIOT\_SERIALIZER\_TYPE\_CUSTOM}},\ \ }
+\DoxyCodeLine{00052\ \}\ \mbox{\hyperlink{ciot__serializer_8h_a3c892bb829d28086be610a8f850066f7}{ciot\_serializer\_type\_t}};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structciot__serializer}{ciot\_serializer}}}
+\DoxyCodeLine{00058\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{ciot__serializer_8h_a3c892bb829d28086be610a8f850066f7}{ciot\_serializer\_type\_t}}\ \mbox{\hyperlink{structciot__serializer_a592dc1023ebe4d8247de4f601b4c20f5}{type}};\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{ciot__serializer_8h_ad5f4d77f37d8f97c45e7ac3684c6240d}{ciot\_serializer\_to\_bytes\_fn}}\ *\mbox{\hyperlink{structciot__serializer_a5134e67f23ff9c0bf8efd1e393d8d2c1}{to\_bytes}};\ \ }
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{ciot__serializer_8h_ad4e6ec6f4f6b2794af860108e701a284}{ciot\_serializer\_from\_bytes\_fn}}\ *\mbox{\hyperlink{structciot__serializer_a54d8784095e9490e44f8ddc37679ef81}{from\_bytes}};\ }
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00072\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{ciot__serializer_8h_acce586f0c1adcf56d07b5c09e1df2c17}{ciot\_serializer\_to\_bytes}}(\mbox{\hyperlink{structciot__serializer}{ciot\_serializer\_t}}\ self,\ uint8\_t\ *bytes,\ \mbox{\hyperlink{structciot__msg__t}{ciot\_msg\_t}}\ *msg);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00083\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{ciot__serializer_8h_a2e6ad3f65b3277042564ae00d1ea9522}{ciot\_serializer\_from\_bytes}}(\mbox{\hyperlink{structciot__serializer}{ciot\_serializer\_t}}\ self,\ \mbox{\hyperlink{structciot__msg__t}{ciot\_msg\_t}}\ *msg,\ uint8\_t\ *bytes,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00086\ \}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#endif\ \ }}
+
+\end{DoxyCode}

@@ -1,0 +1,94 @@
+\doxysection{include/types/ciot\+\_\+ble\+\_\+scn\+\_\+types.h File Reference}
+\hypertarget{ciot__ble__scn__types_8h}{}\label{ciot__ble__scn__types_8h}\index{include/types/ciot\_ble\_scn\_types.h@{include/types/ciot\_ble\_scn\_types.h}}
+
+
+Defines data types and structures for CIOT BLE SCN.  
+
+
+{\ttfamily \#include $<$inttypes.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structciot__ble__scn__cfg__t}{ciot\+\_\+ble\+\_\+scn\+\_\+cfg\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT BLE SCN configuration. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__ble__scn__adv__info__t}{ciot\+\_\+ble\+\_\+scn\+\_\+adv\+\_\+info\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT BLE SCN advertising information. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__ble__scn__status__t}{ciot\+\_\+ble\+\_\+scn\+\_\+status\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT BLE SCN status. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__ble__scn__req__data__u}{ciot\+\_\+ble\+\_\+scn\+\_\+req\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT BLE SCN request data. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structciot__ble__scn__req__t}{ciot\+\_\+ble\+\_\+scn\+\_\+req\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Structure for CIOT BLE SCN request. \end{DoxyCompactList}\item 
+union \mbox{\hyperlink{unionciot__ble__scn__data__u}{ciot\+\_\+ble\+\_\+scn\+\_\+data\+\_\+u}}
+\begin{DoxyCompactList}\small\item\em Union for CIOT BLE SCN data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3c}{ciot\+\_\+ble\+\_\+scn\+\_\+state\+\_\+t}} \{ \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3cab5e38affddd56ac8693c35fe87d3bd43}{CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+STATE\+\_\+\+IDLE}}
+, \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca5cc9b57b36fc4add0d1468183936a625}{CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+STATE\+\_\+\+PASSIVE}}
+, \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca580d5606561bd5a7bf6ece413c1d7216}{CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+STATE\+\_\+\+ACTIVE}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT BLE SCN states. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaa}{ciot\+\_\+ble\+\_\+scn\+\_\+req\+\_\+type\+\_\+t}} \{ \mbox{\hyperlink{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaaa49cc27b8e221b0140c8440a39b7c4230}{CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+REQ\+\_\+\+UNKNOWN}}
+ \}
+\begin{DoxyCompactList}\small\item\em Enumeration for CIOT BLE SCN request types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines data types and structures for CIOT BLE SCN. 
+
+\begin{DoxyVersion}{Version}
+0.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/23 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wesley Santos (\href{mailto:wesleypro37@gmail.com}{\texttt{ wesleypro37@gmail.\+com}}) 
+\end{DoxyAuthor}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaa}\label{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaa} 
+\index{ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}!ciot\_ble\_scn\_req\_type\_t@{ciot\_ble\_scn\_req\_type\_t}}
+\index{ciot\_ble\_scn\_req\_type\_t@{ciot\_ble\_scn\_req\_type\_t}!ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_scn\_req\_type\_t}{ciot\_ble\_scn\_req\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaa}{ciot\+\_\+ble\+\_\+scn\+\_\+req\+\_\+type\+\_\+t}}}
+
+
+
+Enumeration for CIOT BLE SCN request types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_SCN\_REQ\_UNKNOWN@{CIOT\_BLE\_SCN\_REQ\_UNKNOWN}!ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}}\index{ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}!CIOT\_BLE\_SCN\_REQ\_UNKNOWN@{CIOT\_BLE\_SCN\_REQ\_UNKNOWN}}}\Hypertarget{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaaa49cc27b8e221b0140c8440a39b7c4230}\label{ciot__ble__scn__types_8h_af3789825b72a0e08e09e4c8682a45aaaa49cc27b8e221b0140c8440a39b7c4230} 
+CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+REQ\+\_\+\+UNKNOWN&Unknown request type \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3c}\label{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3c} 
+\index{ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}!ciot\_ble\_scn\_state\_t@{ciot\_ble\_scn\_state\_t}}
+\index{ciot\_ble\_scn\_state\_t@{ciot\_ble\_scn\_state\_t}!ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}}
+\doxysubsubsection{\texorpdfstring{ciot\_ble\_scn\_state\_t}{ciot\_ble\_scn\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3c}{ciot\+\_\+ble\+\_\+scn\+\_\+state\+\_\+t}}}
+
+
+
+Enumeration for CIOT BLE SCN states. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_SCN\_STATE\_IDLE@{CIOT\_BLE\_SCN\_STATE\_IDLE}!ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}}\index{ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}!CIOT\_BLE\_SCN\_STATE\_IDLE@{CIOT\_BLE\_SCN\_STATE\_IDLE}}}\Hypertarget{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3cab5e38affddd56ac8693c35fe87d3bd43}\label{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3cab5e38affddd56ac8693c35fe87d3bd43} 
+CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+STATE\+\_\+\+IDLE&Idle state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_SCN\_STATE\_PASSIVE@{CIOT\_BLE\_SCN\_STATE\_PASSIVE}!ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}}\index{ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}!CIOT\_BLE\_SCN\_STATE\_PASSIVE@{CIOT\_BLE\_SCN\_STATE\_PASSIVE}}}\Hypertarget{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca5cc9b57b36fc4add0d1468183936a625}\label{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca5cc9b57b36fc4add0d1468183936a625} 
+CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+STATE\+\_\+\+PASSIVE&Passive state \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CIOT\_BLE\_SCN\_STATE\_ACTIVE@{CIOT\_BLE\_SCN\_STATE\_ACTIVE}!ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}}\index{ciot\_ble\_scn\_types.h@{ciot\_ble\_scn\_types.h}!CIOT\_BLE\_SCN\_STATE\_ACTIVE@{CIOT\_BLE\_SCN\_STATE\_ACTIVE}}}\Hypertarget{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca580d5606561bd5a7bf6ece413c1d7216}\label{ciot__ble__scn__types_8h_a7c7da8f1c7400acef0666d271a0cae3ca580d5606561bd5a7bf6ece413c1d7216} 
+CIOT\+\_\+\+BLE\+\_\+\+SCN\+\_\+\+STATE\+\_\+\+ACTIVE&Active state \\
+\hline
+
+\end{DoxyEnumFields}

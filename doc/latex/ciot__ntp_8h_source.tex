@@ -1,0 +1,43 @@
+\doxysection{ciot\+\_\+ntp.\+h}
+\hypertarget{ciot__ntp_8h_source}{}\label{ciot__ntp_8h_source}\index{include/ciot\_ntp.h@{include/ciot\_ntp.h}}
+\mbox{\hyperlink{ciot__ntp_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_NTP\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_NTP\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__ntp__types_8h}{types/ciot\_ntp\_types.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__iface_8h}{ciot\_iface.h}}"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ciot__err_8h}{ciot\_err.h}}"{}}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }ciot\_ntp\ *\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\_ntp\_t}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00031\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{structciot__msg__header__t}{ciot\_msg\_header\_t}}\ \mbox{\hyperlink{structciot__ntp__status__msg__t_ac82086f11a03c9e8ff189f5ca9c26f0f}{header}};\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{structciot__ntp__status__t}{ciot\_ntp\_status\_t}}\ \mbox{\hyperlink{structciot__ntp__status__msg__t_a95d5fa474c00a79ee883e78048ea7c4c}{status}};\ }
+\DoxyCodeLine{00034\ \}\ \mbox{\hyperlink{structciot__ntp__status__msg__t}{ciot\_ntp\_status\_msg\_t}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00042\ \mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\_ntp\_t}}\ \mbox{\hyperlink{ciot__ntp_8h_a21060aee75e3e21695cb1b47e9dbbea6}{ciot\_ntp\_new}}(\textcolor{keywordtype}{void}\ *handle);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00051\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__ntp_8h_ab2e49de0c8bc987fcbd6ff97912e9f21}{ciot\_ntp\_start}}(\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\_ntp\_t}}\ self,\ \mbox{\hyperlink{structciot__ntp__cfg__t}{ciot\_ntp\_cfg\_t}}\ *cfg);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00059\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__ntp_8h_a4c928f5a646bc368a33351c0508e5986}{ciot\_ntp\_stop}}(\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\_ntp\_t}}\ self);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00068\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__ntp_8h_aba2cd40d3a1923cc1c69ae0784bd6f79}{ciot\_ntp\_process\_req}}(\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\_ntp\_t}}\ self,\ \mbox{\hyperlink{structciot__ntp__req__t}{ciot\_ntp\_req\_t}}\ *req);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00078\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__ntp_8h_a1670e17032214d1a41e0381d2c5844ac}{ciot\_ntp\_send\_data}}(\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\_ntp\_t}}\ self,\ uint8\_t\ *data,\ \textcolor{keywordtype}{int}\ size);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00086\ \mbox{\hyperlink{ciot__err_8h_ad6378d4036e8a842176b2db8efb349c8}{ciot\_err\_t}}\ \mbox{\hyperlink{ciot__ntp_8h_abddacb943d084ba3d40cde58b1da45fc}{ciot\_ntp\_set}}(\mbox{\hyperlink{ciot__ntp_8h_ac7f8701cb756dab2bc3292c002d6da9e}{ciot\_ntp\_t}}\ ntp);}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00089\ \}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

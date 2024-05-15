@@ -1,0 +1,93 @@
+\doxysection{ciot\+\_\+gpio\+\_\+types.\+h}
+\hypertarget{ciot__gpio__types_8h_source}{}\label{ciot__gpio__types_8h_source}\index{include/types/ciot\_gpio\_types.h@{include/types/ciot\_gpio\_types.h}}
+\mbox{\hyperlink{ciot__gpio__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_GPIO\_TYPES\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_GPIO\_TYPES\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ac566dcf32b51c83a8f37164f23fc2cd9af69cfd9cebab632443f7ec571b22b8f1}{CIOT\_GPIO\_STATE\_ERR}}\ =\ -\/1,\ }
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ac566dcf32b51c83a8f37164f23fc2cd9a5af664ade1079acf3371a80d83b16e9a}{CIOT\_GPIO\_STATE\_LOW}},\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ac566dcf32b51c83a8f37164f23fc2cd9a3b10aa4077009f19e3a75077246f1df5}{CIOT\_GPIO\_STATE\_HIGH}}\ }
+\DoxyCodeLine{00028\ \}\ \mbox{\hyperlink{ciot__gpio__types_8h_ac566dcf32b51c83a8f37164f23fc2cd9}{ciot\_gpio\_state\_t}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_a86bf6bee2d4762a09459175504b9cc2daf32a90c97d64c9ec2a75ebdf92bfc629}{CIOT\_GPIO\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_a86bf6bee2d4762a09459175504b9cc2da591932f3178bc6c970e89e7e3d07dfff}{CIOT\_GPIO\_REQ\_CONFIG}},\ }
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_a86bf6bee2d4762a09459175504b9cc2da3717eef4db07663dddac4d766597e985}{CIOT\_GPIO\_REQ\_SET\_STATE}},\ }
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_a86bf6bee2d4762a09459175504b9cc2dabf5ffe4d1ff61a6e18e024b7000933ca}{CIOT\_GPIO\_REQ\_GET\_STATE}}\ }
+\DoxyCodeLine{00039\ \}\ \mbox{\hyperlink{ciot__gpio__types_8h_a86bf6bee2d4762a09459175504b9cc2d}{ciot\_gpio\_req\_type\_t}};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00045\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ad768bc05ac4cc4639fe4cb7b8ab52c71a0201638f1798ffea9b8f9b091c443768}{CIOT\_GPIO\_MODE\_DIABLED}},\ }
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ad768bc05ac4cc4639fe4cb7b8ab52c71a5dc50aace0aa33de279a2f1ac471a630}{CIOT\_GPIO\_MODE\_INPUT}},\ }
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ad768bc05ac4cc4639fe4cb7b8ab52c71a4bbdd6e15ba0de21024a2db0c9330b32}{CIOT\_GPIO\_MODE\_OUTPUT}}\ }
+\DoxyCodeLine{00049\ \}\ \mbox{\hyperlink{ciot__gpio__types_8h_ad768bc05ac4cc4639fe4cb7b8ab52c71}{ciot\_gpio\_mode\_t}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00054\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ae4bc515fbd35a99c9107751c09e69dfeaa6266ad862e3d90fcc7467f103417b95}{CIOT\_GPIO\_PULL\_DISABLED}},\ }
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ae4bc515fbd35a99c9107751c09e69dfeaf9207baa17fdde6ffa3b6bd58a1ec754}{CIOT\_GPIO\_PULLUP}},\ }
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ae4bc515fbd35a99c9107751c09e69dfeab6c8129e2821fea62d640964f7266c43}{CIOT\_GPIO\_PULLDOWN}}\ }
+\DoxyCodeLine{00059\ \}\ \mbox{\hyperlink{ciot__gpio__types_8h_ae4bc515fbd35a99c9107751c09e69dfe}{ciot\_gpio\_pull\_mode\_t}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ uint64\_t\ \mbox{\hyperlink{structciot__gpio__cfg__t_a3feeb7044549691a36c39cc7c9b2ed2c}{pin\_mask}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ad768bc05ac4cc4639fe4cb7b8ab52c71}{ciot\_gpio\_mode\_t}}\ \mbox{\hyperlink{structciot__gpio__cfg__t_a7d76e224ede8a4fa709cc3a505a81975}{mode}};\ }
+\DoxyCodeLine{00068\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ae4bc515fbd35a99c9107751c09e69dfe}{ciot\_gpio\_pull\_mode\_t}}\ \mbox{\hyperlink{structciot__gpio__cfg__t_a5ee68c0e31fa06f342fad371023bdc4e}{pull}};\ }
+\DoxyCodeLine{00069\ \}\ \mbox{\hyperlink{structciot__gpio__cfg__t}{ciot\_gpio\_cfg\_t}};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00075\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ uint64\_t\ \mbox{\hyperlink{structciot__gpio__status__t_af557caa253a733e218e1e71c2a91eef4}{status\_mask}};\ }
+\DoxyCodeLine{00077\ \}\ \mbox{\hyperlink{structciot__gpio__status__t}{ciot\_gpio\_status\_t}};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00083\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structciot__gpio__state__info__t_a7beea8f6745c478347f244cadef771c2}{num}};\ }
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_ac566dcf32b51c83a8f37164f23fc2cd9}{ciot\_gpio\_state\_t}}\ \mbox{\hyperlink{structciot__gpio__state__info__t_a939fe9a85b37a0ce4a0701b655c799ea}{state}};\ }
+\DoxyCodeLine{00086\ \}\ \mbox{\hyperlink{structciot__gpio__state__info__t}{ciot\_gpio\_state\_info\_t}};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structciot__gpio__req__get__state__t_a7beea8f6745c478347f244cadef771c2}{num}};\ }
+\DoxyCodeLine{00094\ \}\ \mbox{\hyperlink{structciot__gpio__req__get__state__t}{ciot\_gpio\_req\_get\_state\_t}};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00099\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00100\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \mbox{\hyperlink{structciot__gpio__cfg__t}{ciot\_gpio\_cfg\_t}}\ \mbox{\hyperlink{unionciot__gpio__req__data__u_a15039efacca36cdba57c2ccf7b0a3d4f}{config}};\ }
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{structciot__gpio__state__info__t}{ciot\_gpio\_state\_info\_t}}\ \mbox{\hyperlink{unionciot__gpio__req__data__u_a5cc92c2a01be84c116055f80d77e5140}{set\_state}};\ }
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{structciot__gpio__req__get__state__t}{ciot\_gpio\_req\_get\_state\_t}}\ \mbox{\hyperlink{unionciot__gpio__req__data__u_a93559a0f91d62042000a3276dc457506}{get\_state}};\ }
+\DoxyCodeLine{00104\ \}\ \mbox{\hyperlink{unionciot__gpio__req__data__u}{ciot\_gpio\_req\_data\_u}};}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00109\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00110\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{ciot__gpio__types_8h_a86bf6bee2d4762a09459175504b9cc2d}{ciot\_gpio\_req\_type\_t}}\ \mbox{\hyperlink{structciot__gpio__req__t_ab949dccfc732240972d8a27cf46f3e76}{type}};\ }
+\DoxyCodeLine{00112\ \ \ \ \ \mbox{\hyperlink{unionciot__gpio__req__data__u}{ciot\_gpio\_req\_data\_u}}\ \mbox{\hyperlink{structciot__gpio__req__t_a8742485122a2b9e44392d5d51ddc2076}{data}};\ }
+\DoxyCodeLine{00113\ \}\ \mbox{\hyperlink{structciot__gpio__req__t}{ciot\_gpio\_req\_t}};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00119\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \mbox{\hyperlink{structciot__gpio__cfg__t}{ciot\_gpio\_cfg\_t}}\ \mbox{\hyperlink{unionciot__gpio__data__u_a15039efacca36cdba57c2ccf7b0a3d4f}{config}};\ }
+\DoxyCodeLine{00121\ \ \ \ \ \mbox{\hyperlink{structciot__gpio__status__t}{ciot\_gpio\_status\_t}}\ \mbox{\hyperlink{unionciot__gpio__data__u_af7b93aeb68c1648ccb2617ff8217e7b0}{status}};\ }
+\DoxyCodeLine{00122\ \ \ \ \ \mbox{\hyperlink{structciot__gpio__req__t}{ciot\_gpio\_req\_t}}\ \mbox{\hyperlink{unionciot__gpio__data__u_ac3fb50fe28f5e2ea50c6f662aa19beca}{request}};\ }
+\DoxyCodeLine{00123\ \}\ \mbox{\hyperlink{unionciot__gpio__data__u}{ciot\_gpio\_data\_u}};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00126\ \}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

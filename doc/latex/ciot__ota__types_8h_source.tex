@@ -1,0 +1,78 @@
+\doxysection{ciot\+\_\+ota\+\_\+types.\+h}
+\hypertarget{ciot__ota__types_8h_source}{}\label{ciot__ota__types_8h_source}\index{include/types/ciot\_ota\_types.h@{include/types/ciot\_ota\_types.h}}
+\mbox{\hyperlink{ciot__ota__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_\_CIOT\_OTA\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_\_CIOT\_OTA\_DATA\_\_H\_\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00015\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <inttypes.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a153fe0b4a80fd5556f1f7b6bd2bacfa9}{CIOT\_OTA\_STATE\_ERROR}}\ =\ -\/1,\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ad7642fe395ae6f6881ba24403ff160d6}{CIOT\_OTA\_STATE\_IDLE}},\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0080d95556253115e20c3731a15be120}{CIOT\_OTA\_STATE\_INIT}},\ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15ac82f16265153f90a54472489c2bb3558}{CIOT\_OTA\_STATE\_IN\_PROGRESS}},\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a8d449f644ab603947f86e4307102565e}{CIOT\_OTA\_STATE\_START}},\ }
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a0a9339130c6c470f7c4fd9a608b4400c}{CIOT\_OTA\_STATE\_CONNECTED}},\ }
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a89eb2a71799c2f2f6285eb22c373df0a}{CIOT\_OTA\_STATE\_CHECKING\_DATA}},\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a328e1c668f670a807f03d1c8fab8476d}{CIOT\_OTA\_STATE\_DECRYPTING}},\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a444e12a3d7b6bd961907a3012640918b}{CIOT\_OTA\_STATE\_FLASHING}},\ }
+\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a073d84c91e1a42ee2ef9de54b1016ea7}{CIOT\_OTA\_STATE\_UPDATE\_BOOT\_PARTITION}},\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15a1a1a9c966f7c58260168ad25244adfc9}{CIOT\_OTA\_STATE\_DONE}},\ }
+\DoxyCodeLine{00037\ \}\ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15}{ciot\_ota\_state\_t}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \_\_attribute\_\_((packed))}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aefbe0949eb768e9bd3e9038282b3c896}{CIOT\_OTA\_REQ\_UNKNOWN}},\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20aded6cefc8280f134660da5d38911c916}{CIOT\_OTA\_REQ\_ROLLBACK}},\ }
+\DoxyCodeLine{00046\ \}\ \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20}{ciot\_ota\_req\_type\_t}};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{char}\ url[128];\ }
+\DoxyCodeLine{00054\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ota__cfg__t_a268d99c2d888dd67e8ea77d3be0a5021}{force}}\ :1;\ }
+\DoxyCodeLine{00055\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ota__cfg__t_afe60ab2756fb1ea1c1de6f3ec6dbea98}{encrypted}}\ :1;\ }
+\DoxyCodeLine{00056\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ota__cfg__t_a63de528fa8d98b79adfe7f9f68880c17}{restart}}\ :1;\ }
+\DoxyCodeLine{00057\ \ \ \ \ uint8\_t\ \mbox{\hyperlink{structciot__ota__cfg__t_acb7bc06bed6f6408d719334fc41698c7}{reserved}}\ :5;\ }
+\DoxyCodeLine{00058\ \}\ \mbox{\hyperlink{structciot__ota__cfg__t}{ciot\_ota\_cfg\_t}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_a50dd94be7278926fa9490e0209fe3a15}{ciot\_ota\_state\_t}}\ \mbox{\hyperlink{structciot__ota__status__t_a796f1aeb4c800b653ee018b20c818804}{state}};\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structciot__ota__status__t_a11614f44ef4d939bdd984953346a7572}{error}};\ }
+\DoxyCodeLine{00067\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structciot__ota__status__t_a42539ea8650b094f66be7a689243c5ef}{image\_size}};\ }
+\DoxyCodeLine{00068\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structciot__ota__status__t_a990d41db67b3605c9184428e72edcea1}{image\_read}};\ }
+\DoxyCodeLine{00069\ \}\ \mbox{\hyperlink{structciot__ota__status__t}{ciot\_ota\_status\_t}};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00074\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00075\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{comment}{/*\ No\ specific\ request\ data\ defined\ */}}
+\DoxyCodeLine{00077\ \}\ \mbox{\hyperlink{unionciot__ota__req__data__u}{ciot\_ota\_req\_data\_u}};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00082\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00083\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{ciot__ota__types_8h_ae4c439b857456a91d723985a8f600c20}{ciot\_ota\_req\_type\_t}}\ \mbox{\hyperlink{structciot__ota__req__t_a19605616d62f4ee24f6aefb6c34480e2}{type}};\ }
+\DoxyCodeLine{00085\ \ \ \ \ \mbox{\hyperlink{unionciot__ota__req__data__u}{ciot\_ota\_req\_data\_u}}\ \mbox{\hyperlink{structciot__ota__req__t_a77dc06e65f4b0aed4a3f44e1b6a32aa0}{data}};\ }
+\DoxyCodeLine{00086\ \}\ \mbox{\hyperlink{structciot__ota__req__t}{ciot\_ota\_req\_t}};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }\_\_attribute\_\_((packed))}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{structciot__ota__cfg__t}{ciot\_ota\_cfg\_t}}\ \mbox{\hyperlink{unionciot__ota__data__u_a62fb934187d712f56dc1289eda8f8cac}{config}};\ }
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{structciot__ota__status__t}{ciot\_ota\_status\_t}}\ \mbox{\hyperlink{unionciot__ota__data__u_a86de670b32fc6ad5c7a44fefb41e6e3a}{status}};\ }
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{structciot__ota__req__t}{ciot\_ota\_req\_t}}\ \mbox{\hyperlink{unionciot__ota__data__u_a4e22c6ea4c9d8fad6bbd0d3894c82627}{request}};\ }
+\DoxyCodeLine{00096\ \}\ \mbox{\hyperlink{unionciot__ota__data__u}{ciot\_ota\_data\_u}};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00099\ \}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}
