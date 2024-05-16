@@ -97,9 +97,12 @@ $(function(){initNavTree('ciot_8h.html',''); initResizable(); });
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">ciot.h File Reference</div></div>
+  <div class="headertitle"><div class="title">ciot.h File Reference<div class="ingroups"><a class="el" href="group__core.html">Core</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Header file for the CIOT core instance.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="ciot__err_8h_source.html">ciot_err.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ciot__iface_8h_source.html">ciot_iface.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ciot__storage_8h_source.html">ciot_storage.h</a>&quot;</code><br />
@@ -116,6 +119,7 @@ Data Structures</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a69a23dd0ffa7b32ceaa106938030c108" id="r_a69a23dd0ffa7b32ceaa106938030c108"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69a23dd0ffa7b32ceaa106938030c108">CIOT_IFACE_CFG_FILENAME</a>&#160;&#160;&#160;&quot;cfg%d.dat&quot;</td></tr>
+<tr class="memdesc:a69a23dd0ffa7b32ceaa106938030c108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default iface config filename. d will be replaced by iface id.  <br /></td></tr>
 <tr class="separator:a69a23dd0ffa7b32ceaa106938030c108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06001434900c2b315cf793e5356f2836" id="r_a06001434900c2b315cf793e5356f2836"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06001434900c2b315cf793e5356f2836">CIOT_HANDLE</a>&#160;&#160;&#160;NULL</td></tr>
 <tr class="separator:a06001434900c2b315cf793e5356f2836"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,7 +160,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a27c376712b0d3594c545846834d24d25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the CIOT network task.  <br /></td></tr>
 <tr class="separator:a27c376712b0d3594c545846834d24d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Header file for the CIOT core instance. </p>
+<p>An CIoT instance can be used to manager other interfaces. All interfaces added to an CIoT instance can interact with each other. The CIoT instance is responsible for intercept the requests messages sended by an sender interface, and redirect it to another target interface. In addition, the requests results are also intercepted and sent as a response to the interface that sent the request.</p>
+<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023-10-10 </dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Your Name </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a06001434900c2b315cf793e5356f2836" name="a06001434900c2b315cf793e5356f2836"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a06001434900c2b315cf793e5356f2836">&#9670;&#160;</a></span>CIOT_HANDLE</h2>
 
@@ -182,6 +193,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Default iface config filename. d will be replaced by iface id. </p>
 
 </div>
 </div>

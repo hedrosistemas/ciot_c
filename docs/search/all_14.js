@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['wifi_0',['wifi',['../structciot__ifaces.html#a688b2e35a1af524849eab17acfc86317',1,'ciot_ifaces::wifi'],['../unionciot__msg__data__u.html#ac06a3086376da2d8a84120762824336c',1,'ciot_msg_data_u::wifi'],['../structciot__sys__hw__features__t.html#abf7485e5a2b2214d69dd780eddc62f39',1,'ciot_sys_hw_features_t::wifi']]],
-  ['window_1',['window',['../structciot__ble__scn__cfg__t.html#a6b307b5083cf92aca29549d780b44bd5',1,'ciot_ble_scn_cfg_t']]]
+  ['value_0',['value',['../structciot__httpc__req__set__header__t.html#a82c2b14036a5b80ae9b5a4a6e2812a44',1,'ciot_httpc_req_set_header_t::value'],['../struct___ciot_____http_client_req_set_header.html#a4e9aec275e566b978a3ccb4e043d8c61',1,'_Ciot__HttpClientReqSetHeader::value']]],
+  ['version_1',['version',['../structciot__info__t.html#a857436941aa8d7df5abfa34bcd054d35',1,'ciot_info_t::version'],['../struct___ciot_____ciot_info.html#ad4e0271e1bb3881789940c7e70c9a774',1,'_Ciot__CiotInfo::version']]]
 ];
