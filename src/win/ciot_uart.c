@@ -1,6 +1,6 @@
 /**
  * @file ciot_uart.c
- * @author your name (you@domain.com)
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief 
  * @version 0.1
  * @date 2023-10-30
@@ -132,6 +132,7 @@ ciot_err_t ciot_uart_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 ciot_err_t ciot_uart_set_bridge_mode(ciot_uart_t self, bool mode)
 {
     CIOT_NULL_CHECK(self);
+    self->uart.cfg.bridge_mode = mode;
     return ciot_s_set_bridge_mode(self->uart.s, mode);
 }
 

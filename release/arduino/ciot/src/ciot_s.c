@@ -1,6 +1,6 @@
 /**
  * @file ciot_s.c
- * @author your name (you@domain.com)
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief Module to parse serial messages from uart, SPI, I2C, BLE, etc
  * @version 0.1
  * @date 2023-10-09

@@ -1,6 +1,6 @@
 /**
  * @file main.c
- * @author your name (you@domain.com)
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief
  * @version 0.1
  * @date 2024-04-22
@@ -81,10 +81,11 @@ int app_main(void)
 
     ciot_nrf_dfu_cfg_t dfu_cfg = {
         .dfu.type = DFU_TYPE,
-        .max_package_len = DFU_MAX_PACKAGE_LEN};
+        .max_package_len = DFU_MAX_PACKAGE_LEN,
+        .iface = (ciot_iface_t*)self.uart};
     CIOT_ERROR_RETURN(ciot_nrf_dfu_read_file(&dfu_cfg.init_packet, DFU_INIT_PACKET_FILE));
     CIOT_ERROR_RETURN(ciot_nrf_dfu_read_file(&dfu_cfg.app_image, DFU_APP_IMAGE_FILE));
-    self.dfu = ciot_nrf_dfu_new(&dfu_cfg, (ciot_iface_t*)self.uart);
+    self.dfu = ciot_nrf_dfu_new(&dfu_cfg);
     ciot_nrf_dfu_start(self.dfu, &dfu_cfg.dfu);
 
     ciot_iface_register_event((ciot_iface_t *)self.uart, uart_event_handler, &self);

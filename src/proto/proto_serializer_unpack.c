@@ -1,6 +1,6 @@
 /**
  * @file proto_serializer_unpack.c
- * @author your name (you@domain.com)
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief 
  * @version 0.1
  * @date 2024-02-28

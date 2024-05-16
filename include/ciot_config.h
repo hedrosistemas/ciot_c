@@ -1,12 +1,10 @@
 /**
  * @file ciot_config.h
- * @author your name (you@domain.com)
- * @brief
+ * @brief Configuration options for the CIOT library.
  * @version 0.1
  * @date 2023-10-09
- *
+ * @author Wesley Santos (wesleypro37@gmail.com)
  * @copyright Copyright (c) 2023
- *
  */
 
 #ifndef __CIOT_CONFIG__H__
@@ -37,29 +35,29 @@
 
 #warning "ciot_custom_config.h not found. Using default configuration. Create a ciot_custom_config.h file to customize the ciot lib configurations."
 
-#define CIOT_CONFIG_LOG_LEVEL CIOT_LOG_LEVEL_INFO
-#define CIOT_CONFIG_APP_VER 0, 3, 0
-#define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD"
+#define CIOT_CONFIG_LOG_LEVEL CIOT_LOG_LEVEL_INFO /**< Default log level */
+#define CIOT_CONFIG_APP_VER 0, 3, 0 /**< Default app version*/
+#define CIOT_CONFIG_HARDWARE_NAME "CIOT BOARD" /**< Default hardware name*/
 
-#define CIOT_CONFIG_FEATURE_STORAGE 1  ///!< Enable Storage
-#define CIOT_CONFIG_FEATURE_SYSTEM 1   ///!< Enable System
-#define CIOT_CONFIG_FEATURE_UART 1     ///!< Enable UART
-#define CIOT_CONFIG_FEATURE_USB 0      ///!< Enable USB
-#define CIOT_CONFIG_FEATURE_BLE_SCN 1  ///!< Enable Bluetooth Low Energy Scanner
-#define CIOT_CONFIG_FEATURE_ETHERNET 1 ///!< Enable Ethernet
-#define CIOT_CONFIG_FEATURE_WIFI 1     ///!< Enable WiFi
-#define CIOT_CONFIG_FEATURE_NTP 1      ///!< Enable NTP
-#define CIOT_CONFIG_FEATURE_OTA 1      ///!< Enable OTA
-#define CIOT_CONFIG_FEATURE_DFU 1      ///!< Enable DFU
-#define CIOT_CONFIG_FEATURE_HTTPS 1    ///!< Enable HTTP Server
-#define CIOT_CONFIG_FEATURE_HTTPC 1    ///!< Enable HTTP Client
-#define CIOT_CONFIG_FEATURE_MQTTC 1    ///!< Enable MQTT Client
-#define CIOT_CONFIG_FEATURE_TIMER 1    ///!< Enable system timer
-#define CIOT_CONFIG_FEATURE_BRIDGE 1   ///!< Enable Bridge Implementation
-#define CIOT_CONFIG_FEATURE_SERIALIZER 0    ///!< Enable serializer
+#define CIOT_CONFIG_FEATURE_STORAGE 1    /**< Enable Storage */
+#define CIOT_CONFIG_FEATURE_SYSTEM 1     /**< Enable System */
+#define CIOT_CONFIG_FEATURE_UART 1       /**< Enable UART */
+#define CIOT_CONFIG_FEATURE_USB 0        /**< Enable USB */
+#define CIOT_CONFIG_FEATURE_BLE_SCN 1    /**< Enable Bluetooth Low Energy Scanner */
+#define CIOT_CONFIG_FEATURE_ETHERNET 1   /**< Enable Ethernet */
+#define CIOT_CONFIG_FEATURE_WIFI 1       /**< Enable WiFi */
+#define CIOT_CONFIG_FEATURE_NTP 1        /**< Enable NTP */
+#define CIOT_CONFIG_FEATURE_OTA 1        /**< Enable OTA */
+#define CIOT_CONFIG_FEATURE_DFU 1        /**< Enable DFU */
+#define CIOT_CONFIG_FEATURE_HTTPS 1      /**< Enable HTTP Server */
+#define CIOT_CONFIG_FEATURE_HTTPC 1      /**< Enable HTTP Client */
+#define CIOT_CONFIG_FEATURE_MQTTC 1      /**< Enable MQTT Client */
+#define CIOT_CONFIG_FEATURE_TIMER 1      /**< Enable system timer */
+#define CIOT_CONFIG_FEATURE_BRIDGE 1     /**< Enable Bridge Implementation */
+#define CIOT_CONFIG_FEATURE_SERIALIZER 0  /**< Enable serializer */
 
-#define CIOT_CONFIG_MESSAGE_LEN 330            ///!< CIOT expected message size
-#define CIOT_CONFIG_MESSAGE_PAYLOAD_LEN 256    ///!< CIOT message payload size
+#define CIOT_CONFIG_MESSAGE_LEN 330              /**< CIOT expected message size */
+#define CIOT_CONFIG_MESSAGE_PAYLOAD_LEN 256      /**< CIOT message payload size */
 
 #endif //__has_include("ciot_custom_config.h")
 
