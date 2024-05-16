@@ -98,14 +98,7 @@ $(function(){initNavTree('index.html',''); initResizable(); });
 <div class="textblock"><dl class="section author"><dt>Authors</dt><dd>Wesley José Santos</dd></dl>
 <h1><a class="anchor" id="intro"></a>
 Introduction</h1>
-<p>This is the documentation for Connected IoT (CIOT). CIoT is a library created to facilitate the implementation of IoT devices. This document describes how to use CIoT APIs. This library is based on interfaces implementations. Each interface have it own tyes. CIoT implementations are divided in four topics:</p><ul>
-<li>Core: CIoT core implementation</li>
-<li>Hardware types: types related to hardware abstraction interfaces</li>
-<li>Hardware interfaces: interfaces that represents a hardware abstraction</li>
-<li>Software types: types related to software abstraction interfaces</li>
-<li>Software interfaces: interfaces that represents a software abstraction</li>
-<li>Utils: auxilliary implementations like encoding/decondig, serialization/deserialization, math operations, timers, etc. </li>
-</ul>
+<p>This is the documentation for Connected IoT (CIOT). CIoT is a library created to facilitate the implementation of IoT devices. This document describes how to use CIoT APIs. The CIoT source code is based on interfaces implementations. Each interface have it own types. CIoT implementations are divided in some <a href="topics.html">topics</a> to better organize the code. </p>
 <p>Each interface implementation follow an general common abstraction defined by the CIoT Core. An interface header file must implement the following methods:</p><ul>
 <li>ciot_iface_new(handle): Create a new interface instance</li>
 <li>ciot_iface_start(self, cfg): Start the interface using the specified configuration</li>
@@ -116,7 +109,7 @@ Introduction</h1>
 </ul>
 <h1><a class="anchor" id="notes"></a>
 Release notes</h1>
-<p>This software is under development. Use at your own risk. </p><hr  />
+<p>This software is under development. Release notes will be provided on first official release. </p><hr  />
  <h1><a class="anchor" id="requirements"></a>
 Requirements</h1>
 <pre class="fragment">- Mingw32 for Windows

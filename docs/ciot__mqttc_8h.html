@@ -97,7 +97,7 @@ $(function(){initNavTree('ciot__mqttc_8h.html',''); initResizable(); });
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">ciot_mqttc.h File Reference<div class="ingroups"><a class="el" href="group__software__interfaces.html">Software_interfaces</a></div></div></div>
+  <div class="headertitle"><div class="title">ciot_mqttc.h File Reference<div class="ingroups"><a class="el" href="group__software__interfaces.html">Software Interfaces</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -159,6 +159,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ad7bcb714dbb489d3b8508cb7acf72b27" id="r_ad7bcb714dbb489d3b8508cb7acf72b27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7bcb714dbb489d3b8508cb7acf72b27">ciot_mqttc_reset_data_rate</a> (<a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a> self)</td></tr>
 <tr class="memdesc:ad7bcb714dbb489d3b8508cb7acf72b27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the data rate for the MQTT client.  <br /></td></tr>
 <tr class="separator:ad7bcb714dbb489d3b8508cb7acf72b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a9952914402dd68998f7be738773630" id="r_a0a9952914402dd68998f7be738773630"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a9952914402dd68998f7be738773630">ciot_mqttc_get_topics</a> (<a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a> self, <a class="el" href="structciot__mqttc__topics__cfg__t.html">ciot_mqttc_topics_cfg_t</a> *topics)</td></tr>
+<tr class="memdesc:a0a9952914402dd68998f7be738773630"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the configured MQTT topics.  <br /></td></tr>
+<tr class="separator:a0a9952914402dd68998f7be738773630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a903b3f4cfb5564dff5e3dabed0d948ff" id="r_a903b3f4cfb5564dff5e3dabed0d948ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a903b3f4cfb5564dff5e3dabed0d948ff">ciot_mqttc_set_topics</a> (<a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a> self, <a class="el" href="structciot__mqttc__topics__cfg__t.html">ciot_mqttc_topics_cfg_t</a> *topics)</td></tr>
+<tr class="memdesc:a903b3f4cfb5564dff5e3dabed0d948ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the MQTT topics configuration.  <br /></td></tr>
+<tr class="separator:a903b3f4cfb5564dff5e3dabed0d948ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81f0700b01cf7e7f49970768a8757a27" id="r_a81f0700b01cf7e7f49970768a8757a27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81f0700b01cf7e7f49970768a8757a27">ciot_mqttc_set_d2b_topic</a> (<a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a> self, char *topic)</td></tr>
+<tr class="memdesc:a81f0700b01cf7e7f49970768a8757a27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the device-to-backend MQTT topic.  <br /></td></tr>
+<tr class="separator:a81f0700b01cf7e7f49970768a8757a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78de770a07e4e1bc792ca9834ddeed2b" id="r_a78de770a07e4e1bc792ca9834ddeed2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78de770a07e4e1bc792ca9834ddeed2b">ciot_mqttc_set_b2d_topic</a> (<a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a> self, char *topic)</td></tr>
+<tr class="memdesc:a78de770a07e4e1bc792ca9834ddeed2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the backend-to-device MQTT topic.  <br /></td></tr>
+<tr class="separator:a78de770a07e4e1bc792ca9834ddeed2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file for CIOT MQTT client functionality. </p>
@@ -225,6 +237,37 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a0a9952914402dd68998f7be738773630" name="a0a9952914402dd68998f7be738773630"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a9952914402dd68998f7be738773630">&#9670;&#160;</a></span>ciot_mqttc_get_topics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a> ciot_mqttc_get_topics </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a></td>          <td class="paramname"><span class="paramname"><em>self</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structciot__mqttc__topics__cfg__t.html">ciot_mqttc_topics_cfg_t</a> *</td>          <td class="paramname"><span class="paramname"><em>topics</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the configured MQTT topics. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the CIOT MQTT client instance. </td></tr>
+    <tr><td class="paramname">topics</td><td>Pointer to the topics configuration structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Error code indicating success or failure. </dd></dl>
+
+</div>
+</div>
 <a id="aa6ac15e5f6cfb3346cff3247dd25c279" name="aa6ac15e5f6cfb3346cff3247dd25c279"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa6ac15e5f6cfb3346cff3247dd25c279">&#9670;&#160;</a></span>ciot_mqttc_new()</h2>
 
@@ -391,6 +434,99 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An error code indicating the status of the operation. </dd></dl>
+
+</div>
+</div>
+<a id="a78de770a07e4e1bc792ca9834ddeed2b" name="a78de770a07e4e1bc792ca9834ddeed2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78de770a07e4e1bc792ca9834ddeed2b">&#9670;&#160;</a></span>ciot_mqttc_set_b2d_topic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a> ciot_mqttc_set_b2d_topic </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a></td>          <td class="paramname"><span class="paramname"><em>self</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>topic</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the backend-to-device MQTT topic. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the CIOT MQTT client instance. </td></tr>
+    <tr><td class="paramname">topic</td><td>Topic for backend-to-device communication. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Error code indicating success or failure. </dd></dl>
+
+</div>
+</div>
+<a id="a81f0700b01cf7e7f49970768a8757a27" name="a81f0700b01cf7e7f49970768a8757a27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81f0700b01cf7e7f49970768a8757a27">&#9670;&#160;</a></span>ciot_mqttc_set_d2b_topic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a> ciot_mqttc_set_d2b_topic </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a></td>          <td class="paramname"><span class="paramname"><em>self</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>topic</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the device-to-backend MQTT topic. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the CIOT MQTT client instance. </td></tr>
+    <tr><td class="paramname">topic</td><td>Topic for device-to-backend communication. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Error code indicating success or failure. </dd></dl>
+
+</div>
+</div>
+<a id="a903b3f4cfb5564dff5e3dabed0d948ff" name="a903b3f4cfb5564dff5e3dabed0d948ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a903b3f4cfb5564dff5e3dabed0d948ff">&#9670;&#160;</a></span>ciot_mqttc_set_topics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a> ciot_mqttc_set_topics </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a1952c9049b9ddd9b40368e332dec8374">ciot_mqttc_t</a></td>          <td class="paramname"><span class="paramname"><em>self</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structciot__mqttc__topics__cfg__t.html">ciot_mqttc_topics_cfg_t</a> *</td>          <td class="paramname"><span class="paramname"><em>topics</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the MQTT topics configuration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>Pointer to the CIOT MQTT client instance. </td></tr>
+    <tr><td class="paramname">topics</td><td>Pointer to the topics configuration structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Error code indicating success or failure. </dd></dl>
 
 </div>
 </div>

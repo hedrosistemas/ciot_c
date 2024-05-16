@@ -1,15 +1,11 @@
 var searchData=
 [
-  ['b2d_0',['b2d',['../structciot__mqttc__topics__cfg__t.html#a7e49cda0ef28302730e05911cb7a9d3c',1,'ciot_mqttc_topics_cfg_t']]],
-  ['base_1',['base',['../structciot__iface.html#a853cb7e7d6095705dfa3c0cef66ec736',1,'ciot_iface']]],
-  ['baud_5frate_2',['baud_rate',['../structciot__uart__cfg__t.html#a148f33bbcda8087a77d8ba30f7e3c502',1,'ciot_uart_cfg_t']]],
-  ['ble_3',['ble',['../structciot__ifaces.html#ae23a932dbacce6377227a4654618111e',1,'ciot_ifaces::ble'],['../unionciot__msg__data__u.html#a8c90dd3961baa84d90870ce1f180006d',1,'ciot_msg_data_u::ble']]],
-  ['ble_5fscn_4',['ble_scn',['../structciot__ifaces.html#abac8466359f1900dd232e80aaa8f8069',1,'ciot_ifaces::ble_scn'],['../unionciot__msg__data__u.html#a30ef17c042c5a942dc6491370179966c',1,'ciot_msg_data_u::ble_scn'],['../structciot__sys__hw__features__t.html#a3541968d9c0a8b544893692fb34cfdee',1,'ciot_sys_hw_features_t::ble_scn']]],
-  ['body_5',['body',['../structciot__httpc__req__send__t.html#afc1b0964d9fa89030c055cbc08315c58',1,'ciot_httpc_req_send_t::body'],['../structciot__httpc__event__data.html#ac824ce50cc96c6354577281b657d14b6',1,'ciot_httpc_event_data::body'],['../structciot__https__event__data.html#ac824ce50cc96c6354577281b657d14b6',1,'ciot_https_event_data::body']]],
-  ['bridge_6',['bridge',['../structciot__ifaces.html#ab80591df7743604e3f3961fc9c52b0e3',1,'ciot_ifaces::bridge'],['../unionciot__msg__data__u.html#a2f12825330d395d82f01240cf84e6328',1,'ciot_msg_data_u::bridge']]],
-  ['bridge_5fmode_7',['bridge_mode',['../structciot__s__cfg.html#a4e8946f8a10777bc88814da1c657815c',1,'ciot_s_cfg::bridge_mode'],['../structciot__uart__cfg__t.html#a7550d74d56b36307b64a75f5d4eb8dad',1,'ciot_uart_cfg_t::bridge_mode'],['../structciot__usb__cfg__t.html#a4e8946f8a10777bc88814da1c657815c',1,'ciot_usb_cfg_t::bridge_mode']]],
-  ['brigde_5fmode_8',['brigde_mode',['../structciot__ble__scn__cfg__t.html#ad44fdec90acd6e513033d8af6d0a7774',1,'ciot_ble_scn_cfg_t']]],
-  ['bssid_9',['bssid',['../structciot__wifi__ap__info__t.html#a19c52baafe5797c359c5e0f5776499d7',1,'ciot_wifi_ap_info_t']]],
-  ['buffer_5flen_10',['buffer_len',['../structciot__slip__t.html#a899cec1e08bcfa497396baa3584d18e1',1,'ciot_slip_t']]],
-  ['bytes_5fto_5fhex_11',['bytes_to_hex',['../ciot__utils_8h.html#aa302b5f9f162b83148b624c132ff56a6',1,'ciot_utils.h']]]
+  ['active_0',['active',['../structciot__ble__scn__cfg__t.html#a05c940dbc220f5a723afd70071aebff8',1,'ciot_ble_scn_cfg_t::active'],['../struct___ciot_____ble_scn_cfg.html#aa6c8e55b3e40a63e21344114dccab37a',1,'_Ciot__BleScnCfg::active']]],
+  ['add_5fnode_1',['add_node',['../unionciot__opcuas__req__data__u.html#a79aa371ccd92a505f5c26dcd8218a131',1,'ciot_opcuas_req_data_u']]],
+  ['address_2',['address',['../structciot__https__cfg__t.html#aaf2deef29cfe3fe5b18f00f49ff23d42',1,'ciot_https_cfg_t::address'],['../struct___ciot_____http_server_cfg.html#a879a8cdf605d02f8af8b2e216b8764f2',1,'_Ciot__HttpServerCfg::address']]],
+  ['adv_5finfo_3',['adv_info',['../structciot__ble__scn__status__t.html#a9c267320c088f215b9649f93a8d955c1',1,'ciot_ble_scn_status_t::adv_info'],['../struct___ciot_____ble_scn_status.html#a8a04692b8fd523162865190dd3f3d3d1',1,'_Ciot__BleScnStatus::adv_info']]],
+  ['ap_5flist_4',['ap_list',['../structciot__wifi__scan__result__t.html#a1f0703f0199d2ac8ec80081ea898e0cf',1,'ciot_wifi_scan_result_t::ap_list'],['../struct___ciot_____wifi_scan_result.html#a93495df872a6ecc3cbc27a582e94de2f',1,'_Ciot__WifiScanResult::ap_list']]],
+  ['app_5fimage_5',['app_image',['../structciot__nrf__dfu__cfg.html#a22016a576f391282c8806fc79a64b1f2',1,'ciot_nrf_dfu_cfg']]],
+  ['app_5fver_6',['app_ver',['../structciot__sys__info__t.html#a33414ac5d16ad70f9ff7696f7922beec',1,'ciot_sys_info_t::app_ver'],['../struct___ciot_____sys_info.html#a5a44c76a38fb0e27d7a8e44ebe0c6cce',1,'_Ciot__SysInfo::app_ver']]],
+  ['authmode_7',['authmode',['../structciot__wifi__ap__info__t.html#a62cb83d5528e0d152b4e179fea395cab',1,'ciot_wifi_ap_info_t::authmode'],['../struct___ciot_____wifi_ap_info.html#a8f726730674c063c6075fb37107d5147',1,'_Ciot__WifiApInfo::authmode']]]
 ];

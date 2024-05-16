@@ -6,6 +6,7 @@ var unionciot__msg__data__u =
     [ "ciot", "unionciot__msg__data__u.html#afedab1afecebfb5eb8554e3b1b056502", null ],
     [ "dfu", "unionciot__msg__data__u.html#a818d9af5834bb69bdafd6513ae494405", null ],
     [ "error", "unionciot__msg__data__u.html#a460f5e2f775eebdacec0950914ab87a9", null ],
+    [ "eth", "unionciot__msg__data__u.html#a8ea9def968c9c5f2e3c05c7f689c2947", null ],
     [ "httpc", "unionciot__msg__data__u.html#a7d6cac53c9bf51f572908dc2a5b383f0", null ],
     [ "https", "unionciot__msg__data__u.html#a6a8bc746dffc95f0f7b3c468023e10ae", null ],
     [ "mqtt", "unionciot__msg__data__u.html#a57eed7a24887f5d1adba0df0ca8f29f5", null ],

@@ -9,14 +9,8 @@
 *
 * @section intro Introduction
 * This is the documentation for Connected IoT (CIOT). CIoT is a library created to facilitate the implementation of IoT devices.
-* This document describes how to use CIoT APIs. This library is based on interfaces implementations. Each interface have it own tyes.
-* CIoT implementations are divided in four topics:
-* - Core: CIoT core implementation
-* - Hardware types: types related to hardware abstraction interfaces
-* - Hardware interfaces: interfaces that represents a hardware abstraction
-* - Software types: types related to software abstraction interfaces
-* - Software interfaces: interfaces that represents a software abstraction
-* - Utils: auxilliary implementations like encoding/decondig, serialization/deserialization, math operations, timers, etc.
+* This document describes how to use CIoT APIs. The CIoT source code is based on interfaces implementations. Each interface have it own types.
+* CIoT implementations are divided in some <a href="topics.html">topics</a> to better organize the code.
 *<p> Each interface implementation follow an general common abstraction defined by the CIoT Core. An interface header file must implement the following methods:
 * - ciot_iface_new(handle): Create a new interface instance
 * - ciot_iface_start(self, cfg): Start the interface using the specified configuration
@@ -25,7 +19,7 @@
 * - ciot_iface_send_data(self, data, size): User the interface to send data
 * <hr>
 * @section notes Release notes
-* This software is under development. Use at your own risk.
+* This software is under development. Release notes will be provided on first official release.
 * <hr>
 * @section requirements Requirements
 * @verbatim 
