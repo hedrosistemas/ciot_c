@@ -15,6 +15,8 @@
 /**
  * @defgroup core CIoT Core
  * @brief The core of CIoT library
+ * @details The CIoT Core contains the implementation of main ciot module, the common abstraction used by the main ciot module
+ * to manager the application interfaces, and modules do handle errors and logger operations.
 */
 #include "ciot.h"
 #include "ciot_iface.h"
@@ -24,6 +26,12 @@
 /**
  * @defgroup hardware_types CIoT Hardware Types
  * @brief Types related to hardware abstraction interfaces
+ * @details The Hardware Types contains all types used to define the hardware interfaces common attributes like:
+ *  - config: interface configuration data
+ *  - status: interface status data
+ *  - request: interface request data
+ * Messages handled by the CIoT core, uses the types defined by CIoT Hardware Types to configure, get status information, 
+ * or process external requests.
  */
 #include "types/ciot_ble_types.h"
 #include "types/ciot_ble_scn_types.h"
@@ -38,6 +46,8 @@
 /**
  * @defgroup hardware_interfaces CIoT Hardware Interfaces
  * @brief Interfaces that represents a hardware abstraction
+ * @details Hardware interfaces can be used as an stand alone module, or can be registred in an CIoT instance. All 
+ * interfaces contains some commons methods to start, stop and process external requests.
  */
 #include "ciot_ble.h"
 #include "ciot_ble_scn.h"
@@ -52,6 +62,12 @@
 /**
  * @defgroup software_types CIoT Software Types
  * @brief Types related to software abstraction interfaces
+ * @details The Software Types contains all types used to define the software interfaces common attributes like:
+ *  - config: interface configuration data
+ *  - status: interface status data
+ *  - request: interface request data
+ * Messages handled by the CIoT core, uses the types defined by CIoT Software Types to configure, get status information, 
+ * or process external requests.
  */
 #include "types/ciot_bridge_types.h"
 #include "types/ciot_dfu_types.h"
@@ -66,6 +82,8 @@
 /**
  * @defgroup software_interfaces CIoT Software Interfaces
  * @brief Interfaces that represents a software abstraction
+ * @details Software interfaces can be used as an stand alone module, or can be registred in an CIoT instance. All 
+ * interfaces contains some commons methods to start, stop and process external requests.
  */
 #include "ciot_bridge.h"
 #include "ciot_dfu.h"
