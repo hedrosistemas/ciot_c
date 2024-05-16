@@ -1,5 +1,5 @@
 /**
- * @file proto_serializer_unpack.c
+ * @file ciot_serializer_pb_unpack.c
  * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief 
  * @version 0.1
@@ -14,7 +14,7 @@
 #include "ciot/proto/v1/msg.pb-c.h"
 #include "types/ciot_msg_types.h"
 
-// static const char *TAG = "proto_serializer_unpack";
+// static const char *TAG = "ciot_serializer_pb_unpack";
 
 int ciot_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack)
 {

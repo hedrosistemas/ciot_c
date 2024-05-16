@@ -1,5 +1,5 @@
 /**
- * @file proto_serializer.c
+ * @file ciot_serializer_pb.c
  * @author Wesley Santos (wesleypro37@gmail.com)
  * @brief 
  * @version 0.1
@@ -12,10 +12,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "proto_serializer.h"
+#include "ciot_serializer_pb.h"
 #include "ciot/proto/v1/msg.pb-c.h"
 
-static const char *TAG = "proto_serializer";
+static const char *TAG = "ciot_serializer_pb";
 
 int ciot_pack(Ciot__Msg *msg_pack, ciot_msg_t *msg, uint8_t *bytes);
 int ciot_storage_pack(Ciot__Msg *msg_pack, ciot_msg_t *msg, uint8_t *bytes);
@@ -51,16 +51,16 @@ int ciot_http_server_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack);
 int ciot_mqtt_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack);
 int ciot_bridge_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack);
 
-ciot_serializer_t proto_serializer_new(void)
+ciot_serializer_t ciot_serializer_pb_new(void)
 {
     ciot_serializer_t self = calloc(1, sizeof(struct ciot_serializer));
     self->type = CIOT_SERIALIZER_TYPE_PROTOBUF;
-    self->from_bytes = proto_serializer_from_bytes;
-    self->to_bytes = proto_serializer_to_bytes;
+    self->from_bytes = ciot_serializer_pb_from_bytes;
+    self->to_bytes = ciot_serializer_pb_to_bytes;
     return self;
 }
 
-int proto_serializer_to_bytes(uint8_t *bytes, ciot_msg_t *msg)
+int ciot_serializer_pb_to_bytes(uint8_t *bytes, ciot_msg_t *msg)
 {
     Ciot__Msg msg_pack = CIOT__MSG__INIT;
     Ciot__InterfaceInfo iface = CIOT__INTERFACE_INFO__INIT;
@@ -124,7 +124,7 @@ int proto_serializer_to_bytes(uint8_t *bytes, ciot_msg_t *msg)
     }
 }
 
-int proto_serializer_from_bytes(ciot_msg_t *msg, uint8_t *bytes, int size)
+int ciot_serializer_pb_from_bytes(ciot_msg_t *msg, uint8_t *bytes, int size)
 {
     Ciot__Msg *msg_pack = ciot__msg__unpack(NULL, size, bytes);
 
