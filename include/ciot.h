@@ -1,5 +1,5 @@
 /**
- * @file ciot_n.h
+ * @file ciot.h
  * @ingroup core
  * @brief Header file for the CIOT network module.
  * @version 0.1
