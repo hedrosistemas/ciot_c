@@ -8,5 +8,5 @@ var searchData=
   ['usb_2epb_2dc_2ec_5',['usb.pb-c.c',['../usb_8pb-c_8c.html',1,'']]],
   ['usb_2epb_2dc_2eh_6',['usb.pb-c.h',['../usb_8pb-c_8h.html',1,'']]],
   ['user_7',['user',['../structciot__mqttc__cfg__t.html#a40c9809e1d381340b5d342ef3a838715',1,'ciot_mqttc_cfg_t::user'],['../struct___ciot_____mqtt_client_cfg.html#a14871705f45ccdc5bb9f4549efd8e119',1,'_Ciot__MqttClientCfg::user']]],
-  ['utils_8',['Utils',['../group__utils.html',1,'']]]
+  ['utils_8',['CIoT Utils',['../group__utils.html',1,'']]]
 ];

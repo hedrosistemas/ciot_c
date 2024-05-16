@@ -25330,7 +25330,7 @@
   </compound>
   <compound kind="group">
     <name>core</name>
-    <title>Core</title>
+    <title>CIoT Core</title>
     <filename>group__core.html</filename>
     <file>ciot.h</file>
     <file>ciot_err.h</file>
@@ -25339,7 +25339,7 @@
   </compound>
   <compound kind="group">
     <name>hardware_types</name>
-    <title>Hardware Types</title>
+    <title>CIoT Hardware Types</title>
     <filename>group__hardware__types.html</filename>
     <file>ciot_ble_scn_types.h</file>
     <file>ciot_ble_types.h</file>
@@ -25352,7 +25352,7 @@
   </compound>
   <compound kind="group">
     <name>hardware_interfaces</name>
-    <title>Hardware Interfaces</title>
+    <title>CIoT Hardware Interfaces</title>
     <filename>group__hardware__interfaces.html</filename>
     <file>ciot_ble.h</file>
     <file>ciot_ble_scn.h</file>
@@ -25366,7 +25366,7 @@
   </compound>
   <compound kind="group">
     <name>software_types</name>
-    <title>Software Types</title>
+    <title>CIoT Software Types</title>
     <filename>group__software__types.html</filename>
     <file>ciot_bridge_types.h</file>
     <file>ciot_dfu_types.h</file>
@@ -25380,7 +25380,7 @@
   </compound>
   <compound kind="group">
     <name>software_interfaces</name>
-    <title>Software Interfaces</title>
+    <title>CIoT Software Interfaces</title>
     <filename>group__software__interfaces.html</filename>
     <file>ciot_bridge.h</file>
     <file>ciot_dfu.h</file>
@@ -25394,7 +25394,7 @@
   </compound>
   <compound kind="group">
     <name>utils</name>
-    <title>Utils</title>
+    <title>CIoT Utils</title>
     <filename>group__utils.html</filename>
     <file>ciot_s.h</file>
     <file>ciot_serializer.h</file>
@@ -25402,7 +25402,7 @@
   </compound>
   <compound kind="group">
     <name>serialization</name>
-    <title>Serialization</title>
+    <title>CIoT Serialization</title>
     <filename>group__serialization.html</filename>
     <file>ciot_serializer_pb.h</file>
   </compound>
