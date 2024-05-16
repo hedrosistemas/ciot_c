@@ -98,11 +98,11 @@ $(function(){initNavTree('ciot__s_8h.html',''); initResizable(); });
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">ciot_s.h File Reference<div class="ingroups"><a class="el" href="group__utils.html">Utils</a></div></div></div>
+  <div class="headertitle"><div class="title">ciot_s.h File Reference<div class="ingroups"><a class="el" href="group__utils.html">CIoT Utils</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Header file for CIOT_S (Communication Interface Over Transport) module.  
+<p>Header file for CIOT_S module.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;inttypes.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="ciot__err_8h_source.html">ciot_err.h</a>&quot;</code><br />
@@ -165,15 +165,15 @@ Functions</h2></td></tr>
 <tr class="memdesc:a00fdcbb4aebbad8f80bf1bf1e732a9cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send data using CIOT_S.  <br /></td></tr>
 <tr class="separator:a00fdcbb4aebbad8f80bf1bf1e732a9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d7f4cef42ccdb61d1ab7dd6adafc391" id="r_a4d7f4cef42ccdb61d1ab7dd6adafc391"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d7f4cef42ccdb61d1ab7dd6adafc391">ciot_s_process_byte</a> (<a class="el" href="#a4fb0c1250873e751db7adffc9620b776">ciot_s_t</a> self, uint8_t byte)</td></tr>
-<tr class="memdesc:a4d7f4cef42ccdb61d1ab7dd6adafc391"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process a byte received by CIOT_S.  <br /></td></tr>
+<tr class="memdesc:a4d7f4cef42ccdb61d1ab7dd6adafc391"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process a byte.  <br /></td></tr>
 <tr class="separator:a4d7f4cef42ccdb61d1ab7dd6adafc391"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14867c1134859ec897f2ecf11af41793" id="r_a14867c1134859ec897f2ecf11af41793"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ciot__err_8h.html#ad6378d4036e8a842176b2db8efb349c8">ciot_err_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14867c1134859ec897f2ecf11af41793">ciot_s_set_bridge_mode</a> (<a class="el" href="#a4fb0c1250873e751db7adffc9620b776">ciot_s_t</a> self, bool mode)</td></tr>
 <tr class="memdesc:a14867c1134859ec897f2ecf11af41793"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set bridge mode for CIOT_S.  <br /></td></tr>
 <tr class="separator:a14867c1134859ec897f2ecf11af41793"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Header file for CIOT_S (Communication Interface Over Transport) module. </p>
-<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<div class="textblock"><p>Header file for CIOT_S module. </p>
+<p>The CIoT S module is an encoding/decoding tool that can be used to assit on the process of exchange data over an stream of bytes. It's useful to transport data structures over an uart/spi/i2c or other serial communication interface. </p><dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2023-10-09 </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Wesley Santos (<a href="#" onclick="location.href='mai'+'lto:'+'wes'+'le'+'ypr'+'o3'+'7@g'+'ma'+'il.'+'co'+'m'; return false;">wesle<span class="obfuscator">.nosp@m.</span>ypro<span class="obfuscator">.nosp@m.</span>37@gm<span class="obfuscator">.nosp@m.</span>ail.<span class="obfuscator">.nosp@m.</span>com</a>) </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 </dd></dl>
@@ -406,7 +406,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Process a byte received by CIOT_S. </p>
+<p>Process a byte. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>Instance of CIOT_S. </td></tr>
