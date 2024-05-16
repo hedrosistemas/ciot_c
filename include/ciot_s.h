@@ -1,7 +1,9 @@
 /**
  * @file ciot_s.h
  * @ingroup utils
- * @brief Header file for CIOT_S (Communication Interface Over Transport) module.
+ * @brief Header file for CIOT_S module.
+ * @details The CIoT S module is an encoding/decoding tool that can be used to assit on the process of exchange data over an stream of bytes.
+ * It's useful to transport data structures over an uart/spi/i2c or other serial communication interface. 
  * @version 0.1
  * @date 2023-10-09
  * @author Wesley Santos (wesleypro37@gmail.com)
@@ -82,7 +84,7 @@ ciot_s_t ciot_s_new(ciot_s_cfg_t *cfg);
 ciot_err_t ciot_s_send(ciot_s_t self, uint8_t *data, int size);
 
 /**
- * @brief Process a byte received by CIOT_S.
+ * @brief Process a byte.
  *
  * @param self Instance of CIOT_S.
  * @param byte Byte to process.

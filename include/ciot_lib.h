@@ -13,7 +13,7 @@
 #define __CIOT_LIB__H__
 
 /**
- * @defgroup core Core
+ * @defgroup core CIoT Core
  * @brief The core of CIoT library
 */
 #include "ciot.h"
@@ -22,7 +22,7 @@
 #include "ciot_log.h"
 
 /**
- * @defgroup hardware_types Hardware Types
+ * @defgroup hardware_types CIoT Hardware Types
  * @brief Types related to hardware abstraction interfaces
  */
 #include "types/ciot_ble_types.h"
@@ -36,7 +36,7 @@
 #include "types/ciot_usb_types.h"
 
 /**
- * @defgroup hardware_interfaces Hardware Interfaces
+ * @defgroup hardware_interfaces CIoT Hardware Interfaces
  * @brief Interfaces that represents a hardware abstraction
  */
 #include "ciot_ble.h"
@@ -50,7 +50,7 @@
 #include "ciot_usb.h"
 
 /**
- * @defgroup software_types Software Types
+ * @defgroup software_types CIoT Software Types
  * @brief Types related to software abstraction interfaces
  */
 #include "types/ciot_bridge_types.h"
@@ -64,7 +64,7 @@
 #include "types/ciot_sys_types.h"
 
 /**
- * @defgroup software_interfaces Software Interfaces
+ * @defgroup software_interfaces CIoT Software Interfaces
  * @brief Interfaces that represents a software abstraction
  */
 #include "ciot_bridge.h"
@@ -80,7 +80,7 @@
 #include "ciot_sys.h"
 
 /**
- * @defgroup utils Utils
+ * @defgroup utils CIoT Utils
  * @brief Auxilliary implementations like encoding/decoding, serialization/deserialization, conversions, math operations, etc
  */
 #include "ciot_s.h"
@@ -89,7 +89,7 @@
 #include "ciot_utils.h"
 
 /**
- * @defgroup serialization Serialization
+ * @defgroup serialization CIoT Serialization
  * @brief Auxilliary serialization APIs
  */
 #include "ciot_serializer_pb.h
