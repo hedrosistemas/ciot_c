@@ -1,4 +1,4 @@
-set(CIOT_DIR ../../../../ciot_c)
+set(CIOT_DIR ../ciot_c)
 
 set(CIOT_INCLUDE_DIRS
     ${CIOT_DIR}/include/types
