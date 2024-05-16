@@ -1,6 +1,12 @@
 /**
- * @file ciot_n.h
- * @brief Header file for the CIOT network module.
+ * @file ciot.h
+ * @ingroup core
+ * @brief Header file for the CIOT core instance.
+ * 
+ * @details An CIoT instance can be used to manager other interfaces. All interfaces added to an CIoT instance can interact with each other. 
+ * The CIoT instance is responsible for intercept the requests messages sended by an sender interface, and redirect it to another target interface.
+ * In addition, the requests results are also intercepted and sent as a response to the interface that sent the request.
+ * 
  * @version 0.1
  * @date 2023-10-10
  * @author Your Name
@@ -19,7 +25,7 @@ extern "C" {
 #include "ciot_storage.h"
 #include "ciot_bridge.h"
 
-#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat"
+#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat" ///< Default iface config filename. %d will be replaced by iface id.
 
 #ifdef CIOT_TARGET_MONGOOSE
 

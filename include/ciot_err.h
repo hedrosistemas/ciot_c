@@ -1,5 +1,6 @@
 /**
  * @file ciot_err.h
+ * @ingroup core
  * @brief Header file for CIOT error handling.
  * @version 0.1
  * @date 2023-10-09

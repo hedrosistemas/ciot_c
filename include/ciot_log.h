@@ -1,5 +1,6 @@
 /**
  * @file ciot_log.h
+ * @ingroup core
  * @brief Header file for CIOT logging functionality.
  * @version 0.1
  * @date 2023-10-18

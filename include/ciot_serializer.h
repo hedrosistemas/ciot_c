@@ -1,5 +1,6 @@
 /**
  * @file ciot_serializer.h
+ * @ingroup utils
  * @brief Header file for CIOT Serializer module.
  * @version 0.1
  * @date 2024-04-13

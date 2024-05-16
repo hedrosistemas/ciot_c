@@ -12,7 +12,7 @@
 #include "ciot_err.h"
 
 #include "iot_device.h"
-#include "proto_serializer.h"
+#include "ciot_serializer_pb.h"
 
 static const char *TAG = "iot_device";
 
@@ -71,7 +71,7 @@ ciot_err_t iot_device_start(iot_device_t self)
     self->ifaces.list[IOT_DEVICE_IFACE_HTTPC] = (ciot_iface_t*)self->ifaces.httpc;
     self->ifaces.cfgs[IOT_DEVICE_IFACE_HTTPC] = &httpc_cfg;
 
-    self->serializer = proto_serializer_new();
+    self->serializer = ciot_serializer_pb_new();
     ciot_iface_set_serializer((ciot_iface_t*)self->ifaces.httpc, self->serializer);
     ciot_iface_set_serializer((ciot_iface_t*)self->ifaces.https, self->serializer);
     ciot_iface_set_serializer((ciot_iface_t*)self->ifaces.mqttc, self->serializer);

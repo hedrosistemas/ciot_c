@@ -1,5 +1,6 @@
 /**
  * @file ciot_util.h
+ * @ingroup utils
  * @brief Header file for CIOT utility functions.
  * @version 0.1
  * @date 2023-12-08

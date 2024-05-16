@@ -1,6 +1,12 @@
 /**
  * @file ciot_iface.h
- * @brief Header file for the CIOT interface.
+ * @ingroup core
+ * @brief Header file for the common CIoT interface abstraction.
+ * @details An CIoT interface is an common abstraction that must be implemented by any resource which is desired to be managed by CIoT core.
+ * To create an new CIoT interface implementation, an ciot_iface_t instance type must be initialized. So the CIoT core can use the instance
+ * to automate the interface behavior like start/stop or process an external request. When an new interface is implemented, some rules must
+ * be follwed to warrant that the CIoT core will work properly. All standard CIoT interfaces follow these rules, and each of them can be used
+ * as an model or an example able to guide how to create an new interface implementation.
  * @version 0.1
  * @date 2023-10-09
  * @author Wesley Santos (wesleypro37@gmail.com)
