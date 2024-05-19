@@ -1,4 +1,8 @@
-set(CIOT_DIR ../ciot_c)
+set(CIOT_DIR_RELATIVE ../../)
+
+get_filename_component(CIOT_DIR "${CMAKE_CURRENT_LIST_FILE}/${CIOT_DIR_RELATIVE}" ABSOLUTE)
+
+message(${CIOT_DIR})
 
 set(CIOT_INCLUDE_DIRS
     ${CIOT_DIR}/include/types
