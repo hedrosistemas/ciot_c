@@ -12,7 +12,8 @@
 #define __CIOT_ERR__H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "ciot_log.h"
@@ -35,6 +36,15 @@ extern "C" {
 #define CIOT_NULL_CHECK(x) \
     if (x == NULL)         \
     return CIOT_ERR_NULL_ARG
+
+/**
+ * @brief Macro to evaluate if an interface pointer type is correct
+ * @param iface The pointer of iface to check.
+ * @param enum_type Enum member used to check if iface type is correct
+ */
+#define CIOT_IFACEP_TYPE_CHECK(iface, enum_type) \
+    if (iface->type != enum_type)                \
+    return CIOT_ERR_INVALID_TYPE
 
 /**
  * @brief Macro to print an error message if an operation fails.
@@ -65,46 +75,48 @@ extern "C" {
         }                             \
     } while (0)
 
-/**
- * @brief Enumeration of CIOT error codes.
- */
-typedef enum {
-    CIOT_FAIL = -1, /**< General failure. */
-    CIOT_OK, /**< Operation successful. */
-    CIOT_ERR_NULL_ARG = CIOT_ERR_BASE + 1, /**< Null argument error. */
-    CIOT_ERR_INVALID_ID, /**< Invalid ID error. */
-    CIOT_ERR_INVALID_TYPE, /**< Invalid type error. */
-    CIOT_ERR_OVERFLOW, /**< Overflow error. */
-    CIOT_ERR_NOT_IMPLEMENTED, /**< Not implemented error. */
-    CIOT_ERR_NOT_SUPPORTED, /**< Operation not supported error. */
-    CIOT_ERR_BUSY, /**< Busy error. */
-    CIOT_ERR_INVALID_STATE, /**< Invalid state error. */
-    CIOT_ERR_SERIALIZATION, /**< Serialization error. */
-    CIOT_ERR_DESERIALIZATION, /**< Deserialization error. */
-    CIOT_ERR_SEND_DATA, /**< Error sending data. */
-    CIOT_ERR_RECV_DATA, /**< Error receiving data. */
-    CIOT_ERR_INVALID_SIZE, /**< Invalid size error. */
-    CIOT_ERR_CLOSED, /**< Closed error. */
-    CIOT_ERR_NOT_FOUND, /**< Not found error. */
-    CIOT_ERR_VALIDATION_FAILED, /**< Validation failed error. */
-    CIOT_ERR_CONNECTION, /**< Connection error. */
-    CIOT_ERR_DISCONNECTION, /**< Disconnection error. */
-    CIOT_ERR_EXCEPTION, /**< Exception error. */
-    CIOT_ERR_TERMINATOR_MISSING, /**< Terminator missing error. */
-    CIOT_ERR_INVALID_ARG, /**< Invalid argument error. */
-    CIOT_ERR_NO_MEMORY, /**< Out of memory error. */
-    CIOT_ERR_TIMEOUT, /**< Timeout error. */
-    CIOT_ERR_MONGOOSE, /**< Mongoose error. */
-    CIOT_ERR_IMPOSSIBLE_OP, /**< Impossible operation error. */
-    CIOT_ERR_CHECKSUM, /**< Checksum error. */
-} ciot_err_t;
+    /**
+     * @brief Enumeration of CIOT error codes.
+     */
+    typedef enum
+    {
+        CIOT_FAIL = -1,                        /**< General failure. */
+        CIOT_OK,                               /**< Operation successful. */
+        CIOT_ERR_NULL_ARG = CIOT_ERR_BASE + 1, /**< Null argument error. */
+        CIOT_ERR_INVALID_ID,                   /**< Invalid ID error. */
+        CIOT_ERR_INVALID_TYPE,                 /**< Invalid type error. */
+        CIOT_ERR_OVERFLOW,                     /**< Overflow error. */
+        CIOT_ERR_NOT_IMPLEMENTED,              /**< Not implemented error. */
+        CIOT_ERR_NOT_SUPPORTED,                /**< Operation not supported error. */
+        CIOT_ERR_BUSY,                         /**< Busy error. */
+        CIOT_ERR_INVALID_STATE,                /**< Invalid state error. */
+        CIOT_ERR_SERIALIZATION,                /**< Serialization error. */
+        CIOT_ERR_DESERIALIZATION,              /**< Deserialization error. */
+        CIOT_ERR_SEND_DATA,                    /**< Error sending data. */
+        CIOT_ERR_RECV_DATA,                    /**< Error receiving data. */
+        CIOT_ERR_INVALID_SIZE,                 /**< Invalid size error. */
+        CIOT_ERR_CLOSED,                       /**< Closed error. */
+        CIOT_ERR_NOT_FOUND,                    /**< Not found error. */
+        CIOT_ERR_VALIDATION_FAILED,            /**< Validation failed error. */
+        CIOT_ERR_CONNECTION,                   /**< Connection error. */
+        CIOT_ERR_DISCONNECTION,                /**< Disconnection error. */
+        CIOT_ERR_EXCEPTION,                    /**< Exception error. */
+        CIOT_ERR_TERMINATOR_MISSING,           /**< Terminator missing error. */
+        CIOT_ERR_INVALID_ARG,                  /**< Invalid argument error. */
+        CIOT_ERR_NO_MEMORY,                    /**< Out of memory error. */
+        CIOT_ERR_TIMEOUT,                      /**< Timeout error. */
+        CIOT_ERR_MONGOOSE,                     /**< Mongoose error. */
+        CIOT_ERR_IMPOSSIBLE_OP,                /**< Impossible operation error. */
+        CIOT_ERR_CHECKSUM,                     /**< Checksum error. */
+        CIOT_ERR_PROTOCOL_VIOLATION,           /**< Protocol violation error. */
+    } ciot_err_t;
 
-/**
- * @brief Converts a CIOT error code to a human-readable message.
- * @param err The error code.
- * @return A pointer to the error message.
- */
-const char *ciot_err_to_message(ciot_err_t err);
+    /**
+     * @brief Converts a CIOT error code to a human-readable message.
+     * @param err The error code.
+     * @return A pointer to the error message.
+     */
+    const char *ciot_err_to_message(ciot_err_t err);
 
 #ifdef __cplusplus
 }

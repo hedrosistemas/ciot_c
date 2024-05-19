@@ -28,9 +28,11 @@
  - nRF5 SDK 17 for Nordic devices 
  @endverbatim
 * <hr>
+* @todo Create readme.md
 * @todo Create an common decoding/encoding abstraction
 * @todo Implement ciot_s and slip encoding/decoding modules using the ciot_decoding abstraction
 * @todo Integrate the modular decoding/encoding tool to serial interfaces like UART/USB/Bluetooth
+* @todo Add support to STM32 devices
 * @todo Implement ciot_mbus interface
 * @todo Implement ciot_opcuas interface
 * @todo Implement ciot_opcuac interface
