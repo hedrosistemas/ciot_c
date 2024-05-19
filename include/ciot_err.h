@@ -37,6 +37,15 @@ extern "C" {
     return CIOT_ERR_NULL_ARG
 
 /**
+ * @brief Macro to evaluate if an interface pointer type is correct
+ * @param iface The pointer of iface to check.
+ * @param enum_type Enum member used to check if iface type is correct
+ */
+#define CIOT_IFACEP_TYPE_CHECK(iface, enum_type) \
+    if (iface->type != enum_type)                \
+    return CIOT_ERR_INVALID_TYPE
+
+/**
  * @brief Macro to print an error message if an operation fails.
  * @param x The operation to check for errors.
  */
