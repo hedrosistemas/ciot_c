@@ -1,9 +1,14 @@
-set(CIOT_DIR ../ciot_c)
+set(CIOT_DIR_RELATIVE ../../)
+
+get_filename_component(CIOT_DIR "${CMAKE_CURRENT_LIST_FILE}/${CIOT_DIR_RELATIVE}" ABSOLUTE)
+
+message(${CIOT_DIR})
 
 set(CIOT_INCLUDE_DIRS
     ${CIOT_DIR}/include/types
     ${CIOT_DIR}/include
     ${CIOT_DIR}/src/mg
+    ${CIOT_DIR}/src/opcua
 )
 
 set(PROTOBUF_C_DIR ${CIOT_DIR}/src/proto/protobuf-c)
@@ -20,6 +25,7 @@ FILE(GLOB_RECURSE CIOT_UNSUPPORTED ${CIOT_DIR}/src/unsupported/*.c)
 FILE(GLOB_RECURSE CIOT_COMMON ${CIOT_DIR}/src/common/*.c)
 FILE(GLOB_RECURSE CIOT_ESP32 ${CIOT_DIR}/src/esp32/*.c)
 FILE(GLOB_RECURSE CIOT_MONGOOSE ${CIOT_DIR}/src/mg/*.c)
+FILE(GLOB_RECURSE CIOT_OPEN62 ${CIOT_DIR}/src/opcua/*.c)
 FILE(GLOB_RECURSE CIOT_WIN ${CIOT_DIR}/src/win/*.c)
 FILE(GLOB_RECURSE CIOT_LINUX ${CIOT_DIR}/src/linux/*.c)
 
