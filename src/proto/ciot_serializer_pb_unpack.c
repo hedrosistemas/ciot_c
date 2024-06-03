@@ -404,6 +404,33 @@ int ciot_ota_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack)
     return 0;
 }
 
+int ciot_dfu_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack)
+{
+    switch (msg->type)
+    {
+    case CIOT_MSG_TYPE_START:
+    case CIOT_MSG_TYPE_GET_CONFIG:
+        if(msg_pack->data->dfu->config == NULL) break;
+        msg->data.dfu.config.type = msg_pack->data->dfu->config->type;
+        break;
+    case CIOT_MSG_TYPE_GET_STATUS:
+        if(msg_pack->data->dfu->status == NULL) break;
+        msg->data.dfu.status.error = msg_pack->data->dfu->status->error;
+        msg->data.dfu.status.image_read = msg_pack->data->dfu->status->image_written;
+        msg->data.dfu.status.image_size = msg_pack->data->dfu->status->image_size;
+        msg->data.dfu.status.state = msg_pack->data->dfu->status->state;
+        msg->data.dfu.status.code = msg_pack->data->dfu->status->code;
+        break;
+    case CIOT_MSG_TYPE_REQUEST:
+        if(msg_pack->data->dfu->request == NULL) break;
+        msg->data.dfu.request.type = msg_pack->data->dfu->request->type;
+        break;
+    default:
+        break;
+    }
+    return 0;
+}
+
 int ciot_http_client_unpack(ciot_msg_t *msg, Ciot__Msg *msg_pack)
 {
     switch (msg->type)

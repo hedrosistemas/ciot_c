@@ -551,6 +551,42 @@ int ciot_ota_pack(Ciot__Msg *msg_pack, ciot_msg_t *msg, uint8_t *bytes)
     }
 }
 
+int ciot_dfu_pack(Ciot__Msg *msg_pack, ciot_msg_t *msg, uint8_t *bytes)
+{
+    Ciot__DfuData dfu = CIOT__DFU_DATA__INIT;
+    msg_pack->data->dfu = &dfu;
+    switch (msg->type)
+    {
+    case CIOT_MSG_TYPE_START:
+    case CIOT_MSG_TYPE_GET_CONFIG:
+    {
+        Ciot__DfuCfg cfg = CIOT__DFU_CFG__INIT;
+        msg_pack->data->dfu->config = &cfg;
+        msg_pack->data->dfu->config->type = msg->data.dfu.config.type;
+        return ciot__msg__pack(msg_pack, bytes);
+    }
+    case CIOT_MSG_TYPE_GET_STATUS:
+    {
+        Ciot__DfuStatus status = CIOT__DFU_STATUS__INIT;
+        msg_pack->data->dfu->status = &status;
+        msg_pack->data->dfu->status->error = msg->data.dfu.status.error;
+        msg_pack->data->dfu->status->image_written = msg->data.dfu.status.image_read;
+        msg_pack->data->dfu->status->image_size = msg->data.dfu.status.image_size;
+        msg_pack->data->dfu->status->state = msg->data.dfu.status.state;
+        return ciot__msg__pack(msg_pack, bytes);
+    }
+    case CIOT_MSG_TYPE_REQUEST:
+    {
+        Ciot__DfuRequest req = CIOT__DFU_REQUEST__INIT;
+        msg_pack->data->dfu->request = &req;
+        msg_pack->data->dfu->request->type = msg->data.dfu.request.type;
+        return ciot__msg__pack(msg_pack, bytes);
+    }
+    default:
+        return ciot__msg__pack(msg_pack, bytes);
+    }
+}
+
 int ciot_http_client_pack(Ciot__Msg *msg_pack, ciot_msg_t *msg, uint8_t *bytes)
 {
     Ciot__HttpClientData http = CIOT__HTTP_CLIENT_DATA__INIT;

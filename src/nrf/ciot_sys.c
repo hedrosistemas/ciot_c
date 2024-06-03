@@ -109,6 +109,7 @@ static void ciot_sys_init(ciot_sys_t self)
 
     self->status.rst_reason = 0;
     self->status.rst_count = 0;
+    self->status.free_memory = 0;
     self->status.info.hardware = ciot_sys_get_hw();
 
     memcpy(self->status.info.hw_name, hw_name, sizeof(hw_name));
@@ -147,9 +148,6 @@ static ciot_err_t ciot_sys_req_init_dfu(ciot_sys_t self)
 ciot_err_t ciot_sys_task(ciot_sys_t self)
 {
     CIOT_NULL_CHECK(self);
-    self->status.rst_reason = 0;
-    self->status.rst_count = 0;
-    self->status.free_memory = 0;
 #if CIOT_CONFIG_FEATURE_TIMER
     self->status.lifetime = ciot_timer_get();
     if (self->reset_scheduled)
@@ -157,6 +155,7 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
         ciot_sys_rst(self);
     }
 #endif
+    // ciot_sys_idle_state_handle();
     return CIOT_OK;
 }
 
@@ -164,5 +163,18 @@ ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+// static void ciot_sys_idle_state_handle(void)
+// {
+// 	if (NRF_LOG_PROCESS() == false)
+// 	{
+// 		#if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)	
+// 			ret_code_t err_code = sd_app_evt_wait();
+// 			APP_ERROR_CHECK(err_code);
+// 		#else
+// 			nrf_pwr_mgmt_run();
+// 		#endif
+// 	}
+// }
 
 #endif

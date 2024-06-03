@@ -146,12 +146,13 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
 		iface_event.data = (ciot_iface_event_data_u*)ev->evt.gap_evt.params.adv_report.data;
 		iface_event.size = ev->evt.gap_evt.params.adv_report.dlen;
+
 #else
 		iface_event.data = (ciot_iface_event_data_u*)ev->evt.gap_evt.params.adv_report.data.p_data;
 		iface_event.size = ev->evt.gap_evt.params.adv_report.data.len;
 		UNUSED_RETURN_VALUE(sd_ble_gap_scan_start(NULL, &self->scan_buffer));
 #endif
-		break;
+		break; 
 	default:
 		return CIOT_OK;
 	}
