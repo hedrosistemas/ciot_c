@@ -1,24 +1,31 @@
 /**
  * @file ciot_decoder_slip.c
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
- * @date 2024-04-27
- * 
+ * @date 2024-06-12
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #include <stdlib.h>
-
 #include "ciot_decoder_slip.h"
 
-#define SLIP_BYTE_END             0xc0    /* indicates end of packet */
-#define SLIP_BYTE_ESC             0xdb    /* indicates byte stuffing */
-#define SLIP_BYTE_ESC_END         0xdc    /* ESC ESC_END means END data byte */
-#define SLIP_BYTE_ESC_ESC         0xdd    /* ESC ESC_ESC means ESC data byte */
+#define SLIP_BYTE_END 0xc0
+#define SLIP_BYTE_ESC 0xdb
+#define SLIP_BYTE_ESC_END 0xdc
+#define SLIP_BYTE_ESC_ESC 0xdd
 
 typedef struct ciot_decoder_slip *ciot_decoder_slip_t;
+
+static ciot_err_t ciot_decoder_slip_decode(ciot_decoder_t self, uint8_t byte);
+static ciot_err_t ciot_decoder_slip_send(ciot_decoder_t self, uint8_t *data, int size);
+
+static uint8_t slip_byte_end = SLIP_BYTE_END;
+static uint8_t slip_byte_esc = SLIP_BYTE_ESC;
+static uint8_t slip_byte_esc_end = SLIP_BYTE_ESC_END;
+static uint8_t slip_byte_esc_esc = SLIP_BYTE_ESC_ESC;
 
 typedef enum ciot_decoder_slip_read_state
 {
@@ -27,137 +34,125 @@ typedef enum ciot_decoder_slip_read_state
     CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET
 } ciot_decoder_slip_read_state_t;
 
+typedef struct ciot_decoder_slip_buf
+{
+    uint8_t *ptr;
+    int len;
+} ciot_decoder_slip_buf_t;
+
 struct ciot_decoder_slip
 {
+    struct ciot_decoder base;
+    ciot_decoder_slip_buf_t buf;
     ciot_decoder_slip_read_state_t state;
-    uint32_t decoder_buf_size;
-    uint32_t encoder_buf_size;
-    uint32_t idx;
+    int size;
+    int idx;
 };
 
-ciot_decoder_t ciot_decoder_slip_new(ciot_decoder_cfg_t *cfg)
+static const char *TAG = "ciot_decoder_slip";
+
+ciot_decoder_t ciot_decoder_slip_new(uint8_t *buf, int size)
 {
-    ciot_decoder_t base = ciot_decoder_new(cfg);
     ciot_decoder_slip_t self = calloc(1, sizeof(struct ciot_decoder_slip));
-    base->type = CIOT_DECODER_TYPE_SLIP;
-    base->encode = ciot_decoder_slip_encode;
-    base->decode = ciot_decoder_slip_decode;
-    base->self = self;
-    self->decoder_buf_size = cfg->decoder.size;
-    self->encoder_buf_size = cfg->encoder.size;
-    return base;
+    self->buf.ptr = buf;
+    self->buf.len = size;
+    self->base.decode = ciot_decoder_slip_decode;
+    self->base.send = ciot_decoder_slip_send;
+    return &self->base;
 }
 
-ciot_err_t ciot_decoder_slip_decode(ciot_decoder_t base, uint8_t byte)
+static ciot_err_t ciot_decoder_slip_decode(ciot_decoder_t base, uint8_t byte)
 {
-    CIOT_NULL_CHECK(base);
-    CIOT_NULL_CHECK(base->self);
-    CIOT_NULL_CHECK(base->decoder.buf);
-    CIOT_IFACEP_TYPE_CHECK(base, CIOT_DECODER_TYPE_SLIP);
-
-    ciot_decoder_slip_t self = (ciot_decoder_slip_t)base->self;
-
-    if (self->idx == self->decoder_buf_size)
+    ciot_decoder_slip_t self = (ciot_decoder_slip_t)base;
+    
+    CIOT_ERR_NULL_CHECK(self->buf.ptr);
+    
+    if(self->idx >= self->buf.len)
     {
-        return CIOT_ERR_OVERFLOW;
+        CIOT_LOGE(TAG, "Overflow");
+        self->idx = 0;
+        base->state = CIOT_DECODER_STATE_ERROR;
+        return CIOT_ERR__OVERFLOW;
+    }
+
+    switch (self->state)
+    {
+    case CIOT_DECODER_SLIP_STATE_DECODING:
+        switch (byte)
+        {
+        case SLIP_BYTE_END:
+            self->idx = 0;
+            ciot_iface_event_t iface_event = {0};
+            iface_event.type = CIOT_IFACE_EVENT_REQUEST;
+            iface_event.data = self->buf.ptr;
+            iface_event.size = self->size;
+            ciot_iface_send_event(base->iface, &iface_event);
+            break;
+        case SLIP_BYTE_ESC:
+            self->state = CIOT_DECODER_SLIP_STATE_ESC_RECEIVED;
+            break;
+        default:
+            self->buf.ptr[self->idx++] = byte;
+            break;
+        }
+        break;
+    case CIOT_DECODER_SLIP_STATE_ESC_RECEIVED:
+        switch (byte)
+        {
+        case SLIP_BYTE_ESC_END:
+            self->buf.ptr[self->idx++] = SLIP_BYTE_END;
+            self->state = CIOT_DECODER_SLIP_STATE_DECODING;
+            break;
+        case SLIP_BYTE_ESC_ESC:
+            self->buf.ptr[self->idx++] = SLIP_BYTE_ESC;
+            self->state = CIOT_DECODER_SLIP_STATE_DECODING;
+            break;
+        default:
+            self->state = CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET;
+            base->state = CIOT_DECODER_STATE_ERROR;
+            return CIOT_ERR__PROTOCOL_VIOLATION;
+        }
+        break;
+    case CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET:
+        if(byte == SLIP_BYTE_END)
+        {
+            self->state = CIOT_DECODER_SLIP_STATE_DECODING;
+            self->idx = 0;
+        }
+        break;
+    default:
+        break;
     }
 
     base->state = CIOT_DECODER_STATE_DECODING;
 
-    switch (self->state)
-    {
-        case CIOT_DECODER_SLIP_STATE_DECODING:
-            switch (byte)
-            {
-                case SLIP_BYTE_END:
-                    // finished reading packet
-                    self->state = CIOT_DECODER_STATE_DONE;
-                    base->decoder.size = self->idx;
-                    self->idx = 0;
-                    return CIOT_OK;
-
-                case SLIP_BYTE_ESC:
-                    // wait for
-                    self->state = CIOT_DECODER_SLIP_STATE_ESC_RECEIVED;
-                    break;
-
-                default:
-                    // add byte to buffer
-                    base->decoder.buf[self->idx++] = byte;
-                    break;
-            }
-            break;
-
-        case CIOT_DECODER_SLIP_STATE_ESC_RECEIVED:
-            switch (byte)
-            {
-                case SLIP_BYTE_ESC_END:
-                    base->decoder.buf[self->idx++] = SLIP_BYTE_END;
-                    self->state = CIOT_DECODER_SLIP_STATE_DECODING;
-                    break;
-
-                case SLIP_BYTE_ESC_ESC:
-                    base->decoder.buf[self->idx++] = SLIP_BYTE_ESC;
-                    self->state = CIOT_DECODER_SLIP_STATE_DECODING;
-                    break;
-
-                default:
-                    // protocol violation
-                    self->state = CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET;
-                    self->state = CIOT_DECODER_STATE_ERROR;
-                    return CIOT_ERR_PROTOCOL_VIOLATION;
-            }
-            break;
-
-        case CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET:
-            if (byte == SLIP_BYTE_END)
-            {
-                self->state = CIOT_DECODER_SLIP_STATE_DECODING;
-                self->idx = 0;
-            }
-            break;
-    }
-
-    return CIOT_OK;
+    return CIOT_ERR__OK;
 }
 
-ciot_err_t ciot_decoder_slip_encode(ciot_decoder_t base, uint8_t *data, int size)
+static ciot_err_t ciot_decoder_slip_send(ciot_decoder_t base, uint8_t *data, int size)
 {
-    CIOT_NULL_CHECK(base);
-    CIOT_NULL_CHECK(data);
-    CIOT_NULL_CHECK(base->self);
-    CIOT_NULL_CHECK(base->encoder.buf);
-    CIOT_IFACEP_TYPE_CHECK(base, CIOT_DECODER_TYPE_SLIP);
+    CIOT_ERR_NULL_CHECK(data);
+    CIOT_ERR_NULL_CHECK(base->iface);
 
-    ciot_decoder_slip_t self = (ciot_decoder_slip_t)base->self;
-
-    uint32_t input_index;
-
-    base->encoder.size = 0;
-
-    for (input_index = 0; input_index < size; input_index++)
+    for (size_t i = 0; i < size; i++)
     {
-        switch (data[input_index])
+        switch (data[i])
         {
-            case SLIP_BYTE_END:
-                if(base->encoder.size == self->encoder_buf_size) return CIOT_ERR_OVERFLOW;
-                base->encoder.buf[(base->encoder.size)++] = SLIP_BYTE_ESC;
-                base->encoder.buf[(base->encoder.size)++] = SLIP_BYTE_ESC_END;
-                break;
-
-            case SLIP_BYTE_ESC:
-                if(base->encoder.size == self->encoder_buf_size) return CIOT_ERR_OVERFLOW;
-                base->encoder.buf[(base->encoder.size)++] = SLIP_BYTE_ESC;
-                base->encoder.buf[(base->encoder.size)++] = SLIP_BYTE_ESC_ESC;
-                break;
-
-            default:
-                if(base->encoder.size == self->encoder_buf_size) return CIOT_ERR_OVERFLOW;
-                base->encoder.buf[(base->encoder.size)++] = data[input_index];
+        case SLIP_BYTE_END:
+            base->iface->send_data(base->iface, &slip_byte_esc, 1);
+            base->iface->send_data(base->iface, &slip_byte_esc_end, 1);
+            break;
+        case SLIP_BYTE_ESC:
+            base->iface->send_data(base->iface, &slip_byte_esc, 1);
+            base->iface->send_data(base->iface, &slip_byte_esc_esc, 1);
+            break;
+        default:
+            base->iface->send_data(base->iface, &data[i], 1);
+            break;
         }
     }
     
-    base->encoder.buf[(base->encoder.size)++] = SLIP_BYTE_END;
+    base->iface->send_data(base->iface, &slip_byte_end, 1);
 
-    return CIOT_OK;
+    return CIOT_ERR__OK;
 }

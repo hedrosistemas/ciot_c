@@ -20,7 +20,9 @@ include_directories(
 )
 
 add_executable(${PROJECT_NAME}
-    ${CIOT_PC_SRCS}
+    ${CIOT_SRCS}
+    ${CIOT_MG_SRCS}
+    ${CIOT_WIN_SRCS}
     ${COMMON_TESTS}
     unity/src/unity.c
     main.c

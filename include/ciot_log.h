@@ -11,24 +11,24 @@
 #ifndef __CIOT_LOG__H__
 #define __CIOT_LOG__H__
 
-#include "ciot_config.h"
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+
+#include "ciot_config.h"
 
     /**
      * @brief Enumeration for CIOT log levels.
      */
     typedef enum ciot_log_level
     {
-        CIOT_LOG_LEVEL_NONE, /**< No logging. */
-        CIOT_LOG_LEVEL_ERROR, /**< Error level logging. */
+        CIOT_LOG_LEVEL_NONE,    /**< No logging. */
+        CIOT_LOG_LEVEL_ERROR,   /**< Error level logging. */
         CIOT_LOG_LEVEL_WARNING, /**< Warning level logging. */
-        CIOT_LOG_LEVEL_INFO, /**< Info level logging. */
+        CIOT_LOG_LEVEL_INFO,    /**< Info level logging. */
         CIOT_LOG_LEVEL_VERBOSE, /**< Verbose level logging. */
-        CIOT_LOG_LEVEL_DEBUG, /**< Debug level logging. */
+        CIOT_LOG_LEVEL_DEBUG,   /**< Debug level logging. */
     } ciot_log_level_t;
 
 #ifdef IDF_VER
@@ -141,14 +141,14 @@ extern "C"
  * @brief Macro to log a message pointer with additional information.
  */
 #define CIOT_LOG_MSG_P(TAG, LOG_MACRO, header, sender, msg) \
-    LOG_MACRO(TAG, header "id:%d %d:%s %d:%s %d:%s",        \
+    LOG_MACRO(TAG, header "id:%ld %ld:%s %u:%s %ld:%s",    \
               msg->id,                                      \
               sender->info.id,                              \
               ciot_iface_to_str(sender),                    \
               msg->type,                                    \
               ciot_msg_type_to_str(msg),                    \
-              msg->iface.id,                                \
-              ciot_iface_type_to_str(msg->iface.type))
+              msg->iface->id,                               \
+              ciot_iface_type_to_str(msg->iface->type))
 
 /**
  * @brief Macro to log hexadecimal data.

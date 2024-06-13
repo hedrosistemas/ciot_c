@@ -6,9 +6,6 @@
             "cStandard": "${default}",
             "cppStandard": "${default}",
             "intelliSenseMode": "windows-gcc-x64",
-            "compilerArgs": [
-                ""
-            ],
             "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
@@ -83,7 +80,9 @@
                 "../nRF5_SDK_17/external/**",
                 "../nRF5_SDK_17/integration/**",
                 "${workspaceFolder}/include/**",
-                "${workspaceFolder}/src/nrf"
+                "${workspaceFolder}/src/proto/**",
+                "${workspaceFolder}/src/nrf",
+                "${workspaceFolder}/examples/nrf_ble_module/pca10056/s140/config"
             ],
             "forcedInclude": [],
             "defines": [
