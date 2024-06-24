@@ -124,14 +124,10 @@ struct  _Ciot__CiotStatus
    * State of the CIOT device.
    */
   Ciot__CiotState state;
-  /*
-   * Additional information about the CIOT device.
-   */
-  Ciot__CiotInfo *info;
 };
 #define CIOT__CIOT_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_status__descriptor) \
-    , CIOT__CIOT_STATE__CIOT_STATE_IDLE, NULL }
+    , CIOT__CIOT_STATE__CIOT_STATE_IDLE }
 
 
 /*
@@ -192,10 +188,14 @@ struct  _Ciot__CiotData
    * CIOT request data.
    */
   Ciot__CiotReq *request;
+  /*
+   * Additional information about the CIOT device.
+   */
+  Ciot__CiotInfo *info;
 };
 #define CIOT__CIOT_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_data__descriptor) \
-    , NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /* Ciot__CiotCfg methods */

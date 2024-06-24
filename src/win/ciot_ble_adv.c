@@ -31,18 +31,11 @@ ciot_err_t ciot_ble_adv_start(ciot_ble_adv_t self, ciot_ble_adv_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_ble_adv_stop(ciot_ble_adv_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_IMPLEMENTED;
-}
-
-ciot_err_t ciot_ble_adv_handle_event(ciot_ble_adv_t self, void *event, void *event_args)
-{
-    CIOT_ERR_NULL_CHECK(self);
-
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR__NOT_SUPPORTED;
 }

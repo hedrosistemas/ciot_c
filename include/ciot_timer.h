@@ -18,8 +18,19 @@ extern "C" {
 
 #include <inttypes.h>
 #include <stdbool.h>
+#include "ciot_err.h"
 
-uint64_t ciot_timer_now();
+typedef ciot_err_t (*ciot_timer_event_handler_t)(void *args);
+
+typedef struct ciot_timer_cfg
+{
+    ciot_timer_event_handler_t event_handler;
+    void *event_args;
+} ciot_timer_cfg_t;
+
+ciot_err_t ciot_timer_start(ciot_timer_cfg_t *cfg);
+uint64_t ciot_timer_now(void);
+ciot_err_t ciot_timer_init(uint64_t *timer, uint16_t interval);
 bool ciot_timer_compare(uint64_t *timer, uint16_t interval);
 
 #ifdef __cplusplus

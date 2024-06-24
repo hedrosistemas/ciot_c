@@ -27,6 +27,33 @@ typedef Ciot__BleScnReq ciot_ble_scn_req_t;
 typedef Ciot__BleScnStatus ciot_ble_scn_status_t;
 typedef Ciot__BleScnReq ciot_ble_scn_req_t;
 typedef Ciot__BleScnData ciot_ble_scn_data_t;
+typedef Ciot__BleScnAdv ciot_ble_scn_adv_t;
+typedef Ciot__BleScnAdvInfo ciot_ble_scn_adv_info_t;
+
+typedef bool (ciot_ble_scn_filter_fn)(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv, void *args);
+
+#ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
+typedef struct ciot_ble_scn_adv_fifo_data
+{
+    uint8_t macs[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE][6];
+    uint8_t advs[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE][31];
+    ciot_ble_scn_adv_info_t infos[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE];
+} ciot_ble_scn_adv_fifo_data_t;
+
+typedef struct ciot_ble_scn_adv_fifo
+{
+    ciot_ble_scn_adv_fifo_data_t data;
+    ciot_ble_scn_adv_t list[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE];
+    int wp;
+    int rp;
+} ciot_ble_scn_adv_fifo_t;
+#endif
+
+typedef struct ciot_ble_scn_filter
+{
+    ciot_ble_scn_filter_fn *handler;
+    void *args;
+} ciot_ble_scn_filter_t;
 
 typedef struct ciot_ble_scn_base
 {
@@ -34,8 +61,13 @@ typedef struct ciot_ble_scn_base
     ciot_ble_scn_cfg_t cfg;
     ciot_ble_scn_status_t status;
     ciot_ble_scn_req_t req;
-    ciot_msg_data_t msg;
     ciot_ble_scn_data_t data;
+    ciot_ble_scn_adv_info_t recv_info;
+    ciot_ble_scn_adv_t recv;
+    ciot_ble_scn_filter_t filter;
+#ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
+    ciot_ble_scn_adv_fifo_t adv_fifo;
+#endif
 } ciot_ble_scn_base_t;
 
 ciot_ble_scn_t ciot_ble_scn_new(void *handle);
@@ -45,6 +77,10 @@ ciot_err_t ciot_ble_scn_stop(ciot_ble_scn_t self);
 ciot_err_t ciot_ble_scn_process_req(ciot_ble_scn_t self, ciot_ble_scn_req_t *req);
 ciot_err_t ciot_ble_scn_get_cfg(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg);
 ciot_err_t ciot_ble_scn_get_status(ciot_ble_scn_t self, ciot_ble_scn_status_t *status);
+ciot_err_t ciot_ble_scn_task(ciot_ble_scn_t self);
+ciot_err_t ciot_ble_scn_base_task(ciot_ble_scn_t self);
+ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *event_args);
+ciot_err_t ciot_ble_scn_set_filter(ciot_ble_scn_t self, ciot_ble_scn_filter_fn *filter, void *args);
 
 #ifdef __cplusplus
 }

@@ -16,6 +16,7 @@
 #include "nrf_pwr_mgmt.h"
 #include "nrf_log_ctrl.h"
 #include "ciot_sys.h"
+#include "ciot_timer.h"
 #include "ciot_err.h"
 
 // static const char *TAG = "ciot_sys";
@@ -47,6 +48,7 @@ ciot_err_t ciot_sys_stop(ciot_sys_t self)
 
 ciot_err_t ciot_sys_task(ciot_sys_t self)
 {
+    self->base.status.lifetime = ciot_timer_now();
     if (NRF_LOG_PROCESS() == false)
 	{
 		#if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)	

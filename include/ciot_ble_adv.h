@@ -34,7 +34,6 @@ typedef struct ciot_ble_adv_base
     ciot_ble_adv_cfg_t cfg;
     ciot_ble_adv_status_t status;
     ciot_ble_adv_req_t req;
-    ciot_msg_data_t msg;
     ciot_ble_adv_data_t data;
 } ciot_ble_adv_base_t;
 
@@ -45,6 +44,7 @@ ciot_err_t ciot_ble_adv_stop(ciot_ble_adv_t self);
 ciot_err_t ciot_ble_adv_process_req(ciot_ble_adv_t self, ciot_ble_adv_req_t *req);
 ciot_err_t ciot_ble_adv_get_cfg(ciot_ble_adv_t self, ciot_ble_adv_cfg_t *cfg);
 ciot_err_t ciot_ble_adv_get_status(ciot_ble_adv_t self, ciot_ble_adv_status_t *status);
+ciot_err_t ciot_ble_adv_handle_event(ciot_ble_adv_t self, void *event, void *event_args);
 
 #ifdef __cplusplus
 }

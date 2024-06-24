@@ -20,6 +20,7 @@ PROTOBUF_C__BEGIN_DECLS
 #include "ciot/proto/v1/ciot.pb-c.h"
 #include "ciot/proto/v1/http_client.pb-c.h"
 #include "ciot/proto/v1/http_server.pb-c.h"
+#include "ciot/proto/v1/logger.pb-c.h"
 #include "ciot/proto/v1/model.pb-c.h"
 #include "ciot/proto/v1/mqtt_client.pb-c.h"
 #include "ciot/proto/v1/ntp.pb-c.h"
@@ -80,7 +81,15 @@ typedef enum _Ciot__MsgType {
   /*
    * Event message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_EVENT = 8
+  CIOT__MSG_TYPE__MSG_TYPE_EVENT = 8,
+  /*
+   * Custom message.
+   */
+  CIOT__MSG_TYPE__MSG_TYPE_CUSTOM = 9,
+  /*
+   * Log message.
+   */
+  CIOT__MSG_TYPE__MSG_TYPE_LOG = 10
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__MSG_TYPE)
 } Ciot__MsgType;
 /*
@@ -164,13 +173,13 @@ typedef enum _Ciot__IfaceType {
    */
   CIOT__IFACE_TYPE__IFACE_TYPE_MQTT = 132,
   /*
-   * Custom interface type.
-   */
-  CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM = 133,
-  /*
    * Bridge interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE = 134
+  CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE = 253,
+  /*
+   * Custom interface type.
+   */
+  CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM = 254
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__IFACE_TYPE)
 } Ciot__IfaceType;
 
@@ -306,10 +315,14 @@ struct  _Ciot__MsgData
    * Model data.
    */
   Ciot__ModelData *model;
+  /*
+   * Log data.
+   */
+  Ciot__Log *log;
 };
 #define CIOT__MSG_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__msg_data__descriptor) \
-    , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0,NULL}, NULL }
+    , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0,NULL}, NULL, NULL }
 
 
 /*

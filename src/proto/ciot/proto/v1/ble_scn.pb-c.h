@@ -121,9 +121,9 @@ struct  _Ciot__BleScnAdv
    */
   Ciot__BleScnAdvInfo *info;
   /*
-   * Advertisement data
+   * Advertisement payload
    */
-  ProtobufCBinaryData adv;
+  ProtobufCBinaryData payload;
 };
 #define CIOT__BLE_SCN_ADV__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_scn_adv__descriptor) \
@@ -148,10 +148,18 @@ struct  _Ciot__BleScnStatus
    * Current error code
    */
   int32_t err_code;
+  /*
+   * Current fifo lenght
+   */
+  int32_t fifo_len;
+  /*
+   * Fifo maximum size
+   */
+  int32_t fifo_max;
 };
 #define CIOT__BLE_SCN_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_scn_status__descriptor) \
-    , CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE, NULL, 0 }
+    , CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE, NULL, 0, 0, 0 }
 
 
 /*

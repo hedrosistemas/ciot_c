@@ -333,7 +333,7 @@ const ProtobufCMessageDescriptor ciot__ciot_info__descriptor =
   (ProtobufCMessageInit) ciot__ciot_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ciot_status__field_descriptors[2] =
+static const ProtobufCFieldDescriptor ciot__ciot_status__field_descriptors[1] =
 {
   {
     "state",
@@ -347,28 +347,14 @@ static const ProtobufCFieldDescriptor ciot__ciot_status__field_descriptors[2] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "info",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__CiotStatus, info),
-    &ciot__ciot_info__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned ciot__ciot_status__field_indices_by_name[] = {
-  1,   /* field[1] = info */
   0,   /* field[0] = state */
 };
-static const ProtobufCIntRange ciot__ciot_status__number_ranges[2 + 1] =
+static const ProtobufCIntRange ciot__ciot_status__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 3, 1 },
-  { 0, 2 }
+  { 0, 1 }
 };
 const ProtobufCMessageDescriptor ciot__ciot_status__descriptor =
 {
@@ -378,10 +364,10 @@ const ProtobufCMessageDescriptor ciot__ciot_status__descriptor =
   "Ciot__CiotStatus",
   "Ciot",
   sizeof(Ciot__CiotStatus),
-  2,
+  1,
   ciot__ciot_status__field_descriptors,
   ciot__ciot_status__field_indices_by_name,
-  2,  ciot__ciot_status__number_ranges,
+  1,  ciot__ciot_status__number_ranges,
   (ProtobufCMessageInit) ciot__ciot_status__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
@@ -487,7 +473,7 @@ const ProtobufCMessageDescriptor ciot__ciot_req__descriptor =
   (ProtobufCMessageInit) ciot__ciot_req__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ciot_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__ciot_data__field_descriptors[4] =
 {
   {
     "config",
@@ -525,16 +511,29 @@ static const ProtobufCFieldDescriptor ciot__ciot_data__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__CiotData, info),
+    &ciot__ciot_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__ciot_data__field_indices_by_name[] = {
   0,   /* field[0] = config */
+  3,   /* field[3] = info */
   2,   /* field[2] = request */
   1,   /* field[1] = status */
 };
 static const ProtobufCIntRange ciot__ciot_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__ciot_data__descriptor =
 {
@@ -544,7 +543,7 @@ const ProtobufCMessageDescriptor ciot__ciot_data__descriptor =
   "Ciot__CiotData",
   "Ciot",
   sizeof(Ciot__CiotData),
-  3,
+  4,
   ciot__ciot_data__field_descriptors,
   ciot__ciot_data__field_indices_by_name,
   1,  ciot__ciot_data__number_ranges,

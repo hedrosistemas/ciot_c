@@ -39,7 +39,7 @@ void test_ciot_decoder_slip_decode_no_memory()
             break;
     }
 
-    TEST_ASSERT(decoder->state == CIOT_DECODER_STATE_ERROR);
+    TEST_ASSERT(decoder->state == CIOT_IFACE_DECODER_STATE_ERROR);
     TEST_ASSERT(err == CIOT_ERR__OVERFLOW);
 }
 
@@ -57,7 +57,7 @@ void test_ciot_decoder_slip_decode_protocol_violation()
             break;
     }
 
-    TEST_ASSERT(decoder->state == CIOT_DECODER_STATE_ERROR);
+    TEST_ASSERT(decoder->state == CIOT_IFACE_DECODER_STATE_ERROR);
     TEST_ASSERT(err == CIOT_ERR__PROTOCOL_VIOLATION);
 }
 

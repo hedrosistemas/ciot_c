@@ -132,6 +132,10 @@ typedef enum _CiotErr {
    */
   CIOT_ERR__PROTOCOL_VIOLATION = 26,
   /*
+   * Data loss
+   */
+  CIOT_ERR__DATA_LOSS = 27,
+  /*
    * Operation failed
    */
   CIOT_ERR__FAIL = -1

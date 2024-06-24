@@ -9,40 +9,6 @@
  * 
  */
 
-#ifndef __CIOT_CONFIG__H__
-#define __CIOT_CONFIG__H__
-
-#if defined(ICACHE_FLASH) || defined(ICACHE_RAM_ATTR)
-#define CIOT_TARGET_ESP8266
-#elif defined(_WIN32)
-#define CIOT_TARGET_WIN
-#elif defined(ARDUINO)
-#define CIOT_TARGET_INO
-#elif defined(ESP_PLATFORM)
-#define CIOT_TARGET_ESP32
-#elif defined(NRF51) || defined(NRF52) || defined(NRF52840_XXAA)
-#define CIOT_TARGET_NRF
-#elif defined(__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-#define CIOT_TARGET_LINUX
-#else
-#define CIOT_TARGET_UNKNOWN
-#warning "Target undefined."
-#endif
-
-#define CIOT_VER 0, 1, 0
-
-#if defined(CIOT_TARGET_WIN) || defined(CIOT_TARGET_LINUX)
-
-extern struct mg_mgr mg; ///< Mongoose network manager.
-
-#define CIOT_HANDLE &mg
-
-#else
-
-#define CIOT_HANDLE NULL
-
-#endif
-
 #if __has_include("ciot_custom_config.h")
 #include "ciot_custom_config.h"
 #else
@@ -70,5 +36,3 @@ extern struct mg_mgr mg; ///< Mongoose network manager.
 #define CIOT_CONFIG_FEATURE_SERIALIZER 0
 
 #endif
-
-#endif  //!__CIOT_CONFIG__H__

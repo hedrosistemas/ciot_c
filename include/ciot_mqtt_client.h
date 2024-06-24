@@ -48,7 +48,6 @@ typedef struct ciot_mqtt_client_base
     ciot_mqtt_client_cfg_t cfg;
     ciot_mqtt_client_status_t status;
     ciot_mqtt_client_req_t req;
-    ciot_msg_data_t msg;
     ciot_mqtt_client_data_t data;
     ciot_mqtt_client_error_t error;
 } ciot_mqtt_client_base_t;

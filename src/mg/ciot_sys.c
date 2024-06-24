@@ -74,6 +74,16 @@ ciot_err_t ciot_sys_sleep(long ms)
     return CIOT_ERR__OK;
 }
 
+ciot_err_t ciot_sys_restart(void)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
+}
+
+ciot_err_t ciot_sys_init_dfu(void)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
+}
+
 #if defined(CIOT_TARGET_ESP8266)
 
 #include "esp_system.h"

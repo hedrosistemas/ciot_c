@@ -18,7 +18,6 @@ extern "C" {
 
 #include "ciot_err.h"
 #include "ciot_iface.h"
-#include "ciot_decoder.h"
 #include "ciot_config.h"
 
 #include "ciot/proto/v1/uart.pb-c.h"
@@ -40,9 +39,7 @@ typedef struct ciot_uart_base
     ciot_uart_cfg_t cfg;
     ciot_uart_status_t status;
     ciot_uart_req_t req;
-    ciot_msg_data_t msg;
     ciot_uart_data_t data;
-    ciot_decoder_t decoder;
 } ciot_uart_base_t;
 
 ciot_uart_t ciot_uart_new(void *handle);
@@ -54,7 +51,6 @@ ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req);
 ciot_err_t ciot_uart_get_cfg(ciot_uart_t self, ciot_uart_cfg_t *cfg);
 ciot_err_t ciot_uart_get_status(ciot_uart_t self, ciot_uart_status_t *status);
 ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size);
-ciot_err_t ciot_uart_set_decoder(ciot_uart_t self, ciot_decoder_t decoder);
 
 #ifdef __cplusplus
 }

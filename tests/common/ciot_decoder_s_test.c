@@ -38,7 +38,7 @@ void test_ciot_decoder_s_decode_overflow()
         if(err != CIOT_ERR__OK) break;
     }
     
-    TEST_ASSERT(decoder->state == CIOT_DECODER_STATE_ERROR);
+    TEST_ASSERT(decoder->state == CIOT_IFACE_DECODER_STATE_ERROR);
     TEST_ASSERT(err == CIOT_ERR__OVERFLOW);
 }
 
@@ -55,7 +55,7 @@ void test_ciot_decoder_s_decode_protocol_violation()
         if(err != CIOT_ERR__OK) break;
     }
     
-    TEST_ASSERT(decoder->state == CIOT_DECODER_STATE_ERROR);
+    TEST_ASSERT(decoder->state == CIOT_IFACE_DECODER_STATE_ERROR);
     TEST_ASSERT(err == CIOT_ERR__PROTOCOL_VIOLATION);
 }
 

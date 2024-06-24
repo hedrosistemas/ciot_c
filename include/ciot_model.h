@@ -36,7 +36,6 @@ typedef struct ciot_model_base
     ciot_model_status_t status;
     ciot_model_info_t info;
     ciot_model_req_t req;
-    ciot_msg_data_t msg;
     ciot_model_data_t data;
 } ciot_model_base_t;
 

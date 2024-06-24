@@ -18,8 +18,18 @@ extern "C" {
 
 #include "ciot_err.h"
 #include "ciot_iface.h"
+#include "ciot_ble_scn.h"
+#include "ciot_ble_adv.h"
 
 #include "ciot/proto/v1/ble.pb-c.h"
+
+typedef enum ciot_ble_mac_type
+{
+    CIOT_BLE_MAC_TYPE_UNKNOWN,
+    CIOT_BLE_MAC_TYPE_HARDWARE,
+    CIOT_BLE_MAC_TYPE_SOFTWARE,
+    CIOT_BLE_MAC_TYPE_REAL,
+} ciot_ble_mac_type_t;
 
 typedef struct ciot_ble *ciot_ble_t;
 typedef Ciot__BleCfg ciot_ble_cfg_t;
@@ -29,6 +39,18 @@ typedef Ciot__BleInfo ciot_ble_info_t;
 typedef Ciot__BleReq ciot_ble_req_t;
 typedef Ciot__BleData ciot_ble_data_t;
 
+typedef struct ciot_ble_ifaces
+{
+    ciot_ble_scn_t scn;
+    ciot_ble_adv_t adv;
+} ciot_ble_ifaces_t;
+
+typedef struct ciot_ble_macs
+{
+    uint8_t hw[6];
+    uint8_t sw[6];
+} ciot_ble_macs_t;
+
 typedef struct ciot_ble_base
 {
     ciot_iface_t iface;
@@ -36,8 +58,9 @@ typedef struct ciot_ble_base
     ciot_ble_status_t status;
     ciot_ble_info_t info;
     ciot_ble_req_t req;
-    ciot_msg_data_t msg;
     ciot_ble_data_t data;
+    ciot_ble_ifaces_t ifaces;
+    ciot_ble_macs_t macs;
 } ciot_ble_base_t;
 
 ciot_ble_t ciot_ble_new(void *handle);
@@ -48,6 +71,11 @@ ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req);
 ciot_err_t ciot_ble_get_cfg(ciot_ble_t self, ciot_ble_cfg_t *cfg);
 ciot_err_t ciot_ble_get_status(ciot_ble_t self, ciot_ble_status_t *status);
 ciot_err_t ciot_ble_get_info(ciot_ble_t self, ciot_ble_info_t *info);
+ciot_err_t ciot_ble_task(ciot_ble_t self);
+ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6]);
+ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t mac[6]);
+ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces);
+bool ciot_ble_mac_is_valid(uint8_t mac[6]);
 
 #ifdef __cplusplus
 }

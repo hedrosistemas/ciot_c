@@ -29,7 +29,7 @@ ciot_err_t ciot_http_server_init(ciot_http_server_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER;
 
-    ciot__msg_data__init(&base->msg);
+    ciot_iface_init(&base->iface);
     ciot__http_server_data__init(&base->data);
     ciot__http_server_cfg__init(&base->cfg);
     ciot__http_server_status__init(&base->status);
@@ -78,8 +78,8 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     }
 
-    self->msg.http_server = &self->data;
-    msg->data = &self->msg;
+    self->iface.data.http_server = &self->data;
+    msg->data = &self->iface.data;
 
     return CIOT_ERR__OK;
 }
@@ -103,12 +103,16 @@ ciot_err_t ciot_http_server_get_cfg(ciot_http_server_t self, ciot_http_server_cf
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_http_server_base_t *base = (ciot_http_server_base_t*)self;
+    *cfg = base->cfg;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_http_server_get_status(ciot_http_server_t self, ciot_http_server_status_t *status)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(status);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_http_server_base_t *base = (ciot_http_server_base_t*)self;
+    *status = base->status;
+    return CIOT_ERR__OK;
 }

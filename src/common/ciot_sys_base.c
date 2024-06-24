@@ -30,7 +30,7 @@ ciot_err_t ciot_sys_init(ciot_sys_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_SYS;
 
-    ciot__msg_data__init(&base->msg);
+    ciot_iface_init(&base->iface);
     ciot__sys_data__init(&base->data);
     ciot__sys_cfg__init(&base->cfg);
     ciot__sys_status__init(&base->status);
@@ -87,8 +87,8 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     }
 
-    self->msg.sys = &self->data;
-    msg->data = &self->msg;
+    self->iface.data.sys = &self->data;
+    msg->data = &self->iface.data;
 
     return CIOT_ERR__OK;
 }
@@ -122,7 +122,7 @@ ciot_err_t ciot_sys_get_cfg(ciot_sys_t self, ciot_sys_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_sys_base_t *base = (ciot_sys_base_t*)self;
     *cfg = base->cfg;
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_sys_get_status(ciot_sys_t self, ciot_sys_status_t *status)

@@ -40,7 +40,7 @@ typedef struct app_ifaces
 
 typedef struct app_decoder
 {
-    ciot_decoder_t slip;
+    ciot_iface_decoder_t slip;
     uint8_t buf[256];
 } app_decoder_t;
 

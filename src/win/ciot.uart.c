@@ -190,11 +190,13 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
                     if(err != CIOT_ERR__OK)
                     {
                         CIOT_LOGE(TAG, "Error %s processing byte %d", ciot_err_to_message(err), byte);
+                        base.status.error = err;
                     }
                 }
                 else
                 {
                     ciot_iface_event_t iface_event = {0};
+                    iface_event.type = CIOT_IFACE_EVENT_DATA;
                     iface_event.data = &byte;
                     iface_event.size = 1;
                     ciot_iface_send_event(&base.iface, &iface_event);

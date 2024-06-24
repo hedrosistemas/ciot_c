@@ -29,7 +29,7 @@ ciot_err_t ciot_uart_init(ciot_uart_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_UART;
 
-    ciot__msg_data__init(&base->msg);
+    ciot_iface_init(&base->iface);
     ciot__uart_data__init(&base->data);
     ciot__uart_cfg__init(&base->cfg);
     ciot__uart_status__init(&base->status);
@@ -78,23 +78,16 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     }
 
-    self->msg.uart = &self->data;
-    msg->data = &self->msg;
+    self->iface.data.uart = &self->data;
+    msg->data = &self->iface.data;
 
     return CIOT_ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    ciot_uart_base_t *base = (ciot_uart_base_t*)iface;
-    if(base->decoder)
-    {
-        return base->decoder->send(base->decoder, data, size);
-    }
-    else
-    {
-        return iface->send_data(iface, data, size);
-    }
+    ciot_uart_t uart = (ciot_uart_t)iface;
+    return ciot_uart_send_bytes(uart, data, size);
 }
 
 ciot_err_t ciot_uart_process_req(ciot_uart_t self, ciot_uart_req_t *req)
@@ -108,21 +101,16 @@ ciot_err_t ciot_uart_get_cfg(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_uart_base_t *base = (ciot_uart_base_t*)self;
+    *cfg = base->cfg;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_uart_get_status(ciot_uart_t self, ciot_uart_status_t *status)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(status);
-    return CIOT_ERR__NOT_IMPLEMENTED;
-}
-
-ciot_err_t ciot_uart_set_decoder(ciot_uart_t self, ciot_decoder_t decoder)
-{
-    CIOT_ERR_NULL_CHECK(self);
     ciot_uart_base_t *base = (ciot_uart_base_t*)self;
-    base->decoder = decoder;
-    decoder->iface = &base->iface;
+    *status = base->status;
     return CIOT_ERR__OK;
 }

@@ -14,12 +14,12 @@
 #include "app_util_platform.h"
 #include "nrf_drv_uart.h"
 #include "sdk_config.h"
+#include "sdk_macros.h"
 #include "ciot_uart.h"
+#include "ciot_msg.h"
 #include "ciot_err.h"
 
 #define UART_PIN_DISCONNECTED 0xFFFFFFFF
-
-// static const char *TAG = "ciot_uart";
 
 typedef struct ciot_uart_fifo
 {
@@ -50,20 +50,22 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
 
-    self->base.cfg = *cfg;
+    ciot_uart_base_t *base = &self->base;
+
+    base->cfg = *cfg;
 
     uint32_t err_code = app_fifo_init(&self->fifo.tx, self->fifo.tx_buf, CIOT_CONFIG_UART_TX_BUF_SIZE);
     VERIFY_SUCCESS(err_code);
 
     nrf_drv_uart_config_t config = NRF_DRV_UART_DEFAULT_CONFIG;
-    config.baudrate = (nrf_uart_baudrate_t)self->base.cfg.baud_rate;
-    config.hwfc = self->base.cfg.flow_control;
+    config.baudrate = (nrf_uart_baudrate_t)base->cfg.baud_rate;
+    config.hwfc = base->cfg.flow_control;
     config.interrupt_priority = APP_IRQ_PRIORITY_LOWEST;
-    config.parity = self->base.cfg.parity;
-    config.pselcts = self->base.cfg.cts_pin;
-    config.pselrts = self->base.cfg.rts_pin;
-    config.pselrxd = self->base.cfg.rx_pin;
-    config.pseltxd = self->base.cfg.tx_pin;
+    config.parity = base->cfg.parity;
+    config.pselcts = base->cfg.cts_pin;
+    config.pselrts = base->cfg.rts_pin;
+    config.pselrxd = base->cfg.rx_pin;
+    config.pseltxd = base->cfg.tx_pin;
     config.p_context = self;
 
     switch (cfg->num)
@@ -91,10 +93,17 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     err_code = nrf_drv_uart_init(&self->handle, &config, ciot_uart_event_handler);
     VERIFY_SUCCESS(err_code);
 
-    if (self->base.cfg.rx_pin != UART_PIN_DISCONNECTED)
+    if (base->cfg.rx_pin != UART_PIN_DISCONNECTED)
     {
         nrf_drv_uart_rx(&self->handle, self->rx_byte, 1);
     }
+
+    ciot_iface_event_t event = {0};
+    event.type = CIOT_IFACE_EVENT_STARTED;
+    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
+    ciot_iface_send_event(&base->iface, &event);
+
+    base->status.state = CIOT__UART_STATE__UART_STATE_STARTED;
 
     return CIOT_ERR__OK;
 }
@@ -103,23 +112,28 @@ ciot_err_t ciot_uart_stop(ciot_uart_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     nrf_drv_uart_uninit(&self->handle);
+    self->base.status.state = CIOT__UART_STATE__UART_STATE_CLOSED;
     return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 {
-    CIOT_NULL_CHECK(self);
-    CIOT_NULL_CHECK(bytes);
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(bytes);
     
     uint32_t err_code;
     uint32_t len = 0;
 
-    err_code = app_fifo_write(&self->fifo.tx, NULL, &len);
-    err_code = len < size ? CIOT_ERR__OVERFLOW : CIOT_ERR__OK;
+    app_fifo_write(&self->fifo.tx, NULL, &len);
+    err_code = len < size ? CIOT__UART_ERROR__UART_ERR_FIFO_OVERFLOW : CIOT_ERR__OK;
     if(err_code == CIOT_ERR__OK)
     {
         len = size;
         err_code = app_fifo_write(&self->fifo.tx, bytes, &len);
+    }
+    else if(self->base.status.state == CIOT__UART_STATE__UART_STATE_STARTED)
+    {
+        self->base.status.error = self->base.status.error;
     }
     if(!nrf_drv_uart_tx_in_progress(&self->handle))
     {
@@ -140,6 +154,7 @@ ciot_err_t ciot_uart_task(ciot_uart_t self)
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
+    ciot_uart_base_t *base = &self->base;
 
     switch (event->type)
     {
@@ -155,7 +170,11 @@ static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
                 nrf_drv_uart_rx(&self->handle, self->rx_byte, 1);
                 break;
             }
-            // ciot_s_process_byte(self->uart.s, event->data.rxtx.p_data[0]);
+            ciot_err_t err = ciot_iface_process_data(&self->base.iface, event->data.rxtx.p_data, event->data.rxtx.bytes);
+            if(err != CIOT_ERR__OK)
+            {
+                base->status.error = err;
+            }
             nrf_drv_uart_rx(&self->handle, self->rx_byte, 1);
             break;
         case NRF_DRV_UART_EVT_ERROR:

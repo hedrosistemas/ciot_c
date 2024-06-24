@@ -18,5 +18,6 @@ typedef Ciot__Msg ciot_msg_t;
 typedef Ciot__MsgType ciot_msg_type_t;
 typedef Ciot__MsgData ciot_msg_data_t;
 typedef Ciot__MsgError ciot_msg_error_t;
+typedef Ciot__MsgHeader ciot_msg_header_t;
 
 #endif  //!__CIOT_MSG_TYPES__H__

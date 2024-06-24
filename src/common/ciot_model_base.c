@@ -29,7 +29,7 @@ ciot_err_t ciot_model_init(ciot_model_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM;
 
-    ciot__msg_data__init(&base->msg);
+    ciot_iface_init(&base->iface);
     ciot__model_data__init(&base->data);
     ciot__model_cfg__init(&base->cfg);
     ciot__model_status__init(&base->status);
@@ -81,8 +81,8 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     }
 
-    self->msg.model = &self->data;
-    msg->data = &self->msg;
+    self->iface.data.model = &self->data;
+    msg->data = &self->iface.data;
 
     return CIOT_ERR__OK;
 }
@@ -103,19 +103,25 @@ ciot_err_t ciot_model_get_cfg(ciot_model_t self, ciot_model_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_model_base_t *base = (ciot_model_base_t*)self;
+    *cfg = base->cfg;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_model_get_status(ciot_model_t self, ciot_model_status_t *status)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(status);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_model_base_t *base = (ciot_model_base_t*)self;
+    *status = base->status;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_model_get_info(ciot_model_t self, ciot_model_info_t *info)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(info);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_model_base_t *base = (ciot_model_base_t*)self;
+    *info = base->info;
+    return CIOT_ERR__OK;
 }

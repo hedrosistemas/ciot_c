@@ -433,12 +433,12 @@ static const ProtobufCFieldDescriptor ciot__ble_scn_adv__field_descriptors[2] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "adv",
+    "payload",
     2,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BYTES,
     0,   /* quantifier_offset */
-    offsetof(Ciot__BleScnAdv, adv),
+    offsetof(Ciot__BleScnAdv, payload),
     NULL,
     NULL,
     0,             /* flags */
@@ -446,8 +446,8 @@ static const ProtobufCFieldDescriptor ciot__ble_scn_adv__field_descriptors[2] =
   },
 };
 static const unsigned ciot__ble_scn_adv__field_indices_by_name[] = {
-  1,   /* field[1] = adv */
   0,   /* field[0] = info */
+  1,   /* field[1] = payload */
 };
 static const ProtobufCIntRange ciot__ble_scn_adv__number_ranges[1 + 1] =
 {
@@ -469,7 +469,7 @@ const ProtobufCMessageDescriptor ciot__ble_scn_adv__descriptor =
   (ProtobufCMessageInit) ciot__ble_scn_adv__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ble_scn_status__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__ble_scn_status__field_descriptors[5] =
 {
   {
     "state",
@@ -507,16 +507,42 @@ static const ProtobufCFieldDescriptor ciot__ble_scn_status__field_descriptors[3]
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "fifo_len",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleScnStatus, fifo_len),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "fifo_max",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleScnStatus, fifo_max),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__ble_scn_status__field_indices_by_name[] = {
   1,   /* field[1] = adv_info */
   2,   /* field[2] = err_code */
+  3,   /* field[3] = fifo_len */
+  4,   /* field[4] = fifo_max */
   0,   /* field[0] = state */
 };
 static const ProtobufCIntRange ciot__ble_scn_status__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor ciot__ble_scn_status__descriptor =
 {
@@ -526,7 +552,7 @@ const ProtobufCMessageDescriptor ciot__ble_scn_status__descriptor =
   "Ciot__BleScnStatus",
   "Ciot",
   sizeof(Ciot__BleScnStatus),
-  3,
+  5,
   ciot__ble_scn_status__field_descriptors,
   ciot__ble_scn_status__field_indices_by_name,
   1,  ciot__ble_scn_status__number_ranges,

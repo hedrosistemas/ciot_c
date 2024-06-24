@@ -347,7 +347,7 @@ const ProtobufCMessageDescriptor ciot__msg_error__descriptor =
   (ProtobufCMessageInit) ciot__msg_error__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[20] =
+static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[21] =
 {
   {
     "ciot",
@@ -589,6 +589,18 @@ static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[20] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "log",
+    21,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, log),
+    &ciot__log__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__msg_data__field_indices_by_name[] = {
   8,   /* field[8] = ble */
@@ -600,6 +612,7 @@ static const unsigned ciot__msg_data__field_indices_by_name[] = {
   6,   /* field[6] = eth */
   15,   /* field[15] = http_client */
   14,   /* field[14] = http_server */
+  20,   /* field[20] = log */
   19,   /* field[19] = model */
   16,   /* field[16] = mqtt_client */
   11,   /* field[11] = ntp */
@@ -615,7 +628,7 @@ static const unsigned ciot__msg_data__field_indices_by_name[] = {
 static const ProtobufCIntRange ciot__msg_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 20 }
+  { 0, 21 }
 };
 const ProtobufCMessageDescriptor ciot__msg_data__descriptor =
 {
@@ -625,7 +638,7 @@ const ProtobufCMessageDescriptor ciot__msg_data__descriptor =
   "Ciot__MsgData",
   "Ciot",
   sizeof(Ciot__MsgData),
-  20,
+  21,
   ciot__msg_data__field_descriptors,
   ciot__msg_data__field_indices_by_name,
   1,  ciot__msg_data__number_ranges,
@@ -773,7 +786,7 @@ const ProtobufCMessageDescriptor ciot__msg__descriptor =
   (ProtobufCMessageInit) ciot__msg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__msg_type__enum_values_by_number[9] =
+static const ProtobufCEnumValue ciot__msg_type__enum_values_by_number[11] =
 {
   { "MSG_TYPE_UNKNOWN", "CIOT__MSG_TYPE__MSG_TYPE_UNKNOWN", 0 },
   { "MSG_TYPE_START", "CIOT__MSG_TYPE__MSG_TYPE_START", 1 },
@@ -784,16 +797,20 @@ static const ProtobufCEnumValue ciot__msg_type__enum_values_by_number[9] =
   { "MSG_TYPE_REQUEST", "CIOT__MSG_TYPE__MSG_TYPE_REQUEST", 6 },
   { "MSG_TYPE_ERROR", "CIOT__MSG_TYPE__MSG_TYPE_ERROR", 7 },
   { "MSG_TYPE_EVENT", "CIOT__MSG_TYPE__MSG_TYPE_EVENT", 8 },
+  { "MSG_TYPE_CUSTOM", "CIOT__MSG_TYPE__MSG_TYPE_CUSTOM", 9 },
+  { "MSG_TYPE_LOG", "CIOT__MSG_TYPE__MSG_TYPE_LOG", 10 },
 };
 static const ProtobufCIntRange ciot__msg_type__value_ranges[] = {
-{0, 0},{0, 9}
+{0, 0},{0, 11}
 };
-static const ProtobufCEnumValueIndex ciot__msg_type__enum_values_by_name[9] =
+static const ProtobufCEnumValueIndex ciot__msg_type__enum_values_by_name[11] =
 {
   { "MSG_TYPE_CONFIG", 3 },
+  { "MSG_TYPE_CUSTOM", 9 },
   { "MSG_TYPE_ERROR", 7 },
   { "MSG_TYPE_EVENT", 8 },
   { "MSG_TYPE_INFO", 4 },
+  { "MSG_TYPE_LOG", 10 },
   { "MSG_TYPE_REQUEST", 6 },
   { "MSG_TYPE_START", 1 },
   { "MSG_TYPE_STATUS", 5 },
@@ -807,9 +824,9 @@ const ProtobufCEnumDescriptor ciot__msg_type__descriptor =
   "MsgType",
   "Ciot__MsgType",
   "Ciot",
-  9,
+  11,
   ciot__msg_type__enum_values_by_number,
-  9,
+  11,
   ciot__msg_type__enum_values_by_name,
   1,
   ciot__msg_type__value_ranges,
@@ -836,20 +853,20 @@ static const ProtobufCEnumValue ciot__iface_type__enum_values_by_number[21] =
   { "IFACE_TYPE_HTTP_CLIENT", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_CLIENT", 130 },
   { "IFACE_TYPE_HTTP_SERVER", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER", 131 },
   { "IFACE_TYPE_MQTT", "CIOT__IFACE_TYPE__IFACE_TYPE_MQTT", 132 },
-  { "IFACE_TYPE_CUSTOM", "CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM", 133 },
-  { "IFACE_TYPE_BRIDGE", "CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE", 134 },
+  { "IFACE_TYPE_BRIDGE", "CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE", 253 },
+  { "IFACE_TYPE_CUSTOM", "CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM", 254 },
 };
 static const ProtobufCIntRange ciot__iface_type__value_ranges[] = {
-{0, 0},{127, 13},{0, 21}
+{0, 0},{127, 13},{253, 19},{0, 21}
 };
 static const ProtobufCEnumValueIndex ciot__iface_type__enum_values_by_name[21] =
 {
   { "IFACE_TYPE_BLE", 9 },
   { "IFACE_TYPE_BLE_ADV", 11 },
   { "IFACE_TYPE_BLE_SCN", 10 },
-  { "IFACE_TYPE_BRIDGE", 20 },
+  { "IFACE_TYPE_BRIDGE", 19 },
   { "IFACE_TYPE_CIOT", 1 },
-  { "IFACE_TYPE_CUSTOM", 19 },
+  { "IFACE_TYPE_CUSTOM", 20 },
   { "IFACE_TYPE_DFU", 15 },
   { "IFACE_TYPE_ETH", 7 },
   { "IFACE_TYPE_GPIO", 12 },
@@ -877,7 +894,7 @@ const ProtobufCEnumDescriptor ciot__iface_type__descriptor =
   ciot__iface_type__enum_values_by_number,
   21,
   ciot__iface_type__enum_values_by_name,
-  2,
+  3,
   ciot__iface_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };

@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "ciot_ble.h"
 #include "ciot_config.h"
 
@@ -29,11 +30,16 @@ ciot_err_t ciot_ble_init(ciot_ble_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_BLE;
 
-    ciot__msg_data__init(&base->msg);
+    ciot_iface_init(&base->iface);
     ciot__ble_data__init(&base->data);
     ciot__ble_cfg__init(&base->cfg);
     ciot__ble_status__init(&base->status);
     ciot__ble_info__init(&base->info);
+
+    base->info.sw_mac.data = base->macs.sw;
+    base->info.sw_mac.len = sizeof(base->macs.sw);
+    base->info.hw_mac.data = base->macs.hw;
+    base->info.hw_mac.len = sizeof(base->macs.hw);
 
     return CIOT_ERR__OK;
 }
@@ -81,8 +87,8 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     }
 
-    self->msg.ble = &self->data;
-    msg->data = &self->msg;
+    self->iface.data.ble = &self->data;
+    msg->data = &self->iface.data;
 
     return CIOT_ERR__OK;
 }
@@ -96,6 +102,19 @@ ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
+    ciot_ble_base_t *base = (ciot_ble_base_t*)self;
+    switch (req->type)
+    {
+    case CIOT__BLE_REQ_TYPE__BLE_REQ_TYPE_SET_MAC:
+        CIOT_ERR_RETURN(ciot_ble_set_mac(self, req->set_mac.data));
+        if(memcmp(base->macs.sw, req->set_mac.data, sizeof(base->macs.sw)) == 0)
+        {
+            base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
+        }
+        return CIOT_ERR__OK;
+    default:
+        break;
+    }
     return CIOT_ERR__NOT_IMPLEMENTED;
 }
 
@@ -103,19 +122,25 @@ ciot_err_t ciot_ble_get_cfg(ciot_ble_t self, ciot_ble_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_ble_base_t *base = (ciot_ble_base_t*)self;
+    *cfg = base->cfg;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_ble_get_status(ciot_ble_t self, ciot_ble_status_t *status)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(status);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_ble_base_t *base = (ciot_ble_base_t*)self;
+    *status = base->status;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_ble_get_info(ciot_ble_t self, ciot_ble_info_t *info)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(info);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_ble_base_t *base = (ciot_ble_base_t*)self;
+    *info = base->info;
+    return CIOT_ERR__OK;
 }

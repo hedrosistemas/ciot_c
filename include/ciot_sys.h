@@ -43,7 +43,6 @@ typedef struct ciot_sys_base
     ciot_sys_cfg_t cfg;
     ciot_sys_status_t status;
     ciot_sys_info_t info;
-    ciot_msg_data_t msg;
     ciot_sys_data_t data;
     ciot_sys_features_t features;
     ciot_sys_hw_features_t hw;

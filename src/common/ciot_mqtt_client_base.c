@@ -29,7 +29,7 @@ ciot_err_t ciot_mqtt_client_init(ciot_mqtt_client_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_MQTT;
 
-    ciot__msg_data__init(&base->msg);
+    ciot_iface_init(&base->iface);
     ciot__mqtt_client_data__init(&base->data);
     ciot__mqtt_client_cfg__init(&base->cfg);
     ciot__mqtt_client_status__init(&base->status);
@@ -80,8 +80,8 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     }
 
-    self->msg.mqtt_client = &self->data;
-    msg->data = &self->msg;
+    self->iface.data.mqtt_client = &self->data;
+    msg->data = &self->iface.data;
 
     return CIOT_ERR__OK;
 }
@@ -109,7 +109,7 @@ ciot_err_t ciot_mqtt_client_get_cfg(ciot_mqtt_client_t self, ciot_mqtt_client_cf
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
     *cfg = base->cfg;
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client_status_t *status)
@@ -118,5 +118,5 @@ ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client
     CIOT_ERR_NULL_CHECK(status);
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
     *status = base->status;
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR__OK;
 }

@@ -13,7 +13,7 @@
 #define __CIOT_DECODER_S__H__
 
 #include <inttypes.h>
-#include "ciot_decoder.h"
+#include "ciot_iface.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,7 +22,7 @@ extern "C" {
 #define CIOT_DECODER_S_START_CH '{'
 #define CIOT_DECODER_S_END_CH '}'
 
-ciot_decoder_t ciot_decoder_s_new(uint8_t *buf, int size);
+ciot_iface_decoder_t ciot_decoder_s_new(uint8_t *buf, int size);
 
 #ifdef __cplusplus
 }

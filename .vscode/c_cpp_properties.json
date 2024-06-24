@@ -75,14 +75,26 @@
                 "-mcpu=cortex-m4"
             ],
             "includePath": [
-                "../nRF5_SDK_17/components/**",
+                "../nRF5_SDK_17/components/ant/**",
+                "../nRF5_SDK_17/components/ble/**",
+                "../nRF5_SDK_17/components/boards/**",
+                "../nRF5_SDK_17/components/drivers_ext/**",
+                "../nRF5_SDK_17/components/drivers_nrf/**",
+                "../nRF5_SDK_17/components/libraries/**",
+                "../nRF5_SDK_17/components/nfc/**",
+                "../nRF5_SDK_17/components/proprietary_rf/**",
+                "../nRF5_SDK_17/components/serialization/**",
+                "../nRF5_SDK_17/components/softdevice/common/**",
+                "../nRF5_SDK_17/components/softdevice/mbr/**",
+                "../nRF5_SDK_17/components/softdevice/s140/**",
+                "../nRF5_SDK_17/components/toolchain/**",
                 "../nRF5_SDK_17/modules/**",
                 "../nRF5_SDK_17/external/**",
                 "../nRF5_SDK_17/integration/**",
                 "${workspaceFolder}/include/**",
                 "${workspaceFolder}/src/proto/**",
                 "${workspaceFolder}/src/nrf",
-                "${workspaceFolder}/examples/nrf_ble_module/pca10056/s140/config"
+                "../hg_ble/**"
             ],
             "forcedInclude": [],
             "defines": [

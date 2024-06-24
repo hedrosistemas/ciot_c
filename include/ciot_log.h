@@ -17,21 +17,21 @@ extern "C"
 #endif
 
 #include "ciot_config.h"
+#include "ciot/proto/v1/logger.pb-c.h"
 
-    /**
-     * @brief Enumeration for CIOT log levels.
-     */
-    typedef enum ciot_log_level
-    {
-        CIOT_LOG_LEVEL_NONE,    /**< No logging. */
-        CIOT_LOG_LEVEL_ERROR,   /**< Error level logging. */
-        CIOT_LOG_LEVEL_WARNING, /**< Warning level logging. */
-        CIOT_LOG_LEVEL_INFO,    /**< Info level logging. */
-        CIOT_LOG_LEVEL_VERBOSE, /**< Verbose level logging. */
-        CIOT_LOG_LEVEL_DEBUG,   /**< Debug level logging. */
-    } ciot_log_level_t;
+typedef Ciot__LogLevel ciot_log_level_t;
 
-#ifdef IDF_VER
+#if CIOT_CONFIG_FEATURE_LOGGER
+
+#include "ciot_logger.h"
+
+#define CIOT_LOGD ciot_logd
+#define CIOT_LOGV ciot_logv
+#define CIOT_LOGI ciot_logi
+#define CIOT_LOGW ciot_logw
+#define CIOT_LOGE ciot_loge
+
+#elif defined(IDF_VER)
 
 #include "esp_log.h"
 

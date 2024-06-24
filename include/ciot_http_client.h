@@ -38,7 +38,6 @@ typedef struct ciot_http_client_base
     ciot_http_client_cfg_t cfg;
     ciot_http_client_status_t status;
     ciot_http_client_req_t req;
-    ciot_msg_data_t msg;
     ciot_http_client_data_t data;
 } ciot_http_client_base_t;
 

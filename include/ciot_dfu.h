@@ -34,7 +34,6 @@ typedef struct ciot_dfu
     ciot_dfu_cfg_t cfg;
     ciot_dfu_status_t status;
     ciot_dfu_req_t req;
-    ciot_msg_data_t msg;
     ciot_dfu_data_t data;
 } ciot_dfu_t;
 

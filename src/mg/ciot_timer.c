@@ -12,17 +12,7 @@
 #include <time.h>
 #include "ciot_timer.h"
 
-uint64_t ciot_timer_now()
+uint64_t ciot_timer_now(void)
 {
     return time(NULL);
-}
-
-bool ciot_timer_compare(uint64_t *timer, uint16_t interval)
-{
-    if (time(NULL) >= *timer)
-    {
-        *timer = time(NULL) + interval;
-        return true;
-    }
-    return false;
 }

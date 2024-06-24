@@ -9,6 +9,7 @@
  * 
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "ciot_dfu_nrf.h"
 #include "ciot_config.h"
@@ -108,7 +109,7 @@ ciot_err_t ciot_dfu_nrf_init(ciot_dfu_nrf_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_DFU;
 
-    ciot__msg_data__init(&base->msg);
+    ciot_iface_init(&base->iface);
     ciot__dfu_data__init(&base->data);
     ciot__dfu_cfg__init(&base->cfg);
     ciot__dfu_status__init(&base->status);
@@ -157,8 +158,8 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     }
 
-    self->msg.dfu = &self->data;
-    msg->data = &self->msg;
+    self->iface.data.dfu = &self->data;
+    msg->data = &self->iface.data;
 
     return CIOT_ERR__OK;
 }

@@ -7,7 +7,7 @@
 #endif
 
 #include "ciot/proto/v1/errors.pb-c.h"
-static const ProtobufCEnumValue ciot_err__enum_values_by_number[28] =
+static const ProtobufCEnumValue ciot_err__enum_values_by_number[29] =
 {
   { "FAIL", "CIOT_ERR__FAIL", -1 },
   { "OK", "CIOT_ERR__OK", 0 },
@@ -37,16 +37,18 @@ static const ProtobufCEnumValue ciot_err__enum_values_by_number[28] =
   { "IMPOSSIBLE_OP", "CIOT_ERR__IMPOSSIBLE_OP", 24 },
   { "CHECKSUM", "CIOT_ERR__CHECKSUM", 25 },
   { "PROTOCOL_VIOLATION", "CIOT_ERR__PROTOCOL_VIOLATION", 26 },
+  { "DATA_LOSS", "CIOT_ERR__DATA_LOSS", 27 },
 };
 static const ProtobufCIntRange ciot_err__value_ranges[] = {
-{-1, 0},{0, 28}
+{-1, 0},{0, 29}
 };
-static const ProtobufCEnumValueIndex ciot_err__enum_values_by_name[28] =
+static const ProtobufCEnumValueIndex ciot_err__enum_values_by_name[29] =
 {
   { "BUSY", 8 },
   { "CHECKSUM", 26 },
   { "CLOSED", 15 },
   { "CONNECTION", 18 },
+  { "DATA_LOSS", 28 },
   { "DESERIALIZATION", 11 },
   { "DISCONNECTION", 19 },
   { "EXCEPTION", 20 },
@@ -79,9 +81,9 @@ const ProtobufCEnumDescriptor ciot_err__descriptor =
   "CiotErr",
   "CiotErr",
   "",
-  28,
+  29,
   ciot_err__enum_values_by_number,
-  28,
+  29,
   ciot_err__enum_values_by_name,
   1,
   ciot_err__value_ranges,
