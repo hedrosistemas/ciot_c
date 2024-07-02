@@ -23,16 +23,16 @@ ciot_err_t ciot_http_server_init(ciot_http_server_t self)
 {
     ciot_http_server_base_t *base = (ciot_http_server_base_t*)self;
 
+    ciot_iface_init(&base->iface);
+    ciot__http_server_data__init(&base->data);
+    ciot__http_server_cfg__init(&base->cfg);
+    ciot__http_server_status__init(&base->status);
+
     base->iface.ptr = self;
     base->iface.process_req = ciot_iface_process_req;
     base->iface.get_data = ciot_iface_get_data;
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER;
-
-    ciot_iface_init(&base->iface);
-    ciot__http_server_data__init(&base->data);
-    ciot__http_server_cfg__init(&base->cfg);
-    ciot__http_server_status__init(&base->status);
 
     return CIOT_ERR__OK;
 }

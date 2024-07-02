@@ -23,16 +23,16 @@ ciot_err_t ciot_ble_adv_init(ciot_ble_adv_t self)
 {
     ciot_ble_adv_base_t *base = (ciot_ble_adv_base_t*)self;
 
+    ciot_iface_init(&base->iface);
+    ciot__ble_adv_data__init(&base->data);
+    ciot__ble_adv_cfg__init(&base->cfg);
+    ciot__ble_adv_status__init(&base->status);
+
     base->iface.ptr = self;
     base->iface.process_req = ciot_iface_process_req;
     base->iface.get_data = ciot_iface_get_data;
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_BLE_ADV;
-
-    ciot_iface_init(&base->iface);
-    ciot__ble_adv_data__init(&base->data);
-    ciot__ble_adv_cfg__init(&base->cfg);
-    ciot__ble_adv_status__init(&base->status);
 
     return CIOT_ERR__OK;
 }

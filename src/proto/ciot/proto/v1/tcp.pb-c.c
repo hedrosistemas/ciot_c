@@ -286,7 +286,7 @@ static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[5] =
     PROTOBUF_C_TYPE_ENUM,
     0,   /* quantifier_offset */
     offsetof(Ciot__TcpCfg, dhcp),
-    &ciot__ciot_tcp_dhcp_cfg__descriptor,
+    &ciot__tcp_dhcp_cfg__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -469,7 +469,7 @@ const ProtobufCMessageDescriptor ciot__tcp_info__descriptor =
   (ProtobufCMessageInit) ciot__tcp_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__tcp_status__field_descriptors[4] =
+static const ProtobufCFieldDescriptor ciot__tcp_status__field_descriptors[3] =
 {
   {
     "state",
@@ -507,29 +507,16 @@ static const ProtobufCFieldDescriptor ciot__tcp_status__field_descriptors[4] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "info",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__TcpStatus, info),
-    &ciot__tcp_info__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned ciot__tcp_status__field_indices_by_name[] = {
   1,   /* field[1] = conn_count */
   2,   /* field[2] = dhcp */
-  3,   /* field[3] = info */
   0,   /* field[0] = state */
 };
 static const ProtobufCIntRange ciot__tcp_status__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 3 }
 };
 const ProtobufCMessageDescriptor ciot__tcp_status__descriptor =
 {
@@ -539,7 +526,7 @@ const ProtobufCMessageDescriptor ciot__tcp_status__descriptor =
   "Ciot__TcpStatus",
   "Ciot",
   sizeof(Ciot__TcpStatus),
-  4,
+  3,
   ciot__tcp_status__field_descriptors,
   ciot__tcp_status__field_indices_by_name,
   1,  ciot__tcp_status__number_ranges,
@@ -584,7 +571,7 @@ const ProtobufCMessageDescriptor ciot__tcp_req__descriptor =
   (ProtobufCMessageInit) ciot__tcp_req__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__tcp_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__tcp_data__field_descriptors[4] =
 {
   {
     "config",
@@ -622,16 +609,29 @@ static const ProtobufCFieldDescriptor ciot__tcp_data__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__TcpData, info),
+    &ciot__tcp_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__tcp_data__field_indices_by_name[] = {
   0,   /* field[0] = config */
+  3,   /* field[3] = info */
   2,   /* field[2] = request */
   1,   /* field[1] = status */
 };
 static const ProtobufCIntRange ciot__tcp_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__tcp_data__descriptor =
 {
@@ -641,28 +641,30 @@ const ProtobufCMessageDescriptor ciot__tcp_data__descriptor =
   "Ciot__TcpData",
   "Ciot",
   sizeof(Ciot__TcpData),
-  3,
+  4,
   ciot__tcp_data__field_descriptors,
   ciot__tcp_data__field_indices_by_name,
   1,  ciot__tcp_data__number_ranges,
   (ProtobufCMessageInit) ciot__tcp_data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__tcp_state__enum_values_by_number[5] =
+static const ProtobufCEnumValue ciot__tcp_state__enum_values_by_number[6] =
 {
   { "TCP_STATE_ERROR", "CIOT__TCP_STATE__TCP_STATE_ERROR", -1 },
   { "TCP_STATE_STARTED", "CIOT__TCP_STATE__TCP_STATE_STARTED", 0 },
   { "TCP_STATE_STOPPED", "CIOT__TCP_STATE__TCP_STATE_STOPPED", 1 },
-  { "TCP_STATE_CONNECTING", "CIOT__TCP_STATE__TCP_STATE_CONNECTING", 2 },
-  { "TCP_STATE_CONNECTED", "CIOT__TCP_STATE__TCP_STATE_CONNECTED", 3 },
+  { "TCP_STATE_DISCONNECTED", "CIOT__TCP_STATE__TCP_STATE_DISCONNECTED", 2 },
+  { "TCP_STATE_CONNECTING", "CIOT__TCP_STATE__TCP_STATE_CONNECTING", 3 },
+  { "TCP_STATE_CONNECTED", "CIOT__TCP_STATE__TCP_STATE_CONNECTED", 4 },
 };
 static const ProtobufCIntRange ciot__tcp_state__value_ranges[] = {
-{-1, 0},{0, 5}
+{-1, 0},{0, 6}
 };
-static const ProtobufCEnumValueIndex ciot__tcp_state__enum_values_by_name[5] =
+static const ProtobufCEnumValueIndex ciot__tcp_state__enum_values_by_name[6] =
 {
-  { "TCP_STATE_CONNECTED", 4 },
-  { "TCP_STATE_CONNECTING", 3 },
+  { "TCP_STATE_CONNECTED", 5 },
+  { "TCP_STATE_CONNECTING", 4 },
+  { "TCP_STATE_DISCONNECTED", 3 },
   { "TCP_STATE_ERROR", 0 },
   { "TCP_STATE_STARTED", 1 },
   { "TCP_STATE_STOPPED", 2 },
@@ -674,9 +676,9 @@ const ProtobufCEnumDescriptor ciot__tcp_state__descriptor =
   "TcpState",
   "Ciot__TcpState",
   "Ciot",
-  5,
+  6,
   ciot__tcp_state__enum_values_by_number,
-  5,
+  6,
   ciot__tcp_state__enum_values_by_name,
   1,
   ciot__tcp_state__value_ranges,
@@ -712,36 +714,36 @@ const ProtobufCEnumDescriptor ciot__tcp_dhcp_state__descriptor =
   ciot__tcp_dhcp_state__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__ciot_tcp_dhcp_cfg__enum_values_by_number[4] =
+static const ProtobufCEnumValue ciot__tcp_dhcp_cfg__enum_values_by_number[4] =
 {
-  { "TCP_DHCP_CFG_NO_CHANGE", "CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE", 0 },
-  { "TCP_DHCP_CFG_CLIENT", "CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_CLIENT", 1 },
-  { "TCP_DHCP_CFG_SERVER", "CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_SERVER", 2 },
-  { "TCP_DHCP_CFG_DISABLED", "CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_DISABLED", 3 },
+  { "TCP_DHCP_CFG_NO_CHANGE", "CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE", 0 },
+  { "TCP_DHCP_CFG_CLIENT", "CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_CLIENT", 1 },
+  { "TCP_DHCP_CFG_SERVER", "CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_SERVER", 2 },
+  { "TCP_DHCP_CFG_DISABLED", "CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_DISABLED", 3 },
 };
-static const ProtobufCIntRange ciot__ciot_tcp_dhcp_cfg__value_ranges[] = {
+static const ProtobufCIntRange ciot__tcp_dhcp_cfg__value_ranges[] = {
 {0, 0},{0, 4}
 };
-static const ProtobufCEnumValueIndex ciot__ciot_tcp_dhcp_cfg__enum_values_by_name[4] =
+static const ProtobufCEnumValueIndex ciot__tcp_dhcp_cfg__enum_values_by_name[4] =
 {
   { "TCP_DHCP_CFG_CLIENT", 1 },
   { "TCP_DHCP_CFG_DISABLED", 3 },
   { "TCP_DHCP_CFG_NO_CHANGE", 0 },
   { "TCP_DHCP_CFG_SERVER", 2 },
 };
-const ProtobufCEnumDescriptor ciot__ciot_tcp_dhcp_cfg__descriptor =
+const ProtobufCEnumDescriptor ciot__tcp_dhcp_cfg__descriptor =
 {
   PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "Ciot.CiotTcpDhcpCfg",
-  "CiotTcpDhcpCfg",
-  "Ciot__CiotTcpDhcpCfg",
+  "Ciot.TcpDhcpCfg",
+  "TcpDhcpCfg",
+  "Ciot__TcpDhcpCfg",
   "Ciot",
   4,
-  ciot__ciot_tcp_dhcp_cfg__enum_values_by_number,
+  ciot__tcp_dhcp_cfg__enum_values_by_number,
   4,
-  ciot__ciot_tcp_dhcp_cfg__enum_values_by_name,
+  ciot__tcp_dhcp_cfg__enum_values_by_name,
   1,
-  ciot__ciot_tcp_dhcp_cfg__value_ranges,
+  ciot__tcp_dhcp_cfg__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
 static const ProtobufCEnumValue ciot__tcp_req_type__enum_values_by_number[1] =

@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include "ciot.h"
 #include "ciot_sys.h"
 #include "ciot_err.h"
 #include "ciot_timer.h"
@@ -70,7 +71,11 @@ ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
 
 ciot_err_t ciot_sys_sleep(long ms)
 {
+#if MG_ARCH == MG_ARCH_WIN32
     Sleep(ms);
+#else
+    return CIOT_ERR__NOT_SUPPORTED;
+#endif
     return CIOT_ERR__OK;
 }
 

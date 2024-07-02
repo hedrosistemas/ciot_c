@@ -1,0 +1,225 @@
+/**
+ * @file ciot_uart.c
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2024-06-07
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
+#include "driver/uart.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/queue.h"
+
+#include <stdlib.h>
+#include "ciot_uart.h"
+#include "ciot_err.h"
+#include "ciot_msg.h"
+
+#ifndef CIOT_CONFIG_UART_RX_BUF_SIZE
+#define CIOT_CONFIG_UART_RX_BUF_SIZE 256
+#endif
+
+#ifndef CIOT_CONFIG_UART_TX_BUF_SIZE
+#define CIOT_CONFIG_UART_TX_BUF_SIZE 256
+#endif
+
+#ifndef CIOT_CONFIG_UART_QUEUE_SIZE
+#define CIOT_CONFIG_UART_QUEUE_SIZE 10
+#endif
+
+#ifndef CIOT_CONFIG_UART_TASK_SIZE
+#define CIOT_CONFIG_UART_TASK_SIZE 4096
+#endif 
+
+#ifndef CIOT_CONFIG_UART_TASK_PRIO
+#define CIOT_CONFIG_UART_TASK_PRIO (tskIDLE_PRIORITY + 1)
+#endif
+
+#ifndef CIOT_CONFIG_UART_TASK_CORE
+#define CIOT_CONFIG_UART_TASK_CORE 0
+#endif
+
+static const char *TAG = "ciot_uart";
+
+struct ciot_uart
+{
+    ciot_uart_base_t base;
+    QueueHandle_t queue;
+    TaskHandle_t task;
+    uart_event_t event;
+};
+
+static void ciot_uart0_task(void *args);
+static void ciot_uart1_task(void *args);
+static void ciot_uart2_task(void *args);
+static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event);
+
+ciot_uart_t ciot_uart_new(void *handle)
+{
+    ciot_uart_t self = calloc(1, sizeof(struct ciot_uart));
+    ciot_uart_init(self);
+    return self;
+}
+
+ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
+
+    ciot_uart_base_t *base = &self->base;
+
+    base->cfg = *cfg;
+
+    int num = base->cfg.num;
+    const uart_config_t uart_cfg = {
+        .flow_ctrl = cfg->flow_control,
+        .parity = cfg->parity,
+        .baud_rate = cfg->baud_rate,
+        .data_bits = UART_DATA_8_BITS,
+        .stop_bits = UART_STOP_BITS_1,
+        .source_clk = UART_SCLK_DEFAULT,
+    };
+
+    ESP_ERROR_CHECK(uart_param_config(num, &uart_cfg));
+    ESP_ERROR_CHECK(uart_set_pin(num, cfg->tx_pin, cfg->rx_pin, cfg->rts_pin, cfg->cts_pin));
+    ESP_ERROR_CHECK(uart_driver_install(num, CIOT_CONFIG_UART_RX_BUF_SIZE, CIOT_CONFIG_UART_TX_BUF_SIZE, CIOT_CONFIG_UART_QUEUE_SIZE, &self->queue, 0));
+
+    if(num == 0) xTaskCreatePinnedToCore(ciot_uart0_task, "ciot_uart0_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+    if(num == 1) xTaskCreatePinnedToCore(ciot_uart1_task, "ciot_uart1_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+    if(num == 2) xTaskCreatePinnedToCore(ciot_uart2_task, "ciot_uart2_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+
+    ciot_iface_event_t event = { 0 };
+    event.type = CIOT_IFACE_EVENT_STARTED;
+    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &self->base.iface);
+    ciot_iface_send_event(&base->iface, &event);
+
+    return CIOT_ERR__OK;
+}
+
+ciot_err_t ciot_uart_stop(ciot_uart_t self)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    uart_driver_delete(self->base.cfg.num);
+    vTaskDelete(self->task);
+    return CIOT_ERR__OK;
+}
+
+ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(bytes);
+    uart_write_bytes(self->base.cfg.num, bytes, size);
+    return CIOT_ERR__OK;
+}
+
+ciot_err_t ciot_uart_task(ciot_uart_t self)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    return CIOT_ERR__OK;
+}
+
+static void ciot_uart0_task(void *args)
+{
+    ciot_uart_t self = (ciot_uart_t)args;
+
+    CIOT_LOGI(TAG, "uart0 task started");
+
+    while (true)
+    {
+        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        {
+            ciot_uart_event_handler(self, &self->event);
+        }
+    }
+}
+
+static void ciot_uart1_task(void *args)
+{
+    ciot_uart_t self = (ciot_uart_t)args;
+
+    CIOT_LOGI(TAG, "uart1 task started");
+
+    while (true)
+    {
+        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        {
+            ciot_uart_event_handler(self, &self->event);
+        }
+    }
+
+}
+
+static void ciot_uart2_task(void *args)
+{
+    ciot_uart_t self = (ciot_uart_t)args;
+
+    CIOT_LOGI(TAG, "uart2 task started");
+
+    while (true)
+    {
+        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        {
+            ciot_uart_event_handler(self, &self->event);
+        }
+    }
+}
+
+static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
+{
+    ciot_uart_base_t *base = &self->base;
+
+    switch (event->type)
+    {
+    case UART_DATA:
+        ESP_LOGI(TAG, "UART_DATA[%ld] size:%d", base->cfg.num, event->size);
+        // if(event->size > 0)
+        // {
+        //     uint8_t data[event->size];
+        //     uart_read_bytes(base->cfg.num, data, event->size, portMAX_DELAY);
+        //     ciot_err_t err = ciot_iface_process_data(&base->iface, data, event->size);
+        //     if(err != CIOT_ERR__OK)
+        //     {
+        //         CIOT_LOGI(TAG, "Process data error %s", ciot_err_to_message(err));
+        //     }
+        // }
+        while (event->size)
+        {
+            uint8_t byte;
+            uart_read_bytes(base->cfg.num, &byte, 1, portMAX_DELAY);
+            event->size--;
+            ciot_iface_process_data(&base->iface, &byte, 1);
+        }
+        break;
+    case UART_FIFO_OVF:
+        ESP_LOGE(TAG, "UART_FIFO_OVF[%ld]", base->cfg.num);
+        base->status.error = CIOT__UART_ERROR__UART_ERR_FIFO_OVERFLOW;
+        uart_flush_input(base->cfg.num);
+        xQueueReset(self->queue);
+        break;
+    case UART_BUFFER_FULL:
+        ESP_LOGE(TAG, "UART_BUFFER_FULL[%ld]: %d", base->cfg.num, event->size);
+        base->status.error = CIOT__UART_ERROR__UART_ERR_BUFFER_FULL;
+        uart_flush_input(base->cfg.num);
+        xQueueReset(self->queue);
+        break;
+    case UART_BREAK:
+        ESP_LOGE(TAG, "UART_BREAK[%ld]", base->cfg.num);
+        base->status.error = CIOT__UART_ERROR__UART_ERR_BREAK;
+        uart_flush_input(base->cfg.num);
+        xQueueReset(self->queue);
+        break;
+    case UART_FRAME_ERR:
+        ESP_LOGE(TAG, "UART_FRAME_ERR[%ld]", base->cfg.num);
+        base->status.error = CIOT__UART_ERROR__UART_ERR_FRAME;
+        uart_flush_input(base->cfg.num);
+        xQueueReset(self->queue);
+        break;
+    default:
+        ESP_LOGW(TAG, "unhandled event: %d", event->type);
+        break;
+    }
+}

@@ -23,18 +23,26 @@ ciot_err_t ciot_mqtt_client_init(ciot_mqtt_client_t self)
 {
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
 
+    ciot_iface_init(&base->iface);
+    ciot__mqtt_client_data__init(&base->data);
+    ciot__mqtt_client_cfg__init(&base->cfg);
+    ciot__mqtt_client_topics_cfg__init(&base->topics);
+    ciot__mqtt_client_status__init(&base->status);
+
     base->iface.ptr = self;
     base->iface.process_req = ciot_iface_process_req;
     base->iface.get_data = ciot_iface_get_data;
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_MQTT;
 
-    ciot_iface_init(&base->iface);
-    ciot__mqtt_client_data__init(&base->data);
-    ciot__mqtt_client_cfg__init(&base->cfg);
-    ciot__mqtt_client_status__init(&base->status);
-
+    base->cfg.topics = &base->topics;
     base->status.error = &base->error;
+
+    base->cfg.client_id = base->client_id;
+    base->cfg.url = base->url;
+    base->cfg.topics->b2d = base->topic_b2d;
+    base->cfg.topics->d2b = base->topic_d2b;
+    base->cfg.password = base->password;
 
     return CIOT_ERR__OK;
 }
@@ -118,5 +126,14 @@ ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client
     CIOT_ERR_NULL_CHECK(status);
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
     *status = base->status;
+    return CIOT_ERR__OK;
+}
+
+ciot_err_t ciot_mqtt_client_set_topics(ciot_mqtt_client_t self, char *d2b, char *b2d)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    base->cfg.topics->d2b = d2b;
+    base->cfg.topics->b2d = b2d;
     return CIOT_ERR__OK;
 }

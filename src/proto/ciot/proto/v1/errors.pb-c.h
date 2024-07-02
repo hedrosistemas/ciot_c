@@ -136,6 +136,10 @@ typedef enum _CiotErr {
    */
   CIOT_ERR__DATA_LOSS = 27,
   /*
+   * Invalid message header
+   */
+  CIOT_ERR__INVALID_HEADER = 28,
+  /*
    * Operation failed
    */
   CIOT_ERR__FAIL = -1

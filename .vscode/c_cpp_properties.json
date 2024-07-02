@@ -1,4 +1,7 @@
 {
+    "env": {
+        "IDF_COMPILER": "C:\\Users\\intec\\.espressif\\tools\\xtensa-esp-elf\\esp-13.2.0_20230928\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-gcc.exe"
+    },
     "configurations": [
         {
             "name": "windows-gcc-x64",
@@ -9,32 +12,25 @@
             "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
-            "name": "esp32",
-            "forcedInclude": [
-                "${workspaceFolder}/examples/esp32/build/config/sdkconfig.h"
-            ],
-            "defines": [
-                "ESP_PLATFORM"
-            ],
-            "compilerPath": "C:/Users/BINAR/.espressif/tools/xtensa-esp32-elf/esp-12.2.0_20230208/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe",
+            "name": "ESP-IDF",
+            "compilerPath": "${IDF_COMPILER}",
             "includePath": [
-                "${config:idf.espIdfPath}/components/**",
                 "${config:idf.espIdfPathWin}/components/**",
-                "${config:idf.espAdfPath}/components/**",
-                "${config:idf.espAdfPathWin}/components/**",
-                "${workspaceFolder}/include/**"
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/src/esp32/**",
+                "${workspaceFolder}/src/proto/**",
+                "${workspaceFolder}/src/common/**"
             ],
             "browse": {
                 "path": [
-                    "${config:idf.espIdfPath}/components",
-                    "${config:idf.espIdfPathWin}/components",
-                    "${config:idf.espAdfPath}/components/**",
-                    "${config:idf.espAdfPathWin}/components/**",
-                    "${workspaceFolder}/examples/esp32/**",
-                    "${workspaceFolder}/src/esp32/**"
-                ],
+                    "${config:idf.espIdfPathWin}/components"
+            ],
                 "limitSymbolsToIncludedHeaders": false
-            }
+            },
+            "compilerArgs": [
+                "-DESP_PLATFORM",
+                "-DIDF_VER"
+            ]
         },
         {
             "name": "esp8266",

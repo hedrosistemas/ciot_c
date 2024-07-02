@@ -43,10 +43,10 @@ void ciot_logger_init(void *iface)
 
 void ciot_log(ciot_log_level_t level, const char *tag, const char *fmt, ...)
 {
-    logger.log.level = level;
-    logger.log.tag = (char*)tag;
     if(logger.iface == NULL) return;
     if(level > CIOT_CONFIG_LOG_LEVEL) return;
+    logger.log.level = level;
+    logger.log.tag = (char*)tag;
     va_list args;
     va_start(args, fmt);
     vsprintf(logger.buf, fmt, args);
@@ -56,10 +56,10 @@ void ciot_log(ciot_log_level_t level, const char *tag, const char *fmt, ...)
 
 void ciot_logd(const char *tag, const char *fmt, ...)
 {
+    if(logger.iface == NULL) return;
+    if(CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG > CIOT_CONFIG_LOG_LEVEL) return;
     logger.log.level = CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG;
     logger.log.tag = (char*)tag;
-    if(logger.iface == NULL) return;
-    if(logger.log.level > CIOT_CONFIG_LOG_LEVEL) return;
     va_list args;
     va_start(args, fmt);
     vsprintf(logger.buf, fmt, args);
@@ -69,10 +69,10 @@ void ciot_logd(const char *tag, const char *fmt, ...)
 
 void ciot_logv(const char *tag, const char *fmt, ...)
 {
+    if(logger.iface == NULL) return;
+    if(CIOT__LOG_LEVEL__LOG_LEVEL_VERBOSE > CIOT_CONFIG_LOG_LEVEL) return;
     logger.log.level = CIOT__LOG_LEVEL__LOG_LEVEL_VERBOSE;
     logger.log.tag = (char*)tag;
-    if(logger.iface == NULL) return;
-    if(logger.log.level > CIOT_CONFIG_LOG_LEVEL) return;
     va_list args;
     va_start(args, fmt);
     vsprintf(logger.buf, fmt, args);
@@ -82,10 +82,10 @@ void ciot_logv(const char *tag, const char *fmt, ...)
 
 void ciot_logi(const char *tag, const char *fmt, ...)
 {
+    if(logger.iface == NULL) return;
+    if(CIOT__LOG_LEVEL__LOG_LEVEL_INFO > CIOT_CONFIG_LOG_LEVEL) return;
     logger.log.level = CIOT__LOG_LEVEL__LOG_LEVEL_INFO;
     logger.log.tag = (char*)tag;
-    if(logger.iface == NULL) return;
-    if(logger.log.level > CIOT_CONFIG_LOG_LEVEL) return;
     va_list args;
     va_start(args, fmt);
     vsprintf(logger.buf, fmt, args);
@@ -95,10 +95,10 @@ void ciot_logi(const char *tag, const char *fmt, ...)
 
 void ciot_logw(const char *tag, const char *fmt, ...)
 {
+    if(logger.iface == NULL) return;
+    if(CIOT__LOG_LEVEL__LOG_LEVEL_WARNING > CIOT_CONFIG_LOG_LEVEL) return;
     logger.log.level = CIOT__LOG_LEVEL__LOG_LEVEL_WARNING;
     logger.log.tag = (char*)tag;
-    if(logger.iface == NULL) return;
-    if(logger.log.level > CIOT_CONFIG_LOG_LEVEL) return;
     va_list args;
     va_start(args, fmt);
     vsprintf(logger.buf, fmt, args);
@@ -108,10 +108,10 @@ void ciot_logw(const char *tag, const char *fmt, ...)
 
 void ciot_loge(const char *tag, const char *fmt, ...)
 {
+    if(logger.iface == NULL) return;
+    if(CIOT__LOG_LEVEL__LOG_LEVEL_ERROR > CIOT_CONFIG_LOG_LEVEL) return;
     logger.log.level = CIOT__LOG_LEVEL__LOG_LEVEL_ERROR;
     logger.log.tag = (char*)tag;
-    if(logger.iface == NULL) return;
-    if(logger.log.level > CIOT_CONFIG_LOG_LEVEL) return;
     va_list args;
     va_start(args, fmt);
     vsprintf(logger.buf, fmt, args);

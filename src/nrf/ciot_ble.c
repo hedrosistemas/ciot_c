@@ -160,27 +160,6 @@ ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t m
     return err;
 }
 
-ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces)
-{
-    CIOT_ERR_NULL_CHECK(self);
-    CIOT_ERR_NULL_CHECK(ifaces);
-    ciot_ble_base_t *base = &self->base;
-    base->ifaces = *ifaces;
-    return CIOT_ERR__OK;
-}
-
-bool ciot_ble_mac_is_valid(uint8_t mac[6])
-{
-    for (size_t i = 0; i < 6; i++)
-    {
-        if (mac[i] != 0)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 static void ciot_ble_power_management_init(ciot_ble_t self)
 {
 #if (NRF_SD_BLE_API_VERSION == 7)

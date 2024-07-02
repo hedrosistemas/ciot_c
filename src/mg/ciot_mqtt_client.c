@@ -61,15 +61,14 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
     }
 
     base->cfg = *cfg;
+
     base->cfg.client_id = self->client_id;
     base->cfg.url = self->url;
     base->cfg.user = self->user;
     base->cfg.password = self->password;
-    if(base->cfg.topics != NULL)
-    {
-        base->cfg.topics->b2d = self->topic_b2d;
-        base->cfg.topics->d2b = self->topic_d2b;
-    }
+    base->cfg.topics = &self->base.topics;
+    base->cfg.topics->b2d = self->topic_b2d;
+    base->cfg.topics->d2b = self->topic_d2b;
 
     opts.client_id = mg_str(cfg->client_id);
     opts.user = mg_str(cfg->user);

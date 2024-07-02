@@ -103,16 +103,16 @@ ciot_err_t ciot_dfu_nrf_init(ciot_dfu_nrf_t self)
 {
     ciot_dfu_t *base = (ciot_dfu_t*)&self->base;
 
+    ciot_iface_init(&base->iface);
+    ciot__dfu_data__init(&base->data);
+    ciot__dfu_cfg__init(&base->cfg);
+    ciot__dfu_status__init(&base->status);
+
     base->iface.ptr = self;
     base->iface.process_req = ciot_iface_process_req;
     base->iface.get_data = ciot_iface_get_data;
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_DFU;
-
-    ciot_iface_init(&base->iface);
-    ciot__dfu_data__init(&base->data);
-    ciot__dfu_cfg__init(&base->cfg);
-    ciot__dfu_status__init(&base->status);
 
     return CIOT_ERR__OK;
 }

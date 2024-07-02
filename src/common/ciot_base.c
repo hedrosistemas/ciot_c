@@ -25,7 +25,7 @@ ciot_err_t ciot_init(ciot_t self)
     self->iface.process_req = ciot_iface_process_req;
     self->iface.get_data = ciot_iface_get_data;
     self->iface.send_data = ciot_iface_send_data;
-    self->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM;
+    self->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CIOT;
 
     ciot_iface_init(&self->iface);
     ciot__ciot_data__init(&self->data);

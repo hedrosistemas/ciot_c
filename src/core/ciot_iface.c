@@ -28,6 +28,7 @@ ciot_err_t ciot_iface_init(ciot_iface_t *self)
 {
     CIOT_ERR_NULL_CHECK(self);
     ciot__msg_data__init(&self->data);
+    ciot__iface_info__init(&self->info);
     return CIOT_ERR__OK;
 }
 

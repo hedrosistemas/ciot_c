@@ -46,10 +46,17 @@ typedef struct ciot_mqtt_client_base
 {
     ciot_iface_t iface;
     ciot_mqtt_client_cfg_t cfg;
+    ciot_mqtt_client_topics_t topics;
     ciot_mqtt_client_status_t status;
     ciot_mqtt_client_req_t req;
     ciot_mqtt_client_data_t data;
     ciot_mqtt_client_error_t error;
+    char client_id[CIOT_CONFIG_MQTT_CLIENT_ID_SIZE];
+    char url[CIOT_CONFIG_MQTT_CLIENT_URL_SIZE];
+    char user[CIOT_CONFIG_MQTT_USER_SIZE];
+    char password[CIOT_CONFIG_MQTT_PASS_SIZE];
+    char topic_d2b[CIOT_CONFIG_MQTT_TOPIC_SIZE];
+    char topic_b2d[CIOT_CONFIG_MQTT_TOPIC_SIZE];
 } ciot_mqtt_client_base_t;
 
 ciot_mqtt_client_t ciot_mqtt_client_new(void *handle);
@@ -62,6 +69,7 @@ ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client
 
 ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos);
 ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *data, int size, int qos);
+ciot_err_t ciot_mqtt_client_set_topics(ciot_mqtt_client_t self, char *d2b, char *b2d);
 
 #ifdef __cplusplus
 }

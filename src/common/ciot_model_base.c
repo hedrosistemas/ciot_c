@@ -23,17 +23,17 @@ ciot_err_t ciot_model_init(ciot_model_t self)
 {
     ciot_model_base_t *base = (ciot_model_base_t*)self;
 
-    base->iface.ptr = self;
-    base->iface.process_req = ciot_iface_process_req;
-    base->iface.get_data = ciot_iface_get_data;
-    base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM;
-
     ciot_iface_init(&base->iface);
     ciot__model_data__init(&base->data);
     ciot__model_cfg__init(&base->cfg);
     ciot__model_status__init(&base->status);
     ciot__model_info__init(&base->info);
+
+    base->iface.ptr = self;
+    base->iface.process_req = ciot_iface_process_req;
+    base->iface.get_data = ciot_iface_get_data;
+    base->iface.send_data = ciot_iface_send_data;
+    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM;
 
     return CIOT_ERR__OK;
 }

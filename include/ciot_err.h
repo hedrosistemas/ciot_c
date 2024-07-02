@@ -22,7 +22,7 @@ typedef CiotErr ciot_err_t;
 #define CIOT_ERR_NULL_CHECK(x)                            \
     if (x == NULL)                                        \
     {                                                     \
-        /*CIOT_ERR_LOG("ciot_err", CIOT_ERR__NULL_ARG);*/ \
+        CIOT_ERR_LOG("ciot_err", CIOT_ERR__NULL_ARG);     \
         return CIOT_ERR__NULL_ARG;                        \
     }
 
@@ -42,6 +42,16 @@ typedef CiotErr ciot_err_t;
             CIOT_ERR_LOG("ciot_err", ciot_err); \
             return ciot_err;                    \
         }                                       \
+    } while (0)
+
+#define CIOT_ERR_PRINT(TAG, x)           \
+    do                                   \
+    {                                    \
+        ciot_err_t ciot_err = x;         \
+        if (ciot_err != CIOT_ERR__OK)    \
+        {                                \
+            CIOT_ERR_LOG(TAG, ciot_err); \
+        }                                \
     } while (0)
 
 const char *ciot_err_to_message(ciot_err_t err);

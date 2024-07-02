@@ -23,16 +23,16 @@ ciot_err_t ciot_uart_init(ciot_uart_t self)
 {
     ciot_uart_base_t *base = (ciot_uart_base_t*)self;
 
+    ciot_iface_init(&base->iface);
+    ciot__uart_data__init(&base->data);
+    ciot__uart_cfg__init(&base->cfg);
+    ciot__uart_status__init(&base->status);
+
     base->iface.ptr = self;
     base->iface.process_req = ciot_iface_process_req;
     base->iface.get_data = ciot_iface_get_data;
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_UART;
-
-    ciot_iface_init(&base->iface);
-    ciot__uart_data__init(&base->data);
-    ciot__uart_cfg__init(&base->cfg);
-    ciot__uart_status__init(&base->status);
 
     return CIOT_ERR__OK;
 }

@@ -24,17 +24,17 @@ ciot_err_t ciot_ble_init(ciot_ble_t self)
 {
     ciot_ble_base_t *base = (ciot_ble_base_t*)self;
 
-    base->iface.ptr = self;
-    base->iface.process_req = ciot_iface_process_req;
-    base->iface.get_data = ciot_iface_get_data;
-    base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_BLE;
-
     ciot_iface_init(&base->iface);
     ciot__ble_data__init(&base->data);
     ciot__ble_cfg__init(&base->cfg);
     ciot__ble_status__init(&base->status);
     ciot__ble_info__init(&base->info);
+
+    base->iface.ptr = self;
+    base->iface.process_req = ciot_iface_process_req;
+    base->iface.get_data = ciot_iface_get_data;
+    base->iface.send_data = ciot_iface_send_data;
+    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_BLE;
 
     base->info.sw_mac.data = base->macs.sw;
     base->info.sw_mac.len = sizeof(base->macs.sw);
@@ -142,5 +142,26 @@ ciot_err_t ciot_ble_get_info(ciot_ble_t self, ciot_ble_info_t *info)
     CIOT_ERR_NULL_CHECK(info);
     ciot_ble_base_t *base = (ciot_ble_base_t*)self;
     *info = base->info;
+    return CIOT_ERR__OK;
+}
+
+bool ciot_ble_mac_is_valid(uint8_t mac[6])
+{
+    for (size_t i = 0; i < 6; i++)
+    {
+        if (mac[i] != 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(ifaces);
+    ciot_ble_base_t *base = (ciot_ble_base_t*)self;
+    base->ifaces = *ifaces;
     return CIOT_ERR__OK;
 }

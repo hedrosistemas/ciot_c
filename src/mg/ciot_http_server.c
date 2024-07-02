@@ -45,7 +45,7 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
 
     ciot_http_server_base_t *base = &self->base;
 
-    sprintf(self->endpoint, "%s:%d", cfg->address, cfg->port);
+    sprintf(self->endpoint, "%s:%ld", cfg->address, cfg->port);
     strcpy(self->route, cfg->route);
 
     base->cfg = *cfg;

@@ -27,18 +27,18 @@ ciot_err_t ciot_ble_scn_init(ciot_ble_scn_t self)
 {
     ciot_ble_scn_base_t *base = (ciot_ble_scn_base_t*)self;
 
-    base->iface.ptr = self;
-    base->iface.process_req = ciot_iface_process_req;
-    base->iface.get_data = ciot_iface_get_data;
-    base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_BLE_SCN;
-
     ciot_iface_init(&base->iface);
     ciot__ble_scn_data__init(&base->data);
     ciot__ble_scn_cfg__init(&base->cfg);
     ciot__ble_scn_status__init(&base->status);
     ciot__ble_scn_adv__init(&base->recv);
     ciot__ble_scn_adv_info__init(&base->recv_info);
+
+    base->iface.ptr = self;
+    base->iface.process_req = ciot_iface_process_req;
+    base->iface.get_data = ciot_iface_get_data;
+    base->iface.send_data = ciot_iface_send_data;
+    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_BLE_SCN;
 
     base->recv.info = &base->recv_info;
 

@@ -24,12 +24,6 @@ ciot_err_t ciot_sys_init(ciot_sys_t self)
 {
     ciot_sys_base_t *base = (ciot_sys_base_t*)self;
 
-    base->iface.ptr = self;
-    base->iface.process_req = ciot_iface_process_req;
-    base->iface.get_data = ciot_iface_get_data;
-    base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_SYS;
-
     ciot_iface_init(&base->iface);
     ciot__sys_data__init(&base->data);
     ciot__sys_cfg__init(&base->cfg);
@@ -38,6 +32,12 @@ ciot_err_t ciot_sys_init(ciot_sys_t self)
     ciot__sys_features__init(&base->features);
     ciot__sys_hw_features__init(&base->hw);
     ciot__sys_sw_features__init(&base->sw);
+
+    base->iface.ptr = self;
+    base->iface.process_req = ciot_iface_process_req;
+    base->iface.get_data = ciot_iface_get_data;
+    base->iface.send_data = ciot_iface_send_data;
+    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_SYS;
 
     base->info.features = &base->features;
     base->info.features->hw = &base->hw;
@@ -53,7 +53,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
     switch (req->type)
     {
         case CIOT__MSG_TYPE__MSG_TYPE_START:
-            return ciot_sys_start(self, NULL);
+            return ciot_sys_start(self, req->data->sys->config);
         case CIOT__MSG_TYPE__MSG_TYPE_STOP:
             return ciot_sys_stop(self);
         case CIOT__MSG_TYPE__MSG_TYPE_REQUEST:
@@ -145,7 +145,7 @@ ciot_err_t ciot_sys_get_info(ciot_sys_t self, ciot_sys_info_t *info)
     info->hw_name = CIOT_CONFIG_HARDWARE_NAME;
 
     ciot_sys_get_hw(&info->hardware);
-    ciot_sys_get_features(info->features);
+    if(info->features) ciot_sys_get_features(info->features);
 
     return CIOT_ERR__OK;
 }

@@ -22,10 +22,6 @@ extern "C" {
 
 #include "ciot/proto/v1/uart.pb-c.h"
 
-#ifndef CIOT_CONFIG_UART_TX_BUF_SIZE
-#define CIOT_CONFIG_UART_TX_BUF_SIZE 256
-#endif 
-
 typedef struct ciot_uart *ciot_uart_t;
 typedef Ciot__UartCfg ciot_uart_cfg_t;
 typedef Ciot__UartReq ciot_uart_req_t;

@@ -23,17 +23,17 @@ ciot_err_t ciot_usb_init(ciot_usb_t self)
 {
     ciot_usb_base_t *base = (ciot_usb_base_t*)self;
 
-    base->iface.ptr = self;
-    base->iface.process_req = ciot_iface_process_req;
-    base->iface.get_data = ciot_iface_get_data;
-    base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_USB;
-
     ciot_iface_init(&base->iface);
     ciot__usb_data__init(&base->data);
     ciot__usb_cfg__init(&base->cfg);
     ciot__usb_status__init(&base->status);
     // ciot__usb_info__init(&base->info);
+
+    base->iface.ptr = self;
+    base->iface.process_req = ciot_iface_process_req;
+    base->iface.get_data = ciot_iface_get_data;
+    base->iface.send_data = ciot_iface_send_data;
+    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_USB;
 
     return CIOT_ERR__OK;
 }

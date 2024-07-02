@@ -72,8 +72,9 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     self->params.BaudRate = base->cfg.baud_rate;
     self->params.ByteSize = 8;
     self->params.StopBits = ONESTOPBIT;
+    self->params.Parity = base->cfg.parity;
     self->params.fDtrControl = base->cfg.dtr;
-    if(!SetCommState(self->handle, &self->params) == FALSE)
+    if(!SetCommState(self->handle, &self->params))
     {
         CIOT_LOGE(TAG, "SetCommState error at COM%d", base->cfg.num);
         base->status.state = CIOT__UART_STATE__UART_STATE_INTERNAL_ERROR;
@@ -95,9 +96,6 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
         return CIOT_ERR__FAIL;
     }
-
-    base->status.state = CIOT__UART_STATE__UART_STATE_STARTED;
-    ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STARTED);
 
     return CIOT_ERR__OK;
 }
@@ -145,34 +143,34 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 
 static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
 {
-    ciot_uart_base_t base = self->base;
+    ciot_uart_base_t *base = &self->base;
 
-    if(base.status.state == CIOT__UART_STATE__UART_STATE_CLOSED && error == 0)
+    if(base->status.state == CIOT__UART_STATE__UART_STATE_CLOSED && error == 0)
     {
         ciot_iface_event_t iface_event = { 0 };
-        base.status.state = CIOT__UART_STATE__UART_STATE_STARTED;
+        base->status.state = CIOT__UART_STATE__UART_STATE_STARTED;
         iface_event.type = CIOT_IFACE_EVENT_STARTED;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base.iface);
-        ciot_iface_send_event(&base.iface, &iface_event);
+        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
+        ciot_iface_send_event(&base->iface, &iface_event);
         CIOT_LOGI(TAG, "UART_OPEN port:%s", self->port_name);
     }
 
-    if(base.status.state == CIOT__UART_STATE__UART_STATE_STARTED && error == CE_FRAME)
+    if(base->status.state == CIOT__UART_STATE__UART_STATE_STARTED && error == CE_FRAME)
     {
         ciot_iface_event_t iface_event = { 0 };
-        base.status.state = CIOT__UART_STATE__UART_STATE_CLOSED;
+        base->status.state = CIOT__UART_STATE__UART_STATE_CLOSED;
         iface_event.type = CIOT_IFACE_EVENT_STOPPED;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base.iface);
-        ciot_iface_send_event(&base.iface, &iface_event);
+        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
+        ciot_iface_send_event(&base->iface, &iface_event);
         CIOT_LOGI(TAG, "UART_CLOSED port:%s", self->port_name);
     }
 }
 
 static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
 {
-    ciot_uart_base_t base = self->base;
+    ciot_uart_base_t *base = &self->base;
 
-    if(base.status.state != CIOT__UART_STATE__UART_STATE_STARTED)
+    if(base->status.state != CIOT__UART_STATE__UART_STATE_STARTED)
     {
         return CIOT_ERR__INVALID_STATE;
     }
@@ -184,22 +182,10 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
         {
             if(ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL))
             {
-                if(base.decoder != NULL)
+                ciot_err_t err = ciot_iface_process_data(&base->iface, &byte, 1);
+                if(err != CIOT_ERR__OK)
                 {
-                    ciot_err_t err = base.decoder->decode(base.decoder, byte);
-                    if(err != CIOT_ERR__OK)
-                    {
-                        CIOT_LOGE(TAG, "Error %s processing byte %d", ciot_err_to_message(err), byte);
-                        base.status.error = err;
-                    }
-                }
-                else
-                {
-                    ciot_iface_event_t iface_event = {0};
-                    iface_event.type = CIOT_IFACE_EVENT_DATA;
-                    iface_event.data = &byte;
-                    iface_event.size = 1;
-                    ciot_iface_send_event(&base.iface, &iface_event);
+                    base->status.error = err;
                 }
             }
             status->cbInQue--;

@@ -18,6 +18,8 @@ PROTOBUF_C__BEGIN_DECLS
 #include "ciot/proto/v1/ble_scn.pb-c.h"
 #include "ciot/proto/v1/ble.pb-c.h"
 #include "ciot/proto/v1/ciot.pb-c.h"
+#include "ciot/proto/v1/dfu.pb-c.h"
+#include "ciot/proto/v1/errors.pb-c.h"
 #include "ciot/proto/v1/http_client.pb-c.h"
 #include "ciot/proto/v1/http_server.pb-c.h"
 #include "ciot/proto/v1/logger.pb-c.h"
@@ -25,7 +27,6 @@ PROTOBUF_C__BEGIN_DECLS
 #include "ciot/proto/v1/mqtt_client.pb-c.h"
 #include "ciot/proto/v1/ntp.pb-c.h"
 #include "ciot/proto/v1/ota.pb-c.h"
-#include "ciot/proto/v1/dfu.pb-c.h"
 #include "ciot/proto/v1/storage.pb-c.h"
 #include "ciot/proto/v1/sys.pb-c.h"
 #include "ciot/proto/v1/tcp.pb-c.h"
@@ -222,11 +223,11 @@ struct  _Ciot__MsgError
   /*
    * Error code.
    */
-  uint32_t code;
+  CiotErr code;
 };
 #define CIOT__MSG_ERROR__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__msg_error__descriptor) \
-    , NULL, NULL, 0 }
+    , NULL, NULL, CIOT_ERR__OK }
 
 
 /*

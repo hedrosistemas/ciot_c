@@ -75,7 +75,7 @@ typedef struct ciot_ifaces
 
 typedef struct ciot_starting
 {
-    uint8_t iface_id;
+    uint32_t iface_id;
     bool waiting_result;
     uint64_t timer;
 } ciot_starting_t;
