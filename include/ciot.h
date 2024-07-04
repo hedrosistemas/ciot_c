@@ -20,6 +20,7 @@ extern "C" {
 #include "ciot_err.h"
 #include "ciot_iface.h"
 #include "ciot_msg.h"
+#include "ciot_storage.h"
 
 #if defined(ICACHE_FLASH) || defined(ICACHE_RAM_ATTR)
 #define CIOT_TARGET_ESP8266
@@ -64,6 +65,7 @@ typedef struct ciot_cfg
     ciot_iface_t **ifaces; ///< Array of CIOT interfaces.
     ciot_msg_data_t **cfgs; ///< Array of configurations for the interfaces.
     uint8_t count; ///< Number of interfaces.
+    ciot_storage_t storage; ///< Storage interface used to save/load ifaces configurations
 } ciot_cfg_t;
 
 typedef struct ciot_ifaces
@@ -84,7 +86,7 @@ typedef struct ciot_recv
 {
     ciot_iface_t *sender;
     ciot_iface_event_t event;
-    ciot_msg_t buf;
+    // ciot_msg_t buf;
 } ciot_recv_t;
 
 struct ciot
@@ -99,6 +101,7 @@ struct ciot
     ciot_starting_t starting;
     ciot_recv_t recv;
     ciot_msg_error_t error;
+    ciot_storage_t storage;
 };
 
 ciot_t ciot_new(void);

@@ -19,11 +19,18 @@ typedef CiotErr ciot_err_t;
 
 #define CIOT_ERR_LOG(TAG, x) CIOT_LOGE(TAG, "%s:%d %s", __FILE__, __LINE__, ciot_err_to_message(x))
 
-#define CIOT_ERR_NULL_CHECK(x)                            \
-    if (x == NULL)                                        \
-    {                                                     \
-        CIOT_ERR_LOG("ciot_err", CIOT_ERR__NULL_ARG);     \
-        return CIOT_ERR__NULL_ARG;                        \
+#define CIOT_ERR_NULL_CHECK(x)                        \
+    if (x == NULL)                                    \
+    {                                                 \
+        CIOT_ERR_LOG("ciot_err", CIOT_ERR__NULL_ARG); \
+        return CIOT_ERR__NULL_ARG;                    \
+    }
+
+#define CIOT_ERR_STATE_CHECK(current, expected)            \
+    if (current != expected)                               \
+    {                                                      \
+        CIOT_ERR_LOG("ciot_err", CIOT_ERR__INVALID_STATE); \
+        return CIOT_ERR__INVALID_STATE;                    \
     }
 
 #define CIOT_ERR_EMPTY_STRING_CHECK(x)                       \

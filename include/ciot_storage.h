@@ -3,7 +3,7 @@
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2024-06-07
+ * @date 2024-07-04
  * 
  * @copyright Copyright (c) 2024
  * 
@@ -16,42 +16,31 @@
 extern "C" {
 #endif
 
+#include <inttypes.h>
 #include "ciot_err.h"
-#include "ciot_iface.h"
+#include "ciot_msg.h"
+#include "ciot_serializer.h"
 
-#include "ciot/proto/v1/storage.pb-c.h"
+typedef enum ciot_storage_type
+{
+    CIOT_STORAGE_TYPE_FS,
+    CIOT_STORAGE_TYPE_NVS,
+} ciot_storage_type_t;
 
 typedef struct ciot_storage *ciot_storage_t;
-typedef Ciot__StorageCfg ciot_storage_cfg_t;
-typedef Ciot__StorageReq ciot_storage_req_t;
-typedef Ciot__StorageStatus ciot_storage_status_t;
-typedef Ciot__StorageInfo ciot_storage_info_t;
-typedef Ciot__StorageReq ciot_storage_req_t;
-typedef Ciot__StorageData ciot_storage_data_t;
+typedef ciot_err_t ciot_storage_write_bytes_fn(char *path, uint8_t *bytes, int size);
+typedef ciot_err_t ciot_storage_read_bytes_fn(char *path, uint8_t *bytes, int *size);
 
-typedef struct ciot_storage_base
+struct ciot_storage
 {
-    ciot_iface_t iface;
-    ciot_storage_cfg_t cfg;
-    ciot_storage_status_t status;
-    ciot_storage_info_t info;
-    ciot_storage_req_t req;
-    ciot_storage_data_t data;
-} ciot_storage_base_t;
+    ciot_storage_type_t type;
+    ciot_serializer_t serializer;
+    ciot_storage_write_bytes_fn *write_bytes;
+    ciot_storage_read_bytes_fn *read_bytes;
+};
 
-ciot_storage_t ciot_storage_new(void *handle);
-ciot_err_t ciot_storage_init(ciot_storage_t self);
-ciot_err_t ciot_storage_start(ciot_storage_t self, ciot_storage_cfg_t *cfg);
-ciot_err_t ciot_storage_stop(ciot_storage_t self);
-ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req);
-ciot_err_t ciot_storage_get_cfg(ciot_storage_t self, ciot_storage_cfg_t *cfg);
-ciot_err_t ciot_storage_get_status(ciot_storage_t self, ciot_storage_status_t *status);
-ciot_err_t ciot_storage_get_info(ciot_storage_t self, ciot_storage_info_t *info);
-
-ciot_err_t ciot_storage_save(ciot_storage_t self, char *path, uint8_t *data, int size);
-ciot_err_t ciot_storage_load(ciot_storage_t self, char *path, uint8_t *data, int size);
-ciot_err_t ciot_storage_delete(ciot_storage_t self, char *path);
-ciot_err_t ciot_storage_format(ciot_storage_t self);
+ciot_err_t ciot_storage_set_data(ciot_storage_t self, char *path, ciot_msg_data_t *data);
+ciot_msg_data_t *ciot_storage_get_data(ciot_storage_t self, char *path);
 
 #ifdef __cplusplus
 }

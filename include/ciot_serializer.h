@@ -27,7 +27,7 @@ typedef enum ciot_serializer_type
 
 typedef struct ciot_serializer *ciot_serializer_t;
 typedef int (ciot_serializer_to_bytes_fn)(uint8_t *bytes, ciot_msg_t *msg);
-typedef int (ciot_serializer_from_bytes_fn)(ciot_msg_t *msg, uint8_t *bytes, int size);
+typedef ciot_msg_t* (ciot_serializer_from_bytes_fn)(uint8_t *bytes, int size);
 
 struct ciot_serializer
 {
