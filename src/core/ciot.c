@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "ciot.h"
@@ -20,6 +21,7 @@
 #include "ciot_logger.h"
 
 #define CIOT_IFACE_START_TIMEOUT_SECS 5
+#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat"
 
 static const char *TAG = "ciot";
 
@@ -122,7 +124,25 @@ static ciot_err_t ciot_starting_task(ciot_t self)
         }
 
         ciot_iface_t *iface = self->ifaces.list[id];
-        ciot_msg_data_t *cfg = self->ifaces.cfgs[id];
+        ciot_msg_data_t *cfg = NULL;
+
+        if(self->storage != NULL)
+        {
+            char filename[16];
+            sprintf(filename, CIOT_IFACE_CFG_FILENAME, id);
+            cfg = ciot_storage_get_data(self->storage, filename);
+            if(cfg != NULL)
+            {
+                CIOT_LOGI(TAG, "Loading file %s into interface %s", filename, ciot_iface_to_str(iface));
+            }
+        }
+
+        if(cfg == NULL)
+        {
+            CIOT_LOGI(TAG, "Loading static configuration into interface %s", ciot_iface_to_str(iface));
+            cfg = self->ifaces.cfgs[id];
+        }
+
         ciot_err_t err = ciot_start_iface(self, iface, cfg);
         if (err == CIOT_ERR__OK)
         {
@@ -287,14 +307,13 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
             return CIOT_ERR__BUSY;
         }
 
+        ciot__msg__free_unpacked(self->recv.event.msg, NULL);
         if (sender->serializer != NULL)
         {
-            sender->serializer->from_bytes(&self->recv.buf, event->data, event->size);
-            self->recv.event.msg = &self->recv.buf;
+            self->recv.event.msg = sender->serializer->from_bytes(event->data, event->size);
         }
         else
         {
-            ciot__msg__free_unpacked(self->recv.event.msg, NULL);
             self->recv.event.msg = ciot__msg__unpack(NULL, event->size, event->data);
         }
 

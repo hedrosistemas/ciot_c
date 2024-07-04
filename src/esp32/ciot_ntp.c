@@ -16,7 +16,7 @@
 #include "ciot_timer.h"
 #include "ciot_msg.h"
 
-// static const char *TAG = "ciot_ntp";
+static const char *TAG = "ciot_ntp";
 
 struct ciot_ntp
 {
@@ -48,6 +48,10 @@ ciot_err_t ciot_ntp_start(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
 
     ciot_ntp_set_cfg(self, cfg);
 
+    if(cfg->server1) esp_sntp_setservername(0, cfg->server1);
+    if(cfg->server2) esp_sntp_setservername(1, cfg->server2);
+    if(cfg->server3) esp_sntp_setservername(2, cfg->server3);
+
     esp_sntp_setoperatingmode(cfg->op_mode);
     esp_sntp_set_sync_interval(cfg->sync_interval);
     esp_sntp_set_sync_mode(cfg->sync_mode);
@@ -58,8 +62,11 @@ ciot_err_t ciot_ntp_start(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
 
     base->status.init = true;
 
-    setenv("TZ", self->base.cfg.timezone, 1);
-    tzset();
+    if(self->base.cfg.timezone)
+    {
+        setenv("TZ", self->base.cfg.timezone, 1);
+        tzset();
+    }
 
     return CIOT_ERR__OK;
 }
@@ -74,6 +81,7 @@ ciot_err_t ciot_ntp_stop(ciot_ntp_t self)
 static void ciot_ntp_sync_notification_cb(struct timeval *tv)
 {
     if(notif_args == NULL) return;
+    CIOT_LOGI(TAG, "Started");
     
     ciot_ntp_t self = (ciot_ntp_t)notif_args;
     ciot_ntp_base_t *base = &self->base;

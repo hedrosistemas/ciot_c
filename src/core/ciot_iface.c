@@ -18,7 +18,7 @@
 static const char *TAG = "ciot_iface";
 
 static uint8_t msg_id = 0;
-static uint8_t buf[256];
+// static uint8_t buf[256];
 // static ciot_msg_error_t error;
 
 static ciot_err_t ciot_iface_send(ciot_iface_t *self, ciot_msg_t *msg);
@@ -373,7 +373,9 @@ bool ciot_iface_event_is_ack(ciot_iface_event_t *event)
 
 static ciot_err_t ciot_iface_send(ciot_iface_t *self, ciot_msg_t *msg)
 {
-    int size = 0;
+    int size = ciot__msg__get_packed_size(msg);
+    uint8_t buf[size];
+
     if(self->serializer != NULL)
     {
         size = self->serializer->to_bytes(buf, msg);

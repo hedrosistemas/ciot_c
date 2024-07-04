@@ -42,6 +42,8 @@ struct ciot_ota
     char *buffer;
 };
 
+static void ciot_ota_task(void *pvParameters);
+static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self);
 static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
 ciot_ota_t ciot_ota_new(void *handle)
@@ -197,7 +199,7 @@ static void ciot_ota_task(void *pvParameters)
         }
         if (base->status.error != ESP_OK)
         {
-            ESP_LOGE(TAG, "ESP_HTTPS_OTA upgrade failed 0x%x", base->status.error);
+            ESP_LOGE(TAG, "ESP_HTTPS_OTA upgrade failed %ld", base->status.error);
             ciot_ota_task_fatal_error(self);
         }
     }
@@ -214,7 +216,7 @@ static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self)
     base->status.state = CIOT__OTA_STATE__OTA_STATE_ERROR;
     ciot_iface_event_t event = { 0 };
     event.type = CIOT_IFACE_EVENT_ERROR;
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->status);
+    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
     ciot_iface_send_event(&base->iface, &event);
 
     (void)vTaskDelete(NULL);
@@ -232,7 +234,7 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     ciot_ota_status_t *status = &base->status;
     ciot_iface_event_t event = { 0 };
 
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->status);
+    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
 
     switch (event_id)
     {

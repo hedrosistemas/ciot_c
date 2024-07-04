@@ -10,9 +10,16 @@
  */
 
 #include <stdlib.h>
+#if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)
+#include "softdevice_handler.h"
+#define BLE_GAP_ADV_SET_DATA_SIZE_MAX BLE_GAP_ADV_MAX_SIZE
+#else
 #include "nrf_sdh.h"
 #include "nrf_sdh_soc.h"
 #include "nrf_sdh_ble.h"
+#include "nrf_pwr_mgmt.h"
+#include "nrf_log_default_backends.h"
+#endif
 #include "ble_gap.h"
 #include "ciot_ble_scn.h"
 #include "ciot_msg.h"

@@ -61,7 +61,7 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
     {
         CIOT_LOGI(TAG, "Initializing");
         wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
-        ESP_ERROR_CHECK(ciot_storage_init());
+        // ESP_ERROR_CHECK(ciot_storage_init());
         ESP_ERROR_CHECK(esp_wifi_init(&config));
         ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
         ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));

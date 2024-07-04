@@ -34,7 +34,7 @@ ciot_err_t ciot_ntp_init(ciot_ntp_t self)
     base->iface.process_req = ciot_iface_process_req;
     base->iface.get_data = ciot_iface_get_data;
     base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM;
+    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_NTP;
 
     base->cfg.timezone = base->timezone;
     base->cfg.server1 = base->server1;
