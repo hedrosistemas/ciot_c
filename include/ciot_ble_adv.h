@@ -45,6 +45,7 @@ ciot_err_t ciot_ble_adv_process_req(ciot_ble_adv_t self, ciot_ble_adv_req_t *req
 ciot_err_t ciot_ble_adv_get_cfg(ciot_ble_adv_t self, ciot_ble_adv_cfg_t *cfg);
 ciot_err_t ciot_ble_adv_get_status(ciot_ble_adv_t self, ciot_ble_adv_status_t *status);
 ciot_err_t ciot_ble_adv_handle_event(ciot_ble_adv_t self, void *event, void *event_args);
+ciot_err_t ciot_ble_adv_send(ciot_ble_adv_t self, uint8_t *data, int size);
 
 #ifdef __cplusplus
 }
