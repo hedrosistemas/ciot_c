@@ -11,29 +11,33 @@
 #ifndef __CIOT_LOG__H__
 #define __CIOT_LOG__H__
 
-#include "ciot_config.h"
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-    /**
-     * @brief Enumeration for CIOT log levels.
-     */
-    typedef enum ciot_log_level
-    {
-        CIOT_LOG_LEVEL_NONE, /**< No logging. */
-        CIOT_LOG_LEVEL_ERROR, /**< Error level logging. */
-        CIOT_LOG_LEVEL_WARNING, /**< Warning level logging. */
-        CIOT_LOG_LEVEL_INFO, /**< Info level logging. */
-        CIOT_LOG_LEVEL_VERBOSE, /**< Verbose level logging. */
-        CIOT_LOG_LEVEL_DEBUG, /**< Debug level logging. */
-    } ciot_log_level_t;
+#include "ciot_config.h"
+#include "ciot/proto/v1/logger.pb-c.h"
 
-#ifdef IDF_VER
+    typedef Ciot__LogLevel ciot_log_level_t;
+
+#if CIOT_CONFIG_FEATURE_LOGGER
+
+#include "ciot_logger.h"
+
+#define CIOT_LOGD ciot_logd
+#define CIOT_LOGV ciot_logv
+#define CIOT_LOGI ciot_logi
+#define CIOT_LOGW ciot_logw
+#define CIOT_LOGE ciot_loge
+
+#elif defined(IDF_VER)
 
 #include "esp_log.h"
+
+#ifndef CONFIG_LOG_MAXIMUM_LEVEL
+#define CONFIG_LOG_MAXIMUM_LEVEL ESP_LOG_INFO
+#endif
 
 // Forwarding logging macros to ESP-IDF logging macros
 #define CIOT_LOGD ESP_LOGD
@@ -55,71 +59,71 @@ extern "C"
 /**
  * @brief Macro to log debug level messages.
  */
-#define CIOT_LOGD(TAG, MASK, ...)                          \
-    do                                                     \
-    {                                                      \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_DEBUG) \
-        {                                                  \
-            printf("[%s] <DBG>: ", TAG);                   \
-            printf(MASK, ##__VA_ARGS__);                   \
-            printf("\n");                                  \
-        }                                                  \
+#define CIOT_LOGD(TAG, MASK, ...)                                      \
+    do                                                                 \
+    {                                                                  \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG) \
+        {                                                              \
+            printf("[%s] <DBG>: ", TAG);                               \
+            printf(MASK, ##__VA_ARGS__);                               \
+            printf("\n");                                              \
+        }                                                              \
     } while (0)
 
 /**
  * @brief Macro to log verbose level messages.
  */
-#define CIOT_LOGV(TAG, MASK, ...)                            \
-    do                                                       \
-    {                                                        \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_VERBOSE) \
-        {                                                    \
-            printf("[%s] <VRB>: ", TAG);                     \
-            printf(MASK, ##__VA_ARGS__);                     \
-            printf("\n");                                    \
-        }                                                    \
+#define CIOT_LOGV(TAG, MASK, ...)                                        \
+    do                                                                   \
+    {                                                                    \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_VERBOSE) \
+        {                                                                \
+            printf("[%s] <VRB>: ", TAG);                                 \
+            printf(MASK, ##__VA_ARGS__);                                 \
+            printf("\n");                                                \
+        }                                                                \
     } while (0)
 
 /**
  * @brief Macro to log info level messages.
  */
-#define CIOT_LOGI(TAG, MASK, ...)                         \
-    do                                                    \
-    {                                                     \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_INFO) \
-        {                                                 \
-            printf("[%s] <INF>: ", TAG);                  \
-            printf(MASK, ##__VA_ARGS__);                  \
-            printf("\n");                                 \
-        }                                                 \
+#define CIOT_LOGI(TAG, MASK, ...)                                     \
+    do                                                                \
+    {                                                                 \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_INFO) \
+        {                                                             \
+            printf("[%s] <INF>: ", TAG);                              \
+            printf(MASK, ##__VA_ARGS__);                              \
+            printf("\n");                                             \
+        }                                                             \
     } while (0)
 
 /**
  * @brief Macro to log warning level messages.
  */
-#define CIOT_LOGW(TAG, MASK, ...)                            \
-    do                                                       \
-    {                                                        \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_WARNING) \
-        {                                                    \
-            printf("[%s] <WRN>: ", TAG);                     \
-            printf(MASK, ##__VA_ARGS__);                     \
-            printf("\n");                                    \
-        }                                                    \
+#define CIOT_LOGW(TAG, MASK, ...)                                        \
+    do                                                                   \
+    {                                                                    \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_WARNING) \
+        {                                                                \
+            printf("[%s] <WRN>: ", TAG);                                 \
+            printf(MASK, ##__VA_ARGS__);                                 \
+            printf("\n");                                                \
+        }                                                                \
     } while (0)
 
 /**
  * @brief Macro to log error level messages.
  */
-#define CIOT_LOGE(TAG, MASK, ...)                          \
-    do                                                     \
-    {                                                      \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_ERROR) \
-        {                                                  \
-            printf("[%s] <ERR>: ", TAG);                   \
-            printf(MASK, ##__VA_ARGS__);                   \
-            printf("\n");                                  \
-        }                                                  \
+#define CIOT_LOGE(TAG, MASK, ...)                                      \
+    do                                                                 \
+    {                                                                  \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_ERROR) \
+        {                                                              \
+            printf("[%s] <ERR>: ", TAG);                               \
+            printf(MASK, ##__VA_ARGS__);                               \
+            printf("\n");                                              \
+        }                                                              \
     } while (0)
 
 #endif // IDF_VER
@@ -141,30 +145,30 @@ extern "C"
  * @brief Macro to log a message pointer with additional information.
  */
 #define CIOT_LOG_MSG_P(TAG, LOG_MACRO, header, sender, msg) \
-    LOG_MACRO(TAG, header "id:%d %d:%s %d:%s %d:%s",        \
+    LOG_MACRO(TAG, header "id:%ld %ld:%s %u:%s %ld:%s",     \
               msg->id,                                      \
               sender->info.id,                              \
               ciot_iface_to_str(sender),                    \
               msg->type,                                    \
               ciot_msg_type_to_str(msg),                    \
-              msg->iface.id,                                \
-              ciot_iface_type_to_str(msg->iface.type))
+              msg->iface->id,                               \
+              ciot_iface_type_to_str(msg->iface->type))
 
 /**
  * @brief Macro to log hexadecimal data.
  */
-#define CIOT_LOG_HEX(TAG, data, size)                      \
-    do                                                     \
-    {                                                      \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_DEBUG) \
-        {                                                  \
-            uint8_t *u8ptr = data;                         \
-            for (size_t i = 0; i < size; i++)              \
-            {                                              \
-                printf("%02X", u8ptr[i]);                  \
-            }                                              \
-            printf("\n");                                  \
-        }                                                  \
+#define CIOT_LOG_HEX(TAG, data, size)                                  \
+    do                                                                 \
+    {                                                                  \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG) \
+        {                                                              \
+            uint8_t *u8ptr = data;                                     \
+            for (size_t i = 0; i < size; i++)                          \
+            {                                                          \
+                printf("%02X", u8ptr[i]);                              \
+            }                                                          \
+            printf("\n");                                              \
+        }                                                              \
     } while (0)
 
 #ifdef __cplusplus

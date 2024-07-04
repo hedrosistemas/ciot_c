@@ -1,117 +1,73 @@
 /**
  * @file ciot_ota.h
- * @ingroup software_interfaces
- * @brief Header file for CIOT OTA (Over-the-Air) functionality.
+ * @author your name (you@domain.com)
+ * @brief 
  * @version 0.1
- * @date 2023-10-17
- * @author Wesley Santos (wesleypro37@gmail.com)
- * @copyright Copyright (c) 2023
+ * @date 2024-06-07
+ * 
+ * @copyright Copyright (c) 2024
+ * 
  */
 
-#ifndef __CIOT_OTA__H__
-#define __CIOT_OTA__H__
+#ifndef __CIOT_ota__H__
+#define __CIOT_ota__H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "types/ciot_ota_types.h"
-#include "ciot_iface.h"
 #include "ciot_err.h"
+#include "ciot_iface.h"
 
-#ifndef CIOT_CONFIG_OTA_TASK_STACK_SIZE
-#define CIOT_CONFIG_OTA_TASK_STACK_SIZE 8192 /**< Default stack size for OTA task. */
-#endif
-#ifndef CIOT_CONFIG_OTA_TASK_PRIORITY
-#define CIOT_CONFIG_OTA_TASK_PRIORITY (tskIDLE_PRIORITY + 4) /**< Default priority for OTA task. */
-#endif
-#ifndef CIOT_CONFIG_OTA_TASK_CORE_ID
-#define CIOT_CONFIG_OTA_TASK_CORE_ID 1 /**< Default core ID for OTA task. */
+#include "ciot/proto/v1/ota.pb-c.h"
+
+#ifndef CIOT_CONFIG_OTA_URL_LEN
+#define CIOT_CONFIG_OTA_URL_LEN 64
 #endif
 #ifndef CIOT_CONFIG_OTA_BUF_SIZE
-#define CIOT_CONFIG_OTA_BUF_SIZE 1024 /**< Default buffer size for OTA. */
+#define CIOT_CONFIG_OTA_BUF_SIZE 1024
+#endif
+#ifndef CIOT_CONFIG_OTA_TASK_STACK_SIZE
+#define CIOT_CONFIG_OTA_TASK_STACK_SIZE 8192
+#endif
+#ifndef CIOT_CONFIG_OTA_TASK_PRIORITY
+#define CIOT_CONFIG_OTA_TASK_PRIORITY (tskIDLE_PRIORITY + 4)
+#endif
+#ifndef CIOT_CONFIG_OTA_TASK_CORE_ID
+#define CIOT_CONFIG_OTA_TASK_CORE_ID 1
 #endif
 
-/**
- * @brief Opaque pointer to CIOT OTA structure.
- */
 typedef struct ciot_ota *ciot_ota_t;
+typedef Ciot__OtaCfg ciot_ota_cfg_t;
+typedef Ciot__OtaReq ciot_ota_req_t;
+typedef Ciot__OtaStatus ciot_ota_status_t;
+// typedef Ciot__OtaInfo ciot_ota_info_t;
+typedef Ciot__OtaReq ciot_ota_req_t;
+typedef Ciot__OtaData ciot_ota_data_t;
 
-/**
- * @brief Enumeration of CIOT OTA event IDs.
- */
-typedef enum ciot_ota_event_id
+typedef struct ciot_ota_base
 {
-    CIOT_OTA_EVENT_CONNECTED = CIOT_IFACE_EVENT_CUSTOM, /**< Connected event. */
-    CIOT_OTA_EVENT_READING_INFO, /**< Reading information event. */
-    CIOT_OTA_EVENT_DECRYPTING, /**< Decrypting event. */
-    CIOT_OTA_EVENT_WRITING, /**< Writing event. */
-    CIOT_OTA_EVENT_UPDATING_APP, /**< Updating application event. */
-} ciot_ota_event_id_t;
+    ciot_iface_t iface;
+    ciot_ota_cfg_t cfg;
+    ciot_ota_status_t status;
+    // ciot_ota_info_t info;
+    ciot_ota_req_t req;
+    ciot_ota_data_t data;
+    char url[CIOT_CONFIG_OTA_URL_LEN];
+} ciot_ota_base_t;
 
-/**
- * @brief Structure for CIOT OTA status message.
- */
-typedef struct __attribute__((packed))
-{
-    ciot_msg_header_t header; /**< Message header. */
-    ciot_ota_status_t status; /**< OTA status. */
-} ciot_ota_status_msg_t;
-
-/**
- * @brief Create a new CIOT OTA instance.
- *
- * @param handle Pointer to the handle.
- * @return Instance of CIOT OTA.
- */
 ciot_ota_t ciot_ota_new(void *handle);
-
-/**
- * @brief Start CIOT OTA.
- *
- * @param self Instance of CIOT OTA.
- * @param cfg Configuration for OTA.
- * @return Error code.
- */
+ciot_err_t ciot_ota_init(ciot_ota_t self);
 ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg);
-
-/**
- * @brief Stop CIOT OTA.
- *
- * @param self Instance of CIOT OTA.
- * @return Error code.
- */
 ciot_err_t ciot_ota_stop(ciot_ota_t self);
-
-/**
- * @brief Process OTA request for CIOT OTA.
- *
- * @param self Instance of CIOT OTA.
- * @param req OTA request.
- * @return Error code.
- */
-ciot_err_t ciot_ota_process_req(ciot_ota_t self, ciot_ota_req_t *req);
-
-/**
- * @brief Send data for CIOT OTA.
- *
- * @param self Instance of CIOT OTA.
- * @param data Data to send.
- * @param size Size of data.
- * @return Error code.
- */
-ciot_err_t ciot_ota_send_data(ciot_ota_t self, uint8_t *data, int size);
-
-/**
- * @brief Rollback CIOT OTA.
- *
- * @param self Instance of CIOT OTA.
- * @return Error code.
- */
 ciot_err_t ciot_ota_rollback(ciot_ota_t self);
+ciot_err_t ciot_ota_process_req(ciot_ota_t self, ciot_ota_req_t *req);
+ciot_err_t ciot_ota_get_cfg(ciot_ota_t self, ciot_ota_cfg_t *cfg);
+ciot_err_t ciot_ota_get_status(ciot_ota_t self, ciot_ota_status_t *status);
+// ciot_err_t ciot_ota_get_info(ciot_ota_t self, ciot_ota_info_t *info);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif //!__CIOT_OTA__H__
+#endif  //!__CIOT_ota__H__

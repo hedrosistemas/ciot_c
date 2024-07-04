@@ -52,6 +52,96 @@ void   ciot__sys_cfg__free_unpacked
   assert(message->base.descriptor == &ciot__sys_cfg__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   ciot__sys_hw_features__init
+                     (Ciot__SysHwFeatures         *message)
+{
+  static const Ciot__SysHwFeatures init_value = CIOT__SYS_HW_FEATURES__INIT;
+  *message = init_value;
+}
+size_t ciot__sys_hw_features__get_packed_size
+                     (const Ciot__SysHwFeatures *message)
+{
+  assert(message->base.descriptor == &ciot__sys_hw_features__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t ciot__sys_hw_features__pack
+                     (const Ciot__SysHwFeatures *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &ciot__sys_hw_features__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t ciot__sys_hw_features__pack_to_buffer
+                     (const Ciot__SysHwFeatures *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &ciot__sys_hw_features__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Ciot__SysHwFeatures *
+       ciot__sys_hw_features__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Ciot__SysHwFeatures *)
+     protobuf_c_message_unpack (&ciot__sys_hw_features__descriptor,
+                                allocator, len, data);
+}
+void   ciot__sys_hw_features__free_unpacked
+                     (Ciot__SysHwFeatures *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &ciot__sys_hw_features__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+void   ciot__sys_sw_features__init
+                     (Ciot__SysSwFeatures         *message)
+{
+  static const Ciot__SysSwFeatures init_value = CIOT__SYS_SW_FEATURES__INIT;
+  *message = init_value;
+}
+size_t ciot__sys_sw_features__get_packed_size
+                     (const Ciot__SysSwFeatures *message)
+{
+  assert(message->base.descriptor == &ciot__sys_sw_features__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t ciot__sys_sw_features__pack
+                     (const Ciot__SysSwFeatures *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &ciot__sys_sw_features__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t ciot__sys_sw_features__pack_to_buffer
+                     (const Ciot__SysSwFeatures *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &ciot__sys_sw_features__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Ciot__SysSwFeatures *
+       ciot__sys_sw_features__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Ciot__SysSwFeatures *)
+     protobuf_c_message_unpack (&ciot__sys_sw_features__descriptor,
+                                allocator, len, data);
+}
+void   ciot__sys_sw_features__free_unpacked
+                     (Ciot__SysSwFeatures *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &ciot__sys_sw_features__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   ciot__sys_features__init
                      (Ciot__SysFeatures         *message)
 {
@@ -295,16 +385,261 @@ const ProtobufCMessageDescriptor ciot__sys_cfg__descriptor =
   (ProtobufCMessageInit) ciot__sys_cfg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
+static const ProtobufCFieldDescriptor ciot__sys_hw_features__field_descriptors[8] =
+{
+  {
+    "storage",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, storage),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "sys",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, sys),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "uart",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, uart),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "usb",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, usb),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ethernet",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, ethernet),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "wifi",
+    6,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, wifi),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ble_scn",
+    7,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, ble_scn),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "gpio",
+    8,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysHwFeatures, gpio),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned ciot__sys_hw_features__field_indices_by_name[] = {
+  6,   /* field[6] = ble_scn */
+  4,   /* field[4] = ethernet */
+  7,   /* field[7] = gpio */
+  0,   /* field[0] = storage */
+  1,   /* field[1] = sys */
+  2,   /* field[2] = uart */
+  3,   /* field[3] = usb */
+  5,   /* field[5] = wifi */
+};
+static const ProtobufCIntRange ciot__sys_hw_features__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 8 }
+};
+const ProtobufCMessageDescriptor ciot__sys_hw_features__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "Ciot.SysHwFeatures",
+  "SysHwFeatures",
+  "Ciot__SysHwFeatures",
+  "Ciot",
+  sizeof(Ciot__SysHwFeatures),
+  8,
+  ciot__sys_hw_features__field_descriptors,
+  ciot__sys_hw_features__field_indices_by_name,
+  1,  ciot__sys_hw_features__number_ranges,
+  (ProtobufCMessageInit) ciot__sys_hw_features__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor ciot__sys_sw_features__field_descriptors[7] =
+{
+  {
+    "ntp",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysSwFeatures, ntp),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "dfu",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysSwFeatures, dfu),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ota",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysSwFeatures, ota),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "http_client",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysSwFeatures, http_client),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "http_server",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysSwFeatures, http_server),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "mqtt_client",
+    6,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysSwFeatures, mqtt_client),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "timer",
+    7,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysSwFeatures, timer),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned ciot__sys_sw_features__field_indices_by_name[] = {
+  1,   /* field[1] = dfu */
+  3,   /* field[3] = http_client */
+  4,   /* field[4] = http_server */
+  5,   /* field[5] = mqtt_client */
+  0,   /* field[0] = ntp */
+  2,   /* field[2] = ota */
+  6,   /* field[6] = timer */
+};
+static const ProtobufCIntRange ciot__sys_sw_features__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 7 }
+};
+const ProtobufCMessageDescriptor ciot__sys_sw_features__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "Ciot.SysSwFeatures",
+  "SysSwFeatures",
+  "Ciot__SysSwFeatures",
+  "Ciot",
+  sizeof(Ciot__SysSwFeatures),
+  7,
+  ciot__sys_sw_features__field_descriptors,
+  ciot__sys_sw_features__field_indices_by_name,
+  1,  ciot__sys_sw_features__number_ranges,
+  (ProtobufCMessageInit) ciot__sys_sw_features__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
 static const ProtobufCFieldDescriptor ciot__sys_features__field_descriptors[2] =
 {
   {
     "hw",
     1,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT32,
+    PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Ciot__SysFeatures, hw),
-    NULL,
+    &ciot__sys_hw_features__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -313,10 +648,10 @@ static const ProtobufCFieldDescriptor ciot__sys_features__field_descriptors[2] =
     "sw",
     2,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT32,
+    PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
     offsetof(Ciot__SysFeatures, sw),
-    NULL,
+    &ciot__sys_sw_features__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -423,7 +758,7 @@ const ProtobufCMessageDescriptor ciot__sys_info__descriptor =
   (ProtobufCMessageInit) ciot__sys_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__sys_status__field_descriptors[5] =
+static const ProtobufCFieldDescriptor ciot__sys_status__field_descriptors[4] =
 {
   {
     "reset_reason",
@@ -473,22 +808,9 @@ static const ProtobufCFieldDescriptor ciot__sys_status__field_descriptors[5] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "info",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__SysStatus, info),
-    &ciot__sys_info__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned ciot__sys_status__field_indices_by_name[] = {
   2,   /* field[2] = free_memory */
-  4,   /* field[4] = info */
   3,   /* field[3] = lifetime */
   1,   /* field[1] = reset_count */
   0,   /* field[0] = reset_reason */
@@ -496,7 +818,7 @@ static const unsigned ciot__sys_status__field_indices_by_name[] = {
 static const ProtobufCIntRange ciot__sys_status__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 5 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__sys_status__descriptor =
 {
@@ -506,7 +828,7 @@ const ProtobufCMessageDescriptor ciot__sys_status__descriptor =
   "Ciot__SysStatus",
   "Ciot",
   sizeof(Ciot__SysStatus),
-  5,
+  4,
   ciot__sys_status__field_descriptors,
   ciot__sys_status__field_indices_by_name,
   1,  ciot__sys_status__number_ranges,
@@ -551,7 +873,7 @@ const ProtobufCMessageDescriptor ciot__sys_req__descriptor =
   (ProtobufCMessageInit) ciot__sys_req__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__sys_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__sys_data__field_descriptors[4] =
 {
   {
     "config",
@@ -589,16 +911,29 @@ static const ProtobufCFieldDescriptor ciot__sys_data__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__SysData, info),
+    &ciot__sys_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__sys_data__field_indices_by_name[] = {
   0,   /* field[0] = config */
+  3,   /* field[3] = info */
   2,   /* field[2] = request */
   1,   /* field[1] = status */
 };
 static const ProtobufCIntRange ciot__sys_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__sys_data__descriptor =
 {
@@ -608,23 +943,25 @@ const ProtobufCMessageDescriptor ciot__sys_data__descriptor =
   "Ciot__SysData",
   "Ciot",
   sizeof(Ciot__SysData),
-  3,
+  4,
   ciot__sys_data__field_descriptors,
   ciot__sys_data__field_indices_by_name,
   1,  ciot__sys_data__number_ranges,
   (ProtobufCMessageInit) ciot__sys_data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__sys_req_type__enum_values_by_number[2] =
+static const ProtobufCEnumValue ciot__sys_req_type__enum_values_by_number[3] =
 {
   { "SYS_REQ_TYPE_UNKOWN", "CIOT__SYS_REQ_TYPE__SYS_REQ_TYPE_UNKOWN", 0 },
   { "SYS_REQ_TYPE_RESTART", "CIOT__SYS_REQ_TYPE__SYS_REQ_TYPE_RESTART", 1 },
+  { "SYS_REQ_TYPE_INIT_DFU", "CIOT__SYS_REQ_TYPE__SYS_REQ_TYPE_INIT_DFU", 2 },
 };
 static const ProtobufCIntRange ciot__sys_req_type__value_ranges[] = {
-{0, 0},{0, 2}
+{0, 0},{0, 3}
 };
-static const ProtobufCEnumValueIndex ciot__sys_req_type__enum_values_by_name[2] =
+static const ProtobufCEnumValueIndex ciot__sys_req_type__enum_values_by_name[3] =
 {
+  { "SYS_REQ_TYPE_INIT_DFU", 2 },
   { "SYS_REQ_TYPE_RESTART", 1 },
   { "SYS_REQ_TYPE_UNKOWN", 0 },
 };
@@ -635,88 +972,12 @@ const ProtobufCEnumDescriptor ciot__sys_req_type__descriptor =
   "SysReqType",
   "Ciot__SysReqType",
   "Ciot",
-  2,
+  3,
   ciot__sys_req_type__enum_values_by_number,
-  2,
+  3,
   ciot__sys_req_type__enum_values_by_name,
   1,
   ciot__sys_req_type__value_ranges,
-  NULL,NULL,NULL,NULL   /* reserved[1234] */
-};
-static const ProtobufCEnumValue ciot__sys_hw_features__enum_values_by_number[7] =
-{
-  { "SYS_FEATURE_STORAGE", "CIOT__SYS_HW_FEATURES__SYS_FEATURE_STORAGE", 0 },
-  { "SYS_FEATURE_SYSTEM", "CIOT__SYS_HW_FEATURES__SYS_FEATURE_SYSTEM", 1 },
-  { "SYS_FEATURE_UART", "CIOT__SYS_HW_FEATURES__SYS_FEATURE_UART", 2 },
-  { "SYS_FEATURE_USB", "CIOT__SYS_HW_FEATURES__SYS_FEATURE_USB", 3 },
-  { "SYS_FEATURE_ETHERNET", "CIOT__SYS_HW_FEATURES__SYS_FEATURE_ETHERNET", 4 },
-  { "SYS_FEATURE_WIFI", "CIOT__SYS_HW_FEATURES__SYS_FEATURE_WIFI", 5 },
-  { "SYS_FEATURE_BLE_SCN", "CIOT__SYS_HW_FEATURES__SYS_FEATURE_BLE_SCN", 6 },
-};
-static const ProtobufCIntRange ciot__sys_hw_features__value_ranges[] = {
-{0, 0},{0, 7}
-};
-static const ProtobufCEnumValueIndex ciot__sys_hw_features__enum_values_by_name[7] =
-{
-  { "SYS_FEATURE_BLE_SCN", 6 },
-  { "SYS_FEATURE_ETHERNET", 4 },
-  { "SYS_FEATURE_STORAGE", 0 },
-  { "SYS_FEATURE_SYSTEM", 1 },
-  { "SYS_FEATURE_UART", 2 },
-  { "SYS_FEATURE_USB", 3 },
-  { "SYS_FEATURE_WIFI", 5 },
-};
-const ProtobufCEnumDescriptor ciot__sys_hw_features__descriptor =
-{
-  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "Ciot.SysHwFeatures",
-  "SysHwFeatures",
-  "Ciot__SysHwFeatures",
-  "Ciot",
-  7,
-  ciot__sys_hw_features__enum_values_by_number,
-  7,
-  ciot__sys_hw_features__enum_values_by_name,
-  1,
-  ciot__sys_hw_features__value_ranges,
-  NULL,NULL,NULL,NULL   /* reserved[1234] */
-};
-static const ProtobufCEnumValue ciot__sys_sw_features__enum_values_by_number[7] =
-{
-  { "SYS_FEATURE_NTP", "CIOT__SYS_SW_FEATURES__SYS_FEATURE_NTP", 0 },
-  { "SYS_FEATURE_OTA", "CIOT__SYS_SW_FEATURES__SYS_FEATURE_OTA", 1 },
-  { "SYS_FEATURE_HTTP_CLIENT", "CIOT__SYS_SW_FEATURES__SYS_FEATURE_HTTP_CLIENT", 2 },
-  { "SYS_FEATURE_HTTP_SERVER", "CIOT__SYS_SW_FEATURES__SYS_FEATURE_HTTP_SERVER", 3 },
-  { "SYS_FEATURE_MQTT_CLIENT", "CIOT__SYS_SW_FEATURES__SYS_FEATURE_MQTT_CLIENT", 4 },
-  { "SYS_FEATURE_TIMER", "CIOT__SYS_SW_FEATURES__SYS_FEATURE_TIMER", 5 },
-  { "SYS_FEATURE_SERIALIZATION", "CIOT__SYS_SW_FEATURES__SYS_FEATURE_SERIALIZATION", 6 },
-};
-static const ProtobufCIntRange ciot__sys_sw_features__value_ranges[] = {
-{0, 0},{0, 7}
-};
-static const ProtobufCEnumValueIndex ciot__sys_sw_features__enum_values_by_name[7] =
-{
-  { "SYS_FEATURE_HTTP_CLIENT", 2 },
-  { "SYS_FEATURE_HTTP_SERVER", 3 },
-  { "SYS_FEATURE_MQTT_CLIENT", 4 },
-  { "SYS_FEATURE_NTP", 0 },
-  { "SYS_FEATURE_OTA", 1 },
-  { "SYS_FEATURE_SERIALIZATION", 6 },
-  { "SYS_FEATURE_TIMER", 5 },
-};
-const ProtobufCEnumDescriptor ciot__sys_sw_features__descriptor =
-{
-  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "Ciot.SysSwFeatures",
-  "SysSwFeatures",
-  "Ciot__SysSwFeatures",
-  "Ciot",
-  7,
-  ciot__sys_sw_features__enum_values_by_number,
-  7,
-  ciot__sys_sw_features__enum_values_by_name,
-  1,
-  ciot__sys_sw_features__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
 static const ProtobufCEnumValue ciot__sys_hw__enum_values_by_number[8] =

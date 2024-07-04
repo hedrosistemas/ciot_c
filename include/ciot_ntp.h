@@ -1,11 +1,12 @@
 /**
  * @file ciot_ntp.h
- * @ingroup software_interfaces
- * @brief Header file for CIOT NTP (Network Time Protocol) functionality.
+ * @author your name (you@domain.com)
+ * @brief 
  * @version 0.1
- * @date 2023-10-17
- * @author Wesley Santos (wesleypro37@gmail.com)
- * @copyright Copyright (c) 2023
+ * @date 2024-06-07
+ * 
+ * @copyright Copyright (c) 2024
+ * 
  */
 
 #ifndef __CIOT_NTP__H__
@@ -15,78 +16,53 @@
 extern "C" {
 #endif
 
-#include "types/ciot_ntp_types.h"
-#include "ciot_iface.h"
 #include "ciot_err.h"
+#include "ciot_iface.h"
 
-/**
- * @brief Opaque pointer to CIOT NTP structure.
- */
+#include "ciot/proto/v1/ntp.pb-c.h"
+
+#ifndef CIOT_CONFIG_NTP_SERVER_URL_LEN
+#define CIOT_CONFIG_NTP_SERVER_URL_LEN 64
+#endif
+
+#ifndef CIOT_CONFIG_NTP_TIMEZONE_LEN
+#define CIOT_CONFIG_NTP_TIMEZONE_LEN 16
+#endif
+
 typedef struct ciot_ntp *ciot_ntp_t;
+typedef Ciot__NtpCfg ciot_ntp_cfg_t;
+typedef Ciot__NtpReq ciot_ntp_req_t;
+typedef Ciot__NtpStatus ciot_ntp_status_t;
+// typedef Ciot__NtpInfo ciot_ntp_info_t;
+typedef Ciot__NtpReq ciot_ntp_req_t;
+typedef Ciot__NtpData ciot_ntp_data_t;
 
-/**
- * @brief Structure for CIOT NTP status message.
- */
-typedef struct __attribute__((packed))
+typedef struct ciot_ntp_base
 {
-    ciot_msg_header_t header; /**< Message header. */
-    ciot_ntp_status_t status; /**< NTP status. */
-} ciot_ntp_status_msg_t;
+    ciot_iface_t iface;
+    ciot_ntp_cfg_t cfg;
+    ciot_ntp_status_t status;
+    // ciot_ntp_info_t info;
+    ciot_ntp_req_t req;
+    ciot_ntp_data_t data;
+    char timezone[CIOT_CONFIG_NTP_TIMEZONE_LEN];
+    char server1[CIOT_CONFIG_NTP_SERVER_URL_LEN];
+    char server2[CIOT_CONFIG_NTP_SERVER_URL_LEN];
+    char server3[CIOT_CONFIG_NTP_SERVER_URL_LEN];
+} ciot_ntp_base_t;
 
-/**
- * @brief Create a new CIOT NTP instance.
- *
- * @param handle Pointer to the handle.
- * @return Instance of CIOT NTP.
- */
 ciot_ntp_t ciot_ntp_new(void *handle);
-
-/**
- * @brief Start CIOT NTP.
- *
- * @param self Instance of CIOT NTP.
- * @param cfg Configuration for NTP.
- * @return Error code.
- */
+ciot_err_t ciot_ntp_init(ciot_ntp_t self);
 ciot_err_t ciot_ntp_start(ciot_ntp_t self, ciot_ntp_cfg_t *cfg);
-
-/**
- * @brief Stop CIOT NTP.
- *
- * @param self Instance of CIOT NTP.
- * @return Error code.
- */
 ciot_err_t ciot_ntp_stop(ciot_ntp_t self);
-
-/**
- * @brief Process NTP request for CIOT NTP.
- *
- * @param self Instance of CIOT NTP.
- * @param req NTP request.
- * @return Error code.
- */
 ciot_err_t ciot_ntp_process_req(ciot_ntp_t self, ciot_ntp_req_t *req);
-
-/**
- * @brief Send data for CIOT NTP.
- *
- * @param self Instance of CIOT NTP.
- * @param data Data to send.
- * @param size Size of data.
- * @return Error code.
- */
-ciot_err_t ciot_ntp_send_data(ciot_ntp_t self, uint8_t *data, int size);
-
-/**
- * @brief Set CIOT NTP configuration.
- *
- * @param ntp Instance of CIOT NTP.
- * @return Error code.
- */
-ciot_err_t ciot_ntp_set(ciot_ntp_t ntp);
+ciot_err_t ciot_ntp_get_cfg(ciot_ntp_t self, ciot_ntp_cfg_t *cfg);
+ciot_err_t ciot_ntp_set_cfg(ciot_ntp_t self, ciot_ntp_cfg_t *cfg);
+ciot_err_t ciot_ntp_get_status(ciot_ntp_t self, ciot_ntp_status_t *status);
+// ciot_err_t ciot_ntp_get_info(ciot_ntp_t self, ciot_ntp_info_t *info);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif //!__CIOT_NTP__H__
+#endif  //!__CIOT_NTP__H__

@@ -565,15 +565,17 @@ const ProtobufCEnumDescriptor ciot__ota_state__descriptor =
   ciot__ota_state__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__ota_req_type__enum_values_by_number[1] =
+static const ProtobufCEnumValue ciot__ota_req_type__enum_values_by_number[2] =
 {
   { "OTA_REQ_TYPE_UNKOWN", "CIOT__OTA_REQ_TYPE__OTA_REQ_TYPE_UNKOWN", 0 },
+  { "OTA_REQ_TYPE_ROLLBACK", "CIOT__OTA_REQ_TYPE__OTA_REQ_TYPE_ROLLBACK", 1 },
 };
 static const ProtobufCIntRange ciot__ota_req_type__value_ranges[] = {
-{0, 0},{0, 1}
+{0, 0},{0, 2}
 };
-static const ProtobufCEnumValueIndex ciot__ota_req_type__enum_values_by_name[1] =
+static const ProtobufCEnumValueIndex ciot__ota_req_type__enum_values_by_name[2] =
 {
+  { "OTA_REQ_TYPE_ROLLBACK", 1 },
   { "OTA_REQ_TYPE_UNKOWN", 0 },
 };
 const ProtobufCEnumDescriptor ciot__ota_req_type__descriptor =
@@ -583,9 +585,9 @@ const ProtobufCEnumDescriptor ciot__ota_req_type__descriptor =
   "OtaReqType",
   "Ciot__OtaReqType",
   "Ciot",
-  1,
+  2,
   ciot__ota_req_type__enum_values_by_number,
-  1,
+  2,
   ciot__ota_req_type__enum_values_by_name,
   1,
   ciot__ota_req_type__value_ranges,

@@ -38,13 +38,17 @@ typedef enum _Ciot__TcpState {
    */
   CIOT__TCP_STATE__TCP_STATE_STOPPED = 1,
   /*
+   * TCP module is disconnected.
+   */
+  CIOT__TCP_STATE__TCP_STATE_DISCONNECTED = 2,
+  /*
    * TCP module is connecting.
    */
-  CIOT__TCP_STATE__TCP_STATE_CONNECTING = 2,
+  CIOT__TCP_STATE__TCP_STATE_CONNECTING = 3,
   /*
    * TCP module is connected.
    */
-  CIOT__TCP_STATE__TCP_STATE_CONNECTED = 3,
+  CIOT__TCP_STATE__TCP_STATE_CONNECTED = 4,
   /*
    * TCP module encountered an error.
    */
@@ -73,25 +77,25 @@ typedef enum _Ciot__TcpDhcpState {
 /*
  * Enum representing different TCP DHCP configurations.
  */
-typedef enum _Ciot__CiotTcpDhcpCfg {
+typedef enum _Ciot__TcpDhcpCfg {
   /*
    * No change in DHCP configuration.
    */
-  CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE = 0,
+  CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE = 0,
   /*
    * Configure as DHCP client.
    */
-  CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_CLIENT = 1,
+  CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_CLIENT = 1,
   /*
    * Configure as DHCP server.
    */
-  CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_SERVER = 2,
+  CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_SERVER = 2,
   /*
    * Disable DHCP.
    */
-  CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_DISABLED = 3
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__CIOT_TCP_DHCP_CFG)
-} Ciot__CiotTcpDhcpCfg;
+  CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_DISABLED = 3
+    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__TCP_DHCP_CFG)
+} Ciot__TcpDhcpCfg;
 /*
  * Enum representing different types of TCP requests.
  */
@@ -114,7 +118,7 @@ struct  _Ciot__TcpCfg
   /*
    * DHCP configuration.
    */
-  Ciot__CiotTcpDhcpCfg dhcp;
+  Ciot__TcpDhcpCfg dhcp;
   /*
    * IP address.
    */
@@ -134,7 +138,7 @@ struct  _Ciot__TcpCfg
 };
 #define CIOT__TCP_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__tcp_cfg__descriptor) \
-    , CIOT__CIOT_TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE, {0,NULL}, {0,NULL}, {0,NULL}, {0,NULL} }
+    , CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE, {0,NULL}, {0,NULL}, {0,NULL}, {0,NULL} }
 
 
 /*
@@ -195,14 +199,10 @@ struct  _Ciot__TcpStatus
    * DHCP status.
    */
   Ciot__TcpDhcpStatus *dhcp;
-  /*
-   * TCP information.
-   */
-  Ciot__TcpInfo *info;
 };
 #define CIOT__TCP_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__tcp_status__descriptor) \
-    , CIOT__TCP_STATE__TCP_STATE_STARTED, 0, NULL, NULL }
+    , CIOT__TCP_STATE__TCP_STATE_STARTED, 0, NULL }
 
 
 /*
@@ -239,10 +239,14 @@ struct  _Ciot__TcpData
    * TCP request data.
    */
   Ciot__TcpReq *request;
+  /*
+   * TCP information.
+   */
+  Ciot__TcpInfo *info;
 };
 #define CIOT__TCP_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__tcp_data__descriptor) \
-    , NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /* Ciot__TcpCfg methods */
@@ -387,7 +391,7 @@ typedef void (*Ciot__TcpData_Closure)
 
 extern const ProtobufCEnumDescriptor    ciot__tcp_state__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__tcp_dhcp_state__descriptor;
-extern const ProtobufCEnumDescriptor    ciot__ciot_tcp_dhcp_cfg__descriptor;
+extern const ProtobufCEnumDescriptor    ciot__tcp_dhcp_cfg__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__tcp_req_type__descriptor;
 extern const ProtobufCMessageDescriptor ciot__tcp_cfg__descriptor;
 extern const ProtobufCMessageDescriptor ciot__tcp_dhcp_status__descriptor;

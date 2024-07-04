@@ -19,6 +19,7 @@ PROTOBUF_C__BEGIN_DECLS
 typedef struct _Ciot__WifiApInfo Ciot__WifiApInfo;
 typedef struct _Ciot__WifiCfg Ciot__WifiCfg;
 typedef struct _Ciot__WifiStatus Ciot__WifiStatus;
+typedef struct _Ciot__WifiInfo Ciot__WifiInfo;
 typedef struct _Ciot__WifiScanResult Ciot__WifiScanResult;
 typedef struct _Ciot__WifiReq Ciot__WifiReq;
 typedef struct _Ciot__WifiData Ciot__WifiData;
@@ -156,17 +157,24 @@ struct  _Ciot__WifiStatus
    */
   uint32_t disconnect_reason;
   /*
-   * Information about the connected access point.
-   */
-  Ciot__WifiApInfo *info;
-  /*
    * Status of the TCP connection over Wi-Fi.
    */
   Ciot__TcpStatus *tcp;
 };
 #define CIOT__WIFI_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__wifi_status__descriptor) \
-    , 0, NULL, NULL }
+    , 0, NULL }
+
+
+struct  _Ciot__WifiInfo
+{
+  ProtobufCMessage base;
+  Ciot__TcpInfo *tcp;
+  Ciot__WifiApInfo *ap;
+};
+#define CIOT__WIFI_INFO__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&ciot__wifi_info__descriptor) \
+    , NULL, NULL }
 
 
 /*
@@ -228,10 +236,14 @@ struct  _Ciot__WifiData
    * Wi-Fi request data.
    */
   Ciot__WifiReq *request;
+  /*
+   * TCP information.
+   */
+  Ciot__WifiInfo *info;
 };
 #define CIOT__WIFI_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__wifi_data__descriptor) \
-    , NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /* Ciot__WifiApInfo methods */
@@ -290,6 +302,25 @@ Ciot__WifiStatus *
                       const uint8_t       *data);
 void   ciot__wifi_status__free_unpacked
                      (Ciot__WifiStatus *message,
+                      ProtobufCAllocator *allocator);
+/* Ciot__WifiInfo methods */
+void   ciot__wifi_info__init
+                     (Ciot__WifiInfo         *message);
+size_t ciot__wifi_info__get_packed_size
+                     (const Ciot__WifiInfo   *message);
+size_t ciot__wifi_info__pack
+                     (const Ciot__WifiInfo   *message,
+                      uint8_t             *out);
+size_t ciot__wifi_info__pack_to_buffer
+                     (const Ciot__WifiInfo   *message,
+                      ProtobufCBuffer     *buffer);
+Ciot__WifiInfo *
+       ciot__wifi_info__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   ciot__wifi_info__free_unpacked
+                     (Ciot__WifiInfo *message,
                       ProtobufCAllocator *allocator);
 /* Ciot__WifiScanResult methods */
 void   ciot__wifi_scan_result__init
@@ -359,6 +390,9 @@ typedef void (*Ciot__WifiCfg_Closure)
 typedef void (*Ciot__WifiStatus_Closure)
                  (const Ciot__WifiStatus *message,
                   void *closure_data);
+typedef void (*Ciot__WifiInfo_Closure)
+                 (const Ciot__WifiInfo *message,
+                  void *closure_data);
 typedef void (*Ciot__WifiScanResult_Closure)
                  (const Ciot__WifiScanResult *message,
                   void *closure_data);
@@ -381,6 +415,7 @@ extern const ProtobufCEnumDescriptor    ciot__wifi_req_type__descriptor;
 extern const ProtobufCMessageDescriptor ciot__wifi_ap_info__descriptor;
 extern const ProtobufCMessageDescriptor ciot__wifi_cfg__descriptor;
 extern const ProtobufCMessageDescriptor ciot__wifi_status__descriptor;
+extern const ProtobufCMessageDescriptor ciot__wifi_info__descriptor;
 extern const ProtobufCMessageDescriptor ciot__wifi_scan_result__descriptor;
 extern const ProtobufCMessageDescriptor ciot__wifi_req__descriptor;
 extern const ProtobufCMessageDescriptor ciot__wifi_data__descriptor;

@@ -1,89 +1,44 @@
 /**
  * @file ciot_dfu.h
- * @ingroup software_interfaces
- * @brief Header file for Device Firmware Update (DFU) functionality in CIOT library.
+ * @author your name (you@domain.com)
+ * @brief 
  * @version 0.1
- * @date 2024-03-20
- * @author Wesley Santos (wesleypro37@gmail.com)
+ * @date 2024-06-07
+ * 
  * @copyright Copyright (c) 2024
+ * 
  */
 
-#ifndef __CIOT_DFU__H__
-#define __CIOT_DFU__H__
+#ifndef __CIOT_dfu__H__
+#define __CIOT_dfu__H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "types/ciot_dfu_types.h"
-#include "ciot_iface.h"
 #include "ciot_err.h"
+#include "ciot_iface.h"
 
-typedef struct ciot_dfu *ciot_dfu_t; /**< Opaque pointer to a CIOT DFU object. */
+#include "ciot/proto/v1/dfu.pb-c.h"
 
-/**
- * @brief Enumerates DFU event IDs.
- */
-typedef enum ciot_dfu_event_id {
-    CIOT_DFU_EVENT_STATE_CHANGED = CIOT_IFACE_EVENT_CUSTOM, /**< DFU state changed event. */
-} ciot_dfu_event_id_t;
+typedef Ciot__DfuCfg ciot_dfu_cfg_t;
+typedef Ciot__DfuReq ciot_dfu_req_t;
+typedef Ciot__DfuStatus ciot_dfu_status_t;
+typedef Ciot__DfuState ciot_dfu_state_t;
+typedef Ciot__DfuReq ciot_dfu_req_t;
+typedef Ciot__DfuData ciot_dfu_data_t;
 
-/**
- * @brief Struct for DFU status message.
- */
-typedef struct __attribute__((packed)) {
-    ciot_msg_header_t header; /**< Header for the DFU status message. */
-    ciot_dfu_status_t status; /**< Status of the DFU operation. */
-} ciot_dfu_status_msg_t;
-
-/**
- * @brief Creates a new CIOT DFU object.
- * @param handle Pointer to the handle.
- * @return Pointer to the created DFU object.
- */
-ciot_dfu_t ciot_dfu_new(void *handle);
-
-/**
- * @brief Starts the DFU process.
- * @param self Pointer to the DFU object.
- * @param cfg Pointer to the DFU configuration.
- * @return Error code indicating the status of the operation.
- */
-ciot_err_t ciot_dfu_start(ciot_dfu_t self, ciot_dfu_cfg_t *cfg);
-
-/**
- * @brief Stops the DFU process.
- * @param self Pointer to the DFU object.
- * @return Error code indicating the status of the operation.
- */
-ciot_err_t ciot_dfu_stop(ciot_dfu_t self);
-
-/**
- * @brief Processes a DFU request.
- * @param self Pointer to the DFU object.
- * @param req Pointer to the DFU request.
- * @return Error code indicating the status of the operation.
- */
-ciot_err_t ciot_dfu_process_req(ciot_dfu_t self, ciot_dfu_req_t *req);
-
-/**
- * @brief Sends data during the DFU process.
- * @param self Pointer to the DFU object.
- * @param data Pointer to the data to be sent.
- * @param size Size of the data to be sent.
- * @return Error code indicating the status of the operation.
- */
-ciot_err_t ciot_dfu_send_data(ciot_dfu_t self, uint8_t *data, int size);
-
-/**
- * @brief Performs the DFU task.
- * @param self Pointer to the DFU object.
- * @return Error code indicating the status of the operation.
- */
-ciot_err_t ciot_dfu_task(ciot_dfu_t self);
+typedef struct ciot_dfu
+{
+    ciot_iface_t iface;
+    ciot_dfu_cfg_t cfg;
+    ciot_dfu_status_t status;
+    ciot_dfu_req_t req;
+    ciot_dfu_data_t data;
+} ciot_dfu_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif  //!__CIOT_DFU__H__
+#endif  //!__CIOT_dfu__H__

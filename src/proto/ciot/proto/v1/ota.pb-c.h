@@ -81,7 +81,11 @@ typedef enum _Ciot__OtaReqType {
   /*
    * Unknown OTA request type.
    */
-  CIOT__OTA_REQ_TYPE__OTA_REQ_TYPE_UNKOWN = 0
+  CIOT__OTA_REQ_TYPE__OTA_REQ_TYPE_UNKOWN = 0,
+  /*
+   * Rollback
+   */
+  CIOT__OTA_REQ_TYPE__OTA_REQ_TYPE_ROLLBACK = 1
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__OTA_REQ_TYPE)
 } Ciot__OtaReqType;
 

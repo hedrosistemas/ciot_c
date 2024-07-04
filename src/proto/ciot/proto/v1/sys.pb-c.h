@@ -16,6 +16,8 @@ PROTOBUF_C__BEGIN_DECLS
 
 
 typedef struct _Ciot__SysCfg Ciot__SysCfg;
+typedef struct _Ciot__SysHwFeatures Ciot__SysHwFeatures;
+typedef struct _Ciot__SysSwFeatures Ciot__SysSwFeatures;
 typedef struct _Ciot__SysFeatures Ciot__SysFeatures;
 typedef struct _Ciot__SysInfo Ciot__SysInfo;
 typedef struct _Ciot__SysStatus Ciot__SysStatus;
@@ -36,77 +38,13 @@ typedef enum _Ciot__SysReqType {
   /*
    * System restart request.
    */
-  CIOT__SYS_REQ_TYPE__SYS_REQ_TYPE_RESTART = 1
+  CIOT__SYS_REQ_TYPE__SYS_REQ_TYPE_RESTART = 1,
+  /*
+   * System init DFU bootloader
+   */
+  CIOT__SYS_REQ_TYPE__SYS_REQ_TYPE_INIT_DFU = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__SYS_REQ_TYPE)
 } Ciot__SysReqType;
-/*
- * Enum representing hardware features of the system.
- */
-typedef enum _Ciot__SysHwFeatures {
-  /*
-   * Storage feature.
-   */
-  CIOT__SYS_HW_FEATURES__SYS_FEATURE_STORAGE = 0,
-  /*
-   * System feature.
-   */
-  CIOT__SYS_HW_FEATURES__SYS_FEATURE_SYSTEM = 1,
-  /*
-   * UART feature.
-   */
-  CIOT__SYS_HW_FEATURES__SYS_FEATURE_UART = 2,
-  /*
-   * USB feature.
-   */
-  CIOT__SYS_HW_FEATURES__SYS_FEATURE_USB = 3,
-  /*
-   * Ethernet feature.
-   */
-  CIOT__SYS_HW_FEATURES__SYS_FEATURE_ETHERNET = 4,
-  /*
-   * WiFi feature.
-   */
-  CIOT__SYS_HW_FEATURES__SYS_FEATURE_WIFI = 5,
-  /*
-   * Bluetooth Low Energy (BLE) Scanner feature.
-   */
-  CIOT__SYS_HW_FEATURES__SYS_FEATURE_BLE_SCN = 6
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__SYS_HW_FEATURES)
-} Ciot__SysHwFeatures;
-/*
- * Enum representing software features of the system.
- */
-typedef enum _Ciot__SysSwFeatures {
-  /*
-   * NTP feature.
-   */
-  CIOT__SYS_SW_FEATURES__SYS_FEATURE_NTP = 0,
-  /*
-   * OTA (Over-the-Air update) feature.
-   */
-  CIOT__SYS_SW_FEATURES__SYS_FEATURE_OTA = 1,
-  /*
-   * HTTP client feature.
-   */
-  CIOT__SYS_SW_FEATURES__SYS_FEATURE_HTTP_CLIENT = 2,
-  /*
-   * HTTP server feature.
-   */
-  CIOT__SYS_SW_FEATURES__SYS_FEATURE_HTTP_SERVER = 3,
-  /*
-   * MQTT client feature.
-   */
-  CIOT__SYS_SW_FEATURES__SYS_FEATURE_MQTT_CLIENT = 4,
-  /*
-   * Timer feature.
-   */
-  CIOT__SYS_SW_FEATURES__SYS_FEATURE_TIMER = 5,
-  /*
-   * Serialization feature.
-   */
-  CIOT__SYS_SW_FEATURES__SYS_FEATURE_SERIALIZATION = 6
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__SYS_SW_FEATURES)
-} Ciot__SysSwFeatures;
 /*
  * Enum representing hardware version
  */
@@ -161,6 +99,90 @@ struct  _Ciot__SysCfg
 
 
 /*
+ * Enum representing hardware features of the system.
+ */
+struct  _Ciot__SysHwFeatures
+{
+  ProtobufCMessage base;
+  /*
+   * Storage feature.
+   */
+  protobuf_c_boolean storage;
+  /*
+   * System feature.
+   */
+  protobuf_c_boolean sys;
+  /*
+   * UART feature.
+   */
+  protobuf_c_boolean uart;
+  /*
+   * USB feature.
+   */
+  protobuf_c_boolean usb;
+  /*
+   * Ethernet feature.
+   */
+  protobuf_c_boolean ethernet;
+  /*
+   * WiFi feature.
+   */
+  protobuf_c_boolean wifi;
+  /*
+   * Bluetooth Low Energy (BLE) Scanner feature.
+   */
+  protobuf_c_boolean ble_scn;
+  /*
+   * GPIO feature
+   */
+  protobuf_c_boolean gpio;
+};
+#define CIOT__SYS_HW_FEATURES__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&ciot__sys_hw_features__descriptor) \
+    , 0, 0, 0, 0, 0, 0, 0, 0 }
+
+
+/*
+ * Enum representing software features of the system.
+ */
+struct  _Ciot__SysSwFeatures
+{
+  ProtobufCMessage base;
+  /*
+   * NTP feature.
+   */
+  protobuf_c_boolean ntp;
+  /*
+   * DFU feature
+   */
+  protobuf_c_boolean dfu;
+  /*
+   * OTA (Over-the-Air update) feature.
+   */
+  protobuf_c_boolean ota;
+  /*
+   * HTTP client feature.
+   */
+  protobuf_c_boolean http_client;
+  /*
+   * HTTP server feature.
+   */
+  protobuf_c_boolean http_server;
+  /*
+   * MQTT client feature.
+   */
+  protobuf_c_boolean mqtt_client;
+  /*
+   * Timer feature.
+   */
+  protobuf_c_boolean timer;
+};
+#define CIOT__SYS_SW_FEATURES__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&ciot__sys_sw_features__descriptor) \
+    , 0, 0, 0, 0, 0, 0, 0 }
+
+
+/*
  * Message representing system features.
  */
 struct  _Ciot__SysFeatures
@@ -169,15 +191,15 @@ struct  _Ciot__SysFeatures
   /*
    * Hardware features bitmask.
    */
-  uint32_t hw;
+  Ciot__SysHwFeatures *hw;
   /*
    * Software features bitmask.
    */
-  uint32_t sw;
+  Ciot__SysSwFeatures *sw;
 };
 #define CIOT__SYS_FEATURES__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__sys_features__descriptor) \
-    , 0, 0 }
+    , NULL, NULL }
 
 
 /*
@@ -230,14 +252,10 @@ struct  _Ciot__SysStatus
    * Lifetime of the system.
    */
   uint32_t lifetime;
-  /*
-   * System information.
-   */
-  Ciot__SysInfo *info;
 };
 #define CIOT__SYS_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__sys_status__descriptor) \
-    , 0, 0, 0, 0, NULL }
+    , 0, 0, 0, 0 }
 
 
 /*
@@ -274,10 +292,14 @@ struct  _Ciot__SysData
    * System request data.
    */
   Ciot__SysReq *request;
+  /*
+   * System info.
+   */
+  Ciot__SysInfo *info;
 };
 #define CIOT__SYS_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__sys_data__descriptor) \
-    , NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /* Ciot__SysCfg methods */
@@ -298,6 +320,44 @@ Ciot__SysCfg *
                       const uint8_t       *data);
 void   ciot__sys_cfg__free_unpacked
                      (Ciot__SysCfg *message,
+                      ProtobufCAllocator *allocator);
+/* Ciot__SysHwFeatures methods */
+void   ciot__sys_hw_features__init
+                     (Ciot__SysHwFeatures         *message);
+size_t ciot__sys_hw_features__get_packed_size
+                     (const Ciot__SysHwFeatures   *message);
+size_t ciot__sys_hw_features__pack
+                     (const Ciot__SysHwFeatures   *message,
+                      uint8_t             *out);
+size_t ciot__sys_hw_features__pack_to_buffer
+                     (const Ciot__SysHwFeatures   *message,
+                      ProtobufCBuffer     *buffer);
+Ciot__SysHwFeatures *
+       ciot__sys_hw_features__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   ciot__sys_hw_features__free_unpacked
+                     (Ciot__SysHwFeatures *message,
+                      ProtobufCAllocator *allocator);
+/* Ciot__SysSwFeatures methods */
+void   ciot__sys_sw_features__init
+                     (Ciot__SysSwFeatures         *message);
+size_t ciot__sys_sw_features__get_packed_size
+                     (const Ciot__SysSwFeatures   *message);
+size_t ciot__sys_sw_features__pack
+                     (const Ciot__SysSwFeatures   *message,
+                      uint8_t             *out);
+size_t ciot__sys_sw_features__pack_to_buffer
+                     (const Ciot__SysSwFeatures   *message,
+                      ProtobufCBuffer     *buffer);
+Ciot__SysSwFeatures *
+       ciot__sys_sw_features__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   ciot__sys_sw_features__free_unpacked
+                     (Ciot__SysSwFeatures *message,
                       ProtobufCAllocator *allocator);
 /* Ciot__SysFeatures methods */
 void   ciot__sys_features__init
@@ -399,6 +459,12 @@ void   ciot__sys_data__free_unpacked
 typedef void (*Ciot__SysCfg_Closure)
                  (const Ciot__SysCfg *message,
                   void *closure_data);
+typedef void (*Ciot__SysHwFeatures_Closure)
+                 (const Ciot__SysHwFeatures *message,
+                  void *closure_data);
+typedef void (*Ciot__SysSwFeatures_Closure)
+                 (const Ciot__SysSwFeatures *message,
+                  void *closure_data);
 typedef void (*Ciot__SysFeatures_Closure)
                  (const Ciot__SysFeatures *message,
                   void *closure_data);
@@ -421,10 +487,10 @@ typedef void (*Ciot__SysData_Closure)
 /* --- descriptors --- */
 
 extern const ProtobufCEnumDescriptor    ciot__sys_req_type__descriptor;
-extern const ProtobufCEnumDescriptor    ciot__sys_hw_features__descriptor;
-extern const ProtobufCEnumDescriptor    ciot__sys_sw_features__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__sys_hw__descriptor;
 extern const ProtobufCMessageDescriptor ciot__sys_cfg__descriptor;
+extern const ProtobufCMessageDescriptor ciot__sys_hw_features__descriptor;
+extern const ProtobufCMessageDescriptor ciot__sys_sw_features__descriptor;
 extern const ProtobufCMessageDescriptor ciot__sys_features__descriptor;
 extern const ProtobufCMessageDescriptor ciot__sys_info__descriptor;
 extern const ProtobufCMessageDescriptor ciot__sys_status__descriptor;

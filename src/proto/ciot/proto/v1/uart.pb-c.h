@@ -100,9 +100,13 @@ typedef enum _Ciot__UartError {
    */
   CIOT__UART_ERROR__UART_ERR_DATA_BREAK = 6,
   /*
+   * UART open error.
+   */
+  CIOT__UART_ERROR__UART_ERR_OPEN = 8,
+  /*
    * Unknown UART event error.
    */
-  CIOT__UART_ERROR__UART_ERR_UNKNOWN_EVENT = 7
+  CIOT__UART_ERROR__UART_ERR_UNKNOWN_EVENT = -1
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__UART_ERROR)
 } Ciot__UartError;
 
@@ -126,6 +130,10 @@ struct  _Ciot__UartCfg
    * RX pin number.
    */
   int32_t rx_pin;
+  /*
+   * TX pin number.
+   */
+  int32_t tx_pin;
   /*
    * RTS pin number.
    */
@@ -153,7 +161,7 @@ struct  _Ciot__UartCfg
 };
 #define CIOT__UART_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__uart_cfg__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
 
 /*

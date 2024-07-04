@@ -17,6 +17,7 @@ PROTOBUF_C__BEGIN_DECLS
 
 typedef struct _Ciot__BleScnCfg Ciot__BleScnCfg;
 typedef struct _Ciot__BleScnAdvInfo Ciot__BleScnAdvInfo;
+typedef struct _Ciot__BleScnAdv Ciot__BleScnAdv;
 typedef struct _Ciot__BleScnStatus Ciot__BleScnStatus;
 typedef struct _Ciot__BleScnReq Ciot__BleScnReq;
 typedef struct _Ciot__BleScnData Ciot__BleScnData;
@@ -110,6 +111,26 @@ struct  _Ciot__BleScnAdvInfo
 
 
 /*
+ * Ble scanner advertisement
+ */
+struct  _Ciot__BleScnAdv
+{
+  ProtobufCMessage base;
+  /*
+   * Advertisement information
+   */
+  Ciot__BleScnAdvInfo *info;
+  /*
+   * Advertisement payload
+   */
+  ProtobufCBinaryData payload;
+};
+#define CIOT__BLE_SCN_ADV__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_scn_adv__descriptor) \
+    , NULL, {0,NULL} }
+
+
+/*
  * Ble scanner status
  */
 struct  _Ciot__BleScnStatus
@@ -127,10 +148,18 @@ struct  _Ciot__BleScnStatus
    * Current error code
    */
   int32_t err_code;
+  /*
+   * Current fifo lenght
+   */
+  int32_t fifo_len;
+  /*
+   * Fifo maximum size
+   */
+  int32_t fifo_max;
 };
 #define CIOT__BLE_SCN_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_scn_status__descriptor) \
-    , CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE, NULL, 0 }
+    , CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE, NULL, 0, 0, 0 }
 
 
 /*
@@ -211,6 +240,25 @@ Ciot__BleScnAdvInfo *
 void   ciot__ble_scn_adv_info__free_unpacked
                      (Ciot__BleScnAdvInfo *message,
                       ProtobufCAllocator *allocator);
+/* Ciot__BleScnAdv methods */
+void   ciot__ble_scn_adv__init
+                     (Ciot__BleScnAdv         *message);
+size_t ciot__ble_scn_adv__get_packed_size
+                     (const Ciot__BleScnAdv   *message);
+size_t ciot__ble_scn_adv__pack
+                     (const Ciot__BleScnAdv   *message,
+                      uint8_t             *out);
+size_t ciot__ble_scn_adv__pack_to_buffer
+                     (const Ciot__BleScnAdv   *message,
+                      ProtobufCBuffer     *buffer);
+Ciot__BleScnAdv *
+       ciot__ble_scn_adv__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   ciot__ble_scn_adv__free_unpacked
+                     (Ciot__BleScnAdv *message,
+                      ProtobufCAllocator *allocator);
 /* Ciot__BleScnStatus methods */
 void   ciot__ble_scn_status__init
                      (Ciot__BleScnStatus         *message);
@@ -276,6 +324,9 @@ typedef void (*Ciot__BleScnCfg_Closure)
 typedef void (*Ciot__BleScnAdvInfo_Closure)
                  (const Ciot__BleScnAdvInfo *message,
                   void *closure_data);
+typedef void (*Ciot__BleScnAdv_Closure)
+                 (const Ciot__BleScnAdv *message,
+                  void *closure_data);
 typedef void (*Ciot__BleScnStatus_Closure)
                  (const Ciot__BleScnStatus *message,
                   void *closure_data);
@@ -295,6 +346,7 @@ extern const ProtobufCEnumDescriptor    ciot__ble_scn_state__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__ble_scn_req_type__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ble_scn_cfg__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ble_scn_adv_info__descriptor;
+extern const ProtobufCMessageDescriptor ciot__ble_scn_adv__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ble_scn_status__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ble_scn_req__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ble_scn_data__descriptor;

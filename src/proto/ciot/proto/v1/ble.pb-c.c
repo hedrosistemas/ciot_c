@@ -348,13 +348,13 @@ static const ProtobufCFieldDescriptor ciot__ble_status__field_descriptors[3] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "info",
+    "using_sw_mac",
     3,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
+    PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
-    offsetof(Ciot__BleStatus, info),
-    &ciot__ble_info__descriptor,
+    offsetof(Ciot__BleStatus, using_sw_mac),
+    NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -362,8 +362,8 @@ static const ProtobufCFieldDescriptor ciot__ble_status__field_descriptors[3] =
 };
 static const unsigned ciot__ble_status__field_indices_by_name[] = {
   1,   /* field[1] = err_code */
-  2,   /* field[2] = info */
   0,   /* field[0] = state */
+  2,   /* field[2] = using_sw_mac */
 };
 static const ProtobufCIntRange ciot__ble_status__number_ranges[1 + 1] =
 {
@@ -436,7 +436,7 @@ const ProtobufCMessageDescriptor ciot__ble_req__descriptor =
   (ProtobufCMessageInit) ciot__ble_req__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ble_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__ble_data__field_descriptors[4] =
 {
   {
     "config",
@@ -474,16 +474,29 @@ static const ProtobufCFieldDescriptor ciot__ble_data__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleData, info),
+    &ciot__ble_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__ble_data__field_indices_by_name[] = {
   0,   /* field[0] = config */
+  3,   /* field[3] = info */
   2,   /* field[2] = request */
   1,   /* field[1] = status */
 };
 static const ProtobufCIntRange ciot__ble_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__ble_data__descriptor =
 {
@@ -493,7 +506,7 @@ const ProtobufCMessageDescriptor ciot__ble_data__descriptor =
   "Ciot__BleData",
   "Ciot",
   sizeof(Ciot__BleData),
-  3,
+  4,
   ciot__ble_data__field_descriptors,
   ciot__ble_data__field_indices_by_name,
   1,  ciot__ble_data__number_ranges,

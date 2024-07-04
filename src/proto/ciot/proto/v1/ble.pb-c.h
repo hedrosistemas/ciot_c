@@ -106,13 +106,13 @@ struct  _Ciot__BleStatus
    */
   int32_t err_code;
   /*
-   * Bluetooth module information
+   * Software mac assigned
    */
-  Ciot__BleInfo *info;
+  protobuf_c_boolean using_sw_mac;
 };
 #define CIOT__BLE_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_status__descriptor) \
-    , CIOT__BLE_STATE__BLE_STATE_IDLE, 0, NULL }
+    , CIOT__BLE_STATE__BLE_STATE_IDLE, 0, 0 }
 
 
 /*
@@ -144,10 +144,11 @@ struct  _Ciot__BleData
   Ciot__BleCfg *config;
   Ciot__BleStatus *status;
   Ciot__BleReq *request;
+  Ciot__BleInfo *info;
 };
 #define CIOT__BLE_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_data__descriptor) \
-    , NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /* Ciot__BleCfg methods */

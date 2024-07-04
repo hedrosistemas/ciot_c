@@ -17,7 +17,6 @@ PROTOBUF_C__BEGIN_DECLS
 
 typedef struct _Ciot__HttpServerCfg Ciot__HttpServerCfg;
 typedef struct _Ciot__HttpServerStatus Ciot__HttpServerStatus;
-typedef struct _Ciot__HttpServerReqData Ciot__HttpServerReqData;
 typedef struct _Ciot__HttpServerReq Ciot__HttpServerReq;
 typedef struct _Ciot__HttpServerData Ciot__HttpServerData;
 
@@ -100,18 +99,6 @@ struct  _Ciot__HttpServerStatus
 
 
 /*
- * Message representing data for an HTTP server request.
- */
-struct  _Ciot__HttpServerReqData
-{
-  ProtobufCMessage base;
-};
-#define CIOT__HTTP_SERVER_REQ_DATA__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&ciot__http_server_req_data__descriptor) \
-     }
-
-
-/*
  * Message representing an HTTP server request.
  */
 struct  _Ciot__HttpServerReq
@@ -121,14 +108,10 @@ struct  _Ciot__HttpServerReq
    * Type of the HTTP server request.
    */
   Ciot__HttpServerReqType type;
-  /*
-   * Data associated with the request.
-   */
-  Ciot__HttpServerReqData *data;
 };
 #define CIOT__HTTP_SERVER_REQ__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__http_server_req__descriptor) \
-    , CIOT__HTTP_SERVER_REQ_TYPE__HTTP_SERVER_REQ_TYPE_UNKOWN, NULL }
+    , CIOT__HTTP_SERVER_REQ_TYPE__HTTP_SERVER_REQ_TYPE_UNKOWN }
 
 
 /*
@@ -193,25 +176,6 @@ Ciot__HttpServerStatus *
 void   ciot__http_server_status__free_unpacked
                      (Ciot__HttpServerStatus *message,
                       ProtobufCAllocator *allocator);
-/* Ciot__HttpServerReqData methods */
-void   ciot__http_server_req_data__init
-                     (Ciot__HttpServerReqData         *message);
-size_t ciot__http_server_req_data__get_packed_size
-                     (const Ciot__HttpServerReqData   *message);
-size_t ciot__http_server_req_data__pack
-                     (const Ciot__HttpServerReqData   *message,
-                      uint8_t             *out);
-size_t ciot__http_server_req_data__pack_to_buffer
-                     (const Ciot__HttpServerReqData   *message,
-                      ProtobufCBuffer     *buffer);
-Ciot__HttpServerReqData *
-       ciot__http_server_req_data__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   ciot__http_server_req_data__free_unpacked
-                     (Ciot__HttpServerReqData *message,
-                      ProtobufCAllocator *allocator);
 /* Ciot__HttpServerReq methods */
 void   ciot__http_server_req__init
                      (Ciot__HttpServerReq         *message);
@@ -258,9 +222,6 @@ typedef void (*Ciot__HttpServerCfg_Closure)
 typedef void (*Ciot__HttpServerStatus_Closure)
                  (const Ciot__HttpServerStatus *message,
                   void *closure_data);
-typedef void (*Ciot__HttpServerReqData_Closure)
-                 (const Ciot__HttpServerReqData *message,
-                  void *closure_data);
 typedef void (*Ciot__HttpServerReq_Closure)
                  (const Ciot__HttpServerReq *message,
                   void *closure_data);
@@ -277,7 +238,6 @@ extern const ProtobufCEnumDescriptor    ciot__http_server_state__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__http_server_req_type__descriptor;
 extern const ProtobufCMessageDescriptor ciot__http_server_cfg__descriptor;
 extern const ProtobufCMessageDescriptor ciot__http_server_status__descriptor;
-extern const ProtobufCMessageDescriptor ciot__http_server_req_data__descriptor;
 extern const ProtobufCMessageDescriptor ciot__http_server_req__descriptor;
 extern const ProtobufCMessageDescriptor ciot__http_server_data__descriptor;
 
