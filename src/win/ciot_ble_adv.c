@@ -39,3 +39,8 @@ ciot_err_t ciot_ble_adv_stop(ciot_ble_adv_t self)
     CIOT_ERR_NULL_CHECK(self);
     return CIOT_ERR__NOT_SUPPORTED;
 }
+
+ciot_err_t ciot_ble_adv_send_data(ciot_ble_adv_t self, uint8_t *data, int size)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
+}
