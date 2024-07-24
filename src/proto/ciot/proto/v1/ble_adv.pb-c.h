@@ -30,7 +30,9 @@ typedef enum _Ciot__BleAdvState {
   /*
    * Idle state
    */
-  CIOT__BLE_ADV_STATE__BLE_ADV_STATE_IDLE = 0
+  CIOT__BLE_ADV_STATE__BLE_ADV_STATE_IDLE = 0,
+  CIOT__BLE_ADV_STATE__BLE_ADV_STATE_STARTED = 1,
+  CIOT__BLE_ADV_STATE__BLE_ADV_STATE_SENDING = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__BLE_ADV_STATE)
 } Ciot__BleAdvState;
 /*
@@ -52,10 +54,30 @@ typedef enum _Ciot__BleAdvReqType {
 struct  _Ciot__BleAdvCfg
 {
   ProtobufCMessage base;
+  /*
+   * Advertising interval
+   */
+  uint32_t interval;
+  /*
+   * Advertising duration
+   */
+  uint32_t duration;
+  /*
+   * Advertising type
+   */
+  uint32_t type;
+  /*
+   * Advertising filter policy
+   */
+  uint32_t filter_policy;
+  /*
+   * Advertising tx power
+   */
+  uint32_t tx_power;
 };
 #define CIOT__BLE_ADV_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_adv_cfg__descriptor) \
-     }
+    , 0, 0, 0, 0, 0 }
 
 
 /*

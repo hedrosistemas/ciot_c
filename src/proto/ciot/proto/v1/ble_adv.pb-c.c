@@ -187,9 +187,81 @@ void   ciot__ble_adv_data__free_unpacked
   assert(message->base.descriptor == &ciot__ble_adv_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-#define ciot__ble_adv_cfg__field_descriptors NULL
-#define ciot__ble_adv_cfg__field_indices_by_name NULL
-#define ciot__ble_adv_cfg__number_ranges NULL
+static const ProtobufCFieldDescriptor ciot__ble_adv_cfg__field_descriptors[5] =
+{
+  {
+    "interval",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleAdvCfg, interval),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "duration",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleAdvCfg, duration),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "type",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleAdvCfg, type),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "filter_policy",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleAdvCfg, filter_policy),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "tx_power",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_UINT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__BleAdvCfg, tx_power),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned ciot__ble_adv_cfg__field_indices_by_name[] = {
+  1,   /* field[1] = duration */
+  3,   /* field[3] = filter_policy */
+  0,   /* field[0] = interval */
+  4,   /* field[4] = tx_power */
+  2,   /* field[2] = type */
+};
+static const ProtobufCIntRange ciot__ble_adv_cfg__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 5 }
+};
 const ProtobufCMessageDescriptor ciot__ble_adv_cfg__descriptor =
 {
   PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
@@ -198,10 +270,10 @@ const ProtobufCMessageDescriptor ciot__ble_adv_cfg__descriptor =
   "Ciot__BleAdvCfg",
   "Ciot",
   sizeof(Ciot__BleAdvCfg),
-  0,
+  5,
   ciot__ble_adv_cfg__field_descriptors,
   ciot__ble_adv_cfg__field_indices_by_name,
-  0,  ciot__ble_adv_cfg__number_ranges,
+  1,  ciot__ble_adv_cfg__number_ranges,
   (ProtobufCMessageInit) ciot__ble_adv_cfg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
@@ -358,16 +430,20 @@ const ProtobufCMessageDescriptor ciot__ble_adv_data__descriptor =
   (ProtobufCMessageInit) ciot__ble_adv_data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__ble_adv_state__enum_values_by_number[1] =
+static const ProtobufCEnumValue ciot__ble_adv_state__enum_values_by_number[3] =
 {
   { "BLE_ADV_STATE_IDLE", "CIOT__BLE_ADV_STATE__BLE_ADV_STATE_IDLE", 0 },
+  { "BLE_ADV_STATE_STARTED", "CIOT__BLE_ADV_STATE__BLE_ADV_STATE_STARTED", 1 },
+  { "BLE_ADV_STATE_SENDING", "CIOT__BLE_ADV_STATE__BLE_ADV_STATE_SENDING", 2 },
 };
 static const ProtobufCIntRange ciot__ble_adv_state__value_ranges[] = {
-{0, 0},{0, 1}
+{0, 0},{0, 3}
 };
-static const ProtobufCEnumValueIndex ciot__ble_adv_state__enum_values_by_name[1] =
+static const ProtobufCEnumValueIndex ciot__ble_adv_state__enum_values_by_name[3] =
 {
   { "BLE_ADV_STATE_IDLE", 0 },
+  { "BLE_ADV_STATE_SENDING", 2 },
+  { "BLE_ADV_STATE_STARTED", 1 },
 };
 const ProtobufCEnumDescriptor ciot__ble_adv_state__descriptor =
 {
@@ -376,9 +452,9 @@ const ProtobufCEnumDescriptor ciot__ble_adv_state__descriptor =
   "BleAdvState",
   "Ciot__BleAdvState",
   "Ciot",
-  1,
+  3,
   ciot__ble_adv_state__enum_values_by_number,
-  1,
+  3,
   ciot__ble_adv_state__enum_values_by_name,
   1,
   ciot__ble_adv_state__value_ranges,

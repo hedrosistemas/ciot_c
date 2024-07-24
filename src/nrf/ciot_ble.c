@@ -19,6 +19,7 @@
 #include "ciot_ble.h"
 #include "ciot_err.h"
 #include "ciot_msg.h"
+#include "ciot_utils.h"
 
 #define APP_BLE_OBSERVER_PRIO 3 /**< Application's BLE observer priority. You shouldn't need to modify this value. */
 #define APP_BLE_CONN_CFG_TAG 1  /**< A tag identifying the SoftDevice BLE configuration. */
@@ -107,7 +108,8 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 
     uint32_t err = 0;
     ble_gap_addr_t ble_addr = {0};
-    memcpy(ble_addr.addr, mac, sizeof(ble_addr.addr));
+    // memcpy(ble_addr.addr, mac, sizeof(ble_addr.addr));
+    ciot_copy_data(ble_addr.addr, mac, sizeof(ble_addr.addr), true);
 
     ciot_ble_scn_stop(base->ifaces.scn);
 
@@ -150,7 +152,8 @@ ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t m
 #else
         err = sd_ble_gap_addr_get(&ble_addr);
 #endif
-        memcpy(mac, ble_addr.addr, 6);
+        // memcpy(mac, ble_addr.addr, 6);
+        ciot_copy_data(mac, ble_addr.addr, sizeof(ble_addr.addr), 6);
         break;
     }
     default:

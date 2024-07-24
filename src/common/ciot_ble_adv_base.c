@@ -86,13 +86,12 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_ble_adv_t self = (ciot_ble_adv_t)iface;
+    return ciot_ble_adv_send_data(self, data, size); 
 }
 
 ciot_err_t ciot_ble_adv_process_req(ciot_ble_adv_t self, ciot_ble_adv_req_t *req)
 {
-    CIOT_ERR_NULL_CHECK(self);
-    CIOT_ERR_NULL_CHECK(req);
     return CIOT_ERR__NOT_IMPLEMENTED;
 }
 
