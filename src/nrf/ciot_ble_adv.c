@@ -128,17 +128,15 @@ ciot_err_t ciot_ble_adv_send_data(ciot_ble_adv_t self, uint8_t *data, int size)
 
     memcpy(m_adv_data, data, size);
 
-    uint32_t err_code = 0;
-
 #if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)
-    err_code = sd_ble_gap_adv_start(&m_adv_params);
+    self->base.status.err_code = sd_ble_gap_adv_start(&m_adv_params);
 #else
-    err_code = sd_ble_gap_adv_start(m_adv_handle, APP_BLE_CONN_CFG_TAG);
+    self->base.status.err_code = sd_ble_gap_adv_start(m_adv_handle, APP_BLE_CONN_CFG_TAG);
 #endif
-    self->base.status.state = CIOT__BLE_ADV_STATE__BLE_ADV_STATE_SENDING;
-
-    if (err_code == NRF_SUCCESS)
+    
+    if (self->base.status.err_code == NRF_SUCCESS)
     {
+        self->base.status.state = CIOT__BLE_ADV_STATE__BLE_ADV_STATE_SENDING;
         return CIOT_ERR__OK;
     }
 
