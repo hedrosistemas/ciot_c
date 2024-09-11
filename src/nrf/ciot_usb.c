@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_USB
+
 #include <stdlib.h>
 #include "app_usbd_cdc_acm.h"
 #include "app_fifo.h"
@@ -18,6 +22,7 @@
 #include "ciot_uart.h"
 #include "ciot_msg.h"
 #include "ciot_err.h"
+#include "ciot_timer.h"
 
 static const char *TAG = "ciot_usb";
 
@@ -140,7 +145,7 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     CIOT_ERR_NULL_CHECK(iface);
     CIOT_ERR_NULL_CHECK(bytes);
 
-    uint32_t err_code;
+    uint32_t err_code = 0;
     uint32_t len = 0;
     ciot_usb_t self = (ciot_usb_t)iface;
 
@@ -272,3 +277,5 @@ static void ciot_cdc_acm_event_handler(app_usbd_class_inst_t const *p_inst, app_
         break;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_USB

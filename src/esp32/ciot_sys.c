@@ -30,6 +30,7 @@ RTC_NOINIT_ATTR int rst_count;
 ciot_sys_t ciot_sys_new(void *handle)
 {
     ciot_sys_t self = calloc(1, sizeof(struct ciot_sys));
+    self->event_group = xEventGroupCreate();
     ciot_sys_init(self);
     return self;
 }
@@ -68,7 +69,7 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     ciot_sys_base_t *base = &self->base;
     base->status.free_memory = esp_get_free_heap_size();
     base->status.lifetime = ciot_timer_now() - self->init_time;
-    ciot_sys_sleep(1000);
+    xEventGroupWaitBits(self->event_group, CIOT_SYS_EVT_BIT_POOLING, pdTRUE, pdTRUE, pdMS_TO_TICKS(100));
     return CIOT_ERR__OK;
 }
 

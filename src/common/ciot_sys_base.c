@@ -42,7 +42,7 @@ ciot_err_t ciot_sys_init(ciot_sys_t self)
     base->info.features = &base->features;
     base->info.features->hw = &base->hw;
     base->info.features->sw = &base->sw;
-    
+
     return CIOT_ERR__OK;
 }
 
@@ -82,6 +82,7 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         break;
     case CIOT__MSG_TYPE__MSG_TYPE_INFO:
         self->data.info = &self->info;
+        ciot_sys_get_info((ciot_sys_t)self, self->data.info);
         break;
     default:
         break;
@@ -149,7 +150,6 @@ ciot_err_t ciot_sys_get_info(ciot_sys_t self, ciot_sys_info_t *info)
 
     return CIOT_ERR__OK;
 }
-
 
 static ciot_err_t ciot_sys_get_hw(ciot_sys_hw_t *hw)
 {

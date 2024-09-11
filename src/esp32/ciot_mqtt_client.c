@@ -51,8 +51,8 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
     ciot_strncpy(base->password, cfg->password, CIOT_CONFIG_MQTT_PASS_SIZE);
     if(cfg->topics != NULL)
     {
-        ciot_strncpy(base->topic_b2d, cfg->topics->b2d, CIOT_CONFIG_MQTT_TOPIC_SIZE);
-        ciot_strncpy(base->topic_d2b, cfg->topics->d2b, CIOT_CONFIG_MQTT_TOPIC_SIZE);
+        ciot_strncpy(base->topic_sub, cfg->topics->sub, CIOT_CONFIG_MQTT_TOPIC_SIZE);
+        ciot_strncpy(base->topic_pub, cfg->topics->pub, CIOT_CONFIG_MQTT_TOPIC_SIZE);
     }
 
     base->cfg.transport = cfg->transport;
@@ -118,6 +118,7 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     ciot_mqtt_client_base_t *base = &self->base;
     esp_mqtt_event_t *mqtt_event = (esp_mqtt_event_t *)event_data;
     ciot_iface_event_t iface_event = { 0 };
+    iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
 
     switch (event_id)
     {
@@ -127,38 +128,33 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         base->status.error->code = mqtt_event->error_handle->connect_return_code;
         base->status.error->type = mqtt_event->error_handle->error_type;
         iface_event.type = CIOT_IFACE_EVENT_ERROR;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
         ciot_iface_send_event(&base->iface, &iface_event);
         break;
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
         base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED;
-        ciot_mqtt_client_sub(self, base->cfg.topics->b2d, base->cfg.qos);
+        ciot_mqtt_client_sub(self, base->cfg.topics->sub, base->cfg.qos);
         iface_event.type = CIOT_IFACE_EVENT_STARTED;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
         ciot_iface_send_event(&base->iface, &iface_event);
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
         iface_event.type = CIOT_IFACE_EVENT_STOPPED;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
         ciot_iface_send_event(&base->iface, &iface_event);
         break;
     case MQTT_EVENT_SUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED");
         iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
         ciot_iface_send_event(&base->iface, &iface_event);
         return;
     case MQTT_EVENT_UNSUBSCRIBED:
         ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED");
         iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
         ciot_iface_send_event(&base->iface, &iface_event);
         return;
     case MQTT_EVENT_DATA:
         ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-        if(strncmp(mqtt_event->topic, base->cfg.topics->b2d, mqtt_event->topic_len) == 0)
+        if(strncmp(mqtt_event->topic, base->cfg.topics->sub, mqtt_event->topic_len) == 0)
         {
             iface_event.type = CIOT_IFACE_EVENT_REQUEST;
             iface_event.data = (uint8_t*)mqtt_event->data;

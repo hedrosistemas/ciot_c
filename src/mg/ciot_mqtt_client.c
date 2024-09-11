@@ -15,6 +15,7 @@
 #include "ciot_err.h"
 #include "ciot_timer.h"
 #include "ciot_str.h"
+#include "ciot_msg.h"
 
 static const char *TAG = "ciot_mqtt_client";
 
@@ -24,12 +25,12 @@ struct ciot_mqtt_client
     struct mg_mgr *mgr;
     struct mg_connection *connection;
     time_t last_ping;
-    char client_id[CIOT_CONFIG_MQTT_CLIENT_ID_SIZE];
-    char url[CIOT_CONFIG_MQTT_CLIENT_URL_SIZE];
-    char user[CIOT_CONFIG_MQTT_USER_SIZE];
-    char password[CIOT_CONFIG_MQTT_PASS_SIZE];
-    char topic_d2b[CIOT_CONFIG_MQTT_TOPIC_SIZE];
-    char topic_b2d[CIOT_CONFIG_MQTT_TOPIC_SIZE];
+    // char client_id[CIOT_CONFIG_MQTT_CLIENT_ID_SIZE];
+    // char url[CIOT_CONFIG_MQTT_CLIENT_URL_SIZE];
+    // char user[CIOT_CONFIG_MQTT_USER_SIZE];
+    // char password[CIOT_CONFIG_MQTT_PASS_SIZE];
+    // char topic_pub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
+    // char topic_sub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
 };
 
 static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
@@ -50,25 +51,26 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
     ciot_mqtt_client_base_t *base = &self->base;
     struct mg_mqtt_opts opts = {0};
 
-    ciot_strncpy(self->client_id, cfg->client_id, CIOT_CONFIG_MQTT_CLIENT_ID_SIZE);
-    ciot_strncpy(self->url, cfg->url, CIOT_CONFIG_MQTT_CLIENT_URL_SIZE);
-    ciot_strncpy(self->user, cfg->user, CIOT_CONFIG_MQTT_USER_SIZE);
-    ciot_strncpy(self->password, cfg->password, CIOT_CONFIG_MQTT_PASS_SIZE);
+    ciot_strncpy(base->client_id, cfg->client_id, CIOT_CONFIG_MQTT_CLIENT_ID_SIZE);
+    ciot_strncpy(base->url, cfg->url, CIOT_CONFIG_MQTT_CLIENT_URL_SIZE);
+    ciot_strncpy(base->user, cfg->user, CIOT_CONFIG_MQTT_USER_SIZE);
+    ciot_strncpy(base->password, cfg->password, CIOT_CONFIG_MQTT_PASS_SIZE);
     if(cfg->topics != NULL)
     {
-        ciot_strncpy(self->topic_b2d, cfg->topics->b2d, CIOT_CONFIG_MQTT_TOPIC_SIZE);
-        ciot_strncpy(self->topic_d2b, cfg->topics->d2b, CIOT_CONFIG_MQTT_TOPIC_SIZE);
+        ciot_strncpy(base->topic_sub, cfg->topics->sub, CIOT_CONFIG_MQTT_TOPIC_SIZE);
+        ciot_strncpy(base->topic_pub, cfg->topics->pub, CIOT_CONFIG_MQTT_TOPIC_SIZE);
+        base->topic_len = strlen(base->topic_pub);
     }
 
     base->cfg = *cfg;
 
-    base->cfg.client_id = self->client_id;
-    base->cfg.url = self->url;
-    base->cfg.user = self->user;
-    base->cfg.password = self->password;
+    base->cfg.client_id = base->client_id;
+    base->cfg.url = base->url;
+    base->cfg.user = base->user;
+    base->cfg.password = base->password;
     base->cfg.topics = &self->base.topics;
-    base->cfg.topics->b2d = self->topic_b2d;
-    base->cfg.topics->d2b = self->topic_d2b;
+    base->cfg.topics->sub = base->topic_sub;
+    base->cfg.topics->pub = base->topic_pub;
 
     opts.client_id = mg_str(cfg->client_id);
     opts.user = mg_str(cfg->user);
@@ -80,7 +82,7 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
 
     base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTING;
 
-    self->connection = mg_mqtt_connect(self->mgr, self->url, &opts, ciot_mqtt_client_event_handler, self);
+    self->connection = mg_mqtt_connect(self->mgr, base->url, &opts, ciot_mqtt_client_event_handler, self);
 
     return CIOT_ERR__OK;
 }
@@ -133,15 +135,15 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     {
         CIOT_LOGE(TAG, "MG_EV_ERROR (%s)", (char *)ev_data);
         base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR;
-        iface_event.type = CIOT_IFACE_EVENT_ERROR;
-        ciot_iface_send_event(&base->iface, &iface_event);
+        base->status.error->code = atoi(&((char*)ev_data)[9]);
+        ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_ERROR);
         break;
     }
     case MG_EV_OPEN:
-        CIOT_LOGD(TAG, "MG_EV_OPEN url:%s", self->url);
+        CIOT_LOGD(TAG, "MG_EV_OPEN url:%s", base->url);
         base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTING;
         iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
-        ciot_iface_send_event(&base->iface, &iface_event);
+        ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_INTERNAL);
         break;
     case MG_EV_POLL:
     {
@@ -158,13 +160,13 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     {
         if(base->status.state != CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED)
         {
-            CIOT_LOGI(TAG, "MG_EV_MQTT_OPEN url:%s", self->url);
+            CIOT_LOGI(TAG, "MG_EV_MQTT_OPEN url:%s", base->url);
             base->status.conn_count++;
             base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED;
             iface_event.type = CIOT_IFACE_EVENT_STARTED;
-            if(self->topic_b2d[0] != '\0')
+            if(base->topic_sub[0] != '\0')
             {
-                ciot_mqtt_client_sub(self, self->topic_b2d, base->cfg.qos);
+                ciot_mqtt_client_sub(self, base->topic_sub, base->cfg.qos);
             }
             ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STARTED);
         }
@@ -174,7 +176,8 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     {
         CIOT_LOGD(TAG, "MG_EV_MQTT_MSG");
         struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
-        if(strncmp(mm->topic.ptr, base->cfg.topics->b2d, mm->topic.len) == 0)
+        if(strlen(base->cfg.topics->sub) == mm->topic.len && 
+           strncmp(mm->topic.ptr, base->cfg.topics->sub, mm->topic.len) == 0)
         {
             iface_event.type = CIOT_IFACE_EVENT_REQUEST;
             iface_event.data = (uint8_t*)mm->data.ptr;
@@ -197,8 +200,7 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     {
         CIOT_LOGI(TAG, "MG_EV_CLOSE");
         base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTED;
-        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
-        ciot_iface_send_event(&base->iface, &iface_event);
+        ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
         break;
     }
     default:

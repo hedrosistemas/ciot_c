@@ -69,8 +69,15 @@ ciot_err_t ciot_sys_restart(void)
 
 ciot_err_t ciot_sys_init_dfu(void)
 {
-    CIOT_ERR_RETURN(sd_power_gpregret_clr(0, 0xffffffff));
-    CIOT_ERR_RETURN(sd_power_gpregret_set(0, BOOTLOADER_DFU_START));
+    uint32_t err_code;
+
+    err_code = (sd_power_gpregret_clr(0, 0xffffffff));
+    // VERIFY_SUCCESS(err_code);
+
+    err_code = (sd_power_gpregret_set(0, BOOTLOADER_DFU_START));
+    // VERIFY_SUCCESS(err_code);
+
     nrf_pwr_mgmt_shutdown(NRF_PWR_MGMT_SHUTDOWN_GOTO_DFU);
-    return CIOT_ERR__OK;
+    
+    return err_code;
 }

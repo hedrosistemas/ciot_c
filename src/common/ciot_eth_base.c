@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "ciot_eth.h"
 #include "ciot_tcp.h"
 #include "ciot_config.h"
@@ -92,4 +93,38 @@ ciot_err_t ciot_eth_process_req(ciot_eth_t self, ciot_tcp_req_t *req)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
     return CIOT_ERR__NOT_IMPLEMENTED;
+}
+
+ciot_err_t ciot_eth_get_cfg(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
+    ciot_eth_base_t *base = (ciot_eth_base_t*)self;
+    return ciot_tcp_get_cfg(base->tcp, cfg);
+}
+
+ciot_err_t ciot_eth_get_status(ciot_eth_t self, ciot_tcp_status_t *status)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(status);
+    ciot_eth_base_t *base = (ciot_eth_base_t*)self;
+    return ciot_tcp_get_status(base->tcp, status);
+}
+
+ciot_err_t ciot_eth_get_info(ciot_eth_t self, ciot_tcp_info_t *info)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(info);
+    ciot_eth_base_t *base = (ciot_eth_base_t*)self;
+    return ciot_tcp_get_info(base->tcp, info);
+}
+
+ciot_err_t ciot_eth_get_mac(ciot_eth_t self, uint8_t mac[6])
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(mac);
+    ciot_eth_base_t *base = (ciot_eth_base_t*)self;
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t*)base->tcp;
+    memcpy(mac, tcp->info.mac.data, 6);
+    return CIOT_ERR__OK;
 }

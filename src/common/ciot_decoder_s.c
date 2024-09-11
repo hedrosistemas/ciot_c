@@ -51,6 +51,7 @@ ciot_iface_decoder_t ciot_decoder_s_new(uint8_t *buf, int size)
     self->buf.len = size;
     self->base.decode = ciot_decoder_s_decode;
     self->base.send = ciot_decoder_s_send;
+    self->base.event_type = CIOT_IFACE_EVENT_REQUEST;
     return &self->base;
 }
 
@@ -69,6 +70,7 @@ static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
     {
         CIOT_LOGE(TAG, "Overflow");
         self->idx = 0;
+        self->state = CIOT_DECODER_S_STATE_WAIT_START_CH;
         base->state = CIOT_IFACE_DECODER_STATE_ERROR;
         return CIOT_ERR__OVERFLOW;
     }
@@ -97,7 +99,7 @@ static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
             self->state = CIOT_DECODER_S_STATE_WAIT_START_CH;
             base->state = CIOT_IFACE_DECODER_STATE_DONE;
             ciot_iface_event_t iface_event = {0};
-            iface_event.type = CIOT_IFACE_EVENT_REQUEST;
+            iface_event.type = base->event_type;
             iface_event.data = self->buf.ptr;
             iface_event.size = self->size;
             ciot_iface_send_event(iface, &iface_event);

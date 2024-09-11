@@ -39,6 +39,8 @@ struct ciot_ble_scn
 static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool reverse);
 static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv);
 
+static const char *TAG = "hg_ble_scn";
+
 ciot_ble_scn_t ciot_ble_scn_new(void *handle)
 {
     ciot_ble_scn_t self = calloc(1, sizeof(struct ciot_ble_scn));
@@ -62,7 +64,7 @@ ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
         return CIOT_ERR__OK;
     }
 
-    if (base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_PASSIVE)
+    if (!base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_PASSIVE)
     {
         return CIOT_ERR__OK;
     }
@@ -129,6 +131,7 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
     const ble_evt_t *ev = event;
     uint8_t mac[6];
 
+
     switch (ev->header.evt_id)
     {
     case BLE_GAP_EVT_ADV_REPORT:
@@ -148,6 +151,9 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
         {
             ciot_ble_scn_handle_adv_report(self, &base->recv);
         }
+        break;
+    case BLE_GAP_EVT_TIMEOUT:
+        CIOT_LOGI(TAG, "%d", ev->evt.gap_evt.params.timeout.src);
         break;
     default:
         break;

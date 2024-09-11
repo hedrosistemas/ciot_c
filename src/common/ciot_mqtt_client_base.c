@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "ciot_mqtt_client.h"
 #include "ciot_config.h"
 
@@ -28,6 +29,7 @@ ciot_err_t ciot_mqtt_client_init(ciot_mqtt_client_t self)
     ciot__mqtt_client_cfg__init(&base->cfg);
     ciot__mqtt_client_topics_cfg__init(&base->topics);
     ciot__mqtt_client_status__init(&base->status);
+    ciot__mqtt_client_error__init(&base->error);
 
     base->iface.ptr = self;
     base->iface.process_req = ciot_iface_process_req;
@@ -40,8 +42,8 @@ ciot_err_t ciot_mqtt_client_init(ciot_mqtt_client_t self)
 
     base->cfg.client_id = base->client_id;
     base->cfg.url = base->url;
-    base->cfg.topics->b2d = base->topic_b2d;
-    base->cfg.topics->d2b = base->topic_d2b;
+    base->cfg.topics->sub = base->topic_sub;
+    base->cfg.topics->pub = base->topic_pub;
     base->cfg.password = base->password;
 
     return CIOT_ERR__OK;
@@ -100,8 +102,8 @@ static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int s
     CIOT_ERR_NULL_CHECK(data);
     ciot_mqtt_client_t self = (ciot_mqtt_client_t)iface;
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
-    ciot_mqtt_client_pub(self, base->cfg.topics->d2b, data, size, base->cfg.qos);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    ciot_mqtt_client_pub(self, base->cfg.topics->pub, data, size, base->cfg.qos);
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_process_req(ciot_mqtt_client_t self, ciot_mqtt_client_req_t *req)
@@ -116,6 +118,7 @@ ciot_err_t ciot_mqtt_client_get_cfg(ciot_mqtt_client_t self, ciot_mqtt_client_cf
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    base->topic_pub[base->topic_len] = '\0';
     *cfg = base->cfg;
     return CIOT_ERR__OK;
 }
@@ -129,11 +132,26 @@ ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client
     return CIOT_ERR__OK;
 }
 
-ciot_err_t ciot_mqtt_client_set_topics(ciot_mqtt_client_t self, char *d2b, char *b2d)
+ciot_err_t ciot_mqtt_client_send(ciot_mqtt_client_t self, uint8_t *data, int size)
+{
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    return ciot_mqtt_client_pub(self, base->topic_pub, data, size, base->cfg.qos);
+}
+
+ciot_err_t ciot_mqtt_client_set_topics(ciot_mqtt_client_t self, char *pub, char *sub)
 {
     CIOT_ERR_NULL_CHECK(self);
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
-    base->cfg.topics->d2b = d2b;
-    base->cfg.topics->b2d = b2d;
+    base->cfg.topics->pub = pub;
+    base->cfg.topics->sub = sub;
+    base->topic_len = strlen(base->topic_pub);
+    return ciot_mqtt_client_sub(self, sub, base->cfg.qos);;
+}
+
+ciot_err_t ciot_mqtt_client_set_subtopic(ciot_mqtt_client_t self, char *subtopic, int len)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    memcpy(&base->topic_pub[base->topic_len], subtopic, len);
     return CIOT_ERR__OK;
 }

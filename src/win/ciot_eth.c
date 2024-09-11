@@ -9,6 +9,7 @@
  * 
  */
 
+#include <stdlib.h>
 #include "ciot_eth.h"
 #include "ciot_tcp.h"
 

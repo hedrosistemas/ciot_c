@@ -74,13 +74,16 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
 
 ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 {
-    CIOT_LOGI(TAG, "Starting");
-
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
 
     ciot_wifi_base_t *base = &self->base;
     ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)&base->tcp;
+
+    if(!cfg->enabled)
+    {
+        return CIOT_ERR__DISABLED;
+    }
 
     CIOT_ERR_RETURN(ciot_wifi_set_cfg(self, cfg));
 
@@ -102,7 +105,7 @@ ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
     ESP_ERROR_CHECK(esp_wifi_set_config(cfg->type, &wifi_cfg));
     ESP_ERROR_CHECK(esp_wifi_start());
 
-    if (cfg->type == CIOT__WIFI_TYPE__WIFI_TYPE_STA && tcp->status.state == CIOT__TCP_STATE__TCP_STATE_STARTED)
+    if (cfg->type == CIOT__WIFI_TYPE__WIFI_TYPE_STA && tcp->status.state == CIOT__TCP_STATE__TCP_STATE_DISCONNECTED)
     {
         CIOT_LOGI(TAG, "Connecting");
         tcp->status.state = CIOT__TCP_STATE__TCP_STATE_CONNECTING;
@@ -144,10 +147,10 @@ ciot_err_t ciot_wifi_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
     return CIOT_ERR__NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, ciot_wifi_type_t type, uint8_t mac[6])
-{
-    return esp_wifi_get_mac(type, mac);
-}
+// ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, ciot_wifi_type_t type, uint8_t mac[6])
+// {
+//     return esp_wifi_get_mac(type, mac);
+// }
 
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 {
@@ -161,6 +164,7 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     if (self->base.cfg.type != cfg->type)
     {
+        CIOT_LOGE(TAG, "Invalid wifi type: %s. Expected: %s", ciot__wifi_type__descriptor.values[cfg->type].name, ciot__wifi_type__descriptor.values[self->base.cfg.type].name);
         return CIOT_ERR__INVALID_TYPE;
     }
 

@@ -21,7 +21,6 @@
 #include "ciot_logger.h"
 
 #define CIOT_IFACE_START_TIMEOUT_SECS 5
-#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat"
 
 static const char *TAG = "ciot";
 
@@ -35,8 +34,10 @@ ciot_t ciot_new(void)
 {
     ciot_t self = calloc(1, sizeof(struct ciot));
     self->iface.ptr = self;
-    self->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CIOT;
     ciot_init(self);
+    #ifdef CIOT_MG_ENABLED
+    mg_mgr_init(CIOT_HANDLE);
+    #endif
     return self;
 }
 
@@ -46,10 +47,11 @@ ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     if (self->status.state != CIOT__CIOT_STATE__CIOT_STATE_IDLE)
     {
-        CIOT_LOGE(TAG, "CIoT core incorrect state");
+        CIOT_LOGE(TAG, "ciot core incorrect state");
         return CIOT_ERR__INVALID_STATE;
     }
     self->ifaces.cfgs = cfg->cfgs;
+    self->storage = cfg->storage;
     ciot_set_iface_list(self, cfg->ifaces, cfg->count);
     self->status.state = CIOT__CIOT_STATE__CIOT_STATE_STARTING;
     CIOT_LOGI(TAG, "CIOT_STATE_STARTING");
@@ -67,6 +69,10 @@ ciot_err_t ciot_stop(ciot_t self)
 ciot_err_t ciot_task(ciot_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
+
+    #ifdef CIOT_MG_ENABLED
+    mg_mgr_poll(CIOT_HANDLE, CIOT_CONFIG_MG_POOL_INTERVAL_MS);
+    #endif
 
     switch (self->status.state)
     {
@@ -143,15 +149,23 @@ static ciot_err_t ciot_starting_task(ciot_t self)
             cfg = self->ifaces.cfgs[id];
         }
 
-        ciot_err_t err = ciot_start_iface(self, iface, cfg);
-        if (err == CIOT_ERR__OK)
+        if(cfg != NULL)
         {
-            ciot_timer_init(&self->starting.timer, CIOT_IFACE_START_TIMEOUT_SECS);
-            self->starting.waiting_result = true;
+            ciot_err_t err = ciot_start_iface(self, iface, cfg);
+            if (err == CIOT_ERR__OK)
+            {
+                ciot_timer_init(&self->starting.timer, CIOT_IFACE_START_TIMEOUT_SECS);
+                self->starting.waiting_result = true;
+            }
+            else
+            {
+                CIOT_LOGE(TAG, "Interface [%u]:%s cannot start. Error: %s[%u]", id, ciot_iface_to_str(iface), ciot_err_to_message(err), err);
+                self->starting.iface_id++;
+            }
         }
         else
         {
-            CIOT_LOGE(TAG, "Interface [%u]:%s cannot start. Error: %s[%u]", id, ciot_iface_to_str(iface), ciot_err_to_message(err), err);
+            CIOT_LOGI(TAG, "Interface [%u]:%s with null configuration not started.", id, ciot_iface_to_str(iface));
             self->starting.iface_id++;
         }
     }
@@ -160,6 +174,9 @@ static ciot_err_t ciot_starting_task(ciot_t self)
     {
         self->status.state = CIOT__CIOT_STATE__CIOT_STATE_STARTED;
         CIOT_LOGI(TAG, "CIOT_STATE_STARTED");
+        ciot_iface_event_t event = { 0 };
+        event.type = CIOT_IFACE_EVENT_STARTED;
+        ciot_iface_send_event(&self->iface, &event);
     }
 
     return CIOT_ERR__OK;
@@ -177,22 +194,26 @@ static ciot_err_t ciot_busy_task(ciot_t self)
     ciot_iface_event_t *event = &self->recv.event;
     ciot_iface_t *sender = self->recv.sender;
 
-    if (sender->req_status.state != CIOT_IFACE_REQ_STATE_IDLE)
+    if (sender->req_status.state != CIOT_IFACE_REQ_STATE_IDLE && event->msg != NULL)
     {
-        if (ciot_iface_event_is_ack(event) &&
-            ciot_iface_is_equal(&sender->info, event->msg->iface) &&
-            sender->req_status.id == event->msg->id)
+        bool iface_is_equal = sender->req_status.state == CIOT_IFACE_REQ_STATE_SENDED 
+            ? ciot_iface_is_equal(&sender->req_status.iface, event->msg->iface)
+            : ciot_iface_is_equal(&sender->info, event->msg->iface);
+        if ((ciot_iface_event_is_ack(event->type) || event->type == CIOT_IFACE_EVENT_REQUEST) &&
+            iface_is_equal)
         {
-            sender->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
-            if (sender->req_status.state == CIOT_IFACE_REQ_STATE_SENDED)
+            if (sender->req_status.state == CIOT_IFACE_REQ_STATE_SENDED &&
+                sender->req_status.id == event->msg->id)
             {
                 event->type = CIOT_IFACE_EVENT_DONE;
             }
             else
             {
                 event->msg->id = sender->req_status.id;
-                ciot_iface_send_rsp(sender, event->msg);
+                ciot_iface_send_rsp(self->ifaces.list[sender->req_status.iface.id], event->msg);
+                self->recv.event.msg = NULL;
             }
+            sender->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
         }
     }
 
@@ -290,12 +311,12 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 
     if (event->type == CIOT_IFACE_EVENT_DATA && self->iface.event_handler != NULL)
     {
-        self->iface.event_handler(sender, event, self->iface.event_args);
+        return self->iface.event_handler(sender, event, self->iface.event_args);
     }
 
     if (self->status.state == CIOT__CIOT_STATE__CIOT_STATE_BUSY)
     {
-        CIOT_LOGE(TAG, "CIoT core is busy");
+        CIOT_LOGE(TAG, "ciot core is busy. %s(%lu) evt id:%d ignored", ciot_iface_to_str(sender), sender->info.id, event->type);
         return CIOT_ERR__BUSY;
     }
 
@@ -303,7 +324,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
     {
         if (self->status.state != CIOT__CIOT_STATE__CIOT_STATE_STARTED)
         {
-            CIOT_LOGE(TAG, "CIoT core is not started");
+            CIOT_LOGE(TAG, "ciot core is not started");
             return CIOT_ERR__BUSY;
         }
 
@@ -315,6 +336,11 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         else
         {
             self->recv.event.msg = ciot__msg__unpack(NULL, event->size, event->data);
+            if(self->recv.event.msg == NULL)
+            {
+                CIOT_LOGE(TAG, "msg unpack error");
+                return CIOT_ERR__DESERIALIZATION;
+            }
         }
 
         if(self->recv.event.msg->type == CIOT__MSG_TYPE__MSG_TYPE_LOG)
@@ -335,6 +361,13 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
             self->status.state = CIOT__CIOT_STATE__CIOT_STATE_BUSY;
             CIOT_LOGV(TAG, "CIOT_STATE_BUSY");
         }
+    }
+    else if(self->status.state == CIOT__CIOT_STATE__CIOT_STATE_STARTED)
+    {
+        self->recv.sender = sender;
+        self->recv.event.type = event->type;
+        self->recv.event.msg = event->msg;
+        self->status.state = CIOT__CIOT_STATE__CIOT_STATE_BUSY;
     }
 
     return CIOT_ERR__OK;

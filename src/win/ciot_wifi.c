@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "ciot_wifi.h"
 #include "ciot_err.h"
 
@@ -26,7 +27,6 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
 {
     ciot_wifi_t self = calloc(1, sizeof(struct ciot_wifi));
     ciot_wifi_base_t *base = &self->base;
-    base->cfg.type = type;
 
     if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_AP)
     {
@@ -41,6 +41,20 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
     }
 
     ciot_wifi_init(self);
+    base->cfg.type = type;
+
+    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_AP)
+    {
+        CIOT_LOGI(TAG, "Creating wifi ap");
+        base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_AP);
+    }
+
+    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_STA)
+    {
+        CIOT_LOGI(TAG, "Creating wifi sta");
+        base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_STA);
+    }
+
     return self;
 }
 

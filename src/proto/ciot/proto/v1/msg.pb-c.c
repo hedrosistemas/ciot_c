@@ -347,215 +347,11 @@ const ProtobufCMessageDescriptor ciot__msg_error__descriptor =
   (ProtobufCMessageInit) ciot__msg_error__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[21] =
+static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[22] =
 {
   {
-    "ciot",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, ciot),
-    &ciot__ciot_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "storage",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, storage),
-    &ciot__storage_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "sys",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, sys),
-    &ciot__sys_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "uart",
-    4,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, uart),
-    &ciot__uart_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "usb",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, usb),
-    &ciot__usb_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "tcp",
-    6,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, tcp),
-    &ciot__tcp_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "eth",
-    7,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, eth),
-    &ciot__tcp_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "wifi",
-    8,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, wifi),
-    &ciot__wifi_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "ble",
-    9,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, ble),
-    &ciot__ble_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "ble_scn",
-    10,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, ble_scn),
-    &ciot__ble_scn_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "ble_adv",
-    11,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, ble_adv),
-    &ciot__ble_adv_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "ntp",
-    12,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, ntp),
-    &ciot__ntp_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "ota",
-    13,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, ota),
-    &ciot__ota_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "dfu",
-    14,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, dfu),
-    &ciot__dfu_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "http_server",
-    15,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, http_server),
-    &ciot__http_server_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "http_client",
-    16,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, http_client),
-    &ciot__http_client_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "mqtt_client",
-    17,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, mqtt_client),
-    &ciot__mqtt_client_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
     "error",
-    18,
+    1,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -566,12 +362,12 @@ static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[21] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "raw",
-    19,
+    "payload",
+    2,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BYTES,
     0,   /* quantifier_offset */
-    offsetof(Ciot__MsgData, raw),
+    offsetof(Ciot__MsgData, payload),
     NULL,
     NULL,
     0,             /* flags */
@@ -579,7 +375,7 @@ static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[21] =
   },
   {
     "model",
-    20,
+    3,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -591,7 +387,7 @@ static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[21] =
   },
   {
     "log",
-    21,
+    4,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -601,34 +397,251 @@ static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[21] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "ciot",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, ciot),
+    &ciot__ciot_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "storage",
+    6,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, storage),
+    &ciot__storage_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "sys",
+    7,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, sys),
+    &ciot__sys_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "uart",
+    8,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, uart),
+    &ciot__uart_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "usb",
+    9,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, usb),
+    &ciot__usb_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "tcp",
+    10,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, tcp),
+    &ciot__tcp_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "eth",
+    11,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, eth),
+    &ciot__tcp_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "wifi",
+    12,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, wifi),
+    &ciot__wifi_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ble",
+    13,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, ble),
+    &ciot__ble_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ble_scn",
+    14,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, ble_scn),
+    &ciot__ble_scn_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ble_adv",
+    15,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, ble_adv),
+    &ciot__ble_adv_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ntp",
+    16,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, ntp),
+    &ciot__ntp_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ota",
+    17,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, ota),
+    &ciot__ota_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "dfu",
+    18,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, dfu),
+    &ciot__dfu_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "http_server",
+    19,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, http_server),
+    &ciot__http_server_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "http_client",
+    20,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, http_client),
+    &ciot__http_client_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "mqtt_client",
+    21,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, mqtt_client),
+    &ciot__mqtt_client_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "socket",
+    22,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, socket),
+    &ciot__socket_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__msg_data__field_indices_by_name[] = {
-  8,   /* field[8] = ble */
-  10,   /* field[10] = ble_adv */
-  9,   /* field[9] = ble_scn */
-  0,   /* field[0] = ciot */
-  13,   /* field[13] = dfu */
-  17,   /* field[17] = error */
-  6,   /* field[6] = eth */
-  15,   /* field[15] = http_client */
-  14,   /* field[14] = http_server */
-  20,   /* field[20] = log */
-  19,   /* field[19] = model */
-  16,   /* field[16] = mqtt_client */
-  11,   /* field[11] = ntp */
-  12,   /* field[12] = ota */
-  18,   /* field[18] = raw */
-  1,   /* field[1] = storage */
-  2,   /* field[2] = sys */
-  5,   /* field[5] = tcp */
-  3,   /* field[3] = uart */
-  4,   /* field[4] = usb */
-  7,   /* field[7] = wifi */
+  12,   /* field[12] = ble */
+  14,   /* field[14] = ble_adv */
+  13,   /* field[13] = ble_scn */
+  4,   /* field[4] = ciot */
+  17,   /* field[17] = dfu */
+  0,   /* field[0] = error */
+  10,   /* field[10] = eth */
+  19,   /* field[19] = http_client */
+  18,   /* field[18] = http_server */
+  3,   /* field[3] = log */
+  2,   /* field[2] = model */
+  20,   /* field[20] = mqtt_client */
+  15,   /* field[15] = ntp */
+  16,   /* field[16] = ota */
+  1,   /* field[1] = payload */
+  21,   /* field[21] = socket */
+  5,   /* field[5] = storage */
+  6,   /* field[6] = sys */
+  9,   /* field[9] = tcp */
+  7,   /* field[7] = uart */
+  8,   /* field[8] = usb */
+  11,   /* field[11] = wifi */
 };
 static const ProtobufCIntRange ciot__msg_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 21 }
+  { 0, 22 }
 };
 const ProtobufCMessageDescriptor ciot__msg_data__descriptor =
 {
@@ -638,7 +651,7 @@ const ProtobufCMessageDescriptor ciot__msg_data__descriptor =
   "Ciot__MsgData",
   "Ciot",
   sizeof(Ciot__MsgData),
-  21,
+  22,
   ciot__msg_data__field_descriptors,
   ciot__msg_data__field_indices_by_name,
   1,  ciot__msg_data__number_ranges,
@@ -786,35 +799,37 @@ const ProtobufCMessageDescriptor ciot__msg__descriptor =
   (ProtobufCMessageInit) ciot__msg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__msg_type__enum_values_by_number[11] =
+static const ProtobufCEnumValue ciot__msg_type__enum_values_by_number[12] =
 {
   { "MSG_TYPE_UNKNOWN", "CIOT__MSG_TYPE__MSG_TYPE_UNKNOWN", 0 },
-  { "MSG_TYPE_START", "CIOT__MSG_TYPE__MSG_TYPE_START", 1 },
-  { "MSG_TYPE_STOP", "CIOT__MSG_TYPE__MSG_TYPE_STOP", 2 },
-  { "MSG_TYPE_CONFIG", "CIOT__MSG_TYPE__MSG_TYPE_CONFIG", 3 },
-  { "MSG_TYPE_INFO", "CIOT__MSG_TYPE__MSG_TYPE_INFO", 4 },
-  { "MSG_TYPE_STATUS", "CIOT__MSG_TYPE__MSG_TYPE_STATUS", 5 },
-  { "MSG_TYPE_REQUEST", "CIOT__MSG_TYPE__MSG_TYPE_REQUEST", 6 },
-  { "MSG_TYPE_ERROR", "CIOT__MSG_TYPE__MSG_TYPE_ERROR", 7 },
-  { "MSG_TYPE_EVENT", "CIOT__MSG_TYPE__MSG_TYPE_EVENT", 8 },
-  { "MSG_TYPE_CUSTOM", "CIOT__MSG_TYPE__MSG_TYPE_CUSTOM", 9 },
-  { "MSG_TYPE_LOG", "CIOT__MSG_TYPE__MSG_TYPE_LOG", 10 },
+  { "MSG_TYPE_CUSTOM", "CIOT__MSG_TYPE__MSG_TYPE_CUSTOM", 1 },
+  { "MSG_TYPE_START", "CIOT__MSG_TYPE__MSG_TYPE_START", 2 },
+  { "MSG_TYPE_STOP", "CIOT__MSG_TYPE__MSG_TYPE_STOP", 3 },
+  { "MSG_TYPE_CONFIG", "CIOT__MSG_TYPE__MSG_TYPE_CONFIG", 4 },
+  { "MSG_TYPE_INFO", "CIOT__MSG_TYPE__MSG_TYPE_INFO", 5 },
+  { "MSG_TYPE_STATUS", "CIOT__MSG_TYPE__MSG_TYPE_STATUS", 6 },
+  { "MSG_TYPE_REQUEST", "CIOT__MSG_TYPE__MSG_TYPE_REQUEST", 7 },
+  { "MSG_TYPE_SEND_PAYLOAD", "CIOT__MSG_TYPE__MSG_TYPE_SEND_PAYLOAD", 8 },
+  { "MSG_TYPE_ERROR", "CIOT__MSG_TYPE__MSG_TYPE_ERROR", 9 },
+  { "MSG_TYPE_EVENT", "CIOT__MSG_TYPE__MSG_TYPE_EVENT", 10 },
+  { "MSG_TYPE_LOG", "CIOT__MSG_TYPE__MSG_TYPE_LOG", 11 },
 };
 static const ProtobufCIntRange ciot__msg_type__value_ranges[] = {
-{0, 0},{0, 11}
+{0, 0},{0, 12}
 };
-static const ProtobufCEnumValueIndex ciot__msg_type__enum_values_by_name[11] =
+static const ProtobufCEnumValueIndex ciot__msg_type__enum_values_by_name[12] =
 {
-  { "MSG_TYPE_CONFIG", 3 },
-  { "MSG_TYPE_CUSTOM", 9 },
-  { "MSG_TYPE_ERROR", 7 },
-  { "MSG_TYPE_EVENT", 8 },
-  { "MSG_TYPE_INFO", 4 },
-  { "MSG_TYPE_LOG", 10 },
-  { "MSG_TYPE_REQUEST", 6 },
-  { "MSG_TYPE_START", 1 },
-  { "MSG_TYPE_STATUS", 5 },
-  { "MSG_TYPE_STOP", 2 },
+  { "MSG_TYPE_CONFIG", 4 },
+  { "MSG_TYPE_CUSTOM", 1 },
+  { "MSG_TYPE_ERROR", 9 },
+  { "MSG_TYPE_EVENT", 10 },
+  { "MSG_TYPE_INFO", 5 },
+  { "MSG_TYPE_LOG", 11 },
+  { "MSG_TYPE_REQUEST", 7 },
+  { "MSG_TYPE_SEND_PAYLOAD", 8 },
+  { "MSG_TYPE_START", 2 },
+  { "MSG_TYPE_STATUS", 6 },
+  { "MSG_TYPE_STOP", 3 },
   { "MSG_TYPE_UNKNOWN", 0 },
 };
 const ProtobufCEnumDescriptor ciot__msg_type__descriptor =
@@ -824,64 +839,66 @@ const ProtobufCEnumDescriptor ciot__msg_type__descriptor =
   "MsgType",
   "Ciot__MsgType",
   "Ciot",
-  11,
+  12,
   ciot__msg_type__enum_values_by_number,
-  11,
+  12,
   ciot__msg_type__enum_values_by_name,
   1,
   ciot__msg_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__iface_type__enum_values_by_number[21] =
+static const ProtobufCEnumValue ciot__iface_type__enum_values_by_number[22] =
 {
   { "IFACE_TYPE_UNKNOWN", "CIOT__IFACE_TYPE__IFACE_TYPE_UNKNOWN", 0 },
-  { "IFACE_TYPE_CIOT", "CIOT__IFACE_TYPE__IFACE_TYPE_CIOT", 1 },
-  { "IFACE_TYPE_STORAGE", "CIOT__IFACE_TYPE__IFACE_TYPE_STORAGE", 2 },
-  { "IFACE_TYPE_SYS", "CIOT__IFACE_TYPE__IFACE_TYPE_SYS", 3 },
-  { "IFACE_TYPE_UART", "CIOT__IFACE_TYPE__IFACE_TYPE_UART", 4 },
-  { "IFACE_TYPE_USB", "CIOT__IFACE_TYPE__IFACE_TYPE_USB", 5 },
-  { "IFACE_TYPE_TCP", "CIOT__IFACE_TYPE__IFACE_TYPE_TCP", 6 },
-  { "IFACE_TYPE_ETH", "CIOT__IFACE_TYPE__IFACE_TYPE_ETH", 7 },
-  { "IFACE_TYPE_WIFI", "CIOT__IFACE_TYPE__IFACE_TYPE_WIFI", 8 },
-  { "IFACE_TYPE_BLE", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE", 9 },
-  { "IFACE_TYPE_BLE_SCN", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE_SCN", 10 },
-  { "IFACE_TYPE_BLE_ADV", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE_ADV", 11 },
-  { "IFACE_TYPE_GPIO", "CIOT__IFACE_TYPE__IFACE_TYPE_GPIO", 12 },
-  { "IFACE_TYPE_NTP", "CIOT__IFACE_TYPE__IFACE_TYPE_NTP", 127 },
-  { "IFACE_TYPE_OTA", "CIOT__IFACE_TYPE__IFACE_TYPE_OTA", 128 },
-  { "IFACE_TYPE_DFU", "CIOT__IFACE_TYPE__IFACE_TYPE_DFU", 129 },
-  { "IFACE_TYPE_HTTP_CLIENT", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_CLIENT", 130 },
-  { "IFACE_TYPE_HTTP_SERVER", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER", 131 },
-  { "IFACE_TYPE_MQTT", "CIOT__IFACE_TYPE__IFACE_TYPE_MQTT", 132 },
-  { "IFACE_TYPE_BRIDGE", "CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE", 253 },
-  { "IFACE_TYPE_CUSTOM", "CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM", 254 },
+  { "IFACE_TYPE_CUSTOM", "CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM", 1 },
+  { "IFACE_TYPE_CIOT", "CIOT__IFACE_TYPE__IFACE_TYPE_CIOT", 2 },
+  { "IFACE_TYPE_STORAGE", "CIOT__IFACE_TYPE__IFACE_TYPE_STORAGE", 3 },
+  { "IFACE_TYPE_SYS", "CIOT__IFACE_TYPE__IFACE_TYPE_SYS", 4 },
+  { "IFACE_TYPE_UART", "CIOT__IFACE_TYPE__IFACE_TYPE_UART", 5 },
+  { "IFACE_TYPE_USB", "CIOT__IFACE_TYPE__IFACE_TYPE_USB", 6 },
+  { "IFACE_TYPE_TCP", "CIOT__IFACE_TYPE__IFACE_TYPE_TCP", 7 },
+  { "IFACE_TYPE_ETH", "CIOT__IFACE_TYPE__IFACE_TYPE_ETH", 8 },
+  { "IFACE_TYPE_WIFI", "CIOT__IFACE_TYPE__IFACE_TYPE_WIFI", 9 },
+  { "IFACE_TYPE_BLE", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE", 10 },
+  { "IFACE_TYPE_BLE_SCN", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE_SCN", 11 },
+  { "IFACE_TYPE_BLE_ADV", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE_ADV", 12 },
+  { "IFACE_TYPE_GPIO", "CIOT__IFACE_TYPE__IFACE_TYPE_GPIO", 13 },
+  { "IFACE_TYPE_NTP", "CIOT__IFACE_TYPE__IFACE_TYPE_NTP", 14 },
+  { "IFACE_TYPE_OTA", "CIOT__IFACE_TYPE__IFACE_TYPE_OTA", 15 },
+  { "IFACE_TYPE_DFU", "CIOT__IFACE_TYPE__IFACE_TYPE_DFU", 16 },
+  { "IFACE_TYPE_HTTP_CLIENT", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_CLIENT", 17 },
+  { "IFACE_TYPE_HTTP_SERVER", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER", 18 },
+  { "IFACE_TYPE_MQTT", "CIOT__IFACE_TYPE__IFACE_TYPE_MQTT", 19 },
+  { "IFACE_TYPE_SOCKET", "CIOT__IFACE_TYPE__IFACE_TYPE_SOCKET", 20 },
+  { "IFACE_TYPE_BRIDGE", "CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE", 21 },
 };
 static const ProtobufCIntRange ciot__iface_type__value_ranges[] = {
-{0, 0},{127, 13},{253, 19},{0, 21}
+{0, 0},{0, 22}
 };
-static const ProtobufCEnumValueIndex ciot__iface_type__enum_values_by_name[21] =
+static const ProtobufCEnumValueIndex ciot__iface_type__enum_values_by_name[22] =
 {
-  { "IFACE_TYPE_BLE", 9 },
-  { "IFACE_TYPE_BLE_ADV", 11 },
-  { "IFACE_TYPE_BLE_SCN", 10 },
-  { "IFACE_TYPE_BRIDGE", 19 },
-  { "IFACE_TYPE_CIOT", 1 },
-  { "IFACE_TYPE_CUSTOM", 20 },
-  { "IFACE_TYPE_DFU", 15 },
-  { "IFACE_TYPE_ETH", 7 },
-  { "IFACE_TYPE_GPIO", 12 },
-  { "IFACE_TYPE_HTTP_CLIENT", 16 },
-  { "IFACE_TYPE_HTTP_SERVER", 17 },
-  { "IFACE_TYPE_MQTT", 18 },
-  { "IFACE_TYPE_NTP", 13 },
-  { "IFACE_TYPE_OTA", 14 },
-  { "IFACE_TYPE_STORAGE", 2 },
-  { "IFACE_TYPE_SYS", 3 },
-  { "IFACE_TYPE_TCP", 6 },
-  { "IFACE_TYPE_UART", 4 },
+  { "IFACE_TYPE_BLE", 10 },
+  { "IFACE_TYPE_BLE_ADV", 12 },
+  { "IFACE_TYPE_BLE_SCN", 11 },
+  { "IFACE_TYPE_BRIDGE", 21 },
+  { "IFACE_TYPE_CIOT", 2 },
+  { "IFACE_TYPE_CUSTOM", 1 },
+  { "IFACE_TYPE_DFU", 16 },
+  { "IFACE_TYPE_ETH", 8 },
+  { "IFACE_TYPE_GPIO", 13 },
+  { "IFACE_TYPE_HTTP_CLIENT", 17 },
+  { "IFACE_TYPE_HTTP_SERVER", 18 },
+  { "IFACE_TYPE_MQTT", 19 },
+  { "IFACE_TYPE_NTP", 14 },
+  { "IFACE_TYPE_OTA", 15 },
+  { "IFACE_TYPE_SOCKET", 20 },
+  { "IFACE_TYPE_STORAGE", 3 },
+  { "IFACE_TYPE_SYS", 4 },
+  { "IFACE_TYPE_TCP", 7 },
+  { "IFACE_TYPE_UART", 5 },
   { "IFACE_TYPE_UNKNOWN", 0 },
-  { "IFACE_TYPE_USB", 5 },
-  { "IFACE_TYPE_WIFI", 8 },
+  { "IFACE_TYPE_USB", 6 },
+  { "IFACE_TYPE_WIFI", 9 },
 };
 const ProtobufCEnumDescriptor ciot__iface_type__descriptor =
 {
@@ -890,11 +907,11 @@ const ProtobufCEnumDescriptor ciot__iface_type__descriptor =
   "IfaceType",
   "Ciot__IfaceType",
   "Ciot",
-  21,
+  22,
   ciot__iface_type__enum_values_by_number,
-  21,
+  22,
   ciot__iface_type__enum_values_by_name,
-  3,
+  1,
   ciot__iface_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };

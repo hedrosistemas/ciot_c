@@ -33,7 +33,7 @@ ciot_err_t ciot_ota_init(ciot_ota_t self)
     base->iface.process_req = ciot_iface_process_req;
     base->iface.get_data = ciot_iface_get_data;
     base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM;
+    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_OTA;
 
     base->cfg.url = base->url;
 

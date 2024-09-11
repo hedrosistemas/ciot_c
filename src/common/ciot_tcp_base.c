@@ -142,11 +142,11 @@ ciot_err_t ciot_tcp_get_status(ciot_tcp_t self, ciot_tcp_status_t *status)
     return CIOT_ERR__OK;
 }
 
-// ciot_err_t ciot_tcp_get_info(ciot_tcp_t self, ciot_tcp_info_t *info)
-// {
-//     CIOT_ERR_NULL_CHECK(self);
-//     CIOT_ERR_NULL_CHECK(info);
-//     ciot_tcp_base_t *base = (ciot_tcp_base_t*)self;
-//     *info = base->info;
-//     return CIOT_ERR__OK;
-// }
+ciot_err_t ciot_tcp_get_info(ciot_tcp_t self, ciot_tcp_info_t *info)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(info);
+    ciot_tcp_base_t *base = (ciot_tcp_base_t*)self;
+    *info = base->info;
+    return CIOT_ERR__OK;
+}

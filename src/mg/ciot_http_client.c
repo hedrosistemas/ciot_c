@@ -162,8 +162,10 @@ ciot_err_t ciot_http_client_get_status(ciot_http_client_t self, ciot_http_client
 static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
     ciot_http_client_t self = fn_data;
+    // ciot_http_client_base_t *base = &self->base;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
+    // iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
 
     switch (mg_ev)
     {
