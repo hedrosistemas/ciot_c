@@ -1,6 +1,4 @@
-set(CIOT_DIR_RELATIVE ../../)
-
-get_filename_component(CIOT_DIR "${CMAKE_CURRENT_LIST_FILE}/${CIOT_DIR_RELATIVE}" ABSOLUTE)
+get_filename_component(CIOT_DIR "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
 
 set(CIOT_INCLUDE_DIRS
     ${CIOT_DIR}/include
@@ -25,44 +23,3 @@ FILE(GLOB_RECURSE CIOT_NRF_SRCS ${CIOT_DIR}/src/nrf/*.c)
 FILE(GLOB_RECURSE CIOT_ESP32_SRCS ${CIOT_DIR}/src/esp32/*.c)
 FILE(GLOB_RECURSE CIOT_MG_SRCS ${CIOT_DIR}/src/mg/*.c)
 FILE(GLOB_RECURSE CIOT_WIN_SRCS ${CIOT_DIR}/src/win/*.c)
-
-# set(CIOT_INCLUDE_DIRS
-#     ${CIOT_DIR}/include/types
-#     ${CIOT_DIR}/include
-#     ${CIOT_DIR}/src/mg
-#     ${CIOT_DIR}/src/opcua
-# )
-
-# set(PROTOBUF_C_DIR ${CIOT_DIR}/src/proto/protobuf-c)
-
-# set(PROTO_INCLUDE_DIRS
-#     ${PROTOBUF_C_DIR}
-#     ${CIOT_DIR}/src/proto
-# )
-
-# FILE(GLOB_RECURSE PROTOBUF_C ${PROTOBUF_C_DIR}/protobuf-c/*.c)
-# FILE(GLOB_RECURSE PROTO_CIOT ${CIOT_DIR}/src/proto/*.c)
-
-# FILE(GLOB_RECURSE CIOT_UNSUPPORTED ${CIOT_DIR}/src/unsupported/*.c)
-# FILE(GLOB_RECURSE CIOT_COMMON ${CIOT_DIR}/src/common/*.c)
-# FILE(GLOB_RECURSE CIOT_ESP32 ${CIOT_DIR}/src/esp32/*.c)
-# FILE(GLOB_RECURSE CIOT_MONGOOSE ${CIOT_DIR}/src/mg/*.c)
-# FILE(GLOB_RECURSE CIOT_OPEN62 ${CIOT_DIR}/src/opcua/*.c)
-# FILE(GLOB_RECURSE CIOT_WIN ${CIOT_DIR}/src/win/*.c)
-# FILE(GLOB_RECURSE CIOT_LINUX ${CIOT_DIR}/src/linux/*.c)
-
-# list(APPEND PROTO_SRCS ${PROTOBUF_C})
-# list(APPEND PROTO_SRCS ${PROTO_CIOT})
-
-# list(APPEND CIOT_ESP32_SRCS ${CIOT_COMMON})
-# list(APPEND CIOT_ESP32_SRCS ${CIOT_ESP32})
-
-# list(APPEND CIOT_PC_SRCS ${CIOT_UNSUPPORTED})
-# list(APPEND CIOT_PC_SRCS ${CIOT_COMMON})
-# list(APPEND CIOT_PC_SRCS ${CIOT_MONGOOSE})
-
-# if (UNIX)
-#     list(APPEND CIOT_PC_SRCS ${CIOT_LINUX})
-# else()
-#     list(APPEND CIOT_PC_SRCS ${CIOT_WIN})
-# endif()
