@@ -187,7 +187,7 @@ void   ciot__uart_data__free_unpacked
   assert(message->base.descriptor == &ciot__uart_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
+static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[10] =
 {
   {
     "baud_rate",
@@ -226,8 +226,20 @@ static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "rts_pin",
+    "tx_pin",
     4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__UartCfg, tx_pin),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "rts_pin",
+    5,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
@@ -239,7 +251,7 @@ static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
   },
   {
     "cts_pin",
-    5,
+    6,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
@@ -251,7 +263,7 @@ static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
   },
   {
     "parity",
-    6,
+    7,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_INT32,
     0,   /* quantifier_offset */
@@ -263,7 +275,7 @@ static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
   },
   {
     "flow_control",
-    7,
+    8,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
@@ -275,7 +287,7 @@ static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
   },
   {
     "dtr",
-    8,
+    9,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
@@ -287,7 +299,7 @@ static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
   },
   {
     "bridge_mode",
-    9,
+    10,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
@@ -300,19 +312,20 @@ static const ProtobufCFieldDescriptor ciot__uart_cfg__field_descriptors[9] =
 };
 static const unsigned ciot__uart_cfg__field_indices_by_name[] = {
   0,   /* field[0] = baud_rate */
-  8,   /* field[8] = bridge_mode */
-  4,   /* field[4] = cts_pin */
-  7,   /* field[7] = dtr */
-  6,   /* field[6] = flow_control */
+  9,   /* field[9] = bridge_mode */
+  5,   /* field[5] = cts_pin */
+  8,   /* field[8] = dtr */
+  7,   /* field[7] = flow_control */
   1,   /* field[1] = num */
-  5,   /* field[5] = parity */
-  3,   /* field[3] = rts_pin */
+  6,   /* field[6] = parity */
+  4,   /* field[4] = rts_pin */
   2,   /* field[2] = rx_pin */
+  3,   /* field[3] = tx_pin */
 };
 static const ProtobufCIntRange ciot__uart_cfg__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 9 }
+  { 0, 10 }
 };
 const ProtobufCMessageDescriptor ciot__uart_cfg__descriptor =
 {
@@ -322,7 +335,7 @@ const ProtobufCMessageDescriptor ciot__uart_cfg__descriptor =
   "Ciot__UartCfg",
   "Ciot",
   sizeof(Ciot__UartCfg),
-  9,
+  10,
   ciot__uart_cfg__field_descriptors,
   ciot__uart_cfg__field_indices_by_name,
   1,  ciot__uart_cfg__number_ranges,
@@ -559,8 +572,9 @@ const ProtobufCEnumDescriptor ciot__uart_req_type__descriptor =
   ciot__uart_req_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__uart_error__enum_values_by_number[8] =
+static const ProtobufCEnumValue ciot__uart_error__enum_values_by_number[9] =
 {
+  { "UART_ERR_UNKNOWN_EVENT", "CIOT__UART_ERROR__UART_ERR_UNKNOWN_EVENT", -1 },
   { "UART_ERR_NONE", "CIOT__UART_ERROR__UART_ERR_NONE", 0 },
   { "UART_ERR_BREAK", "CIOT__UART_ERROR__UART_ERR_BREAK", 1 },
   { "UART_ERR_BUFFER_FULL", "CIOT__UART_ERROR__UART_ERR_BUFFER_FULL", 2 },
@@ -568,21 +582,22 @@ static const ProtobufCEnumValue ciot__uart_error__enum_values_by_number[8] =
   { "UART_ERR_FRAME", "CIOT__UART_ERROR__UART_ERR_FRAME", 4 },
   { "UART_ERR_PARITY", "CIOT__UART_ERROR__UART_ERR_PARITY", 5 },
   { "UART_ERR_DATA_BREAK", "CIOT__UART_ERROR__UART_ERR_DATA_BREAK", 6 },
-  { "UART_ERR_UNKNOWN_EVENT", "CIOT__UART_ERROR__UART_ERR_UNKNOWN_EVENT", 7 },
+  { "UART_ERR_OPEN", "CIOT__UART_ERROR__UART_ERR_OPEN", 8 },
 };
 static const ProtobufCIntRange ciot__uart_error__value_ranges[] = {
-{0, 0},{0, 8}
+{-1, 0},{8, 8},{0, 9}
 };
-static const ProtobufCEnumValueIndex ciot__uart_error__enum_values_by_name[8] =
+static const ProtobufCEnumValueIndex ciot__uart_error__enum_values_by_name[9] =
 {
-  { "UART_ERR_BREAK", 1 },
-  { "UART_ERR_BUFFER_FULL", 2 },
-  { "UART_ERR_DATA_BREAK", 6 },
-  { "UART_ERR_FIFO_OVERFLOW", 3 },
-  { "UART_ERR_FRAME", 4 },
-  { "UART_ERR_NONE", 0 },
-  { "UART_ERR_PARITY", 5 },
-  { "UART_ERR_UNKNOWN_EVENT", 7 },
+  { "UART_ERR_BREAK", 2 },
+  { "UART_ERR_BUFFER_FULL", 3 },
+  { "UART_ERR_DATA_BREAK", 7 },
+  { "UART_ERR_FIFO_OVERFLOW", 4 },
+  { "UART_ERR_FRAME", 5 },
+  { "UART_ERR_NONE", 1 },
+  { "UART_ERR_OPEN", 8 },
+  { "UART_ERR_PARITY", 6 },
+  { "UART_ERR_UNKNOWN_EVENT", 0 },
 };
 const ProtobufCEnumDescriptor ciot__uart_error__descriptor =
 {
@@ -591,11 +606,11 @@ const ProtobufCEnumDescriptor ciot__uart_error__descriptor =
   "UartError",
   "Ciot__UartError",
   "Ciot",
-  8,
+  9,
   ciot__uart_error__enum_values_by_number,
-  8,
+  9,
   ciot__uart_error__enum_values_by_name,
-  1,
+  2,
   ciot__uart_error__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };

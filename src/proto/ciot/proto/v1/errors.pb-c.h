@@ -22,109 +22,129 @@ PROTOBUF_C__BEGIN_DECLS
 /*
  * Error codes
  */
-typedef enum _Ciot__CiotErr {
+typedef enum _CiotErr {
   /*
    * No error
    */
-  CIOT__CIOT_ERR__CIOT_OK = 0,
+  CIOT_ERR__OK = 0,
   /*
    * Null argunment
    */
-  CIOT__CIOT_ERR__CIOT_ERR_NULL_ARG = 1,
+  CIOT_ERR__NULL_ARG = 1,
   /*
    * Invalid ID
    */
-  CIOT__CIOT_ERR__CIOT_ERR_INVALID_ID = 2,
+  CIOT_ERR__INVALID_ID = 2,
   /*
    * Invalid Type
    */
-  CIOT__CIOT_ERR__CIOT_ERR_INVALID_TYPE = 3,
+  CIOT_ERR__INVALID_TYPE = 3,
   /*
    * Memory overflow
    */
-  CIOT__CIOT_ERR__CIOT_ERR_OVERFLOW = 4,
+  CIOT_ERR__OVERFLOW = 4,
   /*
    * Not implemented
    */
-  CIOT__CIOT_ERR__CIOT_ERR_NOT_IMPLEMENTED = 5,
+  CIOT_ERR__NOT_IMPLEMENTED = 5,
   /*
    * Not supported
    */
-  CIOT__CIOT_ERR__CIOT_ERR_NOT_SUPPORTED = 6,
+  CIOT_ERR__NOT_SUPPORTED = 6,
   /*
    * Busy
    */
-  CIOT__CIOT_ERR__CIOT_ERR_BUSY = 7,
+  CIOT_ERR__BUSY = 7,
   /*
    * Invalid state
    */
-  CIOT__CIOT_ERR__CIOT_ERR_INVALID_STATE = 8,
+  CIOT_ERR__INVALID_STATE = 8,
   /*
    * Serialization error
    */
-  CIOT__CIOT_ERR__CIOT_ERR_SERIALIZATION = 9,
+  CIOT_ERR__SERIALIZATION = 9,
   /*
    * Deserialization error
    */
-  CIOT__CIOT_ERR__CIOT_ERR_DESERIALIZATION = 10,
+  CIOT_ERR__DESERIALIZATION = 10,
   /*
    * Error sending data
    */
-  CIOT__CIOT_ERR__CIOT_ERR_SEND_DATA = 11,
+  CIOT_ERR__SEND_DATA = 11,
   /*
    * Error on data receive
    */
-  CIOT__CIOT_ERR__CIOT_ERR_RECV_DATA = 12,
+  CIOT_ERR__RECV_DATA = 12,
   /*
    * Invalid size
    */
-  CIOT__CIOT_ERR__CIOT_ERR_INVALID_SIZE = 13,
+  CIOT_ERR__INVALID_SIZE = 13,
   /*
    * Closed
    */
-  CIOT__CIOT_ERR__CIOT_ERR_CLOSED = 14,
+  CIOT_ERR__CLOSED = 14,
   /*
    * Resource not found
    */
-  CIOT__CIOT_ERR__CIOT_ERR_NOT_FOUND = 15,
+  CIOT_ERR__NOT_FOUND = 15,
   /*
    * Validation failed
    */
-  CIOT__CIOT_ERR__CIOT_ERR_VALIDATION_FAILED = 16,
+  CIOT_ERR__VALIDATION_FAILED = 16,
   /*
    * Connection failed
    */
-  CIOT__CIOT_ERR__CIOT_ERR_CONNECTION = 17,
+  CIOT_ERR__CONNECTION = 17,
   /*
    * Disconnection failed
    */
-  CIOT__CIOT_ERR__CIOT_ERR_DISCONNECTION = 18,
+  CIOT_ERR__DISCONNECTION = 18,
   /*
    * Unknown exception occours
    */
-  CIOT__CIOT_ERR__CIOT_ERR_EXCEPTION = 19,
-  /*
-   * Terminator is missing
-   */
-  CIOT__CIOT_ERR__CIOT_ERR_TERMINATOR_MISSING = 20,
+  CIOT_ERR__EXCEPTION = 19,
   /*
    * Invalid argument detected
    */
-  CIOT__CIOT_ERR__CIOT_ERR_INVALID_ARG = 21,
+  CIOT_ERR__INVALID_ARG = 20,
   /*
    * Insuficient memory
    */
-  CIOT__CIOT_ERR__CIOT_ERR_NO_MEMORY = 22,
+  CIOT_ERR__NO_MEMORY = 21,
   /*
    * Timeout
    */
-  CIOT__CIOT_ERR__CIOT_ERR_TIMEOUT = 23,
+  CIOT_ERR__TIMEOUT = 22,
+  /*
+   * Internal error on mongoose framework
+   */
+  CIOT_ERR__MONGOOSE = 23,
+  /*
+   * Requested operation is impossible
+   */
+  CIOT_ERR__IMPOSSIBLE_OP = 24,
+  /*
+   * Checksum validation error
+   */
+  CIOT_ERR__CHECKSUM = 25,
+  /*
+   * Protocol validation error
+   */
+  CIOT_ERR__PROTOCOL_VIOLATION = 26,
+  /*
+   * Data loss
+   */
+  CIOT_ERR__DATA_LOSS = 27,
+  /*
+   * Invalid message header
+   */
+  CIOT_ERR__INVALID_HEADER = 28,
   /*
    * Operation failed
    */
-  CIOT__CIOT_ERR__CIOT_FAIL = -1
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__CIOT_ERR)
-} Ciot__CiotErr;
+  CIOT_ERR__FAIL = -1
+    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT_ERR)
+} CiotErr;
 
 /* --- messages --- */
 
@@ -136,7 +156,7 @@ typedef enum _Ciot__CiotErr {
 
 /* --- descriptors --- */
 
-extern const ProtobufCEnumDescriptor    ciot__ciot_err__descriptor;
+extern const ProtobufCEnumDescriptor    ciot_err__descriptor;
 
 PROTOBUF_C__END_DECLS
 

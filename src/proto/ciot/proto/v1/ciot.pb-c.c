@@ -333,7 +333,7 @@ const ProtobufCMessageDescriptor ciot__ciot_info__descriptor =
   (ProtobufCMessageInit) ciot__ciot_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ciot_status__field_descriptors[2] =
+static const ProtobufCFieldDescriptor ciot__ciot_status__field_descriptors[1] =
 {
   {
     "state",
@@ -347,28 +347,14 @@ static const ProtobufCFieldDescriptor ciot__ciot_status__field_descriptors[2] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "info",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__CiotStatus, info),
-    &ciot__ciot_info__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned ciot__ciot_status__field_indices_by_name[] = {
-  1,   /* field[1] = info */
   0,   /* field[0] = state */
 };
-static const ProtobufCIntRange ciot__ciot_status__number_ranges[2 + 1] =
+static const ProtobufCIntRange ciot__ciot_status__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 3, 1 },
-  { 0, 2 }
+  { 0, 1 }
 };
 const ProtobufCMessageDescriptor ciot__ciot_status__descriptor =
 {
@@ -378,10 +364,10 @@ const ProtobufCMessageDescriptor ciot__ciot_status__descriptor =
   "Ciot__CiotStatus",
   "Ciot",
   sizeof(Ciot__CiotStatus),
-  2,
+  1,
   ciot__ciot_status__field_descriptors,
   ciot__ciot_status__field_indices_by_name,
-  2,  ciot__ciot_status__number_ranges,
+  1,  ciot__ciot_status__number_ranges,
   (ProtobufCMessageInit) ciot__ciot_status__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
@@ -487,7 +473,7 @@ const ProtobufCMessageDescriptor ciot__ciot_req__descriptor =
   (ProtobufCMessageInit) ciot__ciot_req__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ciot_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__ciot_data__field_descriptors[4] =
 {
   {
     "config",
@@ -525,16 +511,29 @@ static const ProtobufCFieldDescriptor ciot__ciot_data__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__CiotData, info),
+    &ciot__ciot_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__ciot_data__field_indices_by_name[] = {
   0,   /* field[0] = config */
+  3,   /* field[3] = info */
   2,   /* field[2] = request */
   1,   /* field[1] = status */
 };
 static const ProtobufCIntRange ciot__ciot_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__ciot_data__descriptor =
 {
@@ -544,27 +543,31 @@ const ProtobufCMessageDescriptor ciot__ciot_data__descriptor =
   "Ciot__CiotData",
   "Ciot",
   sizeof(Ciot__CiotData),
-  3,
+  4,
   ciot__ciot_data__field_descriptors,
   ciot__ciot_data__field_indices_by_name,
   1,  ciot__ciot_data__number_ranges,
   (ProtobufCMessageInit) ciot__ciot_data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__ciot_state__enum_values_by_number[3] =
+static const ProtobufCEnumValue ciot__ciot_state__enum_values_by_number[5] =
 {
   { "CIOT_STATE_ERROR", "CIOT__CIOT_STATE__CIOT_STATE_ERROR", -1 },
   { "CIOT_STATE_IDLE", "CIOT__CIOT_STATE__CIOT_STATE_IDLE", 0 },
-  { "CIOT_STATE_BUSY", "CIOT__CIOT_STATE__CIOT_STATE_BUSY", 1 },
+  { "CIOT_STATE_STARTING", "CIOT__CIOT_STATE__CIOT_STATE_STARTING", 1 },
+  { "CIOT_STATE_STARTED", "CIOT__CIOT_STATE__CIOT_STATE_STARTED", 2 },
+  { "CIOT_STATE_BUSY", "CIOT__CIOT_STATE__CIOT_STATE_BUSY", 3 },
 };
 static const ProtobufCIntRange ciot__ciot_state__value_ranges[] = {
-{-1, 0},{0, 3}
+{-1, 0},{0, 5}
 };
-static const ProtobufCEnumValueIndex ciot__ciot_state__enum_values_by_name[3] =
+static const ProtobufCEnumValueIndex ciot__ciot_state__enum_values_by_name[5] =
 {
-  { "CIOT_STATE_BUSY", 2 },
+  { "CIOT_STATE_BUSY", 4 },
   { "CIOT_STATE_ERROR", 0 },
   { "CIOT_STATE_IDLE", 1 },
+  { "CIOT_STATE_STARTED", 3 },
+  { "CIOT_STATE_STARTING", 2 },
 };
 const ProtobufCEnumDescriptor ciot__ciot_state__descriptor =
 {
@@ -573,9 +576,9 @@ const ProtobufCEnumDescriptor ciot__ciot_state__descriptor =
   "CiotState",
   "Ciot__CiotState",
   "Ciot",
-  3,
+  5,
   ciot__ciot_state__enum_values_by_number,
-  3,
+  5,
   ciot__ciot_state__enum_values_by_name,
   1,
   ciot__ciot_state__value_ranges,
@@ -613,18 +616,16 @@ const ProtobufCEnumDescriptor ciot__ciot_req_type__descriptor =
   ciot__ciot_req_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__ciot_serialization_type__enum_values_by_number[2] =
+static const ProtobufCEnumValue ciot__ciot_serialization_type__enum_values_by_number[1] =
 {
-  { "CIOT_SERIALIZATION_NONE", "CIOT__CIOT_SERIALIZATION_TYPE__CIOT_SERIALIZATION_NONE", 0 },
-  { "CIOT_SERIALIZATION_PROTOBUF", "CIOT__CIOT_SERIALIZATION_TYPE__CIOT_SERIALIZATION_PROTOBUF", 1 },
+  { "CIOT_SERIALIZATION_PROTOBUF", "CIOT__CIOT_SERIALIZATION_TYPE__CIOT_SERIALIZATION_PROTOBUF", 0 },
 };
 static const ProtobufCIntRange ciot__ciot_serialization_type__value_ranges[] = {
-{0, 0},{0, 2}
+{0, 0},{0, 1}
 };
-static const ProtobufCEnumValueIndex ciot__ciot_serialization_type__enum_values_by_name[2] =
+static const ProtobufCEnumValueIndex ciot__ciot_serialization_type__enum_values_by_name[1] =
 {
-  { "CIOT_SERIALIZATION_NONE", 0 },
-  { "CIOT_SERIALIZATION_PROTOBUF", 1 },
+  { "CIOT_SERIALIZATION_PROTOBUF", 0 },
 };
 const ProtobufCEnumDescriptor ciot__ciot_serialization_type__descriptor =
 {
@@ -633,9 +634,9 @@ const ProtobufCEnumDescriptor ciot__ciot_serialization_type__descriptor =
   "CiotSerializationType",
   "Ciot__CiotSerializationType",
   "Ciot",
-  2,
+  1,
   ciot__ciot_serialization_type__enum_values_by_number,
-  2,
+  1,
   ciot__ciot_serialization_type__enum_values_by_name,
   1,
   ciot__ciot_serialization_type__value_ranges,

@@ -11,10 +11,10 @@
 
 #include <stdio.h>
 #include "unity.h"
+#include "ciot_custom_config.h"
 
-void test_ciot_decoder();
-void test_ciot_decoder_slip();
 void test_ciot_decoder_s();
+void test_ciot_decoder_slip();
 
 void setUp(void) {
     // set stuff up here
@@ -24,11 +24,10 @@ void tearDown(void) {
     // clean stuff up here
 }
 
-int app_main(void)
+int main(void)
 {
     UNITY_BEGIN();
-    test_ciot_decoder();
-    test_ciot_decoder_slip();
     test_ciot_decoder_s();
+    test_ciot_decoder_slip();
     return UNITY_END();
 }

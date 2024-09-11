@@ -1,219 +1,191 @@
 /**
  * @file ciot_wifi.c
- * @author Wesley Santos (wesleypro37@gmail.com)
+ * @author your name (you@domain.com)
  * @brief
  * @version 0.1
- * @date 2023-10-18
+ * @date 2024-06-07
  *
- * @copyright Copyright (c) 2023
+ * @copyright Copyright (c) 2024
  *
  */
 
-#include "ciot_wifi.h"
-
-#if 1 && defined(CIOT_TARGET_ESP32)
-
+#include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-
 #include "esp_err.h"
 #include "esp_netif.h"
 #include "esp_wifi.h"
-#include "esp_log.h"
-#include "esp_bit_defs.h"
-#include "lwip/ip4_addr.h"
-
+#include "esp_wifi_types.h"
+#include "ciot_wifi.h"
+#include "ciot_err.h"
 #include "ciot_tcp.h"
 #include "ciot_storage.h"
 
+// static const char *TAG = "ciot_wifi";
+
 struct ciot_wifi
 {
-    ciot_iface_t iface;
-    ciot_tcp_t tcp;
-    ciot_wifi_cfg_t cfg;
-    ciot_wifi_status_t status;
-    ciot_wifi_scan_state_t scan_state;
+    ciot_wifi_base_t base;
 };
-
-static const char *TAG = "ciot_wifi";
 
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg);
 static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t self, wifi_interface_t type);
-static ciot_err_t ciot_wifi_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args);
 static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
-static void ciot_wifi_check_request(ciot_wifi_t self, ciot_msg_type_t req_type, ciot_iface_event_t *event);
+// static ciot_err_t ciot_wifi_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args);
 
+static const char *TAG = "ciot_wifi";
 static bool wifi_init = false;
 
-ciot_err_t ciot_wifi_init(void)
-{
-    wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
-    CIOT_ERROR_RETURN(ciot_storage_init());
-    ESP_ERROR_CHECK(esp_wifi_init(&config));
-    ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
-    ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
-    return CIOT_OK;
-}
-
-ciot_wifi_t ciot_wifi_new(void *handle)
+ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
 {
     ciot_wifi_t self = calloc(1, sizeof(struct ciot_wifi));
-    self->iface.base.ptr = self;
-    self->iface.base.start = (ciot_iface_start_fn *)ciot_wifi_start;
-    self->iface.base.stop = (ciot_iface_stop_fn *)ciot_wifi_stop;
-    self->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_wifi_process_req;
-    self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_wifi_send_data;
-    self->iface.base.cfg.ptr = &self->cfg;
-    self->iface.base.cfg.size = sizeof(self->cfg);
-    self->iface.base.status.ptr = &self->status;
-    self->iface.base.status.size = sizeof(self->status);
-    self->iface.info.type = CIOT_IFACE_TYPE_WIFI;
-    if(wifi_init == false)
+    ciot_wifi_base_t *base = &self->base;
+
+    base->cfg.type = type;
+
+    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_AP)
     {
-        wifi_init = true;
-        ESP_ERROR_CHECK(ciot_tcp_init());
-        ESP_ERROR_CHECK(ciot_wifi_init());
+        CIOT_LOGI(TAG, "Creating wifi ap");
+        base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_AP);
+        ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, ciot_wifi_ap_event_handler, self));
     }
-    return self;
-}
 
-ciot_wifi_t ciot_wifi_ap_new(void *handle)
-{
-    ciot_wifi_t self = ciot_wifi_new(handle);
-    self->cfg.type = CIOT_WIFI_IF_AP;
-    return self;
-}
+    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_STA)
+    {
+        CIOT_LOGI(TAG, "Creating wifi sta");
+        base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_STA);
+        ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, ciot_wifi_sta_event_handler, self));
+    }
 
-ciot_wifi_t ciot_wifi_sta_new(void *handle)
-{
-    ciot_wifi_t self = ciot_wifi_new(handle);
-    self->cfg.type = CIOT_WIFI_IF_STA;
+    if (!wifi_init)
+    {
+        CIOT_LOGI(TAG, "Initializing");
+        wifi_init_config_t config = WIFI_INIT_CONFIG_DEFAULT();
+        // ESP_ERROR_CHECK(ciot_storage_init());
+        ESP_ERROR_CHECK(esp_wifi_init(&config));
+        ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));
+        ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
+        wifi_init = true;
+    }
+
+    ciot_wifi_init(self);
     return self;
 }
 
 ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 {
-    CIOT_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
 
-    CIOT_LOGI(TAG, "self start: type:%d ssid:'%s', pass:'%s'", cfg->type, cfg->ssid, cfg->password);
+    ciot_wifi_base_t *base = &self->base;
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)&base->tcp;
 
-    if(self->cfg.type == CIOT_WIFI_IF_AP)
+    if(!cfg->enabled)
     {
-        ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, ciot_wifi_ap_event_handler, self));
+        return CIOT_ERR__DISABLED;
     }
 
-    if(self->cfg.type == CIOT_WIFI_IF_STA)
-    {
-        ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, ciot_wifi_sta_event_handler, self));
-    }
-
-    CIOT_ERROR_RETURN(ciot_wifi_set_cfg(self, cfg));
+    CIOT_ERR_RETURN(ciot_wifi_set_cfg(self, cfg));
 
     wifi_mode_t mode = ciot_wifi_get_mode(self, cfg->type);
-    wifi_config_t wifi_conf = {0};
-    memcpy(&wifi_conf, cfg, sizeof(cfg->ssid) + sizeof(cfg->password));
+    wifi_config_t wifi_cfg = {0};
 
-    if (cfg->type == CIOT_WIFI_IF_AP)
+    strncpy((char *)wifi_cfg.ap.ssid, cfg->ssid, sizeof(wifi_cfg.ap.ssid));
+    strncpy((char *)wifi_cfg.ap.password, cfg->password, sizeof(wifi_cfg.ap.password));
+
+    if (cfg->type != CIOT__WIFI_TYPE__WIFI_TYPE_AP && tcp->status.state == CIOT__TCP_STATE__TCP_STATE_CONNECTED)
     {
-        wifi_conf.ap.authmode = CIOT_CONFIG_WIFI_AP_AUTH;
-        wifi_conf.ap.max_connection = CIOT_CONFIG_WIFI_AP_MAX_CONN;
-        self->iface.base.status.size = sizeof(ciot_wifi_status_t);
-    }
-    else if (self->status.tcp.state == CIOT_TCP_STATE_CONNECTED)
-    {
-        CIOT_LOGI(TAG, "disconnecting from station...");
+        CIOT_LOGI(TAG, "Disconnecting");
         ESP_ERROR_CHECK(esp_wifi_disconnect());
-        vTaskDelay(portTICK_PERIOD_MS / 500);
+        vTaskDelay(pdTICKS_TO_MS(500));
     }
 
-    CIOT_LOGI(TAG, "Wifi Start");
+    CIOT_LOGI(TAG, "Start");
     ESP_ERROR_CHECK(esp_wifi_set_mode(mode));
-    ESP_ERROR_CHECK(esp_wifi_set_config(cfg->type, &wifi_conf));
+    ESP_ERROR_CHECK(esp_wifi_set_config(cfg->type, &wifi_cfg));
     ESP_ERROR_CHECK(esp_wifi_start());
 
-    if (cfg->type == CIOT_WIFI_IF_STA)
+    if (cfg->type == CIOT__WIFI_TYPE__WIFI_TYPE_STA && tcp->status.state == CIOT__TCP_STATE__TCP_STATE_DISCONNECTED)
     {
-        if (self->status.tcp.state == CIOT_TCP_STATE_STARTED)
-        {
-            CIOT_LOGI(TAG, "Wifi Connect");
-            self->status.tcp.state = CIOT_TCP_STATE_CONNECTING;
-            ESP_ERROR_CHECK(esp_wifi_connect());
-        }
-        return CIOT_OK;
+        CIOT_LOGI(TAG, "Connecting");
+        tcp->status.state = CIOT__TCP_STATE__TCP_STATE_CONNECTING;
+        ESP_ERROR_CHECK(esp_wifi_connect());
     }
 
-    return CIOT_OK;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_wifi_stop(ciot_wifi_t self)
-{   
-    wifi_mode_t mode;   
-    switch (self->cfg.type)
+{
+    CIOT_LOGI(TAG, "Stopping WiFi");
+
+    wifi_mode_t mode;
+    switch (self->base.cfg.type)
     {
-    case CIOT_WIFI_IF_STA:
-        CIOT_LOGI(TAG, "Stopping station...");
+    case CIOT__WIFI_TYPE__WIFI_TYPE_STA:
+        CIOT_LOGI(TAG, "Stopping station");
         esp_wifi_get_mode(&mode);
         return mode == WIFI_MODE_APSTA ? esp_wifi_set_mode(WIFI_MODE_AP) : esp_wifi_stop();
         break;
-    case CIOT_WIFI_IF_AP:
-        CIOT_LOGI(TAG, "Stopping access point...");
+    case CIOT__WIFI_TYPE__WIFI_TYPE_AP:
+        CIOT_LOGI(TAG, "Stopping access point");
         esp_wifi_get_mode(&mode);
         return mode == WIFI_MODE_APSTA ? esp_wifi_set_mode(WIFI_MODE_STA) : esp_wifi_stop();
     default:
-        return CIOT_ERR_INVALID_TYPE;
+        return CIOT_ERR__INVALID_TYPE;
     }
+    return CIOT_ERR__OK;
 }
 
-ciot_err_t ciot_wifi_process_req(ciot_wifi_t self, ciot_wifi_req_t *req)
+ciot_err_t ciot_wifi_task(ciot_wifi_t self)
 {
-    CIOT_NULL_CHECK(self);
-    CIOT_NULL_CHECK(req);
-
-    switch (req->type)
-    {
-    case CIOT_WIFI_REQ_SCAN:
-        return CIOT_ERR_NOT_IMPLEMENTED;
-    default:
-        return CIOT_ERR_INVALID_ID;
-    }
+    return CIOT_ERR__NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_wifi_send_data(ciot_wifi_t self, uint8_t *data, int size)
+ciot_err_t ciot_wifi_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
-    return CIOT_ERR_NOT_SUPPORTED;
+    return CIOT_ERR__NOT_SUPPORTED;
 }
 
-ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, ciot_wifi_type_t type, uint8_t mac[6])
-{
-    return esp_wifi_get_mac(type, mac);
-}
+// ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, ciot_wifi_type_t type, uint8_t mac[6])
+// {
+//     return esp_wifi_get_mac(type, mac);
+// }
 
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 {
-    CIOT_NULL_CHECK(self);
-    CIOT_NULL_CHECK(cfg);
+    CIOT_LOGI(TAG, "Configuring");
 
-    if (self->cfg.type != cfg->type)
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
+
+    ciot_wifi_base_t *base = &self->base;
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)&base->tcp;
+
+    if (self->base.cfg.type != cfg->type)
     {
-        return CIOT_ERR_INVALID_TYPE;
+        CIOT_LOGE(TAG, "Invalid wifi type: %s. Expected: %s", ciot__wifi_type__descriptor.values[cfg->type].name, ciot__wifi_type__descriptor.values[self->base.cfg.type].name);
+        return CIOT_ERR__INVALID_TYPE;
     }
 
-    if (self->tcp == NULL)
+    if (tcp->netif == NULL)
     {
-        ciot_tcp_handle_t tcp_handle = {0};
-        esp_netif_t *netif = cfg->type == CIOT_WIFI_IF_STA
-                                 ? esp_netif_create_default_wifi_sta()
-                                 : esp_netif_create_default_wifi_ap();
-        tcp_handle.netif = netif;
-        tcp_handle.cfg = &self->cfg.tcp;
-        tcp_handle.status = &self->status.tcp;
-        self->tcp = ciot_tcp_new(&tcp_handle);
-        ciot_tcp_register_event(self->tcp, ciot_wifi_tcp_event_handler, self);
+        CIOT_LOGI(TAG, "Initializing netif");
+        CIOT_ERR_RETURN(ciot_tcp_init_netif(base->tcp));
+        // CIOT_ERR_RETURN(ciot_iface_set_event_handler(&tcp->iface, ciot_wifi_tcp_event_handler, self));
     }
-    memcpy(&self->cfg, cfg, sizeof(self->cfg));
 
-    return CIOT_OK;
+    base->cfg.type = cfg->type;
+    strcpy(base->ssid, cfg->ssid);
+    strcpy(base->password, cfg->password);
+
+    if (cfg->tcp != NULL)
+    {
+        CIOT_LOGI(TAG, "Set tcp config");
+        CIOT_ERR_RETURN(ciot_tcp_set_cfg(base->tcp, cfg->tcp));
+    }
+
+    return CIOT_ERR__OK;
 }
 
 static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t self, wifi_interface_t type)
@@ -227,199 +199,102 @@ static wifi_mode_t ciot_wifi_get_mode(ciot_wifi_t self, wifi_interface_t type)
     switch (type)
     {
     case WIFI_IF_STA:
+        CIOT_LOGI(TAG, "WIFI_IF_STA");
         if (mode == WIFI_MODE_AP || mode == WIFI_MODE_APSTA)
         {
+            CIOT_LOGI(TAG, "WIFI_MODE_APSTA");
             return WIFI_MODE_APSTA;
         }
+        CIOT_LOGI(TAG, "WIFI_MODE_STA");
         return WIFI_MODE_STA;
     case WIFI_IF_AP:
+        CIOT_LOGI(TAG, "WIFI_IF_AP");
         if (mode == WIFI_MODE_STA || mode == WIFI_MODE_APSTA)
         {
+            CIOT_LOGI(TAG, "WIFI_MODE_APSTA");
             return WIFI_MODE_APSTA;
         }
+        CIOT_LOGI(TAG, "WIFI_MODE_AP");
         return WIFI_MODE_AP;
     default:
+        CIOT_LOGI(TAG, "WIFI_MODE_NULL");
         return WIFI_MODE_NULL;
     }
 
+    CIOT_LOGI(TAG, "WIFI_MODE_NULL");
     return WIFI_MODE_NULL;
 }
 
-static ciot_err_t ciot_wifi_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args)
+// static ciot_err_t ciot_wifi_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args)
+// {
+//     CIOT_ERR_NULL_CHECK(args);
+//     ciot_wifi_t self = (ciot_wifi_t)args;
+//     return ciot_iface_send_event(&self->base.iface, iface_event);
+// }
+
+static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
-    CIOT_NULL_CHECK(args);
-    ciot_wifi_t self = (ciot_wifi_t)args;
-    ciot_iface_event_t new_event = {0};
-    ciot_wifi_status_msg_t status_msg = { 0 };
-    self->status.tcp = iface_event->data->msg.data.tcp.status;
-    new_event.data = (ciot_iface_event_data_u*)&status_msg;
-    new_event.size = sizeof(status_msg);
-    new_event.type = iface_event->type;
-    status_msg.header.iface = self->iface.info;
-    status_msg.header.type = iface_event->data->msg.type;
-    status_msg.status = self->status;
-    status_msg.header.id = self->iface.base.req.id;
-    if (self->iface.event_handler != NULL)
-    {
-        return self->iface.event_handler(&self->iface, &new_event, self->iface.event_args);
-    }
-    return CIOT_ERR_INVALID_STATE;
 }
 
 static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
     ciot_wifi_t self = (ciot_wifi_t)handler_args;
-    ciot_iface_event_t iface_event = {0};
-    ciot_wifi_status_msg_t status_msg = {0};
-
-    status_msg.header.iface = self->iface.info;
-    iface_event.data = (ciot_iface_event_data_u*)&status_msg;
-    iface_event.size = sizeof(status_msg);
-    status_msg.header.type = CIOT_MSG_TYPE_EVENT;
+    ciot_wifi_base_t *base = &self->base;
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)base->tcp;
 
     switch (event_id)
     {
     case WIFI_EVENT_SCAN_DONE:
     {
         CIOT_LOGI(TAG, "WIFI_EVENT_SCAN_DONE");
-        // wifi_event_sta_scan_done_t *data = (wifi_event_sta_scan_done_t *)event_data;
-        self->scan_state = CIOT_WIFI_SCAN_STATE_SCANNED;
-        iface_event.type = CIOT_IFACE_EVENT_DONE;
         // TODO: get scan result and store on req data
         break;
     }
     case WIFI_EVENT_STA_START:
     {
         CIOT_LOGI(TAG, "WIFI_EVENT_STA_START");
-        CIOT_ERROR_PRINT(esp_wifi_get_mac(WIFI_IF_STA, self->status.tcp.info.mac));
-        CIOT_ERROR_PRINT(esp_wifi_connect());
-        self->status.tcp.state = CIOT_TCP_STATE_CONNECTING;
-        iface_event.type = CIOT_WIFI_EVENT_STA_START;
+        CIOT_ERR_PRINT(TAG, esp_wifi_get_mac(WIFI_IF_STA, base->info.tcp->mac.data));
+        CIOT_ERR_PRINT(TAG, esp_wifi_connect());
+        tcp->status.state = CIOT__TCP_STATE__TCP_STATE_CONNECTING;
         break;
     }
     case WIFI_EVENT_STA_STOP:
     {
         CIOT_LOGI(TAG, "WIFI_EVENT_STA_STOP");
-        self->status.tcp.state = CIOT_TCP_STATE_STOPPED;
-        iface_event.type = CIOT_WIFI_EVENT_STA_STOP;
-        ciot_wifi_check_request(self, CIOT_MSG_TYPE_STOP, &iface_event);
+        tcp->status.state = CIOT__TCP_STATE__TCP_STATE_STOPPED;
+        // ciot_wifi_check_request(self, CIOT__MSG_TYPE__MSG_TYPE_STOP, &iface_event);
         break;
     }
     case WIFI_EVENT_STA_CONNECTED:
     {
         CIOT_LOGI(TAG, "WIFI_EVENT_STA_CONNECTED");
         wifi_event_sta_connected_t *data = (wifi_event_sta_connected_t *)event_data;
-        self->status.tcp.state = CIOT_TCP_STATE_CONNECTED;
-        self->status.tcp.conn_count++;
-        self->status.info.authmode = data->authmode;
-        self->status.disconnect_reason = 0;
-        memcpy(self->status.info.bssid, data->bssid, 6);
-        memcpy(self->status.info.ssid, data->ssid, data->ssid_len);
-        CIOT_ERROR_PRINT(ciot_tcp_start(self->tcp, &self->cfg.tcp));
-        iface_event.type = CIOT_WIFI_EVENT_STA_STOP;
+        tcp->status.state = CIOT__TCP_STATE__TCP_STATE_CONNECTED;
+        tcp->status.conn_count++;
+        base->status.disconnect_reason = 0;
+        base->info.ap->authmode = data->authmode;
+        memcpy(base->info.ap->bssid.data, data->bssid, sizeof(data->bssid));
+        memcpy(base->info.ap->ssid, data->ssid, sizeof(data->ssid));
+        CIOT_ERR_PRINT(TAG, ciot_tcp_start(base->tcp));
         break;
     }
     case WIFI_EVENT_STA_DISCONNECTED:
     {
         CIOT_LOGI(TAG, "WIFI_EVENT_STA_DISCONNECTED");
         wifi_event_sta_disconnected_t *data = (wifi_event_sta_disconnected_t *)event_data;
-        self->status.tcp.state = CIOT_TCP_STATE_STARTED;
-        self->status.disconnect_reason = data->reason;
-        iface_event.type = CIOT_WIFI_EVENT_STA_DISCONNECTED;
-        ciot_wifi_check_request(self, CIOT_MSG_TYPE_START, &iface_event);
+        tcp->status.state = CIOT__TCP_STATE__TCP_STATE_DISCONNECTED;
+        base->status.disconnect_reason = data->reason;
         break;
     }
     default:
         break;
     }
-
-    status_msg.status = self->status;
-
-    if (self->iface.event_handler != NULL)
-    {
-        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
-    }
 }
 
-static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
-{
-    ciot_wifi_t self = (ciot_wifi_t)handler_args;
-    ciot_iface_event_t iface_event = {0};
-    ciot_wifi_status_msg_t status_msg = {0};
-
-    status_msg.header.iface = self->iface.info;
-    iface_event.data = (ciot_iface_event_data_u*)&status_msg;
-    iface_event.size = sizeof(status_msg);
-
-    switch (event_id)
-    {
-    case WIFI_EVENT_AP_START:
-    {
-        CIOT_LOGI(TAG, "WIFI_EVENT_AP_START");
-        self->status.tcp.state = CIOT_TCP_STATE_STARTED;
-        CIOT_ERROR_PRINT(ciot_tcp_start(self->tcp, &self->cfg.tcp));
-        CIOT_ERROR_PRINT(esp_wifi_get_mac(WIFI_IF_AP, self->status.tcp.info.mac));
-        status_msg.header.type = CIOT_MSG_TYPE_START;
-        status_msg.status = self->status;
-        iface_event.type = CIOT_IFACE_EVENT_STARTED;
-        ciot_tcp_get_ip(self->tcp, self->status.tcp.info.ip);
-        ciot_wifi_check_request(self, CIOT_MSG_TYPE_START, &iface_event);
-        break;
-    }
-    case WIFI_EVENT_AP_STOP:
-    {
-        CIOT_LOGI(TAG, "WIFI_EVENT_AP_STOP");
-        self->status.tcp.state = CIOT_TCP_STATE_STOPPED;
-        status_msg.header.type = CIOT_MSG_TYPE_STOP;
-        status_msg.status = self->status;
-        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
-        ciot_wifi_check_request(self, CIOT_MSG_TYPE_STOP, &iface_event);
-        break;
-    }
-    case WIFI_EVENT_AP_STACONNECTED:
-    {
-        CIOT_LOGI(TAG, "WIFI_EVENT_AP_STACONNECTED");
-        wifi_event_ap_staconnected_t *data = (wifi_event_ap_staconnected_t *)event_data;
-        self->status.tcp.state = CIOT_TCP_STATE_CONNECTED;
-        self->status.tcp.conn_count++;
-        self->status.disconnect_reason = 0;
-        memcpy(self->status.info.ssid, self->cfg.ssid, 32);
-        memcpy(self->status.info.bssid, data->mac, 6);
-        status_msg.header.type = CIOT_MSG_TYPE_EVENT;
-        status_msg.status = self->status;
-        iface_event.type = CIOT_WIFI_EVENT_AP_STACONNECTED;
-        ciot_wifi_check_request(self, CIOT_MSG_TYPE_START, &iface_event);
-        break;
-    }
-    case WIFI_EVENT_AP_STADISCONNECTED:
-    {
-        CIOT_LOGI(TAG, "WIFI_EVENT_AP_STADISCONNECTED");
-        wifi_event_ap_stadisconnected_t *data = (wifi_event_ap_stadisconnected_t *)event_data;
-        self->status.tcp.state = CIOT_TCP_STATE_STARTED;
-        self->status.disconnect_reason = data->reason;
-        memcpy(self->status.info.ssid, self->cfg.ssid, 32);
-        memcpy(self->status.info.bssid, data->mac, 6);
-        status_msg.header.type = CIOT_MSG_TYPE_EVENT;
-        status_msg.status = self->status;
-        iface_event.type = CIOT_WIFI_EVENT_AP_STADISCONNECTED;
-        break;
-    }
-    default:
-        break;
-    }
-
-    if (self->iface.event_handler != NULL)
-    {
-        self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
-    }
-}
-
-static void ciot_wifi_check_request(ciot_wifi_t self, ciot_msg_type_t req_type, ciot_iface_event_t *event)
-{
-    if(self->iface.base.req.type == req_type)
-    {
-        event->data->msg.type = req_type;
-    }
-}
-
-#endif
+// static void ciot_wifi_check_request(ciot_wifi_t self, ciot_msg_type_t req_type, ciot_iface_event_t *event)
+// {
+//     if(self->base.iface.req_status.type == req_type)
+//     {
+//         event->msg->type = req_type;
+//     }
+// }

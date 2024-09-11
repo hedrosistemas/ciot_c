@@ -97,6 +97,51 @@ void   ciot__storage_status__free_unpacked
   assert(message->base.descriptor == &ciot__storage_status__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   ciot__storage_info__init
+                     (Ciot__StorageInfo         *message)
+{
+  static const Ciot__StorageInfo init_value = CIOT__STORAGE_INFO__INIT;
+  *message = init_value;
+}
+size_t ciot__storage_info__get_packed_size
+                     (const Ciot__StorageInfo *message)
+{
+  assert(message->base.descriptor == &ciot__storage_info__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t ciot__storage_info__pack
+                     (const Ciot__StorageInfo *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &ciot__storage_info__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t ciot__storage_info__pack_to_buffer
+                     (const Ciot__StorageInfo *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &ciot__storage_info__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Ciot__StorageInfo *
+       ciot__storage_info__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Ciot__StorageInfo *)
+     protobuf_c_message_unpack (&ciot__storage_info__descriptor,
+                                allocator, len, data);
+}
+void   ciot__storage_info__free_unpacked
+                     (Ciot__StorageInfo *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &ciot__storage_info__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   ciot__storage_req_data__init
                      (Ciot__StorageReqData         *message)
 {
@@ -270,7 +315,7 @@ const ProtobufCMessageDescriptor ciot__storage_cfg__descriptor =
   (ProtobufCMessageInit) ciot__storage_cfg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__storage_status__field_descriptors[1] =
+static const ProtobufCFieldDescriptor ciot__storage_status__field_descriptors[2] =
 {
   {
     "state",
@@ -284,14 +329,27 @@ static const ProtobufCFieldDescriptor ciot__storage_status__field_descriptors[1]
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "free_space",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__StorageStatus, free_space),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__storage_status__field_indices_by_name[] = {
+  1,   /* field[1] = free_space */
   0,   /* field[0] = state */
 };
 static const ProtobufCIntRange ciot__storage_status__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 1 }
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor ciot__storage_status__descriptor =
 {
@@ -301,11 +359,49 @@ const ProtobufCMessageDescriptor ciot__storage_status__descriptor =
   "Ciot__StorageStatus",
   "Ciot",
   sizeof(Ciot__StorageStatus),
-  1,
+  2,
   ciot__storage_status__field_descriptors,
   ciot__storage_status__field_indices_by_name,
   1,  ciot__storage_status__number_ranges,
   (ProtobufCMessageInit) ciot__storage_status__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor ciot__storage_info__field_descriptors[1] =
+{
+  {
+    "total_size",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_INT32,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__StorageInfo, total_size),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned ciot__storage_info__field_indices_by_name[] = {
+  0,   /* field[0] = total_size */
+};
+static const ProtobufCIntRange ciot__storage_info__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 1 }
+};
+const ProtobufCMessageDescriptor ciot__storage_info__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "Ciot.StorageInfo",
+  "StorageInfo",
+  "Ciot__StorageInfo",
+  "Ciot",
+  sizeof(Ciot__StorageInfo),
+  1,
+  ciot__storage_info__field_descriptors,
+  ciot__storage_info__field_indices_by_name,
+  1,  ciot__storage_info__number_ranges,
+  (ProtobufCMessageInit) ciot__storage_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor ciot__storage_req_data__field_descriptors[2] =
@@ -410,7 +506,7 @@ const ProtobufCMessageDescriptor ciot__storage_req__descriptor =
   (ProtobufCMessageInit) ciot__storage_req__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__storage_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__storage_data__field_descriptors[4] =
 {
   {
     "config",
@@ -448,16 +544,29 @@ static const ProtobufCFieldDescriptor ciot__storage_data__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__StorageData, info),
+    &ciot__storage_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__storage_data__field_indices_by_name[] = {
   0,   /* field[0] = config */
+  3,   /* field[3] = info */
   2,   /* field[2] = request */
   1,   /* field[1] = status */
 };
 static const ProtobufCIntRange ciot__storage_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__storage_data__descriptor =
 {
@@ -467,7 +576,7 @@ const ProtobufCMessageDescriptor ciot__storage_data__descriptor =
   "Ciot__StorageData",
   "Ciot",
   sizeof(Ciot__StorageData),
-  3,
+  4,
   ciot__storage_data__field_descriptors,
   ciot__storage_data__field_indices_by_name,
   1,  ciot__storage_data__number_ranges,

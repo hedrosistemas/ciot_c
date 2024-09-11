@@ -97,51 +97,6 @@ void   ciot__http_server_status__free_unpacked
   assert(message->base.descriptor == &ciot__http_server_status__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   ciot__http_server_req_data__init
-                     (Ciot__HttpServerReqData         *message)
-{
-  static const Ciot__HttpServerReqData init_value = CIOT__HTTP_SERVER_REQ_DATA__INIT;
-  *message = init_value;
-}
-size_t ciot__http_server_req_data__get_packed_size
-                     (const Ciot__HttpServerReqData *message)
-{
-  assert(message->base.descriptor == &ciot__http_server_req_data__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t ciot__http_server_req_data__pack
-                     (const Ciot__HttpServerReqData *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &ciot__http_server_req_data__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t ciot__http_server_req_data__pack_to_buffer
-                     (const Ciot__HttpServerReqData *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &ciot__http_server_req_data__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Ciot__HttpServerReqData *
-       ciot__http_server_req_data__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Ciot__HttpServerReqData *)
-     protobuf_c_message_unpack (&ciot__http_server_req_data__descriptor,
-                                allocator, len, data);
-}
-void   ciot__http_server_req_data__free_unpacked
-                     (Ciot__HttpServerReqData *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &ciot__http_server_req_data__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
 void   ciot__http_server_req__init
                      (Ciot__HttpServerReq         *message)
 {
@@ -347,25 +302,7 @@ const ProtobufCMessageDescriptor ciot__http_server_status__descriptor =
   (ProtobufCMessageInit) ciot__http_server_status__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-#define ciot__http_server_req_data__field_descriptors NULL
-#define ciot__http_server_req_data__field_indices_by_name NULL
-#define ciot__http_server_req_data__number_ranges NULL
-const ProtobufCMessageDescriptor ciot__http_server_req_data__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Ciot.HttpServerReqData",
-  "HttpServerReqData",
-  "Ciot__HttpServerReqData",
-  "Ciot",
-  sizeof(Ciot__HttpServerReqData),
-  0,
-  ciot__http_server_req_data__field_descriptors,
-  ciot__http_server_req_data__field_indices_by_name,
-  0,  ciot__http_server_req_data__number_ranges,
-  (ProtobufCMessageInit) ciot__http_server_req_data__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor ciot__http_server_req__field_descriptors[2] =
+static const ProtobufCFieldDescriptor ciot__http_server_req__field_descriptors[1] =
 {
   {
     "type",
@@ -379,27 +316,14 @@ static const ProtobufCFieldDescriptor ciot__http_server_req__field_descriptors[2
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
-  {
-    "data",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__HttpServerReq, data),
-    &ciot__http_server_req_data__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
 };
 static const unsigned ciot__http_server_req__field_indices_by_name[] = {
-  1,   /* field[1] = data */
   0,   /* field[0] = type */
 };
 static const ProtobufCIntRange ciot__http_server_req__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 1 }
 };
 const ProtobufCMessageDescriptor ciot__http_server_req__descriptor =
 {
@@ -409,7 +333,7 @@ const ProtobufCMessageDescriptor ciot__http_server_req__descriptor =
   "Ciot__HttpServerReq",
   "Ciot",
   sizeof(Ciot__HttpServerReq),
-  2,
+  1,
   ciot__http_server_req__field_descriptors,
   ciot__http_server_req__field_indices_by_name,
   1,  ciot__http_server_req__number_ranges,

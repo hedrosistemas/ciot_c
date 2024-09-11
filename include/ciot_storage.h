@@ -1,11 +1,12 @@
 /**
  * @file ciot_storage.h
- * @ingroup hardware_interfaces
- * @brief Header file for CIOT Storage module.
+ * @author your name (you@domain.com)
+ * @brief 
  * @version 0.1
- * @date 2023-11-04
- * @author Wesley Santos (wesleypro37@gmail.com)
- * @copyright Copyright (c) 2023
+ * @date 2024-07-04
+ * 
+ * @copyright Copyright (c) 2024
+ * 
  */
 
 #ifndef __CIOT_STORAGE__H__
@@ -15,113 +16,31 @@
 extern "C" {
 #endif
 
-#include "types/ciot_storage_types.h"
-#include "ciot_iface.h"
+#include <inttypes.h>
 #include "ciot_err.h"
+#include "ciot_msg.h"
+#include "ciot_serializer.h"
 
-/**
- * @brief CIOT Storage instance pointer.
- */
-typedef struct ciot_storage *ciot_storage_t;
-
-/**
- * @brief CIOT Storage status message structure.
- */
-typedef struct __attribute__((packed))
+typedef enum ciot_storage_type
 {
-    ciot_msg_header_t header;      /*!< Message header */
-    ciot_storage_status_t status;  /*!< Storage status */
-} ciot_storage_status_msg_t;
+    CIOT_STORAGE_TYPE_FS,
+    CIOT_STORAGE_TYPE_NVS,
+} ciot_storage_type_t;
 
-/**
- * @brief Create a new CIOT Storage instance.
- *
- * @param handle Pointer to the storage handle.
- * @return CIOT Storage instance pointer.
- */
-ciot_storage_t ciot_storage_new(void *handle);
+typedef struct ciot_storage *ciot_storage_t;
+typedef ciot_err_t ciot_storage_write_bytes_fn(char *path, uint8_t *bytes, int size);
+typedef ciot_err_t ciot_storage_read_bytes_fn(char *path, uint8_t *bytes, int *size);
 
-/**
- * @brief Initialize the CIOT Storage module.
- *
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_init(void);
+struct ciot_storage
+{
+    ciot_storage_type_t type;
+    ciot_serializer_t serializer;
+    ciot_storage_write_bytes_fn *write_bytes;
+    ciot_storage_read_bytes_fn *read_bytes;
+};
 
-/**
- * @brief Start the CIOT Storage module with the given configuration.
- *
- * @param self CIOT Storage instance.
- * @param cfg Configuration for the storage module.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_start(ciot_storage_t self, ciot_storage_cfg_t *cfg);
-
-/**
- * @brief Stop the CIOT Storage module.
- *
- * @param self CIOT Storage instance.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_stop(ciot_storage_t self);
-
-/**
- * @brief Process a storage request.
- *
- * @param self CIOT Storage instance.
- * @param req Storage request to process.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_process_req(ciot_storage_t self, ciot_storage_req_t *req);
-
-/**
- * @brief Send data using the CIOT Storage module.
- *
- * @param self CIOT Storage instance.
- * @param data Pointer to the data to be sent.
- * @param size Size of the data in bytes.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_send_data(ciot_storage_t self, uint8_t *data, int size);
-
-/**
- * @brief Save data to storage.
- *
- * @param self CIOT Storage instance.
- * @param path Path where data will be saved.
- * @param data Pointer to the data to save.
- * @param size Size of the data in bytes.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_save(ciot_storage_t self, char *path, uint8_t *data, int size);
-
-/**
- * @brief Load data from storage.
- *
- * @param self CIOT Storage instance.
- * @param path Path from where data will be loaded.
- * @param data Pointer to store the loaded data.
- * @param size Size of the data buffer in bytes.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_load(ciot_storage_t self, char *path, uint8_t *data, int size);
-
-/**
- * @brief Delete data from storage.
- *
- * @param self CIOT Storage instance.
- * @param path Path of the data to delete.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_delete(ciot_storage_t self, char *path);
-
-/**
- * @brief Format the storage.
- *
- * @param self CIOT Storage instance.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_storage_format(ciot_storage_t self);
+ciot_err_t ciot_storage_set_data(ciot_storage_t self, char *path, ciot_msg_data_t *data);
+ciot_msg_data_t *ciot_storage_get_data(ciot_storage_t self, char *path);
 
 #ifdef __cplusplus
 }

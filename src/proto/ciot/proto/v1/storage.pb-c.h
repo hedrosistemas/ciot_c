@@ -17,6 +17,7 @@ PROTOBUF_C__BEGIN_DECLS
 
 typedef struct _Ciot__StorageCfg Ciot__StorageCfg;
 typedef struct _Ciot__StorageStatus Ciot__StorageStatus;
+typedef struct _Ciot__StorageInfo Ciot__StorageInfo;
 typedef struct _Ciot__StorageReqData Ciot__StorageReqData;
 typedef struct _Ciot__StorageReq Ciot__StorageReq;
 typedef struct _Ciot__StorageData Ciot__StorageData;
@@ -111,10 +112,27 @@ struct  _Ciot__StorageStatus
    * State of the storage module.
    */
   Ciot__StorageState state;
+  /*
+   * Storage module free space
+   */
+  int32_t free_space;
 };
 #define CIOT__STORAGE_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__storage_status__descriptor) \
-    , CIOT__STORAGE_STATE__STORAGE_STATE_IDLE }
+    , CIOT__STORAGE_STATE__STORAGE_STATE_IDLE, 0 }
+
+
+/*
+ * Message representing storage module information.
+ */
+struct  _Ciot__StorageInfo
+{
+  ProtobufCMessage base;
+  int32_t total_size;
+};
+#define CIOT__STORAGE_INFO__INIT \
+ { PROTOBUF_C_MESSAGE_INIT (&ciot__storage_info__descriptor) \
+    , 0 }
 
 
 /*
@@ -175,10 +193,14 @@ struct  _Ciot__StorageData
    * Storage request data.
    */
   Ciot__StorageReq *request;
+  /*
+   * Storage information data.
+   */
+  Ciot__StorageInfo *info;
 };
 #define CIOT__STORAGE_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__storage_data__descriptor) \
-    , NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /* Ciot__StorageCfg methods */
@@ -218,6 +240,25 @@ Ciot__StorageStatus *
                       const uint8_t       *data);
 void   ciot__storage_status__free_unpacked
                      (Ciot__StorageStatus *message,
+                      ProtobufCAllocator *allocator);
+/* Ciot__StorageInfo methods */
+void   ciot__storage_info__init
+                     (Ciot__StorageInfo         *message);
+size_t ciot__storage_info__get_packed_size
+                     (const Ciot__StorageInfo   *message);
+size_t ciot__storage_info__pack
+                     (const Ciot__StorageInfo   *message,
+                      uint8_t             *out);
+size_t ciot__storage_info__pack_to_buffer
+                     (const Ciot__StorageInfo   *message,
+                      ProtobufCBuffer     *buffer);
+Ciot__StorageInfo *
+       ciot__storage_info__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   ciot__storage_info__free_unpacked
+                     (Ciot__StorageInfo *message,
                       ProtobufCAllocator *allocator);
 /* Ciot__StorageReqData methods */
 void   ciot__storage_req_data__init
@@ -284,6 +325,9 @@ typedef void (*Ciot__StorageCfg_Closure)
 typedef void (*Ciot__StorageStatus_Closure)
                  (const Ciot__StorageStatus *message,
                   void *closure_data);
+typedef void (*Ciot__StorageInfo_Closure)
+                 (const Ciot__StorageInfo *message,
+                  void *closure_data);
 typedef void (*Ciot__StorageReqData_Closure)
                  (const Ciot__StorageReqData *message,
                   void *closure_data);
@@ -304,6 +348,7 @@ extern const ProtobufCEnumDescriptor    ciot__storage_req_type__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__storage_type__descriptor;
 extern const ProtobufCMessageDescriptor ciot__storage_cfg__descriptor;
 extern const ProtobufCMessageDescriptor ciot__storage_status__descriptor;
+extern const ProtobufCMessageDescriptor ciot__storage_info__descriptor;
 extern const ProtobufCMessageDescriptor ciot__storage_req_data__descriptor;
 extern const ProtobufCMessageDescriptor ciot__storage_req__descriptor;
 extern const ProtobufCMessageDescriptor ciot__storage_data__descriptor;

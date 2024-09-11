@@ -1,28 +1,18 @@
 /**
  * @file ciot_timer.c
- * @author Wesley Santos (wesleypro37@gmail.com)
- * @brief
+ * @author your name (you@domain.com)
+ * @brief 
  * @version 0.1
- * @date 2024-01-05
- *
+ * @date 2024-06-16
+ * 
  * @copyright Copyright (c) 2024
- *
+ * 
  */
 
-#include "ciot_config.h"
-
-#if CIOT_CONFIG_FEATURE_TIMER && defined(CIOT_TARGET_NRF)
-
-#include <stdbool.h>
-#include <stdint.h>
-
-#include "nrf.h"
+#include "ciot_timer.h"
+#include "nrf_error.h"
 #include "nrf_drv_rtc.h"
 #include "nrf_drv_clock.h"
-#include "bsp.h"
-#include "app_error.h"
-
-#include "ciot_timer.h"
 
 #define RTC_PRESCALER 4095
 #define TIME_CONST (32768 / (RTC_PRESCALER + 1))
@@ -37,9 +27,9 @@ typedef struct ciot_timer
 
 static void hg_ble_rtc_event_handler(nrf_drv_rtc_int_type_t int_type);
 
-static ciot_timer_t self;
-
 static const nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(1);
+
+static ciot_timer_t self;
 
 ciot_err_t ciot_timer_start(ciot_timer_cfg_t *cfg)
 {
@@ -71,19 +61,9 @@ ciot_err_t ciot_timer_start(ciot_timer_cfg_t *cfg)
     return err_code;
 }
 
-uint64_t ciot_timer_get(void)
+uint64_t ciot_timer_now(void)
 {
     return self.now;
-}
-
-bool ciot_timer_compare(uint64_t *timer, uint16_t interval)
-{
-    if (self.now > *timer)
-    {
-        *timer = self.now + interval;
-        return true;
-    }
-    return false;
 }
 
 static void hg_ble_rtc_event_handler(nrf_drv_rtc_int_type_t int_type)
@@ -103,5 +83,3 @@ static void hg_ble_rtc_event_handler(nrf_drv_rtc_int_type_t int_type)
         break;
     }
 }
-
-#endif

@@ -142,6 +142,51 @@ void   ciot__wifi_status__free_unpacked
   assert(message->base.descriptor == &ciot__wifi_status__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+void   ciot__wifi_info__init
+                     (Ciot__WifiInfo         *message)
+{
+  static const Ciot__WifiInfo init_value = CIOT__WIFI_INFO__INIT;
+  *message = init_value;
+}
+size_t ciot__wifi_info__get_packed_size
+                     (const Ciot__WifiInfo *message)
+{
+  assert(message->base.descriptor == &ciot__wifi_info__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t ciot__wifi_info__pack
+                     (const Ciot__WifiInfo *message,
+                      uint8_t       *out)
+{
+  assert(message->base.descriptor == &ciot__wifi_info__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t ciot__wifi_info__pack_to_buffer
+                     (const Ciot__WifiInfo *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->base.descriptor == &ciot__wifi_info__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Ciot__WifiInfo *
+       ciot__wifi_info__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Ciot__WifiInfo *)
+     protobuf_c_message_unpack (&ciot__wifi_info__descriptor,
+                                allocator, len, data);
+}
+void   ciot__wifi_info__free_unpacked
+                     (Ciot__WifiInfo *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->base.descriptor == &ciot__wifi_info__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 void   ciot__wifi_scan_result__init
                      (Ciot__WifiScanResult         *message)
 {
@@ -431,7 +476,7 @@ const ProtobufCMessageDescriptor ciot__wifi_cfg__descriptor =
   (ProtobufCMessageInit) ciot__wifi_cfg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__wifi_status__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__wifi_status__field_descriptors[2] =
 {
   {
     "disconnect_reason",
@@ -446,20 +491,8 @@ static const ProtobufCFieldDescriptor ciot__wifi_status__field_descriptors[3] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "info",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__WifiStatus, info),
-    &ciot__wifi_ap_info__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
     "tcp",
-    3,
+    2,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -472,13 +505,12 @@ static const ProtobufCFieldDescriptor ciot__wifi_status__field_descriptors[3] =
 };
 static const unsigned ciot__wifi_status__field_indices_by_name[] = {
   0,   /* field[0] = disconnect_reason */
-  1,   /* field[1] = info */
-  2,   /* field[2] = tcp */
+  1,   /* field[1] = tcp */
 };
 static const ProtobufCIntRange ciot__wifi_status__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor ciot__wifi_status__descriptor =
 {
@@ -488,11 +520,62 @@ const ProtobufCMessageDescriptor ciot__wifi_status__descriptor =
   "Ciot__WifiStatus",
   "Ciot",
   sizeof(Ciot__WifiStatus),
-  3,
+  2,
   ciot__wifi_status__field_descriptors,
   ciot__wifi_status__field_indices_by_name,
   1,  ciot__wifi_status__number_ranges,
   (ProtobufCMessageInit) ciot__wifi_status__init,
+  NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor ciot__wifi_info__field_descriptors[2] =
+{
+  {
+    "tcp",
+    1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__WifiInfo, tcp),
+    &ciot__tcp_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ap",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__WifiInfo, ap),
+    &ciot__wifi_ap_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned ciot__wifi_info__field_indices_by_name[] = {
+  1,   /* field[1] = ap */
+  0,   /* field[0] = tcp */
+};
+static const ProtobufCIntRange ciot__wifi_info__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor ciot__wifi_info__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "Ciot.WifiInfo",
+  "WifiInfo",
+  "Ciot__WifiInfo",
+  "Ciot",
+  sizeof(Ciot__WifiInfo),
+  2,
+  ciot__wifi_info__field_descriptors,
+  ciot__wifi_info__field_indices_by_name,
+  1,  ciot__wifi_info__number_ranges,
+  (ProtobufCMessageInit) ciot__wifi_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor ciot__wifi_scan_result__field_descriptors[2] =
@@ -597,7 +680,7 @@ const ProtobufCMessageDescriptor ciot__wifi_req__descriptor =
   (ProtobufCMessageInit) ciot__wifi_req__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__wifi_data__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__wifi_data__field_descriptors[4] =
 {
   {
     "config",
@@ -635,16 +718,29 @@ static const ProtobufCFieldDescriptor ciot__wifi_data__field_descriptors[3] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "info",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__WifiData, info),
+    &ciot__wifi_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__wifi_data__field_indices_by_name[] = {
   0,   /* field[0] = config */
+  3,   /* field[3] = info */
   2,   /* field[2] = request */
   1,   /* field[1] = status */
 };
 static const ProtobufCIntRange ciot__wifi_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__wifi_data__descriptor =
 {
@@ -654,7 +750,7 @@ const ProtobufCMessageDescriptor ciot__wifi_data__descriptor =
   "Ciot__WifiData",
   "Ciot",
   sizeof(Ciot__WifiData),
-  3,
+  4,
   ciot__wifi_data__field_descriptors,
   ciot__wifi_data__field_indices_by_name,
   1,  ciot__wifi_data__number_ranges,

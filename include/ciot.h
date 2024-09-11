@@ -1,16 +1,12 @@
 /**
  * @file ciot.h
- * @ingroup core
- * @brief Header file for the CIOT core instance.
- * 
- * @details An CIoT instance can be used to manager other interfaces. All interfaces added to an CIoT instance can interact with each other. 
- * The CIoT instance is responsible for intercept the requests messages sended by an sender interface, and redirect it to another target interface.
- * In addition, the requests results are also intercepted and sent as a response to the interface that sent the request.
- * 
+ * @author your name (you@domain.com)
+ * @brief 
  * @version 0.1
- * @date 2023-10-10
- * @author Your Name
- * @copyright Copyright (c) 2023
+ * @date 2024-06-07
+ * 
+ * @copyright Copyright (c) 2024
+ * 
  */
 
 #ifndef __CIOT__H__
@@ -20,18 +16,42 @@
 extern "C" {
 #endif
 
+#include "ciot_config.h"
 #include "ciot_err.h"
 #include "ciot_iface.h"
+#include "ciot_msg.h"
 #include "ciot_storage.h"
-#include "ciot_bridge.h"
 
-#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat" ///< Default iface config filename. %d will be replaced by iface id.
+#if defined(ICACHE_FLASH) || defined(ICACHE_RAM_ATTR)
+#define CIOT_TARGET_ESP8266
+#elif defined(_WIN32)
+#define CIOT_TARGET_WIN
+#elif defined(ARDUINO)
+#define CIOT_TARGET_INO
+#elif defined(ESP_PLATFORM)
+#define CIOT_TARGET_ESP32
+#elif defined(NRF51) || defined(NRF52) || defined(NRF52840_XXAA)
+#define CIOT_TARGET_NRF
+#elif defined(__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+#define CIOT_TARGET_LINUX
+#else
+#define CIOT_TARGET_UNKNOWN
+#warning "Target undefined."
+#endif
 
-#ifdef CIOT_TARGET_MONGOOSE
+#define CIOT_VER 0, 1, 0
+
+#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat"
+
+#if defined(CIOT_TARGET_WIN) || defined(CIOT_TARGET_LINUX)
+
+#include "mongoose.h"
 
 extern struct mg_mgr mg; ///< Mongoose network manager.
 
 #define CIOT_HANDLE &mg
+
+#define CIOT_MG_ENABLED
 
 #else
 
@@ -39,103 +59,71 @@ extern struct mg_mgr mg; ///< Mongoose network manager.
 
 #endif
 
-#ifdef CIOT_TARGET_NRF
-
-#define app_main main
-
+#ifndef CIOT_CONFIG_MG_POOL_INTERVAL_MS
+#define CIOT_CONFIG_MG_POOL_INTERVAL_MS 10
 #endif
-
-#ifdef  CIOT_TARGET_ARDUINO
-
-#define app_main setup
-
-#endif  //CIOT_TARGET_ARDUINO
 
 typedef struct ciot *ciot_t; ///< CIOT network handle.
 
-/**
- * @brief CIOT configuration structure
- * 
- */
+typedef Ciot__CiotStatus ciot_status_t;
+typedef Ciot__CiotReq ciot_req_t;
+typedef Ciot__CiotData ciot_data_t;
+typedef Ciot__CiotInfo ciot_info_t;
+
 typedef struct ciot_cfg
 {
     ciot_iface_t **ifaces; ///< Array of CIOT interfaces.
-    void **cfgs; ///< Array of configurations for the interfaces.
+    ciot_msg_data_t **cfgs; ///< Array of configurations for the interfaces.
     uint8_t count; ///< Number of interfaces.
+    ciot_storage_t storage; ///< Storage interface used to save/load ifaces configurations
 } ciot_cfg_t;
 
-/**
- * @brief Create a new CIOT network instance.
- *
- * @return Pointer to the created CIOT network instance.
- */
+typedef struct ciot_ifaces
+{
+    ciot_iface_t **list;
+    ciot_msg_data_t **cfgs;
+    uint8_t count;
+} ciot_ifaces_t;
+
+typedef struct ciot_starting
+{
+    uint32_t iface_id;
+    bool waiting_result;
+    uint64_t timer;
+} ciot_starting_t;
+
+typedef struct ciot_recv
+{
+    ciot_iface_t *sender;
+    ciot_iface_event_t event;
+    // ciot_msg_t buf;
+} ciot_recv_t;
+
+struct ciot
+{
+    ciot_iface_t iface;
+    ciot_cfg_t cfg;
+    ciot_status_t status;
+    ciot_info_t info;
+    ciot_req_t req;
+    ciot_data_t data;
+    ciot_ifaces_t ifaces;
+    ciot_starting_t starting;
+    ciot_recv_t recv;
+    ciot_msg_error_t error;
+    ciot_storage_t storage;
+};
+
 ciot_t ciot_new(void);
-
-/**
- * @brief Start the CIOT network module.
- *
- * @param self Pointer to the CIOT network instance.
- * @param cfg Pointer to the network configuration.
- * @return Error code indicating success or failure.
- */
+ciot_err_t ciot_init(ciot_t self);
 ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg);
-
-/**
- * @brief Set the storage for CIOT network data.
- *
- * @param self Pointer to the CIOT network instance.
- * @param storage Pointer to the storage instance.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_set_storage(ciot_t self, ciot_storage_t storage);
-
-/**
- * @brief Register an event handler for CIOT network events.
- *
- * @param self Pointer to the CIOT network instance.
- * @param event_handler Event handler function.
- * @param event_args Event handler arguments.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_register_event(ciot_t self, ciot_iface_event_handler_t event_handler, void *event_args);
-
-/**
- * @brief Send a request via a proxy interface in CIOT network.
- *
- * @param self Pointer to the CIOT network instance.
- * @param iface Pointer to the network interface.
- * @param proxy_iface Pointer to the proxy interface.
- * @param req Pointer to the request message.
- * @param size Size of the request message.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_proxy_send_req(ciot_t self, ciot_iface_t *iface, ciot_msg_iface_info_t *proxy_iface, ciot_msg_t *req, int size);
-
-/**
- * @brief Save the configuration of a specific interface in CIOT network.
- *
- * @param self Pointer to the CIOT network instance.
- * @param iface_id ID of the interface to save.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_save_iface_cfg(ciot_t self, uint8_t iface_id);
-
-/**
- * @brief Delete the configuration of a specific interface in CIOT network.
- *
- * @param self Pointer to the CIOT network instance.
- * @param iface_id ID of the interface to delete.
- * @return Error code indicating success or failure.
- */
-ciot_err_t ciot_delete_iface_cfg(ciot_t self, uint8_t iface_id);
-
-/**
- * @brief Perform the CIOT network task.
- *
- * @param self Pointer to the CIOT network instance.
- * @return Error code indicating success or failure.
- */
+ciot_err_t ciot_stop(ciot_t self);
 ciot_err_t ciot_task(ciot_t self);
+ciot_err_t ciot_process_req(ciot_t self, ciot_req_t *req);
+ciot_err_t ciot_get_cfg(ciot_t self, ciot_cfg_t *cfg);
+ciot_err_t ciot_get_status(ciot_t self, ciot_status_t *status);
+ciot_err_t ciot_get_info(ciot_t self, ciot_info_t *info);
+ciot_err_t ciot_save_iface_cfg(ciot_t self, int iface_id);
 
 #ifdef __cplusplus
 }

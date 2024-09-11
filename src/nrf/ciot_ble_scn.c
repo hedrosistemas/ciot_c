@@ -1,18 +1,15 @@
 /**
  * @file ciot_ble_scn.c
- * @author Wesley Santos (wesleypro37@gmail.com)
+ * @author your name (you@domain.com)
  * @brief
  * @version 0.1
- * @date 2023-11-18
+ * @date 2024-06-07
  *
- * @copyright Copyright (c) 2023
+ * @copyright Copyright (c) 2024
  *
  */
 
-#include "ciot_config.h"
-
-#if CIOT_CONFIG_FEATURE_BLE_SCN && defined(CIOT_TARGET_NRF)
-
+#include <stdlib.h>
 #if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)
 #include "softdevice_handler.h"
 #define BLE_GAP_ADV_SET_DATA_SIZE_MAX BLE_GAP_ADV_MAX_SIZE
@@ -23,162 +20,187 @@
 #include "nrf_pwr_mgmt.h"
 #include "nrf_log_default_backends.h"
 #endif
-
-#include "nrf_log.h"
-#include "nrf_log_ctrl.h"
-#include "app_error.h"
-#include "app_error_weak.h"
-
-#include <stdlib.h>
-
+#include "ble_gap.h"
 #include "ciot_ble_scn.h"
+#include "ciot_msg.h"
+#include "ciot_err.h"
+#include "ciot_config.h"
 
 struct ciot_ble_scn
 {
-	ciot_iface_t iface;
-	ciot_ble_scn_cfg_t cfg;
-	ciot_ble_scn_status_t status;
+    ciot_ble_scn_base_t base;
+    ble_gap_scan_params_t scan_params;
 #if NRF_SD_BLE_API_VERSION != 2 && NRF_SD_BLE_API_VERSION != 3
-	uint8_t buffer[BLE_GAP_SCAN_BUFFER_MIN];
-	ble_data_t scan_buffer;
+    uint8_t buffer[BLE_GAP_SCAN_BUFFER_MIN];
+    ble_data_t scan_buffer;
 #endif
-	ble_gap_scan_params_t scan_params;
 };
 
-static void ciot_ble_scn_copy_mac(uint8_t dst[6], uint8_t src[6], bool reverse);
+static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool reverse);
+static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv);
+
+static const char *TAG = "hg_ble_scn";
 
 ciot_ble_scn_t ciot_ble_scn_new(void *handle)
 {
-	ciot_ble_scn_t self = calloc(1, sizeof(struct ciot_ble_scn));
-	self->iface.base.ptr = self;
-	self->iface.base.start = (ciot_iface_start_fn *)ciot_ble_scn_start;
-	self->iface.base.stop = (ciot_iface_stop_fn *)ciot_ble_scn_stop;
-	self->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_ble_scn_process_req;
-	self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_ble_scn_send_data;
-	self->iface.base.cfg.ptr = &self->cfg;
-	self->iface.base.cfg.size = sizeof(self->cfg);
-	self->iface.base.status.ptr = &self->status;
-	self->iface.base.status.size = sizeof(self->status);
-	self->iface.info.type = CIOT_IFACE_TYPE_BLE_SCN;
-	return self;
+    ciot_ble_scn_t self = calloc(1, sizeof(struct ciot_ble_scn));
+    ciot_ble_scn_init(self);
+    return self;
 }
 
 ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
 {
-	CIOT_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(self);
 
-	uint32_t error;
+    ciot_ble_scn_base_t *base = &self->base;
 
-	if(cfg != NULL)
-	{
-		self->cfg = *cfg;
-	}
+    if (cfg != NULL)
+    {
+        base->cfg = *cfg;
+    }
 
-	if (self->cfg.active && self->status.state == CIOT_BLE_SCN_STATE_ACTIVE)
-	{
-		return CIOT_OK;
-	}
+    if (base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_ACTIVE)
+    {
+        return CIOT_ERR__OK;
+    }
 
-	if (!self->cfg.active && self->status.state == CIOT_BLE_SCN_STATE_PASSIVE)
-	{
-		return CIOT_OK;
-	}
+    if (!base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_PASSIVE)
+    {
+        return CIOT_ERR__OK;
+    }
 
-	error = sd_ble_gap_scan_stop();
+    uint32_t err = sd_ble_gap_scan_stop();
 
-	self->scan_params.interval = self->cfg.interval,
-	self->scan_params.window = self->cfg.window,
-	self->scan_params.active = self->cfg.active,
-	self->scan_params.timeout = self->cfg.timeout;
+    self->scan_params.interval = base->cfg.interval;
+    self->scan_params.window = base->cfg.window;
+    self->scan_params.active = base->cfg.active;
+    self->scan_params.timeout = base->cfg.timeout;
 
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
-	error = sd_ble_gap_scan_start(&self->scan_params);
+    error = sd_ble_gap_scan_start(&self->scan_params);
 #else
-	self->scan_buffer.p_data = self->buffer;
-	self->scan_buffer.len = BLE_GAP_SCAN_BUFFER_MIN;
-	error = sd_ble_gap_scan_start(&self->scan_params, &self->scan_buffer);
+    self->scan_buffer.p_data = self->buffer;
+    self->scan_buffer.len = BLE_GAP_SCAN_BUFFER_MIN;
+    err = sd_ble_gap_scan_start(&self->scan_params, &self->scan_buffer);
 #endif
 
-	if (error == NRF_SUCCESS)
-	{
-		self->status.state = self->cfg.active
-								 ? CIOT_BLE_SCN_STATE_ACTIVE
-								 : CIOT_BLE_SCN_STATE_PASSIVE;
-	}
+    if (err == NRF_SUCCESS)
+    {
+        base->status.state = cfg->active
+                                 ? CIOT__BLE_SCN_STATE__BLE_SCN_STATE_ACTIVE
+                                 : CIOT__BLE_SCN_STATE__BLE_SCN_STATE_PASSIVE;
+        ciot_iface_event_t iface_event = {0};
+        iface_event.type = CIOT_IFACE_EVENT_STARTED;
+        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
+        ciot_iface_send_event(&base->iface, &iface_event);
+    }
 
-	return error;
+    base->status.err_code = err;
+
+    return err;
 }
 
 ciot_err_t ciot_ble_scn_stop(ciot_ble_scn_t self)
 {
-	CIOT_NULL_CHECK(self);
-	int err_code = sd_ble_gap_scan_stop();
-	if(err_code == NRF_SUCCESS)
-	{
-		self->status.state = CIOT_BLE_SCN_STATE_IDLE;
-	}
-	return err_code;
+    CIOT_ERR_NULL_CHECK(self);
+    ciot_ble_scn_base_t *base = &self->base;
+    int err = sd_ble_gap_scan_stop();
+    if (err == NRF_SUCCESS)
+    {
+        base->status.state = CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE;
+        ciot_iface_event_t iface_event = {0};
+        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
+        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
+        ciot_iface_send_event(&base->iface, &iface_event);
+    }
+    return CIOT_ERR__OK;
 }
 
-ciot_err_t ciot_ble_scn_process_req(ciot_ble_scn_t self, ciot_ble_scn_req_t *req)
+ciot_err_t ciot_ble_scn_task(ciot_ble_scn_t self)
 {
-	return CIOT_ERR_NOT_IMPLEMENTED;
-}
-
-ciot_err_t ciot_ble_scn_send_data(ciot_ble_scn_t self, uint8_t *data, int size)
-{
-	return CIOT_ERR_NOT_IMPLEMENTED;
+    ciot_ble_scn_base_task(self);
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *event_args)
 {
-	const ble_evt_t *ev = event;
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(event);
 
-	ciot_iface_event_t iface_event = {0};
-    ciot_ble_scn_status_t iface_status = self->status;
+    ciot_ble_scn_base_t *base = &self->base;
+    const ble_evt_t *ev = event;
+    uint8_t mac[6];
 
-	switch (ev->header.evt_id)
-	{
-	case BLE_GAP_EVT_ADV_REPORT:
-		ciot_ble_scn_copy_mac(iface_status.adv_info.mac, (uint8_t*)ev->evt.gap_evt.params.adv_report.peer_addr.addr, true);
-		iface_status.adv_info.rssi = ev->evt.gap_evt.params.adv_report.rssi;
-		iface_event.type = self->cfg.brigde_mode ? CIOT_IFACE_EVENT_DATA : CIOT_IFACE_EVENT_REQUEST;
+
+    switch (ev->header.evt_id)
+    {
+    case BLE_GAP_EVT_ADV_REPORT:
+        ciot_ble_scn_copy_mac(mac, (uint8_t *)ev->evt.gap_evt.params.adv_report.peer_addr.addr, true);
+        base->recv.info->mac.data = mac;
+        base->recv.info->mac.len = sizeof(mac);
+        base->recv.info->rssi = ev->evt.gap_evt.params.adv_report.rssi;
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
-		iface_event.data = (ciot_iface_event_data_u*)ev->evt.gap_evt.params.adv_report.data;
-		iface_event.size = ev->evt.gap_evt.params.adv_report.dlen;
+        base->recv.adv.data = (ciot_iface_event_data_u *)ev->evt.gap_evt.params.adv_report.data;
+        base->recv.adv.len = ev->evt.gap_evt.params.adv_report.dlen;
 #else
-		iface_event.data = (ciot_iface_event_data_u*)ev->evt.gap_evt.params.adv_report.data.p_data;
-		iface_event.size = ev->evt.gap_evt.params.adv_report.data.len;
-		UNUSED_RETURN_VALUE(sd_ble_gap_scan_start(NULL, &self->scan_buffer));
+        base->recv.payload.data = ev->evt.gap_evt.params.adv_report.data.p_data;
+        base->recv.payload.len = ev->evt.gap_evt.params.adv_report.data.len;
+        base->status.err_code = sd_ble_gap_scan_start(NULL, &self->scan_buffer);
 #endif
-		break;
-	default:
-		return CIOT_OK;
-	}
+        if (base->filter.handler == NULL || base->filter.handler(self, &base->recv, base->filter.args))
+        {
+            ciot_ble_scn_handle_adv_report(self, &base->recv);
+        }
+        break;
+    case BLE_GAP_EVT_TIMEOUT:
+        CIOT_LOGI(TAG, "%d", ev->evt.gap_evt.params.timeout.src);
+        break;
+    default:
+        break;
+    }
 
-	if(self->iface.event_handler != NULL)
-	{
-		self->status = iface_status;
-		self->iface.event_handler(&self->iface, &iface_event, self->iface.event_args);
-	}
-
-	return CIOT_OK;
+    return CIOT_ERR__NOT_IMPLEMENTED;
 }
 
-ciot_err_t ciot_ble_scn_get_adv_info(ciot_ble_scn_t self, ciot_ble_scn_adv_info_t *adv_info)
+static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool reverse)
 {
-	CIOT_NULL_CHECK(self);
-	CIOT_NULL_CHECK(adv_info);
-	*adv_info = self->status.adv_info;
-	return CIOT_OK;
+    for (size_t i = 0; i < 6; i++)
+    {
+        destiny[i] = reverse ? source[5 - i] : source[i];
+    }
 }
 
-static void ciot_ble_scn_copy_mac(uint8_t dst[6], uint8_t src[6], bool reverse)
+static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv)
 {
-	for (size_t i = 0; i < 6; i++)
-	{
-		dst[i] = reverse ? src[5-i] : src[i];
-	}
-}
-
+    ciot_ble_scn_base_t *base = &self->base;
+#ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
+    ciot_ble_scn_adv_fifo_t *adv_fifo = &base->adv_fifo;
+    if(adv_fifo->list[adv_fifo->wp].info->rssi == 0)
+    {
+        adv_fifo->list[adv_fifo->wp].info->rssi = adv->info->rssi;
+        memcpy(adv_fifo->list[adv_fifo->wp].info->mac.data, adv->info->mac.data, adv->info->mac.len);
+        adv_fifo->list[adv_fifo->wp].info->mac.len = adv->info->mac.len;
+        memcpy(adv_fifo->list[adv_fifo->wp].payload.data, adv->payload.data, adv->payload.len);
+        adv_fifo->list[adv_fifo->wp].payload.len = adv->payload.len;
+        adv_fifo->wp++;
+        base->status.fifo_len++;
+        if(base->status.fifo_len > base->status.fifo_max)
+        {
+            base->status.fifo_max = base->status.fifo_len;
+        }
+        if(adv_fifo->wp == CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE)
+        {
+            adv_fifo->wp = 0;
+        }
+    }
+    else
+    {
+        base->status.err_code = CIOT_ERR__DATA_LOSS;
+    }
+#else
+    ciot_iface_event_t event = {0};
+    event.type = CIOT_IFACE_EVENT_DATA;
+    event.data = (uint8_t*)adv;
+    ciot_iface_send_event(&base->iface, &event);
 #endif
+}

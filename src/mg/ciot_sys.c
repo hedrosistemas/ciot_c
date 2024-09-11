@@ -1,133 +1,90 @@
 /**
  * @file ciot_sys.c
- * @author Wesley Santos (wesleypro37@gmail.com)
+ * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2023-10-22
+ * @date 2024-06-07
  * 
- * @copyright Copyright (c) 2023
+ * @copyright Copyright (c) 2024
  * 
  */
 
-#include "ciot_sys.h"
-#include "ciot.h"
-
-#if defined(CIOT_TARGET_MONGOOSE)
-#include "mongoose.h"
-struct mg_mgr mg;
-#endif
-
-#if CIOT_CONFIG_FEATURE_SYSTEM && defined(CIOT_TARGET_MONGOOSE)
-
-#include <string.h>
 #include <stdlib.h>
+#include "ciot.h"
+#include "ciot_sys.h"
+#include "ciot_err.h"
+#include "ciot_timer.h"
+#include "ciot_config.h"
+#include "mongoose.h"
 
-#ifdef CIOT_TARGET_WIN
-#include <windows.h>
-#elif defined(CIOT_TARGET_ESP8266) || defined(CIOT_TARGET_ESP32)
-#include "esp_system.h"
-#include "esp_event.h"
-#endif  //_WIN32
+static const char *TAG = "ciot_sys";
 
 struct ciot_sys
 {
-    ciot_iface_t iface;
-    ciot_sys_cfg_t cfg;
-    ciot_sys_status_t status;
+    ciot_sys_base_t base;
     time_t init_time;
 };
 
-static ciot_sys_t sys;
-
-static void ciot_sys_init(ciot_sys_t self);
 static uint32_t ciot_sys_get_free_ram(void);
+
+struct mg_mgr mg;
+
+static ciot_sys_t sys;
 
 ciot_sys_t ciot_sys_new(void *handle)
 {
     ciot_sys_t self = calloc(1, sizeof(struct ciot_sys));
-    self->iface.base.ptr = self;
-    self->iface.base.start = (ciot_iface_start_fn *)ciot_sys_start;
-    self->iface.base.stop = (ciot_iface_stop_fn *)ciot_sys_stop;
-    self->iface.base.process_req = (ciot_iface_process_req_fn *)ciot_sys_process_req;
-    self->iface.base.send_data = (ciot_iface_send_data_fn *)ciot_sys_send_data;
-    self->iface.base.cfg.ptr = &self->cfg;
-    self->iface.base.cfg.size = sizeof(self->cfg);
-    self->iface.base.status.ptr = &self->status;
-    self->iface.base.status.size = sizeof(ciot_sys_status_t);
-    self->iface.info.type = CIOT_IFACE_TYPE_SYSTEM;
     ciot_sys_init(self);
-
-    #ifdef  CIOT_TARGET_ESP8266
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    #endif  //CIOT_TARGET_ESP8266
-
+    ciot_sys_get_info(self, &self->base.info);
     sys = self;
     return self;
 }
 
 ciot_err_t ciot_sys_start(ciot_sys_t self, ciot_sys_cfg_t *cfg)
 {
-    sys->init_time = time(NULL);
-    return CIOT_OK;
+    CIOT_ERR_NULL_CHECK(self);
+    self->init_time = ciot_timer_now();
+    return ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STARTED);
 }
 
 ciot_err_t ciot_sys_stop(ciot_sys_t self)
 {
-    return CIOT_ERR_NOT_SUPPORTED;
-}
-
-ciot_err_t ciot_sys_process_req(ciot_sys_t self, ciot_sys_req_t *req)
-{
-    return CIOT_ERR_NOT_SUPPORTED;
-}
-
-ciot_err_t ciot_sys_send_data(ciot_sys_t self, uint8_t *data, int size)
-{
-    return CIOT_ERR_NOT_SUPPORTED;
-}
-
-ciot_err_t ciot_sys_rst(ciot_sys_t self)
-{
+    CIOT_ERR_NULL_CHECK(self);
     exit(0);
-    return CIOT_OK;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_sys_task(ciot_sys_t self)
 {
-    CIOT_NULL_CHECK(self);
-    sys->status.free_memory = ciot_sys_get_free_ram();
-    sys->status.lifetime = time(NULL) - sys->init_time;
-    mg_mgr_poll(CIOT_HANDLE, 10);
-    return CIOT_OK;
+    CIOT_ERR_NULL_CHECK(self);
+    sys->base.status.free_memory = ciot_sys_get_free_ram();
+    sys->base.status.lifetime = ciot_timer_now() - sys->init_time;
+    return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
 {
-    return CIOT_ERR_NOT_SUPPORTED;
+    return CIOT_ERR__NOT_SUPPORTED;
 }
 
-void ciot_sys_sleep(long ms)
+ciot_err_t ciot_sys_sleep(long ms)
 {
-    return Sleep(ms);
+#if MG_ARCH == MG_ARCH_WIN32
+    Sleep(ms);
+#else
+    return CIOT_ERR__NOT_SUPPORTED;
+#endif
+    return CIOT_ERR__OK;
 }
 
-static void ciot_sys_init(ciot_sys_t self)
+ciot_err_t ciot_sys_restart(void)
 {
-    char hw_name[] = CIOT_CONFIG_HARDWARE_NAME;
-    uint8_t app_ver[] = { CIOT_CONFIG_APP_VER };
+    return CIOT_ERR__NOT_SUPPORTED;
+}
 
-    ciot_sys_update_features(&self->status.info.features);
-    
-    self->status.rst_reason = 0;
-    self->status.rst_count = 0;
-    self->status.info.hardware = ciot_sys_get_hw();
-
-    memcpy(self->status.info.hw_name, hw_name, sizeof(hw_name));
-    memcpy(self->status.info.app_ver, app_ver, sizeof(app_ver));
-
-    mg_mgr_init(CIOT_HANDLE);
-
-    sys = self;
+ciot_err_t ciot_sys_init_dfu(void)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
 }
 
 #if defined(CIOT_TARGET_ESP8266)
@@ -171,8 +128,11 @@ static uint32_t ciot_sys_get_free_ram(void)
     return free_ram * 1024;
 }
 
+#else
+
+static uint32_t ciot_sys_get_free_ram(void)
+{
+    return 0;
+}
+
 #endif
-
-
-#endif
-

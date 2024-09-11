@@ -30,15 +30,23 @@ typedef struct _Ciot__CiotData Ciot__CiotData;
  */
 typedef enum _Ciot__CiotState {
   /*
-   * Device is in an idle state.
+   * CIOT core is in an idle state.
    */
   CIOT__CIOT_STATE__CIOT_STATE_IDLE = 0,
   /*
-   * Device is busy.
+   * CIOT core is starting.
    */
-  CIOT__CIOT_STATE__CIOT_STATE_BUSY = 1,
+  CIOT__CIOT_STATE__CIOT_STATE_STARTING = 1,
   /*
-   * Device encountered an error.
+   * CIOT core is started.
+   */
+  CIOT__CIOT_STATE__CIOT_STATE_STARTED = 2,
+  /*
+   * CIOT core is busy.
+   */
+  CIOT__CIOT_STATE__CIOT_STATE_BUSY = 3,
+  /*
+   * CIOT core encountered an error.
    */
   CIOT__CIOT_STATE__CIOT_STATE_ERROR = -1
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__CIOT_STATE)
@@ -70,13 +78,9 @@ typedef enum _Ciot__CiotReqType {
  */
 typedef enum _Ciot__CiotSerializationType {
   /*
-   * No serialization type specified.
-   */
-  CIOT__CIOT_SERIALIZATION_TYPE__CIOT_SERIALIZATION_NONE = 0,
-  /*
    * Protocol Buffers serialization type.
    */
-  CIOT__CIOT_SERIALIZATION_TYPE__CIOT_SERIALIZATION_PROTOBUF = 1
+  CIOT__CIOT_SERIALIZATION_TYPE__CIOT_SERIALIZATION_PROTOBUF = 0
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__CIOT_SERIALIZATION_TYPE)
 } Ciot__CiotSerializationType;
 
@@ -120,14 +124,10 @@ struct  _Ciot__CiotStatus
    * State of the CIOT device.
    */
   Ciot__CiotState state;
-  /*
-   * Additional information about the CIOT device.
-   */
-  Ciot__CiotInfo *info;
 };
 #define CIOT__CIOT_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_status__descriptor) \
-    , CIOT__CIOT_STATE__CIOT_STATE_IDLE, NULL }
+    , CIOT__CIOT_STATE__CIOT_STATE_IDLE }
 
 
 /*
@@ -188,10 +188,14 @@ struct  _Ciot__CiotData
    * CIOT request data.
    */
   Ciot__CiotReq *request;
+  /*
+   * Additional information about the CIOT device.
+   */
+  Ciot__CiotInfo *info;
 };
 #define CIOT__CIOT_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_data__descriptor) \
-    , NULL, NULL, NULL }
+    , NULL, NULL, NULL, NULL }
 
 
 /* Ciot__CiotCfg methods */

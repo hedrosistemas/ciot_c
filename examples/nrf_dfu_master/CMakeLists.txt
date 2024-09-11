@@ -1,15 +1,21 @@
-cmake_minimum_required(VERSION 3.5)
+include(../../common/Common.cmake)
 
-if(DEFINED ENV{IDF_PATH})
-    message("Compiling for esp32...")
-    include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-    project(nrf_dfu_master)
-elseif (UNIX)
-    message("Compiling for linux...")
-    project(nrf_dfu_master)
-    add_subdirectory(main)
-elseif (WIN32)
-    message("Compiling for windows...")
-    project(nrf_dfu_master)
-    add_subdirectory(main)
+project(nrf_dfu_master)
+
+FILE(GLOB_RECURSE MAIN_SRCS *.c)
+
+include_directories(
+    ${CIOT_INCLUDE_DIRS}
+    .
+)
+
+add_executable(${PROJECT_NAME}
+    ${CIOT_SRCS}
+    ${CIOT_MG_SRCS}
+    ${CIOT_WIN_SRCS}
+    ${MAIN_SRCS}
+)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} ws2_32)
 endif()
