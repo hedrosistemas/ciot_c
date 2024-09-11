@@ -21,9 +21,7 @@ extern "C" {
 
 #include "ciot/proto/v1/sys.pb-c.h"
 
-#ifndef CIOT_CONFIG_MG_POOL_INTERVAL_MS
-#define CIOT_CONFIG_MG_POOL_INTERVAL_MS 10
-#endif
+#define CIOT_SYS_EVT_BIT_POOLING 0x00000001
 
 typedef struct ciot_sys *ciot_sys_t;
 typedef Ciot__SysCfg ciot_sys_cfg_t;

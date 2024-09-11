@@ -16,6 +16,7 @@ extern "C"
 {
 #endif
 
+#include <stdio.h>
 #include "ciot_config.h"
 #include "ciot/proto/v1/logger.pb-c.h"
 
@@ -54,7 +55,7 @@ extern "C"
 /**
  * @brief Macro to log hexadecimal data.
  */
-#define CIOT_LOG_BUFFER_HEX(TAG, data, size) CIOT_LOG_HEX(TAG, data, size)
+#define CIOT_LOG_BUFFER_HEX(TAG, data, size) CIOT_LOG_HEX(TAG, data, size, CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG)
 
 /**
  * @brief Macro to log debug level messages.
@@ -157,18 +158,35 @@ extern "C"
 /**
  * @brief Macro to log hexadecimal data.
  */
-#define CIOT_LOG_HEX(TAG, data, size)                                  \
-    do                                                                 \
-    {                                                                  \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG) \
-        {                                                              \
-            uint8_t *u8ptr = data;                                     \
-            for (size_t i = 0; i < size; i++)                          \
-            {                                                          \
-                printf("%02X", u8ptr[i]);                              \
-            }                                                          \
-            printf("\n");                                              \
-        }                                                              \
+#define CIOT_LOG_HEX(TAG, data, size, level)  \
+    do                                        \
+    {                                         \
+        if (CIOT_CONFIG_LOG_LEVEL >= level)   \
+        {                                     \
+            uint8_t *u8ptr = data;            \
+            for (size_t i = 0; i < size; i++) \
+            {                                 \
+                printf("%02X", u8ptr[i]);     \
+            }                                 \
+            printf("\n");                     \
+        }                                     \
+    } while (0)
+
+/**
+ * @brief Macro to log hexadecimal data.
+ */
+#define CIOT_LOG_HEX_V2(TAG, data, size, level, terminator) \
+    do                                                      \
+    {                                                       \
+        if (CIOT_CONFIG_LOG_LEVEL >= level)                 \
+        {                                                   \
+            uint8_t *u8ptr = data;                          \
+            for (size_t i = 0; i < size; i++)               \
+            {                                               \
+                printf("%02X", u8ptr[i]);                   \
+            }                                               \
+            printf(terminator);                             \
+        }                                                   \
     } while (0)
 
 #ifdef __cplusplus

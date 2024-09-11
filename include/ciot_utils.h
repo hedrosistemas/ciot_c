@@ -39,6 +39,16 @@ void bytes_to_hex(char *dst, uint8_t *src, size_t size, bool reverse);
  */
 uint32_t crc32_compute(uint8_t const *p_data, uint32_t size, uint32_t const *p_crc);
 
+/**
+ * @brief Copy data
+ * 
+ * @param destiny Pointer to destiny
+ * @param source Pointer to source
+ * @param size data size
+ * @param reverse flag to resverse data order
+ */
+void ciot_copy_data(uint8_t *destiny, uint8_t *source, int size, bool reverse);
+
 #ifdef __cplusplus
 }
 #endif

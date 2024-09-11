@@ -12,9 +12,8 @@
 #if __has_include("ciot_custom_config.h")
 #include "ciot_custom_config.h"
 #else
-#warning "ciot_custom_config.h not found. Using default configuration. Create a ciot_custom_config.h file to customize the ciot lib configurations."
 
-#define CIOT_CONFIG_LOG_LEVEL CIOT_LOG_LEVEL_INFO
+#define CIOT_CONFIG_LOG_LEVEL CIOT__LOG_LEVEL__LOG_LEVEL_INFO
 #define CIOT_CONFIG_HARDWARE_NAME "CIoT Device"
 #define CIOT_CONFIG_APP_VER 0, 1, 0             
 

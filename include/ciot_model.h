@@ -26,7 +26,6 @@ typedef Ciot__ModelCfg ciot_model_cfg_t;
 typedef Ciot__ModelReq ciot_model_req_t;
 typedef Ciot__ModelStatus ciot_model_status_t;
 typedef Ciot__ModelInfo ciot_model_info_t;
-typedef Ciot__ModelReq ciot_model_req_t;
 typedef Ciot__ModelData ciot_model_data_t;
 
 typedef struct ciot_model_base

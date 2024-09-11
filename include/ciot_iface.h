@@ -60,7 +60,8 @@ typedef struct ciot_iface_req_status {
     uint8_t id;
     ciot_iface_req_state_t state;
     ciot_msg_type_t type;
-    uint8_t iface;
+    ciot_iface_info_t iface;
+    // uint8_t iface;
 } ciot_iface_req_status_t;
 
 typedef struct ciot_iface ciot_iface_t;
@@ -75,6 +76,7 @@ struct ciot_iface_decoder {
     ciot_iface_decoder_decode_fn *decode;
     ciot_iface_send_data_fn *send;
     ciot_iface_decoder_state_t state;
+    ciot_iface_event_type_t event_type;
 };
 
 struct ciot_iface {
@@ -112,6 +114,6 @@ const char* ciot_iface_type_to_str(ciot_iface_type_t iface_type);
 const char *ciot_iface_event_to_str(ciot_iface_event_t *event);
 
 bool ciot_iface_is_equal(ciot_iface_info_t *iface, ciot_iface_info_t *other);
-bool ciot_iface_event_is_ack(ciot_iface_event_t *event);
+bool ciot_iface_event_is_ack(ciot_iface_event_type_t event_type);
 
 #endif  //!__CIOT_IFACE__H__

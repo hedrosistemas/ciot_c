@@ -65,8 +65,8 @@ ciot_err_t ciot_tcp_init_netif(ciot_tcp_t self);
 ciot_err_t ciot_tcp_start(ciot_tcp_t self);
 ciot_err_t ciot_tcp_stop(ciot_tcp_t self);
 ciot_err_t ciot_tcp_process_req(ciot_tcp_t self, ciot_tcp_req_t *req);
-ciot_err_t ciot_tcp_get_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
 ciot_err_t ciot_tcp_set_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
+ciot_err_t ciot_tcp_get_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
 ciot_err_t ciot_tcp_get_status(ciot_tcp_t self, ciot_tcp_status_t *status);
 ciot_err_t ciot_tcp_get_info(ciot_tcp_t self, ciot_tcp_info_t *info);
 
