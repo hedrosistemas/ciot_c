@@ -16,6 +16,8 @@
 
 // static const char *TAG = "ciot_base";
 
+static uint8_t ver[] = {CIOT_VER};
+
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req);
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg);
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size);
@@ -33,6 +35,9 @@ ciot_err_t ciot_init(ciot_t self)
     ciot__ciot_info__init(&self->info);
     
     self->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_CIOT;
+
+    self->info.version.data = ver;
+    self->info.version.len = sizeof(ver);
 
     return CIOT_ERR__OK;
 }
