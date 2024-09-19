@@ -67,14 +67,17 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
         .credentials.authentication.password = base->password,
         .credentials.client_id = base->client_id,
  #ifdef CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
-        .broker.verification.crt_bundle_attach = esp_crt_bundle_attach
+        .broker.verification.crt_bundle_attach = esp_crt_bundle_attach,
 #endif       
     };
 
     base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTING;
+
+    esp_mqtt_client_destroy(self->handle);
     self->handle = esp_mqtt_client_init(&mqtt_client_cfg);
     esp_mqtt_client_register_event(self->handle, ESP_EVENT_ANY_ID, ciot_mqtt_event_handler, self);
     esp_err_t err = esp_mqtt_client_start(self->handle);
+    
     return err == ESP_OK ? CIOT_ERR__OK : CIOT_ERR__FAIL;
 }
 
