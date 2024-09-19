@@ -25,12 +25,6 @@ struct ciot_mqtt_client
     struct mg_mgr *mgr;
     struct mg_connection *connection;
     time_t last_ping;
-    // char client_id[CIOT_CONFIG_MQTT_CLIENT_ID_SIZE];
-    // char url[CIOT_CONFIG_MQTT_CLIENT_URL_SIZE];
-    // char user[CIOT_CONFIG_MQTT_USER_SIZE];
-    // char password[CIOT_CONFIG_MQTT_PASS_SIZE];
-    // char topic_pub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
-    // char topic_sub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
 };
 
 static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
