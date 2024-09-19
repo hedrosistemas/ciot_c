@@ -53,19 +53,26 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
     {
         ciot_strncpy(base->topic_sub, cfg->topics->sub, CIOT_CONFIG_MQTT_TOPIC_SIZE);
         ciot_strncpy(base->topic_pub, cfg->topics->pub, CIOT_CONFIG_MQTT_TOPIC_SIZE);
+        base->topic_len = strlen(base->topic_pub);
     }
 
-    base->cfg.transport = cfg->transport;
-    base->cfg.port = cfg->port;
-    base->cfg.qos = cfg->qos;
+    base->cfg = *cfg;
+
+    base->cfg.client_id = base->client_id;
+    base->cfg.url = base->url;
+    base->cfg.user = base->user;
+    base->cfg.password = base->password;
+    base->cfg.topics = &self->base.topics;
+    base->cfg.topics->sub = base->topic_sub;
+    base->cfg.topics->pub = base->topic_pub;
 
     const esp_mqtt_client_config_t mqtt_client_cfg = {
         .broker.address.uri = base->url,
         .broker.address.port = base->cfg.port,
         .broker.address.transport = base->cfg.transport,
+        .credentials.client_id = base->client_id,
         .credentials.username = base->user,
         .credentials.authentication.password = base->password,
-        .credentials.client_id = base->client_id,
  #ifdef CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
         .broker.verification.crt_bundle_attach = esp_crt_bundle_attach,
 #endif       
@@ -136,6 +143,7 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
         base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED;
+        base->status.conn_count++;
         ciot_mqtt_client_sub(self, base->cfg.topics->sub, base->cfg.qos);
         iface_event.type = CIOT_IFACE_EVENT_STARTED;
         ciot_iface_send_event(&base->iface, &iface_event);
