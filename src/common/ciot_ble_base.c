@@ -115,7 +115,7 @@ ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req)
     default:
         break;
     }
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR__INVALID_TYPE;
 }
 
 ciot_err_t ciot_ble_get_cfg(ciot_ble_t self, ciot_ble_cfg_t *cfg)
