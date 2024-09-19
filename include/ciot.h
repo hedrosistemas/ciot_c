@@ -124,6 +124,8 @@ ciot_err_t ciot_get_cfg(ciot_t self, ciot_cfg_t *cfg);
 ciot_err_t ciot_get_status(ciot_t self, ciot_status_t *status);
 ciot_err_t ciot_get_info(ciot_t self, ciot_info_t *info);
 ciot_err_t ciot_save_iface_cfg(ciot_t self, int iface_id);
+ciot_msg_data_t *ciot_load_iface_cfg(ciot_t self, int iface_id);
+bool ciot_cfg_exits(ciot_t self, int iface_id);
 
 #ifdef __cplusplus
 }

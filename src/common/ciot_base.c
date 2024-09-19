@@ -9,6 +9,7 @@
  * 
  */
 
+#include <string.h>
 #include <stdlib.h>
 #include "ciot.h"
 #include "ciot_config.h"
@@ -149,4 +150,29 @@ ciot_err_t ciot_save_iface_cfg(ciot_t self, int iface_id)
 
     CIOT_ERR_RETURN(iface->get_data(iface, &msg));
     return ciot_storage_set_data(self->storage, filename, msg.data);
+}
+
+ciot_msg_data_t *ciot_load_iface_cfg(ciot_t self, int iface_id)
+{
+    if(self == NULL || self->storage == NULL)
+    {
+        return NULL;
+    }
+    char filename[16];
+    sprintf(filename, CIOT_IFACE_CFG_FILENAME, iface_id);
+    return ciot_storage_get_data(self->storage, filename);
+}
+
+bool ciot_cfg_exits(ciot_t self, int iface_id)
+{
+    if(self == NULL || self->storage == NULL)
+    {
+        return false;
+    }
+
+    int size = 0;
+    char filename[16];
+    sprintf(filename, CIOT_IFACE_CFG_FILENAME, iface_id);
+    self->storage->read_bytes(filename, NULL, &size);
+    return size > 0;
 }
