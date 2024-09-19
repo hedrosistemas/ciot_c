@@ -57,6 +57,9 @@ ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg)
     self->ifaces.cfgs = cfg->cfgs;
     self->storage = cfg->storage;
     ciot_set_iface_list(self, cfg->ifaces, cfg->count);
+    self->starting.timer = 0;
+    self->starting.iface_id = 0;
+    self->starting.waiting_result = false;
     self->status.state = CIOT__CIOT_STATE__CIOT_STATE_STARTING;
     CIOT_LOGI(TAG, "CIOT_STATE_STARTING");
     return CIOT_ERR__OK;
