@@ -41,14 +41,18 @@ ciot_err_t ciot_wifi_init(ciot_wifi_t self)
 
     base->cfg.ssid = base->ssid;
     base->cfg.password = base->password;
+
+
+    if(tcp->type == CIOT_TCP_TYPE_WIFI_STA)
+    {
+        base->info.ap = &base->ap_info;
+        base->info.ap->bssid.data = base->ap_bssid;
+        base->info.ap->bssid.len = sizeof(base->ap_bssid);
+        base->info.ap->ssid = base->ap_ssid;
+    }
+
     base->cfg.tcp = &tcp->cfg;
-
     base->status.tcp = &tcp->status;
-
-    base->info.ap = &base->ap_info;
-    base->info.ap->bssid.data = base->ap_bssid;
-    base->info.ap->bssid.len = sizeof(base->ap_bssid);
-    base->info.ap->ssid = base->ap_ssid;
     base->info.tcp = &tcp->info;
 
     return CIOT_ERR__OK;
