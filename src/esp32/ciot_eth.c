@@ -90,7 +90,7 @@ static esp_err_t ciot_eth_hw_init(ciot_eth_t self)
     esp_eth_config_t eth_conf = ETH_DEFAULT_CONFIG(mac, phy);
 
     CIOT_ERR_RETURN(esp_eth_driver_install(&eth_conf, &self->eth));
-    CIOT_ERR_RETURN(esp_netif_attach((esp_netif_t*)tcp->netif, esp_eth_new_netif_glue(self->eth)));
+    CIOT_ERR_RETURN(esp_netif_attach((esp_netif_t*)ciot_tcp_get_netif(self->base.tcp), esp_eth_new_netif_glue(self->eth)));
 
     return CIOT_ERR__OK;
 }
