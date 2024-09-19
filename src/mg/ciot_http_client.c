@@ -162,10 +162,8 @@ ciot_err_t ciot_http_client_get_status(ciot_http_client_t self, ciot_http_client
 static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
     ciot_http_client_t self = fn_data;
-    // ciot_http_client_base_t *base = &self->base;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
-    // iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
 
     switch (mg_ev)
     {
@@ -223,7 +221,7 @@ static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void
         mg_http_parse((char *)c->recv.buf, c->recv.len, &tmp);
         c->is_draining = 1;
         self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE;
-        iface_event.type = CIOT_IFACE_EVENT_DATA;
+        iface_event.type = CIOT_IFACE_EVENT_REQUEST;
         iface_event.data = (uint8_t*)hm->body.ptr;
         iface_event.size = hm->body.len;
         ciot_iface_send_event(&self->iface, &iface_event);
