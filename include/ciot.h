@@ -126,6 +126,7 @@ ciot_err_t ciot_get_info(ciot_t self, ciot_info_t *info);
 ciot_err_t ciot_save_iface_cfg(ciot_t self, int iface_id);
 ciot_msg_data_t *ciot_load_iface_cfg(ciot_t self, int iface_id);
 bool ciot_cfg_exits(ciot_t self, int iface_id);
+ciot_err_t ciot_get_ifaces_info(ciot_t self, ProtobufCBinaryData *ifaces_info);
 
 #ifdef __cplusplus
 }

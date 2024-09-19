@@ -78,6 +78,7 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
         self->data.status = &self->status;
         break;
     case CIOT__MSG_TYPE__MSG_TYPE_INFO:
+        ciot_get_ifaces_info(self, &self->info.ifaces);
         self->data.info = &self->info;
         break;
     default:
@@ -180,4 +181,29 @@ bool ciot_cfg_exits(ciot_t self, int iface_id)
     sprintf(filename, CIOT_IFACE_CFG_FILENAME, iface_id);
     self->storage->read_bytes(filename, NULL, &size);
     return size > 0;
+}
+
+ciot_err_t ciot_get_ifaces_info(ciot_t self, ProtobufCBinaryData *ifaces_info)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(ifaces_info);
+
+    static uint8_t *iface_types = NULL;
+
+    if(iface_types != NULL)
+    {
+        free(iface_types);
+    }
+
+    iface_types = calloc(1, self->ifaces.count);
+
+    for (size_t i = 0; i < self->ifaces.count; i++)
+    {
+        iface_types[i] = self->ifaces.list[i]->info.type;
+    }
+    
+    ifaces_info->data = iface_types;
+    ifaces_info->len = self->ifaces.count;
+
+    return CIOT_ERR__OK;
 }
