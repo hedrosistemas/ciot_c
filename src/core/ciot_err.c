@@ -17,7 +17,7 @@
 
 const char *ciot_err_to_message(ciot_err_t err)
 {
-    if (err >= 0 || err <= CIOT_ERR__FAIL)
+    if (err >= 0 && err <= CIOT_ERR__FAIL)
     {
         return ciot_err__descriptor.values[err].name;
     }
