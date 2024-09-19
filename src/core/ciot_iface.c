@@ -76,23 +76,21 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req)
         req->type != self->req_status.type &&
         !ciot_iface_is_equal(req->iface, &self->req_status.iface))
     {
-        CIOT_LOGE(TAG, "Iface %s (%lu) is busy", ciot_iface_to_str(self), self->info.id);
-        return CIOT_ERR__BUSY;
+        CIOT_LOGW(TAG, "Overwriting last request on iface %s (%lu)", ciot_iface_to_str(self), self->info.id);
     }
-    else
-    {
-        req->id = ciot_iface_get_msg_id();
-        ciot_iface_register_req(self, req->iface, req, CIOT_IFACE_REQ_STATE_SENDED);
 
-        // CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self, req);
-        
-        ciot_err_t err = ciot_iface_send(self, req);
-        if(err != CIOT_ERR__OK)
-        {
-            self->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
-        }
-        return err;
+    req->id = ciot_iface_get_msg_id();
+    ciot_iface_register_req(self, req->iface, req, CIOT_IFACE_REQ_STATE_SENDED);
+
+    // CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self, req);
+    
+    ciot_err_t err = ciot_iface_send(self, req);
+    if(err != CIOT_ERR__OK)
+    {
+        self->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
     }
+    return err;
+
 }
 
 ciot_err_t ciot_iface_send_error(ciot_iface_t *self, ciot_iface_type_t iface_type, uint16_t iface_id, ciot_msg_t *msg, ciot_err_t err)
