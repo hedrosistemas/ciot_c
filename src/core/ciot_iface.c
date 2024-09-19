@@ -241,6 +241,7 @@ ciot_err_t ciot_iface_process_data(ciot_iface_t *self, uint8_t *data, int size)
 ciot_err_t ciot_iface_register_req(ciot_iface_t *self, ciot_iface_info_t *iface, ciot_msg_t *req, ciot_iface_req_state_t state)
 {
     CIOT_ERR_NULL_CHECK(self);
+    CIOT_LOGI(TAG, "Registering request state %d for iface %s", state, ciot_iface_to_str(self));
     self->req_status.state = state;
     self->req_status.id = req->id;
     self->req_status.type = req->type;
