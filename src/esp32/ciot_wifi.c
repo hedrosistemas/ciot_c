@@ -336,6 +336,9 @@ static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t eve
         wifi_event_sta_disconnected_t *data = (wifi_event_sta_disconnected_t *)event_data;
         tcp->status.state = CIOT__TCP_STATE__TCP_STATE_DISCONNECTED;
         base->status.disconnect_reason = data->reason;
+        base->info.ap->authmode = 0;
+        memset(base->info.ap->bssid.data, 0, sizeof(base->info.ap->bssid));
+        memset(base->info.ap->ssid, 0, sizeof(base->info.ap->ssid));
         ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STOPPED);
         break;
     }
