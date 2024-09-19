@@ -142,51 +142,6 @@ void   ciot__ciot_status__free_unpacked
   assert(message->base.descriptor == &ciot__ciot_status__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   ciot__ciot_req_data__init
-                     (Ciot__CiotReqData         *message)
-{
-  static const Ciot__CiotReqData init_value = CIOT__CIOT_REQ_DATA__INIT;
-  *message = init_value;
-}
-size_t ciot__ciot_req_data__get_packed_size
-                     (const Ciot__CiotReqData *message)
-{
-  assert(message->base.descriptor == &ciot__ciot_req_data__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t ciot__ciot_req_data__pack
-                     (const Ciot__CiotReqData *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &ciot__ciot_req_data__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t ciot__ciot_req_data__pack_to_buffer
-                     (const Ciot__CiotReqData *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &ciot__ciot_req_data__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Ciot__CiotReqData *
-       ciot__ciot_req_data__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Ciot__CiotReqData *)
-     protobuf_c_message_unpack (&ciot__ciot_req_data__descriptor,
-                                allocator, len, data);
-}
-void   ciot__ciot_req_data__free_unpacked
-                     (Ciot__CiotReqData *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &ciot__ciot_req_data__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
 void   ciot__ciot_req__init
                      (Ciot__CiotReq         *message)
 {
@@ -384,58 +339,7 @@ const ProtobufCMessageDescriptor ciot__ciot_status__descriptor =
   (ProtobufCMessageInit) ciot__ciot_status__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ciot_req_data__field_descriptors[2] =
-{
-  {
-    "iface_id",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__CiotReqData, iface_id),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "payload",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__CiotReqData, payload),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned ciot__ciot_req_data__field_indices_by_name[] = {
-  0,   /* field[0] = iface_id */
-  1,   /* field[1] = payload */
-};
-static const ProtobufCIntRange ciot__ciot_req_data__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor ciot__ciot_req_data__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Ciot.CiotReqData",
-  "CiotReqData",
-  "Ciot__CiotReqData",
-  "Ciot",
-  sizeof(Ciot__CiotReqData),
-  2,
-  ciot__ciot_req_data__field_descriptors,
-  ciot__ciot_req_data__field_indices_by_name,
-  1,  ciot__ciot_req_data__number_ranges,
-  (ProtobufCMessageInit) ciot__ciot_req_data__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
-static const ProtobufCFieldDescriptor ciot__ciot_req__field_descriptors[2] =
+static const ProtobufCFieldDescriptor ciot__ciot_req__field_descriptors[3] =
 {
   {
     "type",
@@ -450,26 +354,39 @@ static const ProtobufCFieldDescriptor ciot__ciot_req__field_descriptors[2] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "data",
+    "iface_id",
     2,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_MESSAGE,
+    PROTOBUF_C_TYPE_UINT32,
     0,   /* quantifier_offset */
-    offsetof(Ciot__CiotReq, data),
-    &ciot__ciot_req_data__descriptor,
+    offsetof(Ciot__CiotReq, iface_id),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "payload",
+    3,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BYTES,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__CiotReq, payload),
+    NULL,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
 static const unsigned ciot__ciot_req__field_indices_by_name[] = {
-  1,   /* field[1] = data */
+  1,   /* field[1] = iface_id */
+  2,   /* field[2] = payload */
   0,   /* field[0] = type */
 };
 static const ProtobufCIntRange ciot__ciot_req__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 3 }
 };
 const ProtobufCMessageDescriptor ciot__ciot_req__descriptor =
 {
@@ -479,7 +396,7 @@ const ProtobufCMessageDescriptor ciot__ciot_req__descriptor =
   "Ciot__CiotReq",
   "Ciot",
   sizeof(Ciot__CiotReq),
-  2,
+  3,
   ciot__ciot_req__field_descriptors,
   ciot__ciot_req__field_indices_by_name,
   1,  ciot__ciot_req__number_ranges,

@@ -18,7 +18,6 @@ PROTOBUF_C__BEGIN_DECLS
 typedef struct _Ciot__CiotCfg Ciot__CiotCfg;
 typedef struct _Ciot__CiotInfo Ciot__CiotInfo;
 typedef struct _Ciot__CiotStatus Ciot__CiotStatus;
-typedef struct _Ciot__CiotReqData Ciot__CiotReqData;
 typedef struct _Ciot__CiotReq Ciot__CiotReq;
 typedef struct _Ciot__CiotData Ciot__CiotData;
 
@@ -135,26 +134,6 @@ struct  _Ciot__CiotStatus
 
 
 /*
- * Message representing data for a CIOT request.
- */
-struct  _Ciot__CiotReqData
-{
-  ProtobufCMessage base;
-  /*
-   * Interface ID for the request.
-   */
-  uint32_t iface_id;
-  /*
-   * Payload data for the request.
-   */
-  ProtobufCBinaryData payload;
-};
-#define CIOT__CIOT_REQ_DATA__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_req_data__descriptor) \
-    , 0, {0,NULL} }
-
-
-/*
  * Message representing a CIOT request.
  */
 struct  _Ciot__CiotReq
@@ -165,13 +144,17 @@ struct  _Ciot__CiotReq
    */
   Ciot__CiotReqType type;
   /*
-   * Data associated with the request.
+   * Interface ID for the request.
    */
-  Ciot__CiotReqData *data;
+  uint32_t iface_id;
+  /*
+   * Payload data for the request.
+   */
+  ProtobufCBinaryData payload;
 };
 #define CIOT__CIOT_REQ__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_req__descriptor) \
-    , CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_UNKOWN, NULL }
+    , CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_UNKOWN, 0, {0,NULL} }
 
 
 /*
@@ -259,25 +242,6 @@ Ciot__CiotStatus *
 void   ciot__ciot_status__free_unpacked
                      (Ciot__CiotStatus *message,
                       ProtobufCAllocator *allocator);
-/* Ciot__CiotReqData methods */
-void   ciot__ciot_req_data__init
-                     (Ciot__CiotReqData         *message);
-size_t ciot__ciot_req_data__get_packed_size
-                     (const Ciot__CiotReqData   *message);
-size_t ciot__ciot_req_data__pack
-                     (const Ciot__CiotReqData   *message,
-                      uint8_t             *out);
-size_t ciot__ciot_req_data__pack_to_buffer
-                     (const Ciot__CiotReqData   *message,
-                      ProtobufCBuffer     *buffer);
-Ciot__CiotReqData *
-       ciot__ciot_req_data__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   ciot__ciot_req_data__free_unpacked
-                     (Ciot__CiotReqData *message,
-                      ProtobufCAllocator *allocator);
 /* Ciot__CiotReq methods */
 void   ciot__ciot_req__init
                      (Ciot__CiotReq         *message);
@@ -327,9 +291,6 @@ typedef void (*Ciot__CiotInfo_Closure)
 typedef void (*Ciot__CiotStatus_Closure)
                  (const Ciot__CiotStatus *message,
                   void *closure_data);
-typedef void (*Ciot__CiotReqData_Closure)
-                 (const Ciot__CiotReqData *message,
-                  void *closure_data);
 typedef void (*Ciot__CiotReq_Closure)
                  (const Ciot__CiotReq *message,
                   void *closure_data);
@@ -348,7 +309,6 @@ extern const ProtobufCEnumDescriptor    ciot__ciot_serialization_type__descripto
 extern const ProtobufCMessageDescriptor ciot__ciot_cfg__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ciot_info__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ciot_status__descriptor;
-extern const ProtobufCMessageDescriptor ciot__ciot_req_data__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ciot_req__descriptor;
 extern const ProtobufCMessageDescriptor ciot__ciot_data__descriptor;
 
