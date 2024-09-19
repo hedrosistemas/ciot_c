@@ -18,17 +18,15 @@
 
 static const char *TAG = "ciot_http_server";
 
-static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
-
 struct ciot_http_server
 {
     ciot_http_server_base_t base;
     struct mg_mgr *mgr;
     struct mg_connection *conn_rx;
     struct mg_connection *conn_tx;
-    char endpoint[CIOT_CONFIG_HTTP_SERVER_ENDPOINT_SIZE];
-    char route[CIOT_CONFIG_HTTP_SERVER_ROUTE_SIZE];
 };
+
+static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
 
 ciot_http_server_t ciot_http_server_new(void *handle)
 {
@@ -46,14 +44,14 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
 
     ciot_http_server_base_t *base = &self->base;
 
-    sprintf(self->endpoint, "%s:%ld", cfg->address, cfg->port);
-    strcpy(self->route, cfg->route);
+    sprintf(base->endpoint, "%s:%ld", cfg->address, cfg->port);
+    strcpy(base->route, cfg->route);
 
     base->cfg = *cfg;
-    base->cfg.address = self->endpoint;
-    base->cfg.route = self->route;
+    base->cfg.address = base->endpoint;
+    base->cfg.route = base->route;
 
-    self->conn_rx = mg_http_listen(self->mgr, self->endpoint, ciot_http_server_event_handler, self);
+    self->conn_rx = mg_http_listen(self->mgr, base->endpoint, ciot_http_server_event_handler, self);
     if (self->conn_rx == NULL)
     {
         base->status.state = CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_ERROR;
