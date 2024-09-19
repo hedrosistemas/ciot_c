@@ -26,6 +26,12 @@ typedef CiotErr ciot_err_t;
         return CIOT_ERR__NULL_ARG;                    \
     }
 
+#define CIOT_ERR_INDEX_CHECK(index, min, max) \
+    if (index < min)                          \
+        return CIOT_ERR__INVALID_INDEX;       \
+    if (index > max)                          \
+        return CIOT_ERR__INVALID_INDEX;
+
 #define CIOT_ERR_STATE_CHECK(current, expected)            \
     if (current != expected)                               \
     {                                                      \
