@@ -28,7 +28,9 @@ static ciot_err_t ciot_starting_task(ciot_t self);
 static ciot_err_t ciot_busy_task(ciot_t self);
 static ciot_err_t ciot_start_iface(ciot_t self, ciot_iface_t *iface, ciot_msg_data_t *cfg);
 static ciot_err_t ciot_set_iface_list(ciot_t self, ciot_iface_t *ifaces[], int count);
+static ciot_err_t ciot_bytes_received(ciot_t self, ciot_iface_t *sender, uint8_t *bytes, int size);
 static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *event_args);
+static ciot_err_t ciot_free_recv(ciot_t self);
 
 ciot_t ciot_new(void)
 {
@@ -300,6 +302,28 @@ static ciot_err_t ciot_set_iface_list(ciot_t self, ciot_iface_t *ifaces[], int c
     return ret;
 }
 
+static ciot_err_t ciot_bytes_received(ciot_t self, ciot_iface_t *sender, uint8_t *bytes, int size)
+{
+    ciot_free_recv(self);
+    if (sender->serializer != NULL)
+    {
+        self->recv.event.msg = sender->serializer->from_bytes(bytes, size);
+    }
+    else
+    {
+        CIOT_LOGD(TAG, "Deserializing %d bytes", size);
+        self->recv.sender = sender;
+        self->recv.event.msg = ciot__msg__unpack(NULL, size, bytes);
+        self->recv.serialized = true;
+        if(self->recv.event.msg == NULL)
+        {
+            CIOT_LOGE(TAG, "msg unpack error");
+            return CIOT_ERR__DESERIALIZATION;
+        }
+    }
+    return CIOT_ERR__OK;
+}
+
 static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *event_args)
 {
     ciot_t self = (ciot_t)event_args;
@@ -328,20 +352,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
             return CIOT_ERR__BUSY;
         }
 
-        ciot__msg__free_unpacked(self->recv.event.msg, NULL);
-        if (sender->serializer != NULL)
-        {
-            self->recv.event.msg = sender->serializer->from_bytes(event->data, event->size);
-        }
-        else
-        {
-            self->recv.event.msg = ciot__msg__unpack(NULL, event->size, event->data);
-            if(self->recv.event.msg == NULL)
-            {
-                CIOT_LOGE(TAG, "msg unpack error");
-                return CIOT_ERR__DESERIALIZATION;
-            }
-        }
+        CIOT_ERR_RETURN(ciot_bytes_received(self, sender, event->data, event->size));
 
         if(self->recv.event.msg->type == CIOT__MSG_TYPE__MSG_TYPE_LOG)
         {
@@ -364,6 +375,8 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
     }
     else if(self->status.state == CIOT__CIOT_STATE__CIOT_STATE_STARTED)
     {
+        CIOT_LOGI(TAG, "Event received from %s", ciot_iface_to_str(sender));
+        self->recv.serialized = false;
         self->recv.sender = sender;
         self->recv.event.type = event->type;
         self->recv.event.msg = event->msg;
@@ -372,3 +385,15 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 
     return CIOT_ERR__OK;
 }
+
+static ciot_err_t ciot_free_recv(ciot_t self)
+{
+    if(self->recv.serialized)
+    {
+        ciot__msg__free_unpacked(self->recv.event.msg, NULL);
+        self->recv.serialized = false;
+        self->recv.event.msg = NULL;
+    }
+    return CIOT_ERR__OK;
+}
+

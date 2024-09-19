@@ -94,9 +94,9 @@ typedef struct ciot_starting
 
 typedef struct ciot_recv
 {
+    bool serialized;
     ciot_iface_t *sender;
     ciot_iface_event_t event;
-    // ciot_msg_t buf;
 } ciot_recv_t;
 
 struct ciot
