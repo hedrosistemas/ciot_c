@@ -68,7 +68,6 @@ ciot_err_t ciot_eth_stop(ciot_eth_t self)
 static esp_err_t ciot_eth_hw_init(ciot_eth_t self)
 {
     ciot_eth_base_t *base = &self->base;
-    ciot_tcp_base_t *tcp = (ciot_tcp_base_t*)base->tcp;
 
     ciot_tcp_init_netif(base->tcp);
 
@@ -76,14 +75,13 @@ static esp_err_t ciot_eth_hw_init(ciot_eth_t self)
     eth_phy_config_t phy_conf = ETH_PHY_DEFAULT_CONFIG();
     eth_esp32_emac_config_t emac_conf = ETH_ESP32_EMAC_DEFAULT_CONFIG();
 
-    // CIOT_ERR_RETURN(ciot_iface_set_event_handler(&base->iface, ciot_eth_tcp_event_handler, self));
     CIOT_ERR_RETURN(esp_event_handler_register(ETH_EVENT, ESP_EVENT_ANY_ID, ciot_eth_event_handler, self));
 
     phy_conf.phy_addr = CIOT_CONFIG_ETH_PHY_ADDR;
     phy_conf.reset_gpio_num = CIOT_CONFIG_ETH_GPIO_PHY_RST;
     
-    emac_conf.smi_mdc_gpio_num = CIOT_CONFIG_ETH_GPIO_MDC;
-    emac_conf.smi_mdio_gpio_num = CIOT_CONFIG_ETH_GPIO_MDIO;
+    emac_conf.smi_gpio.mdc_num = CIOT_CONFIG_ETH_GPIO_MDC;
+    emac_conf.smi_gpio.mdio_num = CIOT_CONFIG_ETH_GPIO_MDIO;
 
     esp_eth_mac_t *mac = esp_eth_mac_new_esp32(&emac_conf, &mac_conf);
     esp_eth_phy_t *phy = CIOT_CONFIG_ETH_PHY_NEW(phy_conf);
