@@ -68,6 +68,7 @@ ciot_err_t ciot_tcp_get_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
 ciot_err_t ciot_tcp_get_status(ciot_tcp_t self, ciot_tcp_status_t *status);
 ciot_err_t ciot_tcp_get_info(ciot_tcp_t self, ciot_tcp_info_t *info);
 ciot_err_t ciot_tcp_get_ip(ciot_tcp_t self, uint8_t *ip);
+void *ciot_tcp_get_netif(ciot_tcp_t self);
 
 #ifdef __cplusplus
 }
