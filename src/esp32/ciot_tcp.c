@@ -309,10 +309,8 @@ ciot_err_t ciot_tcp_get_ip(ciot_tcp_t self, uint8_t *ip)
     return CIOT_ERR__OK;
 }
 
-// ciot_err_t ciot_tcp_check_netif(ciot_tcp_netif_t netif)
-// {
-//     CIOT_ERR_NULL_CHECK(netif);
-//     CIOT_ERR_NULL_CHECK(netif->ptr);
-//     return CIOT_ERR__OK;
-// }
-
+void *ciot_tcp_get_netif(ciot_tcp_t self)
+{
+    if(self == NULL) return NULL;
+    return self->netif;
+}
