@@ -42,9 +42,10 @@ ciot_err_t ciot_mqtt_client_init(ciot_mqtt_client_t self)
 
     base->cfg.client_id = base->client_id;
     base->cfg.url = base->url;
-    base->cfg.topics->sub = base->topic_sub;
-    base->cfg.topics->pub = base->topic_pub;
+    base->cfg.user = base->user;
     base->cfg.password = base->password;
+    base->cfg.topics->pub = base->topic_pub;
+    base->cfg.topics->sub = base->topic_sub;
     base->topic_len = 0;
 
     return CIOT_ERR__OK;
