@@ -141,12 +141,10 @@ static ciot_err_t ciot_starting_task(ciot_t self)
 
         if(self->storage != NULL)
         {
-            char filename[16];
-            sprintf(filename, CIOT_IFACE_CFG_FILENAME, id);
-            cfg = ciot_storage_get_data(self->storage, filename);
+            cfg = ciot_load_iface_cfg(self, id);
             if(cfg != NULL)
             {
-                CIOT_LOGI(TAG, "Loading file %s into interface %s", filename, ciot_iface_to_str(iface));
+                CIOT_LOGI(TAG, "Loading cfg into interface %s", ciot_iface_to_str(iface));
             }
         }
 
