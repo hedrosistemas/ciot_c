@@ -61,11 +61,21 @@ static ciot_err_t ciot_storage_nvs_read_bytes(char *path, uint8_t *bytes, int *s
     CIOT_ERR_STATE_CHECK(nvs_init, true);
 
     nvs_handle_t handle;
-    CIOT_ERR_RETURN(nvs_open(CIOT_STORAGE_NVS_NS, NVS_READONLY, &handle));
-
-    esp_err_t err = nvs_get_blob(handle, path, bytes, (size_t*)size);
+    ciot_err_t err = nvs_open(CIOT_STORAGE_NVS_NS, NVS_READONLY, &handle);
     if(err != ESP_OK)
     {
+        CIOT_LOGE(TAG, "nvs open error: %s", esp_err_to_name(err));
+        return CIOT_ERR__FAIL;
+    }
+
+    err = nvs_get_blob(handle, path, bytes, (size_t*)size);
+    if(err == ESP_ERR_NVS_NOT_FOUND)
+    {
+        return CIOT_ERR__NOT_FOUND;
+    }
+    else if(err != ESP_OK)
+    {
+        CIOT_LOGE(TAG, "nvs get blob error: %s", esp_err_to_name(err));
         return CIOT_ERR__FAIL;
     }
 
