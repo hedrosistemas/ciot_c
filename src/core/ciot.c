@@ -48,7 +48,8 @@ ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    if (self->status.state != CIOT__CIOT_STATE__CIOT_STATE_IDLE)
+    if (self->status.state != CIOT__CIOT_STATE__CIOT_STATE_IDLE &&
+        self->status.state != CIOT__CIOT_STATE__CIOT_STATE_STARTED)
     {
         CIOT_LOGE(TAG, "ciot core incorrect state");
         return CIOT_ERR__INVALID_STATE;
