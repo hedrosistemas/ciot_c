@@ -41,7 +41,7 @@ typedef enum ciot_tcp_type
 
 typedef struct ciot_tcp_base
 {
-    ciot_iface_t *iface_p;
+    ciot_iface_t *iface;
     ciot_tcp_cfg_t cfg;
     ciot_tcp_status_t status;
     ciot_tcp_dhcp_status_t dhcp_status;

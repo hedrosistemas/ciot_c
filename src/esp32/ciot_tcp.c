@@ -46,7 +46,7 @@ ciot_tcp_t ciot_tcp_new(ciot_iface_t *iface, ciot_tcp_type_t type)
         tcp_init = true;
     }
     self->base.type = type;
-    self->base.iface_p = iface;
+    self->base.iface = iface;
     return self;
 }
 
@@ -279,7 +279,7 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
         }
 
         base->status.state = CIOT__TCP_STATE__TCP_STATE_CONNECTED;
-        ciot_iface_send_event_type(base->iface_p, CIOT_IFACE_EVENT_STARTED);
+        ciot_iface_send_event_type(base->iface, CIOT_IFACE_EVENT_STARTED);
         break;
     }
     case IP_EVENT_AP_STAIPASSIGNED:
@@ -292,7 +292,7 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
     {
         CIOT_LOGI(TAG, "IP_EVENT_LOST_IP");
         base->status.state = CIOT__TCP_STATE__TCP_STATE_DISCONNECTED;
-        ciot_iface_send_event_type(base->iface_p, CIOT_IFACE_EVENT_STOPPED);
+        ciot_iface_send_event_type(base->iface, CIOT_IFACE_EVENT_STOPPED);
         break;
     }
     default:
