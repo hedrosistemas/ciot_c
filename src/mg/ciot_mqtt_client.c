@@ -97,6 +97,7 @@ ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
+    CIOT_ERR_NULL_CHECK(self->connection);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     struct mg_mqtt_opts opts = {0};
     opts.topic = mg_str(topic);
@@ -109,6 +110,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
+    CIOT_ERR_NULL_CHECK(self->connection);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     struct mg_mqtt_opts opts = {0};
     struct mg_str msg = {0};
