@@ -54,7 +54,7 @@ ciot_err_t ciot_cli_conn_start()
     ciot_cfg_t cfg = {
         .ifaces = ifaces,
         .cfgs = cfgs,
-        .count = 1,
+        .count = 2,
     };
     ciot_iface_set_event_handler((ciot_iface_t *)ciot, ciot_cli_event_handler, NULL);
     ciot_start(ciot, &cfg);

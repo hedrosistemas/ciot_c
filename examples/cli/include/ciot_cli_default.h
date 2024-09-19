@@ -52,7 +52,7 @@
 #define DEFAULT_ARGV_SYS_INF { \
     "ciot_cli",                \
     "sys",                     \
-    "inf",                     \
+    "info",                    \
     "1",                       \
 }
 
@@ -71,9 +71,23 @@
     "wifi",                           \
     "sta",                            \
     "start",                          \
-    "CABO CANAVERAL 2G",              \
-    "16192020",                       \
+    "WIFI SSID",                      \
+    "WIFI PASS",                      \
     "5",                              \
+}
+
+#define DEFAULT_ARGC_MQTTC_START 10
+#define DEFAULT_ARGV_MQTTC_START {    \
+    "ciot_cli",                       \
+    "mqttc",                          \
+    "start",                          \
+    "ciot-client-id-1253",            \
+    "mqtt://test.mosquitto.org:1883", \
+    "",                               \
+    "",                               \
+    "ciot/pub",                       \
+    "ciot/sub",                       \
+    "7",                              \
 }
 
 #endif //!__CIOT_CLI_DEFAULT__H__
