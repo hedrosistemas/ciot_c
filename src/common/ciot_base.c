@@ -104,7 +104,7 @@ ciot_err_t ciot_process_req(ciot_t self, ciot_req_t *req)
     {
     case CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_SAVE_IFACE_CFG:
         self->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
-        return ciot_save_iface_cfg(self, req->data->iface_id);
+        return ciot_save_iface_cfg(self, req->iface_id);
     case CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_DELETE_IFACE_CFG:
         return CIOT_ERR__NOT_IMPLEMENTED;
     case CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_PROXY_MSG:
