@@ -14,19 +14,11 @@
 #include "esp_log.h"
 #include "esp_http_server.h"
 
-// typedef struct ciot_http_server_recv
-// {
-//     uint8_t *buf;
-//     int size;
-// } ciot_http_server_recv_t;
-
 struct ciot_http_server
 {
     ciot_http_server_base_t base;
     httpd_handle_t handle;
     httpd_req_t *req;
-    // uint8_t buf[256];
-    // ciot_http_server_recv_t recv;
 };
 
 static const char *TAG = "ciot_http_server";
@@ -67,6 +59,7 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
         ESP_LOGI(TAG, "Server Started on port %lu", cfg->port);
         base->cfg = *cfg;
         ciot_https_register_routes(self);
+        ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STARTED);
     }
 
     return err_code;
@@ -100,20 +93,6 @@ static ciot_err_t ciot_https_register_routes(ciot_http_server_t self)
     };
     return httpd_register_uri_handler(self->handle, &ciot_post);
 }
-
-// ciot_err_t ciot_http_server_task(ciot_http_server_t self)
-// {
-//     if(self->recv.size > 0)
-//     {
-//         ciot_iface_event_t iface_event = {0};
-//         iface_event.type = CIOT_IFACE_EVENT_REQUEST;
-//         iface_event.data = self->recv.buf;
-//         iface_event.size = self->recv.size;
-//         ciot_iface_send_event(&self->base.iface, &iface_event);
-//         self->recv.size = 0;        
-//     }
-//     return CIOT_ERR__OK;
-// }
 
 static esp_err_t ciot_post_handler(httpd_req_t *req)
 {
