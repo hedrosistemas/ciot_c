@@ -21,7 +21,6 @@ extern "C" {
 
 #include "ciot/proto/v1/tcp.pb-c.h"
 
-typedef struct ciot_tcp_netif *ciot_tcp_netif_t;
 typedef struct ciot_tcp *ciot_tcp_t;
 typedef Ciot__TcpCfg ciot_tcp_cfg_t;
 typedef Ciot__TcpDhcpCfg ciot_tcp_dhcp_cfg_t;
@@ -56,7 +55,6 @@ typedef struct ciot_tcp_base
     uint8_t cfg_dns[4];
     uint8_t info_ip[4];
     uint8_t info_mac[6];
-    ciot_tcp_netif_t netif;
 } ciot_tcp_base_t;
 
 ciot_tcp_t ciot_tcp_new(ciot_iface_t *iface, ciot_tcp_type_t type);
@@ -69,6 +67,7 @@ ciot_err_t ciot_tcp_set_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
 ciot_err_t ciot_tcp_get_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
 ciot_err_t ciot_tcp_get_status(ciot_tcp_t self, ciot_tcp_status_t *status);
 ciot_err_t ciot_tcp_get_info(ciot_tcp_t self, ciot_tcp_info_t *info);
+ciot_err_t ciot_tcp_get_ip(ciot_tcp_t self, uint8_t *ip);
 
 #ifdef __cplusplus
 }
