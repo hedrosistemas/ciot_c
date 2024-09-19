@@ -50,7 +50,7 @@ typedef enum _Ciot__MqttClientState {
   /*
    * The MQTT client encountered an error.
    */
-  CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR = -1
+  CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR = 4
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__MQTT_CLIENT_STATE)
 } Ciot__MqttClientState;
 /*
@@ -143,13 +143,13 @@ struct  _Ciot__MqttClientTopicsCfg
 {
   ProtobufCMessage base;
   /*
-   * Device to broker topic.
+   * Topic used to publish data
    */
-  char *d2b;
+  char *pub;
   /*
-   * Broker to device topic.
+   * Topic used to receive data.
    */
-  char *b2d;
+  char *sub;
 };
 #define CIOT__MQTT_CLIENT_TOPICS_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__mqtt_client_topics_cfg__descriptor) \

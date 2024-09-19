@@ -406,18 +406,18 @@ const ProtobufCMessageDescriptor ciot__http_server_data__descriptor =
 };
 static const ProtobufCEnumValue ciot__http_server_state__enum_values_by_number[3] =
 {
-  { "HTTP_SERVER_STATE_ERROR", "CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_ERROR", -1 },
   { "HTTP_SERVER_STATE_STOPPED", "CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_STOPPED", 0 },
   { "HTTP_SERVER_STATE_STARTED", "CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_STARTED", 1 },
+  { "HTTP_SERVER_STATE_ERROR", "CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_ERROR", 2 },
 };
 static const ProtobufCIntRange ciot__http_server_state__value_ranges[] = {
-{-1, 0},{0, 3}
+{0, 0},{0, 3}
 };
 static const ProtobufCEnumValueIndex ciot__http_server_state__enum_values_by_name[3] =
 {
-  { "HTTP_SERVER_STATE_ERROR", 0 },
-  { "HTTP_SERVER_STATE_STARTED", 2 },
-  { "HTTP_SERVER_STATE_STOPPED", 1 },
+  { "HTTP_SERVER_STATE_ERROR", 2 },
+  { "HTTP_SERVER_STATE_STARTED", 1 },
+  { "HTTP_SERVER_STATE_STOPPED", 0 },
 };
 const ProtobufCEnumDescriptor ciot__http_server_state__descriptor =
 {

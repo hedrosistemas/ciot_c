@@ -295,7 +295,7 @@ const ProtobufCMessageDescriptor ciot__ciot_cfg__descriptor =
   (ProtobufCMessageInit) ciot__ciot_cfg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ciot_info__field_descriptors[1] =
+static const ProtobufCFieldDescriptor ciot__ciot_info__field_descriptors[2] =
 {
   {
     "version",
@@ -309,14 +309,27 @@ static const ProtobufCFieldDescriptor ciot__ciot_info__field_descriptors[1] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "ifaces",
+    2,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BYTES,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__CiotInfo, ifaces),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__ciot_info__field_indices_by_name[] = {
+  1,   /* field[1] = ifaces */
   0,   /* field[0] = version */
 };
 static const ProtobufCIntRange ciot__ciot_info__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 1 }
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor ciot__ciot_info__descriptor =
 {
@@ -326,7 +339,7 @@ const ProtobufCMessageDescriptor ciot__ciot_info__descriptor =
   "Ciot__CiotInfo",
   "Ciot",
   sizeof(Ciot__CiotInfo),
-  1,
+  2,
   ciot__ciot_info__field_descriptors,
   ciot__ciot_info__field_indices_by_name,
   1,  ciot__ciot_info__number_ranges,

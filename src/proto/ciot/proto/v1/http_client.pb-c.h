@@ -56,7 +56,7 @@ typedef enum _Ciot__HttpClientState {
   /*
    * The HTTP client encountered an error.
    */
-  CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_ERROR = -1
+  CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_ERROR = 6
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__HTTP_CLIENT_STATE)
 } Ciot__HttpClientState;
 /*

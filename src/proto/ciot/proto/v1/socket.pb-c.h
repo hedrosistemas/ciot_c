@@ -39,7 +39,7 @@ typedef enum _Ciot__SocketState {
   /*
    * Socket error.
    */
-  CIOT__SOCKET_STATE__SOCKET_STATE_ERROR = -1
+  CIOT__SOCKET_STATE__SOCKET_STATE_ERROR = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__SOCKET_STATE)
 } Ciot__SocketState;
 /*

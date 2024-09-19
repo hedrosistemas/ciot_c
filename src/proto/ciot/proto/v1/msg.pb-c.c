@@ -7,51 +7,6 @@
 #endif
 
 #include "ciot/proto/v1/msg.pb-c.h"
-void   ciot__iface_info__init
-                     (Ciot__IfaceInfo         *message)
-{
-  static const Ciot__IfaceInfo init_value = CIOT__IFACE_INFO__INIT;
-  *message = init_value;
-}
-size_t ciot__iface_info__get_packed_size
-                     (const Ciot__IfaceInfo *message)
-{
-  assert(message->base.descriptor == &ciot__iface_info__descriptor);
-  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
-}
-size_t ciot__iface_info__pack
-                     (const Ciot__IfaceInfo *message,
-                      uint8_t       *out)
-{
-  assert(message->base.descriptor == &ciot__iface_info__descriptor);
-  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
-}
-size_t ciot__iface_info__pack_to_buffer
-                     (const Ciot__IfaceInfo *message,
-                      ProtobufCBuffer *buffer)
-{
-  assert(message->base.descriptor == &ciot__iface_info__descriptor);
-  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
-}
-Ciot__IfaceInfo *
-       ciot__iface_info__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data)
-{
-  return (Ciot__IfaceInfo *)
-     protobuf_c_message_unpack (&ciot__iface_info__descriptor,
-                                allocator, len, data);
-}
-void   ciot__iface_info__free_unpacked
-                     (Ciot__IfaceInfo *message,
-                      ProtobufCAllocator *allocator)
-{
-  if(!message)
-    return;
-  assert(message->base.descriptor == &ciot__iface_info__descriptor);
-  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
-}
 void   ciot__msg_error__init
                      (Ciot__MsgError         *message)
 {
@@ -232,57 +187,6 @@ void   ciot__msg__free_unpacked
   assert(message->base.descriptor == &ciot__msg__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor ciot__iface_info__field_descriptors[2] =
-{
-  {
-    "id",
-    1,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__IfaceInfo, id),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "type",
-    2,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_ENUM,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__IfaceInfo, type),
-    &ciot__iface_type__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-};
-static const unsigned ciot__iface_info__field_indices_by_name[] = {
-  0,   /* field[0] = id */
-  1,   /* field[1] = type */
-};
-static const ProtobufCIntRange ciot__iface_info__number_ranges[1 + 1] =
-{
-  { 1, 0 },
-  { 0, 2 }
-};
-const ProtobufCMessageDescriptor ciot__iface_info__descriptor =
-{
-  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
-  "Ciot.IfaceInfo",
-  "IfaceInfo",
-  "Ciot__IfaceInfo",
-  "Ciot",
-  sizeof(Ciot__IfaceInfo),
-  2,
-  ciot__iface_info__field_descriptors,
-  ciot__iface_info__field_indices_by_name,
-  1,  ciot__iface_info__number_ranges,
-  (ProtobufCMessageInit) ciot__iface_info__init,
-  NULL,NULL,NULL    /* reserved[123] */
-};
 static const ProtobufCFieldDescriptor ciot__msg_error__field_descriptors[3] =
 {
   {
@@ -808,8 +712,8 @@ static const ProtobufCEnumValue ciot__msg_type__enum_values_by_number[12] =
   { "MSG_TYPE_CONFIG", "CIOT__MSG_TYPE__MSG_TYPE_CONFIG", 4 },
   { "MSG_TYPE_INFO", "CIOT__MSG_TYPE__MSG_TYPE_INFO", 5 },
   { "MSG_TYPE_STATUS", "CIOT__MSG_TYPE__MSG_TYPE_STATUS", 6 },
-  { "MSG_TYPE_REQUEST", "CIOT__MSG_TYPE__MSG_TYPE_REQUEST", 7 },
-  { "MSG_TYPE_SEND_PAYLOAD", "CIOT__MSG_TYPE__MSG_TYPE_SEND_PAYLOAD", 8 },
+  { "MSG_TYPE_SEND_PAYLOAD", "CIOT__MSG_TYPE__MSG_TYPE_SEND_PAYLOAD", 7 },
+  { "MSG_TYPE_REQUEST", "CIOT__MSG_TYPE__MSG_TYPE_REQUEST", 8 },
   { "MSG_TYPE_ERROR", "CIOT__MSG_TYPE__MSG_TYPE_ERROR", 9 },
   { "MSG_TYPE_EVENT", "CIOT__MSG_TYPE__MSG_TYPE_EVENT", 10 },
   { "MSG_TYPE_LOG", "CIOT__MSG_TYPE__MSG_TYPE_LOG", 11 },
@@ -825,8 +729,8 @@ static const ProtobufCEnumValueIndex ciot__msg_type__enum_values_by_name[12] =
   { "MSG_TYPE_EVENT", 10 },
   { "MSG_TYPE_INFO", 5 },
   { "MSG_TYPE_LOG", 11 },
-  { "MSG_TYPE_REQUEST", 7 },
-  { "MSG_TYPE_SEND_PAYLOAD", 8 },
+  { "MSG_TYPE_REQUEST", 8 },
+  { "MSG_TYPE_SEND_PAYLOAD", 7 },
   { "MSG_TYPE_START", 2 },
   { "MSG_TYPE_STATUS", 6 },
   { "MSG_TYPE_STOP", 3 },
@@ -845,73 +749,5 @@ const ProtobufCEnumDescriptor ciot__msg_type__descriptor =
   ciot__msg_type__enum_values_by_name,
   1,
   ciot__msg_type__value_ranges,
-  NULL,NULL,NULL,NULL   /* reserved[1234] */
-};
-static const ProtobufCEnumValue ciot__iface_type__enum_values_by_number[22] =
-{
-  { "IFACE_TYPE_UNKNOWN", "CIOT__IFACE_TYPE__IFACE_TYPE_UNKNOWN", 0 },
-  { "IFACE_TYPE_CUSTOM", "CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM", 1 },
-  { "IFACE_TYPE_CIOT", "CIOT__IFACE_TYPE__IFACE_TYPE_CIOT", 2 },
-  { "IFACE_TYPE_STORAGE", "CIOT__IFACE_TYPE__IFACE_TYPE_STORAGE", 3 },
-  { "IFACE_TYPE_SYS", "CIOT__IFACE_TYPE__IFACE_TYPE_SYS", 4 },
-  { "IFACE_TYPE_UART", "CIOT__IFACE_TYPE__IFACE_TYPE_UART", 5 },
-  { "IFACE_TYPE_USB", "CIOT__IFACE_TYPE__IFACE_TYPE_USB", 6 },
-  { "IFACE_TYPE_TCP", "CIOT__IFACE_TYPE__IFACE_TYPE_TCP", 7 },
-  { "IFACE_TYPE_ETH", "CIOT__IFACE_TYPE__IFACE_TYPE_ETH", 8 },
-  { "IFACE_TYPE_WIFI", "CIOT__IFACE_TYPE__IFACE_TYPE_WIFI", 9 },
-  { "IFACE_TYPE_BLE", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE", 10 },
-  { "IFACE_TYPE_BLE_SCN", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE_SCN", 11 },
-  { "IFACE_TYPE_BLE_ADV", "CIOT__IFACE_TYPE__IFACE_TYPE_BLE_ADV", 12 },
-  { "IFACE_TYPE_GPIO", "CIOT__IFACE_TYPE__IFACE_TYPE_GPIO", 13 },
-  { "IFACE_TYPE_NTP", "CIOT__IFACE_TYPE__IFACE_TYPE_NTP", 14 },
-  { "IFACE_TYPE_OTA", "CIOT__IFACE_TYPE__IFACE_TYPE_OTA", 15 },
-  { "IFACE_TYPE_DFU", "CIOT__IFACE_TYPE__IFACE_TYPE_DFU", 16 },
-  { "IFACE_TYPE_HTTP_CLIENT", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_CLIENT", 17 },
-  { "IFACE_TYPE_HTTP_SERVER", "CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER", 18 },
-  { "IFACE_TYPE_MQTT", "CIOT__IFACE_TYPE__IFACE_TYPE_MQTT", 19 },
-  { "IFACE_TYPE_SOCKET", "CIOT__IFACE_TYPE__IFACE_TYPE_SOCKET", 20 },
-  { "IFACE_TYPE_BRIDGE", "CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE", 21 },
-};
-static const ProtobufCIntRange ciot__iface_type__value_ranges[] = {
-{0, 0},{0, 22}
-};
-static const ProtobufCEnumValueIndex ciot__iface_type__enum_values_by_name[22] =
-{
-  { "IFACE_TYPE_BLE", 10 },
-  { "IFACE_TYPE_BLE_ADV", 12 },
-  { "IFACE_TYPE_BLE_SCN", 11 },
-  { "IFACE_TYPE_BRIDGE", 21 },
-  { "IFACE_TYPE_CIOT", 2 },
-  { "IFACE_TYPE_CUSTOM", 1 },
-  { "IFACE_TYPE_DFU", 16 },
-  { "IFACE_TYPE_ETH", 8 },
-  { "IFACE_TYPE_GPIO", 13 },
-  { "IFACE_TYPE_HTTP_CLIENT", 17 },
-  { "IFACE_TYPE_HTTP_SERVER", 18 },
-  { "IFACE_TYPE_MQTT", 19 },
-  { "IFACE_TYPE_NTP", 14 },
-  { "IFACE_TYPE_OTA", 15 },
-  { "IFACE_TYPE_SOCKET", 20 },
-  { "IFACE_TYPE_STORAGE", 3 },
-  { "IFACE_TYPE_SYS", 4 },
-  { "IFACE_TYPE_TCP", 7 },
-  { "IFACE_TYPE_UART", 5 },
-  { "IFACE_TYPE_UNKNOWN", 0 },
-  { "IFACE_TYPE_USB", 6 },
-  { "IFACE_TYPE_WIFI", 9 },
-};
-const ProtobufCEnumDescriptor ciot__iface_type__descriptor =
-{
-  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "Ciot.IfaceType",
-  "IfaceType",
-  "Ciot__IfaceType",
-  "Ciot",
-  22,
-  ciot__iface_type__enum_values_by_number,
-  22,
-  ciot__iface_type__enum_values_by_name,
-  1,
-  ciot__iface_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };

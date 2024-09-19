@@ -473,24 +473,24 @@ const ProtobufCMessageDescriptor ciot__mqtt_client_error__descriptor =
 static const ProtobufCFieldDescriptor ciot__mqtt_client_topics_cfg__field_descriptors[2] =
 {
   {
-    "d2b",
+    "pub",
     1,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
-    offsetof(Ciot__MqttClientTopicsCfg, d2b),
+    offsetof(Ciot__MqttClientTopicsCfg, pub),
     NULL,
     &protobuf_c_empty_string,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "b2d",
+    "sub",
     2,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
-    offsetof(Ciot__MqttClientTopicsCfg, b2d),
+    offsetof(Ciot__MqttClientTopicsCfg, sub),
     NULL,
     &protobuf_c_empty_string,
     0,             /* flags */
@@ -498,8 +498,8 @@ static const ProtobufCFieldDescriptor ciot__mqtt_client_topics_cfg__field_descri
   },
 };
 static const unsigned ciot__mqtt_client_topics_cfg__field_indices_by_name[] = {
-  1,   /* field[1] = b2d */
-  0,   /* field[0] = d2b */
+  0,   /* field[0] = pub */
+  1,   /* field[1] = sub */
 };
 static const ProtobufCIntRange ciot__mqtt_client_topics_cfg__number_ranges[1 + 1] =
 {
@@ -985,22 +985,22 @@ const ProtobufCMessageDescriptor ciot__mqtt_client_data__descriptor =
 };
 static const ProtobufCEnumValue ciot__mqtt_client_state__enum_values_by_number[5] =
 {
-  { "MQTT_STATE_ERROR", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR", -1 },
   { "MQTT_STATE_DISCONNECTED", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTED", 0 },
   { "MQTT_STATE_CONNECTING", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTING", 1 },
   { "MQTT_STATE_DISCONNECTING", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTING", 2 },
   { "MQTT_STATE_CONNECTED", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED", 3 },
+  { "MQTT_STATE_ERROR", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR", 4 },
 };
 static const ProtobufCIntRange ciot__mqtt_client_state__value_ranges[] = {
-{-1, 0},{0, 5}
+{0, 0},{0, 5}
 };
 static const ProtobufCEnumValueIndex ciot__mqtt_client_state__enum_values_by_name[5] =
 {
-  { "MQTT_STATE_CONNECTED", 4 },
-  { "MQTT_STATE_CONNECTING", 2 },
-  { "MQTT_STATE_DISCONNECTED", 1 },
-  { "MQTT_STATE_DISCONNECTING", 3 },
-  { "MQTT_STATE_ERROR", 0 },
+  { "MQTT_STATE_CONNECTED", 3 },
+  { "MQTT_STATE_CONNECTING", 1 },
+  { "MQTT_STATE_DISCONNECTED", 0 },
+  { "MQTT_STATE_DISCONNECTING", 2 },
+  { "MQTT_STATE_ERROR", 4 },
 };
 const ProtobufCEnumDescriptor ciot__mqtt_client_state__descriptor =
 {

@@ -108,10 +108,14 @@ struct  _Ciot__CiotInfo
    * CIOT library version
    */
   ProtobufCBinaryData version;
+  /*
+   * CIOT ifaces type list
+   */
+  ProtobufCBinaryData ifaces;
 };
 #define CIOT__CIOT_INFO__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ciot_info__descriptor) \
-    , {0,NULL} }
+    , {0,NULL}, {0,NULL} }
 
 
 /*

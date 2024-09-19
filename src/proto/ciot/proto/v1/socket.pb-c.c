@@ -482,18 +482,18 @@ const ProtobufCMessageDescriptor ciot__socket_data__descriptor =
 };
 static const ProtobufCEnumValue ciot__socket_state__enum_values_by_number[3] =
 {
-  { "SOCKET_STATE_ERROR", "CIOT__SOCKET_STATE__SOCKET_STATE_ERROR", -1 },
   { "SOCKET_STATE_CLOSED", "CIOT__SOCKET_STATE__SOCKET_STATE_CLOSED", 0 },
   { "SOCKET_STATE_OPEN", "CIOT__SOCKET_STATE__SOCKET_STATE_OPEN", 1 },
+  { "SOCKET_STATE_ERROR", "CIOT__SOCKET_STATE__SOCKET_STATE_ERROR", 2 },
 };
 static const ProtobufCIntRange ciot__socket_state__value_ranges[] = {
-{-1, 0},{0, 3}
+{0, 0},{0, 3}
 };
 static const ProtobufCEnumValueIndex ciot__socket_state__enum_values_by_name[3] =
 {
-  { "SOCKET_STATE_CLOSED", 1 },
-  { "SOCKET_STATE_ERROR", 0 },
-  { "SOCKET_STATE_OPEN", 2 },
+  { "SOCKET_STATE_CLOSED", 0 },
+  { "SOCKET_STATE_ERROR", 2 },
+  { "SOCKET_STATE_OPEN", 1 },
 };
 const ProtobufCEnumDescriptor ciot__socket_state__descriptor =
 {

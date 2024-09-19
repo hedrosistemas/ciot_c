@@ -255,10 +255,10 @@ static const ProtobufCFieldDescriptor ciot__dfu_status__field_descriptors[5] =
     "error",
     3,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_INT32,
+    PROTOBUF_C_TYPE_ENUM,
     0,   /* quantifier_offset */
     offsetof(Ciot__DfuStatus, error),
-    NULL,
+    &ciot_err__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
@@ -417,22 +417,26 @@ const ProtobufCMessageDescriptor ciot__dfu_data__descriptor =
   (ProtobufCMessageInit) ciot__dfu_data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__dfu_state__enum_values_by_number[4] =
+static const ProtobufCEnumValue ciot__dfu_state__enum_values_by_number[6] =
 {
-  { "DFU_STATE_ERROR", "CIOT__DFU_STATE__DFU_STATE_ERROR", -1 },
   { "DFU_STATE_IDLE", "CIOT__DFU_STATE__DFU_STATE_IDLE", 0 },
-  { "DFU_STATE_IN_PROGRESS", "CIOT__DFU_STATE__DFU_STATE_IN_PROGRESS", 1 },
-  { "DFU_STATE_COMPLETED", "CIOT__DFU_STATE__DFU_STATE_COMPLETED", 2 },
+  { "DFU_STATE_STARTING", "CIOT__DFU_STATE__DFU_STATE_STARTING", 1 },
+  { "DFU_STATE_STARTED", "CIOT__DFU_STATE__DFU_STATE_STARTED", 2 },
+  { "DFU_STATE_IN_PROGRESS", "CIOT__DFU_STATE__DFU_STATE_IN_PROGRESS", 3 },
+  { "DFU_STATE_COMPLETED", "CIOT__DFU_STATE__DFU_STATE_COMPLETED", 4 },
+  { "DFU_STATE_ERROR", "CIOT__DFU_STATE__DFU_STATE_ERROR", 5 },
 };
 static const ProtobufCIntRange ciot__dfu_state__value_ranges[] = {
-{-1, 0},{0, 4}
+{0, 0},{0, 6}
 };
-static const ProtobufCEnumValueIndex ciot__dfu_state__enum_values_by_name[4] =
+static const ProtobufCEnumValueIndex ciot__dfu_state__enum_values_by_name[6] =
 {
-  { "DFU_STATE_COMPLETED", 3 },
-  { "DFU_STATE_ERROR", 0 },
-  { "DFU_STATE_IDLE", 1 },
-  { "DFU_STATE_IN_PROGRESS", 2 },
+  { "DFU_STATE_COMPLETED", 4 },
+  { "DFU_STATE_ERROR", 5 },
+  { "DFU_STATE_IDLE", 0 },
+  { "DFU_STATE_IN_PROGRESS", 3 },
+  { "DFU_STATE_STARTED", 2 },
+  { "DFU_STATE_STARTING", 1 },
 };
 const ProtobufCEnumDescriptor ciot__dfu_state__descriptor =
 {
@@ -441,25 +445,23 @@ const ProtobufCEnumDescriptor ciot__dfu_state__descriptor =
   "DfuState",
   "Ciot__DfuState",
   "Ciot",
-  4,
+  6,
   ciot__dfu_state__enum_values_by_number,
-  4,
+  6,
   ciot__dfu_state__enum_values_by_name,
   1,
   ciot__dfu_state__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__dfu_req_type__enum_values_by_number[2] =
+static const ProtobufCEnumValue ciot__dfu_req_type__enum_values_by_number[1] =
 {
   { "DFU_REQ_TYPE_UNKOWN", "CIOT__DFU_REQ_TYPE__DFU_REQ_TYPE_UNKOWN", 0 },
-  { "DFU_REQ_SEND_FIRMWARE", "CIOT__DFU_REQ_TYPE__DFU_REQ_SEND_FIRMWARE", 1 },
 };
 static const ProtobufCIntRange ciot__dfu_req_type__value_ranges[] = {
-{0, 0},{0, 2}
+{0, 0},{0, 1}
 };
-static const ProtobufCEnumValueIndex ciot__dfu_req_type__enum_values_by_name[2] =
+static const ProtobufCEnumValueIndex ciot__dfu_req_type__enum_values_by_name[1] =
 {
-  { "DFU_REQ_SEND_FIRMWARE", 1 },
   { "DFU_REQ_TYPE_UNKOWN", 0 },
 };
 const ProtobufCEnumDescriptor ciot__dfu_req_type__descriptor =
@@ -469,9 +471,9 @@ const ProtobufCEnumDescriptor ciot__dfu_req_type__descriptor =
   "DfuReqType",
   "Ciot__DfuReqType",
   "Ciot",
-  2,
+  1,
   ciot__dfu_req_type__enum_values_by_number,
-  2,
+  1,
   ciot__dfu_req_type__enum_values_by_name,
   1,
   ciot__dfu_req_type__value_ranges,

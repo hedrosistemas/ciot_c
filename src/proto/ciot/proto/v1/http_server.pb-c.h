@@ -38,7 +38,7 @@ typedef enum _Ciot__HttpServerState {
   /*
    * The HTTP server encountered an error.
    */
-  CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_ERROR = -1
+  CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_ERROR = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__HTTP_SERVER_STATE)
 } Ciot__HttpServerState;
 /*
