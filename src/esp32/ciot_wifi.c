@@ -67,12 +67,6 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
 
     ciot_wifi_init(self);
     base->cfg.type = type;
-
-    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)&self->base.tcp;
-    CIOT_LOGI(TAG, "wifi cfg: %p, tcp cfg: %p", self->base.cfg.tcp, &tcp->cfg);
-    CIOT_LOGI(TAG, "wifi info: %p, tcp info: %p", self->base.info.tcp, &tcp->info);
-    CIOT_LOGI(TAG, "wifi status: %p, tcp status: %p", self->base.status.tcp, &tcp->status);
-
     return self;
 }
 
@@ -109,7 +103,7 @@ static ciot_err_t ciot_wifi_start_sta(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
     strncpy((char*)conf.sta.ssid, cfg->ssid, sizeof(conf.sta.ssid));
     strncpy((char*)conf.sta.password, cfg->password, sizeof(conf.sta.password));
 
-    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)&self->base.tcp;
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)self->base.tcp;
 
     if(tcp->status.state == CIOT__TCP_STATE__TCP_STATE_CONNECTED)
     {
