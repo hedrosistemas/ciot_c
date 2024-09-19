@@ -19,6 +19,7 @@
 #include "ciot_timer.h"
 #include "ciot_log.h"
 #include "ciot_logger.h"
+#include "ciot_sys.h"
 
 #define CIOT_IFACE_START_TIMEOUT_SECS 5
 
@@ -328,10 +329,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 {
     ciot_t self = (ciot_t)event_args;
 
-    self->recv.event.type = event->type;
-    self->recv.sender = sender;
-
-    CIOT_LOGD(TAG, "%s(%lu) evt id: %d", ciot_iface_to_str(sender), sender->info.id, event->type);
+    CIOT_LOGD(TAG, "%s(%lu) evt type: %d", ciot_iface_to_str(sender), sender->info.id, event->type);
 
     if (event->type == CIOT_IFACE_EVENT_DATA && self->iface.event_handler != NULL)
     {
@@ -340,10 +338,18 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 
     if (self->status.state == CIOT__CIOT_STATE__CIOT_STATE_BUSY)
     {
-        CIOT_LOGE(TAG, "ciot core is busy. %s(%lu) evt id:%d ignored", ciot_iface_to_str(sender), sender->info.id, event->type);
-        return CIOT_ERR__BUSY;
+        CIOT_LOGW(TAG, "waiting because ciot core is busy");
+        ciot_sys_sleep(500);
+        if(self->status.state == CIOT__CIOT_STATE__CIOT_STATE_BUSY) 
+        {
+            CIOT_LOGE(TAG, "ciot core is busy. %s(%lu) evt id:%d ignored", ciot_iface_to_str(sender), sender->info.id, event->type);
+            return CIOT_ERR__BUSY;
+        }
     }
 
+    self->recv.event.type = event->type;
+    self->recv.sender = sender;
+    
     if (event->type == CIOT_IFACE_EVENT_REQUEST)
     {
         if (self->status.state != CIOT__CIOT_STATE__CIOT_STATE_STARTED)
@@ -369,8 +375,8 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
         }
         else
         {
+            CIOT_LOGI(TAG, "CIOT_STATE_BUSY");
             self->status.state = CIOT__CIOT_STATE__CIOT_STATE_BUSY;
-            CIOT_LOGV(TAG, "CIOT_STATE_BUSY");
         }
     }
     else if(self->status.state == CIOT__CIOT_STATE__CIOT_STATE_STARTED)
