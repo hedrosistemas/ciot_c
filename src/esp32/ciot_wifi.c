@@ -259,6 +259,7 @@ static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t even
         CIOT_ERR_PRINT(TAG, esp_wifi_get_mac(WIFI_IF_AP, base->info.tcp->mac.data));
         CIOT_ERR_PRINT(TAG, ciot_tcp_start(base->tcp));
         CIOT_ERR_PRINT(TAG, ciot_tcp_get_ip(base->tcp, tcp->info_ip));
+        ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STARTED);
         break;
     }
     case WIFI_EVENT_AP_STOP:
