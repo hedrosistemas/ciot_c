@@ -18,13 +18,8 @@ static const char *TAG = "ciot_http_client";
 
 struct ciot_http_client
 {
-    ciot_iface_t iface;
-    ciot_http_client_cfg_t cfg;
-    ciot_http_client_status_t status;
-    char url[CIOT_CONFIG_HTTP_CLIENT_URL_SIZE];
+    ciot_http_client_base_t base;
     struct mg_mgr *mgr;
-    uint8_t data[CIOT_CONFIG_HTTP_CLIENT_BUF_SIZE];
-    int len;
 };
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req);
@@ -36,11 +31,7 @@ static const char *ciot_http_client_get_method(ciot_http_client_method_t method)
 ciot_http_client_t ciot_http_client_new(void *handle)
 {
     ciot_http_client_t self = calloc(1, sizeof(struct ciot_http_client));
-    self->iface.ptr = self;
-    self->iface.process_req = ciot_iface_process_req;
-    self->iface.get_data = ciot_iface_get_data;
-    self->iface.send_data = ciot_iface_send_data;
-    self->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_CLIENT;
+    ciot_http_client_init(self);
     self->mgr = handle;
     return self;
 }
@@ -71,10 +62,10 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     switch (msg->type)
     {
     case CIOT__MSG_TYPE__MSG_TYPE_CONFIG:
-        msg->data->http_client->config = &self->cfg;
+        msg->data->http_client->config = &self->base.cfg;
         break;
     case CIOT__MSG_TYPE__MSG_TYPE_STATUS:
-        msg->data->http_client->status = &self->status;
+        msg->data->http_client->status = &self->base.status;
         break;
     default:
         return CIOT_ERR__NOT_FOUND;
@@ -83,20 +74,24 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     return CIOT_ERR__OK;
 }
 
-static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
+ciot_err_t ciot_http_client_send_bytes(ciot_http_client_t self, uint8_t *data, int size)
 {
-    CIOT_ERR_NULL_CHECK(iface);
+    CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(data);
 
-    ciot_http_client_t self = (ciot_http_client_t)iface->ptr;
-
-    if (self->status.state == CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE ||
-        self->status.state == CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_TIMEOUT)
+    if (self->base.status.state == CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE ||
+        self->base.status.state == CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_TIMEOUT)
     {
-        self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_CONNECTING;
-        self->len = size;
-        memcpy(self->data, data, size);
-        mg_http_connect(self->mgr, self->cfg.url, ciot_http_client_event_handler, self);
+        self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_CONNECTING;
+        self->base.send.len = size;
+        if(self->base.send.data != NULL)
+        {
+            free(self->base.send.data);
+            self->base.send.data = NULL;
+        }
+        self->base.send.data = calloc(1, size);
+        memcpy(self->base.send.data, data, size);
+        mg_http_connect(self->mgr, self->base.cfg.url, ciot_http_client_event_handler, self);
         return CIOT_ERR__OK;
     }
     else
@@ -110,9 +105,11 @@ ciot_err_t ciot_http_client_start(ciot_http_client_t self, ciot_http_client_cfg_
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
 
-    strcpy(self->url, cfg->url);
-    self->cfg = *cfg;
-    self->cfg.url = self->url;
+    strcpy(self->base.url, cfg->url);
+    self->base.cfg = *cfg;
+    self->base.cfg.url = self->base.url;
+
+    ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STARTED);
 
     return CIOT_ERR__OK;
 }
@@ -123,41 +120,41 @@ ciot_err_t ciot_http_client_stop(ciot_http_client_t self)
     return CIOT_ERR__OK;
 }
 
-ciot_err_t ciot_http_client_process_req(ciot_http_client_t self, ciot_http_client_req_t *req)
-{
-    CIOT_ERR_NULL_CHECK(self);
-    CIOT_ERR_NULL_CHECK(req);
+// ciot_err_t ciot_http_client_process_req(ciot_http_client_t self, ciot_http_client_req_t *req)
+// {
+//     CIOT_ERR_NULL_CHECK(self);
+//     CIOT_ERR_NULL_CHECK(req);
 
-    switch (req->type)
-    {
-    case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_TYPE_UNKOWN:
-        return CIOT_ERR__NOT_IMPLEMENTED;
-    case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_SEND_DATA:
-        return CIOT_ERR__NOT_IMPLEMENTED;
-    case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_SET_HEADER:
-        return CIOT_ERR__NOT_IMPLEMENTED;
-    default:
-        break;
-    }
+//     switch (req->type)
+//     {
+//     case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_TYPE_UNKOWN:
+//         return CIOT_ERR__NOT_IMPLEMENTED;
+//     case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_SEND_DATA:
+//         return CIOT_ERR__NOT_IMPLEMENTED;
+//     case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_SET_HEADER:
+//         return CIOT_ERR__NOT_IMPLEMENTED;
+//     default:
+//         break;
+//     }
 
-    return CIOT_ERR__NOT_IMPLEMENTED;
-}
+//     return CIOT_ERR__NOT_IMPLEMENTED;
+// }
 
-ciot_err_t ciot_http_client_get_cfg(ciot_http_client_t self, ciot_http_client_cfg_t *cfg)
-{
-    CIOT_ERR_NULL_CHECK(self);
-    CIOT_ERR_NULL_CHECK(cfg);
-    *cfg = self->cfg;
-    return CIOT_ERR__OK;
-}
+// ciot_err_t ciot_http_client_get_cfg(ciot_http_client_t self, ciot_http_client_cfg_t *cfg)
+// {
+//     CIOT_ERR_NULL_CHECK(self);
+//     CIOT_ERR_NULL_CHECK(cfg);
+//     *cfg = self->base.cfg;
+//     return CIOT_ERR__OK;
+// }
 
-ciot_err_t ciot_http_client_get_status(ciot_http_client_t self, ciot_http_client_status_t *status)
-{
-    CIOT_ERR_NULL_CHECK(self);
-    CIOT_ERR_NULL_CHECK(status);
-    *status = self->status;
-    return CIOT_ERR__NOT_IMPLEMENTED;
-}
+// ciot_err_t ciot_http_client_get_status(ciot_http_client_t self, ciot_http_client_status_t *status)
+// {
+//     CIOT_ERR_NULL_CHECK(self);
+//     CIOT_ERR_NULL_CHECK(status);
+//     *status = self->base.status;
+//     return CIOT_ERR__NOT_IMPLEMENTED;
+// }
 
 static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
@@ -169,27 +166,27 @@ static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void
     {
     case MG_EV_ERROR:
         CIOT_LOGE(TAG, "MG_EV_ERROR (%s)", (char *)ev_data);
-        self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_ERROR;
+        self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_ERROR;
         iface_event.type = CIOT_IFACE_EVENT_ERROR;
-        ciot_iface_send_event(&self->iface, &iface_event);
+        ciot_iface_send_event(&self->base.iface, &iface_event);
         break;
     case MG_EV_OPEN:
     {
-        CIOT_LOGD(TAG, "MG_EV_OPEN url:%s", self->cfg.url);
-        *(uint64_t *)c->data = mg_millis() + self->cfg.timeout;
-        self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_CONNECTING;
+        CIOT_LOGD(TAG, "MG_EV_OPEN url:%s", self->base.cfg.url);
+        *(uint64_t *)c->data = mg_millis() + self->base.cfg.timeout;
+        self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_CONNECTING;
         iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
-        ciot_iface_send_event(&self->iface, &iface_event);
+        ciot_iface_send_event(&self->base.iface, &iface_event);
         break;
     }
     case MG_EV_POLL:
         CIOT_LOGD(TAG, "MG_EV_POLL");
-        if (mg_millis() > *(uint64_t *)c->data && (self->status.state != CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE))
+        if (mg_millis() > *(uint64_t *)c->data && (self->base.status.state != CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE))
         {
             mg_error(c, "Connect timeout");
-            self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_TIMEOUT;
+            self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_TIMEOUT;
             iface_event.type = CIOT_IFACE_EVENT_ERROR;
-            ciot_iface_send_event(&self->iface, &iface_event);
+            ciot_iface_send_event(&self->base.iface, &iface_event);
         }
         else
         {
@@ -199,19 +196,19 @@ static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void
     case MG_EV_CONNECT:
     {
         CIOT_LOGD(TAG, "MG_EV_CONNECT");
-        struct mg_str host = mg_url_host(self->cfg.url);
+        struct mg_str host = mg_url_host(self->base.cfg.url);
         mg_printf(c,
                   "%s %s HTTP/1.0\r\n"
                   "Host: %.*s\r\n"
                   "Content-Type: octet-stream\r\n"
                   "Content-Length: %d\r\n"
                   "\r\n",
-                  ciot_http_client_get_method(self->cfg.method), mg_url_uri(self->cfg.url), (int)host.len,
-                  host.ptr, self->len);
-        mg_send(c, self->data, self->len);
-        self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_CONNECTED;
+                  ciot_http_client_get_method(self->base.cfg.method), mg_url_uri(self->base.cfg.url), (int)host.len,
+                  host.ptr, self->base.send.len);
+        mg_send(c, self->base.send.data, self->base.send.len);
+        self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_CONNECTED;
         iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
-        ciot_iface_send_event(&self->iface, &iface_event);
+        ciot_iface_send_event(&self->base.iface, &iface_event);
         break;
     }
     case MG_EV_HTTP_MSG:
@@ -220,19 +217,24 @@ static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void
         struct mg_http_message *hm = ev_data, tmp = {0};
         mg_http_parse((char *)c->recv.buf, c->recv.len, &tmp);
         c->is_draining = 1;
-        self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE;
+        self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE;
         iface_event.type = CIOT_IFACE_EVENT_REQUEST;
         iface_event.data = (uint8_t*)hm->body.ptr;
         iface_event.size = hm->body.len;
-        ciot_iface_send_event(&self->iface, &iface_event);
+        ciot_iface_send_event(&self->base.iface, &iface_event);
         break;
     }
     case MG_EV_CLOSE:
     {
         CIOT_LOGD(TAG, "MG_EV_CLOSE");
-        self->status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE;
+        if(self->base.send.data != NULL)
+        {
+            free(self->base.send.data);
+            self->base.send.data = NULL;
+        }
+        self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE;
         iface_event.type = CIOT_IFACE_EVENT_STOPPED;
-        ciot_iface_send_event(&self->iface, &iface_event);
+        ciot_iface_send_event(&self->base.iface, &iface_event);
         break;
     }
     default:
