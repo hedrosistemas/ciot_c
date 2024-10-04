@@ -101,7 +101,7 @@ static ciot_err_t ciot_starting_task(ciot_t self)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(self->ifaces.list);
 
-    if (self->ifaces.count == 0)
+    if (self->ifaces.count == 1)
     {
         return CIOT_ERR__OK;
     }
@@ -141,7 +141,7 @@ static ciot_err_t ciot_starting_task(ciot_t self)
 
         if(self->storage != NULL)
         {
-            cfg = ciot_load_iface_cfg(self, id);
+            cfg = ciot_load_cfg(self, id);
             if(cfg != NULL)
             {
                 CIOT_LOGI(TAG, "Loading cfg into interface %s", ciot_iface_to_str(iface));
@@ -251,12 +251,12 @@ static ciot_err_t ciot_busy_task(ciot_t self)
                 ciot_iface_send_error(sender, CIOT__IFACE_TYPE__IFACE_TYPE_UNKNOWN, id, event->msg, CIOT_ERR__NULL_ARG);
             }
         }
-        else if(event->msg->type != CIOT__MSG_TYPE__MSG_TYPE_CUSTOM)
-        {
-            CIOT_LOGE(TAG, "Error msg type %s from iface %d.", ciot__msg_type__descriptor.values[event->msg->type].name, id);
-            event->type = CIOT_IFACE_EVENT_ERROR;
-            ciot_iface_send_error(sender, CIOT__IFACE_TYPE__IFACE_TYPE_UNKNOWN, id, event->msg, CIOT_ERR__INVALID_HEADER);
-        }
+        // else if(event->msg->type != CIOT__MSG_TYPE__MSG_TYPE_CUSTOM)
+        // {
+        //     CIOT_LOGE(TAG, "Error msg type %s from iface %d.", ciot__msg_type__descriptor.values[event->msg->type].name, id);
+        //     event->type = CIOT_IFACE_EVENT_ERROR;
+        //     ciot_iface_send_error(sender, CIOT__IFACE_TYPE__IFACE_TYPE_UNKNOWN, id, event->msg, CIOT_ERR__INVALID_HEADER);
+        // }
     }
 
     self->recv.sender = NULL;
@@ -344,20 +344,18 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_iface_even
 
     CIOT_LOGD(TAG, "%s(%lu) evt type: %d", ciot_iface_to_str(sender), sender->info.id, event->type);
 
-    if (event->type == CIOT_IFACE_EVENT_DATA && self->iface.event_handler != NULL)
+    if ((event->type == CIOT_IFACE_EVENT_DATA || 
+         event->type == CIOT_IFACE_EVENT_INTERNAL ||
+         event->type == CIOT_IFACE_EVENT_CUSTOM) && 
+         self->iface.event_handler != NULL)
     {
         return self->iface.event_handler(sender, event, self->iface.event_args);
     }
 
     if (self->status.state == CIOT__CIOT_STATE__CIOT_STATE_BUSY)
     {
-        CIOT_LOGW(TAG, "waiting because ciot core is busy");
-        ciot_sys_sleep(500);
-        if(self->status.state == CIOT__CIOT_STATE__CIOT_STATE_BUSY) 
-        {
-            CIOT_LOGE(TAG, "ciot core is busy. %s(%lu) evt id:%d ignored", ciot_iface_to_str(sender), sender->info.id, event->type);
-            return CIOT_ERR__BUSY;
-        }
+        CIOT_LOGE(TAG, "ciot busy. %s(%lu) evt type:%d ignored", ciot_iface_to_str(sender), sender->info.id, event->type);
+        return CIOT_ERR__BUSY;
     }
 
     self->recv.event.type = event->type;
