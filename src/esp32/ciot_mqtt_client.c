@@ -68,8 +68,6 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
 
     const esp_mqtt_client_config_t mqtt_client_cfg = {
         .broker.address.uri = base->url,
-        .broker.address.port = base->cfg.port,
-        .broker.address.transport = base->cfg.transport,
         .credentials.client_id = base->client_id,
         .credentials.username = base->user,
         .credentials.authentication.password = base->password,
@@ -114,10 +112,12 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     if(qos == 0)
     {
         err = esp_mqtt_client_publish(self->handle, topic, (char*)data, size, qos, false);
+        if(err == 0) ciot_mqtt_client_update_data_rate(self, size);
     }
     else
     {
         err = esp_mqtt_client_enqueue(self->handle, topic, (char*)data, size, qos, false, false);
+        if(err == 0) ciot_mqtt_client_update_data_rate(self, size);
     }
     return err <= 0 ? CIOT_ERR__OK : CIOT_ERR__FAIL;
 }

@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_mqtt_client.h"
+#include "ciot_timer.h"
 #include "ciot_config.h"
 
 // static const char *TAG = "ciot_mqtt_client";
@@ -159,5 +160,21 @@ ciot_err_t ciot_mqtt_client_set_subtopic(ciot_mqtt_client_t self, char *subtopic
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_INDEX_CHECK(base->topic_len, 0, sizeof(base->topic_pub));
     memcpy(&base->topic_pub[base->topic_len], subtopic, len);
+    return CIOT_ERR__OK;
+}
+
+ciot_err_t ciot_mqtt_client_update_data_rate(ciot_mqtt_client_t self, int bytes_sended)
+{
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    if(base->status.state == CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED)
+    {
+        base->data_rate_aux += bytes_sended;
+        if(ciot_timer_now() != base->status.last_msg_time)
+        {
+            base->status.last_msg_time = ciot_timer_now();
+            base->status.data_rate = base->data_rate_aux;
+            base->data_rate_aux = 0;
+        }
+    }
     return CIOT_ERR__OK;
 }

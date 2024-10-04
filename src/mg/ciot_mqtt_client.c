@@ -115,6 +115,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     opts.qos = qos;
     opts.retain = false;
     mg_mqtt_pub(self->connection, &opts);
+    ciot_mqtt_client_update_data_rate(self, size);
     return CIOT_ERR__OK;
 }
 
@@ -170,7 +171,7 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     }
     case MG_EV_MQTT_MSG:
     {
-        CIOT_LOGD(TAG, "MG_EV_MQTT_MSG");
+        CIOT_LOGI(TAG, "MG_EV_MQTT_MSG");
         struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
         if(strlen(base->cfg.topics->sub) == mm->topic.len && 
            strncmp(mm->topic.ptr, base->cfg.topics->sub, mm->topic.len) == 0)
