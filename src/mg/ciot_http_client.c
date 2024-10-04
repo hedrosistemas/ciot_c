@@ -120,42 +120,6 @@ ciot_err_t ciot_http_client_stop(ciot_http_client_t self)
     return CIOT_ERR__OK;
 }
 
-// ciot_err_t ciot_http_client_process_req(ciot_http_client_t self, ciot_http_client_req_t *req)
-// {
-//     CIOT_ERR_NULL_CHECK(self);
-//     CIOT_ERR_NULL_CHECK(req);
-
-//     switch (req->type)
-//     {
-//     case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_TYPE_UNKOWN:
-//         return CIOT_ERR__NOT_IMPLEMENTED;
-//     case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_SEND_DATA:
-//         return CIOT_ERR__NOT_IMPLEMENTED;
-//     case CIOT__HTTP_CLIENT_REQ_TYPE__HTTP_CLIENT_REQ_SET_HEADER:
-//         return CIOT_ERR__NOT_IMPLEMENTED;
-//     default:
-//         break;
-//     }
-
-//     return CIOT_ERR__NOT_IMPLEMENTED;
-// }
-
-// ciot_err_t ciot_http_client_get_cfg(ciot_http_client_t self, ciot_http_client_cfg_t *cfg)
-// {
-//     CIOT_ERR_NULL_CHECK(self);
-//     CIOT_ERR_NULL_CHECK(cfg);
-//     *cfg = self->base.cfg;
-//     return CIOT_ERR__OK;
-// }
-
-// ciot_err_t ciot_http_client_get_status(ciot_http_client_t self, ciot_http_client_status_t *status)
-// {
-//     CIOT_ERR_NULL_CHECK(self);
-//     CIOT_ERR_NULL_CHECK(status);
-//     *status = self->base.status;
-//     return CIOT_ERR__NOT_IMPLEMENTED;
-// }
-
 static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
     ciot_http_client_t self = fn_data;
