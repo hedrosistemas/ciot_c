@@ -30,6 +30,7 @@ typedef enum ciot_storage_type
 typedef struct ciot_storage *ciot_storage_t;
 typedef ciot_err_t ciot_storage_write_bytes_fn(char *path, uint8_t *bytes, int size);
 typedef ciot_err_t ciot_storage_read_bytes_fn(char *path, uint8_t *bytes, int *size);
+typedef ciot_err_t ciot_storage_delete_fn(char *path);
 
 struct ciot_storage
 {
@@ -37,6 +38,7 @@ struct ciot_storage
     ciot_serializer_t serializer;
     ciot_storage_write_bytes_fn *write_bytes;
     ciot_storage_read_bytes_fn *read_bytes;
+    ciot_storage_delete_fn *delete;
 };
 
 ciot_err_t ciot_storage_set_data(ciot_storage_t self, char *path, ciot_msg_data_t *data);

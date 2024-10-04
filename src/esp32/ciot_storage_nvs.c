@@ -22,6 +22,7 @@ struct ciot_storage_nvs
 
 typedef struct ciot_storage_nvs *ciot_storage_nvs_t;
 
+static ciot_err_t ciot_storage_nvs_delete(char *path);
 static ciot_err_t ciot_storage_nvs_write_bytes(char *path, uint8_t *bytes, int size);
 static ciot_err_t ciot_storage_nvs_read_bytes(char *path, uint8_t *bytes, int *size);
 static ciot_err_t ciot_storage_nvs_init(void);
@@ -33,10 +34,20 @@ ciot_storage_t ciot_storage_nvs_new(void)
 {
     ciot_storage_nvs_t self = calloc(1, sizeof(struct ciot_storage_nvs));
     ciot_storage_t base = &self->base;
+    base->delete = ciot_storage_nvs_delete;
     base->write_bytes = ciot_storage_nvs_write_bytes;
     base->read_bytes = ciot_storage_nvs_read_bytes;
     ciot_storage_nvs_init();
     return &self->base;
+}
+
+static ciot_err_t ciot_storage_nvs_delete(char *path)
+{
+    CIOT_ERR_NULL_CHECK(path);
+
+    nvs_handle_t handle;
+    CIOT_ERR_RETURN(nvs_open(CIOT_STORAGE_NVS_NS, NVS_READWRITE, &handle));
+    return nvs_erase_key(handle, path);
 }
 
 static ciot_err_t ciot_storage_nvs_write_bytes(char *path, uint8_t *bytes, int size)
@@ -62,9 +73,13 @@ static ciot_err_t ciot_storage_nvs_read_bytes(char *path, uint8_t *bytes, int *s
 
     nvs_handle_t handle;
     ciot_err_t err = nvs_open(CIOT_STORAGE_NVS_NS, NVS_READONLY, &handle);
-    if(err != ESP_OK)
+    if(err == ESP_ERR_NVS_NOT_FOUND)
     {
-        CIOT_LOGE(TAG, "nvs open error: %s", esp_err_to_name(err));
+        return CIOT_ERR__NOT_FOUND;
+    }
+    else if(err != ESP_OK)
+    {
+        CIOT_LOGE(TAG, "nvs get blob error: %s", esp_err_to_name(err));
         return CIOT_ERR__FAIL;
     }
 
