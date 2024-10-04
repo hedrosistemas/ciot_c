@@ -1,16 +1,17 @@
 /**
  * @file ciot_utils.c
  * @author Wesley Santos (wesleypro37@gmail.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-12-08
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
 
 #include "ciot_utils.h"
-#include "stdio.h"
+#include <stdio.h>
+#include <string.h>
 
 void bytes_to_hex(char *dst, uint8_t *src, size_t size, bool reverse)
 {
@@ -52,4 +53,41 @@ void ciot_copy_data(uint8_t *destiny, uint8_t *source, int size, bool reverse)
         int idx = reverse ? (size - i - 1) : i;
         destiny[i] = source[idx];
     }
+}
+
+unsigned char hex_char_to_byte(char c)
+{
+    if (c >= '0' && c <= '9')
+    {
+        return c - '0';
+    }
+    else if (c >= 'a' && c <= 'f')
+    {
+        return c - 'a' + 10;
+    }
+    else if (c >= 'A' && c <= 'F')
+    {
+        return c - 'A' + 10;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int hex_string_to_bytes(const char *hex_str, unsigned char *byte_array, size_t byte_array_len)
+{
+    size_t hex_len = strlen(hex_str);
+
+    if (hex_len % 2 != 0 || byte_array_len < hex_len / 2)
+    {
+        return -1;
+    }
+
+    for (size_t i = 0; i < hex_len; i += 2)
+    {
+        byte_array[i / 2] = (hex_char_to_byte(hex_str[i]) << 4) | hex_char_to_byte(hex_str[i + 1]);
+    }
+
+    return 0;
 }
