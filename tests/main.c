@@ -15,6 +15,7 @@
 
 void test_ciot_decoder_s();
 void test_ciot_decoder_slip();
+void test_ciot_crypt();
 
 void setUp(void) {
     // set stuff up here
@@ -29,5 +30,6 @@ int main(void)
     UNITY_BEGIN();
     test_ciot_decoder_s();
     test_ciot_decoder_slip();
+    test_ciot_crypt();
     return UNITY_END();
 }
