@@ -117,7 +117,6 @@ ciot_err_t ciot_uart_task(ciot_uart_t self)
         DWORD error;
         COMSTAT status;
         ClearCommError(self->handle, &error, &status);
-
         ciot_uart_process_error(self, error);
         ciot_uart_process_status(self, &status);
     }

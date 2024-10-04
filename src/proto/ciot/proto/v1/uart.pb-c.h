@@ -60,11 +60,7 @@ typedef enum _Ciot__UartReqType {
   /*
    * Request to send bytes via UART.
    */
-  CIOT__UART_REQ_TYPE__UART_REQ_TYPE_SEND_BYTES = 2,
-  /*
-   * Request to enable bridge mode for UART.
-   */
-  CIOT__UART_REQ_TYPE__UART_REQ_TYPE_ENABLE_BRIDGE_MODE = 3
+  CIOT__UART_REQ_TYPE__UART_REQ_TYPE_SEND_BYTES = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__UART_REQ_TYPE)
 } Ciot__UartReqType;
 /*

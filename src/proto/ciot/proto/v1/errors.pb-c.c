@@ -7,9 +7,8 @@
 #endif
 
 #include "ciot/proto/v1/errors.pb-c.h"
-static const ProtobufCEnumValue ciot_err__enum_values_by_number[30] =
+static const ProtobufCEnumValue ciot_err__enum_values_by_number[32] =
 {
-  { "FAIL", "CIOT_ERR__FAIL", -1 },
   { "OK", "CIOT_ERR__OK", 0 },
   { "NULL_ARG", "CIOT_ERR__NULL_ARG", 1 },
   { "INVALID_ID", "CIOT_ERR__INVALID_ID", 2 },
@@ -39,42 +38,47 @@ static const ProtobufCEnumValue ciot_err__enum_values_by_number[30] =
   { "PROTOCOL_VIOLATION", "CIOT_ERR__PROTOCOL_VIOLATION", 26 },
   { "DATA_LOSS", "CIOT_ERR__DATA_LOSS", 27 },
   { "INVALID_HEADER", "CIOT_ERR__INVALID_HEADER", 28 },
+  { "DISABLED", "CIOT_ERR__DISABLED", 29 },
+  { "FAIL", "CIOT_ERR__FAIL", 30 },
+  { "INVALID_INDEX", "CIOT_ERR__INVALID_INDEX", 31 },
 };
 static const ProtobufCIntRange ciot_err__value_ranges[] = {
-{-1, 0},{0, 30}
+{0, 0},{0, 32}
 };
-static const ProtobufCEnumValueIndex ciot_err__enum_values_by_name[30] =
+static const ProtobufCEnumValueIndex ciot_err__enum_values_by_name[32] =
 {
-  { "BUSY", 8 },
-  { "CHECKSUM", 26 },
-  { "CLOSED", 15 },
-  { "CONNECTION", 18 },
-  { "DATA_LOSS", 28 },
-  { "DESERIALIZATION", 11 },
-  { "DISCONNECTION", 19 },
-  { "EXCEPTION", 20 },
-  { "FAIL", 0 },
-  { "IMPOSSIBLE_OP", 25 },
-  { "INVALID_ARG", 21 },
-  { "INVALID_HEADER", 29 },
-  { "INVALID_ID", 3 },
-  { "INVALID_SIZE", 14 },
-  { "INVALID_STATE", 9 },
-  { "INVALID_TYPE", 4 },
-  { "MONGOOSE", 24 },
-  { "NOT_FOUND", 16 },
-  { "NOT_IMPLEMENTED", 6 },
-  { "NOT_SUPPORTED", 7 },
-  { "NO_MEMORY", 22 },
-  { "NULL_ARG", 2 },
-  { "OK", 1 },
-  { "OVERFLOW", 5 },
-  { "PROTOCOL_VIOLATION", 27 },
-  { "RECV_DATA", 13 },
-  { "SEND_DATA", 12 },
-  { "SERIALIZATION", 10 },
-  { "TIMEOUT", 23 },
-  { "VALIDATION_FAILED", 17 },
+  { "BUSY", 7 },
+  { "CHECKSUM", 25 },
+  { "CLOSED", 14 },
+  { "CONNECTION", 17 },
+  { "DATA_LOSS", 27 },
+  { "DESERIALIZATION", 10 },
+  { "DISABLED", 29 },
+  { "DISCONNECTION", 18 },
+  { "EXCEPTION", 19 },
+  { "FAIL", 30 },
+  { "IMPOSSIBLE_OP", 24 },
+  { "INVALID_ARG", 20 },
+  { "INVALID_HEADER", 28 },
+  { "INVALID_ID", 2 },
+  { "INVALID_INDEX", 31 },
+  { "INVALID_SIZE", 13 },
+  { "INVALID_STATE", 8 },
+  { "INVALID_TYPE", 3 },
+  { "MONGOOSE", 23 },
+  { "NOT_FOUND", 15 },
+  { "NOT_IMPLEMENTED", 5 },
+  { "NOT_SUPPORTED", 6 },
+  { "NO_MEMORY", 21 },
+  { "NULL_ARG", 1 },
+  { "OK", 0 },
+  { "OVERFLOW", 4 },
+  { "PROTOCOL_VIOLATION", 26 },
+  { "RECV_DATA", 12 },
+  { "SEND_DATA", 11 },
+  { "SERIALIZATION", 9 },
+  { "TIMEOUT", 22 },
+  { "VALIDATION_FAILED", 16 },
 };
 const ProtobufCEnumDescriptor ciot_err__descriptor =
 {
@@ -83,9 +87,9 @@ const ProtobufCEnumDescriptor ciot_err__descriptor =
   "CiotErr",
   "CiotErr",
   "",
-  30,
+  32,
   ciot_err__enum_values_by_number,
-  30,
+  32,
   ciot_err__enum_values_by_name,
   1,
   ciot_err__value_ranges,

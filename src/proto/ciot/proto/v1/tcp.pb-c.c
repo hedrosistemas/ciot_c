@@ -650,24 +650,24 @@ const ProtobufCMessageDescriptor ciot__tcp_data__descriptor =
 };
 static const ProtobufCEnumValue ciot__tcp_state__enum_values_by_number[6] =
 {
-  { "TCP_STATE_ERROR", "CIOT__TCP_STATE__TCP_STATE_ERROR", -1 },
-  { "TCP_STATE_STARTED", "CIOT__TCP_STATE__TCP_STATE_STARTED", 0 },
-  { "TCP_STATE_STOPPED", "CIOT__TCP_STATE__TCP_STATE_STOPPED", 1 },
+  { "TCP_STATE_STOPPED", "CIOT__TCP_STATE__TCP_STATE_STOPPED", 0 },
+  { "TCP_STATE_STARTED", "CIOT__TCP_STATE__TCP_STATE_STARTED", 1 },
   { "TCP_STATE_DISCONNECTED", "CIOT__TCP_STATE__TCP_STATE_DISCONNECTED", 2 },
   { "TCP_STATE_CONNECTING", "CIOT__TCP_STATE__TCP_STATE_CONNECTING", 3 },
   { "TCP_STATE_CONNECTED", "CIOT__TCP_STATE__TCP_STATE_CONNECTED", 4 },
+  { "TCP_STATE_ERROR", "CIOT__TCP_STATE__TCP_STATE_ERROR", 5 },
 };
 static const ProtobufCIntRange ciot__tcp_state__value_ranges[] = {
-{-1, 0},{0, 6}
+{0, 0},{0, 6}
 };
 static const ProtobufCEnumValueIndex ciot__tcp_state__enum_values_by_name[6] =
 {
-  { "TCP_STATE_CONNECTED", 5 },
-  { "TCP_STATE_CONNECTING", 4 },
-  { "TCP_STATE_DISCONNECTED", 3 },
-  { "TCP_STATE_ERROR", 0 },
+  { "TCP_STATE_CONNECTED", 4 },
+  { "TCP_STATE_CONNECTING", 3 },
+  { "TCP_STATE_DISCONNECTED", 2 },
+  { "TCP_STATE_ERROR", 5 },
   { "TCP_STATE_STARTED", 1 },
-  { "TCP_STATE_STOPPED", 2 },
+  { "TCP_STATE_STOPPED", 0 },
 };
 const ProtobufCEnumDescriptor ciot__tcp_state__descriptor =
 {

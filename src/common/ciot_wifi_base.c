@@ -14,8 +14,9 @@
 
 #include "ciot_wifi.h"
 #include "ciot_config.h"
+#include "ciot_msg.h"
 
-// static const char *TAG = "ciot_wifi";
+static const char *TAG = "ciot_wifi_base";
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req);
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg);
@@ -23,6 +24,8 @@ static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int s
 
 ciot_err_t ciot_wifi_init(ciot_wifi_t self)
 {
+    CIOT_LOGI(TAG, "Init");
+    
     ciot_wifi_base_t *base = (ciot_wifi_base_t*)self;
     ciot_tcp_base_t *tcp =(ciot_tcp_base_t*)base->tcp;
 
@@ -41,14 +44,18 @@ ciot_err_t ciot_wifi_init(ciot_wifi_t self)
 
     base->cfg.ssid = base->ssid;
     base->cfg.password = base->password;
+
+
+    if(tcp->type == CIOT_TCP_TYPE_WIFI_STA)
+    {
+        base->info.ap = &base->ap_info;
+        base->info.ap->bssid.data = base->ap_bssid;
+        base->info.ap->bssid.len = sizeof(base->ap_bssid);
+        base->info.ap->ssid = base->ap_ssid;
+    }
+
     base->cfg.tcp = &tcp->cfg;
-
     base->status.tcp = &tcp->status;
-
-    base->info.ap = &base->ap_info;
-    base->info.ap->bssid.data = base->ap_bssid;
-    base->info.ap->bssid.len = sizeof(base->ap_bssid);
-    base->info.ap->ssid = base->ap_ssid;
     base->info.tcp = &tcp->info;
 
     return CIOT_ERR__OK;
@@ -149,4 +156,11 @@ ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, uint8_t mac[6])
     ciot_wifi_base_t *base = (ciot_wifi_base_t*)self;
     memcpy(mac, base->info.tcp->mac.data, 6);
     return CIOT_ERR__OK;
+}
+
+ciot_err_t ciot_wifi_toggle(ciot_wifi_t self)
+{
+    ciot_wifi_base_t *base = (ciot_wifi_base_t*)self;
+    base->cfg.disabled = base->status.tcp->state != CIOT__TCP_STATE__TCP_STATE_STOPPED;
+    return ciot_wifi_start(self, &base->cfg);
 }

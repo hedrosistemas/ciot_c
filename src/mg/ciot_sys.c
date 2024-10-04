@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "ciot.h"
 #include "ciot_sys.h"
 #include "ciot_err.h"
@@ -26,6 +27,7 @@ struct ciot_sys
 };
 
 static uint32_t ciot_sys_get_free_ram(void);
+static void ciot_sys_get_process_name(char *name);
 
 struct mg_mgr mg;
 
@@ -79,6 +81,14 @@ ciot_err_t ciot_sys_sleep(long ms)
 
 ciot_err_t ciot_sys_restart(void)
 {
+#if defined(CIOT_TARGET_WIN) || defined(CIOT_TARGET_LINUX)
+    char process[256];
+    ciot_sys_get_process_name(process);
+    system("clear");
+    system(process);
+    exit(0);
+    CIOT_LOGE(TAG, "Restart error");
+#endif
     return CIOT_ERR__NOT_SUPPORTED;
 }
 
@@ -107,6 +117,7 @@ static uint32_t ciot_sys_get_free_ram(void)
 }
 
 #elif defined(CIOT_TARGET_LINUX)
+
 static uint32_t ciot_sys_get_free_ram(void)
 {
     FILE *meminfo = fopen("/proc/meminfo", "r");
@@ -133,6 +144,28 @@ static uint32_t ciot_sys_get_free_ram(void)
 static uint32_t ciot_sys_get_free_ram(void)
 {
     return 0;
+}
+
+#endif
+
+#if defined(CIOT_TARGET_WIN)
+
+static void ciot_sys_get_process_name(char *name)
+{
+    GetModuleFileName(NULL, name, 256);
+}
+
+#elif defined(CIOT_TARGET_LINUX)
+
+#include <unistd.h>
+
+static void ciot_sys_get_process_name(char *name)
+{
+    ssize_t len = readlink("/proc/self/exe", name, sizeof(name) - 1);
+    
+    if (len != -1) {
+        name[len] = '\0';
+    }
 }
 
 #endif

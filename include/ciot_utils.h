@@ -18,6 +18,7 @@ extern "C" {
 #include <stdlib.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include "protobuf-c/protobuf-c.h"
 
 /**
  * @brief Convert bytes to hexadecimal representation.
@@ -28,6 +29,24 @@ extern "C" {
  * @param reverse Flag indicating whether to reverse byte order (little-endian).
  */
 void bytes_to_hex(char *dst, uint8_t *src, size_t size, bool reverse);
+
+/**
+ * @brief Convert an hex char to byte
+ * 
+ * @param c hex char
+ * @return unsigned char byte
+ */
+unsigned char hex_char_to_byte(char c);
+
+/**
+ * @brief convert an hex string to byte
+ * 
+ * @param hex_str hex string
+ * @param byte_array output buffer
+ * @param byte_array_len output buffer size
+ * @return int 
+ */
+int hex_string_to_bytes(const char *hex_str, unsigned char *byte_array, size_t byte_array_len);
 
 /**
  * @brief Compute CRC32 checksum for the given data.

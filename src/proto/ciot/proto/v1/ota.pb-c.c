@@ -348,12 +348,12 @@ static const ProtobufCFieldDescriptor ciot__ota_status__field_descriptors[4] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "image_read",
+    "image_written",
     4,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_UINT32,
     0,   /* quantifier_offset */
-    offsetof(Ciot__OtaStatus, image_read),
+    offsetof(Ciot__OtaStatus, image_written),
     NULL,
     NULL,
     0,             /* flags */
@@ -362,8 +362,8 @@ static const ProtobufCFieldDescriptor ciot__ota_status__field_descriptors[4] =
 };
 static const unsigned ciot__ota_status__field_indices_by_name[] = {
   1,   /* field[1] = error */
-  3,   /* field[3] = image_read */
   2,   /* field[2] = image_size */
+  3,   /* field[3] = image_written */
   0,   /* field[0] = state */
 };
 static const ProtobufCIntRange ciot__ota_status__number_ranges[1 + 1] =
@@ -521,7 +521,6 @@ const ProtobufCMessageDescriptor ciot__ota_data__descriptor =
 };
 static const ProtobufCEnumValue ciot__ota_state__enum_values_by_number[11] =
 {
-  { "OTA_STATE_ERROR", "CIOT__OTA_STATE__OTA_STATE_ERROR", -1 },
   { "OTA_STATE_IDLE", "CIOT__OTA_STATE__OTA_STATE_IDLE", 0 },
   { "OTA_STATE_INIT", "CIOT__OTA_STATE__OTA_STATE_INIT", 1 },
   { "OTA_STATE_IN_PROGRESS", "CIOT__OTA_STATE__OTA_STATE_IN_PROGRESS", 2 },
@@ -532,23 +531,24 @@ static const ProtobufCEnumValue ciot__ota_state__enum_values_by_number[11] =
   { "OTA_STATE_FLASHING", "CIOT__OTA_STATE__OTA_STATE_FLASHING", 7 },
   { "OTA_STATE_UPDATE_BOOT_PARTITION", "CIOT__OTA_STATE__OTA_STATE_UPDATE_BOOT_PARTITION", 8 },
   { "OTA_STATE_STATE_DONE", "CIOT__OTA_STATE__OTA_STATE_STATE_DONE", 9 },
+  { "OTA_STATE_ERROR", "CIOT__OTA_STATE__OTA_STATE_ERROR", 10 },
 };
 static const ProtobufCIntRange ciot__ota_state__value_ranges[] = {
-{-1, 0},{0, 11}
+{0, 0},{0, 11}
 };
 static const ProtobufCEnumValueIndex ciot__ota_state__enum_values_by_name[11] =
 {
-  { "OTA_STATE_CHECKING_DATA", 6 },
-  { "OTA_STATE_CONNECTED", 5 },
-  { "OTA_STATE_DECRYPTING", 7 },
-  { "OTA_STATE_ERROR", 0 },
-  { "OTA_STATE_FLASHING", 8 },
-  { "OTA_STATE_IDLE", 1 },
-  { "OTA_STATE_INIT", 2 },
-  { "OTA_STATE_IN_PROGRESS", 3 },
-  { "OTA_STATE_START", 4 },
-  { "OTA_STATE_STATE_DONE", 10 },
-  { "OTA_STATE_UPDATE_BOOT_PARTITION", 9 },
+  { "OTA_STATE_CHECKING_DATA", 5 },
+  { "OTA_STATE_CONNECTED", 4 },
+  { "OTA_STATE_DECRYPTING", 6 },
+  { "OTA_STATE_ERROR", 10 },
+  { "OTA_STATE_FLASHING", 7 },
+  { "OTA_STATE_IDLE", 0 },
+  { "OTA_STATE_INIT", 1 },
+  { "OTA_STATE_IN_PROGRESS", 2 },
+  { "OTA_STATE_START", 3 },
+  { "OTA_STATE_STATE_DONE", 9 },
+  { "OTA_STATE_UPDATE_BOOT_PARTITION", 8 },
 };
 const ProtobufCEnumDescriptor ciot__ota_state__descriptor =
 {

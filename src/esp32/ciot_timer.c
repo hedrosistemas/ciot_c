@@ -16,3 +16,8 @@ uint64_t ciot_timer_now(void)
 {
     return time(NULL);
 }
+
+uint64_t ciot_timer_millis(void)
+{
+    return (esp_timer_get_time() / 1000);
+}

@@ -25,12 +25,6 @@ struct ciot_mqtt_client
     struct mg_mgr *mgr;
     struct mg_connection *connection;
     time_t last_ping;
-    // char client_id[CIOT_CONFIG_MQTT_CLIENT_ID_SIZE];
-    // char url[CIOT_CONFIG_MQTT_CLIENT_URL_SIZE];
-    // char user[CIOT_CONFIG_MQTT_USER_SIZE];
-    // char password[CIOT_CONFIG_MQTT_PASS_SIZE];
-    // char topic_pub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
-    // char topic_sub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
 };
 
 static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
@@ -97,6 +91,7 @@ ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
+    CIOT_ERR_NULL_CHECK(self->connection);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     struct mg_mqtt_opts opts = {0};
     opts.topic = mg_str(topic);
@@ -109,6 +104,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
+    CIOT_ERR_NULL_CHECK(self->connection);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     struct mg_mqtt_opts opts = {0};
     struct mg_str msg = {0};
@@ -119,6 +115,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     opts.qos = qos;
     opts.retain = false;
     mg_mqtt_pub(self->connection, &opts);
+    ciot_mqtt_client_update_data_rate(self, size);
     return CIOT_ERR__OK;
 }
 
@@ -174,7 +171,7 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     }
     case MG_EV_MQTT_MSG:
     {
-        CIOT_LOGD(TAG, "MG_EV_MQTT_MSG");
+        CIOT_LOGI(TAG, "MG_EV_MQTT_MSG");
         struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
         if(strlen(base->cfg.topics->sub) == mm->topic.len && 
            strncmp(mm->topic.ptr, base->cfg.topics->sub, mm->topic.len) == 0)

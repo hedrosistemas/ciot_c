@@ -60,7 +60,7 @@ typedef enum _Ciot__WifiScanState {
   /*
    * Error occurred during Wi-Fi scan.
    */
-  CIOT__WIFI_SCAN_STATE__WIFI_SCAN_STATE_ERROR = -1
+  CIOT__WIFI_SCAN_STATE__WIFI_SCAN_STATE_ERROR = 3
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__WIFI_SCAN_STATE)
 } Ciot__WifiScanState;
 /*
@@ -125,6 +125,10 @@ struct  _Ciot__WifiCfg
 {
   ProtobufCMessage base;
   /*
+   * Disable wifi interface
+   */
+  protobuf_c_boolean disabled;
+  /*
    * SSID of the Wi-Fi network.
    */
   char *ssid;
@@ -143,7 +147,7 @@ struct  _Ciot__WifiCfg
 };
 #define CIOT__WIFI_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__wifi_cfg__descriptor) \
-    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, CIOT__WIFI_TYPE__WIFI_TYPE_STA, NULL }
+    , 0, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, CIOT__WIFI_TYPE__WIFI_TYPE_STA, NULL }
 
 
 /*

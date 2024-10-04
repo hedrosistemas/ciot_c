@@ -10,9 +10,15 @@
  */
 
 #include <time.h>
+#include "mongoose.h"
 #include "ciot_timer.h"
 
 uint64_t ciot_timer_now(void)
 {
     return time(NULL);
+}
+
+uint64_t ciot_timer_millis(void)
+{
+    return mg_millis();
 }

@@ -408,19 +408,17 @@ const ProtobufCEnumDescriptor ciot__usb_state__descriptor =
   ciot__usb_state__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__usb_req_type__enum_values_by_number[4] =
+static const ProtobufCEnumValue ciot__usb_req_type__enum_values_by_number[3] =
 {
   { "USB_REQ_TYPE_UNKOWN", "CIOT__USB_REQ_TYPE__USB_REQ_TYPE_UNKOWN", 0 },
   { "USB_REQ_TYPE_SEND_DATA", "CIOT__USB_REQ_TYPE__USB_REQ_TYPE_SEND_DATA", 1 },
   { "USB_REQ_TYPE_SEND_BYTES", "CIOT__USB_REQ_TYPE__USB_REQ_TYPE_SEND_BYTES", 2 },
-  { "USB_REQ_TYPE_ENABLE_BRIDGE_MODE", "CIOT__USB_REQ_TYPE__USB_REQ_TYPE_ENABLE_BRIDGE_MODE", 3 },
 };
 static const ProtobufCIntRange ciot__usb_req_type__value_ranges[] = {
-{0, 0},{0, 4}
+{0, 0},{0, 3}
 };
-static const ProtobufCEnumValueIndex ciot__usb_req_type__enum_values_by_name[4] =
+static const ProtobufCEnumValueIndex ciot__usb_req_type__enum_values_by_name[3] =
 {
-  { "USB_REQ_TYPE_ENABLE_BRIDGE_MODE", 3 },
   { "USB_REQ_TYPE_SEND_BYTES", 2 },
   { "USB_REQ_TYPE_SEND_DATA", 1 },
   { "USB_REQ_TYPE_UNKOWN", 0 },
@@ -432,9 +430,9 @@ const ProtobufCEnumDescriptor ciot__usb_req_type__descriptor =
   "UsbReqType",
   "Ciot__UsbReqType",
   "Ciot",
-  4,
+  3,
   ciot__usb_req_type__enum_values_by_number,
-  4,
+  3,
   ciot__usb_req_type__enum_values_by_name,
   1,
   ciot__usb_req_type__value_ranges,

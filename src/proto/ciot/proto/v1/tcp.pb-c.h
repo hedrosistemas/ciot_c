@@ -30,13 +30,13 @@ typedef struct _Ciot__TcpData Ciot__TcpData;
  */
 typedef enum _Ciot__TcpState {
   /*
-   * TCP module is started.
-   */
-  CIOT__TCP_STATE__TCP_STATE_STARTED = 0,
-  /*
    * TCP module is stopped.
    */
-  CIOT__TCP_STATE__TCP_STATE_STOPPED = 1,
+  CIOT__TCP_STATE__TCP_STATE_STOPPED = 0,
+  /*
+   * TCP module is started.
+   */
+  CIOT__TCP_STATE__TCP_STATE_STARTED = 1,
   /*
    * TCP module is disconnected.
    */
@@ -52,7 +52,7 @@ typedef enum _Ciot__TcpState {
   /*
    * TCP module encountered an error.
    */
-  CIOT__TCP_STATE__TCP_STATE_ERROR = -1
+  CIOT__TCP_STATE__TCP_STATE_ERROR = 5
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__TCP_STATE)
 } Ciot__TcpState;
 /*
@@ -202,7 +202,7 @@ struct  _Ciot__TcpStatus
 };
 #define CIOT__TCP_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__tcp_status__descriptor) \
-    , CIOT__TCP_STATE__TCP_STATE_STARTED, 0, NULL }
+    , CIOT__TCP_STATE__TCP_STATE_STOPPED, 0, NULL }
 
 
 /*

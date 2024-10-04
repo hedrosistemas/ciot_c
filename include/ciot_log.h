@@ -130,19 +130,6 @@ extern "C"
 #endif // IDF_VER
 
 /**
- * @brief Macro to log a message with additional information.
- */
-#define CIOT_LOG_MSG(TAG, LOG_MACRO, header, sender, msg) \
-    LOG_MACRO(TAG, header "id:%d %d:%s %d:%s %d:%s",      \
-              msg.id,                                     \
-              sender->info.id,                            \
-              ciot_iface_to_str(sender),                  \
-              msg.type,                                   \
-              ciot_msg_type_to_str(&msg),                 \
-              msg.iface.id,                               \
-              ciot_iface_type_to_str(msg.iface.type))
-
-/**
  * @brief Macro to log a message pointer with additional information.
  */
 #define CIOT_LOG_MSG_P(TAG, LOG_MACRO, header, sender, msg) \

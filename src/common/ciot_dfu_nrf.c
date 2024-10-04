@@ -99,9 +99,9 @@ ciot_err_t ciot_dfu_nrf_start(ciot_dfu_nrf_t self, ciot_dfu_cfg_t *cfg)
     ciot_msg_t msg = {
         .type = CIOT__MSG_TYPE__MSG_TYPE_START,
         .data = self->cfg.iface_cfg};
-    self->cfg.iface->process_req(self->cfg.iface, &msg);
+    self->base.status.error = self->cfg.iface->process_req(self->cfg.iface, &msg);
 
-    return CIOT_ERR__OK;
+    return self->base.status.error;
 }
 
 ciot_err_t ciot_dfu_nrf_stop(ciot_dfu_nrf_t self)
@@ -252,6 +252,7 @@ ciot_err_t ciot_dfu_nrf_task(ciot_dfu_nrf_t self)
     {
         if(ciot_timer_compare(&self->timer, 5))
         {
+            CIOT_LOGE(TAG, "TIMEOUT");
             err = CIOT_ERR__TIMEOUT;
             self->base.status.error = err;
             self->state = CIOT_DFU_NRF_STATE_ERROR;

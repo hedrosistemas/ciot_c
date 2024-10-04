@@ -14,12 +14,17 @@
 
 static ciot_msg_t *msg = NULL;
 
+static const char *TAG = "ciot_storage";
+
 ciot_err_t ciot_storage_set_data(ciot_storage_t self, char *path, ciot_msg_data_t *data)
 {
     CIOT_ERR_NULL_CHECK(self);
 
     ciot_msg_t msg = CIOT__MSG__INIT;
     msg.data = data;
+
+    CIOT_LOGI(TAG, "saving data:");
+    ciot_msg_print(&data->base);
 
     int size = ciot__msg__get_packed_size(&msg);
     uint8_t buf[size];

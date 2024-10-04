@@ -71,7 +71,7 @@ typedef enum _Ciot__OtaState {
   /*
    * OTA process encountered an error.
    */
-  CIOT__OTA_STATE__OTA_STATE_ERROR = -1
+  CIOT__OTA_STATE__OTA_STATE_ERROR = 10
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__OTA_STATE)
 } Ciot__OtaState;
 /*
@@ -140,7 +140,7 @@ struct  _Ciot__OtaStatus
   /*
    * Size of the OTA image already read.
    */
-  uint32_t image_read;
+  uint32_t image_written;
 };
 #define CIOT__OTA_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ota_status__descriptor) \
