@@ -39,6 +39,13 @@ typedef CiotErr ciot_err_t;
         return CIOT_ERR__INVALID_STATE;                    \
     }
 
+#define CIOT_ERR_VALUE_CHECK(current, expected, err) \
+    if (current != expected)                         \
+    {                                                \
+        CIOT_ERR_LOG("ciot_err", err);               \
+        return err;                                  \
+    }
+
 #define CIOT_ERR_EMPTY_STRING_CHECK(x)                       \
     if (x[0] == '\0')                                        \
     {                                                        \
