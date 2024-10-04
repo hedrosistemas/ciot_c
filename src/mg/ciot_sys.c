@@ -37,7 +37,6 @@ ciot_sys_t ciot_sys_new(void *handle)
     ciot_sys_init(self);
     ciot_sys_get_info(self, &self->base.info);
     sys = self;
-    mg_mgr_init(handle);
     return self;
 }
 
@@ -60,7 +59,6 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     CIOT_ERR_NULL_CHECK(self);
     sys->base.status.free_memory = ciot_sys_get_free_ram();
     sys->base.status.lifetime = ciot_timer_now() - sys->init_time;
-    mg_mgr_poll(CIOT_HANDLE, CIOT_CONFIG_MG_POOL_INTERVAL_MS);
     return CIOT_ERR__OK;
 }
 

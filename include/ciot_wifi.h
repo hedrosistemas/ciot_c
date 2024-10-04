@@ -55,8 +55,10 @@ ciot_err_t ciot_wifi_stop(ciot_wifi_t self);
 ciot_err_t ciot_wifi_process_req(ciot_wifi_t self, ciot_wifi_req_t *req);
 ciot_err_t ciot_wifi_get_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg);
 ciot_err_t ciot_wifi_get_status(ciot_wifi_t self, ciot_wifi_status_t *status);
-ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, ciot_wifi_type_t type, uint8_t mac[6]);
 ciot_err_t ciot_wifi_get_info(ciot_wifi_t self, ciot_wifi_info_t *info);
+ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, uint8_t mac[6]);
+// ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, ciot_wifi_type_t type, uint8_t mac[6]);
+
 
 #ifdef __cplusplus
 }

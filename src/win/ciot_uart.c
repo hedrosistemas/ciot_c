@@ -104,20 +104,23 @@ ciot_err_t ciot_uart_stop(ciot_uart_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     CloseHandle(self->handle);
+    self->base.status.state = CIOT__UART_STATE__UART_STATE_CLOSED;
     return CIOT_ERR__OK;
 }
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    CIOT_ERR_NULL_CHECK(self->handle);
 
-    DWORD error;
-    COMSTAT status;
-    ClearCommError(self->handle, &error, &status);
+    if(self->handle != NULL)
+    {
+        DWORD error;
+        COMSTAT status;
+        ClearCommError(self->handle, &error, &status);
 
-    ciot_uart_process_error(self, error);
-    ciot_uart_process_status(self, &status);
+        ciot_uart_process_error(self, error);
+        ciot_uart_process_status(self, &status);
+    }
 
     return CIOT_ERR__OK;
 }

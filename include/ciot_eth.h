@@ -27,5 +27,9 @@ ciot_err_t ciot_eth_init(ciot_eth_t self);
 ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg);
 ciot_err_t ciot_eth_stop(ciot_eth_t self);
 ciot_err_t ciot_eth_process_req(ciot_eth_t self, ciot_tcp_req_t *req);
+ciot_err_t ciot_eth_get_cfg(ciot_eth_t self, ciot_tcp_cfg_t *cfg);
+ciot_err_t ciot_eth_get_status(ciot_eth_t self, ciot_tcp_status_t *status);
+ciot_err_t ciot_eth_get_info(ciot_eth_t self, ciot_tcp_info_t *info);
+ciot_err_t ciot_eth_get_mac(ciot_eth_t self, uint8_t mac[6]);
 
 #endif  //!__CIOT_ETH__H__

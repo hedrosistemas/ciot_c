@@ -51,6 +51,7 @@ ciot_err_t ciot_ntp_start(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
     if(cfg->server1) esp_sntp_setservername(0, cfg->server1);
     if(cfg->server2) esp_sntp_setservername(1, cfg->server2);
     if(cfg->server3) esp_sntp_setservername(2, cfg->server3);
+    if(cfg->sync_interval == 0) cfg->sync_interval = 3600 * 1000;
 
     esp_sntp_setoperatingmode(cfg->op_mode);
     esp_sntp_set_sync_interval(cfg->sync_interval);

@@ -104,7 +104,7 @@ static esp_err_t ciot_eth_hw_init(ciot_eth_t self)
 
 static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
-    ciot_eth_t self = (ciot_eth_t*)event_data;
+    ciot_eth_t self = (ciot_eth_t)event_data;
     ciot_eth_base_t *base = &self->base;
     ciot_tcp_base_t *tcp = (ciot_tcp_base_t*)base->tcp;
 

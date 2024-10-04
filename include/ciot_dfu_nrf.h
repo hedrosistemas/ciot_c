@@ -13,6 +13,7 @@
 #define __CIOT_DFU_NRF__H__
 
 #include "ciot_dfu.h"
+#include "ciot_decoder_slip.h"
 
 #define CIOT_DFU_NRF_TIMEOUT_SEC 2
 #define CIOT_DFU_NRF_MAX_DFU_PKT_LEN_UART 64
@@ -88,7 +89,9 @@ typedef struct ciot_dfu_nrf_cfg
     ciot_dfu_nrf_packet_t init_packet;
     ciot_dfu_nrf_packet_t app_image;
     uint32_t max_package_len;
+    int iface_sys_id;
     ciot_iface_t *iface;
+    ciot_msg_data_t *iface_cfg;
 } ciot_dfu_nrf_cfg_t;
 
 typedef struct ciot_dfu_nrf *ciot_dfu_nrf_t;
@@ -101,7 +104,6 @@ ciot_err_t ciot_dfu_nrf_process_req(ciot_dfu_nrf_t self, ciot_dfu_req_t *req);
 ciot_err_t ciot_dfu_nrf_get_cfg(ciot_dfu_nrf_t self, ciot_dfu_cfg_t *cfg);
 ciot_err_t ciot_dfu_nrf_get_status(ciot_dfu_nrf_t self, ciot_dfu_status_t *status);
 ciot_err_t ciot_dfu_nrf_task(ciot_dfu_nrf_t self);
-ciot_err_t ciot_dfu_nrf_send_firmware(ciot_dfu_nrf_t self);
 ciot_err_t ciot_dfu_nrf_read_file(ciot_dfu_nrf_packet_t *object, const char *name);
 ciot_err_t ciot_dfu_nrf_start_bootloader(ciot_dfu_nrf_t self, ciot_iface_t *iface, int sys_id);
 ciot_dfu_nrf_state_t ciot_dfu_nrf_state(ciot_dfu_nrf_t self);

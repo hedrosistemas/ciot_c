@@ -41,16 +41,26 @@ extern "C" {
 
 #define CIOT_VER 0, 1, 0
 
+#define CIOT_IFACE_CFG_FILENAME "cfg%d.dat"
+
 #if defined(CIOT_TARGET_WIN) || defined(CIOT_TARGET_LINUX)
+
+#include "mongoose.h"
 
 extern struct mg_mgr mg; ///< Mongoose network manager.
 
 #define CIOT_HANDLE &mg
 
+#define CIOT_MG_ENABLED
+
 #else
 
 #define CIOT_HANDLE NULL
 
+#endif
+
+#ifndef CIOT_CONFIG_MG_POOL_INTERVAL_MS
+#define CIOT_CONFIG_MG_POOL_INTERVAL_MS 10
 #endif
 
 typedef struct ciot *ciot_t; ///< CIOT network handle.
@@ -113,6 +123,7 @@ ciot_err_t ciot_process_req(ciot_t self, ciot_req_t *req);
 ciot_err_t ciot_get_cfg(ciot_t self, ciot_cfg_t *cfg);
 ciot_err_t ciot_get_status(ciot_t self, ciot_status_t *status);
 ciot_err_t ciot_get_info(ciot_t self, ciot_info_t *info);
+ciot_err_t ciot_save_iface_cfg(ciot_t self, int iface_id);
 
 #ifdef __cplusplus
 }

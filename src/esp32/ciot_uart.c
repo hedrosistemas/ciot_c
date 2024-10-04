@@ -93,8 +93,9 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     if(num == 2) xTaskCreatePinnedToCore(ciot_uart2_task, "ciot_uart2_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
 
     ciot_iface_event_t event = { 0 };
+    base->status.state = CIOT__UART_STATE__UART_STATE_STARTED;
     event.type = CIOT_IFACE_EVENT_STARTED;
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &self->base.iface);
+    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
     ciot_iface_send_event(&base->iface, &event);
 
     return CIOT_ERR__OK;
@@ -175,7 +176,6 @@ static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
     switch (event->type)
     {
     case UART_DATA:
-        ESP_LOGI(TAG, "UART_DATA[%ld] size:%d", base->cfg.num, event->size);
         // if(event->size > 0)
         // {
         //     uint8_t data[event->size];

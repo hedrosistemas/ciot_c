@@ -28,6 +28,7 @@ PROTOBUF_C__BEGIN_DECLS
 #include "ciot/proto/v1/ntp.pb-c.h"
 #include "ciot/proto/v1/ota.pb-c.h"
 #include "ciot/proto/v1/storage.pb-c.h"
+#include "ciot/proto/v1/socket.pb-c.h"
 #include "ciot/proto/v1/sys.pb-c.h"
 #include "ciot/proto/v1/tcp.pb-c.h"
 #include "ciot/proto/v1/uart.pb-c.h"
@@ -52,45 +53,49 @@ typedef enum _Ciot__MsgType {
    */
   CIOT__MSG_TYPE__MSG_TYPE_UNKNOWN = 0,
   /*
+   * Custom message.
+   */
+  CIOT__MSG_TYPE__MSG_TYPE_CUSTOM = 1,
+  /*
    * Start message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_START = 1,
+  CIOT__MSG_TYPE__MSG_TYPE_START = 2,
   /*
    * Stop message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_STOP = 2,
+  CIOT__MSG_TYPE__MSG_TYPE_STOP = 3,
   /*
    * configuration message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_CONFIG = 3,
+  CIOT__MSG_TYPE__MSG_TYPE_CONFIG = 4,
   /*
    * information message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_INFO = 4,
+  CIOT__MSG_TYPE__MSG_TYPE_INFO = 5,
   /*
    * status message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_STATUS = 5,
+  CIOT__MSG_TYPE__MSG_TYPE_STATUS = 6,
   /*
    * Request message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_REQUEST = 6,
+  CIOT__MSG_TYPE__MSG_TYPE_REQUEST = 7,
+  /*
+   * Send payload message.
+   */
+  CIOT__MSG_TYPE__MSG_TYPE_SEND_PAYLOAD = 8,
   /*
    * Error message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_ERROR = 7,
+  CIOT__MSG_TYPE__MSG_TYPE_ERROR = 9,
   /*
    * Event message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_EVENT = 8,
-  /*
-   * Custom message.
-   */
-  CIOT__MSG_TYPE__MSG_TYPE_CUSTOM = 9,
+  CIOT__MSG_TYPE__MSG_TYPE_EVENT = 10,
   /*
    * Log message.
    */
-  CIOT__MSG_TYPE__MSG_TYPE_LOG = 10
+  CIOT__MSG_TYPE__MSG_TYPE_LOG = 11
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__MSG_TYPE)
 } Ciot__MsgType;
 /*
@@ -102,85 +107,89 @@ typedef enum _Ciot__IfaceType {
    */
   CIOT__IFACE_TYPE__IFACE_TYPE_UNKNOWN = 0,
   /*
+   * Custom interface type.
+   */
+  CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM = 1,
+  /*
    * CIOT interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_CIOT = 1,
+  CIOT__IFACE_TYPE__IFACE_TYPE_CIOT = 2,
   /*
    * Storage interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_STORAGE = 2,
+  CIOT__IFACE_TYPE__IFACE_TYPE_STORAGE = 3,
   /*
    * System interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_SYS = 3,
+  CIOT__IFACE_TYPE__IFACE_TYPE_SYS = 4,
   /*
    * UART interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_UART = 4,
+  CIOT__IFACE_TYPE__IFACE_TYPE_UART = 5,
   /*
    * USB interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_USB = 5,
+  CIOT__IFACE_TYPE__IFACE_TYPE_USB = 6,
   /*
    * TCP interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_TCP = 6,
+  CIOT__IFACE_TYPE__IFACE_TYPE_TCP = 7,
   /*
    * Ethernet interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_ETH = 7,
+  CIOT__IFACE_TYPE__IFACE_TYPE_ETH = 8,
   /*
    * WiFi interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_WIFI = 8,
+  CIOT__IFACE_TYPE__IFACE_TYPE_WIFI = 9,
   /*
    * BLE interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_BLE = 9,
+  CIOT__IFACE_TYPE__IFACE_TYPE_BLE = 10,
   /*
    * BLE SCN interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_BLE_SCN = 10,
+  CIOT__IFACE_TYPE__IFACE_TYPE_BLE_SCN = 11,
   /*
    * BLE ADV interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_BLE_ADV = 11,
+  CIOT__IFACE_TYPE__IFACE_TYPE_BLE_ADV = 12,
   /*
    * GPIO interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_GPIO = 12,
+  CIOT__IFACE_TYPE__IFACE_TYPE_GPIO = 13,
   /*
    * NTP interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_NTP = 127,
+  CIOT__IFACE_TYPE__IFACE_TYPE_NTP = 14,
   /*
    * OTA interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_OTA = 128,
+  CIOT__IFACE_TYPE__IFACE_TYPE_OTA = 15,
   /*
    * DFU interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_DFU = 129,
+  CIOT__IFACE_TYPE__IFACE_TYPE_DFU = 16,
   /*
    * HTTP Client interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_CLIENT = 130,
+  CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_CLIENT = 17,
   /*
    * HTTP Server interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER = 131,
+  CIOT__IFACE_TYPE__IFACE_TYPE_HTTP_SERVER = 18,
   /*
    * MQTT interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_MQTT = 132,
+  CIOT__IFACE_TYPE__IFACE_TYPE_MQTT = 19,
+  /*
+   * Socket interface type.
+   */
+  CIOT__IFACE_TYPE__IFACE_TYPE_SOCKET = 20,
   /*
    * Bridge interface type.
    */
-  CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE = 253,
-  /*
-   * Custom interface type.
-   */
-  CIOT__IFACE_TYPE__IFACE_TYPE_CUSTOM = 254
+  CIOT__IFACE_TYPE__IFACE_TYPE_BRIDGE = 21
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__IFACE_TYPE)
 } Ciot__IfaceType;
 
@@ -236,6 +245,22 @@ struct  _Ciot__MsgError
 struct  _Ciot__MsgData
 {
   ProtobufCMessage base;
+  /*
+   * Error data.
+   */
+  Ciot__MsgError *error;
+  /*
+   * Payload data.
+   */
+  ProtobufCBinaryData payload;
+  /*
+   * Model data.
+   */
+  Ciot__ModelData *model;
+  /*
+   * Log data.
+   */
+  Ciot__Log *log;
   /*
    * CIOT data.
    */
@@ -305,25 +330,13 @@ struct  _Ciot__MsgData
    */
   Ciot__MqttClientData *mqtt_client;
   /*
-   * Error data.
+   * Socket data.
    */
-  Ciot__MsgError *error;
-  /*
-   * Payload data.
-   */
-  ProtobufCBinaryData raw;
-  /*
-   * Model data.
-   */
-  Ciot__ModelData *model;
-  /*
-   * Log data.
-   */
-  Ciot__Log *log;
+  Ciot__SocketData *socket;
 };
 #define CIOT__MSG_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__msg_data__descriptor) \
-    , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0,NULL}, NULL, NULL }
+    , NULL, {0,NULL}, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 
 
 /*

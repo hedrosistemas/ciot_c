@@ -15,6 +15,42 @@
 
 // static const char *TAG = "ciot_usb";
 
+#if CIOT_CONFIG_FEATURE_USB == 0
+
+struct ciot_usb
+{
+    ciot_usb_base_t base;
+};
+
+ciot_usb_t ciot_usb_new(void *handle)
+{
+    ciot_usb_t self = calloc(1, sizeof(struct ciot_usb));
+    ciot_usb_init(self);
+    return self;
+}
+
+ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
+}
+
+ciot_err_t ciot_usb_stop(ciot_usb_t self)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
+}
+
+ciot_err_t ciot_usb_task(ciot_usb_t self)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
+}
+
+ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
+{
+    return CIOT_ERR__NOT_SUPPORTED;
+}
+
+#endif
+
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req);
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg);
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size);

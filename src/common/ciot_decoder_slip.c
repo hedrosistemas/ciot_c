@@ -46,7 +46,7 @@ struct ciot_decoder_slip
     struct ciot_iface_decoder base;
     ciot_decoder_slip_buf_t buf;
     ciot_decoder_slip_read_state_t state;
-    int size;
+    // int size;
     int idx;
 };
 
@@ -59,6 +59,7 @@ ciot_iface_decoder_t ciot_decoder_slip_new(uint8_t *buf, int size)
     self->buf.len = size;
     self->base.decode = ciot_decoder_slip_decode;
     self->base.send = ciot_decoder_slip_send;
+    self->base.event_type = CIOT_IFACE_EVENT_REQUEST;
     return &self->base;
 }
 
@@ -83,13 +84,15 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
         switch (byte)
         {
         case SLIP_BYTE_END:
-            self->idx = 0;
+        {
             ciot_iface_event_t iface_event = {0};
-            iface_event.type = CIOT_IFACE_EVENT_REQUEST;
+            iface_event.type = base->event_type;
             iface_event.data = self->buf.ptr;
-            iface_event.size = self->size;
+            iface_event.size = self->idx;
             ciot_iface_send_event(iface, &iface_event);
+            self->idx = 0;
             break;
+        }
         case SLIP_BYTE_ESC:
             self->state = CIOT_DECODER_SLIP_STATE_ESC_RECEIVED;
             break;

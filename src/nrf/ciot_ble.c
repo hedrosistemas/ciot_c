@@ -108,7 +108,6 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 
     uint32_t err = 0;
     ble_gap_addr_t ble_addr = {0};
-    // memcpy(ble_addr.addr, mac, sizeof(ble_addr.addr));
     ciot_copy_data(ble_addr.addr, mac, sizeof(ble_addr.addr), true);
 
     ciot_ble_scn_stop(base->ifaces.scn);

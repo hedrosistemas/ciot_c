@@ -14,6 +14,7 @@
 #include "ciot_http_server.h"
 #include "ciot_err.h"
 #include "ciot_log.h"
+#include "ciot_msg.h"
 
 static const char *TAG = "ciot_http_server";
 
@@ -89,6 +90,7 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
     ciot_http_server_base_t *base = &self->base;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
+    // iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
 
     switch (mg_ev)
     {

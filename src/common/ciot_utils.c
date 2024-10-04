@@ -44,3 +44,12 @@ uint32_t crc32_compute(uint8_t const *p_data, uint32_t size, uint32_t const *p_c
     }
     return ~crc;
 }
+
+void ciot_copy_data(uint8_t *destiny, uint8_t *source, int size, bool reverse)
+{
+    for (int i = 0; i < size; i++)
+    {
+        int idx = reverse ? (size - i - 1) : i;
+        destiny[i] = source[idx];
+    }
+}
