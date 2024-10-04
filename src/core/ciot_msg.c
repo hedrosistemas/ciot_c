@@ -16,6 +16,7 @@
 static ciot_msg_t msg;
 static ciot_iface_info_t iface_info;
 static ciot_msg_data_t msg_data;
+static const char *TAG = "ciot_msg";
 
 ciot_err_t ciot_msg_init(ciot_msg_t *msg)
 {
@@ -76,4 +77,135 @@ const char *ciot_msg_type_to_str(ciot_msg_t *msg)
     default:
         return "MSG_TYPE_CUSTOM";
     }
+}
+
+int ciot_msg_to_json(const ProtobufCMessage *message, char *json)
+{
+    const ProtobufCFieldDescriptor *field_desc;
+    unsigned i;
+    static int depth = 1;
+    static int idx = 0;
+
+    idx += sprintf(&json[idx], "{\n");
+
+    if (message == NULL)
+    {
+        CIOT_LOGE(TAG, "null message");
+        return 0;
+    }
+
+    if (message->descriptor == NULL)
+    {
+        CIOT_LOGE(TAG, "null descriptor");
+        return 0;
+    }
+
+    for (i = 0; i < message->descriptor->n_fields; i++)
+    {
+        field_desc = &message->descriptor->fields[i];
+        const void *field = ((const char *)message) + field_desc->offset;
+
+        if ((*(void **)field) == NULL && (field_desc->type == PROTOBUF_C_TYPE_MESSAGE || field_desc->type == PROTOBUF_C_TYPE_STRING || field_desc->type == PROTOBUF_C_TYPE_BYTES))
+        {
+            continue;
+        }
+
+        for (size_t i = 0; i < depth; i++)
+        {
+            idx += sprintf(&json[idx], " ");
+        }
+
+        idx += sprintf(&json[idx], "\"%s\": ", field_desc->name);
+
+        switch (field_desc->type)
+        {
+        case PROTOBUF_C_TYPE_INT32:
+            idx += sprintf(&json[idx], "%d,\n", *(int *)field);
+            break;
+        case PROTOBUF_C_TYPE_UINT32:
+            idx += sprintf(&json[idx], "%u,\n", *(unsigned int *)field);
+            break;
+        case PROTOBUF_C_TYPE_INT64:
+            idx += sprintf(&json[idx], "%" PRId64 ",\n", *(int64_t *)field);
+            break;
+        case PROTOBUF_C_TYPE_UINT64:
+            idx += sprintf(&json[idx], "%" PRIu64 ",\n", *(uint64_t *)field);
+            break;
+        case PROTOBUF_C_TYPE_BOOL:
+            idx += sprintf(&json[idx], "%s,\n", *(protobuf_c_boolean *)field ? "true" : "false");
+            break;
+        case PROTOBUF_C_TYPE_STRING:
+            idx += *(char **)field ? sprintf(&json[idx], "\"%s\",\n", *(char **)field) : sprintf(&json[idx], "null\n");
+            break;
+        case PROTOBUF_C_TYPE_ENUM:
+        {
+            const ProtobufCEnumDescriptor *enum_descr = field_desc->descriptor;
+            int value = *(int *)field;
+            idx += sprintf(&json[idx], "\"%s\",\n", enum_descr->values[value].name);
+            break;
+        }
+        case PROTOBUF_C_TYPE_BYTES:
+        {
+            ProtobufCBinaryData buf = *(ProtobufCBinaryData *)field;
+            if (buf.len >= 6)
+            {
+                idx += sprintf(&json[idx], "\"");
+                for (size_t i = 0; i < buf.len; i++)
+                {
+                    idx += sprintf(&json[idx], "%02X", buf.data[i]);
+                }
+                idx += sprintf(&json[idx], "\",\n");
+            }
+            else
+            {
+                idx += sprintf(&json[idx], "[");
+                for (size_t i = 0; i < buf.len; i++)
+                {
+                    idx += sprintf(&json[idx], "%d", buf.data[i]);
+                    if (i != buf.len - 1)
+                        idx += sprintf(&json[idx], ", ");
+                }
+                idx += sprintf(&json[idx], "],\n");
+            }
+            break;
+        }
+        case PROTOBUF_C_TYPE_MESSAGE:
+            depth++;
+            ciot_msg_to_json(*(ProtobufCMessage **)field, json);
+            depth--;
+            break;
+        default:
+            idx += sprintf(&json[idx], "Not supported\n");
+            break;
+        }
+    }
+
+    idx-=2;
+    idx += sprintf(&json[idx], "\n");
+    for (size_t i = 0; i < depth-1; i++)
+    {
+        idx += sprintf(&json[idx], " ");
+    }
+    idx += sprintf(&json[idx], "}");
+
+    if(depth == 1) 
+    {
+        idx += sprintf(&json[idx], "\n");
+        int size = idx;
+        idx = 0;
+        return size;
+    }
+    else
+    {
+        idx += sprintf(&json[idx], ",\n");
+    }
+
+    return 0;
+}
+
+void ciot_msg_print(const ProtobufCMessage *message)
+{
+    char json[2048];
+    ciot_msg_to_json(message, json);
+    printf(json);
 }
