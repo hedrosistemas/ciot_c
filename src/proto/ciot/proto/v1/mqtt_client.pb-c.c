@@ -521,7 +521,7 @@ const ProtobufCMessageDescriptor ciot__mqtt_client_topics_cfg__descriptor =
   (ProtobufCMessageInit) ciot__mqtt_client_topics_cfg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[8] =
+static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[6] =
 {
   {
     "client_id",
@@ -572,20 +572,8 @@ static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[8
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "port",
-    5,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT32,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MqttClientCfg, port),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
     "qos",
-    6,
+    5,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_UINT32,
     0,   /* quantifier_offset */
@@ -596,20 +584,8 @@ static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[8
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "transport",
-    7,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_ENUM,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__MqttClientCfg, transport),
-    &ciot__mqtt_client_transport__descriptor,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
     "topics",
-    8,
+    6,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -623,17 +599,15 @@ static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[8
 static const unsigned ciot__mqtt_client_cfg__field_indices_by_name[] = {
   0,   /* field[0] = client_id */
   3,   /* field[3] = password */
-  4,   /* field[4] = port */
-  5,   /* field[5] = qos */
-  7,   /* field[7] = topics */
-  6,   /* field[6] = transport */
+  4,   /* field[4] = qos */
+  5,   /* field[5] = topics */
   1,   /* field[1] = url */
   2,   /* field[2] = user */
 };
 static const ProtobufCIntRange ciot__mqtt_client_cfg__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 8 }
+  { 0, 6 }
 };
 const ProtobufCMessageDescriptor ciot__mqtt_client_cfg__descriptor =
 {
@@ -643,7 +617,7 @@ const ProtobufCMessageDescriptor ciot__mqtt_client_cfg__descriptor =
   "Ciot__MqttClientCfg",
   "Ciot",
   sizeof(Ciot__MqttClientCfg),
-  8,
+  6,
   ciot__mqtt_client_cfg__field_descriptors,
   ciot__mqtt_client_cfg__field_indices_by_name,
   1,  ciot__mqtt_client_cfg__number_ranges,
@@ -1015,40 +989,6 @@ const ProtobufCEnumDescriptor ciot__mqtt_client_state__descriptor =
   ciot__mqtt_client_state__enum_values_by_name,
   1,
   ciot__mqtt_client_state__value_ranges,
-  NULL,NULL,NULL,NULL   /* reserved[1234] */
-};
-static const ProtobufCEnumValue ciot__mqtt_client_transport__enum_values_by_number[5] =
-{
-  { "MQTT_TRANSPORT_UNKNOWN", "CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_UNKNOWN", 0 },
-  { "MQTT_TRANSPORT_OVER_TCP", "CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_TCP", 1 },
-  { "MQTT_TRANSPORT_OVER_SSL", "CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_SSL", 2 },
-  { "MQTT_TRANSPORT_OVER_WS", "CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_WS", 3 },
-  { "MQTT_TRANSPORT_OVER_WSS", "CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_WSS", 4 },
-};
-static const ProtobufCIntRange ciot__mqtt_client_transport__value_ranges[] = {
-{0, 0},{0, 5}
-};
-static const ProtobufCEnumValueIndex ciot__mqtt_client_transport__enum_values_by_name[5] =
-{
-  { "MQTT_TRANSPORT_OVER_SSL", 2 },
-  { "MQTT_TRANSPORT_OVER_TCP", 1 },
-  { "MQTT_TRANSPORT_OVER_WS", 3 },
-  { "MQTT_TRANSPORT_OVER_WSS", 4 },
-  { "MQTT_TRANSPORT_UNKNOWN", 0 },
-};
-const ProtobufCEnumDescriptor ciot__mqtt_client_transport__descriptor =
-{
-  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
-  "Ciot.MqttClientTransport",
-  "MqttClientTransport",
-  "Ciot__MqttClientTransport",
-  "Ciot",
-  5,
-  ciot__mqtt_client_transport__enum_values_by_number,
-  5,
-  ciot__mqtt_client_transport__enum_values_by_name,
-  1,
-  ciot__mqtt_client_transport__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
 static const ProtobufCEnumValue ciot__mqtt_client_req_type__enum_values_by_number[3] =

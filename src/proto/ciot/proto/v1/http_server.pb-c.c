@@ -187,7 +187,7 @@ void   ciot__http_server_data__free_unpacked
   assert(message->base.descriptor == &ciot__http_server_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor ciot__http_server_cfg__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__http_server_cfg__field_descriptors[4] =
 {
   {
     "address",
@@ -225,16 +225,29 @@ static const ProtobufCFieldDescriptor ciot__http_server_cfg__field_descriptors[3
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "root",
+    4,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__HttpServerCfg, root),
+    NULL,
+    &protobuf_c_empty_string,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__http_server_cfg__field_indices_by_name[] = {
   0,   /* field[0] = address */
   2,   /* field[2] = port */
+  3,   /* field[3] = root */
   1,   /* field[1] = route */
 };
 static const ProtobufCIntRange ciot__http_server_cfg__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 4 }
 };
 const ProtobufCMessageDescriptor ciot__http_server_cfg__descriptor =
 {
@@ -244,7 +257,7 @@ const ProtobufCMessageDescriptor ciot__http_server_cfg__descriptor =
   "Ciot__HttpServerCfg",
   "Ciot",
   sizeof(Ciot__HttpServerCfg),
-  3,
+  4,
   ciot__http_server_cfg__field_descriptors,
   ciot__http_server_cfg__field_indices_by_name,
   1,  ciot__http_server_cfg__number_ranges,

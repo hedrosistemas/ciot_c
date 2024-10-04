@@ -125,9 +125,9 @@ struct  _Ciot__WifiCfg
 {
   ProtobufCMessage base;
   /*
-   * Power on wifi interface
+   * Disable wifi interface
    */
-  protobuf_c_boolean enabled;
+  protobuf_c_boolean disabled;
   /*
    * SSID of the Wi-Fi network.
    */

@@ -402,12 +402,12 @@ const ProtobufCMessageDescriptor ciot__wifi_ap_info__descriptor =
 static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[5] =
 {
   {
-    "enabled",
+    "disabled",
     1,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BOOL,
     0,   /* quantifier_offset */
-    offsetof(Ciot__WifiCfg, enabled),
+    offsetof(Ciot__WifiCfg, disabled),
     NULL,
     NULL,
     0,             /* flags */
@@ -463,7 +463,7 @@ static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[5] =
   },
 };
 static const unsigned ciot__wifi_cfg__field_indices_by_name[] = {
-  0,   /* field[0] = enabled */
+  0,   /* field[0] = disabled */
   2,   /* field[2] = password */
   1,   /* field[1] = ssid */
   4,   /* field[4] = tcp */

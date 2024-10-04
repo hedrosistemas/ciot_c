@@ -21,6 +21,7 @@ PROTOBUF_C__BEGIN_DECLS
 #include "ciot/proto/v1/ciot.pb-c.h"
 #include "ciot/proto/v1/dfu.pb-c.h"
 #include "ciot/proto/v1/errors.pb-c.h"
+#include "ciot/proto/v1/gpio.pb-c.h"
 #include "ciot/proto/v1/http_client.pb-c.h"
 #include "ciot/proto/v1/http_server.pb-c.h"
 #include "ciot/proto/v1/logger.pb-c.h"
@@ -219,10 +220,14 @@ struct  _Ciot__MsgData
    * Socket data.
    */
   Ciot__SocketData *socket;
+  /*
+   * GPIO data.
+   */
+  Ciot__GpioData *gpio;
 };
 #define CIOT__MSG_DATA__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__msg_data__descriptor) \
-    , NULL, {0,NULL}, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
+    , NULL, {0,NULL}, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 
 
 /*

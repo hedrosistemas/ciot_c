@@ -339,7 +339,7 @@ const ProtobufCMessageDescriptor ciot__ciot_status__descriptor =
   (ProtobufCMessageInit) ciot__ciot_status__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__ciot_req__field_descriptors[3] =
+static const ProtobufCFieldDescriptor ciot__ciot_req__field_descriptors[2] =
 {
   {
     "type",
@@ -354,39 +354,26 @@ static const ProtobufCFieldDescriptor ciot__ciot_req__field_descriptors[3] =
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
   {
-    "iface_id",
+    "iface",
     2,
     PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_UINT32,
+    PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
-    offsetof(Ciot__CiotReq, iface_id),
-    NULL,
-    NULL,
-    0,             /* flags */
-    0,NULL,NULL    /* reserved1,reserved2, etc */
-  },
-  {
-    "payload",
-    3,
-    PROTOBUF_C_LABEL_NONE,
-    PROTOBUF_C_TYPE_BYTES,
-    0,   /* quantifier_offset */
-    offsetof(Ciot__CiotReq, payload),
-    NULL,
+    offsetof(Ciot__CiotReq, iface),
+    &ciot__iface_info__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
 };
 static const unsigned ciot__ciot_req__field_indices_by_name[] = {
-  1,   /* field[1] = iface_id */
-  2,   /* field[2] = payload */
+  1,   /* field[1] = iface */
   0,   /* field[0] = type */
 };
 static const ProtobufCIntRange ciot__ciot_req__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 3 }
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor ciot__ciot_req__descriptor =
 {
@@ -396,7 +383,7 @@ const ProtobufCMessageDescriptor ciot__ciot_req__descriptor =
   "Ciot__CiotReq",
   "Ciot",
   sizeof(Ciot__CiotReq),
-  3,
+  2,
   ciot__ciot_req__field_descriptors,
   ciot__ciot_req__field_indices_by_name,
   1,  ciot__ciot_req__number_ranges,
@@ -514,21 +501,23 @@ const ProtobufCEnumDescriptor ciot__ciot_state__descriptor =
   ciot__ciot_state__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__ciot_req_type__enum_values_by_number[4] =
+static const ProtobufCEnumValue ciot__ciot_req_type__enum_values_by_number[5] =
 {
   { "CIOT_REQ_TYPE_UNKOWN", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_UNKOWN", 0 },
-  { "CIOT_REQ_TYPE_SAVE_IFACE_CFG", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_SAVE_IFACE_CFG", 1 },
-  { "CIOT_REQ_TYPE_DELETE_IFACE_CFG", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_DELETE_IFACE_CFG", 2 },
-  { "CIOT_REQ_TYPE_PROXY_MSG", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_PROXY_MSG", 3 },
+  { "CIOT_REQ_TYPE_SAVE_CFG", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_SAVE_CFG", 1 },
+  { "CIOT_REQ_TYPE_CREATE_CFG", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_CREATE_CFG", 2 },
+  { "CIOT_REQ_TYPE_DELETE_CFG", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_DELETE_CFG", 3 },
+  { "CIOT_REQ_TYPE_PROXY_MSG", "CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_PROXY_MSG", 4 },
 };
 static const ProtobufCIntRange ciot__ciot_req_type__value_ranges[] = {
-{0, 0},{0, 4}
+{0, 0},{0, 5}
 };
-static const ProtobufCEnumValueIndex ciot__ciot_req_type__enum_values_by_name[4] =
+static const ProtobufCEnumValueIndex ciot__ciot_req_type__enum_values_by_name[5] =
 {
-  { "CIOT_REQ_TYPE_DELETE_IFACE_CFG", 2 },
-  { "CIOT_REQ_TYPE_PROXY_MSG", 3 },
-  { "CIOT_REQ_TYPE_SAVE_IFACE_CFG", 1 },
+  { "CIOT_REQ_TYPE_CREATE_CFG", 2 },
+  { "CIOT_REQ_TYPE_DELETE_CFG", 3 },
+  { "CIOT_REQ_TYPE_PROXY_MSG", 4 },
+  { "CIOT_REQ_TYPE_SAVE_CFG", 1 },
   { "CIOT_REQ_TYPE_UNKOWN", 0 },
 };
 const ProtobufCEnumDescriptor ciot__ciot_req_type__descriptor =
@@ -538,9 +527,9 @@ const ProtobufCEnumDescriptor ciot__ciot_req_type__descriptor =
   "CiotReqType",
   "Ciot__CiotReqType",
   "Ciot",
-  4,
+  5,
   ciot__ciot_req_type__enum_values_by_number,
-  4,
+  5,
   ciot__ciot_req_type__enum_values_by_name,
   1,
   ciot__ciot_req_type__value_ranges,

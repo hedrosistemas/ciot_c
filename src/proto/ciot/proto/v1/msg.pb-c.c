@@ -251,7 +251,7 @@ const ProtobufCMessageDescriptor ciot__msg_error__descriptor =
   (ProtobufCMessageInit) ciot__msg_error__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[22] =
+static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[23] =
 {
   {
     "error",
@@ -517,6 +517,18 @@ static const ProtobufCFieldDescriptor ciot__msg_data__field_descriptors[22] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "gpio",
+    23,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MsgData, gpio),
+    &ciot__gpio_data__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__msg_data__field_indices_by_name[] = {
   12,   /* field[12] = ble */
@@ -526,6 +538,7 @@ static const unsigned ciot__msg_data__field_indices_by_name[] = {
   17,   /* field[17] = dfu */
   0,   /* field[0] = error */
   10,   /* field[10] = eth */
+  22,   /* field[22] = gpio */
   19,   /* field[19] = http_client */
   18,   /* field[18] = http_server */
   3,   /* field[3] = log */
@@ -545,7 +558,7 @@ static const unsigned ciot__msg_data__field_indices_by_name[] = {
 static const ProtobufCIntRange ciot__msg_data__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 22 }
+  { 0, 23 }
 };
 const ProtobufCMessageDescriptor ciot__msg_data__descriptor =
 {
@@ -555,7 +568,7 @@ const ProtobufCMessageDescriptor ciot__msg_data__descriptor =
   "Ciot__MsgData",
   "Ciot",
   sizeof(Ciot__MsgData),
-  22,
+  23,
   ciot__msg_data__field_descriptors,
   ciot__msg_data__field_indices_by_name,
   1,  ciot__msg_data__number_ranges,

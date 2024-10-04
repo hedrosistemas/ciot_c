@@ -72,10 +72,14 @@ struct  _Ciot__HttpServerCfg
    * Port number for the HTTP server.
    */
   uint32_t port;
+  /*
+   * Server files root directory
+   */
+  char *root;
 };
 #define CIOT__HTTP_SERVER_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__http_server_cfg__descriptor) \
-    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0 }
+    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string }
 
 
 /*
