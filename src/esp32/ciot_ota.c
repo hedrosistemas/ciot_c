@@ -159,8 +159,11 @@ static void ciot_ota_task(void *pvParameters)
     if (base->status.error != ESP_OK)
     {
         ESP_LOGE(TAG, "ESP HTTPS OTA Begin failed!");
+        ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_ERROR);
         ciot_ota_task_fatal_error(self);
     }
+
+    ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STARTED);
 
     while (1)
     {
@@ -268,7 +271,7 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
             status->image_size = esp_https_ota_get_image_size(self->handle);
             status->image_written = esp_https_ota_get_image_len_read(self->handle);
             event.type = CIOT_IFACE_EVENT_INTERNAL;
-            ESP_LOGI(TAG, "ESP_HTTPS_OTA_WRITE_FLASH %lu from %lu", status->image_written, status->image_size);
+            ESP_LOGD(TAG, "ESP_HTTPS_OTA_WRITE_FLASH %lu from %lu", status->image_written, status->image_size);
             break;
         case ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION");
