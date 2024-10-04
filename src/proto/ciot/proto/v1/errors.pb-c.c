@@ -7,7 +7,7 @@
 #endif
 
 #include "ciot/proto/v1/errors.pb-c.h"
-static const ProtobufCEnumValue ciot_err__enum_values_by_number[32] =
+static const ProtobufCEnumValue ciot_err__enum_values_by_number[33] =
 {
   { "OK", "CIOT_ERR__OK", 0 },
   { "NULL_ARG", "CIOT_ERR__NULL_ARG", 1 },
@@ -41,11 +41,12 @@ static const ProtobufCEnumValue ciot_err__enum_values_by_number[32] =
   { "DISABLED", "CIOT_ERR__DISABLED", 29 },
   { "FAIL", "CIOT_ERR__FAIL", 30 },
   { "INVALID_INDEX", "CIOT_ERR__INVALID_INDEX", 31 },
+  { "INVALID_KEY_SIZE", "CIOT_ERR__INVALID_KEY_SIZE", 32 },
 };
 static const ProtobufCIntRange ciot_err__value_ranges[] = {
-{0, 0},{0, 32}
+{0, 0},{0, 33}
 };
-static const ProtobufCEnumValueIndex ciot_err__enum_values_by_name[32] =
+static const ProtobufCEnumValueIndex ciot_err__enum_values_by_name[33] =
 {
   { "BUSY", 7 },
   { "CHECKSUM", 25 },
@@ -62,6 +63,7 @@ static const ProtobufCEnumValueIndex ciot_err__enum_values_by_name[32] =
   { "INVALID_HEADER", 28 },
   { "INVALID_ID", 2 },
   { "INVALID_INDEX", 31 },
+  { "INVALID_KEY_SIZE", 32 },
   { "INVALID_SIZE", 13 },
   { "INVALID_STATE", 8 },
   { "INVALID_TYPE", 3 },
@@ -87,9 +89,9 @@ const ProtobufCEnumDescriptor ciot_err__descriptor =
   "CiotErr",
   "CiotErr",
   "",
-  32,
+  33,
   ciot_err__enum_values_by_number,
-  32,
+  33,
   ciot_err__enum_values_by_name,
   1,
   ciot_err__value_ranges,

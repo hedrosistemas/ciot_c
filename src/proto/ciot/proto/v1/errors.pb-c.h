@@ -150,7 +150,11 @@ typedef enum _CiotErr {
   /*
    * Invalid index
    */
-  CIOT_ERR__INVALID_INDEX = 31
+  CIOT_ERR__INVALID_INDEX = 31,
+  /*
+   * Invalid key size
+   */
+  CIOT_ERR__INVALID_KEY_SIZE = 32
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT_ERR)
 } CiotErr;
 
