@@ -15,6 +15,7 @@
 #include "ciot_err.h"
 #include "ciot_log.h"
 #include "ciot_msg.h"
+#include "ciot_str.h"
 
 static const char *TAG = "ciot_http_server";
 
@@ -26,6 +27,7 @@ struct ciot_http_server
     struct mg_connection *conn_tx;
 };
 
+static bool check_method(struct mg_http_message *hm, const char* method);
 static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
 
 ciot_http_server_t ciot_http_server_new(void *handle)
@@ -45,11 +47,13 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
     ciot_http_server_base_t *base = &self->base;
 
     sprintf(base->endpoint, "%s:%ld", cfg->address, cfg->port);
-    strcpy(base->route, cfg->route);
+    ciot_strncpy(base->route, cfg->route, sizeof(base->route));
+    ciot_strncpy(base->root, cfg->root, sizeof(base->root));
 
     base->cfg = *cfg;
     base->cfg.address = base->endpoint;
     base->cfg.route = base->route;
+    base->cfg.root = base->root;
 
     self->conn_rx = mg_http_listen(self->mgr, base->endpoint, ciot_http_server_event_handler, self);
     if (self->conn_rx == NULL)
@@ -59,6 +63,7 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
     }
     else
     {
+
         return CIOT_ERR__OK;
     }
 }
@@ -82,13 +87,17 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
     return CIOT_ERR__OK;
 }
 
+static bool check_method(struct mg_http_message *hm, const char* method)
+{
+    return strncmp(hm->method.ptr, method, hm->method.len) == 0;
+}
+
 static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
 {
     ciot_http_server_t self = fn_data;
     ciot_http_server_base_t *base = &self->base;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
-    // iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
 
     switch (mg_ev)
     {
@@ -103,9 +112,12 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
     case MG_EV_OPEN:
     {
         CIOT_LOGI(TAG, "MG_EV_OPEN url:%s", base->cfg.address);
-        base->status.state = CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_STARTED;
-        iface_event.type = CIOT_IFACE_EVENT_STARTED;
-        ciot_iface_send_event(&base->iface, &iface_event);
+        if(base->status.state != CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_STARTED)
+        {
+            base->status.state = CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_STARTED;
+            iface_event.type = CIOT_IFACE_EVENT_STARTED;
+            ciot_iface_send_event(&base->iface, &iface_event);
+        }
         break;
     }
     case MG_EV_CLOSE:
@@ -121,19 +133,25 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
         CIOT_LOGI(TAG, "MG_EV_HTTP_MSG");
         struct mg_http_message *hm = (struct mg_http_message *)ev_data;
         mg_http_parse((char *)c->recv.buf, c->recv.len, hm);
-        bool is_post = strncmp(hm->method.ptr, "POST", hm->method.len) == 0;
         self->conn_tx = c;
-        if (mg_http_match_uri(hm, base->cfg.route) && is_post)
+        if (mg_http_match_uri(hm, base->cfg.route) && check_method(hm, "POST"))
         {
             iface_event.type = CIOT_IFACE_EVENT_REQUEST;
             iface_event.data = (uint8_t*)hm->body.ptr;
             iface_event.size = hm->body.len;
             ciot_iface_send_event(&base->iface, &iface_event);
         }
+        else if(base->root && base->root[0] != '\0' && check_method(hm, "GET"))
+        {
+            struct mg_http_serve_opts opts = {0};
+            opts.root_dir = base->root;
+            mg_http_serve_dir(c, hm, &opts);
+        }
         else
         {
             ciot_http_server_event_data_t event_data = { 0 };
             event_data.uri = (char*)hm->uri.ptr;
+            event_data.uri[hm->uri.len] = '\0';
             event_data.body = (uint8_t*)hm->body.ptr;
             iface_event.type = CIOT_IFACE_EVENT_DATA;
             iface_event.data = (uint8_t*)&event_data;

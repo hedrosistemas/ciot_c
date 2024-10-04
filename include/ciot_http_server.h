@@ -23,6 +23,7 @@ extern "C" {
 
 #define CIOT_CONFIG_HTTP_SERVER_ENDPOINT_SIZE 64
 #define CIOT_CONFIG_HTTP_SERVER_ROUTE_SIZE 64
+#define CIOT_CONFIG_HTTP_SERVER_ROOT_SIZE 48
 
 typedef struct ciot_http_server *ciot_http_server_t;
 typedef Ciot__HttpServerData ciot_http_server_data_t;
@@ -45,6 +46,7 @@ typedef struct ciot_http_server_base
     ciot_http_server_data_t data;
     char endpoint[CIOT_CONFIG_HTTP_SERVER_ENDPOINT_SIZE];
     char route[CIOT_CONFIG_HTTP_SERVER_ROUTE_SIZE];
+    char root[CIOT_CONFIG_HTTP_SERVER_ROOT_SIZE];
 } ciot_http_server_base_t;
 
 ciot_http_server_t ciot_http_server_new(void *handle);
