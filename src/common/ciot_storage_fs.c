@@ -20,6 +20,7 @@ struct ciot_storage_fs
 
 typedef struct ciot_storage_fs *ciot_storage_fs_t;
 
+static ciot_err_t ciot_storage_fs_delete(char *path);
 static ciot_err_t ciot_storage_fs_write_bytes(char *path, uint8_t *bytes, int size);
 static ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size);
 
@@ -27,6 +28,7 @@ ciot_storage_t ciot_storage_fs_new(void)
 {
     ciot_storage_fs_t self = calloc(1, sizeof(struct ciot_storage_fs));
     ciot_storage_t base = &self->base;
+    base->delete = ciot_storage_fs_delete;
     base->write_bytes = ciot_storage_fs_write_bytes;
     base->read_bytes = ciot_storage_fs_read_bytes;
     return &self->base;
@@ -50,6 +52,7 @@ static ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *si
     FILE *f = fopen(path, "rb");
     if(f == NULL)
     {
+        *size = 0;
         return CIOT_ERR__FAIL;
     }
 
@@ -71,5 +74,11 @@ static ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *si
         }
     }
     fclose(f);
+    return CIOT_ERR__OK;
+}
+
+static ciot_err_t ciot_storage_fs_delete(char *path)
+{
+    remove(path);
     return CIOT_ERR__OK;
 }

@@ -56,11 +56,7 @@ typedef enum _Ciot__UsbReqType {
   /*
    * Send bytes over USB.
    */
-  CIOT__USB_REQ_TYPE__USB_REQ_TYPE_SEND_BYTES = 2,
-  /*
-   * Enable bridge mode for USB.
-   */
-  CIOT__USB_REQ_TYPE__USB_REQ_TYPE_ENABLE_BRIDGE_MODE = 3
+  CIOT__USB_REQ_TYPE__USB_REQ_TYPE_SEND_BYTES = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__USB_REQ_TYPE)
 } Ciot__UsbReqType;
 

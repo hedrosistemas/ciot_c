@@ -140,9 +140,17 @@ typedef enum _CiotErr {
    */
   CIOT_ERR__INVALID_HEADER = 28,
   /*
+   * Feature disabled
+   */
+  CIOT_ERR__DISABLED = 29,
+  /*
    * Operation failed
    */
-  CIOT_ERR__FAIL = -1
+  CIOT_ERR__FAIL = 30,
+  /*
+   * Invalid index
+   */
+  CIOT_ERR__INVALID_INDEX = 31
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT_ERR)
 } CiotErr;
 

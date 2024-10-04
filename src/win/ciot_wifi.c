@@ -101,11 +101,7 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
         return CIOT_ERR__INVALID_TYPE;
     }
 
-    if (tcp->netif == NULL)
-    {
-        CIOT_LOGI(TAG, "Initializing netif");
-        CIOT_ERR_RETURN(ciot_tcp_init_netif(base->tcp));
-    }
+    CIOT_ERR_RETURN(ciot_tcp_init_netif(base->tcp));
 
     base->cfg.type = cfg->type;
     strcpy(base->ssid, cfg->ssid);

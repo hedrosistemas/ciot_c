@@ -30,6 +30,7 @@ typedef struct ciot_timer_cfg
 
 ciot_err_t ciot_timer_start(ciot_timer_cfg_t *cfg);
 uint64_t ciot_timer_now(void);
+uint64_t ciot_timer_millis(void);
 ciot_err_t ciot_timer_init(uint64_t *timer, uint16_t interval);
 bool ciot_timer_compare(uint64_t *timer, uint16_t interval);
 

@@ -50,35 +50,9 @@ typedef enum _Ciot__MqttClientState {
   /*
    * The MQTT client encountered an error.
    */
-  CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR = -1
+  CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR = 4
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__MQTT_CLIENT_STATE)
 } Ciot__MqttClientState;
-/*
- * Enum representing different transports for MQTT communication.
- */
-typedef enum _Ciot__MqttClientTransport {
-  /*
-   * Unknown MQTT transport.
-   */
-  CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_UNKNOWN = 0,
-  /*
-   * MQTT over TCP.
-   */
-  CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_TCP = 1,
-  /*
-   * MQTT over SSL.
-   */
-  CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_SSL = 2,
-  /*
-   * MQTT over WebSocket.
-   */
-  CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_WS = 3,
-  /*
-   * MQTT over Secure WebSocket.
-   */
-  CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_OVER_WSS = 4
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__MQTT_CLIENT_TRANSPORT)
-} Ciot__MqttClientTransport;
 /*
  * Enum representing different types of MQTT client requests.
  */
@@ -143,13 +117,13 @@ struct  _Ciot__MqttClientTopicsCfg
 {
   ProtobufCMessage base;
   /*
-   * Device to broker topic.
+   * Topic used to publish data
    */
-  char *d2b;
+  char *pub;
   /*
-   * Broker to device topic.
+   * Topic used to receive data.
    */
-  char *b2d;
+  char *sub;
 };
 #define CIOT__MQTT_CLIENT_TOPICS_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__mqtt_client_topics_cfg__descriptor) \
@@ -179,17 +153,9 @@ struct  _Ciot__MqttClientCfg
    */
   char *password;
   /*
-   * Port for MQTT connection.
-   */
-  uint32_t port;
-  /*
    * Quality of Service level for MQTT communication.
    */
   uint32_t qos;
-  /*
-   * Transport type for MQTT communication.
-   */
-  Ciot__MqttClientTransport transport;
   /*
    * Topics configuration for MQTT communication.
    */
@@ -197,7 +163,7 @@ struct  _Ciot__MqttClientCfg
 };
 #define CIOT__MQTT_CLIENT_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__mqtt_client_cfg__descriptor) \
-    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, 0, CIOT__MQTT_CLIENT_TRANSPORT__MQTT_TRANSPORT_UNKNOWN, NULL }
+    , (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, (char *)protobuf_c_empty_string, 0, NULL }
 
 
 /*
@@ -509,7 +475,6 @@ typedef void (*Ciot__MqttClientData_Closure)
 /* --- descriptors --- */
 
 extern const ProtobufCEnumDescriptor    ciot__mqtt_client_state__descriptor;
-extern const ProtobufCEnumDescriptor    ciot__mqtt_client_transport__descriptor;
 extern const ProtobufCEnumDescriptor    ciot__mqtt_client_req_type__descriptor;
 extern const ProtobufCMessageDescriptor ciot__mqtt_client_error__descriptor;
 extern const ProtobufCMessageDescriptor ciot__mqtt_client_topics_cfg__descriptor;

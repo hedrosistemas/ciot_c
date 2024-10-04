@@ -94,9 +94,9 @@ typedef struct ciot_starting
 
 typedef struct ciot_recv
 {
+    bool serialized;
     ciot_iface_t *sender;
     ciot_iface_event_t event;
-    // ciot_msg_t buf;
 } ciot_recv_t;
 
 struct ciot
@@ -119,11 +119,16 @@ ciot_err_t ciot_init(ciot_t self);
 ciot_err_t ciot_start(ciot_t self, ciot_cfg_t *cfg);
 ciot_err_t ciot_stop(ciot_t self);
 ciot_err_t ciot_task(ciot_t self);
-ciot_err_t ciot_process_req(ciot_t self, ciot_req_t *req);
+ciot_err_t ciot_process_req(ciot_t self, ciot_msg_t *msg);
 ciot_err_t ciot_get_cfg(ciot_t self, ciot_cfg_t *cfg);
 ciot_err_t ciot_get_status(ciot_t self, ciot_status_t *status);
 ciot_err_t ciot_get_info(ciot_t self, ciot_info_t *info);
-ciot_err_t ciot_save_iface_cfg(ciot_t self, int iface_id);
+ciot_err_t ciot_delete_cfg(ciot_t self, ciot_iface_info_t *iface);
+ciot_err_t ciot_save_cfg(ciot_t self, ciot_iface_info_t *iface);
+ciot_err_t ciot_create_cfg(ciot_t self, ciot_iface_info_t *iface, ciot_msg_data_t *cfg);
+ciot_msg_data_t *ciot_load_cfg(ciot_t self, int iface_id);
+bool ciot_cfg_exits(ciot_t self, int iface_id);
+ciot_err_t ciot_get_ifaces_info(ciot_t self, ProtobufCBinaryData *ifaces_info);
 
 #ifdef __cplusplus
 }

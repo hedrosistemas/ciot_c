@@ -33,9 +33,8 @@ ciot_tcp_t ciot_tcp_new(ciot_iface_t *iface, ciot_tcp_type_t type)
 {
     ciot_tcp_t self = calloc(1, sizeof(struct ciot_tcp));
     ciot_tcp_init(self);
-    self->base.netif = &self->netif;
     self->base.type = type;
-    self->base.iface_p = iface;
+    self->base.iface = iface;
     return self;
 }
 

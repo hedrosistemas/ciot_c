@@ -540,19 +540,17 @@ const ProtobufCEnumDescriptor ciot__uart_state__descriptor =
   ciot__uart_state__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue ciot__uart_req_type__enum_values_by_number[4] =
+static const ProtobufCEnumValue ciot__uart_req_type__enum_values_by_number[3] =
 {
   { "UART_REQ_TYPE_UNKOWN", "CIOT__UART_REQ_TYPE__UART_REQ_TYPE_UNKOWN", 0 },
   { "UART_REQ_TYPE_SEND_DATA", "CIOT__UART_REQ_TYPE__UART_REQ_TYPE_SEND_DATA", 1 },
   { "UART_REQ_TYPE_SEND_BYTES", "CIOT__UART_REQ_TYPE__UART_REQ_TYPE_SEND_BYTES", 2 },
-  { "UART_REQ_TYPE_ENABLE_BRIDGE_MODE", "CIOT__UART_REQ_TYPE__UART_REQ_TYPE_ENABLE_BRIDGE_MODE", 3 },
 };
 static const ProtobufCIntRange ciot__uart_req_type__value_ranges[] = {
-{0, 0},{0, 4}
+{0, 0},{0, 3}
 };
-static const ProtobufCEnumValueIndex ciot__uart_req_type__enum_values_by_name[4] =
+static const ProtobufCEnumValueIndex ciot__uart_req_type__enum_values_by_name[3] =
 {
-  { "UART_REQ_TYPE_ENABLE_BRIDGE_MODE", 3 },
   { "UART_REQ_TYPE_SEND_BYTES", 2 },
   { "UART_REQ_TYPE_SEND_DATA", 1 },
   { "UART_REQ_TYPE_UNKOWN", 0 },
@@ -564,9 +562,9 @@ const ProtobufCEnumDescriptor ciot__uart_req_type__descriptor =
   "UartReqType",
   "Ciot__UartReqType",
   "Ciot",
-  4,
+  3,
   ciot__uart_req_type__enum_values_by_number,
-  4,
+  3,
   ciot__uart_req_type__enum_values_by_name,
   1,
   ciot__uart_req_type__value_ranges,

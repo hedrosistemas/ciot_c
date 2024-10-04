@@ -399,11 +399,23 @@ const ProtobufCMessageDescriptor ciot__wifi_ap_info__descriptor =
   (ProtobufCMessageInit) ciot__wifi_ap_info__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[4] =
+static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[5] =
 {
   {
-    "ssid",
+    "disabled",
     1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__WifiCfg, disabled),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "ssid",
+    2,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
@@ -415,7 +427,7 @@ static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[4] =
   },
   {
     "password",
-    2,
+    3,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
@@ -427,7 +439,7 @@ static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[4] =
   },
   {
     "type",
-    3,
+    4,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_ENUM,
     0,   /* quantifier_offset */
@@ -439,7 +451,7 @@ static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[4] =
   },
   {
     "tcp",
-    4,
+    5,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_MESSAGE,
     0,   /* quantifier_offset */
@@ -451,15 +463,16 @@ static const ProtobufCFieldDescriptor ciot__wifi_cfg__field_descriptors[4] =
   },
 };
 static const unsigned ciot__wifi_cfg__field_indices_by_name[] = {
-  1,   /* field[1] = password */
-  0,   /* field[0] = ssid */
-  3,   /* field[3] = tcp */
-  2,   /* field[2] = type */
+  0,   /* field[0] = disabled */
+  2,   /* field[2] = password */
+  1,   /* field[1] = ssid */
+  4,   /* field[4] = tcp */
+  3,   /* field[3] = type */
 };
 static const ProtobufCIntRange ciot__wifi_cfg__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor ciot__wifi_cfg__descriptor =
 {
@@ -469,7 +482,7 @@ const ProtobufCMessageDescriptor ciot__wifi_cfg__descriptor =
   "Ciot__WifiCfg",
   "Ciot",
   sizeof(Ciot__WifiCfg),
-  4,
+  5,
   ciot__wifi_cfg__field_descriptors,
   ciot__wifi_cfg__field_indices_by_name,
   1,  ciot__wifi_cfg__number_ranges,
@@ -787,20 +800,20 @@ const ProtobufCEnumDescriptor ciot__wifi_type__descriptor =
 };
 static const ProtobufCEnumValue ciot__wifi_scan_state__enum_values_by_number[4] =
 {
-  { "WIFI_SCAN_STATE_ERROR", "CIOT__WIFI_SCAN_STATE__WIFI_SCAN_STATE_ERROR", -1 },
   { "WIFI_SCAN_STATE_IDLE", "CIOT__WIFI_SCAN_STATE__WIFI_SCAN_STATE_IDLE", 0 },
   { "WIFI_SCAN_STATE_SCANNING", "CIOT__WIFI_SCAN_STATE__WIFI_SCAN_STATE_SCANNING", 1 },
   { "WIFI_SCAN_STATE_SCANNED", "CIOT__WIFI_SCAN_STATE__WIFI_SCAN_STATE_SCANNED", 2 },
+  { "WIFI_SCAN_STATE_ERROR", "CIOT__WIFI_SCAN_STATE__WIFI_SCAN_STATE_ERROR", 3 },
 };
 static const ProtobufCIntRange ciot__wifi_scan_state__value_ranges[] = {
-{-1, 0},{0, 4}
+{0, 0},{0, 4}
 };
 static const ProtobufCEnumValueIndex ciot__wifi_scan_state__enum_values_by_name[4] =
 {
-  { "WIFI_SCAN_STATE_ERROR", 0 },
-  { "WIFI_SCAN_STATE_IDLE", 1 },
-  { "WIFI_SCAN_STATE_SCANNED", 3 },
-  { "WIFI_SCAN_STATE_SCANNING", 2 },
+  { "WIFI_SCAN_STATE_ERROR", 3 },
+  { "WIFI_SCAN_STATE_IDLE", 0 },
+  { "WIFI_SCAN_STATE_SCANNED", 2 },
+  { "WIFI_SCAN_STATE_SCANNING", 1 },
 };
 const ProtobufCEnumDescriptor ciot__wifi_scan_state__descriptor =
 {
