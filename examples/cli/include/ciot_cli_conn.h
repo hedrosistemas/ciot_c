@@ -21,5 +21,6 @@ ciot_err_t ciot_cli_conn_task();
 int ciot_cli_conn(int argc, char const *argv[]);
 ciot_err_t ciot_cli_conn_send_msg(ciot_msg_t *msg);
 ciot_err_t ciot_cli_conn_send_req(ciot_msg_t *msg, ciot_iface_event_handler_fn *req_handler_fn);
+ciot_err_t ciot_cli_conn_send_data(uint8_t *data, int size);
 
 #endif  //!__CIOT_CLI_CONN__H__

@@ -9,6 +9,7 @@ include_directories(
     ${CIOT_PB_INCLUDE_DIRS}
     .
 )
+
 add_executable(${PROJECT_NAME}
     ${MAIN_SRCS}
     ${CIOT_SRCS}

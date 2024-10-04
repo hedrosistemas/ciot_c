@@ -42,14 +42,6 @@ static int ciot_cli_mqttc_stop(int argc, char const *argv[])
 
 static int ciot_cli_mqttc_start(int argc, char const *argv[])
 {
-    printf("starting mqtt client\n");
-    printf("interface id %s\n", argv[9]);
-    printf("cliend id %s\n", argv[3]);
-    printf("broker url %s\n", argv[4]);
-    printf("broker user %s\n", argv[5]);
-    printf("broker pass %s\n", argv[6]);
-    printf("topic pub %s\n", argv[7]);
-    printf("topic sub %s\n", argv[8]);
     ciot_msg_t msg = {
         .base = PROTOBUF_C_MESSAGE_INIT(&ciot__msg__descriptor),
         .type = CIOT__MSG_TYPE__MSG_TYPE_START,
@@ -77,5 +69,7 @@ static int ciot_cli_mqttc_start(int argc, char const *argv[])
             }
         }
     };
+    printf("starting mqtt client:\n");
+    ciot_msg_print(&msg.data->mqtt_client->config->base);
     return ciot_cli_conn_send_msg(&msg);
 }

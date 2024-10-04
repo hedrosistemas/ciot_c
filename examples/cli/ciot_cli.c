@@ -16,31 +16,40 @@
 #include "include/ciot_cli_sys.h"
 #include "include/ciot_cli_wifi.h"
 #include "include/ciot_cli_mqttc.h"
+#include "include/ciot_cli_ota.h"
 #include "include/ciot_cli_default.h"
+
+#if __has_include("ciot_cli_custom.h")
+#include "ciot_cli_custom.h"
+#endif
 
 static const char *TAG = "ciot_cli";
 
-static int default_argc = DEFAULT_ARGC_MQTTC_START;
-static const char *default_argv[] = DEFAULT_ARGV_MQTTC_START;
-
+static const char *default_argv[] = {
+    "ciot_cli",
+    "save",
+    "5",
+    "9"
+};
 static bool run_cmd = false;
 
-static int ciot_cli_list(int argc, char const *argv[]);
-static ciot_err_t ciot_cli_list_process_rsp(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
-static int ciot_cli_info(int argc, char const *argv[]);
-static int ciot_cli_status(int argc, char const *argv[]);
-static int ciot_cli_cfg(int argc, char const *argv[]);
-static int ciot_cli_save(int argc, char const *argv[]);
 
-int main(int argc, char const *argv[])
+static int ciot_cli_list(int argc, const char *argv[]);
+static ciot_err_t ciot_cli_list_process_rsp(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
+static int ciot_cli_info(int argc, const char *argv[]);
+static int ciot_cli_status(int argc, const char *argv[]);
+static int ciot_cli_cfg(int argc, const char *argv[]);
+static int ciot_cli_save(int argc, const char *argv[]);
+
+int main(int argc, const char *argv[])
 {
     CIOT_LOGI(TAG, "hg tcp cli running");
 
     if(argc == 1)
     {
         default_argv[0] = argv[0];
-        argc = default_argc;
         argv = default_argv;
+        argc = sizeof(default_argv) / sizeof(default_argv[0]);
     }
 
     ARGP(1, "conn", ciot_cli_conn);
@@ -61,6 +70,10 @@ int main(int argc, char const *argv[])
             ARGP(1, "sys", ciot_cli_sys);
             ARGP(1, "wifi", ciot_cli_wifi);
             ARGP(1, "mqttc", ciot_cli_mqttc);
+            ARGP(1, "ota", ciot_cli_ota);
+            #ifdef CIOT_CLI_CUSTOM_FUNCTION
+            CIOT_CLI_CUSTOM_FUNCTION(argc, argv);
+            #endif  //CIOT_CLI_CUSTOM_FUNCTION
             run_cmd = false;
         }
     }
@@ -73,7 +86,7 @@ void ciot_cli_run_cmd()
     run_cmd = true;
 }
 
-static int ciot_cli_list(int argc, char const *argv[])
+static int ciot_cli_list(int argc, const char *argv[])
 {
     ciot_msg_t msg = {
         .base = PROTOBUF_C_MESSAGE_INIT(&ciot__msg__descriptor),
@@ -101,9 +114,11 @@ static ciot_err_t ciot_cli_list_process_rsp(ciot_iface_t *sender, ciot_iface_eve
             printf("id:%d\ttype:%d [%s]\n", i, types[i], ciot__iface_type__descriptor.values[types[i]].name);
         }
     }
+    exit(0);
+    return 0;
 }
 
-static int ciot_cli_info(int argc, char const *argv[])
+static int ciot_cli_info(int argc, const char *argv[])
 {
     printf("getting information of interface id:%s, type:%s\n", argv[2], argv[3]);
     ciot_msg_t msg = {
@@ -118,7 +133,7 @@ static int ciot_cli_info(int argc, char const *argv[])
     ciot_cli_conn_send_msg(&msg);
 }
 
-static int ciot_cli_status(int argc, char const *argv[])
+static int ciot_cli_status(int argc, const char *argv[])
 {
     printf("getting status information of interface id:%s, type:%s\n", argv[2], argv[3]);
     ciot_msg_t msg = {
@@ -133,7 +148,7 @@ static int ciot_cli_status(int argc, char const *argv[])
     ciot_cli_conn_send_msg(&msg);
 }
 
-static int ciot_cli_cfg(int argc, char const *argv[])
+static int ciot_cli_cfg(int argc, const char *argv[])
 {
     printf("getting information of interface id:%s, type:%s\n", argv[2], argv[3]);
     ciot_msg_t msg = {
@@ -148,7 +163,7 @@ static int ciot_cli_cfg(int argc, char const *argv[])
     ciot_cli_conn_send_msg(&msg);
 }
 
-static int ciot_cli_save(int argc, char const *argv[])
+static int ciot_cli_save(int argc, const char *argv[])
 {
     printf("saving cfg of interface id:%s\n", argv[2]);
     ciot_msg_t msg = {
@@ -165,8 +180,12 @@ static int ciot_cli_save(int argc, char const *argv[])
                 .base = PROTOBUF_C_MESSAGE_INIT(&ciot__ciot_data__descriptor),
                 .request = &(ciot_req_t) {
                     .base = PROTOBUF_C_MESSAGE_INIT(&ciot__ciot_req__descriptor),
-                    .type = CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_SAVE_IFACE_CFG,
-                    .iface_id = atoi(argv[2]),
+                    .type = CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_SAVE_CFG,
+                    .iface = &(ciot_iface_info_t) {
+                        .base = PROTOBUF_C_MESSAGE_INIT(&ciot__iface_info__descriptor),
+                        .id = atoi(argv[2]),
+                        .type = atoi(argv[3]),
+                    },
                 }
             }
         }

@@ -15,38 +15,33 @@
 #include "include/ciot_cli_wifi.h"
 
 static int ciot_cli_wifi_sta(int argc, char const *argv[]);
-static int ciot_cli_wifi_sta_stop(int argc, char const *argv[]);
-static int ciot_cli_wifi_sta_start(int argc, char const *argv[]);
+static int ciot_cli_wifi_stop(int argc, char const *argv[]);
+static int ciot_cli_wifi_start(int argc, char const *argv[]);
 
 static const char *TAG = "ciot_cli";
 
 int ciot_cli_wifi(int argc, char const *argv[])
 {
-    ARGP(2, "sta", ciot_cli_wifi_sta);
+    ARGP(2, "stop", ciot_cli_wifi_stop);
+    ARGP(2, "start", ciot_cli_wifi_start);
 }
 
-static int ciot_cli_wifi_sta(int argc, char const *argv[])
+static int ciot_cli_wifi_stop(int argc, char const *argv[])
 {
-    ARGP(3, "stop", ciot_cli_wifi_sta_stop);
-    ARGP(3, "start", ciot_cli_wifi_sta_start);
-}
-
-static int ciot_cli_wifi_sta_stop(int argc, char const *argv[])
-{
-    CIOT_LOGI(TAG, "stopping wifi station id:%s", argv[4]);
+    CIOT_LOGI(TAG, "stopping wifi station id:%s", argv[3]);
     ciot_msg_t msg = {
         .base = PROTOBUF_C_MESSAGE_INIT(&ciot__msg__descriptor),
         .type = CIOT__MSG_TYPE__MSG_TYPE_STOP,
         .iface = &(ciot_iface_info_t) {
             .base = PROTOBUF_C_MESSAGE_INIT(&ciot__iface_info__descriptor),
-            .id = atoi(argv[4]),
+            .id = atoi(argv[3]),
             .type = CIOT__IFACE_TYPE__IFACE_TYPE_WIFI,
         },
     };
     return ciot_cli_conn_send_msg(&msg);
 }
 
-static int ciot_cli_wifi_sta_start(int argc, char const *argv[])
+static int ciot_cli_wifi_start(int argc, char const *argv[])
 {
     CIOT_LOGI(TAG, "starting wifi station ssid:%s pass:%s id:%s", argv[4], argv[5], argv[6]);
     ciot_msg_t msg = {
@@ -54,8 +49,8 @@ static int ciot_cli_wifi_sta_start(int argc, char const *argv[])
         .type = CIOT__MSG_TYPE__MSG_TYPE_START,
         .iface = &(ciot_iface_info_t) {
             .base = PROTOBUF_C_MESSAGE_INIT(&ciot__iface_info__descriptor),
-            .id = atoi(argv[6]),
             .type = CIOT__IFACE_TYPE__IFACE_TYPE_WIFI,
+            .id = atoi(argv[6]),
         },
         .data = &(ciot_msg_data_t) {
             .base = PROTOBUF_C_MESSAGE_INIT(&ciot__msg_data__descriptor),
@@ -63,10 +58,9 @@ static int ciot_cli_wifi_sta_start(int argc, char const *argv[])
                 .base = PROTOBUF_C_MESSAGE_INIT(&ciot__wifi_data__descriptor),
                 .config = &(ciot_wifi_cfg_t) {
                     .base = PROTOBUF_C_MESSAGE_INIT(&ciot__wifi_cfg__descriptor),
-                    .enabled = true,
+                    .type = atoi(argv[3]),
                     .ssid = (char*)argv[4],
                     .password = (char*)argv[5],
-                    .type = CIOT__WIFI_TYPE__WIFI_TYPE_STA,
                 }
             }
         }
