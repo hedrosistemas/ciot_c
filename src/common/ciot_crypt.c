@@ -9,13 +9,17 @@
  * 
  */
 
+#include "ciot_config.h"
+#include "ciot_crypt.h"
+
+#if CIOT_CONFIG_FEATURE_CRYPT == 1
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "mbedtls/aes.h"
 #include "mbedtls/base64.h"
-#include "ciot_crypt.h"
 
 static ciot_err_t ciot_crypt_enc_word(char *data, ciot_crypt_key_t *key, char *out);
 static ciot_err_t ciot_crypt_dec_word(char *data, ciot_crypt_key_t *key, char *out);
@@ -33,6 +37,8 @@ ciot_err_t ciot_crypt_enc(ciot_crypt_t *crypt, char *data, char *out, int size)
     size_t block_size = 16 * ((len / 16) + 1);
     unsigned char pad[block_size];
     unsigned char buf[block_size];
+    memset(pad, 0, block_size);
+    memset(buf, 0, block_size);
 
     sprintf(pad, "%s", data);
 
@@ -69,6 +75,7 @@ ciot_err_t ciot_crypt_dec(ciot_crypt_t *crypt, char *data, char *out, int size)
     size_t len = strlen(data);
     size_t decoded_size = 0;
     unsigned char buf[len];
+    memset(buf, 0, len);
 
     err = mbedtls_base64_decode(buf, len, &decoded_size, data, len);
     if(err)
@@ -83,7 +90,7 @@ ciot_err_t ciot_crypt_dec(ciot_crypt_t *crypt, char *data, char *out, int size)
 
     for (size_t i = 0; i < decoded_size; i+=16)
     {
-        err = ciot_crypt_dec_word(&buf[i], &crypt->key, out);
+        err = ciot_crypt_dec_word(&buf[i], &crypt->key, &out[i]);
         if(err)
         {
             return err;
@@ -145,3 +152,17 @@ static ciot_err_t ciot_crypt_dec_word(char *data, ciot_crypt_key_t *key, char *o
     mbedtls_aes_free(&aes);
     return CIOT_ERR__OK;
 }
+
+#else
+
+ciot_err_t ciot_crypt_enc(ciot_crypt_t *crypt, char *data, char *out, int size)
+{
+    return CIOT_ERR__DISABLED;
+}
+
+ciot_err_t ciot_crypt_dec(ciot_crypt_t *crypt, char *data, char *out, int size)
+{
+    return CIOT_ERR__DISABLED;
+}
+
+#endif
