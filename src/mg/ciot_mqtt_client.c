@@ -105,6 +105,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
     CIOT_ERR_NULL_CHECK(self->connection);
+    CIOT_ERR_VALUE_CHECK(self->base.status.state, CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED, CIOT_ERR__INVALID_STATE);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     struct mg_mqtt_opts opts = {0};
     struct mg_str msg = {0};
