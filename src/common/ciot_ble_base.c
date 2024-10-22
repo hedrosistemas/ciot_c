@@ -41,7 +41,7 @@ ciot_err_t ciot_ble_init(ciot_ble_t self)
     base->info.hw_mac.data = base->macs.hw;
     base->info.hw_mac.len = sizeof(base->macs.hw);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -60,7 +60,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -90,12 +90,12 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.ble = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req)
@@ -111,11 +111,11 @@ ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req)
         {
             base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
         }
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     default:
         break;
     }
-    return CIOT_ERR__INVALID_TYPE;
+    return CIOT__ERR__INVALID_TYPE;
 }
 
 ciot_err_t ciot_ble_get_cfg(ciot_ble_t self, ciot_ble_cfg_t *cfg)
@@ -124,7 +124,7 @@ ciot_err_t ciot_ble_get_cfg(ciot_ble_t self, ciot_ble_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_ble_base_t *base = (ciot_ble_base_t*)self;
     *cfg = base->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ble_get_status(ciot_ble_t self, ciot_ble_status_t *status)
@@ -133,7 +133,7 @@ ciot_err_t ciot_ble_get_status(ciot_ble_t self, ciot_ble_status_t *status)
     CIOT_ERR_NULL_CHECK(status);
     ciot_ble_base_t *base = (ciot_ble_base_t*)self;
     *status = base->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ble_get_info(ciot_ble_t self, ciot_ble_info_t *info)
@@ -142,7 +142,7 @@ ciot_err_t ciot_ble_get_info(ciot_ble_t self, ciot_ble_info_t *info)
     CIOT_ERR_NULL_CHECK(info);
     ciot_ble_base_t *base = (ciot_ble_base_t*)self;
     *info = base->info;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 bool ciot_ble_mac_is_valid(uint8_t mac[6])
@@ -163,5 +163,5 @@ ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces)
     CIOT_ERR_NULL_CHECK(ifaces);
     ciot_ble_base_t *base = (ciot_ble_base_t*)self;
     base->ifaces = *ifaces;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

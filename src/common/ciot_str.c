@@ -17,6 +17,6 @@ ciot_err_t ciot_strncpy(char *destiny, char *source, int size)
     CIOT_ERR_NULL_CHECK(destiny);
     CIOT_ERR_EMPTY_STRING_CHECK(source);
     strncpy(destiny, source, size);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 

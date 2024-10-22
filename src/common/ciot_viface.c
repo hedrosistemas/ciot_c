@@ -31,11 +31,11 @@ ciot_err_t ciot_viface_start(ciot_viface_t self, ciot_viface_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_viface_stop(ciot_viface_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

@@ -125,7 +125,7 @@ struct  _Ciot__WifiCfg
 {
   ProtobufCMessage base;
   /*
-   * Disable wifi interface
+   * Disable Wi-Fi interface
    */
   protobuf_c_boolean disabled;
   /*

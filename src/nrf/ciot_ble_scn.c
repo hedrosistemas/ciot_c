@@ -39,7 +39,7 @@ struct ciot_ble_scn
 static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool reverse);
 static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv);
 
-static const char *TAG = "hg_ble_scn";
+// static const char *TAG = "hg_ble_scn";
 
 ciot_ble_scn_t ciot_ble_scn_new(void *handle)
 {
@@ -61,12 +61,12 @@ ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
 
     if (base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_ACTIVE)
     {
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     if (!base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_PASSIVE)
     {
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     uint32_t err = sd_ble_gap_scan_stop();
@@ -113,13 +113,13 @@ ciot_err_t ciot_ble_scn_stop(ciot_ble_scn_t self)
         iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
         ciot_iface_send_event(&base->iface, &iface_event);
     }
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ble_scn_task(ciot_ble_scn_t self)
 {
     ciot_ble_scn_base_task(self);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *event_args)
@@ -131,7 +131,6 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
     const ble_evt_t *ev = event;
     uint8_t mac[6];
 
-
     switch (ev->header.evt_id)
     {
     case BLE_GAP_EVT_ADV_REPORT:
@@ -139,6 +138,7 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
         base->recv.info->mac.data = mac;
         base->recv.info->mac.len = sizeof(mac);
         base->recv.info->rssi = ev->evt.gap_evt.params.adv_report.rssi;
+        base->status.advs_count++;
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
         base->recv.adv.data = (ciot_iface_event_data_u *)ev->evt.gap_evt.params.adv_report.data;
         base->recv.adv.len = ev->evt.gap_evt.params.adv_report.dlen;
@@ -151,15 +151,18 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
         {
             ciot_ble_scn_handle_adv_report(self, &base->recv);
         }
-        break;
-    case BLE_GAP_EVT_TIMEOUT:
-        CIOT_LOGI(TAG, "%d", ev->evt.gap_evt.params.timeout.src);
+        else
+        {
+            base->status.advs_filtered++;
+        }
         break;
     default:
         break;
     }
 
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    base->status.last_event = ev->header.evt_id;
+
+    return CIOT__ERR__OK;
 }
 
 static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool reverse)
@@ -195,7 +198,7 @@ static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv
     }
     else
     {
-        base->status.err_code = CIOT_ERR__DATA_LOSS;
+        base->status.err_code = CIOT__ERR__DATA_LOSS;
     }
 #else
     ciot_iface_event_t event = {0};

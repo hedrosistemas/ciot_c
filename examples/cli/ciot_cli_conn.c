@@ -54,7 +54,7 @@ ciot_err_t ciot_cli_conn_start()
     if (type == CIOT__IFACE_TYPE__IFACE_TYPE_UNKNOWN || conn_data == NULL)
     {
         printf("ERROR: connection not configured.\n");
-        exit(CIOT_ERR__CONNECTION);
+        exit(CIOT__ERR__CONNECTION);
     }
 
     if (type == CIOT__IFACE_TYPE__IFACE_TYPE_UART && conn_data && conn_data->uart)
@@ -75,7 +75,7 @@ ciot_err_t ciot_cli_conn_start()
     if (conn == NULL)
     {
         printf("selected connection (%s) is not configured\n", ciot__iface_type__descriptor.values[type].name);
-        exit(CIOT_ERR__CONNECTION);
+        exit(CIOT__ERR__CONNECTION);
     }
 
     cfgs[1] = conn_data;
@@ -110,12 +110,14 @@ int ciot_cli_conn(int argc, char const *argv[])
 
 ciot_err_t ciot_cli_conn_send_msg(ciot_msg_t *msg)
 {
+    ciot_msg_print(&msg->base);
     return ciot_iface_send_req(conn, msg);
 }
 
 ciot_err_t ciot_cli_conn_send_req(ciot_msg_t *msg, ciot_iface_event_handler_fn *req_handler_fn)
 {
     req_handler = req_handler_fn;
+    ciot_msg_print(&msg->base);
     return ciot_iface_send_req(conn, msg);
 }
 
@@ -331,5 +333,5 @@ static ciot_err_t ciot_cli_event_handler(ciot_iface_t *sender, ciot_iface_event_
         CIOT_LOGI(TAG, "Other event type: %d", event->type);
         break;
     }
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

@@ -22,141 +22,141 @@ PROTOBUF_C__BEGIN_DECLS
 /*
  * Error codes
  */
-typedef enum _CiotErr {
+typedef enum _Ciot__Err {
   /*
    * No error
    */
-  CIOT_ERR__OK = 0,
+  CIOT__ERR__OK = 0,
   /*
    * Null argunment
    */
-  CIOT_ERR__NULL_ARG = 1,
+  CIOT__ERR__NULL_ARG = 1,
   /*
    * Invalid ID
    */
-  CIOT_ERR__INVALID_ID = 2,
+  CIOT__ERR__INVALID_ID = 2,
   /*
    * Invalid Type
    */
-  CIOT_ERR__INVALID_TYPE = 3,
+  CIOT__ERR__INVALID_TYPE = 3,
   /*
    * Memory overflow
    */
-  CIOT_ERR__OVERFLOW = 4,
+  CIOT__ERR__OVERFLOW = 4,
   /*
    * Not implemented
    */
-  CIOT_ERR__NOT_IMPLEMENTED = 5,
+  CIOT__ERR__NOT_IMPLEMENTED = 5,
   /*
    * Not supported
    */
-  CIOT_ERR__NOT_SUPPORTED = 6,
+  CIOT__ERR__NOT_SUPPORTED = 6,
   /*
    * Busy
    */
-  CIOT_ERR__BUSY = 7,
+  CIOT__ERR__BUSY = 7,
   /*
    * Invalid state
    */
-  CIOT_ERR__INVALID_STATE = 8,
+  CIOT__ERR__INVALID_STATE = 8,
   /*
    * Serialization error
    */
-  CIOT_ERR__SERIALIZATION = 9,
+  CIOT__ERR__SERIALIZATION = 9,
   /*
    * Deserialization error
    */
-  CIOT_ERR__DESERIALIZATION = 10,
+  CIOT__ERR__DESERIALIZATION = 10,
   /*
    * Error sending data
    */
-  CIOT_ERR__SEND_DATA = 11,
+  CIOT__ERR__SEND_DATA = 11,
   /*
    * Error on data receive
    */
-  CIOT_ERR__RECV_DATA = 12,
+  CIOT__ERR__RECV_DATA = 12,
   /*
    * Invalid size
    */
-  CIOT_ERR__INVALID_SIZE = 13,
+  CIOT__ERR__INVALID_SIZE = 13,
   /*
    * Closed
    */
-  CIOT_ERR__CLOSED = 14,
+  CIOT__ERR__CLOSED = 14,
   /*
    * Resource not found
    */
-  CIOT_ERR__NOT_FOUND = 15,
+  CIOT__ERR__NOT_FOUND = 15,
   /*
    * Validation failed
    */
-  CIOT_ERR__VALIDATION_FAILED = 16,
+  CIOT__ERR__VALIDATION_FAILED = 16,
   /*
    * Connection failed
    */
-  CIOT_ERR__CONNECTION = 17,
+  CIOT__ERR__CONNECTION = 17,
   /*
    * Disconnection failed
    */
-  CIOT_ERR__DISCONNECTION = 18,
+  CIOT__ERR__DISCONNECTION = 18,
   /*
    * Unknown exception occours
    */
-  CIOT_ERR__EXCEPTION = 19,
+  CIOT__ERR__EXCEPTION = 19,
   /*
    * Invalid argument detected
    */
-  CIOT_ERR__INVALID_ARG = 20,
+  CIOT__ERR__INVALID_ARG = 20,
   /*
    * Insuficient memory
    */
-  CIOT_ERR__NO_MEMORY = 21,
+  CIOT__ERR__NO_MEMORY = 21,
   /*
    * Timeout
    */
-  CIOT_ERR__TIMEOUT = 22,
+  CIOT__ERR__TIMEOUT = 22,
   /*
    * Internal error on mongoose framework
    */
-  CIOT_ERR__MONGOOSE = 23,
+  CIOT__ERR__MONGOOSE = 23,
   /*
    * Requested operation is impossible
    */
-  CIOT_ERR__IMPOSSIBLE_OP = 24,
+  CIOT__ERR__IMPOSSIBLE_OP = 24,
   /*
    * Checksum validation error
    */
-  CIOT_ERR__CHECKSUM = 25,
+  CIOT__ERR__CHECKSUM = 25,
   /*
    * Protocol validation error
    */
-  CIOT_ERR__PROTOCOL_VIOLATION = 26,
+  CIOT__ERR__PROTOCOL_VIOLATION = 26,
   /*
    * Data loss
    */
-  CIOT_ERR__DATA_LOSS = 27,
+  CIOT__ERR__DATA_LOSS = 27,
   /*
    * Invalid message header
    */
-  CIOT_ERR__INVALID_HEADER = 28,
+  CIOT__ERR__INVALID_HEADER = 28,
   /*
    * Feature disabled
    */
-  CIOT_ERR__DISABLED = 29,
+  CIOT__ERR__DISABLED = 29,
   /*
    * Operation failed
    */
-  CIOT_ERR__FAIL = 30,
+  CIOT__ERR__FAIL = 30,
   /*
    * Invalid index
    */
-  CIOT_ERR__INVALID_INDEX = 31,
+  CIOT__ERR__INVALID_INDEX = 31,
   /*
    * Invalid key size
    */
-  CIOT_ERR__INVALID_KEY_SIZE = 32
-    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT_ERR)
-} CiotErr;
+  CIOT__ERR__INVALID_KEY_SIZE = 32
+    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__ERR)
+} Ciot__Err;
 
 /* --- messages --- */
 
@@ -168,7 +168,7 @@ typedef enum _CiotErr {
 
 /* --- descriptors --- */
 
-extern const ProtobufCEnumDescriptor    ciot_err__descriptor;
+extern const ProtobufCEnumDescriptor    ciot__err__descriptor;
 
 PROTOBUF_C__END_DECLS
 

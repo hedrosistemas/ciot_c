@@ -58,7 +58,7 @@ ciot_err_t ciot_wifi_init(ciot_wifi_t self)
     base->status.tcp = &tcp->status;
     base->info.tcp = &tcp->info;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -77,7 +77,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
     
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -107,19 +107,19 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.wifi = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_wifi_process_req(ciot_wifi_t self, ciot_wifi_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_wifi_get_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
@@ -128,7 +128,7 @@ ciot_err_t ciot_wifi_get_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_wifi_base_t *base = (ciot_wifi_base_t*)self;
     *cfg = base->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_wifi_get_status(ciot_wifi_t self, ciot_wifi_status_t *status)
@@ -137,7 +137,7 @@ ciot_err_t ciot_wifi_get_status(ciot_wifi_t self, ciot_wifi_status_t *status)
     CIOT_ERR_NULL_CHECK(status);
     ciot_wifi_base_t *base = (ciot_wifi_base_t*)self;
     *status = base->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_wifi_get_info(ciot_wifi_t self, ciot_wifi_info_t *info)
@@ -146,7 +146,7 @@ ciot_err_t ciot_wifi_get_info(ciot_wifi_t self, ciot_wifi_info_t *info)
     CIOT_ERR_NULL_CHECK(info);
     ciot_wifi_base_t *base = (ciot_wifi_base_t*)self;
     *info = base->info;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, uint8_t mac[6])
@@ -155,7 +155,7 @@ ciot_err_t ciot_wifi_get_mac(ciot_wifi_t self, uint8_t mac[6])
     CIOT_ERR_NULL_CHECK(mac);
     ciot_wifi_base_t *base = (ciot_wifi_base_t*)self;
     memcpy(mac, base->info.tcp->mac.data, 6);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_wifi_toggle(ciot_wifi_t self)

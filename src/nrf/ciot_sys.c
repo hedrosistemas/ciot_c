@@ -37,13 +37,13 @@ ciot_err_t ciot_sys_start(ciot_sys_t self, ciot_sys_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_sys_stop(ciot_sys_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_sys_task(ciot_sys_t self)
@@ -58,13 +58,13 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
 			nrf_pwr_mgmt_run();
 		#endif
 	}
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_restart(void)
 {
     sd_nvic_SystemReset();
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_init_dfu(void)

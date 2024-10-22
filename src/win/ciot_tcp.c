@@ -40,15 +40,15 @@ ciot_tcp_t ciot_tcp_new(ciot_iface_t *iface, ciot_tcp_type_t type)
 
 ciot_err_t ciot_tcp_init_netif(ciot_tcp_t self)
 {
-    return CIOT_ERR__OK;;
+    return CIOT__ERR__OK;;
 }
 
 ciot_err_t ciot_tcp_start(ciot_tcp_t self)
 {
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_tcp_stop(ciot_tcp_t self)
 {
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

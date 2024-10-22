@@ -72,7 +72,7 @@ static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
         self->idx = 0;
         self->state = CIOT_DECODER_S_STATE_WAIT_START_CH;
         base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-        return CIOT_ERR__OVERFLOW;
+        return CIOT__ERR__OVERFLOW;
     }
 
     switch (self->state)
@@ -110,7 +110,7 @@ static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
             self->idx = 0;
             self->state = CIOT_DECODER_S_STATE_WAIT_START_CH;
             base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-            return CIOT_ERR__PROTOCOL_VIOLATION;
+            return CIOT__ERR__PROTOCOL_VIOLATION;
         }
     default:
         break;
@@ -118,7 +118,7 @@ static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
 
     base->state = CIOT_IFACE_DECODER_STATE_DECODING;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_decoder_s_send(ciot_iface_t *iface, uint8_t *data, int size)
@@ -129,5 +129,5 @@ static ciot_err_t ciot_decoder_s_send(ciot_iface_t *iface, uint8_t *data, int si
     iface->send_data(iface, (uint8_t*)&size, 2);
     iface->send_data(iface, data, size);
     iface->send_data(iface, &end_ch, 1);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

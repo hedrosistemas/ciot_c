@@ -75,7 +75,7 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
         CIOT_LOGE(TAG, "Overflow");
         self->idx = 0;
         base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-        return CIOT_ERR__OVERFLOW;
+        return CIOT__ERR__OVERFLOW;
     }
 
     switch (self->state)
@@ -115,7 +115,7 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
         default:
             self->state = CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET;
             base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-            return CIOT_ERR__PROTOCOL_VIOLATION;
+            return CIOT__ERR__PROTOCOL_VIOLATION;
         }
         break;
     case CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET:
@@ -131,7 +131,7 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
 
     base->state = CIOT_IFACE_DECODER_STATE_DECODING;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_decoder_slip_send(ciot_iface_t *iface, uint8_t *data, int size)
@@ -159,5 +159,5 @@ static ciot_err_t ciot_decoder_slip_send(ciot_iface_t *iface, uint8_t *data, int
     
     iface->send_data(iface, &slip_byte_end, 1);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

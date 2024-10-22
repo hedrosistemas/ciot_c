@@ -88,7 +88,7 @@ ciot_err_t ciot_dfu_nrf_start(ciot_dfu_nrf_t self, ciot_dfu_cfg_t *cfg)
 
     if (cfg->type != self->cfg.dfu.type)
     {
-        return CIOT_ERR__INVALID_TYPE;
+        return CIOT__ERR__INVALID_TYPE;
     }
 
     self->state = CIOT_DFU_NRF_STATE_IDLE;
@@ -120,7 +120,7 @@ ciot_err_t ciot_dfu_nrf_stop(ciot_dfu_nrf_t self)
     };
     self->cfg.iface->process_req(self->cfg.iface, &msg);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_dfu_nrf_init(ciot_dfu_nrf_t self)
@@ -138,7 +138,7 @@ ciot_err_t ciot_dfu_nrf_init(ciot_dfu_nrf_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_DFU;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -157,7 +157,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -185,7 +185,7 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.dfu = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
@@ -201,7 +201,7 @@ ciot_err_t ciot_dfu_nrf_process_req(ciot_dfu_nrf_t self, ciot_dfu_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_dfu_nrf_get_cfg(ciot_dfu_nrf_t self, ciot_dfu_cfg_t *cfg)
@@ -210,7 +210,7 @@ ciot_err_t ciot_dfu_nrf_get_cfg(ciot_dfu_nrf_t self, ciot_dfu_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_dfu_t *base = (ciot_dfu_t *)self;
     *cfg = base->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_dfu_nrf_get_status(ciot_dfu_nrf_t self, ciot_dfu_status_t *status)
@@ -219,7 +219,7 @@ ciot_err_t ciot_dfu_nrf_get_status(ciot_dfu_nrf_t self, ciot_dfu_status_t *statu
     CIOT_ERR_NULL_CHECK(status);
     ciot_dfu_t *base = (ciot_dfu_t *)self;
     *status = base->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 // ciot_err_t ciot_dfu_nrf_get_info(ciot_dfu_nrf_t self, ciot_dfu_info_t *info)
@@ -228,7 +228,7 @@ ciot_err_t ciot_dfu_nrf_get_status(ciot_dfu_nrf_t self, ciot_dfu_status_t *statu
 //     CIOT_ERR_NULL_CHECK(info);
 //     ciot_dfu_t *base = (ciot_dfu_t*)self;
 //     *info = base->info;
-//     return CIOT_ERR__OK;
+//     return CIOT__ERR__OK;
 // }
 
 ciot_err_t ciot_dfu_nrf_task(ciot_dfu_nrf_t self)
@@ -237,11 +237,11 @@ ciot_err_t ciot_dfu_nrf_task(ciot_dfu_nrf_t self)
 
     if (self->state == CIOT_DFU_NRF_STATE_IDLE || self->state == CIOT_DFU_NRF_STATE_COMPLETED)
     {
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     ciot_err_t err = ciot_dfu_nrf_write(self);
-    if (err != CIOT_ERR__OK)
+    if (err != CIOT__ERR__OK)
     {
         self->base.status.error = err;
         self->state = CIOT_DFU_NRF_STATE_ERROR;
@@ -253,7 +253,7 @@ ciot_err_t ciot_dfu_nrf_task(ciot_dfu_nrf_t self)
         if(ciot_timer_compare(&self->timer, 5))
         {
             CIOT_LOGE(TAG, "TIMEOUT");
-            err = CIOT_ERR__TIMEOUT;
+            err = CIOT__ERR__TIMEOUT;
             self->base.status.error = err;
             self->state = CIOT_DFU_NRF_STATE_ERROR;
             ciot_dfu_nrf_set_state(self, CIOT__DFU_STATE__DFU_STATE_ERROR);
@@ -275,13 +275,13 @@ ciot_err_t ciot_dfu_nrf_read_file(ciot_dfu_nrf_packet_t *object, const char *nam
     if (file == NULL)
     {
         CIOT_LOGE(TAG, "Error opening file %s", name);
-        return CIOT_ERR__NOT_FOUND;
+        return CIOT__ERR__NOT_FOUND;
     }
 
     if (object == NULL || object->data != NULL)
     {
         CIOT_LOGE(TAG, "Invalid arg");
-        return CIOT_ERR__INVALID_ARG;
+        return CIOT__ERR__INVALID_ARG;
     }
 
     fseek(file, 0, SEEK_END);
@@ -293,14 +293,14 @@ ciot_err_t ciot_dfu_nrf_read_file(ciot_dfu_nrf_packet_t *object, const char *nam
     if (object->data == NULL)
     {
         CIOT_LOGE(TAG, "Error allocating memory");
-        return CIOT_ERR__NO_MEMORY;
+        return CIOT__ERR__NO_MEMORY;
     }
 
     size_t elements_read = fread(object->data, sizeof(uint8_t), file_size, file);
     if (elements_read != file_size)
     {
         CIOT_LOGE(TAG, "Error reading file");
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
     return 0;
@@ -318,7 +318,7 @@ ciot_err_t ciot_dfu_nrf_start_bootloader(ciot_dfu_nrf_t self, ciot_iface_t *ifac
     msg->data->sys = &sys_data;
 
     ciot_err_t err = ciot_iface_send_req(iface, msg);
-    if (err != CIOT_ERR__OK)
+    if (err != CIOT__ERR__OK)
     {
         self->base.status.error = err;
         self->state = CIOT_DFU_NRF_STATE_ERROR;
@@ -386,7 +386,7 @@ static ciot_err_t ciot_dfu_nrf_write(ciot_dfu_nrf_t self)
         }
 
         ciot_err_t err = ciot_iface_send_data(&base->iface, &self->object.packet->data[self->data_transferred], bytes_to_write);
-        if (err != CIOT_ERR__OK)
+        if (err != CIOT__ERR__OK)
         {
             CIOT_LOGE(TAG, "Error sending data (0x%x)", err);
             self->base.status.error = err;
@@ -426,7 +426,7 @@ static ciot_err_t ciot_dfu_nrf_write(ciot_dfu_nrf_t self)
         return ciot_iface_send_data(&base->iface, self->data, 1);
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, int len)
@@ -452,7 +452,7 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
     if (data[0] != CIOT_DFU_NRF_OP_RESPONSE)
     {
         CIOT_LOGE(TAG, "Invalid msg");
-        return CIOT_ERR__VALIDATION_FAILED;
+        return CIOT__ERR__VALIDATION_FAILED;
     }
 
     // Ping Response Success [x60 x09 x01] or Opcode not supported [x60 x09 x03]
@@ -464,7 +464,7 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
         CIOT_LOGI(TAG, "Ping response sucess");
         self->state = CIOT_DFU_NRF_STATE_CREATE_OBJECT;
         ciot_dfu_nrf_set_state(self, CIOT__DFU_STATE__DFU_STATE_IN_PROGRESS);
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     if (self->state == CIOT_DFU_NRF_STATE_WAITING_PING_RESP &&
@@ -475,7 +475,7 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
         CIOT_LOGI(TAG, "First ping refused. Trying again...");
         self->state = CIOT_DFU_NRF_STATE_SEND_PING;
         self->ping_refused = true;
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     // Response Create Success [x60 x01 x01]
@@ -486,7 +486,7 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
     {
         CIOT_LOGI(TAG, "Response create success");
         self->state = CIOT_DFU_NRF_STATE_WRITE_DFU_PACKAGE;
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     // Response Calculate CRC Sucess: offset CRC32 [x60 x03 x01 XXXXXXXX XXXXXXXX]
@@ -506,7 +506,7 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
             CIOT_LOGI(TAG, "CRC error: expected = %lu, received = %lu", self->crc.expected, self->crc.received);
             self->state = CIOT_DFU_NRF_STATE_ERROR;
             ciot_dfu_nrf_set_state(self, CIOT__DFU_STATE__DFU_STATE_ERROR);
-            return CIOT_ERR__CHECKSUM;
+            return CIOT__ERR__CHECKSUM;
         }
         if (self->object.remaining == 0)
         {
@@ -518,7 +518,7 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
             CIOT_LOGI(TAG, "Response PRN Sucess: offset CRC32");
             self->state = CIOT_DFU_NRF_STATE_WRITE_DFU_PACKAGE;
         }
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     // Response Execute Sucess [x60 x04 x01]
@@ -537,7 +537,7 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
                 self->data_transferred = 0;
                 self->crc.expected = 0;
                 self->state = CIOT_DFU_NRF_STATE_CREATE_OBJECT;
-                return CIOT_ERR__OK;
+                return CIOT__ERR__OK;
             }
             if (self->object.packet->type == CIOT_DFU_NRF_PACKET_TYPE_APP_IMAGE)
             {
@@ -545,21 +545,21 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
                 self->state = CIOT_DFU_NRF_STATE_COMPLETED;
                 ciot_dfu_nrf_set_state(self, CIOT__DFU_STATE__DFU_STATE_COMPLETED);
                 ciot_dfu_nrf_stop(self);
-                return CIOT_ERR__OK;
+                return CIOT__ERR__OK;
             }
         }
         else
         {
             CIOT_LOGI(TAG, "Object write completed");
             self->state = CIOT_DFU_NRF_STATE_CREATE_OBJECT;
-            return CIOT_ERR__OK;
+            return CIOT__ERR__OK;
         }
     }
 
     // DFU completed... nothing to do...
     if (self->state == CIOT_DFU_NRF_STATE_COMPLETED)
     {
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     if (data[2] != CIOT_DFU_NRF_RES_CODE_SUCCESS)
@@ -577,10 +577,10 @@ static ciot_err_t ciot_dfu_nrf_process_data(ciot_dfu_nrf_t self, uint8_t *data, 
         }
         self->state = CIOT_DFU_NRF_STATE_ERROR;
 
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_dfu_nrf_set_state(ciot_dfu_nrf_t self, ciot_dfu_state_t state)
@@ -599,7 +599,7 @@ static ciot_err_t ciot_dfu_nrf_set_state(ciot_dfu_nrf_t self, ciot_dfu_state_t s
         iface_event.msg = msg;
         return base->iface.event_handler(&base->iface, &iface_event, base->iface.event_args);
     }
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_dfu_nrf_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args)
@@ -618,7 +618,7 @@ static ciot_err_t ciot_dfu_nrf_event_handler(ciot_iface_t *sender, ciot_iface_ev
     if (event->type == CIOT_IFACE_EVENT_DATA)
     {
         ciot_err_t err = ciot_dfu_nrf_process_data(self, event->data, event->size);
-        if (err != CIOT_ERR__OK)
+        if (err != CIOT__ERR__OK)
         {
             self->base.status.error = err;
             self->state = CIOT_DFU_NRF_STATE_ERROR;
@@ -626,5 +626,5 @@ static ciot_err_t ciot_dfu_nrf_event_handler(ciot_iface_t *sender, ciot_iface_ev
         }
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

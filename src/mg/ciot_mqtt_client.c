@@ -78,13 +78,13 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
 
     self->connection = mg_mqtt_connect(self->mgr, base->url, &opts, ciot_mqtt_client_event_handler, self);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_stop(ciot_mqtt_client_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos)
@@ -97,7 +97,7 @@ ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos)
     opts.topic = mg_str(topic);
     opts.qos = qos;
     mg_mqtt_sub(self->connection, &opts);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *data, int size, int qos)
@@ -105,7 +105,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
     CIOT_ERR_NULL_CHECK(self->connection);
-    CIOT_ERR_VALUE_CHECK(self->base.status.state, CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED, CIOT_ERR__INVALID_STATE);
+    CIOT_ERR_VALUE_CHECK(self->base.status.state, CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED, CIOT__ERR__INVALID_STATE);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     struct mg_mqtt_opts opts = {0};
     struct mg_str msg = {0};
@@ -117,7 +117,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     opts.retain = false;
     mg_mqtt_pub(self->connection, &opts);
     ciot_mqtt_client_update_data_rate(self, size);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)

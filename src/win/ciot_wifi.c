@@ -68,22 +68,22 @@ ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     CIOT_ERR_RETURN(ciot_wifi_set_cfg(self, cfg));
 
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_wifi_stop(ciot_wifi_t self)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_wifi_task(ciot_wifi_t self)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_wifi_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
@@ -98,7 +98,7 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     if (self->base.cfg.type != cfg->type)
     {
-        return CIOT_ERR__INVALID_TYPE;
+        return CIOT__ERR__INVALID_TYPE;
     }
 
     CIOT_ERR_RETURN(ciot_tcp_init_netif(base->tcp));
@@ -113,5 +113,5 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
         CIOT_ERR_RETURN(ciot_tcp_set_cfg(base->tcp, cfg->tcp));
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

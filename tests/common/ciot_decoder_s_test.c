@@ -22,7 +22,7 @@ void test_ciot_decoder_s_decode_buffer_null()
 {
     iface.decoder = ciot_decoder_s_new(NULL, 0);
     ciot_err_t err = iface.decoder->decode(&iface, 0);
-    TEST_ASSERT(err == CIOT_ERR__NULL_ARG);
+    TEST_ASSERT(err == CIOT__ERR__NULL_ARG);
 }
 
 void test_ciot_decoder_s_decode_overflow()
@@ -35,11 +35,11 @@ void test_ciot_decoder_s_decode_overflow()
     for (size_t i = 0; i < sizeof(data); i++)
     {
         err = iface.decoder->decode(&iface, data[i]);
-        if(err != CIOT_ERR__OK) break;
+        if(err != CIOT__ERR__OK) break;
     }
     
     TEST_ASSERT(iface.decoder->state == CIOT_IFACE_DECODER_STATE_ERROR);
-    TEST_ASSERT(err == CIOT_ERR__OVERFLOW);
+    TEST_ASSERT(err == CIOT__ERR__OVERFLOW);
 }
 
 void test_ciot_decoder_s_decode_protocol_violation()
@@ -52,11 +52,11 @@ void test_ciot_decoder_s_decode_protocol_violation()
     for (size_t i = 0; i < sizeof(data); i++)
     {
         err = iface.decoder->decode(&iface, data[i]);
-        if(err != CIOT_ERR__OK) break;
+        if(err != CIOT__ERR__OK) break;
     }
     
     TEST_ASSERT(iface.decoder->state == CIOT_IFACE_DECODER_STATE_ERROR);
-    TEST_ASSERT(err == CIOT_ERR__PROTOCOL_VIOLATION);
+    TEST_ASSERT(err == CIOT__ERR__PROTOCOL_VIOLATION);
 }
 
 void test_ciot_decoder_s_decode_ok()
@@ -70,10 +70,10 @@ void test_ciot_decoder_s_decode_ok()
     for (size_t i = 0; i < sizeof(data); i++)
     {
         err = iface.decoder->decode(&iface, data[i]);
-        if(err != CIOT_ERR__OK) break;
+        if(err != CIOT__ERR__OK) break;
     }
     
-    TEST_ASSERT_EQUAL(err, CIOT_ERR__OK);
+    TEST_ASSERT_EQUAL(err, CIOT__ERR__OK);
     TEST_ASSERT_EQUAL_MEMORY(expected, buf, sizeof(expected));
 }
 
@@ -82,7 +82,7 @@ void test_ciot_decoder_s_send_null_iface()
     uint8_t data[32];
     iface.decoder = ciot_decoder_s_new(NULL, 0);
     ciot_err_t err = iface.decoder->send(NULL, data, 0);
-    TEST_ASSERT(err == CIOT_ERR__NULL_ARG);
+    TEST_ASSERT(err == CIOT__ERR__NULL_ARG);
 }
 
 void test_ciot_decoder_s_send_ok()
@@ -92,7 +92,7 @@ void test_ciot_decoder_s_send_ok()
     uint8_t expected[] = { '{', 0x05, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, '}' };
     iface.decoder = ciot_decoder_s_new(buf, sizeof(buf));
     ciot_err_t err = iface.decoder->send(&iface, data, sizeof(data));
-    TEST_ASSERT_EQUAL(err, CIOT_ERR__OK);
+    TEST_ASSERT_EQUAL(err, CIOT__ERR__OK);
     TEST_ASSERT_EQUAL_MEMORY(expected, encode_result, encode_result_size);
 }
 
@@ -101,7 +101,7 @@ static ciot_err_t iface_send(ciot_iface_t *iface, uint8_t *bytes, int size)
     int idx = encode_result_size;
     memcpy(&encode_result[idx], bytes, size);
     encode_result_size += size;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 void test_ciot_decoder_s()

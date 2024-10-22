@@ -27,7 +27,7 @@ ciot_err_t ciot_iface_init(ciot_iface_t *self)
     CIOT_ERR_NULL_CHECK(self);
     ciot__msg_data__init(&self->data);
     ciot__iface_info__init(&self->info);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg)
@@ -38,7 +38,7 @@ ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg)
     if (self->req_status.state != CIOT_IFACE_REQ_STATE_IDLE)
     {
         CIOT_LOGE(TAG, "Iface %s (%lu) is busy", ciot_iface_to_str(self), self->info.id);
-        return CIOT_ERR__BUSY;
+        return CIOT__ERR__BUSY;
     }
     else
     {
@@ -58,7 +58,7 @@ ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp)
     if (self->req_status.state != CIOT_IFACE_REQ_STATE_IDLE)
     {
         CIOT_LOGE(TAG, "Iface %s (%lu) is busy", ciot_iface_to_str(self), self->info.id);
-        return CIOT_ERR__BUSY;
+        return CIOT__ERR__BUSY;
     }
     else
     {
@@ -85,7 +85,7 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req)
     // CIOT_LOG_MSG_P("ciot", CIOT_LOGV, "TX REQ <- ", self, req);
     
     ciot_err_t err = ciot_iface_send(self, req);
-    if(err != CIOT_ERR__OK)
+    if(err != CIOT__ERR__OK)
     {
         self->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
     }
@@ -106,7 +106,7 @@ ciot_err_t ciot_iface_send_error(ciot_iface_t *self, ciot_iface_type_t iface_typ
     error.msg->type = msg->type;
     error.iface->type = iface_type;
     error.iface->id = iface_id;
-    error.code = CIOT_ERR__NULL_ARG;
+    error.code = CIOT__ERR__NULL_ARG;
     msg->type = CIOT__MSG_TYPE__MSG_TYPE_ERROR;
     msg->data->error = &error;
     self->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
@@ -137,7 +137,7 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, ciot_ifac
     CIOT_ERR_NULL_CHECK(msg);
 
     ciot_iface_t *sender_iface = (ciot_iface_t*)sender;
-    ciot_err_t err = CIOT_ERR__OK;
+    ciot_err_t err = CIOT__ERR__OK;
     ciot_msg_data_t *msg_data = msg->data;
 
     CIOT_LOGD(TAG, "%p", msg_data);
@@ -146,24 +146,24 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, ciot_ifac
     {
         if (msg->iface->id != self->info.id)
         {
-            err = CIOT_ERR__INVALID_ID;
+            err = CIOT__ERR__INVALID_ID;
         }
         if (msg->iface->type != self->info.type)
         {
-            err = CIOT_ERR__INVALID_TYPE;
+            err = CIOT__ERR__INVALID_TYPE;
         }
     }
     else
     {
-        err = CIOT_ERR__NULL_ARG;
+        err = CIOT__ERR__NULL_ARG;
     }
 
-    if(err == CIOT_ERR__OK)
+    if(err == CIOT__ERR__OK)
     {
         switch (msg->type)
         {
         case CIOT__MSG_TYPE__MSG_TYPE_UNKNOWN:
-            err = CIOT_ERR__INVALID_TYPE;
+            err = CIOT__ERR__INVALID_TYPE;
             break;
         case CIOT__MSG_TYPE__MSG_TYPE_START:
         case CIOT__MSG_TYPE__MSG_TYPE_STOP:
@@ -183,7 +183,7 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, ciot_ifac
             err = ciot_iface_process_request_result(self, sender_iface, msg, err);
             break;
         case CIOT__MSG_TYPE__MSG_TYPE_EVENT:
-            err = CIOT_ERR__NOT_IMPLEMENTED;
+            err = CIOT__ERR__NOT_IMPLEMENTED;
             break;
         case CIOT__MSG_TYPE__MSG_TYPE_ERROR:
             CIOT_LOG_MSG_P(TAG, CIOT_LOGE, "RX ERR <- ", sender_iface, msg);
@@ -193,7 +193,7 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, ciot_ifac
         }
     }
 
-    if(err != CIOT_ERR__OK)
+    if(err != CIOT__ERR__OK)
     {
         ciot_msg_error_t error = {
             .base = PROTOBUF_C_MESSAGE_INIT(&ciot__msg_error__descriptor),
@@ -221,12 +221,12 @@ ciot_err_t ciot_iface_process_data(ciot_iface_t *self, uint8_t *data, int size)
         for (size_t i = 0; i < size; i++)
         {
             ciot_err_t err = self->decoder->decode(self, data[i]);
-            if(err != CIOT_ERR__OK)
+            if(err != CIOT__ERR__OK)
             {
                 return err;
             }
         }
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
     else
     {
@@ -247,7 +247,7 @@ ciot_err_t ciot_iface_register_req(ciot_iface_t *self, ciot_iface_info_t *iface,
     self->req_status.type = req->type;
     self->req_status.iface.id = iface->id;
     self->req_status.iface.type = iface->type;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_iface_set_event_handler(ciot_iface_t *self, ciot_iface_event_handler_fn event_handler, void *event_args)
@@ -255,21 +255,21 @@ ciot_err_t ciot_iface_set_event_handler(ciot_iface_t *self, ciot_iface_event_han
     CIOT_ERR_NULL_CHECK(self);
     self->event_handler = event_handler;
     self->event_args = event_args;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_iface_set_serializer(ciot_iface_t *self, ciot_serializer_t serializer)
 {
     CIOT_ERR_NULL_CHECK(self);
     self->serializer = serializer;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_iface_set_decoder(ciot_iface_t *self, ciot_iface_decoder_t decoder)
 {
     CIOT_ERR_NULL_CHECK(self);
     self->decoder = decoder;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_iface_get_msg_id(void)
@@ -363,7 +363,7 @@ static ciot_err_t ciot_iface_send(ciot_iface_t *self, ciot_msg_t *msg)
 
 static ciot_err_t ciot_iface_process_request_result(ciot_iface_t *self, ciot_iface_t *sender, ciot_msg_t *msg, ciot_err_t err)
 {
-    if(self->req_status.state == CIOT_IFACE_REQ_STATE_IDLE && err == CIOT_ERR__OK)
+    if(self->req_status.state == CIOT_IFACE_REQ_STATE_IDLE && err == CIOT__ERR__OK)
     {
         return ciot_iface_send_rsp(sender, msg);
     }

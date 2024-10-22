@@ -27,9 +27,8 @@ static const char *TAG = "ciot_cli";
 
 static const char *default_argv[] = {
     "ciot_cli",
-    "save",
-    "5",
-    "9"
+    "set-dfu",
+    "1",
 };
 static bool run_cmd = false;
 

@@ -69,14 +69,14 @@ ciot_err_t ciot_ntp_start(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
         tzset();
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ntp_stop(ciot_ntp_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     esp_sntp_stop();
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static void ciot_ntp_sync_notification_cb(struct timeval *tv)

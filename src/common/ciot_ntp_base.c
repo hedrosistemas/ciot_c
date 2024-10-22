@@ -41,7 +41,7 @@ ciot_err_t ciot_ntp_init(ciot_ntp_t self)
     base->cfg.server2 = base->server2;
     base->cfg.server3 = base->server3;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -60,7 +60,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
     
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -90,19 +90,19 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.ntp = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_ntp_process_req(ciot_ntp_t self, ciot_ntp_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_ntp_get_cfg(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
@@ -111,7 +111,7 @@ ciot_err_t ciot_ntp_get_cfg(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_ntp_base_t *base = (ciot_ntp_base_t*)self;
     *cfg = base->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ntp_set_cfg(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
@@ -127,7 +127,7 @@ ciot_err_t ciot_ntp_set_cfg(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
     ciot_strncpy(base->server1, cfg->server1, CIOT_CONFIG_NTP_SERVER_URL_LEN);
     ciot_strncpy(base->server2, cfg->server2, CIOT_CONFIG_NTP_SERVER_URL_LEN);
     ciot_strncpy(base->server3, cfg->server3, CIOT_CONFIG_NTP_SERVER_URL_LEN);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ntp_get_status(ciot_ntp_t self, ciot_ntp_status_t *status)
@@ -136,7 +136,7 @@ ciot_err_t ciot_ntp_get_status(ciot_ntp_t self, ciot_ntp_status_t *status)
     CIOT_ERR_NULL_CHECK(status);
     ciot_ntp_base_t *base = (ciot_ntp_base_t*)self;
     *status = base->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 // ciot_err_t ciot_ntp_get_info(ciot_ntp_t self, ciot_ntp_info_t *info)
@@ -145,5 +145,5 @@ ciot_err_t ciot_ntp_get_status(ciot_ntp_t self, ciot_ntp_status_t *status)
 //     CIOT_ERR_NULL_CHECK(info);
 //     ciot_ntp_base_t *base = (ciot_ntp_base_t*)self;
 //     *info = base->info;
-//     return CIOT_ERR__OK;
+//     return CIOT__ERR__OK;
 // }

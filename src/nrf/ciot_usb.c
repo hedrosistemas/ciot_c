@@ -124,20 +124,20 @@ ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
     event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &self->base.iface);
     ciot_iface_send_event(&self->base.iface, &event);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_usb_stop(ciot_usb_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_usb_task(ciot_usb_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     app_usbd_event_queue_process();
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
@@ -151,12 +151,12 @@ ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 
     if(self->base.status.state != CIOT__USB_STATE__USB_STATE_STARTED)
     {
-        return CIOT_ERR__INVALID_STATE;
+        return CIOT__ERR__INVALID_STATE;
     }
 
     err_code = app_fifo_write(&self->fifo.tx, NULL, &len);
-    err_code = len < size ? CIOT_ERR__OVERFLOW : CIOT_ERR__OK;
-    if(err_code == CIOT_ERR__OK)
+    err_code = len < size ? CIOT__ERR__OVERFLOW : CIOT__ERR__OK;
+    if(err_code == CIOT__ERR__OK)
     {
         len = size;
         err_code = app_fifo_write(&self->fifo.tx, bytes, &len);

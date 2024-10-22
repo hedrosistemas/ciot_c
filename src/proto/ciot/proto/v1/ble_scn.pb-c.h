@@ -141,13 +141,21 @@ struct  _Ciot__BleScnStatus
    */
   Ciot__BleScnState state;
   /*
-   * Last advertisement information
-   */
-  Ciot__BleScnAdvInfo *adv_info;
-  /*
    * Current error code
    */
   int32_t err_code;
+  /*
+   * ADVs counter
+   */
+  int32_t advs_count;
+  /*
+   * ADVs filtered
+   */
+  int32_t advs_filtered;
+  /*
+   * Last event received
+   */
+  int32_t last_event;
   /*
    * Current fifo lenght
    */
@@ -159,7 +167,7 @@ struct  _Ciot__BleScnStatus
 };
 #define CIOT__BLE_SCN_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__ble_scn_status__descriptor) \
-    , CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE, NULL, 0, 0, 0 }
+    , CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE, 0, 0, 0, 0, 0, 0 }
 
 
 /*
