@@ -53,7 +53,7 @@ ciot_err_t ciot_sys_stop(ciot_sys_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     exit(0);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_task(ciot_sys_t self)
@@ -61,12 +61,12 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     CIOT_ERR_NULL_CHECK(self);
     sys->base.status.free_memory = ciot_sys_get_free_ram();
     sys->base.status.lifetime = ciot_timer_now() - sys->init_time;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_sys_sleep(long ms)
@@ -74,9 +74,9 @@ ciot_err_t ciot_sys_sleep(long ms)
 #if MG_ARCH == MG_ARCH_WIN32
     Sleep(ms);
 #else
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 #endif
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_restart(void)
@@ -89,12 +89,12 @@ ciot_err_t ciot_sys_restart(void)
     exit(0);
     CIOT_LOGE(TAG, "Restart error");
 #endif
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_sys_init_dfu(void)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 #if defined(CIOT_TARGET_ESP8266)

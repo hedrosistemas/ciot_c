@@ -62,13 +62,13 @@ ciot_err_t ciot_socket_start(ciot_socket_t self, ciot_socket_cfg_t *cfg)
         return ciot_socket_client_start(self);
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_socket_stop(ciot_socket_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_socket_send_bytes(ciot_socket_t self, uint8_t *data, int size)
@@ -77,7 +77,7 @@ ciot_err_t ciot_socket_send_bytes(ciot_socket_t self, uint8_t *data, int size)
     struct mg_connection *conn = self->resp_conn ? self->resp_conn : self->conn;
     mg_send(conn, data, size);
     self->resp_conn = NULL;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_socket_server_start(ciot_socket_t self)
@@ -88,9 +88,9 @@ static ciot_err_t ciot_socket_server_start(ciot_socket_t self)
     if(self->conn == NULL)
     {
         base->status.state = CIOT__SOCKET_STATE__SOCKET_STATE_ERROR;
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_socket_client_start(ciot_socket_t self)
@@ -101,9 +101,9 @@ static ciot_err_t ciot_socket_client_start(ciot_socket_t self)
     if(self->conn == NULL)
     {
         base->status.state = CIOT__SOCKET_STATE__SOCKET_STATE_ERROR;
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static void ciot_socket_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)

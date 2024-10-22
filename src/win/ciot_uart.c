@@ -56,7 +56,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         base->status.state = CIOT__UART_STATE__UART_STATE_INTERNAL_ERROR;
         base->status.error = CIOT__UART_ERROR__UART_ERR_OPEN;
         ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
     self->params.DCBlength = sizeof(self->params);
@@ -66,7 +66,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         base->status.state = CIOT__UART_STATE__UART_STATE_INTERNAL_ERROR;
         base->status.error = CIOT__UART_ERROR__UART_ERR_OPEN;
         ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
     self->params.BaudRate = base->cfg.baud_rate;
@@ -80,7 +80,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         base->status.state = CIOT__UART_STATE__UART_STATE_INTERNAL_ERROR;
         base->status.error = CIOT__UART_ERROR__UART_ERR_OPEN;
         ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
     self->timeouts.ReadIntervalTimeout = 50;
@@ -94,10 +94,10 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         base->status.state = CIOT__UART_STATE__UART_STATE_INTERNAL_ERROR;
         base->status.error = CIOT__UART_ERROR__UART_ERR_OPEN;
         ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
@@ -105,7 +105,7 @@ ciot_err_t ciot_uart_stop(ciot_uart_t self)
     CIOT_ERR_NULL_CHECK(self);
     CloseHandle(self->handle);
     self->base.status.state = CIOT__UART_STATE__UART_STATE_CLOSED;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
@@ -121,7 +121,7 @@ ciot_err_t ciot_uart_task(ciot_uart_t self)
         ciot_uart_process_status(self, &status);
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
@@ -134,12 +134,12 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     if(base->status.state == CIOT__UART_STATE__UART_STATE_STARTED)
     {
         WriteFile(self->handle, bytes, size, &self->bytes_written, NULL);
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
     else
     {
         CIOT_LOGE(TAG, "Port COM%d is closed", base->cfg.num);
-        return CIOT_ERR__INVALID_STATE;
+        return CIOT__ERR__INVALID_STATE;
     }
 }
 
@@ -174,7 +174,7 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
 
     if(base->status.state != CIOT__UART_STATE__UART_STATE_STARTED)
     {
-        return CIOT_ERR__INVALID_STATE;
+        return CIOT__ERR__INVALID_STATE;
     }
 
     if(status->cbInQue > 0)
@@ -185,7 +185,7 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
             if(ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL))
             {
                 ciot_err_t err = ciot_iface_process_data(&base->iface, &byte, 1);
-                if(err != CIOT_ERR__OK)
+                if(err != CIOT__ERR__OK)
                 {
                     base->status.error = err;
                 }
@@ -194,5 +194,5 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
         }
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

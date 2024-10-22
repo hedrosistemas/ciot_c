@@ -119,11 +119,11 @@ struct  _Ciot__MsgError
   /*
    * Error code.
    */
-  CiotErr code;
+  Ciot__Err code;
 };
 #define CIOT__MSG_ERROR__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__msg_error__descriptor) \
-    , NULL, NULL, CIOT_ERR__OK }
+    , NULL, NULL, CIOT__ERR__OK }
 
 
 /*

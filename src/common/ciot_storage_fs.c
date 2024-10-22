@@ -20,10 +20,6 @@ struct ciot_storage_fs
 
 typedef struct ciot_storage_fs *ciot_storage_fs_t;
 
-static ciot_err_t ciot_storage_fs_delete(char *path);
-static ciot_err_t ciot_storage_fs_write_bytes(char *path, uint8_t *bytes, int size);
-static ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size);
-
 ciot_storage_t ciot_storage_fs_new(void)
 {
     ciot_storage_fs_t self = calloc(1, sizeof(struct ciot_storage_fs));
@@ -34,26 +30,26 @@ ciot_storage_t ciot_storage_fs_new(void)
     return &self->base;
 }
 
-static ciot_err_t ciot_storage_fs_write_bytes(char *path, uint8_t *bytes, int size)
+ciot_err_t ciot_storage_fs_write_bytes(char *path, uint8_t *bytes, int size)
 {
     FILE *f = fopen(path, "wb");
     if(f != NULL)
     {
         fwrite(bytes, size, 1, f);
         fclose(f);
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
-    return CIOT_ERR__FAIL;
+    return CIOT__ERR__FAIL;
 }
 
-static ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size)
+ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size)
 {
     FILE *f = fopen(path, "rb");
     if(f == NULL)
     {
         *size = 0;
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
     if(bytes == NULL)
@@ -61,7 +57,7 @@ static ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *si
         fseek(f, 0, SEEK_END);
         *size = ftell(f);
         fclose(f);
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 
     int idx = 0;
@@ -74,11 +70,11 @@ static ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *si
         }
     }
     fclose(f);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
-static ciot_err_t ciot_storage_fs_delete(char *path)
+ciot_err_t ciot_storage_fs_delete(char *path)
 {
     remove(path);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

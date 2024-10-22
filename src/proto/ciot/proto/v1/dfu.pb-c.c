@@ -258,7 +258,7 @@ static const ProtobufCFieldDescriptor ciot__dfu_status__field_descriptors[5] =
     PROTOBUF_C_TYPE_ENUM,
     0,   /* quantifier_offset */
     offsetof(Ciot__DfuStatus, error),
-    &ciot_err__descriptor,
+    &ciot__err__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */

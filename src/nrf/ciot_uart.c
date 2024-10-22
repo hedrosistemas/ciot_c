@@ -87,7 +87,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         }
 #endif
     default:
-        return CIOT_ERR__INVALID_ARG;
+        return CIOT__ERR__INVALID_ARG;
     }
 
     err_code = nrf_drv_uart_init(&self->handle, &config, ciot_uart_event_handler);
@@ -105,7 +105,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 
     base->status.state = CIOT__UART_STATE__UART_STATE_STARTED;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
@@ -113,7 +113,7 @@ ciot_err_t ciot_uart_stop(ciot_uart_t self)
     CIOT_ERR_NULL_CHECK(self);
     nrf_drv_uart_uninit(&self->handle);
     self->base.status.state = CIOT__UART_STATE__UART_STATE_CLOSED;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
@@ -125,8 +125,8 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     uint32_t len = 0;
 
     app_fifo_write(&self->fifo.tx, NULL, &len);
-    err_code = len < size ? CIOT__UART_ERROR__UART_ERR_FIFO_OVERFLOW : CIOT_ERR__OK;
-    if(err_code == CIOT_ERR__OK)
+    err_code = len < size ? CIOT__UART_ERROR__UART_ERR_FIFO_OVERFLOW : CIOT__ERR__OK;
+    if(err_code == CIOT__ERR__OK)
     {
         len = size;
         err_code = app_fifo_write(&self->fifo.tx, bytes, &len);
@@ -148,7 +148,7 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
@@ -171,7 +171,7 @@ static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
                 break;
             }
             ciot_err_t err = ciot_iface_process_data(&self->base.iface, event->data.rxtx.p_data, event->data.rxtx.bytes);
-            if(err != CIOT_ERR__OK)
+            if(err != CIOT__ERR__OK)
             {
                 base->status.error = err;
             }

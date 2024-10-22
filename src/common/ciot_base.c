@@ -39,7 +39,7 @@ ciot_err_t ciot_init(ciot_t self)
     self->info.version.data = ver;
     self->info.version.len = sizeof(ver);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -58,7 +58,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -88,12 +88,12 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.ciot = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_process_req(ciot_t self, ciot_msg_t *msg)
@@ -114,11 +114,11 @@ ciot_err_t ciot_process_req(ciot_t self, ciot_msg_t *msg)
         self->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
         return ciot_delete_cfg(self, req->iface);
     case CIOT__CIOT_REQ_TYPE__CIOT_REQ_TYPE_PROXY_MSG:
-        return CIOT_ERR__NOT_IMPLEMENTED;
+        return CIOT__ERR__NOT_IMPLEMENTED;
     default:
-        return CIOT_ERR__INVALID_TYPE;
+        return CIOT__ERR__INVALID_TYPE;
     }
-    return CIOT_ERR__INVALID_TYPE;
+    return CIOT__ERR__INVALID_TYPE;
 }
 
 ciot_err_t ciot_get_cfg(ciot_t self, ciot_cfg_t *cfg)
@@ -126,7 +126,7 @@ ciot_err_t ciot_get_cfg(ciot_t self, ciot_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
     *cfg = self->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_get_status(ciot_t self, ciot_status_t *status)
@@ -134,7 +134,7 @@ ciot_err_t ciot_get_status(ciot_t self, ciot_status_t *status)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(status);
     *status = self->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_get_info(ciot_t self, ciot_info_t *info)
@@ -142,14 +142,14 @@ ciot_err_t ciot_get_info(ciot_t self, ciot_info_t *info)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(info);
     *info = self->info;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_delete_cfg(ciot_t self, ciot_iface_info_t *iface)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(self->storage);
-    CIOT_ERR_VALUE_CHECK(iface->type, self->ifaces.list[iface->id]->info.type, CIOT_ERR__INVALID_TYPE);
+    CIOT_ERR_VALUE_CHECK(iface->type, self->ifaces.list[iface->id]->info.type, CIOT__ERR__INVALID_TYPE);
     char filename[16];
     sprintf(filename, CIOT_IFACE_CFG_FILENAME, (int)iface->id);
     return self->storage->delete(filename);
@@ -175,7 +175,7 @@ ciot_err_t ciot_create_cfg(ciot_t self, ciot_iface_info_t *iface, ciot_msg_data_
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(self->storage);
-    CIOT_ERR_VALUE_CHECK(iface->type, self->ifaces.list[iface->id]->info.type, CIOT_ERR__INVALID_TYPE);
+    CIOT_ERR_VALUE_CHECK(iface->type, self->ifaces.list[iface->id]->info.type, CIOT__ERR__INVALID_TYPE);
     char filename[16];
     sprintf(filename, CIOT_IFACE_CFG_FILENAME, (int)iface->id);
     cfg->ciot = NULL;
@@ -223,11 +223,18 @@ ciot_err_t ciot_get_ifaces_info(ciot_t self, ProtobufCBinaryData *ifaces_info)
 
     for (size_t i = 0; i < self->ifaces.count; i++)
     {
-        iface_types[i] = self->ifaces.list[i]->info.type;
+        if(self->ifaces.list[i] != NULL)
+        {
+            iface_types[i] = self->ifaces.list[i]->info.type;
+        }
+        else
+        {
+            iface_types[i] = 255;
+        }
     }
     
     ifaces_info->data = iface_types;
     ifaces_info->len = self->ifaces.count;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

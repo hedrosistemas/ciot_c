@@ -31,22 +31,22 @@ ciot_usb_t ciot_usb_new(void *handle)
 
 ciot_err_t ciot_usb_start(ciot_usb_t self, ciot_usb_cfg_t *cfg)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_usb_stop(ciot_usb_t self)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_usb_task(ciot_usb_t self)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 #endif
@@ -71,7 +71,7 @@ ciot_err_t ciot_usb_init(ciot_usb_t self)
     base->iface.send_data = ciot_iface_send_data;
     base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_USB;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -90,7 +90,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
     
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -120,7 +120,7 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.usb = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
@@ -132,7 +132,7 @@ ciot_err_t ciot_usb_process_req(ciot_usb_t self, ciot_usb_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_usb_get_cfg(ciot_usb_t self, ciot_usb_cfg_t *cfg)
@@ -141,7 +141,7 @@ ciot_err_t ciot_usb_get_cfg(ciot_usb_t self, ciot_usb_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_usb_base_t *base = (ciot_usb_base_t*)self;
     *cfg = base->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_usb_get_status(ciot_usb_t self, ciot_usb_status_t *status)
@@ -150,5 +150,5 @@ ciot_err_t ciot_usb_get_status(ciot_usb_t self, ciot_usb_status_t *status)
     CIOT_ERR_NULL_CHECK(status);
     ciot_usb_base_t *base = (ciot_usb_base_t*)self;
     *status = base->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

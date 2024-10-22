@@ -23,6 +23,7 @@
 struct ciot_wifi
 {
     ciot_wifi_base_t base;
+    bool reconecting;
 };
 
 static ciot_err_t ciot_wifi_start_sta(ciot_wifi_t self, ciot_wifi_cfg_t *cfg);
@@ -100,7 +101,7 @@ ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
     case CIOT__WIFI_TYPE__WIFI_TYPE_AP:
         return ciot_wifi_start_ap(self, cfg);
     default:
-        return CIOT_ERR__INVALID_TYPE;
+        return CIOT__ERR__INVALID_TYPE;
     }
 }
 
@@ -130,7 +131,7 @@ static ciot_err_t ciot_wifi_start_sta(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
         CIOT_ERR_PRINT(TAG, esp_wifi_connect());
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_wifi_start_ap(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
@@ -145,14 +146,19 @@ static ciot_err_t ciot_wifi_start_ap(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &conf));
     ESP_ERROR_CHECK(esp_wifi_start());
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_wifi_stop(ciot_wifi_t self)
 {
-    CIOT_LOGI(TAG, "Stopping WiFi");
+    CIOT_LOGI(TAG, "Stopping WiFi %s", ciot__tcp_state__descriptor.values[self->base.status.tcp->state].name);
 
     self->base.cfg.disabled = true;
+
+    if(self->base.status.tcp->state == CIOT__TCP_STATE__TCP_STATE_STOPPED)
+    {
+        ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STOPPED);
+    }
 
     switch (self->base.cfg.type)
     {
@@ -163,20 +169,20 @@ ciot_err_t ciot_wifi_stop(ciot_wifi_t self)
         CIOT_LOGI(TAG, "Stopping access point");
         return esp_wifi_set_mode(WIFI_MODE_STA);
     default:
-        return CIOT_ERR__INVALID_TYPE;
+        return CIOT__ERR__INVALID_TYPE;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_wifi_task(ciot_wifi_t self)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_wifi_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
@@ -191,7 +197,7 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
     if (self->base.cfg.type != cfg->type)
     {
         CIOT_LOGE(TAG, "Invalid wifi type: %s. Expected: %s", ciot__wifi_type__descriptor.values[cfg->type].name, ciot__wifi_type__descriptor.values[self->base.cfg.type].name);
-        return CIOT_ERR__INVALID_TYPE;
+        return CIOT__ERR__INVALID_TYPE;
     }
 
     base->cfg.disabled = cfg->disabled;
@@ -205,7 +211,7 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
         CIOT_ERR_RETURN(ciot_tcp_set_cfg(base->tcp, cfg->tcp));
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static void ciot_wifi_ap_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
@@ -297,6 +303,7 @@ static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t eve
         base->info.ap->authmode = data->authmode;
         memcpy(base->info.ap->bssid.data, data->bssid, sizeof(data->bssid));
         memcpy(base->info.ap->ssid, data->ssid, sizeof(data->ssid));
+        self->reconecting = false;
         CIOT_ERR_PRINT(TAG, ciot_tcp_start(base->tcp));
         break;
     }
@@ -304,12 +311,18 @@ static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t eve
     {
         CIOT_LOGI(TAG, "WIFI_EVENT_STA_DISCONNECTED");
         wifi_event_sta_disconnected_t *data = (wifi_event_sta_disconnected_t *)event_data;
-        tcp->status.state = CIOT__TCP_STATE__TCP_STATE_DISCONNECTED;
         base->status.disconnect_reason = data->reason;
         base->info.ap->authmode = 0;
         memset(base->info.ap->bssid.data, 0, sizeof(base->info.ap->bssid));
         memset(base->info.ap->ssid, 0, sizeof(base->info.ap->ssid));
         ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STOPPED);
+        if(base->status.tcp->state == CIOT__TCP_STATE__TCP_STATE_CONNECTED || self->reconecting)
+        {
+            CIOT_LOGI(TAG, "Connection losted. Connecting again...");
+            esp_wifi_connect();
+            self->reconecting = true;
+        }
+        tcp->status.state = CIOT__TCP_STATE__TCP_STATE_DISCONNECTED;
         break;
     }
     default:

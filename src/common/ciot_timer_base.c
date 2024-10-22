@@ -25,5 +25,5 @@ ciot_err_t ciot_timer_init(uint64_t *timer, uint16_t interval)
 {
     CIOT_ERR_NULL_CHECK(timer);
     *timer = ciot_timer_now() + interval;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

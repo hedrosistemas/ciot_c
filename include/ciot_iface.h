@@ -61,7 +61,6 @@ typedef struct ciot_iface_req_status {
     ciot_iface_req_state_t state;
     ciot_msg_type_t type;
     ciot_iface_info_t iface;
-    // uint8_t iface;
 } ciot_iface_req_status_t;
 
 typedef struct ciot_iface ciot_iface_t;

@@ -98,7 +98,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
     ciot_iface_send_event(&base->iface, &event);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
@@ -106,7 +106,7 @@ ciot_err_t ciot_uart_stop(ciot_uart_t self)
     CIOT_ERR_NULL_CHECK(self);
     uart_driver_delete(self->base.cfg.num);
     vTaskDelete(self->task);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
@@ -114,13 +114,13 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(bytes);
     uart_write_bytes(self->base.cfg.num, bytes, size);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static void ciot_uart0_task(void *args)
@@ -181,7 +181,7 @@ static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
         //     uint8_t data[event->size];
         //     uart_read_bytes(base->cfg.num, data, event->size, portMAX_DELAY);
         //     ciot_err_t err = ciot_iface_process_data(&base->iface, data, event->size);
-        //     if(err != CIOT_ERR__OK)
+        //     if(err != CIOT__ERR__OK)
         //     {
         //         CIOT_LOGI(TAG, "Process data error %s", ciot_err_to_message(err));
         //     }

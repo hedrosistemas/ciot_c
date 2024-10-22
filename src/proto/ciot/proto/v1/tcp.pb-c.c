@@ -277,11 +277,23 @@ void   ciot__tcp_data__free_unpacked
   assert(message->base.descriptor == &ciot__tcp_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[5] =
+static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[6] =
 {
   {
-    "dhcp",
+    "disabled",
     1,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_BOOL,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__TcpCfg, disabled),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "dhcp",
+    2,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_ENUM,
     0,   /* quantifier_offset */
@@ -293,7 +305,7 @@ static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[5] =
   },
   {
     "ip",
-    2,
+    3,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BYTES,
     0,   /* quantifier_offset */
@@ -305,7 +317,7 @@ static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[5] =
   },
   {
     "gateway",
-    3,
+    4,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BYTES,
     0,   /* quantifier_offset */
@@ -317,7 +329,7 @@ static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[5] =
   },
   {
     "mask",
-    4,
+    5,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BYTES,
     0,   /* quantifier_offset */
@@ -329,7 +341,7 @@ static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[5] =
   },
   {
     "dns",
-    5,
+    6,
     PROTOBUF_C_LABEL_NONE,
     PROTOBUF_C_TYPE_BYTES,
     0,   /* quantifier_offset */
@@ -341,16 +353,17 @@ static const ProtobufCFieldDescriptor ciot__tcp_cfg__field_descriptors[5] =
   },
 };
 static const unsigned ciot__tcp_cfg__field_indices_by_name[] = {
-  0,   /* field[0] = dhcp */
-  4,   /* field[4] = dns */
-  2,   /* field[2] = gateway */
-  1,   /* field[1] = ip */
-  3,   /* field[3] = mask */
+  1,   /* field[1] = dhcp */
+  0,   /* field[0] = disabled */
+  5,   /* field[5] = dns */
+  3,   /* field[3] = gateway */
+  2,   /* field[2] = ip */
+  4,   /* field[4] = mask */
 };
 static const ProtobufCIntRange ciot__tcp_cfg__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 5 }
+  { 0, 6 }
 };
 const ProtobufCMessageDescriptor ciot__tcp_cfg__descriptor =
 {
@@ -360,7 +373,7 @@ const ProtobufCMessageDescriptor ciot__tcp_cfg__descriptor =
   "Ciot__TcpCfg",
   "Ciot",
   sizeof(Ciot__TcpCfg),
-  5,
+  6,
   ciot__tcp_cfg__field_descriptors,
   ciot__tcp_cfg__field_indices_by_name,
   1,  ciot__tcp_cfg__number_ranges,
@@ -648,24 +661,26 @@ const ProtobufCMessageDescriptor ciot__tcp_data__descriptor =
   (ProtobufCMessageInit) ciot__tcp_data__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue ciot__tcp_state__enum_values_by_number[6] =
+static const ProtobufCEnumValue ciot__tcp_state__enum_values_by_number[7] =
 {
   { "TCP_STATE_STOPPED", "CIOT__TCP_STATE__TCP_STATE_STOPPED", 0 },
   { "TCP_STATE_STARTED", "CIOT__TCP_STATE__TCP_STATE_STARTED", 1 },
-  { "TCP_STATE_DISCONNECTED", "CIOT__TCP_STATE__TCP_STATE_DISCONNECTED", 2 },
-  { "TCP_STATE_CONNECTING", "CIOT__TCP_STATE__TCP_STATE_CONNECTING", 3 },
-  { "TCP_STATE_CONNECTED", "CIOT__TCP_STATE__TCP_STATE_CONNECTED", 4 },
-  { "TCP_STATE_ERROR", "CIOT__TCP_STATE__TCP_STATE_ERROR", 5 },
+  { "TCP_STATE_DISCONNECTING", "CIOT__TCP_STATE__TCP_STATE_DISCONNECTING", 2 },
+  { "TCP_STATE_DISCONNECTED", "CIOT__TCP_STATE__TCP_STATE_DISCONNECTED", 3 },
+  { "TCP_STATE_CONNECTING", "CIOT__TCP_STATE__TCP_STATE_CONNECTING", 4 },
+  { "TCP_STATE_CONNECTED", "CIOT__TCP_STATE__TCP_STATE_CONNECTED", 5 },
+  { "TCP_STATE_ERROR", "CIOT__TCP_STATE__TCP_STATE_ERROR", 6 },
 };
 static const ProtobufCIntRange ciot__tcp_state__value_ranges[] = {
-{0, 0},{0, 6}
+{0, 0},{0, 7}
 };
-static const ProtobufCEnumValueIndex ciot__tcp_state__enum_values_by_name[6] =
+static const ProtobufCEnumValueIndex ciot__tcp_state__enum_values_by_name[7] =
 {
-  { "TCP_STATE_CONNECTED", 4 },
-  { "TCP_STATE_CONNECTING", 3 },
-  { "TCP_STATE_DISCONNECTED", 2 },
-  { "TCP_STATE_ERROR", 5 },
+  { "TCP_STATE_CONNECTED", 5 },
+  { "TCP_STATE_CONNECTING", 4 },
+  { "TCP_STATE_DISCONNECTED", 3 },
+  { "TCP_STATE_DISCONNECTING", 2 },
+  { "TCP_STATE_ERROR", 6 },
   { "TCP_STATE_STARTED", 1 },
   { "TCP_STATE_STOPPED", 0 },
 };
@@ -676,9 +691,9 @@ const ProtobufCEnumDescriptor ciot__tcp_state__descriptor =
   "TcpState",
   "Ciot__TcpState",
   "Ciot",
-  6,
+  7,
   ciot__tcp_state__enum_values_by_number,
-  6,
+  7,
   ciot__tcp_state__enum_values_by_name,
   1,
   ciot__tcp_state__value_ranges,
