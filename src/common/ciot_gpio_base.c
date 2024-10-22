@@ -53,7 +53,7 @@ ciot_err_t ciot_gpio_init(ciot_gpio_t self, int count)
     base->cfg.pull.len = count;
     base->status.states.len = count;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_gpio_task(ciot_gpio_t self)
@@ -99,7 +99,7 @@ ciot_err_t ciot_gpio_task(ciot_gpio_t self)
         base->timer = 0;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -118,7 +118,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
     
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -144,32 +144,32 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.gpio = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_gpio_process_req(ciot_gpio_t self, ciot_gpio_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_gpio_set_cfg(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    CIOT_ERR_VALUE_CHECK(cfg->pins.len, cfg->pins.len, CIOT_ERR__INVALID_ARG);
+    CIOT_ERR_VALUE_CHECK(cfg->pins.len, cfg->pins.len, CIOT__ERR__INVALID_ARG);
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
     memcpy(base->cfg.pins.data, cfg->pins.data, cfg->pins.len);
     memcpy(base->cfg.modes.data, cfg->modes.data, cfg->pins.len);
     memcpy(base->cfg.pull.data, cfg->pull.data, cfg->pins.len);
     base->cfg.blink_interval = cfg->blink_interval;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_gpio_get_cfg(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
@@ -178,7 +178,7 @@ ciot_err_t ciot_gpio_get_cfg(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
     *cfg = base->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_gpio_get_status(ciot_gpio_t self, ciot_gpio_status_t *status)
@@ -187,7 +187,7 @@ ciot_err_t ciot_gpio_get_status(ciot_gpio_t self, ciot_gpio_status_t *status)
     CIOT_ERR_NULL_CHECK(status);
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
     *status = base->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t state)
@@ -214,7 +214,7 @@ ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t 
         base->status.states.data[id] = state;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_gpio_state_t ciot_gpio_get_state(ciot_gpio_t self, uint16_t id)

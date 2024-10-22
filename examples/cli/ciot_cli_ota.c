@@ -155,5 +155,5 @@ static ciot_err_t ciot_cli_ota_event_handler(ciot_iface_t *iface, ciot_iface_eve
 
     CIOT_LOGI(TAG, "event received: %d", event->type);
     
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

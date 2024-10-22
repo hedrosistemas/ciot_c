@@ -59,12 +59,12 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
     if (self->conn_rx == NULL)
     {
         base->status.state = CIOT__HTTP_SERVER_STATE__HTTP_SERVER_STATE_ERROR;
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
     else
     {
 
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 }
 
@@ -73,7 +73,7 @@ ciot_err_t ciot_http_server_stop(ciot_http_server_t self)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(self->conn_rx);
     mg_close_conn(self->conn_rx);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, int size)
@@ -84,7 +84,7 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
               "Content-Length: %d\r\n\r\n",
               size);
     mg_send(self->conn_tx, data, size);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static bool check_method(struct mg_http_message *hm, const char* method)

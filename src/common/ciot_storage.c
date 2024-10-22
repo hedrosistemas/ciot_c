@@ -45,21 +45,33 @@ ciot_msg_data_t *ciot_storage_get_data(ciot_storage_t self, char *path)
 {
     if(self == NULL) return NULL;
 
+    CIOT_LOGI(TAG, "Get data from %s", path);
+
     int size = 0;
     self->read_bytes(path, NULL, &size);
 
-    uint8_t buf[size];
-    self->read_bytes(path, buf, &size);
-
-    ciot__msg__free_unpacked(msg, NULL);
-    if(self->serializer)
+    if(size > 0)
     {
-        msg = self->serializer->from_bytes(buf, size);
-    }
-    else
-    {
-        msg = ciot__msg__unpack(NULL, size, buf);
-    }
+        uint8_t buf[size];
+        self->read_bytes(path, buf, &size);
 
-    return msg->data;
+        ciot__msg__free_unpacked(msg, NULL);
+        if(self->serializer)
+        {
+            msg = self->serializer->from_bytes(buf, size);
+        }
+        else
+        {
+            msg = ciot__msg__unpack(NULL, size, buf);
+        }
+
+        if(msg == NULL)
+        {
+            CIOT_LOGE(TAG, "Deserialization error.");
+            return NULL;
+        }
+
+        return msg->data;
+    }
+    return NULL;
 }

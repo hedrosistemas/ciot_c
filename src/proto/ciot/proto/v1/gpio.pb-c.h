@@ -142,7 +142,7 @@ struct  _Ciot__GpioCfg
    */
   ProtobufCBinaryData pull;
   /*
-   * Interval between gpio blinks
+   * Interval between gpio blinks in miliseconds
    */
   uint32_t blink_interval;
 };

@@ -15,6 +15,8 @@ FILE(GLOB_RECURSE COMMON_TESTS common/*)
 
 include_directories(
     ${CIOT_INCLUDE_DIRS}
+    ${CIOT_MBED_INCLUDE_DIRS}
+    ${CIOT_PB_INCLUDE_DIRS}
     unity/src
     .
 )
@@ -23,6 +25,8 @@ add_executable(${PROJECT_NAME}
     ${CIOT_SRCS}
     ${CIOT_MG_SRCS}
     ${CIOT_WIN_SRCS}
+    ${CIOT_PB_V1_SRCS}
+    ${CIOT_MBED_SRCS}
     ${COMMON_TESTS}
     unity/src/unity.c
     main.c

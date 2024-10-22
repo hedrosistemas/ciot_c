@@ -31,11 +31,11 @@ ciot_err_t ciot_model_start(ciot_model_t self, ciot_model_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_model_stop(ciot_model_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }

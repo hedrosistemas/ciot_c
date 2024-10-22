@@ -25,7 +25,7 @@ ciot_err_t ciot_msg_init(ciot_msg_t *msg)
     ciot__msg_data__init(&msg_data);
     msg->iface = &iface_info;
     msg->data = &msg_data;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_msg_t* ciot_msg_get(ciot_msg_type_t type, ciot_iface_t *iface)
@@ -141,7 +141,9 @@ int ciot_msg_to_json(const ProtobufCMessage *message, char *json)
         {
             const ProtobufCEnumDescriptor *enum_descr = field_desc->descriptor;
             int value = *(int *)field;
-            idx += sprintf(&json[idx], "\"%s\",\n", enum_descr->values[value].name);
+            idx += value < enum_descr->n_values 
+                ? sprintf(&json[idx], "\"%s\",\n", enum_descr->values[value].name)
+                : sprintf(&json[idx], "%d,\n", value);
             break;
         }
         case PROTOBUF_C_TYPE_BYTES:

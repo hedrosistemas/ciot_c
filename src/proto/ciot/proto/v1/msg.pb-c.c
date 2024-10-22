@@ -220,7 +220,7 @@ static const ProtobufCFieldDescriptor ciot__msg_error__field_descriptors[3] =
     PROTOBUF_C_TYPE_ENUM,
     0,   /* quantifier_offset */
     offsetof(Ciot__MsgError, code),
-    &ciot_err__descriptor,
+    &ciot__err__descriptor,
     NULL,
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */

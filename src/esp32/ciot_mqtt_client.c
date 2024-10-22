@@ -83,7 +83,7 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
     esp_mqtt_client_register_event(self->handle, ESP_EVENT_ANY_ID, ciot_mqtt_event_handler, self);
     esp_err_t err = esp_mqtt_client_start(self->handle);
     
-    return err == ESP_OK ? CIOT_ERR__OK : CIOT_ERR__FAIL;
+    return err == ESP_OK ? CIOT__ERR__OK : CIOT__ERR__FAIL;
 }
 
 ciot_err_t ciot_mqtt_client_stop(ciot_mqtt_client_t self)
@@ -91,7 +91,7 @@ ciot_err_t ciot_mqtt_client_stop(ciot_mqtt_client_t self)
     CIOT_ERR_NULL_CHECK(self);
     self->base.status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTING;
     esp_err_t err = esp_mqtt_client_stop(self->handle);
-    return err == ESP_OK ? CIOT_ERR__OK : CIOT_ERR__FAIL;
+    return err == ESP_OK ? CIOT__ERR__OK : CIOT__ERR__FAIL;
 }
 
 ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos)
@@ -100,13 +100,15 @@ ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos)
     CIOT_ERR_NULL_CHECK(topic);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     esp_err_t err = esp_mqtt_client_subscribe(self->handle, topic, qos);
-    return err == ESP_OK ? CIOT_ERR__OK : CIOT_ERR__FAIL;
+    return err == ESP_OK ? CIOT__ERR__OK : CIOT__ERR__FAIL;
 }
 
 ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *data, int size, int qos)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
+    CIOT_ERR_NULL_CHECK(self->handle);
+    CIOT_ERR_VALUE_CHECK(self->base.status.state, CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED, CIOT__ERR__INVALID_STATE);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     int err = 0;
     if(qos == 0)
@@ -119,7 +121,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
         err = esp_mqtt_client_enqueue(self->handle, topic, (char*)data, size, qos, false, false);
         if(err == 0) ciot_mqtt_client_update_data_rate(self, size);
     }
-    return err <= 0 ? CIOT_ERR__OK : CIOT_ERR__FAIL;
+    return err <= 0 ? CIOT__ERR__OK : CIOT__ERR__FAIL;
 }
 
 static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)

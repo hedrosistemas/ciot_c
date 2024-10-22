@@ -97,5 +97,5 @@ static ciot_err_t app_event_handler(ciot_iface_t *sender, ciot_iface_event_t *ev
         CIOT_LOGI(TAG, "Firwmare Version: %d.%d.%d", info->app_ver.data[0], info->app_ver.data[1], info->app_ver.data[2]);
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

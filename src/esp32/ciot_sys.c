@@ -55,13 +55,13 @@ ciot_err_t ciot_sys_start(ciot_sys_t self, ciot_sys_cfg_t *cfg)
     event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &self->base.iface);
     ciot_iface_send_event(&base->iface, &event);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_stop(ciot_sys_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_sys_task(ciot_sys_t self)
@@ -70,29 +70,29 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     base->status.free_memory = esp_get_free_heap_size();
     base->status.lifetime = ciot_timer_now() - self->init_time;
     xEventGroupWaitBits(self->event_group, CIOT_SYS_EVT_BIT_POOLING, pdTRUE, pdTRUE, pdMS_TO_TICKS(100));
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_set_event_bits(ciot_sys_t self, int event_bits)
 {
     CIOT_ERR_NULL_CHECK(self);
     xEventGroupSetBits(self->event_group, event_bits);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_sleep(long ms)
 {
     vTaskDelay(pdMS_TO_TICKS(ms));
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_restart(void)
 {
     esp_restart();
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_sys_init_dfu(void)
 {
-    return CIOT_ERR__NOT_SUPPORTED;
+    return CIOT__ERR__NOT_SUPPORTED;
 }

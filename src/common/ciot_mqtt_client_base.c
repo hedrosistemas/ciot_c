@@ -49,7 +49,7 @@ ciot_err_t ciot_mqtt_client_init(ciot_mqtt_client_t self)
     base->cfg.topics->sub = base->topic_sub;
     base->topic_len = 0;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
@@ -68,7 +68,7 @@ static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
         break;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
@@ -97,7 +97,7 @@ static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
     self->iface.data.mqtt_client = &self->data;
     msg->data = &self->iface.data;
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
@@ -107,14 +107,14 @@ static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int s
     CIOT_ERR_NULL_CHECK(iface);
     CIOT_ERR_NULL_CHECK(data);
     ciot_mqtt_client_pub(self, base->cfg.topics->pub, data, size, base->cfg.qos);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_process_req(ciot_mqtt_client_t self, ciot_mqtt_client_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);    
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_mqtt_client_get_cfg(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_t *cfg)
@@ -125,7 +125,7 @@ ciot_err_t ciot_mqtt_client_get_cfg(ciot_mqtt_client_t self, ciot_mqtt_client_cf
     CIOT_ERR_INDEX_CHECK(base->topic_len, 0, sizeof(base->topic_pub));
     base->topic_pub[base->topic_len] = '\0';
     *cfg = base->cfg;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client_status_t *status)
@@ -134,7 +134,7 @@ ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(status);
     *status = base->status;
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_send(ciot_mqtt_client_t self, uint8_t *data, int size)
@@ -160,7 +160,7 @@ ciot_err_t ciot_mqtt_client_set_subtopic(ciot_mqtt_client_t self, char *subtopic
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_INDEX_CHECK(base->topic_len, 0, sizeof(base->topic_pub));
     memcpy(&base->topic_pub[base->topic_len], subtopic, len);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_update_data_rate(ciot_mqtt_client_t self, int bytes_sended)
@@ -176,5 +176,5 @@ ciot_err_t ciot_mqtt_client_update_data_rate(ciot_mqtt_client_t self, int bytes_
             base->data_rate_aux = 0;
         }
     }
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }

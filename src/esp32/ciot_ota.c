@@ -63,18 +63,18 @@ ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg)
     #ifndef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
     if (base->cfg.encrypted)
     {
-        return CIOT_ERR__NOT_SUPPORTED;
+        return CIOT__ERR__NOT_SUPPORTED;
     }
 #endif // CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
 
     if(base->status.state != CIOT__OTA_STATE__OTA_STATE_IDLE)
     {
-        return CIOT_ERR__INVALID_STATE;
+        return CIOT__ERR__INVALID_STATE;
     }
 
     self->buffer = malloc(CIOT_CONFIG_OTA_BUF_SIZE);
     base->status.state = CIOT__OTA_STATE__OTA_STATE_INIT;
-    base->status.error = CIOT_ERR__OK;
+    base->status.error = CIOT__ERR__OK;
     base->cfg = *cfg;
     base->cfg.url = base->url;
     ciot_strncpy(base->url, cfg->url, CIOT_CONFIG_OTA_URL_LEN);
@@ -99,7 +99,7 @@ ciot_err_t ciot_ota_stop(ciot_ota_t self)
     CIOT_ERR_NULL_CHECK(self);
     vTaskDelete(self->task);
     free(self);
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ota_rollback(ciot_ota_t self)
@@ -110,7 +110,7 @@ ciot_err_t ciot_ota_rollback(ciot_ota_t self)
     }
     else
     {
-        return CIOT_ERR__IMPOSSIBLE_OP;
+        return CIOT__ERR__IMPOSSIBLE_OP;
     }
 }
 

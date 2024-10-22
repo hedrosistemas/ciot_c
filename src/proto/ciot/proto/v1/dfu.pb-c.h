@@ -119,7 +119,7 @@ struct  _Ciot__DfuStatus
   /*
    * Dfu error code
    */
-  CiotErr error;
+  Ciot__Err error;
   /*
    * Dfu image size
    */
@@ -131,7 +131,7 @@ struct  _Ciot__DfuStatus
 };
 #define CIOT__DFU_STATUS__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__dfu_status__descriptor) \
-    , CIOT__DFU_STATE__DFU_STATE_IDLE, 0, CIOT_ERR__OK, 0, 0 }
+    , CIOT__DFU_STATE__DFU_STATE_IDLE, 0, CIOT__ERR__OK, 0, 0 }
 
 
 /*

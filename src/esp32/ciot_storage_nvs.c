@@ -75,26 +75,26 @@ static ciot_err_t ciot_storage_nvs_read_bytes(char *path, uint8_t *bytes, int *s
     ciot_err_t err = nvs_open(CIOT_STORAGE_NVS_NS, NVS_READONLY, &handle);
     if(err == ESP_ERR_NVS_NOT_FOUND)
     {
-        return CIOT_ERR__NOT_FOUND;
+        return CIOT__ERR__NOT_FOUND;
     }
     else if(err != ESP_OK)
     {
         CIOT_LOGE(TAG, "nvs get blob error: %s", esp_err_to_name(err));
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
     err = nvs_get_blob(handle, path, bytes, (size_t*)size);
     if(err == ESP_ERR_NVS_NOT_FOUND)
     {
-        return CIOT_ERR__NOT_FOUND;
+        return CIOT__ERR__NOT_FOUND;
     }
     else if(err != ESP_OK)
     {
         CIOT_LOGE(TAG, "nvs get blob error: %s", esp_err_to_name(err));
-        return CIOT_ERR__FAIL;
+        return CIOT__ERR__FAIL;
     }
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 static ciot_err_t ciot_storage_nvs_init(void)
@@ -113,6 +113,6 @@ static ciot_err_t ciot_storage_nvs_init(void)
     }
     else
     {
-        return CIOT_ERR__OK;
+        return CIOT__ERR__OK;
     }
 }

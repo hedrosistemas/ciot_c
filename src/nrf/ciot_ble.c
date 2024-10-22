@@ -80,18 +80,18 @@ ciot_err_t ciot_ble_start(ciot_ble_t self, ciot_ble_cfg_t *cfg)
     iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
     ciot_iface_send_event(&base->iface, &iface_event);
 
-    return CIOT_ERR__OK;
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_ble_stop(ciot_ble_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_ble_task(ciot_ble_t self)
 {
-    return CIOT_ERR__NOT_IMPLEMENTED;
+    return CIOT__ERR__NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
@@ -103,7 +103,7 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 
     if (ciot_ble_mac_is_valid(mac) == false)
     {
-        return CIOT_ERR__INVALID_ARG;
+        return CIOT__ERR__INVALID_ARG;
     }
 
     uint32_t err = 0;
@@ -156,7 +156,7 @@ ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t m
         break;
     }
     default:
-        return CIOT_ERR__INVALID_TYPE;
+        return CIOT__ERR__INVALID_TYPE;
     }
 
     return err;

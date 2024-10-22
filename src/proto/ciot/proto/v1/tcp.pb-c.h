@@ -38,21 +38,25 @@ typedef enum _Ciot__TcpState {
    */
   CIOT__TCP_STATE__TCP_STATE_STARTED = 1,
   /*
+   * TCP module is disconnecting.
+   */
+  CIOT__TCP_STATE__TCP_STATE_DISCONNECTING = 2,
+  /*
    * TCP module is disconnected.
    */
-  CIOT__TCP_STATE__TCP_STATE_DISCONNECTED = 2,
+  CIOT__TCP_STATE__TCP_STATE_DISCONNECTED = 3,
   /*
    * TCP module is connecting.
    */
-  CIOT__TCP_STATE__TCP_STATE_CONNECTING = 3,
+  CIOT__TCP_STATE__TCP_STATE_CONNECTING = 4,
   /*
    * TCP module is connected.
    */
-  CIOT__TCP_STATE__TCP_STATE_CONNECTED = 4,
+  CIOT__TCP_STATE__TCP_STATE_CONNECTED = 5,
   /*
    * TCP module encountered an error.
    */
-  CIOT__TCP_STATE__TCP_STATE_ERROR = 5
+  CIOT__TCP_STATE__TCP_STATE_ERROR = 6
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__TCP_STATE)
 } Ciot__TcpState;
 /*
@@ -116,6 +120,10 @@ struct  _Ciot__TcpCfg
 {
   ProtobufCMessage base;
   /*
+   * Disable TCP interface
+   */
+  protobuf_c_boolean disabled;
+  /*
    * DHCP configuration.
    */
   Ciot__TcpDhcpCfg dhcp;
@@ -138,7 +146,7 @@ struct  _Ciot__TcpCfg
 };
 #define CIOT__TCP_CFG__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&ciot__tcp_cfg__descriptor) \
-    , CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE, {0,NULL}, {0,NULL}, {0,NULL}, {0,NULL} }
+    , 0, CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE, {0,NULL}, {0,NULL}, {0,NULL}, {0,NULL} }
 
 
 /*
