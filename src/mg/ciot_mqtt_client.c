@@ -16,6 +16,7 @@
 #include "ciot_timer.h"
 #include "ciot_str.h"
 #include "ciot_msg.h"
+#include "ciot_ca_crt_all.h"
 
 static const char *TAG = "ciot_mqtt_client";
 
@@ -148,7 +149,11 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
         if(mg_url_is_ssl(self->base.cfg.url))
         {
             struct mg_tls_opts opts = {
+                .ca = mg_str(ca_crt_all),
+                .name = mg_url_host(self->base.cfg.url),
+                .skip_verification = true
             };
+            mg_tls_init(c, &opts);
         }
         break;
     }
