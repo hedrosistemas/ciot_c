@@ -28,7 +28,7 @@ struct ciot_socket
 
 static const char *TAG = "ciot_socket";
 
-static void ciot_socket_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
+static void ciot_socket_event_handler(struct mg_connection *c, int ev, void *ev_data);
 static ciot_err_t ciot_socket_server_start(ciot_socket_t self);
 static ciot_err_t ciot_socket_client_start(ciot_socket_t self);
 
@@ -106,9 +106,9 @@ static ciot_err_t ciot_socket_client_start(ciot_socket_t self)
     return CIOT__ERR__OK;
 }
 
-static void ciot_socket_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
+static void ciot_socket_event_handler(struct mg_connection *c, int ev, void *ev_data)
 {
-    ciot_socket_t self = fn_data;
+    ciot_socket_t self = c->fn_data;
     ciot_socket_base_t *base = &self->base;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
