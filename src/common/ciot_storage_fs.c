@@ -78,3 +78,22 @@ ciot_err_t ciot_storage_fs_delete(char *path)
     remove(path);
     return CIOT__ERR__OK;
 }
+
+ciot_err_t ciot_storage_fs_read_text(char *path, char *buf)
+{
+    FILE *file = fopen(path, "r");
+    if (file == NULL) {
+        return CIOT__ERR__NOT_FOUND;
+    }
+    
+    fseek(file, 0, SEEK_END);
+    long filesize = ftell(file);
+    rewind(file);
+
+    fread(buf, sizeof(char), filesize, file);
+    buf[filesize] = '\0';
+
+    fclose(file);
+
+    return CIOT__ERR__OK;
+}

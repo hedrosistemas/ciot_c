@@ -25,7 +25,7 @@ struct ciot_http_client
 static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req);
 static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg);
 static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size);
-static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
+static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data);
 static const char *ciot_http_client_get_method(ciot_http_client_method_t method);
 
 ciot_http_client_t ciot_http_client_new(void *handle)
@@ -120,9 +120,9 @@ ciot_err_t ciot_http_client_stop(ciot_http_client_t self)
     return CIOT__ERR__OK;
 }
 
-static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
+static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void *ev_data)
 {
-    ciot_http_client_t self = fn_data;
+    ciot_http_client_t self = c->fn_data;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
 
@@ -168,7 +168,7 @@ static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void
                   "Content-Length: %d\r\n"
                   "\r\n",
                   ciot_http_client_get_method(self->base.cfg.method), mg_url_uri(self->base.cfg.url), (int)host.len,
-                  host.ptr, self->base.send.len);
+                  host.buf, self->base.send.len);
         mg_send(c, self->base.send.data, self->base.send.len);
         self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_CONNECTED;
         iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
@@ -183,7 +183,7 @@ static void ciot_http_client_event_handler(struct mg_connection *c, int ev, void
         c->is_draining = 1;
         self->base.status.state = CIOT__HTTP_CLIENT_STATE__HTTP_CLIENT_STATE_IDLE;
         iface_event.type = CIOT_IFACE_EVENT_REQUEST;
-        iface_event.data = (uint8_t*)hm->body.ptr;
+        iface_event.data = (uint8_t*)hm->body.buf;
         iface_event.size = hm->body.len;
         ciot_iface_send_event(&self->base.iface, &iface_event);
         break;
