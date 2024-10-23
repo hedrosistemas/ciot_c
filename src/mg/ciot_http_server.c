@@ -28,7 +28,7 @@ struct ciot_http_server
 };
 
 static bool check_method(struct mg_http_message *hm, const char* method);
-static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
+static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data);
 
 ciot_http_server_t ciot_http_server_new(void *handle)
 {
@@ -89,12 +89,12 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
 
 static bool check_method(struct mg_http_message *hm, const char* method)
 {
-    return strncmp(hm->method.ptr, method, hm->method.len) == 0;
+    return strncmp(hm->method.buf, method, hm->method.len) == 0;
 }
 
-static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
+static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data)
 {
-    ciot_http_server_t self = fn_data;
+    ciot_http_server_t self = c->fn_data;
     ciot_http_server_base_t *base = &self->base;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
@@ -134,10 +134,10 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
         struct mg_http_message *hm = (struct mg_http_message *)ev_data;
         mg_http_parse((char *)c->recv.buf, c->recv.len, hm);
         self->conn_tx = c;
-        if (mg_http_match_uri(hm, base->cfg.route) && check_method(hm, "POST"))
+        if (mg_match(hm->uri, mg_str(base->cfg.route), NULL) && check_method(hm, "POST"))
         {
             iface_event.type = CIOT_IFACE_EVENT_REQUEST;
-            iface_event.data = (uint8_t*)hm->body.ptr;
+            iface_event.data = (uint8_t*)hm->body.buf;
             iface_event.size = hm->body.len;
             ciot_iface_send_event(&base->iface, &iface_event);
         }
@@ -150,9 +150,9 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
         else
         {
             ciot_http_server_event_data_t event_data = { 0 };
-            event_data.uri = (char*)hm->uri.ptr;
+            event_data.uri = (char*)hm->uri.buf;
             event_data.uri[hm->uri.len] = '\0';
-            event_data.body = (uint8_t*)hm->body.ptr;
+            event_data.body = (uint8_t*)hm->body.buf;
             iface_event.type = CIOT_IFACE_EVENT_DATA;
             iface_event.data = (uint8_t*)&event_data;
             iface_event.size = hm->body.len;

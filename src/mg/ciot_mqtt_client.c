@@ -16,6 +16,7 @@
 #include "ciot_timer.h"
 #include "ciot_str.h"
 #include "ciot_msg.h"
+#include "ciot_ca_crt_all.h"
 
 static const char *TAG = "ciot_mqtt_client";
 
@@ -27,7 +28,7 @@ struct ciot_mqtt_client
     time_t last_ping;
 };
 
-static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data);
+static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data);
 
 ciot_mqtt_client_t ciot_mqtt_client_new(void *handle)
 {
@@ -109,7 +110,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     struct mg_mqtt_opts opts = {0};
     struct mg_str msg = {0};
-    msg.ptr = (const char*)data;
+    msg.buf = (char*)data;
     msg.len = size;
     opts.topic = mg_str(topic);
     opts.message = msg;
@@ -120,9 +121,9 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     return CIOT__ERR__OK;
 }
 
-static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data, void *fn_data)
+static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data)
 {
-    ciot_mqtt_client_t self = fn_data;
+    ciot_mqtt_client_t self = c->fn_data;
     ciot_mqtt_client_base_t *base = &self->base;
     ciot_iface_event_t iface_event = {0};
     mg_event_t mg_ev = ev;
@@ -143,6 +144,19 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
         iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
         ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_INTERNAL);
         break;
+    case MG_EV_CONNECT:
+    {
+        if(mg_url_is_ssl(self->base.cfg.url))
+        {
+            struct mg_tls_opts opts = {
+                .ca = mg_str(ca_crt_all),
+                .name = mg_url_host(self->base.cfg.url),
+                .skip_verification = true
+            };
+            mg_tls_init(c, &opts);
+        }
+        break;
+    }
     case MG_EV_POLL:
     {
         if(base->status.state == CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED &&
@@ -175,18 +189,18 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
         CIOT_LOGI(TAG, "MG_EV_MQTT_MSG");
         struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
         if(strlen(base->cfg.topics->sub) == mm->topic.len && 
-           strncmp(mm->topic.ptr, base->cfg.topics->sub, mm->topic.len) == 0)
+           strncmp(mm->topic.buf, base->cfg.topics->sub, mm->topic.len) == 0)
         {
             iface_event.type = CIOT_IFACE_EVENT_REQUEST;
-            iface_event.data = (uint8_t*)mm->data.ptr;
+            iface_event.data = (uint8_t*)mm->data.buf;
             iface_event.size = mm->data.len;
             ciot_iface_send_event(&base->iface, &iface_event);
         }
         else
         {
             ciot_mqtt_client_event_data_t event_data = {0};
-            event_data.topic = (char*)mm->topic.ptr;
-            event_data.data = (uint8_t*)mm->data.ptr;
+            event_data.topic = mm->topic.buf;
+            event_data.data = (uint8_t*)mm->data.buf;
             iface_event.type = CIOT_IFACE_EVENT_DATA;
             iface_event.data = (uint8_t*)&event_data;
             iface_event.size = mm->data.len;
