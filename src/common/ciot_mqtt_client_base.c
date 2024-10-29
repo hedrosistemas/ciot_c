@@ -123,7 +123,6 @@ ciot_err_t ciot_mqtt_client_get_cfg(ciot_mqtt_client_t self, ciot_mqtt_client_cf
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
     CIOT_ERR_INDEX_CHECK(base->topic_len, 0, sizeof(base->topic_pub));
-    base->topic_pub[base->topic_len] = '\0';
     *cfg = base->cfg;
     return CIOT__ERR__OK;
 }
@@ -141,6 +140,15 @@ ciot_err_t ciot_mqtt_client_send(ciot_mqtt_client_t self, uint8_t *data, int siz
 {
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
     return ciot_mqtt_client_pub(self, base->topic_pub, data, size, base->cfg.qos);
+}
+
+ciot_err_t ciot_mqtt_client_subtopic_pub(ciot_mqtt_client_t self, char *subtopic, int subtopic_len, uint8_t *data, int size, int qos)
+{
+    CIOT_ERR_RETURN(ciot_mqtt_client_set_subtopic(self, subtopic, subtopic_len));
+    CIOT_ERR_RETURN(ciot_mqtt_client_send(self, data, size));
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    base->topic_pub[base->topic_len] = '\0';
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_set_topics(ciot_mqtt_client_t self, char *pub, char *sub)
