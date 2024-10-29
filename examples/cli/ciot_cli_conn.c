@@ -21,6 +21,7 @@
 #include "ciot_uart.h"
 #include "ciot_http_client.h"
 #include "ciot_mqtt_client.h"
+#include "ciot_timer.h"
 
 static void ciot_cli_conn_init(void);
 static int ciot_cli_conn_list(int argc, char const *argv[]);
@@ -34,7 +35,7 @@ static ciot_msg_data_t *ciot_cli_get_conn_data(void);
 static void ciot_cli_set_conn_data(ciot_msg_data_t *conn_data);
 static ciot_err_t ciot_cli_event_handler(ciot_iface_t *sender, ciot_iface_event_t *event, void *args);
 
-static const char *TAG = "hg_tcp_conn";
+static const char *TAG = "ciot_tcp_conn";
 static ciot_t ciot = NULL;
 static ciot_iface_t *conn = NULL;
 static ciot_msg_data_t *cfgs[2];
@@ -42,6 +43,7 @@ static ciot_iface_t *ifaces[2];
 static ciot_iface_event_handler_fn *req_handler;
 
 static bool ciot_started = false;
+static char mqtt_client_id[48];
 
 ciot_err_t ciot_cli_conn_start()
 {
@@ -70,6 +72,8 @@ ciot_err_t ciot_cli_conn_start()
     if (type == CIOT__IFACE_TYPE__IFACE_TYPE_MQTT && conn_data && conn_data->mqtt_client)
     {
         conn = (ciot_iface_t *)ciot_mqtt_client_new(CIOT_HANDLE);
+        sprintf(mqtt_client_id, "%s-%llu", conn_data->mqtt_client->config->client_id, ciot_timer_now());
+        conn_data->mqtt_client->config->client_id = mqtt_client_id;
     }
 
     if (conn == NULL)
@@ -235,6 +239,8 @@ static int ciot_cli_conn_mqtt(int argc, char const *argv[])
 {
     ciot_msg_data_t *conn_data = ciot_cli_get_conn_data();
     ciot_iface_type_t type = CIOT__IFACE_TYPE__IFACE_TYPE_MQTT;
+    char client_id[64];
+    sprintf(client_id, "%s-%llu", argv[3], ciot_timer_now());
     ciot_mqtt_client_data_t mqtt_data = {
         .base = PROTOBUF_C_MESSAGE_INIT(&ciot__mqtt_client_data__descriptor),
         .config = &(ciot_mqtt_client_cfg_t) {
