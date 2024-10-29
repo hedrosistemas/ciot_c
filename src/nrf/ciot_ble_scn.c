@@ -138,7 +138,6 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
         base->recv.info->mac.data = mac;
         base->recv.info->mac.len = sizeof(mac);
         base->recv.info->rssi = ev->evt.gap_evt.params.adv_report.rssi;
-        base->status.advs_count++;
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
         base->recv.adv.data = (ciot_iface_event_data_u *)ev->evt.gap_evt.params.adv_report.data;
         base->recv.adv.len = ev->evt.gap_evt.params.adv_report.dlen;
@@ -151,17 +150,10 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
         {
             ciot_ble_scn_handle_adv_report(self, &base->recv);
         }
-        else
-        {
-            base->status.advs_filtered++;
-        }
         break;
     default:
         break;
     }
-
-    base->status.last_event = ev->header.evt_id;
-
     return CIOT__ERR__OK;
 }
 
@@ -198,6 +190,7 @@ static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv
     }
     else
     {
+        base->status.advs_losted++;
         base->status.err_code = CIOT__ERR__DATA_LOSS;
     }
 #else

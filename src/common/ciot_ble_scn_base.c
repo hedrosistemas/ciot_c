@@ -148,6 +148,11 @@ ciot_err_t ciot_ble_scn_base_task(ciot_ble_scn_t self)
 				adv_fifo->rp = 0;
 			}
 		}
+        else
+        {
+            base->status.err_code = CIOT__ERR__FIFO_READ;
+            adv_fifo->rp++;
+        }
 	}
 #endif
     return CIOT__ERR__OK;
