@@ -26,6 +26,7 @@ struct ciot_mqtt_client
     struct mg_mgr *mgr;
     struct mg_connection *connection;
     time_t last_ping;
+    bool reconecting;
 };
 
 static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void *ev_data);
@@ -75,8 +76,12 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
     opts.keepalive = 60;
     opts.clean = true;
 
+    if(self->connection != NULL)
+    {
+        mg_mqtt_disconnect(self->connection, &opts);
+        self->reconecting = true;
+    }
     base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTING;
-
     self->connection = mg_mqtt_connect(self->mgr, base->url, &opts, ciot_mqtt_client_event_handler, self);
 
     return CIOT__ERR__OK;
@@ -85,7 +90,14 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
 ciot_err_t ciot_mqtt_client_stop(ciot_mqtt_client_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_IMPLEMENTED;
+    CIOT_ERR_NULL_CHECK(self->connection);
+    if(self->connection != NULL)
+    {
+        struct mg_mqtt_opts opts = {0};
+        self->base.status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTING;
+        mg_mqtt_disconnect(self->connection, &opts);
+    }
+    return CIOT__ERR__OK;
 }
 
 ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos)
@@ -211,8 +223,12 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     case MG_EV_CLOSE:
     {
         CIOT_LOGI(TAG, "MG_EV_CLOSE");
-        base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTED;
-        ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
+        if(!self->reconecting)
+        {
+            base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTED;
+            ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STOPPED);
+        }
+        self->reconecting = false;
         break;
     }
     default:
