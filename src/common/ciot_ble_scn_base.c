@@ -10,6 +10,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include "ciot_ble_scn.h"
 #include "ciot_config.h"
 
@@ -157,6 +158,52 @@ ciot_err_t ciot_ble_scn_base_task(ciot_ble_scn_t self)
 #endif
     return CIOT__ERR__OK;
 }
+
+void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv)
+{
+    ciot_ble_scn_base_t *base = (ciot_ble_scn_base_t*)self;
+#ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
+    ciot_ble_scn_adv_fifo_t *adv_fifo = &base->adv_fifo;
+    if(adv_fifo->list[adv_fifo->wp].info->rssi == 0)
+    {
+        adv_fifo->list[adv_fifo->wp].info->rssi = adv->info->rssi;
+        memcpy(adv_fifo->list[adv_fifo->wp].info->mac.data, adv->info->mac.data, adv->info->mac.len);
+        adv_fifo->list[adv_fifo->wp].info->mac.len = adv->info->mac.len;
+        memcpy(adv_fifo->list[adv_fifo->wp].payload.data, adv->payload.data, adv->payload.len);
+        adv_fifo->list[adv_fifo->wp].payload.len = adv->payload.len;
+        adv_fifo->wp++;
+        base->status.fifo_len++;
+        if(base->status.fifo_len > base->status.fifo_max)
+        {
+            base->status.fifo_max = base->status.fifo_len;
+        }
+        if(adv_fifo->wp == CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE)
+        {
+            adv_fifo->wp = 0;
+        }
+    }
+    else
+    {
+        adv_fifo->rp = adv_fifo->wp;
+        base->status.advs_losted++;
+        base->status.err_code = CIOT__ERR__DATA_LOSS;
+        if(base->status.fifo_len == 0)
+        {
+            base->status.err_code = CIOT__ERR__INVALID_SIZE;
+            for (size_t i = 0; i < BOARD_BLE_SCN_ADV_FIFO_SIZE; i++)
+            {
+                if(adv_fifo->list[i].info->rssi != 0) base->status.fifo_len++;
+            }
+        }
+    }
+#else
+    ciot_iface_event_t event = {0};
+    event.type = CIOT_IFACE_EVENT_DATA;
+    event.data = (uint8_t*)adv;
+    ciot_iface_send_event(&base->iface, &event);
+#endif
+}
+
 
 ciot_err_t ciot_ble_scn_set_filter(ciot_ble_scn_t self, ciot_ble_scn_filter_fn *filter, void *args)
 {
