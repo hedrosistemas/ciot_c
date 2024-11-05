@@ -37,7 +37,7 @@ struct ciot_ble_scn
 };
 
 static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool reverse);
-static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv);
+static ciot_err_t ciot_ble_scn_get_error(uint32_t nrf_error);
 
 // static const char *TAG = "hg_ble_scn";
 
@@ -77,7 +77,7 @@ ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
     self->scan_params.timeout = base->cfg.timeout;
 
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
-    error = sd_ble_gap_scan_start(&self->scan_params);
+    err = sd_ble_gap_scan_start(&self->scan_params);
 #else
     self->scan_buffer.p_data = self->buffer;
     self->scan_buffer.len = BLE_GAP_SCAN_BUFFER_MIN;
@@ -95,7 +95,7 @@ ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
         ciot_iface_send_event(&base->iface, &iface_event);
     }
 
-    base->status.err_code = err;
+    base->status.err_code = ciot_ble_scn_get_error(err);
 
     return err;
 }
@@ -144,7 +144,10 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
 #else
         base->recv.payload.data = ev->evt.gap_evt.params.adv_report.data.p_data;
         base->recv.payload.len = ev->evt.gap_evt.params.adv_report.data.len;
-        base->status.err_code = sd_ble_gap_scan_start(NULL, &self->scan_buffer);
+        uint32_t error = sd_ble_gap_scan_start(NULL, &self->scan_buffer);
+        if(error) {
+            base->status.err_code = ciot_ble_scn_get_error(error);
+        }
 #endif
         if (base->filter.handler == NULL || base->filter.handler(self, &base->recv, base->filter.args))
         {
@@ -157,46 +160,31 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
     return CIOT__ERR__OK;
 }
 
+static ciot_err_t ciot_ble_scn_get_error(uint32_t nrf_error)
+{
+    switch (nrf_error)
+    {
+    case NRF_ERROR_INVALID_ADDR:
+        return CIOT__ERR__INVALID_ADDR;
+    case NRF_ERROR_INVALID_STATE:
+        return CIOT__ERR__INVALID_STATE;
+    case NRF_ERROR_INVALID_PARAM:
+        return CIOT__ERR__INVALID_ARG;
+    case NRF_ERROR_NOT_SUPPORTED:
+        return CIOT__ERR__NOT_SUPPORTED;
+    case NRF_ERROR_INVALID_LENGTH:
+        return CIOT__ERR__INVALID_SIZE;
+    case NRF_ERROR_RESOURCES:
+        return CIOT__ERR__RESOURCES;
+    default:
+        return CIOT__ERR__UNKNOWN;
+    }
+}
+
 static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool reverse)
 {
     for (size_t i = 0; i < 6; i++)
     {
         destiny[i] = reverse ? source[5 - i] : source[i];
     }
-}
-
-static void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv)
-{
-    ciot_ble_scn_base_t *base = &self->base;
-#ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
-    ciot_ble_scn_adv_fifo_t *adv_fifo = &base->adv_fifo;
-    if(adv_fifo->list[adv_fifo->wp].info->rssi == 0)
-    {
-        adv_fifo->list[adv_fifo->wp].info->rssi = adv->info->rssi;
-        memcpy(adv_fifo->list[adv_fifo->wp].info->mac.data, adv->info->mac.data, adv->info->mac.len);
-        adv_fifo->list[adv_fifo->wp].info->mac.len = adv->info->mac.len;
-        memcpy(adv_fifo->list[adv_fifo->wp].payload.data, adv->payload.data, adv->payload.len);
-        adv_fifo->list[adv_fifo->wp].payload.len = adv->payload.len;
-        adv_fifo->wp++;
-        base->status.fifo_len++;
-        if(base->status.fifo_len > base->status.fifo_max)
-        {
-            base->status.fifo_max = base->status.fifo_len;
-        }
-        if(adv_fifo->wp == CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE)
-        {
-            adv_fifo->wp = 0;
-        }
-    }
-    else
-    {
-        base->status.advs_losted++;
-        base->status.err_code = CIOT__ERR__DATA_LOSS;
-    }
-#else
-    ciot_iface_event_t event = {0};
-    event.type = CIOT_IFACE_EVENT_DATA;
-    event.data = (uint8_t*)adv;
-    ciot_iface_send_event(&base->iface, &event);
-#endif
 }
