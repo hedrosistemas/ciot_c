@@ -174,7 +174,7 @@ ciot_err_t ciot_mqtt_client_set_subtopic(ciot_mqtt_client_t self, char *subtopic
 ciot_err_t ciot_mqtt_client_update_data_rate(ciot_mqtt_client_t self, int bytes_sended)
 {
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
-    if(base->status.state == CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED)
+    if(base->status.state == CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_CONNECTED)
     {
         base->data_rate_aux += bytes_sended;
         if(ciot_timer_now() != base->status.last_msg_time)
