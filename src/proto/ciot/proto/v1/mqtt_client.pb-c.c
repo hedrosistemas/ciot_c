@@ -521,7 +521,7 @@ const ProtobufCMessageDescriptor ciot__mqtt_client_topics_cfg__descriptor =
   (ProtobufCMessageInit) ciot__mqtt_client_topics_cfg__init,
   NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[6] =
+static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[7] =
 {
   {
     "client_id",
@@ -595,8 +595,21 @@ static const ProtobufCFieldDescriptor ciot__mqtt_client_cfg__field_descriptors[6
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "broker_kind",
+    7,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_ENUM,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__MqttClientCfg, broker_kind),
+    &ciot__mqtt_client_broker_kind__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__mqtt_client_cfg__field_indices_by_name[] = {
+  6,   /* field[6] = broker_kind */
   0,   /* field[0] = client_id */
   3,   /* field[3] = password */
   4,   /* field[4] = qos */
@@ -607,7 +620,7 @@ static const unsigned ciot__mqtt_client_cfg__field_indices_by_name[] = {
 static const ProtobufCIntRange ciot__mqtt_client_cfg__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 6 }
+  { 0, 7 }
 };
 const ProtobufCMessageDescriptor ciot__mqtt_client_cfg__descriptor =
 {
@@ -617,7 +630,7 @@ const ProtobufCMessageDescriptor ciot__mqtt_client_cfg__descriptor =
   "Ciot__MqttClientCfg",
   "Ciot",
   sizeof(Ciot__MqttClientCfg),
-  6,
+  7,
   ciot__mqtt_client_cfg__field_descriptors,
   ciot__mqtt_client_cfg__field_indices_by_name,
   1,  ciot__mqtt_client_cfg__number_ranges,
@@ -959,22 +972,22 @@ const ProtobufCMessageDescriptor ciot__mqtt_client_data__descriptor =
 };
 static const ProtobufCEnumValue ciot__mqtt_client_state__enum_values_by_number[5] =
 {
-  { "MQTT_STATE_DISCONNECTED", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTED", 0 },
-  { "MQTT_STATE_CONNECTING", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTING", 1 },
-  { "MQTT_STATE_DISCONNECTING", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTING", 2 },
-  { "MQTT_STATE_CONNECTED", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED", 3 },
-  { "MQTT_STATE_ERROR", "CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR", 4 },
+  { "MQTT_CLIENT_STATE_DISCONNECTED", "CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_DISCONNECTED", 0 },
+  { "MQTT_CLIENT_STATE_CONNECTING", "CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_CONNECTING", 1 },
+  { "MQTT_CLIENT_STATE_DISCONNECTING", "CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_DISCONNECTING", 2 },
+  { "MQTT_CLIENT_STATE_CONNECTED", "CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_CONNECTED", 3 },
+  { "MQTT_CLIENT_STATE_ERROR", "CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_ERROR", 4 },
 };
 static const ProtobufCIntRange ciot__mqtt_client_state__value_ranges[] = {
 {0, 0},{0, 5}
 };
 static const ProtobufCEnumValueIndex ciot__mqtt_client_state__enum_values_by_name[5] =
 {
-  { "MQTT_STATE_CONNECTED", 3 },
-  { "MQTT_STATE_CONNECTING", 1 },
-  { "MQTT_STATE_DISCONNECTED", 0 },
-  { "MQTT_STATE_DISCONNECTING", 2 },
-  { "MQTT_STATE_ERROR", 4 },
+  { "MQTT_CLIENT_STATE_CONNECTED", 3 },
+  { "MQTT_CLIENT_STATE_CONNECTING", 1 },
+  { "MQTT_CLIENT_STATE_DISCONNECTED", 0 },
+  { "MQTT_CLIENT_STATE_DISCONNECTING", 2 },
+  { "MQTT_CLIENT_STATE_ERROR", 4 },
 };
 const ProtobufCEnumDescriptor ciot__mqtt_client_state__descriptor =
 {
@@ -993,18 +1006,18 @@ const ProtobufCEnumDescriptor ciot__mqtt_client_state__descriptor =
 };
 static const ProtobufCEnumValue ciot__mqtt_client_req_type__enum_values_by_number[3] =
 {
-  { "MQTT_REQ_TYPE_UNKOWN", "CIOT__MQTT_CLIENT_REQ_TYPE__MQTT_REQ_TYPE_UNKOWN", 0 },
-  { "MQTT_REQ_TYPE_PUBLISH", "CIOT__MQTT_CLIENT_REQ_TYPE__MQTT_REQ_TYPE_PUBLISH", 1 },
-  { "MQTT_REQ_TYPE_SUBSCRIBE", "CIOT__MQTT_CLIENT_REQ_TYPE__MQTT_REQ_TYPE_SUBSCRIBE", 2 },
+  { "MQTT_CLIENT_REQ_TYPE_UNKOWN", "CIOT__MQTT_CLIENT_REQ_TYPE__MQTT_CLIENT_REQ_TYPE_UNKOWN", 0 },
+  { "MQTT_CLIENT_REQ_TYPE_PUBLISH", "CIOT__MQTT_CLIENT_REQ_TYPE__MQTT_CLIENT_REQ_TYPE_PUBLISH", 1 },
+  { "MQTT_CLIENT_REQ_TYPE_SUBSCRIBE", "CIOT__MQTT_CLIENT_REQ_TYPE__MQTT_CLIENT_REQ_TYPE_SUBSCRIBE", 2 },
 };
 static const ProtobufCIntRange ciot__mqtt_client_req_type__value_ranges[] = {
 {0, 0},{0, 3}
 };
 static const ProtobufCEnumValueIndex ciot__mqtt_client_req_type__enum_values_by_name[3] =
 {
-  { "MQTT_REQ_TYPE_PUBLISH", 1 },
-  { "MQTT_REQ_TYPE_SUBSCRIBE", 2 },
-  { "MQTT_REQ_TYPE_UNKOWN", 0 },
+  { "MQTT_CLIENT_REQ_TYPE_PUBLISH", 1 },
+  { "MQTT_CLIENT_REQ_TYPE_SUBSCRIBE", 2 },
+  { "MQTT_CLIENT_REQ_TYPE_UNKOWN", 0 },
 };
 const ProtobufCEnumDescriptor ciot__mqtt_client_req_type__descriptor =
 {
@@ -1019,5 +1032,39 @@ const ProtobufCEnumDescriptor ciot__mqtt_client_req_type__descriptor =
   ciot__mqtt_client_req_type__enum_values_by_name,
   1,
   ciot__mqtt_client_req_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCEnumValue ciot__mqtt_client_broker_kind__enum_values_by_number[5] =
+{
+  { "MQTT_CLIENT_BROKER_KIND_DEFAULT", "CIOT__MQTT_CLIENT_BROKER_KIND__MQTT_CLIENT_BROKER_KIND_DEFAULT", 0 },
+  { "MQTT_CLIENT_BROKER_KIND_SSL_1_2", "CIOT__MQTT_CLIENT_BROKER_KIND__MQTT_CLIENT_BROKER_KIND_SSL_1_2", 1 },
+  { "MQTT_CLIENT_BROKER_KIND_SSL_1_3", "CIOT__MQTT_CLIENT_BROKER_KIND__MQTT_CLIENT_BROKER_KIND_SSL_1_3", 2 },
+  { "MQTT_CLIENT_BROKER_KIND_AWS", "CIOT__MQTT_CLIENT_BROKER_KIND__MQTT_CLIENT_BROKER_KIND_AWS", 3 },
+  { "MQTT_CLIENT_BROKER_KIND_AZURE", "CIOT__MQTT_CLIENT_BROKER_KIND__MQTT_CLIENT_BROKER_KIND_AZURE", 4 },
+};
+static const ProtobufCIntRange ciot__mqtt_client_broker_kind__value_ranges[] = {
+{0, 0},{0, 5}
+};
+static const ProtobufCEnumValueIndex ciot__mqtt_client_broker_kind__enum_values_by_name[5] =
+{
+  { "MQTT_CLIENT_BROKER_KIND_AWS", 3 },
+  { "MQTT_CLIENT_BROKER_KIND_AZURE", 4 },
+  { "MQTT_CLIENT_BROKER_KIND_DEFAULT", 0 },
+  { "MQTT_CLIENT_BROKER_KIND_SSL_1_2", 1 },
+  { "MQTT_CLIENT_BROKER_KIND_SSL_1_3", 2 },
+};
+const ProtobufCEnumDescriptor ciot__mqtt_client_broker_kind__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "Ciot.MqttClientBrokerKind",
+  "MqttClientBrokerKind",
+  "Ciot__MqttClientBrokerKind",
+  "Ciot",
+  5,
+  ciot__mqtt_client_broker_kind__enum_values_by_number,
+  5,
+  ciot__mqtt_client_broker_kind__enum_values_by_name,
+  1,
+  ciot__mqtt_client_broker_kind__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
