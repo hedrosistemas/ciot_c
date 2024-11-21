@@ -7,7 +7,7 @@
 #endif
 
 #include "ciot/proto/v1/errors.pb-c.h"
-static const ProtobufCEnumValue ciot__err__enum_values_by_number[38] =
+static const ProtobufCEnumValue ciot__err__enum_values_by_number[41] =
 {
   { "OK", "CIOT__ERR__OK", 0 },
   { "NULL_ARG", "CIOT__ERR__NULL_ARG", 1 },
@@ -47,11 +47,14 @@ static const ProtobufCEnumValue ciot__err__enum_values_by_number[38] =
   { "INVALID_ADDR", "CIOT__ERR__INVALID_ADDR", 35 },
   { "RESOURCES", "CIOT__ERR__RESOURCES", 36 },
   { "UNKNOWN", "CIOT__ERR__UNKNOWN", 37 },
+  { "READING", "CIOT__ERR__READING", 38 },
+  { "ERASING", "CIOT__ERR__ERASING", 39 },
+  { "WRITING", "CIOT__ERR__WRITING", 40 },
 };
 static const ProtobufCIntRange ciot__err__value_ranges[] = {
-{0, 0},{0, 38}
+{0, 0},{0, 41}
 };
-static const ProtobufCEnumValueIndex ciot__err__enum_values_by_name[38] =
+static const ProtobufCEnumValueIndex ciot__err__enum_values_by_name[41] =
 {
   { "BUSY", 7 },
   { "CHECKSUM", 25 },
@@ -61,6 +64,7 @@ static const ProtobufCEnumValueIndex ciot__err__enum_values_by_name[38] =
   { "DESERIALIZATION", 10 },
   { "DISABLED", 29 },
   { "DISCONNECTION", 18 },
+  { "ERASING", 39 },
   { "EXCEPTION", 19 },
   { "FAIL", 30 },
   { "FIFO_READ", 33 },
@@ -84,6 +88,7 @@ static const ProtobufCEnumValueIndex ciot__err__enum_values_by_name[38] =
   { "OK", 0 },
   { "OVERFLOW", 4 },
   { "PROTOCOL_VIOLATION", 26 },
+  { "READING", 38 },
   { "RECV_DATA", 12 },
   { "RESOURCES", 36 },
   { "SEND_DATA", 11 },
@@ -91,6 +96,7 @@ static const ProtobufCEnumValueIndex ciot__err__enum_values_by_name[38] =
   { "TIMEOUT", 22 },
   { "UNKNOWN", 37 },
   { "VALIDATION_FAILED", 16 },
+  { "WRITING", 40 },
 };
 const ProtobufCEnumDescriptor ciot__err__descriptor =
 {
@@ -99,9 +105,9 @@ const ProtobufCEnumDescriptor ciot__err__descriptor =
   "Err",
   "Ciot__Err",
   "Ciot",
-  38,
+  41,
   ciot__err__enum_values_by_number,
-  38,
+  41,
   ciot__err__enum_values_by_name,
   1,
   ciot__err__value_ranges,

@@ -174,7 +174,19 @@ typedef enum _Ciot__Err {
   /*
    * Unknown error
    */
-  CIOT__ERR__UNKNOWN = 37
+  CIOT__ERR__UNKNOWN = 37,
+  /*
+   * Reading error
+   */
+  CIOT__ERR__READING = 38,
+  /*
+   * Erasing error
+   */
+  CIOT__ERR__ERASING = 39,
+  /*
+   * Writing error
+   */
+  CIOT__ERR__WRITING = 40
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(CIOT__ERR)
 } Ciot__Err;
 
