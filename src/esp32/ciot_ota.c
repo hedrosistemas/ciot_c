@@ -40,9 +40,12 @@ struct ciot_ota
     esp_https_ota_handle_t handle;
     TaskHandle_t task;
     char *buffer;
+    esp_partition_type_t partition_type;
+    esp_partition_subtype_t partition_subtype;
 };
 
 static void ciot_ota_task(void *pvParameters);
+static void ciot_ota_advanced_task(void *pvParameters);
 static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self);
 static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
 
@@ -81,15 +84,19 @@ ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg)
 
     ESP_ERROR_CHECK(esp_event_handler_register(ESP_HTTPS_OTA_EVENT, ESP_EVENT_ANY_ID, ciot_ota_event_handler, self));
 
-    xTaskCreatePinnedToCore(
-        ciot_ota_task,
-        "ciot_ota_task",
-        CIOT_CONFIG_OTA_TASK_STACK_SIZE,
-        self,
-        CIOT_CONFIG_OTA_TASK_PRIORITY,
-        &self->task,
-        CIOT_CONFIG_OTA_TASK_CORE_ID
-    );
+    switch (cfg->type)
+    {
+    case CIOT__OTA_TYPE__OTA_TYPE_DEFAULT:
+        xTaskCreatePinnedToCore(ciot_ota_task, "ciot_ota_task", CIOT_CONFIG_OTA_TASK_STACK_SIZE, self, CIOT_CONFIG_OTA_TASK_PRIORITY, &self->task, CIOT_CONFIG_OTA_TASK_CORE_ID);
+        break;
+    case CIOT__OTA_TYPE__OTA_TYPE_DATA_SPIFFS:
+        self->partition_type = ESP_PARTITION_TYPE_DATA;
+        self->partition_subtype = ESP_PARTITION_SUBTYPE_DATA_SPIFFS;
+        xTaskCreatePinnedToCore(ciot_ota_advanced_task, "ciot_ota_task", CIOT_CONFIG_OTA_TASK_STACK_SIZE, self, CIOT_CONFIG_OTA_TASK_PRIORITY, &self->task, CIOT_CONFIG_OTA_TASK_CORE_ID);
+        break;
+    default:
+        return CIOT__ERR__INVALID_TYPE;
+    }
 
     return base->status.error;
 }
@@ -152,6 +159,7 @@ static void ciot_ota_task(void *pvParameters)
         ota_config.decrypt_cb = ciot_ota_decrypt_cb;
         ota_config.decrypt_user_ctx = (void *)decrypt_handle;
     }
+    
 #endif // CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
 
     self->handle = NULL;
@@ -164,7 +172,7 @@ static void ciot_ota_task(void *pvParameters)
     }
 
     ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STARTED);
-
+    
     while (1)
     {
         base->status.error = esp_https_ota_perform(self->handle);
@@ -207,6 +215,97 @@ static void ciot_ota_task(void *pvParameters)
         }
     }
     
+    (void)vTaskDelete(NULL);
+}
+
+static void ciot_ota_advanced_task(void *pvParameters)
+{
+    ciot_ota_t self = (ciot_ota_t )pvParameters;
+    ciot_ota_base_t *base = &self->base;
+
+    CIOT_LOGI(TAG, "Finding specified partition");
+    const esp_partition_t *partition = esp_partition_find_first(self->partition_type, self->partition_subtype, NULL);
+    if(partition == NULL)
+    {
+        CIOT_LOGE(TAG, "Specified partition not found.");
+        base->status.error = CIOT__ERR__NOT_FOUND;
+        ciot_ota_task_fatal_error(self);
+        return;
+    }
+
+    CIOT_LOGI(TAG, "Partition found:");
+    CIOT_LOGI(TAG, "label: %s", partition->label);
+    CIOT_LOGI(TAG, "address: %x", (unsigned int)partition->address);
+    CIOT_LOGI(TAG, "size: %x", (unsigned int)partition->size);
+    
+    CIOT_LOGI(TAG, "Erasing partition");
+    base->status.error = esp_partition_erase_range(partition, 0, partition->size);
+    if(base->status.error != ESP_OK)
+    {
+        CIOT_LOGE(TAG, "Error erasing parititon: %s", esp_err_to_name(base->status.error));
+        base->status.error = CIOT__ERR__ERASING;
+        ciot_ota_task_fatal_error(self);
+        return;
+    }
+
+    esp_http_client_config_t http_client_config = {
+        .url = (const char*)base->url,
+#ifdef CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
+        .crt_bundle_attach = esp_crt_bundle_attach
+#endif
+    };
+    esp_http_client_handle_t client = esp_http_client_init(&http_client_config);
+
+    if(client == NULL)
+    {
+        CIOT_LOGE(TAG, "Error initializing http client");
+        base->status.error = CIOT__ERR__FAIL;
+        ciot_ota_task_fatal_error(self);
+        return;
+    }
+
+    base->status.error = esp_http_client_open(client, 0);
+    if(base->status.error != ESP_OK)
+    {
+        CIOT_LOGE(TAG, "Error openning http client: %s", esp_err_to_name(base->status.error));
+        ciot_ota_task_fatal_error(self);
+        return;
+    }
+
+    esp_http_client_fetch_headers(client);
+    int binary_file_length = 0;
+    char buf[256];
+
+    while (true)
+    {
+        int data_read = esp_http_client_read(client, buf, sizeof(buf));
+        if(data_read < 0)
+        {
+            CIOT_LOGE(TAG, "Error reading data from client");
+            base->status.error = CIOT__ERR__READING;
+            ciot_ota_task_fatal_error(self);
+        }
+        else if(data_read > 0)
+        {
+            CIOT_LOGI(TAG, "Writing [%x]", binary_file_length);
+            base->status.error = esp_partition_write(partition, binary_file_length, buf, data_read);
+            binary_file_length += data_read;
+            if(base->status.error != ESP_OK)
+            {
+                CIOT_LOGI(TAG, "Error writing data to partition: %s", esp_err_to_name(base->status.error));
+                base->status.error = CIOT__ERR__WRITING;
+                ciot_ota_task_fatal_error(self);
+            }
+        }
+        else if(data_read == 0)
+        {
+            CIOT_LOGI(TAG, "Connection closed, all data received");
+            break;
+        }
+
+        CIOT_LOGI(TAG, "Total Write binary data length : %d", binary_file_length);
+    }
+
     (void)vTaskDelete(NULL);
 }
 
@@ -294,3 +393,4 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
 
     ciot_iface_send_event(&base->iface, &event);
 }
+
