@@ -76,7 +76,7 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
 #endif       
     };
 
-    base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTING;
+    base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_CONNECTING;
 
     esp_mqtt_client_destroy(self->handle);
     self->handle = esp_mqtt_client_init(&mqtt_client_cfg);
@@ -89,7 +89,7 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
 ciot_err_t ciot_mqtt_client_stop(ciot_mqtt_client_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    self->base.status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_DISCONNECTING;
+    self->base.status.state = CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_DISCONNECTING;
     esp_err_t err = esp_mqtt_client_stop(self->handle);
     return err == ESP_OK ? CIOT__ERR__OK : CIOT__ERR__FAIL;
 }
@@ -108,7 +108,7 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(topic);
     CIOT_ERR_NULL_CHECK(self->handle);
-    CIOT_ERR_VALUE_CHECK(self->base.status.state, CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED, CIOT__ERR__INVALID_STATE);
+    CIOT_ERR_VALUE_CHECK(self->base.status.state, CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_CONNECTED, CIOT__ERR__INVALID_STATE);
     CIOT_ERR_EMPTY_STRING_CHECK(topic);
     int err = 0;
     if(qos == 0)
@@ -136,7 +136,7 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
     {
     case MQTT_EVENT_ERROR:
         ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
-        base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_ERROR;
+        base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_ERROR;
         base->status.error->code = mqtt_event->error_handle->connect_return_code;
         base->status.error->type = mqtt_event->error_handle->error_type;
         iface_event.type = CIOT_IFACE_EVENT_ERROR;
@@ -144,7 +144,7 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         break;
     case MQTT_EVENT_CONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-        base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_STATE_CONNECTED;
+        base->status.state = CIOT__MQTT_CLIENT_STATE__MQTT_CLIENT_STATE_CONNECTED;
         base->status.conn_count++;
         ciot_mqtt_client_sub(self, base->cfg.topics->sub, base->cfg.qos);
         iface_event.type = CIOT_IFACE_EVENT_STARTED;

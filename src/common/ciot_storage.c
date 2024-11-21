@@ -23,7 +23,7 @@ ciot_err_t ciot_storage_set_data(ciot_storage_t self, char *path, ciot_msg_data_
     ciot_msg_t msg = CIOT__MSG__INIT;
     msg.data = data;
 
-    CIOT_LOGI(TAG, "saving data:");
+    CIOT_LOGI(TAG, "saving data on %s:", path);
     ciot_msg_print(&data->base);
 
     int size = ciot__msg__get_packed_size(&msg);

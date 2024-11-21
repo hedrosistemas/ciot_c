@@ -143,12 +143,32 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
 
 static esp_err_t ciot_file_handler(httpd_req_t *req)
 {
-    char filepath[64];
+    char filepath[36];
     snprintf(filepath, sizeof(filepath), "/fs%.*s", (int)(sizeof(filepath) - 4), req->uri);
 
     // Verificar se a URI é "/", servir "index.html"
     if (strcmp(req->uri, "/") == 0) {
         strcpy(filepath, "/fs/index.html");
+    }
+
+    // Buffer para armazenar o valor do cabeçalho "Accept-Encoding"
+    char accept_encoding[16] = {0};
+    httpd_req_get_hdr_value_str(req, "Accept-Encoding", accept_encoding, sizeof(accept_encoding));
+
+    // Verificar suporte a gzip
+    bool supports_gzip = strstr(accept_encoding, "gzip") != NULL;
+
+    // Modificar o caminho para tentar servir o arquivo gzip, se suportado
+    if (supports_gzip) {
+        char gz_filepath[39];
+        snprintf(gz_filepath, sizeof(gz_filepath), "%s.gz", filepath);
+        FILE* gz_file = fopen(gz_filepath, "r");
+        if (gz_file) {
+            ESP_LOGI(TAG, "Serving gzip file: %s", gz_filepath);
+            httpd_resp_set_hdr(req, "Content-Encoding", "gzip");
+            strcpy(filepath, gz_filepath); // Atualizar para o arquivo gzip
+            fclose(gz_file); // Fechar para reabrir na leitura abaixo
+        }
     }
 
     // Abrir o arquivo solicitado
@@ -163,13 +183,17 @@ static esp_err_t ciot_file_handler(httpd_req_t *req)
     httpd_resp_set_type(req, get_mime_type(filepath));
 
     // Ler o arquivo e enviar seu conteúdo
-    char line[128];
-    while (fgets(line, sizeof(line), file)) {
-        httpd_resp_sendstr_chunk(req, line);
+    char buffer[128];
+    size_t read_bytes;
+    while ((read_bytes = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+        if (httpd_resp_send_chunk(req, buffer, read_bytes) != ESP_OK) {
+            fclose(file);
+            return ESP_FAIL;
+        }
     }
 
     // Enviar a resposta final
-    httpd_resp_sendstr_chunk(req, NULL);
+    httpd_resp_send_chunk(req, NULL, 0);
 
     fclose(file);
     return ESP_OK;

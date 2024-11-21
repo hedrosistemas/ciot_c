@@ -232,7 +232,7 @@ void   ciot__ota_data__free_unpacked
   assert(message->base.descriptor == &ciot__ota_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-static const ProtobufCFieldDescriptor ciot__ota_cfg__field_descriptors[4] =
+static const ProtobufCFieldDescriptor ciot__ota_cfg__field_descriptors[5] =
 {
   {
     "url",
@@ -282,17 +282,30 @@ static const ProtobufCFieldDescriptor ciot__ota_cfg__field_descriptors[4] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "type",
+    5,
+    PROTOBUF_C_LABEL_NONE,
+    PROTOBUF_C_TYPE_ENUM,
+    0,   /* quantifier_offset */
+    offsetof(Ciot__OtaCfg, type),
+    &ciot__ota_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned ciot__ota_cfg__field_indices_by_name[] = {
   2,   /* field[2] = encrypted */
   1,   /* field[1] = force */
   3,   /* field[3] = restart */
+  4,   /* field[4] = type */
   0,   /* field[0] = url */
 };
 static const ProtobufCIntRange ciot__ota_cfg__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor ciot__ota_cfg__descriptor =
 {
@@ -302,7 +315,7 @@ const ProtobufCMessageDescriptor ciot__ota_cfg__descriptor =
   "Ciot__OtaCfg",
   "Ciot",
   sizeof(Ciot__OtaCfg),
-  4,
+  5,
   ciot__ota_cfg__field_descriptors,
   ciot__ota_cfg__field_indices_by_name,
   1,  ciot__ota_cfg__number_ranges,
@@ -518,6 +531,34 @@ const ProtobufCMessageDescriptor ciot__ota_data__descriptor =
   1,  ciot__ota_data__number_ranges,
   (ProtobufCMessageInit) ciot__ota_data__init,
   NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue ciot__ota_type__enum_values_by_number[2] =
+{
+  { "OTA_TYPE_DEFAULT", "CIOT__OTA_TYPE__OTA_TYPE_DEFAULT", 0 },
+  { "OTA_TYPE_DATA_SPIFFS", "CIOT__OTA_TYPE__OTA_TYPE_DATA_SPIFFS", 1 },
+};
+static const ProtobufCIntRange ciot__ota_type__value_ranges[] = {
+{0, 0},{0, 2}
+};
+static const ProtobufCEnumValueIndex ciot__ota_type__enum_values_by_name[2] =
+{
+  { "OTA_TYPE_DATA_SPIFFS", 1 },
+  { "OTA_TYPE_DEFAULT", 0 },
+};
+const ProtobufCEnumDescriptor ciot__ota_type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "Ciot.OtaType",
+  "OtaType",
+  "Ciot__OtaType",
+  "Ciot",
+  2,
+  ciot__ota_type__enum_values_by_number,
+  2,
+  ciot__ota_type__enum_values_by_name,
+  1,
+  ciot__ota_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
 static const ProtobufCEnumValue ciot__ota_state__enum_values_by_number[11] =
 {
