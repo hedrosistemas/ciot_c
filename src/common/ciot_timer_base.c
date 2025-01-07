@@ -3,7 +3,7 @@
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2024-06-16
+ * @date 2024-12-11
  * 
  * @copyright Copyright (c) 2024
  * 
@@ -25,5 +25,5 @@ ciot_err_t ciot_timer_init(uint64_t *timer, uint16_t interval)
 {
     CIOT_ERR_NULL_CHECK(timer);
     *timer = ciot_timer_now() + interval;
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

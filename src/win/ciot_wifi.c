@@ -28,13 +28,13 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
     ciot_wifi_t self = calloc(1, sizeof(struct ciot_wifi));
     ciot_wifi_base_t *base = &self->base;
 
-    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_AP)
+    if (base->cfg.type == CIOT_WIFI_TYPE_AP)
     {
         CIOT_LOGI(TAG, "Creating wifi ap");
         base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_AP);
     }
 
-    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_STA)
+    if (base->cfg.type == CIOT_WIFI_TYPE_STA)
     {
         CIOT_LOGI(TAG, "Creating wifi sta");
         base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_STA);
@@ -43,13 +43,13 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
     ciot_wifi_init(self);
     base->cfg.type = type;
 
-    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_AP)
+    if (base->cfg.type == CIOT_WIFI_TYPE_AP)
     {
         CIOT_LOGI(TAG, "Creating wifi ap");
         base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_AP);
     }
 
-    if (base->cfg.type == CIOT__WIFI_TYPE__WIFI_TYPE_STA)
+    if (base->cfg.type == CIOT_WIFI_TYPE_STA)
     {
         CIOT_LOGI(TAG, "Creating wifi sta");
         base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_STA);
@@ -68,22 +68,22 @@ ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     CIOT_ERR_RETURN(ciot_wifi_set_cfg(self, cfg));
 
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_wifi_stop(ciot_wifi_t self)
 {
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_wifi_task(ciot_wifi_t self)
 {
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_wifi_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size)
 {
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
@@ -98,20 +98,21 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     if (self->base.cfg.type != cfg->type)
     {
-        return CIOT__ERR__INVALID_TYPE;
+        return CIOT_ERR_INVALID_TYPE;
     }
 
     CIOT_ERR_RETURN(ciot_tcp_init_netif(base->tcp));
 
-    base->cfg.type = cfg->type;
-    strcpy(base->ssid, cfg->ssid);
-    strcpy(base->password, cfg->password);
+    memcpy(&base->cfg, cfg, sizeof(*cfg));
 
-    if (cfg->tcp != NULL)
+    // strcpy(base->ssid, cfg->ssid);
+    // strcpy(base->password, cfg->password);
+
+    if (cfg->has_tcp)
     {
         CIOT_LOGI(TAG, "Set tcp config");
-        CIOT_ERR_RETURN(ciot_tcp_set_cfg(base->tcp, cfg->tcp));
+        CIOT_ERR_RETURN(ciot_tcp_set_cfg(base->tcp, &cfg->tcp));
     }
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

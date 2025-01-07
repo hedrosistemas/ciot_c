@@ -18,9 +18,6 @@ extern "C"
 
 #include <stdio.h>
 #include "ciot_config.h"
-#include "ciot/proto/v1/logger.pb-c.h"
-
-    typedef Ciot__LogLevel ciot_log_level_t;
 
 #if CIOT_CONFIG_FEATURE_LOGGER
 
@@ -40,6 +37,10 @@ extern "C"
 #define CONFIG_LOG_MAXIMUM_LEVEL ESP_LOG_INFO
 #endif
 
+#ifndef CIOT_CONFIG_LOG_LEVEL
+#define CIOT_CONFIG_LOG_LEVEL CIOT_LOG_LEVEL_INFO
+#endif
+
 // Forwarding logging macros to ESP-IDF logging macros
 #define CIOT_LOGD ESP_LOGD
 #define CIOT_LOGV ESP_LOGV
@@ -55,7 +56,7 @@ extern "C"
 /**
  * @brief Macro to log hexadecimal data.
  */
-#define CIOT_LOG_BUFFER_HEX(TAG, data, size) CIOT_LOG_HEX(TAG, data, size, CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG)
+#define CIOT_LOG_BUFFER_HEX(TAG, data, size) CIOT_LOG_HEX(TAG, data, size, CIOT_LOG_LEVEL_DEBUG)
 
 /**
  * @brief Macro to log debug level messages.
@@ -63,7 +64,7 @@ extern "C"
 #define CIOT_LOGD(TAG, MASK, ...)                                      \
     do                                                                 \
     {                                                                  \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_DEBUG) \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_DEBUG) \
         {                                                              \
             printf("[%s] <DBG>: ", TAG);                               \
             printf(MASK, ##__VA_ARGS__);                               \
@@ -77,7 +78,7 @@ extern "C"
 #define CIOT_LOGV(TAG, MASK, ...)                                        \
     do                                                                   \
     {                                                                    \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_VERBOSE) \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_VERBOSE) \
         {                                                                \
             printf("[%s] <VRB>: ", TAG);                                 \
             printf(MASK, ##__VA_ARGS__);                                 \
@@ -91,7 +92,7 @@ extern "C"
 #define CIOT_LOGI(TAG, MASK, ...)                                     \
     do                                                                \
     {                                                                 \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_INFO) \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_INFO) \
         {                                                             \
             printf("[%s] <INF>: ", TAG);                              \
             printf(MASK, ##__VA_ARGS__);                              \
@@ -105,7 +106,7 @@ extern "C"
 #define CIOT_LOGW(TAG, MASK, ...)                                        \
     do                                                                   \
     {                                                                    \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_WARNING) \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_WARNING) \
         {                                                                \
             printf("[%s] <WRN>: ", TAG);                                 \
             printf(MASK, ##__VA_ARGS__);                                 \
@@ -119,7 +120,7 @@ extern "C"
 #define CIOT_LOGE(TAG, MASK, ...)                                      \
     do                                                                 \
     {                                                                  \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT__LOG_LEVEL__LOG_LEVEL_ERROR) \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_ERROR) \
         {                                                              \
             printf("[%s] <ERR>: ", TAG);                               \
             printf(MASK, ##__VA_ARGS__);                               \

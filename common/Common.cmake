@@ -3,6 +3,7 @@ get_filename_component(CIOT_DIR "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
 set(CIOT_INCLUDE_DIRS
     ${CIOT_DIR}/include
     ${CIOT_DIR}/src/mg/
+    ${CIOT_DIR}/src/proto/nanopb
     ${CIOT_DIR}/src/proto/protobuf-c
 )
 
@@ -17,12 +18,14 @@ set(CIOT_MBED_INCLUDE_DIRS
 FILE(GLOB_RECURSE CIOT_COMMON_SRCS ${CIOT_DIR}/src/common/*.c)
 FILE(GLOB_RECURSE CIOT_CORE_SRCS  ${CIOT_DIR}/src/core/*.c)
 FILE(GLOB_RECURSE CIOT_PB_C_SRCS ${CIOT_DIR}/src/proto/protobuf-c/protobuf-c/*.c)
+FILE(GLOB_RECURSE CIOT_NANOPB_C_SRCS ${CIOT_DIR}/src/proto/nanopb/*.c)
 FILE(GLOB_RECURSE CIOT_PB_V1_SRCS ${CIOT_DIR}/src/proto/ciot/proto/v1/*.c)
+FILE(GLOB_RECURSE CIOT_PB_V2_SRCS ${CIOT_DIR}/src/proto/ciot/proto/v2/*.c)
 FILE(GLOB_RECURSE CIOT_MBED_SRCS ${CIOT_DIR}/libs/crypt/*.c)
 
 list(APPEND CIOT_SRCS ${CIOT_COMMON_SRCS})
 list(APPEND CIOT_SRCS ${CIOT_CORE_SRCS})
-list(APPEND CIOT_SRCS ${CIOT_PB_C_SRCS})
+list(APPEND CIOT_SRCS ${CIOT_NANOPB_C_SRCS})
 
 FILE(GLOB_RECURSE CIOT_NRF_SRCS ${CIOT_DIR}/src/nrf/*.c)
 FILE(GLOB_RECURSE CIOT_ESP32_SRCS ${CIOT_DIR}/src/esp32/*.c)

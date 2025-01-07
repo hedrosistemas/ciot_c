@@ -16,10 +16,8 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
-
-#include "ciot/proto/v1/ota.pb-c.h"
 
 #ifndef CIOT_CONFIG_OTA_URL_LEN
 #define CIOT_CONFIG_OTA_URL_LEN 64
@@ -38,12 +36,6 @@ extern "C" {
 #endif
 
 typedef struct ciot_ota *ciot_ota_t;
-typedef Ciot__OtaCfg ciot_ota_cfg_t;
-typedef Ciot__OtaReq ciot_ota_req_t;
-typedef Ciot__OtaStatus ciot_ota_status_t;
-// typedef Ciot__OtaInfo ciot_ota_info_t;
-typedef Ciot__OtaReq ciot_ota_req_t;
-typedef Ciot__OtaData ciot_ota_data_t;
 
 typedef struct ciot_ota_base
 {
@@ -51,9 +43,9 @@ typedef struct ciot_ota_base
     ciot_ota_cfg_t cfg;
     ciot_ota_status_t status;
     // ciot_ota_info_t info;
-    ciot_ota_req_t req;
-    ciot_ota_data_t data;
-    char url[CIOT_CONFIG_OTA_URL_LEN];
+    // ciot_ota_req_t req;
+    // ciot_ota_data_t data;
+    // char url[CIOT_CONFIG_OTA_URL_LEN];
 } ciot_ota_base_t;
 
 ciot_ota_t ciot_ota_new(void *handle);

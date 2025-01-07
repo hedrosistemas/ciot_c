@@ -16,21 +16,11 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_tcp.h"
 #include "ciot_iface.h"
 
-#include "ciot/proto/v1/wifi.pb-c.h"
-
 typedef struct ciot_wifi *ciot_wifi_t;
-typedef Ciot__WifiCfg ciot_wifi_cfg_t;
-typedef Ciot__WifiReq ciot_wifi_req_t;
-typedef Ciot__WifiStatus ciot_wifi_status_t;
-typedef Ciot__WifiInfo ciot_wifi_info_t;
-typedef Ciot__WifiApInfo ciot_wifi_ap_info_t;
-typedef Ciot__WifiReq ciot_wifi_req_t;
-typedef Ciot__WifiData ciot_wifi_data_t;
-typedef Ciot__WifiType ciot_wifi_type_t;
 
 typedef struct ciot_wifi_base
 {
@@ -38,14 +28,14 @@ typedef struct ciot_wifi_base
     ciot_tcp_t tcp;
     ciot_wifi_cfg_t cfg;
     ciot_wifi_status_t status;
-    ciot_wifi_info_t info;
-    ciot_wifi_ap_info_t ap_info;
-    ciot_wifi_req_t req;
-    ciot_wifi_data_t data;
-    char ssid[32];
-    char password[32];
-    uint8_t ap_bssid[6];
-    char ap_ssid[32];
+    // ciot_wifi_info_t info;
+    // ciot_wifi_ap_info_t ap_info;
+    // ciot_wifi_req_t req;
+    // ciot_wifi_data_t data;
+    // char ssid[32];
+    // char password[32];
+    // uint8_t ap_bssid[6];
+    // char ap_ssid[32];
 } ciot_wifi_base_t;
 
 ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type);

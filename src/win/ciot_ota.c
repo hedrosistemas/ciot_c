@@ -21,7 +21,6 @@ struct ciot_ota
 ciot_ota_t ciot_ota_new(void *handle)
 {
     ciot_ota_t self = calloc(1, sizeof(struct ciot_ota));
-    ciot_ota_init(self);
     return self;
 }
 
@@ -29,16 +28,16 @@ ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_ota_stop(ciot_ota_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_ota_rollback(ciot_ota_t self)
 {
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }

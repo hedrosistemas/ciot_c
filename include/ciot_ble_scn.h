@@ -16,20 +16,10 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
 
-#include "ciot/proto/v1/ble_scn.pb-c.h"
-
 typedef struct ciot_ble_scn *ciot_ble_scn_t;
-typedef Ciot__BleScnCfg ciot_ble_scn_cfg_t;
-typedef Ciot__BleScnReq ciot_ble_scn_req_t;
-typedef Ciot__BleScnStatus ciot_ble_scn_status_t;
-typedef Ciot__BleScnReq ciot_ble_scn_req_t;
-typedef Ciot__BleScnData ciot_ble_scn_data_t;
-typedef Ciot__BleScnAdv ciot_ble_scn_adv_t;
-typedef Ciot__BleScnAdvInfo ciot_ble_scn_adv_info_t;
-
 typedef bool (ciot_ble_scn_filter_fn)(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv, void *args);
 
 #ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
@@ -60,11 +50,11 @@ typedef struct ciot_ble_scn_base
     ciot_iface_t iface;
     ciot_ble_scn_cfg_t cfg;
     ciot_ble_scn_status_t status;
-    ciot_ble_scn_req_t req;
-    ciot_ble_scn_data_t data;
-    ciot_ble_scn_adv_info_t recv_info;
-    ciot_ble_scn_adv_t recv;
-    ciot_ble_scn_filter_t filter;
+    // ciot_ble_scn_req_t req;
+    // ciot_ble_scn_data_t data;
+    // ciot_ble_scn_adv_info_t recv_info;
+    // ciot_ble_scn_adv_t recv;
+    // ciot_ble_scn_filter_t filter;
 #ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
     ciot_ble_scn_adv_fifo_t adv_fifo;
 #endif

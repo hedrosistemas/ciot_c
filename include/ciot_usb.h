@@ -16,25 +16,18 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
 
-#include "ciot/proto/v1/usb.pb-c.h"
-
 typedef struct ciot_usb *ciot_usb_t;
-typedef Ciot__UsbCfg ciot_usb_cfg_t;
-typedef Ciot__UsbReq ciot_usb_req_t;
-typedef Ciot__UsbStatus ciot_usb_status_t;
-typedef Ciot__UsbReq ciot_usb_req_t;
-typedef Ciot__UsbData ciot_usb_data_t;
 
 typedef struct ciot_usb_base
 {
     ciot_iface_t iface;
     ciot_usb_cfg_t cfg;
     ciot_usb_status_t status;
-    ciot_usb_req_t req;
-    ciot_usb_data_t data;
+    // ciot_usb_req_t req;
+    // ciot_usb_data_t data;
 } ciot_usb_base_t;
 
 ciot_usb_t ciot_usb_new(void *handle);

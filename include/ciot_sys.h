@@ -3,7 +3,7 @@
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2024-06-07
+ * @date 2024-12-11
  * 
  * @copyright Copyright (c) 2024
  * 
@@ -16,24 +16,10 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
 
-#include "ciot/proto/v1/sys.pb-c.h"
-
-#define CIOT_SYS_EVT_BIT_POOLING 0x00000001
-
 typedef struct ciot_sys *ciot_sys_t;
-typedef Ciot__SysCfg ciot_sys_cfg_t;
-typedef Ciot__SysReq ciot_sys_req_t;
-typedef Ciot__SysStatus ciot_sys_status_t;
-typedef Ciot__SysInfo ciot_sys_info_t;
-typedef Ciot__SysHw ciot_sys_hw_t;
-typedef Ciot__SysHwFeatures ciot_sys_hw_features_t;
-typedef Ciot__SysSwFeatures ciot_sys_sw_features_t;
-typedef Ciot__SysFeatures ciot_sys_features_t;
-typedef Ciot__SysReq ciot_sys_req_t;
-typedef Ciot__SysData ciot_sys_data_t;
 
 typedef struct ciot_sys_base
 {
@@ -41,10 +27,6 @@ typedef struct ciot_sys_base
     ciot_sys_cfg_t cfg;
     ciot_sys_status_t status;
     ciot_sys_info_t info;
-    ciot_sys_data_t data;
-    ciot_sys_features_t features;
-    ciot_sys_hw_features_t hw;
-    ciot_sys_sw_features_t sw;
 } ciot_sys_base_t;
 
 ciot_sys_t ciot_sys_new(void *handle);

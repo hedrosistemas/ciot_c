@@ -42,7 +42,7 @@ ciot_err_t ciot_gpio_start(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
 ciot_err_t ciot_gpio_stop(ciot_gpio_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 static void set_bit(int bit_position, int value)

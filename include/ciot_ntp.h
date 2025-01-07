@@ -16,10 +16,8 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
-
-#include "ciot/proto/v1/ntp.pb-c.h"
 
 #ifndef CIOT_CONFIG_NTP_SERVER_URL_LEN
 #define CIOT_CONFIG_NTP_SERVER_URL_LEN 64
@@ -30,12 +28,6 @@ extern "C" {
 #endif
 
 typedef struct ciot_ntp *ciot_ntp_t;
-typedef Ciot__NtpCfg ciot_ntp_cfg_t;
-typedef Ciot__NtpReq ciot_ntp_req_t;
-typedef Ciot__NtpStatus ciot_ntp_status_t;
-// typedef Ciot__NtpInfo ciot_ntp_info_t;
-typedef Ciot__NtpReq ciot_ntp_req_t;
-typedef Ciot__NtpData ciot_ntp_data_t;
 
 typedef struct ciot_ntp_base
 {
@@ -43,12 +35,8 @@ typedef struct ciot_ntp_base
     ciot_ntp_cfg_t cfg;
     ciot_ntp_status_t status;
     // ciot_ntp_info_t info;
-    ciot_ntp_req_t req;
-    ciot_ntp_data_t data;
-    char timezone[CIOT_CONFIG_NTP_TIMEZONE_LEN];
-    char server1[CIOT_CONFIG_NTP_SERVER_URL_LEN];
-    char server2[CIOT_CONFIG_NTP_SERVER_URL_LEN];
-    char server3[CIOT_CONFIG_NTP_SERVER_URL_LEN];
+    // ciot_ntp_req_t req;
+    // ciot_ntp_data_t data;
 } ciot_ntp_base_t;
 
 ciot_ntp_t ciot_ntp_new(void *handle);
