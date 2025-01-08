@@ -15,5 +15,7 @@
 #include "ciot_serializer.h"
 
 ciot_serializer_t ciot_serializer_pb_new(void);
+int ciot_serializer_pb_to_bytes(uint8_t *bytes, int size, void *data, const void *type);
+int ciot_serializer_pb_from_bytes(uint8_t *bytes, int size, void *data, const void *type);
 
 #endif  //!__CIOT_SERIALIZER_PB__H__
