@@ -22,8 +22,9 @@ typedef enum ciot_decoder_s_state
 
 typedef struct ciot_decoder_s *ciot_decoder_s_t;
 
-static ciot_err_t ciot_decoder_s_decode(ciot_decoder_t self, uint8_t byte);
-static ciot_err_t ciot_decoder_s_encode(ciot_decoder_t self, uint8_t *bytes, int size);
+static ciot_err_t ciot_decoder_s_decode(ciot_decoder_t base, uint8_t byte);
+static ciot_err_t ciot_decoder_s_encode(ciot_decoder_t base, uint8_t *bytes, int size);
+static ciot_err_t ciot_decoder_s_send(ciot_decoder_t base, ciot_iface_t *iface, uint8_t *bytes, int size);
 
 typedef struct ciot_decoder_s_buf
 {
@@ -52,6 +53,7 @@ ciot_decoder_t ciot_decoder_s_new(uint8_t *buf, int size)
     self->buf.len = size;
     self->base.decode = ciot_decoder_s_decode;
     self->base.encode = ciot_decoder_s_encode;
+    self->base.send = ciot_decoder_s_send;
     return &self->base;
 }
 
@@ -120,8 +122,8 @@ static ciot_err_t ciot_decoder_s_decode(ciot_decoder_t base, uint8_t byte)
 
 static ciot_err_t ciot_decoder_s_encode(ciot_decoder_t base, uint8_t *bytes, int size)
 {
-    CIOT_ERR_NULL_CHECK(bytes);
     CIOT_ERR_NULL_CHECK(base);
+    CIOT_ERR_NULL_CHECK(bytes);
     ciot_decoder_s_t self = (ciot_decoder_s_t)base;
     if (size > self->buf.len - 4) {
         return CIOT_ERR_OVERFLOW;
@@ -131,5 +133,18 @@ static ciot_err_t ciot_decoder_s_encode(ciot_decoder_t base, uint8_t *bytes, int
     memcpy(&base->result.buf[3], bytes, size);
     base->result.buf[3 + size] = end_ch;
     base->result.size = 4 + size;
+    return CIOT_ERR_OK;
+}
+
+static ciot_err_t ciot_decoder_s_send(ciot_decoder_t base, ciot_iface_t *iface, uint8_t *bytes, int size)
+{
+    CIOT_ERR_NULL_CHECK(base);
+    CIOT_ERR_NULL_CHECK(bytes);
+    CIOT_ERR_NULL_CHECK(iface);
+    ciot_decoder_s_t self = (ciot_decoder_s_t)base;
+    iface->send_data(iface, &start_ch, 1);
+    iface->send_data(iface, (uint8_t*)&size, 2);
+    iface->send_data(iface, bytes, size);
+    iface->send_data(iface, &end_ch, 1);
     return CIOT_ERR_OK;
 }

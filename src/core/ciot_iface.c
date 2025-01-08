@@ -12,6 +12,7 @@
 #include "ciot_types.h"
 #include "ciot_iface.h"
 #include "ciot_log.h"
+#include "ciot_decoder.h"
 
 static const char *TAG = "ciot_iface";
 
@@ -310,7 +311,7 @@ bool ciot_iface_is_equal(ciot_iface_info_t *self, ciot_iface_info_t *other)
 
 static ciot_err_t ciot_iface_send(ciot_iface_t *self, ciot_msg_t *msg)
 {
-    uint8_t buf[CIOT_MSG_SIZE];
+    uint8_t buf[CIOT_CONFIG_MSG_SIZE];
 
     if(self->serializer != NULL)
     {

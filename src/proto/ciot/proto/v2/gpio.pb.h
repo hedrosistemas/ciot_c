@@ -35,11 +35,17 @@ typedef enum ciot_gpio_pull {
 } ciot_gpio_pull_t;
 
 /* Struct definitions */
+/* Gpio pin configuration */
+typedef struct ciot_gpio_pin_cfg {
+    uint32_t num; /* Gpio pin number */
+    ciot_gpio_mode_t mode; /* Gpio mode */
+    ciot_gpio_pull_t pull; /* Gpio pullup/pulldown configuration */
+} ciot_gpio_pin_cfg_t;
+
 /* Message representing gpio configuration */
 typedef struct ciot_gpio_cfg {
-    pb_byte_t pins[16]; /* Gpio pin list */
-    pb_byte_t modes[16]; /* Gpio pin modes list */
-    pb_byte_t pull[16]; /* Gpio pull configurations list */
+    pb_size_t pins_count;
+    ciot_gpio_pin_cfg_t pins[16]; /* Pins list configuration */
     uint32_t blink_interval; /* Interval between gpio blinks in miliseconds */
 } ciot_gpio_cfg_t;
 
@@ -112,6 +118,9 @@ extern "C" {
 #define CIOT_GPIO_PULL_GPIO_PULL_DOWN CIOT_GPIO_PULL_DOWN
 
 
+#define ciot_gpio_pin_cfg_t_mode_ENUMTYPE ciot_gpio_mode_t
+#define ciot_gpio_pin_cfg_t_pull_ENUMTYPE ciot_gpio_pull_t
+
 
 
 #define ciot_gpio_state_info_t_state_ENUMTYPE ciot_gpio_state_t
@@ -121,23 +130,26 @@ extern "C" {
 
 /* Initializer values for message structs */
 #define CIOT_GPIO_STOP_INIT_DEFAULT              {false, CIOT_GPIO_CFG_INIT_DEFAULT}
-#define CIOT_GPIO_CFG_INIT_DEFAULT               {{0}, {0}, {0}, 0}
+#define CIOT_GPIO_PIN_CFG_INIT_DEFAULT           {0, _CIOT_GPIO_MODE_MIN, _CIOT_GPIO_PULL_MIN}
+#define CIOT_GPIO_CFG_INIT_DEFAULT               {0, {CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT, CIOT_GPIO_PIN_CFG_INIT_DEFAULT}, 0}
 #define CIOT_GPIO_STATUS_INIT_DEFAULT            {{0}}
 #define CIOT_GPIO_STATE_INFO_INIT_DEFAULT        {0, _CIOT_GPIO_STATE_MIN}
 #define CIOT_GPIO_REQ_INIT_DEFAULT               {0, {CIOT_GPIO_CFG_INIT_DEFAULT}}
 #define CIOT_GPIO_DATA_INIT_DEFAULT              {0, {CIOT_GPIO_STOP_INIT_DEFAULT}}
 #define CIOT_GPIO_STOP_INIT_ZERO                 {false, CIOT_GPIO_CFG_INIT_ZERO}
-#define CIOT_GPIO_CFG_INIT_ZERO                  {{0}, {0}, {0}, 0}
+#define CIOT_GPIO_PIN_CFG_INIT_ZERO              {0, _CIOT_GPIO_MODE_MIN, _CIOT_GPIO_PULL_MIN}
+#define CIOT_GPIO_CFG_INIT_ZERO                  {0, {CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO, CIOT_GPIO_PIN_CFG_INIT_ZERO}, 0}
 #define CIOT_GPIO_STATUS_INIT_ZERO               {{0}}
 #define CIOT_GPIO_STATE_INFO_INIT_ZERO           {0, _CIOT_GPIO_STATE_MIN}
 #define CIOT_GPIO_REQ_INIT_ZERO                  {0, {CIOT_GPIO_CFG_INIT_ZERO}}
 #define CIOT_GPIO_DATA_INIT_ZERO                 {0, {CIOT_GPIO_STOP_INIT_ZERO}}
 
 /* Field tags (for use in manual encoding/decoding) */
+#define CIOT_GPIO_PIN_CFG_NUM_TAG                1
+#define CIOT_GPIO_PIN_CFG_MODE_TAG               2
+#define CIOT_GPIO_PIN_CFG_PULL_TAG               3
 #define CIOT_GPIO_CFG_PINS_TAG                   1
-#define CIOT_GPIO_CFG_MODES_TAG                  2
-#define CIOT_GPIO_CFG_PULL_TAG                   3
-#define CIOT_GPIO_CFG_BLINK_INTERVAL_TAG         5
+#define CIOT_GPIO_CFG_BLINK_INTERVAL_TAG         2
 #define CIOT_GPIO_STOP_CFG_TAG                   1
 #define CIOT_GPIO_STATUS_STATES_TAG              1
 #define CIOT_GPIO_STATE_INFO_NUM_TAG             1
@@ -157,13 +169,19 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  cfg,               1)
 #define CIOT_GPIO_STOP_DEFAULT NULL
 #define ciot_gpio_stop_t_cfg_MSGTYPE ciot_gpio_cfg_t
 
+#define CIOT_GPIO_PIN_CFG_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   num,               1) \
+X(a, STATIC,   SINGULAR, UENUM,    mode,              2) \
+X(a, STATIC,   SINGULAR, UENUM,    pull,              3)
+#define CIOT_GPIO_PIN_CFG_CALLBACK NULL
+#define CIOT_GPIO_PIN_CFG_DEFAULT NULL
+
 #define CIOT_GPIO_CFG_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FIXED_LENGTH_BYTES, pins,              1) \
-X(a, STATIC,   SINGULAR, FIXED_LENGTH_BYTES, modes,             2) \
-X(a, STATIC,   SINGULAR, FIXED_LENGTH_BYTES, pull,              3) \
-X(a, STATIC,   SINGULAR, UINT32,   blink_interval,    5)
+X(a, STATIC,   REPEATED, MESSAGE,  pins,              1) \
+X(a, STATIC,   SINGULAR, UINT32,   blink_interval,    2)
 #define CIOT_GPIO_CFG_CALLBACK NULL
 #define CIOT_GPIO_CFG_DEFAULT NULL
+#define ciot_gpio_cfg_t_pins_MSGTYPE ciot_gpio_pin_cfg_t
 
 #define CIOT_GPIO_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, FIXED_LENGTH_BYTES, states,            1)
@@ -199,6 +217,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,request,request),   4)
 #define ciot_gpio_data_t_type_request_MSGTYPE ciot_gpio_req_t
 
 extern const pb_msgdesc_t ciot_gpio_stop_t_msg;
+extern const pb_msgdesc_t ciot_gpio_pin_cfg_t_msg;
 extern const pb_msgdesc_t ciot_gpio_cfg_t_msg;
 extern const pb_msgdesc_t ciot_gpio_status_t_msg;
 extern const pb_msgdesc_t ciot_gpio_state_info_t_msg;
@@ -207,6 +226,7 @@ extern const pb_msgdesc_t ciot_gpio_data_t_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define CIOT_GPIO_STOP_FIELDS &ciot_gpio_stop_t_msg
+#define CIOT_GPIO_PIN_CFG_FIELDS &ciot_gpio_pin_cfg_t_msg
 #define CIOT_GPIO_CFG_FIELDS &ciot_gpio_cfg_t_msg
 #define CIOT_GPIO_STATUS_FIELDS &ciot_gpio_status_t_msg
 #define CIOT_GPIO_STATE_INFO_FIELDS &ciot_gpio_state_info_t_msg
@@ -215,12 +235,13 @@ extern const pb_msgdesc_t ciot_gpio_data_t_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_GPIO_PB_H_MAX_SIZE    CIOT_GPIO_DATA_SIZE
-#define CIOT_GPIO_CFG_SIZE                       60
-#define CIOT_GPIO_DATA_SIZE                      64
-#define CIOT_GPIO_REQ_SIZE                       62
+#define CIOT_GPIO_CFG_SIZE                       198
+#define CIOT_GPIO_DATA_SIZE                      204
+#define CIOT_GPIO_PIN_CFG_SIZE                   10
+#define CIOT_GPIO_REQ_SIZE                       201
 #define CIOT_GPIO_STATE_INFO_SIZE                8
 #define CIOT_GPIO_STATUS_SIZE                    18
-#define CIOT_GPIO_STOP_SIZE                      62
+#define CIOT_GPIO_STOP_SIZE                      201
 
 #ifdef __cplusplus
 } /* extern "C" */

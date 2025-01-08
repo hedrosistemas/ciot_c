@@ -52,12 +52,7 @@ Ciot.BleInfo.sw_mac max_size:6
 Ciot.BleReq.set_mac fixed_length:true
 Ciot.BleReq.set_mac max_size:6
 
-Ciot.GpioCfg.pins fixed_length:true
-Ciot.GpioCfg.pins max_size:16
-Ciot.GpioCfg.modes fixed_length:true
-Ciot.GpioCfg.modes max_size:16
-Ciot.GpioCfg.pull fixed_length:true
-Ciot.GpioCfg.pull max_size:16
+Ciot.GpioCfg.pins max_count:16
 Ciot.GpioStatus.states fixed_length:true
 Ciot.GpioStatus.states max_size:16
 
@@ -91,3 +86,6 @@ Ciot.WifiApInfo.bssid max_size:6
 Ciot.WifiApInfo.ssid max_size:32
 Ciot.WifiCfg.ssid max_size:32
 Ciot.WifiCfg.password max_size:64 
+
+Hg.BleAdv.mac fixed_length:true
+Hg.BleAdv.mac max_size:6

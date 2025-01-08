@@ -49,13 +49,13 @@ ciot_err_t ciot_gpio_task(ciot_gpio_t self)
             base->blinking = false;
             for (size_t i = 0; i < sizeof(base->cfg.pins); i++)
             {
-                if(base->cfg.modes[i] == CIOT_GPIO_MODE_INPUT ||
-                   base->cfg.modes[i] == CIOT_GPIO_MODE_DISABLED)
+                if(base->cfg.pins[i].mode == CIOT_GPIO_MODE_INPUT ||
+                   base->cfg.pins[i].mode == CIOT_GPIO_MODE_DISABLED)
                 {
                     continue;
                 }
 
-                int num = base->cfg.pins[i];
+                int num = base->cfg.pins[i].num;
                 ciot_gpio_state_t state = base->status.states[i];
 
                 if(state == CIOT_GPIO_STATE_LOW || state == CIOT_GPIO_STATE_HIGH)
@@ -172,7 +172,7 @@ ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t 
 {
     CIOT_ERR_NULL_CHECK(self);
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
-    int num = base->cfg.pins[id];
+    int num = base->cfg.pins[id].num;
 
     if(state == CIOT_GPIO_STATE_LOW || state == CIOT_GPIO_STATE_HIGH)
     {
@@ -200,6 +200,6 @@ ciot_gpio_state_t ciot_gpio_get_state(ciot_gpio_t self, uint16_t id)
     CIOT_ERR_NULL_CHECK(self);
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
     CIOT_ERR_NULL_CHECK(base->get_state);
-    int num = base->cfg.pins[id];
+    int num = base->cfg.pins[id].num;
     return base->get_state(num);
 }

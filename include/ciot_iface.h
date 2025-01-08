@@ -17,8 +17,9 @@
 #include "ciot_types.h"
 #include "ciot_err.h"
 #include "ciot_event.h"
-#include "ciot_decoder.h"
 #include "ciot_serializer.h"
+
+typedef struct ciot_decoder *ciot_decoder_t; // Forward declaration.
 
 typedef struct ciot_iface ciot_iface_t;
 typedef ciot_err_t (ciot_iface_process_data_fn)(ciot_iface_t *self, ciot_msg_data_t *req);

@@ -91,3 +91,21 @@ static ciot_err_t ciot_uart_send_data(ciot_iface_t *iface, uint8_t *data, int si
     ciot_uart_t self = (ciot_uart_t)iface;
     return ciot_uart_send_bytes(self, data, size);
 }
+
+ciot_err_t ciot_uart_get_cfg(ciot_uart_t self, ciot_uart_cfg_t *cfg)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
+    ciot_uart_base_t *base = (ciot_uart_base_t*)self;
+    *cfg = base->cfg;
+    return CIOT_ERR_OK;
+}
+
+ciot_err_t ciot_uart_get_status(ciot_uart_t self, ciot_uart_status_t *status)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(status);
+    ciot_uart_base_t *base = (ciot_uart_base_t*)self;
+    *status = base->status;
+    return CIOT_ERR_OK;
+}

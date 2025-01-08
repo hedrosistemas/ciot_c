@@ -90,3 +90,20 @@ static ciot_err_t ciot_ntp_send_data(ciot_iface_t *iface, uint8_t *data, int siz
     CIOT_ERR_NULL_CHECK(data);
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+ciot_err_t ciot_ntp_get_cfg(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
+    ciot_ntp_base_t *base = (ciot_ntp_base_t*)self;
+    *cfg = base->cfg;
+    return CIOT_ERR_OK;
+}
+ciot_err_t ciot_ntp_get_status(ciot_ntp_t self, ciot_ntp_status_t *status)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(status);
+    ciot_ntp_base_t *base = (ciot_ntp_base_t*)self;
+    *status = base->status;
+    return CIOT_ERR_OK;
+}

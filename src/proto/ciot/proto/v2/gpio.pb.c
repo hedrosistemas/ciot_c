@@ -9,6 +9,9 @@
 PB_BIND(CIOT_GPIO_STOP, ciot_gpio_stop_t, AUTO)
 
 
+PB_BIND(CIOT_GPIO_PIN_CFG, ciot_gpio_pin_cfg_t, AUTO)
+
+
 PB_BIND(CIOT_GPIO_CFG, ciot_gpio_cfg_t, AUTO)
 
 

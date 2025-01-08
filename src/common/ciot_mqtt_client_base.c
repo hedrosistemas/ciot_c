@@ -148,3 +148,21 @@ static ciot_err_t ciot_mqtt_client_send_data(ciot_iface_t *iface, uint8_t *data,
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t *)self;
     return ciot_mqtt_client_pub(self, base->cfg.topics.pub, data, size, base->cfg.qos);
 }
+
+ciot_err_t ciot_mqtt_client_get_cfg(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_t *cfg)
+{
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
+    *cfg = base->cfg;
+    return CIOT_ERR_OK;
+}
+
+ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client_status_t *status)
+{
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(status);
+    *status = base->status;
+    return CIOT_ERR_OK;
+}

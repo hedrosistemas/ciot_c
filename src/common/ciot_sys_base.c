@@ -166,3 +166,25 @@ static ciot_err_t ciot_sys_process_cmd(ciot_sys_t self, ciot_sys_req_cmd_t cmd)
     }
     return CIOT_ERR_INVALID_TYPE;
 }
+
+ciot_err_t ciot_sys_get_status(ciot_sys_t self, ciot_sys_status_t *status)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(status);
+    ciot_sys_base_t *base = (ciot_sys_base_t*)self;
+    *status = base->status;
+    return CIOT_ERR_OK;
+}
+
+ciot_err_t ciot_sys_get_info(ciot_sys_t self, ciot_sys_info_t *info)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(info);
+    ciot_sys_base_t *base = (ciot_sys_base_t*)self;
+    uint8_t app_ver[] = { CIOT_CONFIG_APP_VER };
+    memcpy(info->app_ver, app_ver, sizeof(app_ver));
+    strcpy(info->hw_name, CIOT_CONFIG_HARDWARE_NAME);
+    ciot_sys_get_hw(&info->hw_type);
+    ciot_sys_get_features(&info->features);
+    return CIOT_ERR_OK;
+}

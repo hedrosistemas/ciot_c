@@ -14,6 +14,8 @@
 
 #include "ciot_err.h"
 
+typedef struct ciot_iface ciot_iface_t; // Forward declaration.
+
 typedef enum ciot_decoder_state
 {
     CIOT_DECODER_STATE_ERROR=-1,
@@ -25,6 +27,7 @@ typedef enum ciot_decoder_state
 typedef struct ciot_decoder *ciot_decoder_t;
 typedef ciot_err_t (ciot_decoder_decode_fn)(ciot_decoder_t self, uint8_t byte);
 typedef ciot_err_t (ciot_decoder_encode_fn)(ciot_decoder_t self, uint8_t *bytes, int size);
+typedef ciot_err_t (ciot_decoder_send_fn)(ciot_decoder_t self, ciot_iface_t *iface, uint8_t *bytes, int size);
 
 typedef struct ciot_decoder_result
 {
@@ -36,6 +39,7 @@ struct ciot_decoder {
     ciot_decoder_state_t state;
     ciot_decoder_decode_fn *decode;
     ciot_decoder_encode_fn *encode;
+    ciot_decoder_send_fn *send;
     ciot_decoder_result_t result;
 };
 
