@@ -4,7 +4,6 @@ set(CIOT_INCLUDE_DIRS
     ${CIOT_DIR}/include
     ${CIOT_DIR}/src/mg/
     ${CIOT_DIR}/src/proto/nanopb
-    ${CIOT_DIR}/src/proto/protobuf-c
 )
 
 set(CIOT_PB_INCLUDE_DIRS
@@ -17,7 +16,6 @@ set(CIOT_MBED_INCLUDE_DIRS
 
 FILE(GLOB_RECURSE CIOT_COMMON_SRCS ${CIOT_DIR}/src/common/*.c)
 FILE(GLOB_RECURSE CIOT_CORE_SRCS  ${CIOT_DIR}/src/core/*.c)
-FILE(GLOB_RECURSE CIOT_PB_C_SRCS ${CIOT_DIR}/src/proto/protobuf-c/protobuf-c/*.c)
 FILE(GLOB_RECURSE CIOT_NANOPB_C_SRCS ${CIOT_DIR}/src/proto/nanopb/*.c)
 FILE(GLOB_RECURSE CIOT_PB_V1_SRCS ${CIOT_DIR}/src/proto/ciot/proto/v1/*.c)
 FILE(GLOB_RECURSE CIOT_PB_V2_SRCS ${CIOT_DIR}/src/proto/ciot/proto/v2/*.c)
