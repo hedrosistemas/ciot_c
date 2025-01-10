@@ -21,6 +21,7 @@ struct ciot_ota
 ciot_ota_t ciot_ota_new(void *handle)
 {
     ciot_ota_t self = calloc(1, sizeof(struct ciot_ota));
+    ciot_ota_init(self);
     return self;
 }
 
