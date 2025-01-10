@@ -61,7 +61,6 @@ typedef struct ciot_cfg
 {
     ciot_ifaces_t ifaces;
     ciot_storage_t storage;
-    ciot_serializer_t serializer;
 } ciot_cfg_t;
 
 typedef struct ciot_starter
