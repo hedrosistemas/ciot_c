@@ -20,11 +20,11 @@ typedef enum ciot_log_level {
 } ciot_log_level_t;
 
 /* Struct definitions */
-typedef struct ciot_log {
+typedef struct ciot_log_data {
     ciot_log_level_t level;
-    char tag[16];
-    char message[128];
-} ciot_log_t;
+    pb_callback_t tag;
+    pb_callback_t message;
+} ciot_log_data_t;
 
 
 #ifdef __cplusplus
@@ -42,34 +42,33 @@ extern "C" {
 #define CIOT_LOG_LEVEL_LOG_LEVEL_VERBOSE CIOT_LOG_LEVEL_VERBOSE
 #define CIOT_LOG_LEVEL_LOG_LEVEL_DEBUG CIOT_LOG_LEVEL_DEBUG
 
-#define ciot_log_t_level_ENUMTYPE ciot_log_level_t
+#define ciot_log_data_t_level_ENUMTYPE ciot_log_level_t
 
 
 /* Initializer values for message structs */
-#define CIOT_LOG_INIT_DEFAULT                    {_CIOT_LOG_LEVEL_MIN, "", ""}
-#define CIOT_LOG_INIT_ZERO                       {_CIOT_LOG_LEVEL_MIN, "", ""}
+#define CIOT_LOG_DATA_INIT_DEFAULT               {_CIOT_LOG_LEVEL_MIN, {{NULL}, NULL}, {{NULL}, NULL}}
+#define CIOT_LOG_DATA_INIT_ZERO                  {_CIOT_LOG_LEVEL_MIN, {{NULL}, NULL}, {{NULL}, NULL}}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define CIOT_LOG_LEVEL_TAG                       1
-#define CIOT_LOG_TAG_TAG                         2
-#define CIOT_LOG_MESSAGE_TAG                     3
+#define CIOT_LOG_DATA_LEVEL_TAG                  1
+#define CIOT_LOG_DATA_TAG_TAG                    2
+#define CIOT_LOG_DATA_MESSAGE_TAG                3
 
 /* Struct field encoding specification for nanopb */
-#define CIOT_LOG_FIELDLIST(X, a) \
+#define CIOT_LOG_DATA_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    level,             1) \
-X(a, STATIC,   SINGULAR, STRING,   tag,               2) \
-X(a, STATIC,   SINGULAR, STRING,   message,           3)
-#define CIOT_LOG_CALLBACK NULL
-#define CIOT_LOG_DEFAULT NULL
+X(a, CALLBACK, SINGULAR, STRING,   tag,               2) \
+X(a, CALLBACK, SINGULAR, STRING,   message,           3)
+#define CIOT_LOG_DATA_CALLBACK pb_default_field_callback
+#define CIOT_LOG_DATA_DEFAULT NULL
 
-extern const pb_msgdesc_t ciot_log_t_msg;
+extern const pb_msgdesc_t ciot_log_data_t_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
-#define CIOT_LOG_FIELDS &ciot_log_t_msg
+#define CIOT_LOG_DATA_FIELDS &ciot_log_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-#define CIOT_CIOT_PROTO_V2_LOGGER_PB_H_MAX_SIZE  CIOT_LOG_SIZE
-#define CIOT_LOG_SIZE                            149
+/* Ciot_LogData_size depends on runtime parameters */
 
 #ifdef __cplusplus
 } /* extern "C" */
