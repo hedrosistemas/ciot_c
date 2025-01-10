@@ -15,6 +15,9 @@
 #include "ciot/proto/v2/ciot.pb.h"
 #include "ciot/proto/v2/errors.pb.h"
 #include "ciot/proto/v2/event.pb.h"
+#include "ciot/proto/v2/ble.pb.h"
+#include "ciot/proto/v2/ble_adv.pb.h"
+#include "ciot/proto/v2/ble_scn.pb.h"
 #include "ciot/proto/v2/http_server.pb.h"
 #include "ciot/proto/v2/http_client.pb.h"
 #include "ciot/proto/v2/mqtt_client.pb.h"
@@ -27,5 +30,6 @@
 #include "ciot/proto/v2/ble.pb.h"
 #include "ciot/proto/v2/tcp.pb.h"
 #include "ciot/proto/v2/wifi.pb.h"
+#include "ciot/proto/v2/logger.pb.h"
 
 #endif  //!__CIOT_TYPES__H__
