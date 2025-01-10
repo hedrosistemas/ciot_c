@@ -217,8 +217,8 @@ const char* ciot_iface_type_to_str(ciot_iface_type_t iface_type)
 {
     switch (iface_type)
     {
-        case CIOT_IFACE_TYPE_UNKNOWN:
-            return "UNKNOWN";
+        case CIOT_IFACE_TYPE_UNDEFINED:
+            return "UNDEFINED";
         case CIOT_IFACE_TYPE_CUSTOM:
             return "CUSTOM";
         case CIOT_IFACE_TYPE_CIOT:
@@ -266,8 +266,10 @@ const char* ciot_iface_type_to_str(ciot_iface_type_t iface_type)
         case CIOT_IFACE_TYPE_IOTA_SERVER:
             return "IOTA_SERVER";
         break;
+        case CIOT_IFACE_TYPE_LOG:
+            return "LOG";
         default:
-            return "DEFAULT";
+            return "UNKNOWN";
         break;
     }
 }
