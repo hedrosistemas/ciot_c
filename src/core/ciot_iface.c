@@ -313,23 +313,26 @@ bool ciot_iface_is_equal(ciot_iface_info_t *self, ciot_iface_info_t *other)
 
 static ciot_err_t ciot_iface_send(ciot_iface_t *self, ciot_msg_t *msg)
 {
+    uint32_t size = 0;
     uint8_t buf[CIOT_CONFIG_MSG_SIZE];
 
     if(self->serializer != NULL)
     {
-        uint8_t size = self->serializer->to_bytes(buf, sizeof(buf), msg);
-        if(self->decoder != NULL)
-        {
-            CIOT_ERR_RETURN(self->decoder->encode(self->decoder, buf, size));
-            return self->send_data(self, self->decoder->result.buf, self->decoder->result.size);
-        }
-        else
-        {
-            return self->send_data(self, buf, size);
-        }
+        size = self->serializer->to_bytes(buf, sizeof(buf), msg);
+    }
+    else
+    {
+        size = ciot_serializer_to_bytes(buf, sizeof(buf), msg, CIOT_MSG_FIELDS);
     }
 
-    return CIOT_ERR_SERIALIZER_MISSING;
+    if(self->decoder != NULL)
+    {
+        return self->decoder->send(self->decoder, self, buf, size);
+    }
+    else
+    {
+        return self->send_data(self, buf, size);
+    }
 }
 
 static ciot_err_t ciot_iface_process_data_result(ciot_iface_t *self, ciot_iface_t *sender, ciot_msg_t *msg, ciot_err_t error)
