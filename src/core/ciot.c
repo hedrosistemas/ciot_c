@@ -329,7 +329,7 @@ static ciot_err_t ciot_busy_task(ciot_t self)
             {
                 CIOT_LOGE(TAG, "Error. %d iface is null.", id);
                 event->type = CIOT_EVENT_TYPE_ERROR;
-                ciot_iface_send_error(sender, CIOT_IFACE_TYPE_UNKNOWN, id, &event->msg, CIOT_ERR_NULL_ARG);
+                ciot_iface_send_error(sender, CIOT_IFACE_TYPE_UNDEFINED, id, &event->msg, CIOT_ERR_NULL_ARG);
             }
         }
     }
@@ -384,7 +384,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
     ciot_t self = (ciot_t)event_args;
     ciot_receiver_t *receiver = &self->receiver;
 
-    CIOT_LOGD(TAG, "%s(%lu) evt: %s", ciot_iface_to_str(sender), sender->info.id, ciot_iface_event_to_str(event));
+    CIOT_LOGD(TAG, "%s(%lu): %s", ciot_iface_to_str(sender), sender->info.id, ciot_iface_event_to_str(event));
 
     if ((event->type == CIOT_EVENT_TYPE_DATA || 
          event->type == CIOT_EVENT_TYPE_INTERNAL ||
@@ -414,24 +414,18 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
         CIOT_ERR_RETURN(ciot_bytes_received(self, sender, event->raw.bytes, event->raw.size));
         self->status.state = CIOT_STATE_BUSY;
 
-        // if(receiver->event.msg->type == CIOT__MSG_TYPE__MSG_TYPE_LOG)
-        // {
-        //     ciot_log_t *log = receiver->event.msg->data->log;
-        //     if(log->level == CIOT_LOG_LEVEL_INFO) CIOT_LOGI(TAG, "[%s] %s", log->tag, log->message);
-        //     if(log->level == CIOT_LOG_LEVEL_WARNING) CIOT_LOGW(TAG, "[%s] %s", log->tag, log->message);
-        //     if(log->level == CIOT_LOG_LEVEL_ERROR) CIOT_LOGE(TAG, "[%s] %s", log->tag, log->message);
-        //     return CIOT_ERR_OK;
-        // }
+        if(receiver->event.msg.data.which_type == CIOT_MSG_DATA_LOG_TAG)
+        {
+            ciot_log_data_t *log = &receiver->event.msg.data.log;
+            if(log->level == CIOT_LOG_LEVEL_INFO) CIOT_LOGI(TAG, "[%s] %s", log->tag, log->message);
+            if(log->level == CIOT_LOG_LEVEL_WARNING) CIOT_LOGW(TAG, "[%s] %s", log->tag, log->message);
+            if(log->level == CIOT_LOG_LEVEL_ERROR) CIOT_LOGE(TAG, "[%s] %s", log->tag, log->message);
+        }
 
-        // if(receiver->event.msg.iface.type == CIOT_IFACE_TYPE_CUSTOM && self->iface.event_handler != NULL)
-        // {
-        //     self->iface.event_handler(sender, &receiver->event, self->iface.event_args);
-        // }
-        // else
-        // {
-        //     CIOT_LOGI(TAG, "CIOT_STATE_BUSY");
-        //     self->status.state = CIOT_STATE_BUSY;
-        // }
+        if(receiver->event.msg.iface.type == CIOT_IFACE_TYPE_CUSTOM && self->iface.event_handler != NULL)
+        {
+            self->iface.event_handler(sender, &receiver->event, self->iface.event_args);
+        }
     }
     else if(self->status.state == CIOT_STATE_STARTED)
     {
@@ -456,7 +450,7 @@ static ciot_err_t ciot_bytes_received(ciot_t self, ciot_iface_t *sender, uint8_t
     }
     else
     {
-        CIOT_LOGE(TAG, "Serializer missing");
-        return CIOT_ERR_SERIALIZER_MISSING;
+        ciot_serializer_from_bytes(bytes, size, &self->receiver.event.msg, CIOT_MSG_FIELDS);
+        return CIOT_ERR_OK;
     }
 }
