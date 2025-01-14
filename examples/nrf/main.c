@@ -13,34 +13,6 @@
 
 device_t self;
 
-ciot_msg_data_t http_server_cfg = {
-    .which_type = CIOT_MSG_DATA_HTTP_SERVER_TAG,
-    .http_server = {
-        .which_type = CIOT_HTTP_SERVER_DATA_CONFIG_TAG,
-        .config = {
-            .address = "http://127.0.0.1",
-            .route = "/v1/device",
-            .port = 5050,
-        },
-    },
-};
-
-ciot_msg_data_t mqtt_client_cfg = {
-    .which_type = CIOT_MSG_DATA_MQTT_CLIENT_TAG,
-    .mqtt_client = {
-        .which_type = CIOT_MQTT_CLIENT_DATA_CONFIG_TAG,
-        .config = {
-            .client_id = "ciot/device/256848",
-            .url = "mqtt://test.mosquitto.org:1883",
-            .has_topics = true,
-            .topics = {
-                .pub = "ciot/device/pub",
-                .sub = "ciot/device/sub",
-            },
-        },
-    },
-};
-
 ciot_msg_data_t uart_cfg = {
     .which_type = CIOT_MSG_DATA_UART_TAG,
     .uart = {
@@ -54,6 +26,7 @@ ciot_msg_data_t uart_cfg = {
 
 static void device_start()
 {
+
     self.ifaces.ciot = ciot_new();
     self.ifaces.list[DEVICE_IFACE_ID_CIOT] = (ciot_iface_t *)self.ifaces.ciot;
     self.ifaces.cfgs[DEVICE_IFACE_ID_CIOT] = NULL;
@@ -61,14 +34,6 @@ static void device_start()
     self.ifaces.sys = ciot_sys_new(CIOT_HANDLE);
     self.ifaces.list[DEVICE_IFACE_ID_SYS] = (ciot_iface_t *)self.ifaces.sys;
     self.ifaces.cfgs[DEVICE_IFACE_ID_SYS] = NULL;
-
-    self.ifaces.http_server = ciot_http_server_new(CIOT_HANDLE);
-    self.ifaces.list[DEVICE_IFACE_ID_HTTP_SERVER] = (ciot_iface_t *)self.ifaces.http_server;
-    self.ifaces.cfgs[DEVICE_IFACE_ID_HTTP_SERVER] = &http_server_cfg;
-
-    self.ifaces.mqtt_client = ciot_mqtt_client_new(CIOT_HANDLE);
-    self.ifaces.list[DEVICE_IFACE_ID_MQTT_CLIENT] = (ciot_iface_t *)self.ifaces.mqtt_client;
-    self.ifaces.cfgs[DEVICE_IFACE_ID_MQTT_CLIENT] = &mqtt_client_cfg;
 
     self.ifaces.uart = ciot_uart_new(CIOT_HANDLE);
     self.ifaces.list[DEVICE_IFACE_ID_UART] = (ciot_iface_t *)self.ifaces.uart;
