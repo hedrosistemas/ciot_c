@@ -76,9 +76,8 @@ static ciot_err_t ciot_ntp_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->ntp.which_type = CIOT_NTP_DATA_STATUS_TAG;
         data->ntp.status = self->status;
         break;
-    case CIOT_DATA_TYPE_INFO:
-        return CIOT_ERR_NOT_FOUND;
     default:
+        return CIOT_ERR_NOT_FOUND;
     }
 
     return CIOT_ERR_OK;

@@ -101,6 +101,7 @@ static ciot_err_t ciot_sys_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->sys.info = self->info;
         break;
     default:
+        break;
     }
 
     return CIOT_ERR_OK;
@@ -180,7 +181,6 @@ ciot_err_t ciot_sys_get_info(ciot_sys_t self, ciot_sys_info_t *info)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(info);
-    ciot_sys_base_t *base = (ciot_sys_base_t*)self;
     uint8_t app_ver[] = { CIOT_CONFIG_APP_VER };
     memcpy(info->app_ver, app_ver, sizeof(app_ver));
     strcpy(info->hw_name, CIOT_CONFIG_HARDWARE_NAME);

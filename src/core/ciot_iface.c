@@ -109,7 +109,6 @@ ciot_err_t ciot_iface_send_event_type(ciot_iface_t *self, ciot_event_type_t even
             }
         }
     };
-    int s = sizeof(event);
     CIOT_ERR_RETURN(self->get_data(self, &event.msg.data));
     return ciot_iface_send_event(self, &event);
 }

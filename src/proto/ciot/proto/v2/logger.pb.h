@@ -22,8 +22,8 @@ typedef enum ciot_log_level {
 /* Struct definitions */
 typedef struct ciot_log_data {
     ciot_log_level_t level;
-    pb_callback_t tag;
-    pb_callback_t message;
+    char tag[16];
+    char message[128];
 } ciot_log_data_t;
 
 
@@ -46,8 +46,8 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define CIOT_LOG_DATA_INIT_DEFAULT               {_CIOT_LOG_LEVEL_MIN, {{NULL}, NULL}, {{NULL}, NULL}}
-#define CIOT_LOG_DATA_INIT_ZERO                  {_CIOT_LOG_LEVEL_MIN, {{NULL}, NULL}, {{NULL}, NULL}}
+#define CIOT_LOG_DATA_INIT_DEFAULT               {_CIOT_LOG_LEVEL_MIN, "", ""}
+#define CIOT_LOG_DATA_INIT_ZERO                  {_CIOT_LOG_LEVEL_MIN, "", ""}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define CIOT_LOG_DATA_LEVEL_TAG                  1
@@ -57,9 +57,9 @@ extern "C" {
 /* Struct field encoding specification for nanopb */
 #define CIOT_LOG_DATA_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    level,             1) \
-X(a, CALLBACK, SINGULAR, STRING,   tag,               2) \
-X(a, CALLBACK, SINGULAR, STRING,   message,           3)
-#define CIOT_LOG_DATA_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, STRING,   tag,               2) \
+X(a, STATIC,   SINGULAR, STRING,   message,           3)
+#define CIOT_LOG_DATA_CALLBACK NULL
 #define CIOT_LOG_DATA_DEFAULT NULL
 
 extern const pb_msgdesc_t ciot_log_data_t_msg;
@@ -68,7 +68,8 @@ extern const pb_msgdesc_t ciot_log_data_t_msg;
 #define CIOT_LOG_DATA_FIELDS &ciot_log_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-/* Ciot_LogData_size depends on runtime parameters */
+#define CIOT_CIOT_PROTO_V2_LOGGER_PB_H_MAX_SIZE  CIOT_LOG_DATA_SIZE
+#define CIOT_LOG_DATA_SIZE                       149
 
 #ifdef __cplusplus
 } /* extern "C" */

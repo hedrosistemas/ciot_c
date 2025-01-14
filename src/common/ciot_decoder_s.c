@@ -141,7 +141,6 @@ static ciot_err_t ciot_decoder_s_send(ciot_decoder_t base, ciot_iface_t *iface, 
     CIOT_ERR_NULL_CHECK(base);
     CIOT_ERR_NULL_CHECK(bytes);
     CIOT_ERR_NULL_CHECK(iface);
-    ciot_decoder_s_t self = (ciot_decoder_s_t)base;
     iface->send_data(iface, &start_ch, 1);
     iface->send_data(iface, (uint8_t*)&size, 2);
     iface->send_data(iface, bytes, size);

@@ -81,9 +81,8 @@ static ciot_err_t ciot_ble_scn_get_data(ciot_iface_t *iface, ciot_msg_data_t *da
         data->ble_scn.which_type = CIOT_BLE_SCN_DATA_STATUS_TAG;
         data->ble_scn.status = self->status;
         break;
-    case CIOT_DATA_TYPE_INFO:
-        return CIOT_ERR_NOT_FOUND;
     default:
+        return CIOT_ERR_NOT_FOUND;
     }
 
     return CIOT_ERR_OK;
@@ -127,13 +126,17 @@ ciot_err_t ciot_ble_scn_base_task(ciot_ble_scn_t self)
     ciot_ble_scn_adv_fifo_t *adv_fifo = &base->adv_fifo;
 	if(base->status.fifo_len > 0)
 	{
-		if(adv_fifo->list[adv_fifo->rp].info->rssi != 0)
+		if(adv_fifo->list[adv_fifo->rp].info.rssi != 0)
 		{
-			ciot_iface_event_t iface_event = {0};
-            iface_event.type = CIOT_IFACE_EVENT_DATA;
-            iface_event.data = (uint8_t*)&adv_fifo->list[adv_fifo->rp];
-            ciot_iface_send_event(&base->iface, &iface_event);
-			adv_fifo->list[adv_fifo->rp].info->rssi = 0;
+			// ciot_iface_event_t event = {0};
+            // event.type = CIOT_IFACE_EVENT_DATA;
+            // event.data = (uint8_t*)&adv_fifo->list[adv_fifo->rp];
+            ciot_event_t event = { 0 };
+            event.type = CIOT_EVENT_TYPE_DATA,
+            memcpy(event.raw.bytes, (uint8_t*)&adv_fifo->list[adv_fifo->rp], sizeof(ciot_ble_scn_adv_t));
+            event.raw.size = sizeof(ciot_ble_scn_adv_t);
+            ciot_iface_send_event(&base->iface, &event);
+			adv_fifo->list[adv_fifo->rp].info.rssi = 0;
 			adv_fifo->rp++;
 			base->status.fifo_len--;
 			if(adv_fifo->rp >= CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE)
@@ -156,13 +159,9 @@ void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv
     ciot_ble_scn_base_t *base = (ciot_ble_scn_base_t*)self;
 #ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
     ciot_ble_scn_adv_fifo_t *adv_fifo = &base->adv_fifo;
-    if(adv_fifo->list[adv_fifo->wp].info->rssi == 0)
+    if(adv_fifo->list[adv_fifo->wp].info.rssi == 0)
     {
-        adv_fifo->list[adv_fifo->wp].info->rssi = adv->info->rssi;
-        memcpy(adv_fifo->list[adv_fifo->wp].info->mac.data, adv->info->mac.data, adv->info->mac.len);
-        adv_fifo->list[adv_fifo->wp].info->mac.len = adv->info->mac.len;
-        memcpy(adv_fifo->list[adv_fifo->wp].payload.data, adv->payload.data, adv->payload.len);
-        adv_fifo->list[adv_fifo->wp].payload.len = adv->payload.len;
+        adv_fifo->list[adv_fifo->wp] = *adv;
         adv_fifo->wp++;
         base->status.fifo_len++;
         if(base->status.fifo_len > base->status.fifo_max)
@@ -178,21 +177,21 @@ void ciot_ble_scn_handle_adv_report(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv
     {
         adv_fifo->rp = adv_fifo->wp;
         base->status.advs_losted++;
-        base->status.err_code = CIOT_ERR_DATA_LOSS;
         if(base->status.fifo_len == 0)
         {
             base->status.err_code = CIOT_ERR_INVALID_SIZE;
             for (size_t i = 0; i < BOARD_BLE_SCN_ADV_FIFO_SIZE; i++)
             {
-                if(adv_fifo->list[i].info->rssi != 0) base->status.fifo_len++;
+                if(adv_fifo->list[i].info.rssi != 0) base->status.fifo_len++;
             }
         }
     }
 #else
-    // ciot_event_t event = {0};
-    // event.type = CIOT_EVENT_TYPE_DATA;
-    // event.data = (uint8_t*)adv;
-    // ciot_iface_send_event(&base->iface, &event);
+    ciot_event_t event = {0};
+    event.type = CIOT_EVENT_TYPE_DATA;
+    event.raw.size = sizeof(*adv);
+    memcpy(event.raw.bytes, adv, sizeof(*adv));
+    ciot_iface_send_event(&base->iface, &event);
 #endif
 }
 
@@ -202,6 +201,8 @@ ciot_err_t ciot_ble_scn_set_filter(ciot_ble_scn_t self, ciot_ble_scn_filter_fn *
     CIOT_ERR_NULL_CHECK(self);
 	CIOT_ERR_NULL_CHECK(filter);
     ciot_ble_scn_base_t *base = (ciot_ble_scn_base_t*)self;
+    base->filter.handler = filter;
+    base->filter.args = args;
     // base->filter.handler = filter;
     // base->filter.args = args;
     return CIOT_ERR_OK;
@@ -210,14 +211,14 @@ ciot_err_t ciot_ble_scn_set_filter(ciot_ble_scn_t self, ciot_ble_scn_filter_fn *
 #if CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
 static ciot_err_t ciot_ble_scn_base_init_fifo(ciot_ble_scn_adv_fifo_t *adv_fifo)
 {
-    for (size_t i = 0; i < CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE; i++)
-    {
-        ciot__ble_scn_adv__init(&adv_fifo->list[i]);
-        ciot__ble_scn_adv_info__init(&adv_fifo->data.infos[i]);
-        adv_fifo->list[i].info = &adv_fifo->data.infos[i];
-        adv_fifo->list[i].info->mac.data = adv_fifo->data.macs[i];
-        adv_fifo->list[i].payload.data = adv_fifo->data.advs[i];
-    }
+    // for (size_t i = 0; i < CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE; i++)
+    // {
+    //     ciot__ble_scn_adv__init(&adv_fifo->list[i]);
+    //     ciot__ble_scn_adv_info__init(&adv_fifo->data.infos[i]);
+    //     adv_fifo->list[i].info = &adv_fifo->data.infos[i];
+    //     adv_fifo->list[i].info->mac.data = adv_fifo->data.macs[i];
+    //     adv_fifo->list[i].payload.data = adv_fifo->data.advs[i];
+    // }
     return CIOT_ERR_OK;
 }
 #endif

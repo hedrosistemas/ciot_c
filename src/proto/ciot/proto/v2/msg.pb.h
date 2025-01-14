@@ -23,6 +23,7 @@
 #include "ciot/proto/v2/tcp.pb.h"
 #include "ciot/proto/v2/wifi.pb.h"
 #include "ciot/proto/v2/logger.pb.h"
+#include "ciot/proto/v2/usb.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -65,6 +66,7 @@ typedef struct ciot_msg_data {
         ciot_tcp_data_t eth; /* Ethernet data. */
         ciot_wifi_data_t wifi; /* WiFi data. */
         ciot_log_data_t log; /* Log data. */
+        ciot_usb_data_t usb; /* USB data. */
     };
 } ciot_msg_data_t;
 
@@ -128,6 +130,7 @@ extern "C" {
 #define CIOT_MSG_DATA_ETH_TAG                    17
 #define CIOT_MSG_DATA_WIFI_TAG                   18
 #define CIOT_MSG_DATA_LOG_TAG                    19
+#define CIOT_MSG_DATA_USB_TAG                    20
 #define CIOT_MSG_ID_TAG                          1
 #define CIOT_MSG_IFACE_TAG                       2
 #define CIOT_MSG_ERROR_TAG                       3
@@ -167,7 +170,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,ota,ota),   15) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,storage,storage),  16) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,eth,eth),   17) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,wifi,wifi),  18) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,log,log),   19)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,log,log),   19) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,usb,usb),   20)
 #define CIOT_MSG_DATA_CALLBACK NULL
 #define CIOT_MSG_DATA_DEFAULT NULL
 #define ciot_msg_data_t_type_get_data_MSGTYPE ciot_get_data_t
@@ -188,6 +192,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,log,log),   19)
 #define ciot_msg_data_t_type_eth_MSGTYPE ciot_tcp_data_t
 #define ciot_msg_data_t_type_wifi_MSGTYPE ciot_wifi_data_t
 #define ciot_msg_data_t_type_log_MSGTYPE ciot_log_data_t
+#define ciot_msg_data_t_type_usb_MSGTYPE ciot_usb_data_t
 
 extern const pb_msgdesc_t ciot_get_data_t_msg;
 extern const pb_msgdesc_t ciot_msg_t_msg;
@@ -199,15 +204,10 @@ extern const pb_msgdesc_t ciot_msg_data_t_msg;
 #define CIOT_MSG_DATA_FIELDS &ciot_msg_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-#if defined(Ciot_LogData_size)
-union Ciot_MsgData_type_size_union {char f19[(7 + Ciot_LogData_size)]; char f0[262];};
-#endif
-#define CIOT_GET_DATA_SIZE                       2
-#if defined(Ciot_LogData_size)
 #define CIOT_CIOT_PROTO_V2_MSG_PB_H_MAX_SIZE     CIOT_MSG_SIZE
-#define CIOT_MSG_DATA_SIZE                       (0 + sizeof(union Ciot_MsgData_type_size_union))
-#define CIOT_MSG_SIZE                            (24 + sizeof(union Ciot_MsgData_type_size_union))
-#endif
+#define CIOT_GET_DATA_SIZE                       2
+#define CIOT_MSG_DATA_SIZE                       262
+#define CIOT_MSG_SIZE                            283
 
 #ifdef __cplusplus
 } /* extern "C" */

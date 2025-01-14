@@ -12,7 +12,7 @@
 /* Enum definitions */
 /* Enum representing different interface types. */
 typedef enum ciot_iface_type {
-    CIOT_IFACE_TYPE_UNKNOWN = 0, /* Unknown interface type. */
+    CIOT_IFACE_TYPE_UNDEFINED = 0, /* Undefined interface type. */
     CIOT_IFACE_TYPE_CUSTOM = 1, /* Custom interface type. */
     CIOT_IFACE_TYPE_CIOT = 2, /* CIOT interface type. */
     CIOT_IFACE_TYPE_STORAGE = 3, /* Storage interface type. */
@@ -68,10 +68,10 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
-#define _CIOT_IFACE_TYPE_MIN CIOT_IFACE_TYPE_UNKNOWN
+#define _CIOT_IFACE_TYPE_MIN CIOT_IFACE_TYPE_UNDEFINED
 #define _CIOT_IFACE_TYPE_MAX CIOT_IFACE_TYPE_LOG
 #define _CIOT_IFACE_TYPE_ARRAYSIZE ((ciot_iface_type_t)(CIOT_IFACE_TYPE_LOG+1))
-#define CIOT_IFACE_TYPE_IFACE_TYPE_UNKNOWN CIOT_IFACE_TYPE_UNKNOWN
+#define CIOT_IFACE_TYPE_IFACE_TYPE_UNDEFINED CIOT_IFACE_TYPE_UNDEFINED
 #define CIOT_IFACE_TYPE_IFACE_TYPE_CUSTOM CIOT_IFACE_TYPE_CUSTOM
 #define CIOT_IFACE_TYPE_IFACE_TYPE_CIOT CIOT_IFACE_TYPE_CIOT
 #define CIOT_IFACE_TYPE_IFACE_TYPE_STORAGE CIOT_IFACE_TYPE_STORAGE

@@ -106,6 +106,6 @@ const char *ciot_err_to_message(ciot_err_t error)
     case CIOT_ERR_SMALL_RAW:
         return "ERR_SMALL_RAW";
     default:
-        break;
+        return "ERR_UNSPECIFIED";
     }
 }

@@ -146,7 +146,7 @@ ciot_err_t ciot_load_cfg(ciot_t self, ciot_iface_info_t *iface, ciot_msg_data_t 
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(self->storage);
     char filename[16];
-    sprintf(filename, CIOT_IFACE_CFG_FILENAME, iface->id);
+    sprintf(filename, CIOT_IFACE_CFG_FILENAME, (int)iface->id);
     return ciot_storage_load_data(self->storage, filename, cfg);
 }
 

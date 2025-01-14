@@ -84,13 +84,8 @@ extern const pb_msgdesc_t ciot_event_t_msg;
 #define CIOT_EVENT_FIELDS &ciot_event_t_msg
 
 /* Maximum encoded size of messages (where known) */
-#if defined(Ciot_Msg_size)
-union Ciot_Event_data_size_union {char f2[(6 + Ciot_Msg_size)]; char f0[131];};
-#endif
-#if defined(Ciot_Msg_size)
 #define CIOT_CIOT_PROTO_V2_EVENT_PB_H_MAX_SIZE   CIOT_EVENT_SIZE
-#define CIOT_EVENT_SIZE                          (2 + sizeof(union Ciot_Event_data_size_union))
-#endif
+#define CIOT_EVENT_SIZE                          288
 
 #ifdef __cplusplus
 } /* extern "C" */

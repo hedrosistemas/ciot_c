@@ -75,9 +75,8 @@ static ciot_err_t ciot_eth_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->eth.which_type = CIOT_TCP_DATA_STATUS_TAG;
         data->eth.status = base->status;
         break;
-    case CIOT_DATA_TYPE_INFO:
-        return CIOT_ERR_NOT_FOUND;
     default:
+        return CIOT_ERR_NOT_FOUND;
     }
 
     return CIOT_ERR_OK;

@@ -74,6 +74,7 @@ static ciot_err_t ciot_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->ciot.info = self->info;
         break;
     default:
+        break;
     }
 
     return CIOT_ERR_OK;

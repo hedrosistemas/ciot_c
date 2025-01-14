@@ -87,5 +87,9 @@ Ciot.WifiApInfo.ssid max_size:32
 Ciot.WifiCfg.ssid max_size:32
 Ciot.WifiCfg.password max_size:64 
 
-Hg.BleAdv.mac fixed_length:true
-Hg.BleAdv.mac max_size:6
+Ciot.BleScnAdvInfo.mac fixed_length:true
+Ciot.BleScnAdvInfo.mac max_size:6
+Ciot.BleScnAdv.payload max_size:38
+
+Ciot.LogData.tag max_size:16
+Ciot.LogData.message max_size:128

@@ -76,9 +76,8 @@ static ciot_err_t ciot_ota_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->ota.which_type = CIOT_OTA_DATA_STATUS_TAG;
         data->ota.status = self->status;
         break;
-    case CIOT_DATA_TYPE_INFO:
-        return CIOT_ERR_NOT_FOUND;
     default:
+        return CIOT_ERR_NOT_FOUND;
     }
 
     return CIOT_ERR_OK;

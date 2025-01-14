@@ -134,9 +134,8 @@ static ciot_err_t ciot_mqtt_client_get_data(ciot_iface_t *iface, ciot_msg_data_t
         data->mqtt_client.which_type = CIOT_MQTT_CLIENT_DATA_STATUS_TAG;
         data->mqtt_client.status = self->status;
         break;
-    case CIOT_DATA_TYPE_INFO:
-        return CIOT_ERR_NOT_FOUND;
     default:
+        return CIOT_ERR_NOT_FOUND;
     }
 
     return CIOT_ERR_OK;

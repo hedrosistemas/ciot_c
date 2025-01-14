@@ -75,9 +75,8 @@ static ciot_err_t ciot_http_server_get_data(ciot_iface_t *iface, ciot_msg_data_t
         data->http_server.which_type = CIOT_HTTP_SERVER_DATA_STATUS_TAG;
         data->http_server.status = self->status;
         break;
-    case CIOT_DATA_TYPE_INFO:
-        return CIOT_ERR_NOT_FOUND;
     default:
+        return CIOT_ERR_NOT_FOUND;
     }
 
     return CIOT_ERR_OK;

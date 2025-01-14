@@ -15,7 +15,7 @@
 #include "ciot_config.h"
 #include "ciot_timer.h"
 
-static const char *TAG = "ciot_gpio";
+// static const char *TAG = "ciot_gpio";
 
 static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_gpio_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
@@ -47,7 +47,7 @@ ciot_err_t ciot_gpio_task(ciot_gpio_t self)
         if(base->blinking)
         {
             base->blinking = false;
-            for (size_t i = 0; i < sizeof(base->cfg.pins); i++)
+            for (size_t i = 0; i < base->cfg.pins_count; i++)
             {
                 if(base->cfg.pins[i].mode == CIOT_GPIO_MODE_INPUT ||
                    base->cfg.pins[i].mode == CIOT_GPIO_MODE_DISABLED)
@@ -121,9 +121,8 @@ static ciot_err_t ciot_gpio_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->gpio.which_type = CIOT_GPIO_DATA_STATUS_TAG;
         data->gpio.status = self->status;
         break;
-    case CIOT_DATA_TYPE_INFO:
-        return CIOT_ERR_NOT_FOUND;
     default:
+        return CIOT_ERR_NOT_FOUND;
     }
 
     return CIOT_ERR_OK;

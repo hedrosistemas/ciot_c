@@ -18,8 +18,6 @@
 
 ciot_err_t ciot_tcp_init(ciot_tcp_t self)
 {
-    ciot_tcp_base_t *base = (ciot_tcp_base_t*)self;
-
     // ciot__tcp_data__init(&base->data);
     // ciot__tcp_cfg__init(&base->cfg);
     // ciot__tcp_status__init(&base->status);
