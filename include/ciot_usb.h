@@ -38,7 +38,7 @@ ciot_err_t ciot_usb_process_req(ciot_usb_t self, ciot_usb_req_t *req);
 ciot_err_t ciot_usb_get_cfg(ciot_usb_t self, ciot_usb_cfg_t *cfg);
 ciot_err_t ciot_usb_get_status(ciot_usb_t self, ciot_usb_status_t *status);
 ciot_err_t ciot_usb_task(ciot_usb_t self);
-ciot_err_t ciot_usb_send_bytes(ciot_iface_t *iface, uint8_t *bytes, int size);
+ciot_err_t ciot_usb_send_bytes(ciot_usb_t self, uint8_t *bytes, int size);
 
 #ifdef __cplusplus
 }

@@ -21,6 +21,10 @@ extern "C" {
 
 typedef struct ciot_http_server *ciot_http_server_t;
 
+#ifndef CIOT_CONFIG_URL_SIZE
+#define CIOT_CONFIG_URL_SIZE 48
+#endif
+
 typedef struct ciot_http_server_event_data
 {
     char uri[CIOT_CONFIG_URL_SIZE];

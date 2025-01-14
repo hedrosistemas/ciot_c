@@ -23,16 +23,9 @@ typedef struct ciot_ble_scn *ciot_ble_scn_t;
 typedef bool (ciot_ble_scn_filter_fn)(ciot_ble_scn_t self, ciot_ble_scn_adv_t *adv, void *args);
 
 #ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
-typedef struct ciot_ble_scn_adv_fifo_data
-{
-    uint8_t macs[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE][6];
-    uint8_t advs[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE][31];
-    ciot_ble_scn_adv_info_t infos[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE];
-} ciot_ble_scn_adv_fifo_data_t;
 
 typedef struct ciot_ble_scn_adv_fifo
 {
-    ciot_ble_scn_adv_fifo_data_t data;
     ciot_ble_scn_adv_t list[CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE];
     int wp;
     int rp;
@@ -50,11 +43,11 @@ typedef struct ciot_ble_scn_base
     ciot_iface_t iface;
     ciot_ble_scn_cfg_t cfg;
     ciot_ble_scn_status_t status;
+    ciot_ble_scn_adv_t recv;
     // ciot_ble_scn_req_t req;
     // ciot_ble_scn_data_t data;
     // ciot_ble_scn_adv_info_t recv_info;
-    // ciot_ble_scn_adv_t recv;
-    // ciot_ble_scn_filter_t filter;
+    ciot_ble_scn_filter_t filter;
 #ifdef CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
     ciot_ble_scn_adv_fifo_t adv_fifo;
 #endif

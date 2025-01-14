@@ -22,6 +22,10 @@ extern "C" {
 
 typedef struct ciot_mqtt_client *ciot_mqtt_client_t;
 
+#ifndef CIOT_CONFIG_MQTT_TOPIC_SIZE
+#define CIOT_CONFIG_MQTT_TOPIC_SIZE 48
+#endif
+
 typedef struct ciot_mqtt_client_event_data
 {
     char topic[CIOT_CONFIG_MQTT_TOPIC_SIZE];
