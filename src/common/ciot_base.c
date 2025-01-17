@@ -30,12 +30,23 @@ ciot_err_t ciot_process_req(ciot_t self, ciot_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR_NOT_SUPPORTED;    
+
+    switch (req->which_type)
+    {
+    case CIOT_REQ_SAVE_CFG_TAG:
+        self->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
+        return ciot_save_cfg(self, &req->save_cfg);
+    case CIOT_REQ_DELETE_CFG_TAG:
+        self->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
+        return ciot_delete_cfg(self, &req->delete_cfg);
+    }
+
+    return CIOT_ERR_INVALID_TYPE;    
 }
 
 static ciot_err_t ciot_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
-    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_TAG);
+    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_CIOT_TAG);
 
     ciot_t self = iface->ptr;
     ciot_data_t *ciot = &data->ciot;
