@@ -100,7 +100,11 @@ ciot_err_t ciot_iface_send_event_type(ciot_iface_t *self, ciot_event_type_t even
 {
     ciot_event_t event = {
         .type = event_type,
+        .which_data = CIOT_EVENT_MSG_TAG,
         .msg = {
+            .has_iface = true,
+            .iface = self->info,
+            .has_data = true,
             .data = {
                 .which_type = CIOT_MSG_DATA_GET_DATA_TAG,
                 .get_data = {
