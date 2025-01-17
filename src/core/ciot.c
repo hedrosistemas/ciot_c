@@ -263,9 +263,7 @@ static ciot_err_t ciot_starting_task(ciot_t self)
     {
         self->status.state = CIOT_STATE_STARTED;
         CIOT_LOGI(TAG, "CIOT_STATE_STARTED");
-        // ciot_event_t event = { 0 };
-        // event.type = CIOT_EVENT_TYPE_STARTED;
-        // ciot_iface_send_event(&self->iface, &event);
+        ciot_iface_send_event_type(&self->iface, CIOT_EVENT_TYPE_STARTED);
     }
 
     return CIOT_ERR_OK;
