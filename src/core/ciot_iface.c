@@ -311,7 +311,7 @@ const char *ciot_iface_event_to_str(ciot_event_t *event)
 bool ciot_iface_is_equal(ciot_iface_info_t *self, ciot_iface_info_t *other)
 {
     if(self == NULL|| other == NULL) return self == other;
-    return memcmp(self, other, sizeof(ciot_iface_info_t));    
+    return memcmp(self, other, sizeof(ciot_iface_info_t)) == 0;
 }
 
 static ciot_err_t ciot_iface_send(ciot_iface_t *self, ciot_msg_t *msg)
