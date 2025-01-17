@@ -87,23 +87,22 @@ static ciot_err_t ciot_ble_send_data(ciot_iface_t *iface, uint8_t *data, int siz
 
 ciot_err_t ciot_ble_process_req(ciot_ble_t self, ciot_ble_req_t *req)
 {
-    // CIOT_ERR_NULL_CHECK(self);
-    // CIOT_ERR_NULL_CHECK(req);
-    // ciot_ble_base_t *base = (ciot_ble_base_t*)self;
-    // switch (req->type)
-    // {
-    // case CIOT__BLE_REQ_TYPE__BLE_REQ_TYPE_SET_MAC:
-    //     CIOT_ERR_RETURN(ciot_ble_set_mac(self, req->set_mac.data));
-    //     if(memcmp(base->macs.sw, req->set_mac.data, sizeof(base->macs.sw)) == 0)
-    //     {
-    //         base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
-    //     }
-    //     return CIOT_ERR_OK;
-    // default:
-    //     break;
-    // }
-    // return CIOT__ERR__INVALID_TYPE;
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(req);
+    ciot_ble_base_t *base = (ciot_ble_base_t*)self;
+    switch (req->which_type)
+    {
+    case CIOT_BLE_REQ_SET_MAC_TAG:
+        CIOT_ERR_RETURN(ciot_ble_set_mac(self, req->set_mac));
+        if(memcmp(base->cfg.mac, req->set_mac, 6) == 0)
+        {
+            base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
+        }
+        return CIOT_ERR_OK;
+    default:
+        break;
+    }
+    return CIOT_ERR_INVALID_TYPE;
 }
 
 ciot_err_t ciot_ble_get_cfg(ciot_ble_t self, ciot_ble_cfg_t *cfg)
