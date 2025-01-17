@@ -436,10 +436,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
     else if(self->status.state == CIOT_STATE_STARTED)
     {
         CIOT_LOGI(TAG, "Event received from %s", ciot_iface_to_str(sender));
-        receiver->event.which_data = 0;
         receiver->sender = sender;
-        receiver->event.type = event->type;
-        receiver->event.msg = event->msg;
         self->status.state = CIOT_STATE_BUSY;
     }
 
