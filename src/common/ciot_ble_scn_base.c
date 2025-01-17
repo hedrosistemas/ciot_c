@@ -33,6 +33,7 @@ ciot_err_t ciot_ble_scn_init(ciot_ble_scn_t self)
     base->iface.get_data = ciot_ble_scn_get_data;
     base->iface.send_data = ciot_ble_scn_send_data;
     base->iface.info.type = CIOT_IFACE_TYPE_BLE_SCN;
+    base->recv.has_info = true;
 
 #if CIOT_CONFIG_BLE_SCN_ADV_FIFO_SIZE
     ciot_ble_scn_base_init_fifo(&base->adv_fifo);
