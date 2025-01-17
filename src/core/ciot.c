@@ -403,7 +403,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
         return CIOT_ERR_BUSY;
     }
 
-    receiver->event.type = event->type;
+    receiver->event = *event;
     receiver->sender = sender;
     
     if (event->type == CIOT_EVENT_TYPE_REQUEST)
