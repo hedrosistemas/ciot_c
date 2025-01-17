@@ -29,6 +29,7 @@ static const char *TAG = "ciot_uart";
 
 static void ciot_uart_process_error(ciot_uart_t self, DWORD error);
 static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status);
+static void ciot_uart_flush(ciot_uart_t self);
 
 ciot_uart_t ciot_uart_new(void *handle)
 {
@@ -95,6 +96,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         return CIOT_ERR_FAIL;
     }
 
+    ciot_uart_flush(self);
     return CIOT_ERR_OK;
 }
 
@@ -191,4 +193,16 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
     }
 
     return CIOT_ERR_OK;
+}
+
+static void ciot_uart_flush(ciot_uart_t self)
+{
+    DWORD error;
+    COMSTAT status;
+    ClearCommError(self->handle, &error, &status);
+    if(status.cbInQue > 0)
+    {
+        uint8_t bytes[status.cbInQue];
+        ReadFile(self->handle, &bytes, status.cbInQue, &self->bytes_read, NULL);
+    }
 }
