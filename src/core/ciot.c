@@ -168,9 +168,11 @@ ciot_err_t ciot_get_ifaces_info(ciot_t self, ciot_info_t *info)
 bool ciot_cfg_exists(ciot_t self, uint8_t iface_id)
 {
     if(self == NULL) return false;
+    if(self->storage == NULL) return false;
     if(iface_id >= self->ifaces.count) return false;
     char filename[16];
     int size;
+    sprintf(filename, CIOT_IFACE_CFG_FILENAME, iface_id);
     self->storage->read_bytes(self->storage, filename, NULL, &size);
     return size > 0;
 }
