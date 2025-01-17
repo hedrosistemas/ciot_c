@@ -120,7 +120,9 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 
     if (err == NRF_SUCCESS)
     {
-        // memcpy(base->macs.sw, mac, sizeof(base->macs.sw));
+        base->status.using_sw_mac = true;
+        memcpy(base->cfg.mac, mac, 6);
+        memcpy(base->info.sw_mac, mac, 6);
         err = ciot_ble_scn_start(base->ifaces.scn, NULL);
     }
 
