@@ -340,7 +340,7 @@ static ciot_err_t ciot_iface_send(ciot_iface_t *self, ciot_msg_t *msg)
 
 static ciot_err_t ciot_iface_process_data_result(ciot_iface_t *self, ciot_iface_t *sender, ciot_msg_t *msg, ciot_err_t error)
 {
-    if(self->req_status.state == CIOT_IFACE_REQ_STATE_IDLE) 
+    if(self->req_status.state == CIOT_IFACE_REQ_STATE_IDLE || msg->error != CIOT_ERR_OK) 
     {
         return ciot_iface_send_rsp(sender, msg);
     }
