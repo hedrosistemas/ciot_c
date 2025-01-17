@@ -46,7 +46,14 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
 
     base->cfg = *cfg;
     base->status.has_error = true;
-    
+
+    if(base->cfg.has_topics)
+    {
+        strcpy(base->topic_sub, base->cfg.topics.sub);
+        strcpy(base->topic_pub, base->cfg.topics.pub);
+        base->topic_len = strlen(base->cfg.topics.pub);
+    }
+
     opts.client_id = mg_str(base->cfg.client_id);
     opts.user = mg_str(base->cfg.user);
     opts.pass = mg_str(base->cfg.password);
