@@ -38,6 +38,9 @@ typedef struct ciot_mqtt_client_base
     ciot_mqtt_client_cfg_t cfg;
     ciot_mqtt_client_status_t status;
     uint16_t data_rate_aux;
+    char topic_pub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
+    char topic_sub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
+    uint16_t topic_len;
 } ciot_mqtt_client_base_t;
 
 ciot_mqtt_client_t ciot_mqtt_client_new(void *handle);
