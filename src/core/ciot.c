@@ -415,7 +415,6 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
         }
 
         CIOT_ERR_RETURN(ciot_bytes_received(self, sender, event->raw.bytes, event->raw.size));
-        self->status.state = CIOT_STATE_BUSY;
 
         if(receiver->event.msg.data.which_type == CIOT_MSG_DATA_LOG_TAG)
         {
@@ -428,6 +427,10 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
         if(receiver->event.msg.iface.type == CIOT_IFACE_TYPE_CUSTOM && self->iface.event_handler != NULL)
         {
             self->iface.event_handler(sender, &receiver->event, self->iface.event_args);
+        }
+        else
+        {
+            self->status.state = CIOT_STATE_BUSY;
         }
     }
     else if(self->status.state == CIOT_STATE_STARTED)
