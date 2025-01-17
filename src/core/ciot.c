@@ -134,7 +134,10 @@ ciot_err_t ciot_save_cfg(ciot_t self, ciot_iface_info_t *iface)
     sprintf(filename, CIOT_IFACE_CFG_FILENAME, (int)iface->id);
     ciot_iface_t *iface_instance = self->ifaces.list[iface->id];
     ciot_msg_t msg = {
+        .has_iface = true,
         .iface = iface_instance->info,
+        .has_data = true,
+        .data.which_type = CIOT_MSG_DATA_GET_DATA_TAG,
         .data.get_data.type = CIOT_DATA_TYPE_CONFIG,
     };
     CIOT_ERR_RETURN(iface_instance->get_data(iface_instance, &msg.data));
