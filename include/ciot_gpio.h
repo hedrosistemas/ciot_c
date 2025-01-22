@@ -29,8 +29,6 @@ typedef struct ciot_gpio_base
     ciot_iface_t iface;
     ciot_gpio_cfg_t cfg;
     ciot_gpio_status_t status;
-    // ciot_gpio_req_t req;
-    // ciot_gpio_data_t data;
     ciot_hal_gpio_set_state_fn *set_state;
     ciot_hal_gpio_get_state_fn *get_state;
     uint64_t timer;
@@ -38,8 +36,8 @@ typedef struct ciot_gpio_base
     bool blink_signal;
 } ciot_gpio_base_t;
 
-ciot_gpio_t ciot_gpio_new(void *handle, int count);
-ciot_err_t ciot_gpio_init(ciot_gpio_t self, int count);
+ciot_gpio_t ciot_gpio_new(void *handle);
+ciot_err_t ciot_gpio_init(ciot_gpio_t self);
 ciot_err_t ciot_gpio_task(ciot_gpio_t self);
 ciot_err_t ciot_gpio_start(ciot_gpio_t self, ciot_gpio_cfg_t *cfg);
 ciot_err_t ciot_gpio_stop(ciot_gpio_t self);

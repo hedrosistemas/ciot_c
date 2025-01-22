@@ -24,12 +24,17 @@ static ciot_err_t ciot_eth_send_data(ciot_iface_t *iface, uint8_t *data, int siz
 ciot_err_t ciot_eth_init(ciot_eth_t self)
 {
     ciot_eth_base_t *base = (ciot_eth_base_t*)self;
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)base->tcp;
 
     base->iface.ptr = self;
     base->iface.process_data = ciot_eth_process_data;
     base->iface.get_data = ciot_eth_get_data;
     base->iface.send_data = ciot_eth_send_data;
     base->iface.info.type = CIOT_IFACE_TYPE_ETH;
+
+    tcp->cfg = &base->cfg;
+    tcp->status = &base->status;
+    tcp->info = &base->info;
 
     return CIOT_ERR_OK;
 }
@@ -61,7 +66,6 @@ static ciot_err_t ciot_eth_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
     CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_GET_DATA_TAG);
 
     ciot_eth_base_t *self = iface->ptr;
-    ciot_tcp_base_t *base = (ciot_tcp_base_t*)&self->tcp;
     ciot_data_type_t data_type = data->get_data.type;
     data->which_type = CIOT_MSG_DATA_ETH_TAG;
 
@@ -69,11 +73,11 @@ static ciot_err_t ciot_eth_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
     {
     case CIOT_DATA_TYPE_CONFIG:
         data->eth.which_type = CIOT_TCP_DATA_CONFIG_TAG;
-        data->eth.config = base->cfg;
+        data->eth.config = self->cfg;
         break;
     case CIOT_DATA_TYPE_STATUS:
         data->eth.which_type = CIOT_TCP_DATA_STATUS_TAG;
-        data->eth.status = base->status;
+        data->eth.status = self->status;
         break;
     default:
         return CIOT_ERR_NOT_FOUND;
@@ -124,6 +128,6 @@ ciot_err_t ciot_eth_get_mac(ciot_eth_t self, uint8_t mac[6])
     CIOT_ERR_NULL_CHECK(mac);
     ciot_eth_base_t *base = (ciot_eth_base_t*)self;
     ciot_tcp_base_t *tcp = (ciot_tcp_base_t*)base->tcp;
-    memcpy(mac, tcp->info.mac, 6);
+    memcpy(mac, tcp->info->mac, 6);
     return CIOT_ERR_OK;
 }

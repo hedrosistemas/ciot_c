@@ -19,12 +19,20 @@ static ciot_err_t ciot_wifi_send_data(ciot_iface_t *iface, uint8_t *data, int si
 ciot_err_t ciot_wifi_init(ciot_wifi_t self)
 {
     ciot_wifi_base_t *base = (ciot_wifi_base_t *)self;
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)base->tcp;
 
     base->iface.ptr = self;
     base->iface.process_data = ciot_wifi_process_data;
     base->iface.get_data = ciot_wifi_get_data;
     base->iface.send_data = ciot_wifi_send_data;
     base->iface.info.type = CIOT_IFACE_TYPE_WIFI;
+
+    tcp->cfg = &base->cfg.tcp;
+    tcp->status = &base->status.tcp;
+    tcp->info = &base->info.tcp;
+    
+    base->status.has_tcp = true;
+    base->info.has_tcp = true;
     
     return CIOT_ERR_OK;
 }

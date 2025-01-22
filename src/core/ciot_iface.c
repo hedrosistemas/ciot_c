@@ -98,22 +98,16 @@ ciot_err_t ciot_iface_send_event(ciot_iface_t *self, ciot_event_t *event)
 
 ciot_err_t ciot_iface_send_event_type(ciot_iface_t *self, ciot_event_type_t event_type)
 {
-    ciot_event_t event = {
-        .type = event_type,
-        .which_data = CIOT_EVENT_MSG_TAG,
-        .msg = {
-            .has_iface = true,
-            .iface = self->info,
-            .has_data = true,
-            .data = {
-                .which_type = CIOT_MSG_DATA_GET_DATA_TAG,
-                .get_data = {
-                    .type = CIOT_DATA_TYPE_STATUS
-                }
-            }
-        }
-    };
+    static ciot_event_t event = { 0 };
+    event.type = event_type;
+    event.which_data = CIOT_EVENT_MSG_TAG;
+    event.msg.has_iface = true;
+    event.msg.iface = self->info;
+    event.msg.has_data = true;
+    event.msg.data.which_type = CIOT_MSG_DATA_GET_DATA_TAG;
+    event.msg.data.get_data.type = CIOT_DATA_TYPE_STATUS;
     CIOT_ERR_RETURN(self->get_data(self, &event.msg.data));
+    CIOT_LOGI(TAG, "Sending event from iface: %s", ciot_iface_to_str(self));
     return ciot_iface_send_event(self, &event);
 }
 
@@ -212,7 +206,7 @@ ciot_err_t ciot_iface_get_msg_id(void)
 
 const char* ciot_iface_to_str(ciot_iface_t *self)
 {
-    if(self == NULL) return NULL;
+    if(self == NULL) return "NULL";
     return ciot_iface_type_to_str(self->info.type);
 }
 
@@ -274,37 +268,6 @@ const char* ciot_iface_type_to_str(ciot_iface_type_t iface_type)
         default:
             return "UNKNOWN";
         break;
-    }
-}
-
-const char *ciot_iface_event_to_str(ciot_event_t *event)
-{
-    if(event == NULL) return NULL;
-
-    switch (event->type)
-    {
-        case CIOT_EVENT_TYPE_UNKNOWN:
-            return "EVENT_UNKNOWN";
-        case CIOT_EVENT_TYPE_DATA:
-            return "EVENT_DATA";
-        case CIOT_EVENT_TYPE_STARTED:
-            return "EVENT_STARTED";
-        case CIOT_EVENT_TYPE_STOPPED:
-            return "EVENT_STOPPED";
-        case CIOT_EVENT_TYPE_ERROR:
-            return "EVENT_ERROR";
-        case CIOT_EVENT_TYPE_REQUEST:
-            return "EVENT_REQUEST";
-        case CIOT_EVENT_TYPE_DONE:
-            return "EVENT_DONE";
-        case CIOT_EVENT_TYPE_STATE_CHANGED:
-            return "EVENT_STATE_CHANGED";
-        case CIOT_EVENT_TYPE_INTERNAL:
-            return "EVENT_INTERNAL";
-        case CIOT_EVENT_TYPE_CUSTOM:
-            return "EVENT_CUSTOM";
-        default:
-            return "DEFAULT";
     }
 }
 

@@ -55,9 +55,8 @@ ciot_err_t ciot_iface_set_serializer(ciot_iface_t *self, ciot_serializer_t seria
 ciot_err_t ciot_iface_set_decoder(ciot_iface_t *self, ciot_decoder_t decoder);
 ciot_err_t ciot_iface_get_msg_id(void);
 
-const char* ciot_iface_to_str(ciot_iface_t *iface);
-const char* ciot_iface_type_to_str(ciot_iface_type_t iface_type);
-const char *ciot_iface_event_to_str(ciot_event_t *event);
+const char *ciot_iface_to_str(ciot_iface_t *iface);
+const char *ciot_iface_type_to_str(ciot_iface_type_t iface_type);
 
 bool ciot_iface_is_equal(ciot_iface_info_t *iface, ciot_iface_info_t *other);
 bool ciot_iface_event_is_ack(ciot_event_type_t event_type);

@@ -21,7 +21,7 @@ static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *d
 static ciot_err_t ciot_gpio_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_gpio_send_data(ciot_iface_t *iface, uint8_t *data, int size);
 
-ciot_err_t ciot_gpio_init(ciot_gpio_t self, int count)
+ciot_err_t ciot_gpio_init(ciot_gpio_t self)
 {
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
 
@@ -29,7 +29,7 @@ ciot_err_t ciot_gpio_init(ciot_gpio_t self, int count)
     base->iface.process_data = ciot_gpio_process_data;
     base->iface.get_data = ciot_gpio_get_data;
     base->iface.send_data = ciot_gpio_send_data;
-    base->iface.info.type = CIOT_IFACE_TYPE_CUSTOM;
+    base->iface.info.type = CIOT_IFACE_TYPE_GPIO;
 
     return CIOT_ERR_OK;
 }
@@ -83,7 +83,7 @@ ciot_err_t ciot_gpio_task(ciot_gpio_t self)
 
 static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
-    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_UART_TAG);
+    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_GPIO_TAG);
 
     ciot_gpio_t self = iface->ptr;
     ciot_gpio_data_t *gpio = &data->gpio;

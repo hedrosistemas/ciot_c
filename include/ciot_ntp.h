@@ -34,9 +34,6 @@ typedef struct ciot_ntp_base
     ciot_iface_t iface;
     ciot_ntp_cfg_t cfg;
     ciot_ntp_status_t status;
-    // ciot_ntp_info_t info;
-    // ciot_ntp_req_t req;
-    // ciot_ntp_data_t data;
 } ciot_ntp_base_t;
 
 ciot_ntp_t ciot_ntp_new(void *handle);

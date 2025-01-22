@@ -19,6 +19,8 @@ extern "C" {
 #include "ciot_types.h"
 #include "ciot_iface.h"
 
+#define CIOT_SYS_EVT_BIT_POOLING 0x00000001
+
 typedef struct ciot_sys *ciot_sys_t;
 
 typedef struct ciot_sys_base

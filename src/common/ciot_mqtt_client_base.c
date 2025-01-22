@@ -20,12 +20,12 @@ static ciot_err_t ciot_mqtt_client_send_data(ciot_iface_t *iface, uint8_t *data,
 ciot_err_t ciot_mqtt_client_init(ciot_mqtt_client_t self)
 {
     ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t *)self;
-
     base->iface.ptr = self;
     base->iface.process_data = ciot_mqtt_client_process_data;
     base->iface.get_data = ciot_mqtt_client_get_data;
     base->iface.send_data = ciot_mqtt_client_send_data;
     base->iface.info.type = CIOT_IFACE_TYPE_MQTT_CLIENT;
+    base->status.has_error = true;
     return CIOT_ERR_OK;
 }
 

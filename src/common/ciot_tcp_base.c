@@ -120,7 +120,7 @@ ciot_err_t ciot_tcp_get_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_tcp_base_t *base = (ciot_tcp_base_t*)self;
-    *cfg = base->cfg;
+    *cfg = *base->cfg;
     return CIOT_ERR_OK;
 }
 
@@ -129,7 +129,7 @@ ciot_err_t ciot_tcp_set_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_tcp_base_t *base = (ciot_tcp_base_t*)self;
-    base->cfg = *cfg;
+    *base->cfg = *cfg;
     return CIOT_ERR_OK;
 }
 
@@ -138,7 +138,7 @@ ciot_err_t ciot_tcp_get_status(ciot_tcp_t self, ciot_tcp_status_t *status)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(status);
     ciot_tcp_base_t *base = (ciot_tcp_base_t*)self;
-    *status = base->status;
+    *status = *base->status;
     return CIOT_ERR_OK;
 }
 
@@ -147,6 +147,6 @@ ciot_err_t ciot_tcp_get_info(ciot_tcp_t self, ciot_tcp_info_t *info)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(info);
     ciot_tcp_base_t *base = (ciot_tcp_base_t*)self;
-    *info = base->info;
+    *info = *base->info;
     return CIOT_ERR_OK;
 }

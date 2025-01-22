@@ -45,8 +45,6 @@ ciot_err_t ciot_mqtt_client_start(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_
     struct mg_mqtt_opts opts = { 0 };
 
     base->cfg = *cfg;
-    base->status.has_error = true;
-
     if(base->cfg.has_topics)
     {
         strcpy(base->topic_sub, base->cfg.topics.sub);

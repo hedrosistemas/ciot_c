@@ -18,6 +18,7 @@
 #include "ciot_utils.h"
 #include "ciot_timer.h"
 #include "ciot_decoder.h"
+#include "ciot.h"
 
 static const char *TAG = "ciot_dfu_nrf";
 
@@ -608,7 +609,7 @@ static ciot_err_t ciot_dfu_nrf_set_state(ciot_dfu_nrf_t self, ciot_dfu_state_t s
 
 static ciot_err_t ciot_dfu_nrf_event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args)
 {
-    CIOT_LOGD(TAG, "Event received %s", ciot_iface_event_to_str(event));
+    CIOT_LOGD(TAG, "Event received %s", ciot_event_to_str(event));
 
     ciot_dfu_nrf_t self = (ciot_dfu_nrf_t)args;
 

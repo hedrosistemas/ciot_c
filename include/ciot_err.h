@@ -24,9 +24,13 @@
         return CIOT_ERR_NULL_ARG;                    \
     }
 
-#define CIOT_ERR_TYPE_CHECK(current, expected) \
-    if (current != expected)                   \
-        return CIOT_ERR_INVALID_TYPE;
+#define CIOT_ERR_TYPE_CHECK(current, expected)                                 \
+    if (current != expected)                                                   \
+    {                                                                          \
+        CIOT_ERR_LOG("ciot_err", CIOT_ERR_INVALID_TYPE);                       \
+        CIOT_LOGE("ciot_err", "current: %d, expected: %d", current, expected); \
+        return CIOT_ERR_INVALID_TYPE;                                          \
+    }
 
 #define CIOT_ERR_SIZE_CHECK(size, min) \
     if (size <= min)                   \

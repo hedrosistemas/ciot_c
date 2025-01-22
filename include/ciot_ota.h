@@ -42,10 +42,6 @@ typedef struct ciot_ota_base
     ciot_iface_t iface;
     ciot_ota_cfg_t cfg;
     ciot_ota_status_t status;
-    // ciot_ota_info_t info;
-    // ciot_ota_req_t req;
-    // ciot_ota_data_t data;
-    // char url[CIOT_CONFIG_OTA_URL_LEN];
 } ciot_ota_base_t;
 
 ciot_ota_t ciot_ota_new(void *handle);
@@ -56,7 +52,6 @@ ciot_err_t ciot_ota_rollback(ciot_ota_t self);
 ciot_err_t ciot_ota_process_req(ciot_ota_t self, ciot_ota_req_t *req);
 ciot_err_t ciot_ota_get_cfg(ciot_ota_t self, ciot_ota_cfg_t *cfg);
 ciot_err_t ciot_ota_get_status(ciot_ota_t self, ciot_ota_status_t *status);
-// ciot_err_t ciot_ota_get_info(ciot_ota_t self, ciot_ota_info_t *info);
 
 #ifdef __cplusplus
 }

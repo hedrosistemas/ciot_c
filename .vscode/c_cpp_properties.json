@@ -23,23 +23,30 @@
         },
         {
             "name": "ESP-IDF",
-            "compilerPath": "${IDF_COMPILER}",
+            "compilerPath": null,
+            "forcedInclude": [
+                "${workspaceFolder}/examples/esp32/build/config/sdkconfig.h"
+            ],
             "includePath": [
                 "${config:idf.espIdfPathWin}/components/**",
-                "${workspaceFolder}/include/**",
-                "${workspaceFolder}/src/esp32/**",
-                "${workspaceFolder}/src/proto/**",
-                "${workspaceFolder}/src/common/**"
+                "${workspaceFolder}/examples/esp32/main/**",
+                "include/**",
+                "src/esp32/**",
+                "src/common/**",
+                "src/proto/nanopb",
+                "src/proto"
             ],
             "browse": {
                 "path": [
-                    "${config:idf.espIdfPathWin}/components"
-            ],
+                    "${config:idf.espIdfPathWin}/components",
+                    "${workspaceFolder}/examples/esp32/main/**"
+                ],
                 "limitSymbolsToIncludedHeaders": false
             },
             "compilerArgs": [
                 "-DESP_PLATFORM",
-                "-DIDF_VER"
+                "-DIDF_VER",
+                "-DBOARD_HG3"
             ]
         },
         {
