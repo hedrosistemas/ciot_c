@@ -13,9 +13,7 @@
 #define __CIOT_LOGGER__H__
 
 #include <stdlib.h>
-#include "ciot/proto/v1/logger.pb-c.h"
-
-typedef Ciot__Log ciot_log_t;
+#include "ciot_types.h"
 
 void ciot_logger_init(void *iface);
 void ciot_log(ciot_log_level_t level, const char *tag, const char *fmt, ...);

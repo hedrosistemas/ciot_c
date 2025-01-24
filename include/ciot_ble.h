@@ -16,12 +16,10 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
 #include "ciot_ble_scn.h"
 #include "ciot_ble_adv.h"
-
-#include "ciot/proto/v1/ble.pb-c.h"
 
 typedef enum ciot_ble_mac_type
 {
@@ -32,12 +30,6 @@ typedef enum ciot_ble_mac_type
 } ciot_ble_mac_type_t;
 
 typedef struct ciot_ble *ciot_ble_t;
-typedef Ciot__BleCfg ciot_ble_cfg_t;
-typedef Ciot__BleReq ciot_ble_req_t;
-typedef Ciot__BleStatus ciot_ble_status_t;
-typedef Ciot__BleInfo ciot_ble_info_t;
-typedef Ciot__BleReq ciot_ble_req_t;
-typedef Ciot__BleData ciot_ble_data_t;
 
 typedef struct ciot_ble_ifaces
 {
@@ -45,22 +37,15 @@ typedef struct ciot_ble_ifaces
     ciot_ble_adv_t adv;
 } ciot_ble_ifaces_t;
 
-typedef struct ciot_ble_macs
-{
-    uint8_t hw[6];
-    uint8_t sw[6];
-} ciot_ble_macs_t;
-
 typedef struct ciot_ble_base
 {
     ciot_iface_t iface;
     ciot_ble_cfg_t cfg;
     ciot_ble_status_t status;
     ciot_ble_info_t info;
-    ciot_ble_req_t req;
-    ciot_ble_data_t data;
+    // ciot_ble_req_t req;
+    // ciot_ble_data_t data;
     ciot_ble_ifaces_t ifaces;
-    ciot_ble_macs_t macs;
 } ciot_ble_base_t;
 
 ciot_ble_t ciot_ble_new(void *handle);

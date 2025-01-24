@@ -16,7 +16,6 @@
 #include "sdk_config.h"
 #include "sdk_macros.h"
 #include "ciot_uart.h"
-#include "ciot_msg.h"
 #include "ciot_err.h"
 
 #define UART_PIN_DISCONNECTED 0xFFFFFFFF
@@ -87,7 +86,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         }
 #endif
     default:
-        return CIOT__ERR__INVALID_ARG;
+        return CIOT_ERR_INVALID_ARG;
     }
 
     err_code = nrf_drv_uart_init(&self->handle, &config, ciot_uart_event_handler);
@@ -98,22 +97,24 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         nrf_drv_uart_rx(&self->handle, self->rx_byte, 1);
     }
 
-    ciot_iface_event_t event = {0};
-    event.type = CIOT_IFACE_EVENT_STARTED;
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-    ciot_iface_send_event(&base->iface, &event);
+    // ciot_event_t event = {0};
+    // event.type = CIOT_IFACE_EVENT_STARTED;
+    // event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
+    // ciot_iface_send_event(&base->iface, &event);
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 
-    base->status.state = CIOT__UART_STATE__UART_STATE_STARTED;
+    base->status.state = CIOT_UART_STATE_STARTED;
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     nrf_drv_uart_uninit(&self->handle);
-    self->base.status.state = CIOT__UART_STATE__UART_STATE_CLOSED;
-    return CIOT__ERR__OK;
+    self->base.status.state = CIOT_UART_STATE_CLOSED;
+    ciot_iface_send_event_type(&self->base.iface, CIOT_EVENT_TYPE_STOPPED);
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
@@ -125,13 +126,13 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     uint32_t len = 0;
 
     app_fifo_write(&self->fifo.tx, NULL, &len);
-    err_code = len < size ? CIOT__UART_ERROR__UART_ERR_FIFO_OVERFLOW : CIOT__ERR__OK;
-    if(err_code == CIOT__ERR__OK)
+    err_code = len < size ? CIOT_UART_ERROR_FIFO_OVERFLOW : CIOT_ERR_OK;
+    if(err_code == CIOT_ERR_OK)
     {
         len = size;
         err_code = app_fifo_write(&self->fifo.tx, bytes, &len);
     }
-    else if(self->base.status.state == CIOT__UART_STATE__UART_STATE_STARTED)
+    else if(self->base.status.state == CIOT_UART_STATE_STARTED)
     {
         self->base.status.error = self->base.status.error;
     }
@@ -148,7 +149,7 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
 {
-    return CIOT__ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
@@ -170,8 +171,8 @@ static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
                 nrf_drv_uart_rx(&self->handle, self->rx_byte, 1);
                 break;
             }
-            ciot_err_t err = ciot_iface_process_data(&self->base.iface, event->data.rxtx.p_data, event->data.rxtx.bytes);
-            if(err != CIOT__ERR__OK)
+            ciot_err_t err = ciot_iface_process_data(&self->base.iface, event->data.rxtx.p_data, event->data.rxtx.bytes, CIOT_EVENT_TYPE_REQUEST);
+            if(err != CIOT_ERR_OK)
             {
                 base->status.error = err;
             }

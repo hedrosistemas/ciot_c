@@ -12,8 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_tcp.h"
-#include "ciot_msg.h"
-#include "ciot_err.h"
+#include "ciot_types.h"
 
 struct ciot_tcp_netif
 {
@@ -40,15 +39,15 @@ ciot_tcp_t ciot_tcp_new(ciot_iface_t *iface, ciot_tcp_type_t type)
 
 ciot_err_t ciot_tcp_init_netif(ciot_tcp_t self)
 {
-    return CIOT__ERR__OK;;
+    return CIOT_ERR_OK;;
 }
 
 ciot_err_t ciot_tcp_start(ciot_tcp_t self)
 {
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_tcp_stop(ciot_tcp_t self)
 {
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

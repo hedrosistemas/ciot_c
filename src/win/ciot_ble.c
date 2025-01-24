@@ -31,16 +31,16 @@ ciot_err_t ciot_ble_start(ciot_ble_t self, ciot_ble_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_ble_stop(ciot_ble_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 {
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }

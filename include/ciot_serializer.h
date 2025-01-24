@@ -13,7 +13,7 @@
 #define __CIOT_SERIALIZER__H__
 
 #include <inttypes.h>
-#include "ciot_msg_types.h"
+#include "ciot_types.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -26,8 +26,8 @@ typedef enum ciot_serializer_type
 } ciot_serializer_type_t;
 
 typedef struct ciot_serializer *ciot_serializer_t;
-typedef int (ciot_serializer_to_bytes_fn)(uint8_t *bytes, ciot_msg_t *msg);
-typedef ciot_msg_t* (ciot_serializer_from_bytes_fn)(uint8_t *bytes, int size);
+typedef int (ciot_serializer_to_bytes_fn)(uint8_t *bytes, int size, ciot_msg_t *msg);
+typedef int (ciot_serializer_from_bytes_fn)(uint8_t *bytes, int size, ciot_msg_t *msg);
 
 struct ciot_serializer
 {

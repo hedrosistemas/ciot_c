@@ -15,9 +15,9 @@
 #include "ciot_storage.h"
 
 ciot_storage_t ciot_storage_fs_new(void);
-ciot_err_t ciot_storage_fs_delete(char *path);
-ciot_err_t ciot_storage_fs_write_bytes(char *path, uint8_t *bytes, int size);
-ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size);
-ciot_err_t ciot_storage_fs_read_text(char *path, char *buf);
+ciot_err_t ciot_storage_fs_delete(ciot_storage_t self, char *path);
+ciot_err_t ciot_storage_fs_write_bytes(ciot_storage_t self, char *path, uint8_t *bytes, int size);
+ciot_err_t ciot_storage_fs_read_bytes(ciot_storage_t self, char *path, uint8_t *bytes, int *size);
+ciot_err_t ciot_storage_fs_read_text(ciot_storage_t self, char *path, char *buf);
 
 #endif  //!__CIOT_STORAGE_FS__H__

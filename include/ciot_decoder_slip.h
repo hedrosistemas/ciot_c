@@ -19,10 +19,7 @@
 extern "C" {
 #endif
 
-#define CIOT_DECODER_SLIP_START_CH '{'
-#define CIOT_DECODER_SLIP_END_CH '}'
-
-ciot_iface_decoder_t ciot_decoder_slip_new(uint8_t *buf, int size);
+ciot_decoder_t ciot_decoder_slip_new(uint8_t *buf, int size);
 
 #ifdef __cplusplus
 }

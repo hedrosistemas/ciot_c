@@ -9,13 +9,24 @@
  * 
  */
 
+#include <stdlib.h>
+#include "ciot_eth.h"
+#include "ciot_tcp.h"
+
 #include "esp_err.h"
 #include "esp_eth.h"
 #include "esp_netif.h"
 #include "esp_event.h"
 #include "esp_mac.h"
-#include "ciot_eth.h"
-#include "ciot_tcp.h"
+
+#ifndef CIOT_CONFIG_ETH_CUSTOM
+#define CIOT_CONFIG_ETH_PHY_KSZ8081 1
+#define CIOT_CONFIG_ETH_PHY_NEW(x) esp_eth_phy_new_ksz80xx(&x)
+#define CIOT_CONFIG_ETH_PHY_ADDR 0
+#define CIOT_CONFIG_ETH_GPIO_PHY_RST 5
+#define CIOT_CONFIG_ETH_GPIO_MDC 23
+#define CIOT_CONFIG_ETH_GPIO_MDIO 18
+#endif
 
 struct ciot_eth
 {
@@ -24,7 +35,6 @@ struct ciot_eth
     bool hw_init;
 };
 
-// static ciot_err_t ciot_eth_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args);
 static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 static esp_err_t ciot_eth_hw_init(ciot_eth_t self);
 
@@ -42,6 +52,7 @@ ciot_eth_t ciot_eth_new(void *handle)
 ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(cfg);
 
     ciot_tcp_base_t *tcp = (ciot_tcp_base_t*)self->base.tcp;
 
@@ -55,7 +66,7 @@ ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
         ESP_ERROR_CHECK(ciot_eth_hw_init(self));
     }
 
-    if(tcp->status.state == CIOT__TCP_STATE__TCP_STATE_STARTED)
+    if(tcp->status->state == CIOT_TCP_STATE_STARTED)
     {
         CIOT_ERR_RETURN(esp_eth_stop(self->eth));
     }
@@ -64,21 +75,21 @@ ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
     CIOT_ERR_RETURN(ciot_tcp_start(self->base.tcp));
     CIOT_ERR_RETURN(esp_eth_start(self->eth));
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_eth_stop(ciot_eth_t self)
 {
     ciot_tcp_base_t *tcp = (ciot_tcp_base_t*)self->base.tcp;
-    if(tcp->status.state == CIOT__TCP_STATE__TCP_STATE_STOPPED)
+    if(tcp->status->state == CIOT_TCP_STATE_STOPPED)
     {
-        return ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STOPPED);
+        return ciot_iface_send_event_type(&self->base.iface, CIOT_EVENT_TYPE_STOPPED);
     }
-    if(tcp->status.state == CIOT__TCP_STATE__TCP_STATE_STARTED)
+    if(tcp->status->state == CIOT_TCP_STATE_STARTED)
     {
         CIOT_ERR_RETURN(esp_eth_stop(self->eth));
     }
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 static esp_err_t ciot_eth_hw_init(ciot_eth_t self)
@@ -106,15 +117,8 @@ static esp_err_t ciot_eth_hw_init(ciot_eth_t self)
     CIOT_ERR_RETURN(esp_eth_driver_install(&eth_conf, &self->eth));
     CIOT_ERR_RETURN(esp_netif_attach((esp_netif_t*)ciot_tcp_get_netif(self->base.tcp), esp_eth_new_netif_glue(self->eth)));
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
-
-// static ciot_err_t ciot_eth_tcp_event_handler(ciot_iface_t *sender, ciot_iface_event_t *iface_event, void *args)
-// {
-//     CIOT_ERR_NULL_CHECK(args);
-//     ciot_eth_t self = (ciot_eth_t)args;
-//     return ciot_iface_send_event(&self->base.iface, iface_event);
-// }
 
 static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
@@ -125,9 +129,9 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
     switch ((eth_event_t)event_id)
     {
     case ETHERNET_EVENT_START:
-        ESP_LOGI(TAG, "ETHERNET_EVENT_START %s", ciot__tcp_dhcp_cfg__descriptor.values[tcp->cfg.dhcp].name);
-        CIOT_ERR_PRINT(TAG, esp_read_mac(tcp->info.mac.data, ESP_MAC_ETH));
-        ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STARTED);
+        ESP_LOGI(TAG, "ETHERNET_EVENT_START");
+        CIOT_ERR_PRINT(TAG, esp_read_mac(tcp->info->mac, ESP_MAC_ETH));
+        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
         break;
     case ETHERNET_EVENT_STOP:
         ESP_LOGI(TAG, "ETHERNET_EVENT_STOP");
@@ -142,3 +146,4 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
         break;
     }
 }
+

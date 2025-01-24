@@ -16,20 +16,10 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
 
-#include "ciot/proto/v1/tcp.pb-c.h"
-
 typedef struct ciot_tcp *ciot_tcp_t;
-typedef Ciot__TcpCfg ciot_tcp_cfg_t;
-typedef Ciot__TcpDhcpCfg ciot_tcp_dhcp_cfg_t;
-typedef Ciot__TcpReq ciot_tcp_req_t;
-typedef Ciot__TcpStatus ciot_tcp_status_t;
-typedef Ciot__TcpDhcpStatus ciot_tcp_dhcp_status_t;
-typedef Ciot__TcpInfo ciot_tcp_info_t;
-typedef Ciot__TcpReq ciot_tcp_req_t;
-typedef Ciot__TcpData ciot_tcp_data_t;
 
 typedef enum ciot_tcp_type
 {
@@ -42,19 +32,10 @@ typedef enum ciot_tcp_type
 typedef struct ciot_tcp_base
 {
     ciot_iface_t *iface;
-    ciot_tcp_cfg_t cfg;
-    ciot_tcp_status_t status;
-    ciot_tcp_dhcp_status_t dhcp_status;
-    ciot_tcp_info_t info;
-    ciot_tcp_req_t req;
-    ciot_tcp_data_t data;
+    ciot_tcp_cfg_t *cfg;
+    ciot_tcp_status_t *status;
+    ciot_tcp_info_t *info;
     ciot_tcp_type_t type;
-    uint8_t cfg_ip[4];
-    uint8_t cfg_gateway[4];
-    uint8_t cfg_mask[4];
-    uint8_t cfg_dns[4];
-    uint8_t info_ip[4];
-    uint8_t info_mac[6];
 } ciot_tcp_base_t;
 
 ciot_tcp_t ciot_tcp_new(ciot_iface_t *iface, ciot_tcp_type_t type);

@@ -12,14 +12,11 @@
 #include <stdlib.h>
 #include "ciot_ota.h"
 #include "ciot_err.h"
-#include "ciot_str.h"
-#include "ciot_msg.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 
-#include "esp_log.h"
 #include "esp_ota_ops.h"
 #include "esp_http_client.h"
 #include "esp_https_ota.h"
@@ -31,8 +28,6 @@
 #ifdef CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
 #include "esp_crt_bundle.h"
 #endif // CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
-
-static const char *TAG = "ciot_ota";
 
 struct ciot_ota
 {
@@ -48,6 +43,8 @@ static void ciot_ota_task(void *pvParameters);
 static void ciot_ota_advanced_task(void *pvParameters);
 static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self);
 static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
+
+static const char *TAG = "ciot_ota";
 
 ciot_ota_t ciot_ota_new(void *handle)
 {
@@ -66,36 +63,33 @@ ciot_err_t ciot_ota_start(ciot_ota_t self, ciot_ota_cfg_t *cfg)
     #ifndef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
     if (base->cfg.encrypted)
     {
-        return CIOT__ERR__NOT_SUPPORTED;
+        return CIOT_ERR_NOT_SUPPORTED;
     }
 #endif // CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
 
-    if(base->status.state != CIOT__OTA_STATE__OTA_STATE_IDLE)
+    if(base->status.state != CIOT_OTA_STATE_IDLE)
     {
-        return CIOT__ERR__INVALID_STATE;
+        return CIOT_ERR_INVALID_STATE;
     }
 
     self->buffer = malloc(CIOT_CONFIG_OTA_BUF_SIZE);
-    base->status.state = CIOT__OTA_STATE__OTA_STATE_INIT;
-    base->status.error = CIOT__ERR__OK;
+    base->status.state = CIOT_OTA_STATE_INIT;
+    base->status.error = CIOT_ERR_OK;
     base->cfg = *cfg;
-    base->cfg.url = base->url;
-    ciot_strncpy(base->url, cfg->url, CIOT_CONFIG_OTA_URL_LEN);
-
-    ESP_ERROR_CHECK(esp_event_handler_register(ESP_HTTPS_OTA_EVENT, ESP_EVENT_ANY_ID, ciot_ota_event_handler, self));
 
     switch (cfg->type)
     {
-    case CIOT__OTA_TYPE__OTA_TYPE_DEFAULT:
+    case CIOT_OTA_TYPE_DEFAULT:
+        ESP_ERROR_CHECK(esp_event_handler_register(ESP_HTTPS_OTA_EVENT, ESP_EVENT_ANY_ID, ciot_ota_event_handler, self));
         xTaskCreatePinnedToCore(ciot_ota_task, "ciot_ota_task", CIOT_CONFIG_OTA_TASK_STACK_SIZE, self, CIOT_CONFIG_OTA_TASK_PRIORITY, &self->task, CIOT_CONFIG_OTA_TASK_CORE_ID);
         break;
-    case CIOT__OTA_TYPE__OTA_TYPE_DATA_SPIFFS:
+    case CIOT_OTA_TYPE_DATA_SPIFFS:
         self->partition_type = ESP_PARTITION_TYPE_DATA;
         self->partition_subtype = ESP_PARTITION_SUBTYPE_DATA_SPIFFS;
         xTaskCreatePinnedToCore(ciot_ota_advanced_task, "ciot_ota_task", CIOT_CONFIG_OTA_TASK_STACK_SIZE, self, CIOT_CONFIG_OTA_TASK_PRIORITY, &self->task, CIOT_CONFIG_OTA_TASK_CORE_ID);
         break;
     default:
-        return CIOT__ERR__INVALID_TYPE;
+        return CIOT_ERR_INVALID_TYPE;
     }
 
     return base->status.error;
@@ -106,7 +100,7 @@ ciot_err_t ciot_ota_stop(ciot_ota_t self)
     CIOT_ERR_NULL_CHECK(self);
     vTaskDelete(self->task);
     free(self);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_ota_rollback(ciot_ota_t self)
@@ -117,7 +111,7 @@ ciot_err_t ciot_ota_rollback(ciot_ota_t self)
     }
     else
     {
-        return CIOT__ERR__IMPOSSIBLE_OP;
+        return CIOT_ERR_IMPOSSIBLE_OP;
     }
 }
 
@@ -167,11 +161,11 @@ static void ciot_ota_task(void *pvParameters)
     if (base->status.error != ESP_OK)
     {
         ESP_LOGE(TAG, "ESP HTTPS OTA Begin failed!");
-        ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_ERROR);
+        ciot_iface_send_event_type(&self->base.iface, CIOT_EVENT_TYPE_ERROR);
         ciot_ota_task_fatal_error(self);
     }
 
-    ciot_iface_send_event_type(&self->base.iface, CIOT_IFACE_EVENT_STARTED);
+    ciot_iface_send_event_type(&self->base.iface, CIOT_EVENT_TYPE_STARTED);
     
     while (1)
     {
@@ -223,12 +217,14 @@ static void ciot_ota_advanced_task(void *pvParameters)
     ciot_ota_t self = (ciot_ota_t )pvParameters;
     ciot_ota_base_t *base = &self->base;
 
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
+
     CIOT_LOGI(TAG, "Finding specified partition");
     const esp_partition_t *partition = esp_partition_find_first(self->partition_type, self->partition_subtype, NULL);
     if(partition == NULL)
     {
         CIOT_LOGE(TAG, "Specified partition not found.");
-        base->status.error = CIOT__ERR__NOT_FOUND;
+        base->status.error = CIOT_ERR_NOT_FOUND;
         ciot_ota_task_fatal_error(self);
         return;
     }
@@ -239,17 +235,18 @@ static void ciot_ota_advanced_task(void *pvParameters)
     CIOT_LOGI(TAG, "size: %x", (unsigned int)partition->size);
     
     CIOT_LOGI(TAG, "Erasing partition");
+    base->status.state = CIOT_OTA_STATE_INIT;
     base->status.error = esp_partition_erase_range(partition, 0, partition->size);
     if(base->status.error != ESP_OK)
     {
         CIOT_LOGE(TAG, "Error erasing parititon: %s", esp_err_to_name(base->status.error));
-        base->status.error = CIOT__ERR__ERASING;
+        base->status.error = CIOT_ERR_ERASING;
         ciot_ota_task_fatal_error(self);
         return;
     }
 
     esp_http_client_config_t http_client_config = {
-        .url = (const char*)base->url,
+        .url = (const char*)base->cfg.url,
 #ifdef CONFIG_MBEDTLS_CERTIFICATE_BUNDLE
         .crt_bundle_attach = esp_crt_bundle_attach
 #endif
@@ -259,7 +256,7 @@ static void ciot_ota_advanced_task(void *pvParameters)
     if(client == NULL)
     {
         CIOT_LOGE(TAG, "Error initializing http client");
-        base->status.error = CIOT__ERR__FAIL;
+        base->status.error = CIOT_ERR_FAIL;
         ciot_ota_task_fatal_error(self);
         return;
     }
@@ -268,13 +265,24 @@ static void ciot_ota_advanced_task(void *pvParameters)
     if(base->status.error != ESP_OK)
     {
         CIOT_LOGE(TAG, "Error openning http client: %s", esp_err_to_name(base->status.error));
+        base->status.error = CIOT_ERR_CONNECTION;
         ciot_ota_task_fatal_error(self);
         return;
     }
 
     esp_http_client_fetch_headers(client);
-    int binary_file_length = 0;
+    base->status.image_written = 0;
+    base->status.image_size = esp_http_client_get_content_length(client);
+    if(base->status.image_size > partition->size)
+    {
+        CIOT_LOGE(TAG, "Incorrect partition size. Expected: %u Current: %u", (unsigned int)base->status.image_size, (unsigned int)partition->size);
+        base->status.error = CIOT_ERR_INVALID_SIZE;
+        ciot_ota_task_fatal_error(self);
+    }
+
     char buf[256];
+    base->status.state = CIOT_OTA_STATE_CONNECTED;
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
 
     while (true)
     {
@@ -282,19 +290,24 @@ static void ciot_ota_advanced_task(void *pvParameters)
         if(data_read < 0)
         {
             CIOT_LOGE(TAG, "Error reading data from client");
-            base->status.error = CIOT__ERR__READING;
+            base->status.error = CIOT_ERR_READING;
             ciot_ota_task_fatal_error(self);
         }
         else if(data_read > 0)
         {
-            CIOT_LOGI(TAG, "Writing [%x]", binary_file_length);
-            base->status.error = esp_partition_write(partition, binary_file_length, buf, data_read);
-            binary_file_length += data_read;
+            CIOT_LOGI(TAG, "Writing [%x]", (unsigned int)base->status.image_written);
+            base->status.error = esp_partition_write(partition, base->status.image_written, buf, data_read);
             if(base->status.error != ESP_OK)
             {
                 CIOT_LOGI(TAG, "Error writing data to partition: %s", esp_err_to_name(base->status.error));
-                base->status.error = CIOT__ERR__WRITING;
+                base->status.error = CIOT_ERR_WRITING;
                 ciot_ota_task_fatal_error(self);
+            }
+            else
+            {
+                base->status.image_written += data_read;
+                base->status.state = CIOT_OTA_STATE_FLASHING;
+                ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
             }
         }
         else if(data_read == 0)
@@ -303,8 +316,11 @@ static void ciot_ota_advanced_task(void *pvParameters)
             break;
         }
 
-        CIOT_LOGI(TAG, "Total Write binary data length : %d", binary_file_length);
+        CIOT_LOGI(TAG, "Total Write binary data length : %u", (unsigned int)base->status.image_written);
     }
+
+    base->status.state = CIOT_OTA_STATE_STATE_DONE;
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
 
     (void)vTaskDelete(NULL);
 }
@@ -315,11 +331,8 @@ static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self)
 
     ciot_ota_base_t *base = &self->base;
 
-    base->status.state = CIOT__OTA_STATE__OTA_STATE_ERROR;
-    ciot_iface_event_t event = { 0 };
-    event.type = CIOT_IFACE_EVENT_ERROR;
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-    ciot_iface_send_event(&base->iface, &event);
+    base->status.state = CIOT_OTA_STATE_ERROR;
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_ERROR);
 
     (void)vTaskDelete(NULL);
 
@@ -334,63 +347,57 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     ciot_ota_t self = (ciot_ota_t)arg;
     ciot_ota_base_t *base = &self->base;
     ciot_ota_status_t *status = &base->status;
-    ciot_iface_event_t event = { 0 };
-
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
 
     switch (event_id)
     {
         case ESP_HTTPS_OTA_START:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_START");
-            status->state = CIOT__OTA_STATE__OTA_STATE_START;
-            event.type = CIOT_IFACE_EVENT_STARTED;
+            status->state = CIOT_OTA_STATE_START;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_ERROR);
             break;
         case ESP_HTTPS_OTA_CONNECTED:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_CONNECTED");
-            status->state = CIOT__OTA_STATE__OTA_STATE_CONNECTED;
-            event.type = CIOT_IFACE_EVENT_INTERNAL;
+            status->state = CIOT_OTA_STATE_CONNECTED;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
             break;
         case ESP_HTTPS_OTA_GET_IMG_DESC:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_GET_IMG_DESC");
-            status->state = CIOT__OTA_STATE__OTA_STATE_CHECKING_DATA;
-            event.type = CIOT_IFACE_EVENT_INTERNAL;
+            status->state = CIOT_OTA_STATE_CHECKING_DATA;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
             break;
         case ESP_HTTPS_OTA_VERIFY_CHIP_ID:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_VERIFY_CHIP_ID");
-            status->state = CIOT__OTA_STATE__OTA_STATE_CHECKING_DATA;
-            event.type = CIOT_IFACE_EVENT_INTERNAL;
+            status->state = CIOT_OTA_STATE_CHECKING_DATA;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
             break;
         case ESP_HTTPS_OTA_DECRYPT_CB:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_DECRYPT_CB");
-            status->state = CIOT__OTA_STATE__OTA_STATE_DECRYPTING;
-            event.type = CIOT_IFACE_EVENT_INTERNAL;
+            status->state = CIOT_OTA_STATE_DECRYPTING;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
             break;
         case ESP_HTTPS_OTA_WRITE_FLASH:
-            status->state = CIOT__OTA_STATE__OTA_STATE_FLASHING;
+            status->state = CIOT_OTA_STATE_FLASHING;
             status->image_size = esp_https_ota_get_image_size(self->handle);
             status->image_written = esp_https_ota_get_image_len_read(self->handle);
-            event.type = CIOT_IFACE_EVENT_INTERNAL;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
             ESP_LOGD(TAG, "ESP_HTTPS_OTA_WRITE_FLASH %lu from %lu", status->image_written, status->image_size);
             break;
         case ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_UPDATE_BOOT_PARTITION");
-            status->state = CIOT__OTA_STATE__OTA_STATE_UPDATE_BOOT_PARTITION;
-            event.type = CIOT_IFACE_EVENT_INTERNAL;
+            status->state = CIOT_OTA_STATE_UPDATE_BOOT_PARTITION;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
             break;
         case ESP_HTTPS_OTA_FINISH:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_FINISH");
-            status->state = CIOT__OTA_STATE__OTA_STATE_STATE_DONE;
-            event.type = CIOT_IFACE_EVENT_DONE;
+            status->state = CIOT_OTA_STATE_STATE_DONE;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_DONE);
             break;
         case ESP_HTTPS_OTA_ABORT:
             ESP_LOGI(TAG, "ESP_HTTPS_OTA_ABORT");
-            status->state = CIOT__OTA_STATE__OTA_STATE_ERROR;
-            event.type = CIOT_IFACE_EVENT_ERROR;
+            status->state = CIOT_OTA_STATE_ERROR;
+            ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_ERROR);
             break;
     default:
         break;
     }
-
-    ciot_iface_send_event(&base->iface, &event);
 }
-

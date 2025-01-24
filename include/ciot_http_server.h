@@ -3,7 +3,7 @@
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2024-06-07
+ * @date 2024-12-11
  * 
  * @copyright Copyright (c) 2024
  * 
@@ -16,25 +16,19 @@
 extern "C" {
 #endif
 
-#include "ciot_err.h"
+#include "ciot_types.h"
 #include "ciot_iface.h"
 
-#include "ciot/proto/v1/http_server.pb-c.h"
-
-#define CIOT_CONFIG_HTTP_SERVER_ENDPOINT_SIZE 64
-#define CIOT_CONFIG_HTTP_SERVER_ROUTE_SIZE 64
-#define CIOT_CONFIG_HTTP_SERVER_ROOT_SIZE 48
-
 typedef struct ciot_http_server *ciot_http_server_t;
-typedef Ciot__HttpServerData ciot_http_server_data_t;
-typedef Ciot__HttpServerCfg ciot_http_server_cfg_t;
-typedef Ciot__HttpServerReq ciot_http_server_req_t;
-typedef Ciot__HttpServerStatus ciot_http_server_status_t;
+
+#ifndef CIOT_CONFIG_URL_SIZE
+#define CIOT_CONFIG_URL_SIZE 48
+#endif
 
 typedef struct ciot_http_server_event_data
 {
-    char *uri;
-    uint8_t *body;
+    char uri[CIOT_CONFIG_URL_SIZE];
+    uint8_t body[CIOT_CONFIG_MSG_SIZE];
 } ciot_http_server_event_data_t;
 
 typedef struct ciot_http_server_base
@@ -42,11 +36,7 @@ typedef struct ciot_http_server_base
     ciot_iface_t iface;
     ciot_http_server_cfg_t cfg;
     ciot_http_server_status_t status;
-    ciot_http_server_req_t req;
-    ciot_http_server_data_t data;
-    char endpoint[CIOT_CONFIG_HTTP_SERVER_ENDPOINT_SIZE];
-    char route[CIOT_CONFIG_HTTP_SERVER_ROUTE_SIZE];
-    char root[CIOT_CONFIG_HTTP_SERVER_ROOT_SIZE];
+    // ciot_http_server_info_t info;
 } ciot_http_server_base_t;
 
 ciot_http_server_t ciot_http_server_new(void *handle);

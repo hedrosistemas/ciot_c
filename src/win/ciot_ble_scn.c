@@ -31,11 +31,11 @@ ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_ble_scn_stop(ciot_ble_scn_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }

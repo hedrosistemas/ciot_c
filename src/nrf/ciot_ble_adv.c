@@ -24,7 +24,6 @@
 #include "ble_gap.h"
 #include "ciot_ble_adv.h"
 #include "ciot_err.h"
-#include "ciot_msg.h"
 
 // static const char *TAG = "ciot_ble_adv";
 
@@ -75,7 +74,7 @@ ciot_err_t ciot_ble_adv_start(ciot_ble_adv_t self, ciot_ble_adv_cfg_t *cfg)
     uint32_t err_code = sd_ble_gap_tx_power_set(cfg->tx_power);
     if (err_code)
     {
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
 #else
 
@@ -88,40 +87,36 @@ ciot_err_t ciot_ble_adv_start(ciot_ble_adv_t self, ciot_ble_adv_cfg_t *cfg)
     uint32_t err_code = sd_ble_gap_adv_set_configure(&m_adv_handle, &m_adv_str, &m_adv_params);
     if (err_code)
     {
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
 
     err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_adv_handle, cfg->tx_power);
     if (err_code)
     {
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
 
     err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_SCAN_INIT, 0, cfg->tx_power);
     if (err_code)
     {
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
 #endif
 
-    base->status.state = CIOT__BLE_ADV_STATE__BLE_ADV_STATE_STARTED;
-
-    ciot_iface_event_t event = {0};
-    event.type = CIOT_IFACE_EVENT_STARTED;
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-    return ciot_iface_send_event(&base->iface, &event);
+    base->status.state = CIOT_BLE_ADV_STATE_STARTED;
+    return ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 }
 
 ciot_err_t ciot_ble_adv_stop(ciot_ble_adv_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
-ciot_err_t ciot_ble_adv_send_data(ciot_ble_adv_t self, uint8_t *data, int size)
+ciot_err_t ciot_ble_adv_send_bytes(ciot_ble_adv_t self, uint8_t *data, int size)
 {
     CIOT_ERR_NULL_CHECK(self);
-    CIOT_ERR_STATE_CHECK(self->base.status.state, CIOT__BLE_ADV_STATE__BLE_ADV_STATE_STARTED);
+    CIOT_ERR_STATE_CHECK(self->base.status.state, CIOT_BLE_ADV_STATE_STARTED);
 
     if (size > sizeof(m_adv_data))
         size = sizeof(m_adv_data);
@@ -136,11 +131,11 @@ ciot_err_t ciot_ble_adv_send_data(ciot_ble_adv_t self, uint8_t *data, int size)
     
     if (self->base.status.err_code == NRF_SUCCESS)
     {
-        self->base.status.state = CIOT__BLE_ADV_STATE__BLE_ADV_STATE_SENDING;
-        return CIOT__ERR__OK;
+        self->base.status.state = CIOT_BLE_ADV_STATE_SENDING;
+        return CIOT_ERR_OK;
     }
 
-    return CIOT__ERR__FAIL;
+    return CIOT_ERR_FAIL;
 }
 
 ciot_err_t ciot_ble_adv_handle_event(ciot_ble_adv_t self, void *event, void *event_args)
@@ -152,11 +147,11 @@ ciot_err_t ciot_ble_adv_handle_event(ciot_ble_adv_t self, void *event, void *eve
     switch (ev->header.evt_id)
     {
     case BLE_GAP_EVT_ADV_SET_TERMINATED:
-        self->base.status.state = CIOT__BLE_ADV_STATE__BLE_ADV_STATE_STARTED;
+        self->base.status.state = CIOT_BLE_ADV_STATE_STARTED;
         break;
     default:
         break;
     }
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

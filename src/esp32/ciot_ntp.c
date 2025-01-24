@@ -10,11 +10,9 @@
  */
 
 #include <stdlib.h>
-#include "esp_sntp.h"
 #include "ciot_ntp.h"
-#include "ciot_err.h"
 #include "ciot_timer.h"
-#include "ciot_msg.h"
+#include "esp_sntp.h"
 
 static const char *TAG = "ciot_ntp";
 
@@ -41,58 +39,64 @@ ciot_err_t ciot_ntp_start(ciot_ntp_t self, ciot_ntp_cfg_t *cfg)
 
     ciot_ntp_base_t *base = &self->base;
 
+    CIOT_LOGI(TAG, "Starting NTP");
+    CIOT_LOGI(TAG, "operating_mode: %d", (int)base->cfg.op_mode);
+    CIOT_LOGI(TAG, "sync_interval: %d", (int)base->cfg.sync_interval);
+    CIOT_LOGI(TAG, "server1: %s", base->cfg.server1);
+    CIOT_LOGI(TAG, "server2: %s", base->cfg.server2);
+    CIOT_LOGI(TAG, "server3: %s", base->cfg.server3);
+
     if(base->status.init)
     {
         esp_sntp_stop();
     }
 
-    ciot_ntp_set_cfg(self, cfg);
+    base->cfg = *cfg;
 
-    if(cfg->server1) esp_sntp_setservername(0, cfg->server1);
-    if(cfg->server2) esp_sntp_setservername(1, cfg->server2);
-    if(cfg->server3) esp_sntp_setservername(2, cfg->server3);
-    if(cfg->sync_interval == 0) cfg->sync_interval = 3600 * 1000;
+    if(base->cfg.server1[0] != '\0') esp_sntp_setservername(0, base->cfg.server1);
+    if(base->cfg.server2[0] != '\0') esp_sntp_setservername(1, base->cfg.server2);
+    if(base->cfg.server3[0] != '\0') esp_sntp_setservername(2, base->cfg.server3);
+    if(base->cfg.sync_interval == 0) base->cfg.sync_interval = 3600 * 1000;
 
-    esp_sntp_setoperatingmode(cfg->op_mode);
-    esp_sntp_set_sync_interval(cfg->sync_interval);
-    esp_sntp_set_sync_mode(cfg->sync_mode);
+    esp_sntp_setoperatingmode(base->cfg.op_mode);
+    esp_sntp_set_sync_interval(base->cfg.sync_interval);
+    esp_sntp_set_sync_mode(base->cfg.sync_mode);
     esp_sntp_set_time_sync_notification_cb(ciot_ntp_sync_notification_cb);
 
     notif_args = self;
     esp_sntp_init();
-
     base->status.init = true;
 
-    if(self->base.cfg.timezone)
+    if(self->base.cfg.timezone[0] != '\0')
     {
         setenv("TZ", self->base.cfg.timezone, 1);
         tzset();
     }
 
-    return CIOT__ERR__OK;
+    if (!esp_sntp_enabled()) {
+        CIOT_LOGE(TAG, "Failed to initialize SNTP");
+        return CIOT_ERR_FAIL;
+    }
+
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_ntp_stop(ciot_ntp_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     esp_sntp_stop();
-    return CIOT__ERR__OK;
+    ciot_iface_send_event_type(&self->base.iface, CIOT_EVENT_TYPE_STOPPED);
+    return CIOT_ERR_OK;
 }
 
 static void ciot_ntp_sync_notification_cb(struct timeval *tv)
 {
-    if(notif_args == NULL) return;
     CIOT_LOGI(TAG, "Started");
-    
+    if(notif_args == NULL) return;
     ciot_ntp_t self = (ciot_ntp_t)notif_args;
     ciot_ntp_base_t *base = &self->base;
-
     base->status.sync = 1;
     base->status.sync_count++;
     base->status.last_sync = ciot_timer_now();
-
-    ciot_iface_event_t event = { 0 };
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-    event.type = CIOT_IFACE_EVENT_STARTED;
-    ciot_iface_send_event(&base->iface, &event);
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 }

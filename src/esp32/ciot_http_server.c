@@ -3,22 +3,24 @@
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2024-09-17
+ * @date 2024-12-11
  * 
  * @copyright Copyright (c) 2024
  * 
  */
 
 #include "ciot_http_server.h"
-
-#include "esp_log.h"
 #include "esp_http_server.h"
+#include <freertos/timers.h>
+
+#define CIOT_HTTP_SERVER_TIMEOUT_MS 15000
 
 struct ciot_http_server
 {
     ciot_http_server_base_t base;
     httpd_handle_t handle;
     httpd_req_t *req;
+    TimerHandle_t timer;
 };
 
 static const char *TAG = "ciot_http_server";
@@ -27,11 +29,25 @@ static ciot_err_t ciot_https_register_routes(ciot_http_server_t self);
 static esp_err_t ciot_post_handler(httpd_req_t *req);
 static esp_err_t ciot_file_handler(httpd_req_t *req);
 static const char *get_mime_type(const char *filename);
+static void ciot_timeout_callback(TimerHandle_t xTimer);
 
 ciot_http_server_t ciot_http_server_new(void *handle)
 {
     ciot_http_server_t self = calloc(1, sizeof(struct ciot_http_server));
     ciot_http_server_init(self);
+
+    self->timer = xTimerCreate(
+        "ciot_http_server_timeout", 
+        pdMS_TO_TICKS(CIOT_HTTP_SERVER_TIMEOUT_MS),
+        pdFALSE,
+        self,
+        ciot_timeout_callback
+    );
+    if(self->timer == NULL)
+    {
+        CIOT_LOGE(TAG, "Error creating timer");
+    }
+
     return self;
 }
 
@@ -42,17 +58,12 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
 
     ciot_http_server_base_t *base = &self->base;
 
-    sprintf(base->endpoint, "%s:%ld", cfg->address, cfg->port);
-    strcpy(base->route, cfg->route);
-
     base->cfg = *cfg;
-    base->cfg.address = base->endpoint;
-    base->cfg.route = base->route;
 
     httpd_config_t httpd_config = HTTPD_DEFAULT_CONFIG();
     httpd_config.server_port = cfg->port;
     httpd_config.uri_match_fn = httpd_uri_match_wildcard;
-    httpd_config.max_uri_handlers = 7;
+    httpd_config.max_uri_handlers = 2;
     httpd_config.stack_size = 8192;
 
     esp_err_t err_code = httpd_start(&self->handle, &httpd_config);
@@ -61,7 +72,7 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
         ESP_LOGI(TAG, "Server Started on port %lu", cfg->port);
         base->cfg = *cfg;
         ciot_https_register_routes(self);
-        ciot_iface_send_event_type(&base->iface, CIOT_IFACE_EVENT_STARTED);
+        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
     }
 
     return err_code;
@@ -80,15 +91,20 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
     httpd_resp_set_status(self->req, HTTPD_200);
     httpd_resp_set_type(self->req, HTTPD_TYPE_OCTET);
     httpd_resp_send(self->req, (const char*)data, size);
-    httpd_req_async_handler_complete(self->req);
-    return CIOT__ERR__OK;
+    if(self->req != NULL)
+    {
+        httpd_req_async_handler_complete(self->req);
+        self->req = NULL;
+    }
+    xTimerStop(self->timer, 0);
+    return CIOT_ERR_OK;
 }
 
 static ciot_err_t ciot_https_register_routes(ciot_http_server_t self)
 {
-    CIOT_LOGI(TAG, "Registering route: %s", self->base.route);
+    CIOT_LOGI(TAG, "Registering route: %s", self->base.cfg.route);
     httpd_uri_t post_uri = {
-        .uri = self->base.route,
+        .uri = self->base.cfg.route,
         .handler = ciot_post_handler,
         .method = HTTP_POST,
         .user_ctx = self,
@@ -96,7 +112,7 @@ static ciot_err_t ciot_https_register_routes(ciot_http_server_t self)
     esp_err_t err = httpd_register_uri_handler(self->handle, &post_uri);
     if(err) {
         CIOT_LOGE(TAG, "Register uri error: %s", esp_err_to_name(err));
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
 
     httpd_uri_t file_uri = {
@@ -108,37 +124,31 @@ static ciot_err_t ciot_https_register_routes(ciot_http_server_t self)
     err = httpd_register_uri_handler(self->handle, &file_uri);
     if(err) {
         CIOT_LOGE(TAG, "Register uri error: %s", esp_err_to_name(err));
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 static esp_err_t ciot_post_handler(httpd_req_t *req)
 {
     ciot_http_server_t self = (ciot_http_server_t)req->user_ctx;
+    ciot_event_t event = { 0 };
 
-    CIOT_LOGI(TAG, "Request received");
+    httpd_req_async_handler_begin(req, &self->req);
 
-    if (self == NULL)
+    event.type = CIOT_EVENT_TYPE_REQUEST;
+    httpd_req_recv(req, (char*)event.raw.bytes, req->content_len);
+    event.raw.size = req->content_len;
+    ciot_iface_send_event(&self->base.iface, &event);
+
+    if(self->timer != NULL)
     {
-        CIOT_LOGE(TAG, "Null context");
-        return CIOT__ERR__NULL_ARG;
+        if (xTimerStart(self->timer, 0) != pdPASS) {
+            CIOT_LOGE(TAG, "Failed to start timer for request timeout");
+        }
     }
 
-    uint8_t *buf = calloc(1, req->content_len);
-    httpd_req_async_handler_begin(req, &self->req);
-    httpd_req_recv(req, (char*)buf, req->content_len);
-
-    ciot_iface_event_t iface_event = {0};
-    iface_event.type = CIOT_IFACE_EVENT_REQUEST;
-    iface_event.data = buf;
-    iface_event.size = req->content_len;
-    iface_event.msg = ciot__msg__unpack(NULL, req->content_len, buf);
-    ciot_iface_send_event(&self->base.iface, &iface_event);
-
-    free(buf);
-
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 static esp_err_t ciot_file_handler(httpd_req_t *req)
@@ -209,4 +219,15 @@ static const char *get_mime_type(const char *filename)
     if (strstr(filename, ".ico"))  return "image/x-icon";
     if (strstr(filename, ".svg"))  return "image/svg+xml";
     return "text/plain";
+}
+
+static void ciot_timeout_callback(TimerHandle_t xTimer)
+{
+    ciot_http_server_t self = pvTimerGetTimerID(xTimer);
+    if(self->req != NULL)
+    {
+        CIOT_LOGE(TAG, "timeout!");
+        httpd_req_async_handler_complete(self->req);
+        self->req = NULL;
+    }
 }

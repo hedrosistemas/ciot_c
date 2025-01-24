@@ -17,85 +17,85 @@
 
 // static const char *TAG = "ciot_tcp";
 
-static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req);
-static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg);
-static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_eth_process_data(ciot_iface_t *iface, ciot_msg_data_t *data);
+static ciot_err_t ciot_eth_get_data(ciot_iface_t *iface, ciot_msg_data_t *msg);
+static ciot_err_t ciot_eth_send_data(ciot_iface_t *iface, uint8_t *data, int size);
 
 ciot_err_t ciot_eth_init(ciot_eth_t self)
 {
     ciot_eth_base_t *base = (ciot_eth_base_t*)self;
-
-    ciot_iface_init(&base->iface);
+    ciot_tcp_base_t *tcp = (ciot_tcp_base_t *)base->tcp;
 
     base->iface.ptr = self;
-    base->iface.process_req = ciot_iface_process_req;
-    base->iface.get_data = ciot_iface_get_data;
-    base->iface.send_data = ciot_iface_send_data;
-    base->iface.info.type = CIOT__IFACE_TYPE__IFACE_TYPE_ETH;
+    base->iface.process_data = ciot_eth_process_data;
+    base->iface.get_data = ciot_eth_get_data;
+    base->iface.send_data = ciot_eth_send_data;
+    base->iface.info.type = CIOT_IFACE_TYPE_ETH;
 
-    return CIOT__ERR__OK;
+    tcp->cfg = &base->cfg;
+    tcp->status = &base->status;
+    tcp->info = &base->info;
+
+    return CIOT_ERR_OK;
 }
 
-static ciot_err_t ciot_iface_process_req(ciot_iface_t *iface, ciot_msg_t *req)
+static ciot_err_t ciot_eth_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
-    ciot_eth_t self = (ciot_eth_t)iface->ptr;
+    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_ETH_TAG);
 
-    switch (req->type)
+    ciot_eth_t self = iface->ptr;
+    ciot_tcp_data_t *eth = &data->eth;
+
+    switch (eth->which_type)
     {
-        case CIOT__MSG_TYPE__MSG_TYPE_START:
-            return ciot_eth_start(self, req->data->eth->config);
-        case CIOT__MSG_TYPE__MSG_TYPE_STOP:
-            return ciot_eth_stop(self);
-        case CIOT__MSG_TYPE__MSG_TYPE_REQUEST:
-            return ciot_eth_process_req(self, req->data->eth->request);
+    case CIOT_TCP_DATA_STOP_TAG:
+        return ciot_eth_stop(self);
+    case CIOT_TCP_DATA_CONFIG_TAG:
+        return ciot_eth_start(self, &eth->config);
+    case CIOT_TCP_DATA_REQUEST_TAG:
+        return ciot_eth_process_req(self, &eth->request);
     default:
-        break;
-    }
-    
-    return CIOT__ERR__OK;
-}
-
-static ciot_err_t ciot_iface_get_data(ciot_iface_t *iface, ciot_msg_t *msg)
-{
-    ciot_eth_base_t *self = (ciot_eth_base_t*)iface->ptr;
-    ciot_tcp_base_t *base = (ciot_tcp_base_t*)self->tcp;
-
-    base->data.config = NULL;
-    base->data.status = NULL;
-    base->data.info = NULL;
-    base->data.request = NULL;
-
-    switch (msg->type)
-    {
-    case CIOT__MSG_TYPE__MSG_TYPE_CONFIG:
-        base->data.config = &base->cfg;
-        break;
-    case CIOT__MSG_TYPE__MSG_TYPE_STATUS:
-        base->data.status = &base->status;
-        break;
-    case CIOT__MSG_TYPE__MSG_TYPE_INFO:
-        base->data.info = &base->info;
-        break;
-    default:
-        break;
+        return CIOT_ERR_INVALID_TYPE;
     }
 
-    self->iface.data.tcp = &base->data;
-    msg->data = &self->iface.data;
-
-    return CIOT__ERR__OK;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
-static ciot_err_t ciot_iface_send_data(ciot_iface_t *iface, uint8_t *data, int size)
+static ciot_err_t ciot_eth_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
-    return CIOT__ERR__NOT_IMPLEMENTED;
+    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_GET_DATA_TAG);
+
+    ciot_eth_base_t *self = iface->ptr;
+    ciot_data_type_t data_type = data->get_data.type;
+    data->which_type = CIOT_MSG_DATA_ETH_TAG;
+
+    switch (data_type)
+    {
+    case CIOT_DATA_TYPE_CONFIG:
+        data->eth.which_type = CIOT_TCP_DATA_CONFIG_TAG;
+        data->eth.config = self->cfg;
+        break;
+    case CIOT_DATA_TYPE_STATUS:
+        data->eth.which_type = CIOT_TCP_DATA_STATUS_TAG;
+        data->eth.status = self->status;
+        break;
+    default:
+        return CIOT_ERR_NOT_FOUND;
+    }
+
+    return CIOT_ERR_OK;
+}
+
+static ciot_err_t ciot_eth_send_data(ciot_iface_t *iface, uint8_t *data, int size)
+{
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_eth_process_req(ciot_eth_t self, ciot_tcp_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT__ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_eth_get_cfg(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
@@ -128,6 +128,6 @@ ciot_err_t ciot_eth_get_mac(ciot_eth_t self, uint8_t mac[6])
     CIOT_ERR_NULL_CHECK(mac);
     ciot_eth_base_t *base = (ciot_eth_base_t*)self;
     ciot_tcp_base_t *tcp = (ciot_tcp_base_t*)base->tcp;
-    memcpy(mac, tcp->info.mac.data, 6);
-    return CIOT__ERR__OK;
+    memcpy(mac, tcp->info->mac, 6);
+    return CIOT_ERR_OK;
 }

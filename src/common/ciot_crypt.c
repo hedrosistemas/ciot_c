@@ -59,10 +59,10 @@ ciot_err_t ciot_crypt_enc(ciot_crypt_t *crypt, char *data, char *out, int size)
     err = mbedtls_base64_encode((unsigned char*)out, size, &len, (unsigned char*)buf, block_size);
     if(err)
     {
-        return CIOT__ERR__INVALID_SIZE;
+        return CIOT_ERR_INVALID_SIZE;
     }
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_crypt_dec(ciot_crypt_t *crypt, char *data, char *out, int size)
@@ -80,12 +80,12 @@ ciot_err_t ciot_crypt_dec(ciot_crypt_t *crypt, char *data, char *out, int size)
     err = mbedtls_base64_decode((unsigned char*)buf, len, &decoded_size, (unsigned char*)data, len);
     if(err)
     {
-        return CIOT__ERR__INVALID_SIZE;
+        return CIOT_ERR_INVALID_SIZE;
     }
 
     if(decoded_size >= size)
     {
-        return CIOT__ERR__INVALID_SIZE;
+        return CIOT_ERR_INVALID_SIZE;
     }
 
     for (size_t i = 0; i < decoded_size; i+=16)
@@ -99,7 +99,7 @@ ciot_err_t ciot_crypt_dec(ciot_crypt_t *crypt, char *data, char *out, int size)
 
     int decrypted_size = decoded_size - out[decoded_size - 1];
     out[decrypted_size] = '\0';
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 static ciot_err_t ciot_crypt_enc_word(char *data, ciot_crypt_key_t *key, char *out)
@@ -112,7 +112,7 @@ static ciot_err_t ciot_crypt_enc_word(char *data, ciot_crypt_key_t *key, char *o
     {
         CIOT_LOGE(TAG, "setkey enc mbedtls error: %d", err);
         mbedtls_aes_free(&aes);
-        return CIOT__ERR__INVALID_KEY_SIZE;
+        return CIOT_ERR_INVALID_KEY_SIZE;
     }
 
     err = mbedtls_aes_crypt_ecb(&aes, MBEDTLS_AES_ENCRYPT, (const unsigned char *)data, (unsigned char *)out);
@@ -120,12 +120,12 @@ static ciot_err_t ciot_crypt_enc_word(char *data, ciot_crypt_key_t *key, char *o
     {
         CIOT_LOGE(TAG, "encrypt mbedtls error: %d", err);
         mbedtls_aes_free(&aes);
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
     
     mbedtls_aes_free(&aes);
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 static ciot_err_t ciot_crypt_dec_word(char *data, ciot_crypt_key_t *key, char *out)
@@ -138,7 +138,7 @@ static ciot_err_t ciot_crypt_dec_word(char *data, ciot_crypt_key_t *key, char *o
     {
         CIOT_LOGE(TAG, "setkey dec mbedtls error: %d", err);
         mbedtls_aes_free(&aes);
-        return CIOT__ERR__INVALID_KEY_SIZE;
+        return CIOT_ERR_INVALID_KEY_SIZE;
     }
 
     err = mbedtls_aes_crypt_ecb(&aes, MBEDTLS_AES_DECRYPT, (const unsigned char*)data, (unsigned char *)out);
@@ -146,23 +146,23 @@ static ciot_err_t ciot_crypt_dec_word(char *data, ciot_crypt_key_t *key, char *o
     {
         CIOT_LOGE(TAG, "crypt ecb mbedtls error: %d", err);
         mbedtls_aes_free(&aes);
-        return CIOT__ERR__INVALID_KEY_SIZE;
+        return CIOT_ERR_INVALID_KEY_SIZE;
     }
     
     mbedtls_aes_free(&aes);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 #else
 
 ciot_err_t ciot_crypt_enc(ciot_crypt_t *crypt, char *data, char *out, int size)
 {
-    return CIOT__ERR__DISABLED;
+    return CIOT_ERR_DISABLED;
 }
 
 ciot_err_t ciot_crypt_dec(ciot_crypt_t *crypt, char *data, char *out, int size)
 {
-    return CIOT__ERR__DISABLED;
+    return CIOT_ERR_DISABLED;
 }
 
 #endif

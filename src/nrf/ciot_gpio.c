@@ -23,10 +23,10 @@ struct ciot_gpio
     ciot_gpio_base_t base;
 };
 
-ciot_gpio_t ciot_gpio_new(void *handle, int count)
+ciot_gpio_t ciot_gpio_new(void *handle)
 {
     ciot_gpio_t self = calloc(1, sizeof(struct ciot_gpio));
-    ciot_gpio_init(self, count);
+    ciot_gpio_init(self);
     self->base.set_state = (ciot_hal_gpio_set_state_fn*)set_bit;
     self->base.get_state = get_bit;
     return self;
@@ -42,7 +42,7 @@ ciot_err_t ciot_gpio_start(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
 ciot_err_t ciot_gpio_stop(ciot_gpio_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 static void set_bit(int bit_position, int value)
