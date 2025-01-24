@@ -27,29 +27,30 @@ ciot_storage_t ciot_storage_fs_new(void)
     base->delete = ciot_storage_fs_delete;
     base->write_bytes = ciot_storage_fs_write_bytes;
     base->read_bytes = ciot_storage_fs_read_bytes;
+    base->type = CIOT_STORAGE_TYPE_FS;
     return &self->base;
 }
 
-ciot_err_t ciot_storage_fs_write_bytes(char *path, uint8_t *bytes, int size)
+ciot_err_t ciot_storage_fs_write_bytes(ciot_storage_t self, char *path, uint8_t *bytes, int size)
 {
     FILE *f = fopen(path, "wb");
     if(f != NULL)
     {
         fwrite(bytes, size, 1, f);
         fclose(f);
-        return CIOT__ERR__OK;
+        return CIOT_ERR_OK;
     }
 
-    return CIOT__ERR__FAIL;
+    return CIOT_ERR_FAIL;
 }
 
-ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size)
+ciot_err_t ciot_storage_fs_read_bytes(ciot_storage_t self, char *path, uint8_t *bytes, int *size)
 {
     FILE *f = fopen(path, "rb");
     if(f == NULL)
     {
         *size = 0;
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
 
     if(bytes == NULL)
@@ -57,7 +58,7 @@ ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size)
         fseek(f, 0, SEEK_END);
         *size = ftell(f);
         fclose(f);
-        return CIOT__ERR__OK;
+        return CIOT_ERR_OK;
     }
 
     int idx = 0;
@@ -70,20 +71,20 @@ ciot_err_t ciot_storage_fs_read_bytes(char *path, uint8_t *bytes, int *size)
         }
     }
     fclose(f);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
-ciot_err_t ciot_storage_fs_delete(char *path)
+ciot_err_t ciot_storage_fs_delete(ciot_storage_t self, char *path)
 {
     remove(path);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
-ciot_err_t ciot_storage_fs_read_text(char *path, char *buf)
+ciot_err_t ciot_storage_fs_read_text(ciot_storage_t self, char *path, char *buf)
 {
     FILE *file = fopen(path, "r");
     if (file == NULL) {
-        return CIOT__ERR__NOT_FOUND;
+        return CIOT_ERR_NOT_FOUND;
     }
     
     fseek(file, 0, SEEK_END);
@@ -95,5 +96,5 @@ ciot_err_t ciot_storage_fs_read_text(char *path, char *buf)
 
     fclose(file);
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

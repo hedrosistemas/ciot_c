@@ -1,23 +1,22 @@
 /**
  * @file ciot_tcp.c
  * @author your name (you@domain.com)
- * @brief
+ * @brief 
  * @version 0.1
  * @date 2024-06-07
- *
+ * 
  * @copyright Copyright (c) 2024
- *
+ * 
  */
 
 #include <stdlib.h>
 #include <string.h>
+#include "ciot_tcp.h"
+#include "ciot_types.h"
 #include "esp_netif.h"
 #include "esp_wifi.h"
 #include "esp_event.h"
 #include "lwip/ip_addr.h"
-#include "ciot_tcp.h"
-#include "ciot_msg.h"
-#include "ciot_err.h"
 
 #define CIOT_ESP_NETIF_INHERENT_DEFAULT_ETH()                   \
     {                                                           \
@@ -42,7 +41,6 @@ struct ciot_tcp
     esp_netif_t *netif;
 };
 
-// static ciot_err_t ciot_tcp_set_dhcp_cfg(ciot_tcp_t self, ciot_tcp_dhcp_cfg_t dhcp);
 static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg);
 static void ciot_tcp_sta_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
 static void ciot_tcp_ap_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data);
@@ -82,7 +80,7 @@ ciot_err_t ciot_tcp_init_netif(ciot_tcp_t self)
     if (self->netif != NULL)
     {
         CIOT_LOGW(TAG, "Netif already created");
-        return CIOT__ERR__OK;
+        return CIOT_ERR_OK;
     }
 
     switch (self->base.type)
@@ -110,10 +108,10 @@ ciot_err_t ciot_tcp_init_netif(ciot_tcp_t self)
         break;
     }
     default:
-        return CIOT__ERR__INVALID_TYPE;
+        return CIOT_ERR_INVALID_TYPE;
     }
 
-    return self->netif != NULL ? CIOT__ERR__OK : CIOT__ERR__FAIL;
+    return self->netif != NULL ? CIOT_ERR_OK : CIOT_ERR_FAIL;
 }
 
 ciot_err_t ciot_tcp_start(ciot_tcp_t self)
@@ -139,12 +137,12 @@ ciot_err_t ciot_tcp_start(ciot_tcp_t self)
         CIOT_ERR_PRINT(TAG, esp_netif_dhcps_get_status(netif, &dhcps));
     }
 
-    switch (self->base.cfg.dhcp)
+    switch (self->base.cfg->dhcp)
     {
-    case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE:
+    case CIOT_TCP_DHCP_CFG_NO_CHANGE:
         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_NO_CHANGE");
-        return CIOT__ERR__OK;
-    case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_CLIENT:
+        return CIOT_ERR_OK;
+    case CIOT_TCP_DHCP_CFG_CLIENT:
         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_CLIENT");
         if (dhcps != ESP_NETIF_DHCP_STOPPED)
         {
@@ -157,7 +155,7 @@ ciot_err_t ciot_tcp_start(ciot_tcp_t self)
             CIOT_ERR_RETURN(esp_netif_dhcpc_start(netif));
         }
         break;
-    case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_SERVER:
+    case CIOT_TCP_DHCP_CFG_SERVER:
         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_SERVER");
         if (dhcpc != ESP_NETIF_DHCP_STOPPED)
         {
@@ -167,11 +165,11 @@ ciot_err_t ciot_tcp_start(ciot_tcp_t self)
         if (dhcps != ESP_NETIF_DHCP_STARTED)
         {
             CIOT_LOGI(TAG, "Starting dhcp server");
-            CIOT_ERR_RETURN(ciot_tcp_set_ip_cfg(self, &self->base.cfg));
+            CIOT_ERR_RETURN(ciot_tcp_set_ip_cfg(self, self->base.cfg));
             CIOT_ERR_RETURN(esp_netif_dhcps_start(netif));
         }
         break;
-    case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_DISABLED:
+    case CIOT_TCP_DHCP_CFG_DISABLED:
         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_DISABLED");
         if (dhcpc != ESP_NETIF_DHCP_STOPPED)
         {
@@ -183,92 +181,22 @@ ciot_err_t ciot_tcp_start(ciot_tcp_t self)
             CIOT_LOGI(TAG, "Stopping dhcp server");
             CIOT_ERR_RETURN(esp_netif_dhcps_stop(netif));
         }
-        CIOT_ERR_RETURN(ciot_tcp_set_ip_cfg(self, &self->base.cfg));
+        CIOT_ERR_RETURN(ciot_tcp_set_ip_cfg(self, self->base.cfg));
         break;
     default:
-        return CIOT__ERR__INVALID_ARG;
+        return CIOT_ERR_INVALID_ARG;
     }
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 
-    base->status.state = CIOT__TCP_STATE__TCP_STATE_STARTED;
-    return CIOT__ERR__OK;
+    base->status->state = CIOT_TCP_STATE_STARTED;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_tcp_stop(ciot_tcp_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
-
-// static ciot_err_t ciot_tcp_set_dhcp_cfg(ciot_tcp_t self, ciot_tcp_dhcp_cfg_t dhcp)
-// {
-//     CIOT_ERR_NULL_CHECK(self);
-//     CIOT_ERR_NULL_CHECK(self->netif);
-
-//     esp_netif_t *netif = self->netif;
-//     esp_netif_dhcp_status_t dhcpc = ESP_NETIF_DHCP_STOPPED;
-//     esp_netif_dhcp_status_t dhcps = ESP_NETIF_DHCP_STOPPED;
-//     esp_netif_flags_t flags = esp_netif_get_flags(netif);
-
-//     if (flags & ESP_NETIF_DHCP_CLIENT)
-//     {
-//         CIOT_ERR_PRINT(TAG, esp_netif_dhcpc_get_status(netif, &dhcpc));
-//     }
-
-//     if (flags & ESP_NETIF_DHCP_SERVER)
-//     {
-//         CIOT_ERR_PRINT(TAG, esp_netif_dhcps_get_status(netif, &dhcps));
-//     }
-
-//     switch (dhcp)
-//     {
-//     case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_NO_CHANGE:
-//         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_NO_CHANGE");
-//         return CIOT__ERR__OK;
-//     case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_CLIENT:
-//         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_CLIENT");
-//         if (dhcps != ESP_NETIF_DHCP_STOPPED)
-//         {
-//             CIOT_LOGI(TAG, "Stopping dhcp server");
-//             CIOT_ERR_RETURN(esp_netif_dhcps_stop(netif));
-//         }
-//         if (dhcpc != ESP_NETIF_DHCP_STARTED)
-//         {
-//             CIOT_LOGI(TAG, "Starting dhcp client");
-//             CIOT_ERR_RETURN(esp_netif_dhcpc_start(netif));
-//         }
-//         break;
-//     case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_SERVER:
-//         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_SERVER");
-//         if (dhcpc != ESP_NETIF_DHCP_STOPPED)
-//         {
-//             CIOT_LOGI(TAG, "Stopping dhcp client");
-//             CIOT_ERR_RETURN(esp_netif_dhcpc_stop(netif));
-//         }
-//         if (dhcps != ESP_NETIF_DHCP_STARTED)
-//         {
-//             CIOT_LOGI(TAG, "Starting dhcp server");
-//             CIOT_ERR_RETURN(esp_netif_dhcps_start(netif));
-//         }
-//         break;
-//     case CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_DISABLED:
-//         ESP_LOGI(TAG, "CIOT_TCP_DHCP_CFG_DISABLED");
-//         if (dhcpc != ESP_NETIF_DHCP_STOPPED)
-//         {
-//             CIOT_LOGI(TAG, "Stopping dhcp client");
-//             CIOT_ERR_RETURN(esp_netif_dhcpc_stop(netif));
-//         }
-//         if (dhcps != ESP_NETIF_DHCP_STOPPED)
-//         {
-//             CIOT_LOGI(TAG, "Stopping dhcp server");
-//             CIOT_ERR_RETURN(esp_netif_dhcps_stop(netif));
-//         }
-//         break;
-//     default:
-//         return CIOT__ERR__INVALID_ARG;
-//     }
-//     return CIOT__ERR__OK;
-// }
 
 static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg)
 {
@@ -276,14 +204,14 @@ static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     CIOT_ERR_NULL_CHECK(self->netif);
 
-    if (cfg->dhcp == CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_DISABLED ||
-        cfg->dhcp == CIOT__TCP_DHCP_CFG__TCP_DHCP_CFG_SERVER)
+    if (cfg->dhcp == CIOT_TCP_DHCP_CFG_DISABLED ||
+        cfg->dhcp == CIOT_TCP_DHCP_CFG_SERVER)
     {
         ESP_LOGI(TAG, "cfg: ip:%d.%d.%d.%d gw:%d.%d.%d.%d mask:%d.%d.%d.%d dns:%d.%d.%d.%d",
-                 cfg->ip.data[0], cfg->ip.data[1], cfg->ip.data[2], cfg->ip.data[3],
-                 cfg->gateway.data[0], cfg->gateway.data[1], cfg->gateway.data[2], cfg->gateway.data[3],
-                 cfg->mask.data[0], cfg->mask.data[1], cfg->mask.data[2], cfg->mask.data[3],
-                 cfg->dns.data[0], cfg->dns.data[1], cfg->dns.data[2], cfg->dns.data[3]);
+                 cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3],
+                 cfg->gateway[0], cfg->gateway[1], cfg->gateway[2], cfg->gateway[3],
+                 cfg->mask[0], cfg->mask[1], cfg->mask[2], cfg->mask[3],
+                 cfg->dns[0], cfg->dns[1], cfg->dns[2], cfg->dns[3]);
 
         char ip[16];
         char gateway[16];
@@ -294,10 +222,10 @@ static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg)
         esp_netif_ip_info_t ip_info;
         esp_netif_dns_info_t dns_info;
 
-        sprintf(ip, "%d.%d.%d.%d", cfg->ip.data[0], cfg->ip.data[1], cfg->ip.data[2], cfg->ip.data[3]);
-        sprintf(gateway, "%d.%d.%d.%d", cfg->gateway.data[0], cfg->gateway.data[1], cfg->gateway.data[2], cfg->gateway.data[3]);
-        sprintf(mask, "%d.%d.%d.%d", cfg->mask.data[0], cfg->mask.data[1], cfg->mask.data[2], cfg->mask.data[3]);
-        sprintf(dns, "%d.%d.%d.%d", cfg->dns.data[0], cfg->dns.data[1], cfg->dns.data[2], cfg->dns.data[3]);
+        sprintf(ip, "%d.%d.%d.%d", cfg->ip[0], cfg->ip[1], cfg->ip[2], cfg->ip[3]);
+        sprintf(gateway, "%d.%d.%d.%d", cfg->gateway[0], cfg->gateway[1], cfg->gateway[2], cfg->gateway[3]);
+        sprintf(mask, "%d.%d.%d.%d", cfg->mask[0], cfg->mask[1], cfg->mask[2], cfg->mask[3]);
+        sprintf(dns, "%d.%d.%d.%d", cfg->dns[0], cfg->dns[1], cfg->dns[2], cfg->dns[3]);
 
         ip_info.ip.addr = ipaddr_addr(ip);
         ip_info.gw.addr = ipaddr_addr(gateway);
@@ -308,13 +236,13 @@ static ciot_err_t ciot_tcp_set_ip_cfg(ciot_tcp_t self, ciot_tcp_cfg_t *cfg)
         CIOT_ERR_RETURN(esp_netif_set_ip_info(netif, &ip_info));
         CIOT_ERR_RETURN(esp_netif_set_dns_info(netif, ESP_NETIF_DNS_MAIN, &dns_info));
 
-        ciot_tcp_info_t *info = &self->base.info;
-        info->ip.data[0] = ip4_addr1(&ip_info.ip);
-        info->ip.data[1] = ip4_addr2(&ip_info.ip);
-        info->ip.data[2] = ip4_addr3(&ip_info.ip);
-        info->ip.data[3] = ip4_addr4(&ip_info.ip);
+        ciot_tcp_info_t *info = self->base.info;
+        info->ip[0] = ip4_addr1(&ip_info.ip);
+        info->ip[1] = ip4_addr2(&ip_info.ip);
+        info->ip[2] = ip4_addr3(&ip_info.ip);
+        info->ip[3] = ip4_addr4(&ip_info.ip);
     }
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 static void ciot_tcp_sta_event_handler(void *handler_args, esp_event_base_t event_base, int32_t event_id, void *event_data)
@@ -357,22 +285,22 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
         esp_netif_dhcp_status_t dhcpc = ESP_NETIF_DHCP_STOPPED;
         esp_netif_dhcp_status_t dhcps = ESP_NETIF_DHCP_STOPPED;
 
-        base->info.ip.data[0] = ip4_addr1(&ip_event->ip_info.ip);
-        base->info.ip.data[1] = ip4_addr2(&ip_event->ip_info.ip);
-        base->info.ip.data[2] = ip4_addr3(&ip_event->ip_info.ip);
-        base->info.ip.data[3] = ip4_addr4(&ip_event->ip_info.ip);
+        base->info->ip[0] = ip4_addr1(&ip_event->ip_info.ip);
+        base->info->ip[1] = ip4_addr2(&ip_event->ip_info.ip);
+        base->info->ip[2] = ip4_addr3(&ip_event->ip_info.ip);
+        base->info->ip[3] = ip4_addr4(&ip_event->ip_info.ip);
 
         if (esp_netif_dhcpc_get_status(ip_event->esp_netif, &dhcpc) == ESP_OK)
         {
-            base->status.dhcp->client = dhcpc;
+            base->status->dhcp.client = dhcpc;
         }
         if (esp_netif_dhcps_get_status(ip_event->esp_netif, &dhcps) == ESP_OK)
         {
-            base->status.dhcp->server = dhcps;
+            base->status->dhcp.server = dhcps;
         }
 
-        base->status.state = CIOT__TCP_STATE__TCP_STATE_CONNECTED;
-        ciot_iface_send_event_type(base->iface, CIOT_IFACE_EVENT_STARTED);
+        base->status->state = CIOT_TCP_STATE_CONNECTED;
+        ciot_iface_send_event_type(base->iface, CIOT_EVENT_TYPE_STARTED);
         break;
     }
     case IP_EVENT_AP_STAIPASSIGNED:
@@ -384,8 +312,8 @@ static void ciot_tcp_event_handler(void *handler_args, esp_event_base_t event_ba
     case IP_EVENT_STA_LOST_IP:
     {
         CIOT_LOGI(TAG, "IP_EVENT_LOST_IP");
-        base->status.state = CIOT__TCP_STATE__TCP_STATE_DISCONNECTED;
-        ciot_iface_send_event_type(base->iface, CIOT_IFACE_EVENT_STOPPED);
+        base->status->state = CIOT_TCP_STATE_DISCONNECTED;
+        ciot_iface_send_event_type(base->iface, CIOT_EVENT_TYPE_STOPPED);
         break;
     }
     default:
@@ -399,7 +327,7 @@ ciot_err_t ciot_tcp_get_ip(ciot_tcp_t self, uint8_t *ip)
     esp_netif_ip_info_t ip_info;
     esp_netif_get_ip_info(self->netif, &ip_info);
     memcpy(ip, &ip_info.ip.addr, sizeof(ip_info.ip.addr));
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 void *ciot_tcp_get_netif(ciot_tcp_t self)

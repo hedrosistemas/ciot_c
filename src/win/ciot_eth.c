@@ -31,10 +31,10 @@ ciot_eth_t ciot_eth_new(void *handle)
 
 ciot_err_t ciot_eth_start(ciot_eth_t self, ciot_tcp_cfg_t *cfg)
 {
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }
 
 ciot_err_t ciot_eth_stop(ciot_eth_t self)
 {
-    return CIOT__ERR__NOT_SUPPORTED;
+    return CIOT_ERR_NOT_SUPPORTED;
 }

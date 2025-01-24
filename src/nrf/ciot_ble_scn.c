@@ -22,7 +22,6 @@
 #endif
 #include "ble_gap.h"
 #include "ciot_ble_scn.h"
-#include "ciot_msg.h"
 #include "ciot_err.h"
 #include "ciot_config.h"
 
@@ -59,14 +58,14 @@ ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
         base->cfg = *cfg;
     }
 
-    if (base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_ACTIVE)
+    if (base->cfg.active && base->status.state == CIOT_BLE_SCN_STATE_ACTIVE)
     {
-        return CIOT__ERR__OK;
+        return CIOT_ERR_OK;
     }
 
-    if (!base->cfg.active && base->status.state == CIOT__BLE_SCN_STATE__BLE_SCN_STATE_PASSIVE)
+    if (!base->cfg.active && base->status.state == CIOT_BLE_SCN_STATE_PASSIVE)
     {
-        return CIOT__ERR__OK;
+        return CIOT_ERR_OK;
     }
 
     uint32_t err = sd_ble_gap_scan_stop();
@@ -87,12 +86,13 @@ ciot_err_t ciot_ble_scn_start(ciot_ble_scn_t self, ciot_ble_scn_cfg_t *cfg)
     if (err == NRF_SUCCESS)
     {
         base->status.state = cfg->active
-                                 ? CIOT__BLE_SCN_STATE__BLE_SCN_STATE_ACTIVE
-                                 : CIOT__BLE_SCN_STATE__BLE_SCN_STATE_PASSIVE;
-        ciot_iface_event_t iface_event = {0};
-        iface_event.type = CIOT_IFACE_EVENT_STARTED;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-        ciot_iface_send_event(&base->iface, &iface_event);
+                                 ? CIOT_BLE_SCN_STATE_ACTIVE
+                                 : CIOT_BLE_SCN_STATE_PASSIVE;
+        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
+        // ciot_event_t event = {0};
+        // event.type = CIOT_EVENT_TYPE_STARTED;
+        // event.msg = ciot_msg_get(CIOT_MSG_TYPE_STATUS, &base->iface);
+        // ciot_iface_send_event(&base->iface, &event);
     }
 
     base->status.err_code = ciot_ble_scn_get_error(err);
@@ -107,19 +107,20 @@ ciot_err_t ciot_ble_scn_stop(ciot_ble_scn_t self)
     int err = sd_ble_gap_scan_stop();
     if (err == NRF_SUCCESS)
     {
-        base->status.state = CIOT__BLE_SCN_STATE__BLE_SCN_STATE_IDLE;
-        ciot_iface_event_t iface_event = {0};
-        iface_event.type = CIOT_IFACE_EVENT_STOPPED;
-        iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-        ciot_iface_send_event(&base->iface, &iface_event);
+        base->status.state = CIOT_BLE_SCN_STATE_IDLE;
+        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STOPPED);
+        // ciot_event_t event = {0};
+        // event.type = CIOT_EVENT_TYPE_STOPPED;
+        // event.msg = ciot_msg_get(CIOT_MSG_TYPE_STATUS, &base->iface);
+        // ciot_iface_send_event(&base->iface, &event);
     }
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_ble_scn_task(ciot_ble_scn_t self)
 {
     ciot_ble_scn_base_task(self);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *event_args)
@@ -135,15 +136,15 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
     {
     case BLE_GAP_EVT_ADV_REPORT:
         ciot_ble_scn_copy_mac(mac, (uint8_t *)ev->evt.gap_evt.params.adv_report.peer_addr.addr, true);
-        base->recv.info->mac.data = mac;
-        base->recv.info->mac.len = sizeof(mac);
-        base->recv.info->rssi = ev->evt.gap_evt.params.adv_report.rssi;
+        memcpy(base->recv.info.mac, mac, 6);
+        base->recv.info.rssi = ev->evt.gap_evt.params.adv_report.rssi;
 #if NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3
-        base->recv.adv.data = (ciot_iface_event_data_u *)ev->evt.gap_evt.params.adv_report.data;
+        base->recv.adv.data = (CIOT_EVENT_TYPE_data_u *)ev->evt.gap_evt.params.adv_report.data;
         base->recv.adv.len = ev->evt.gap_evt.params.adv_report.dlen;
 #else
-        base->recv.payload.data = ev->evt.gap_evt.params.adv_report.data.p_data;
-        base->recv.payload.len = ev->evt.gap_evt.params.adv_report.data.len;
+        memset(base->recv.payload.bytes, 0, sizeof(base->recv.payload.bytes));
+        memcpy(base->recv.payload.bytes, ev->evt.gap_evt.params.adv_report.data.p_data, ev->evt.gap_evt.params.adv_report.data.len);
+        base->recv.payload.size = ev->evt.gap_evt.params.adv_report.data.len;
         uint32_t error = sd_ble_gap_scan_start(NULL, &self->scan_buffer);
         if(error) {
             base->status.err_code = ciot_ble_scn_get_error(error);
@@ -157,7 +158,7 @@ ciot_err_t ciot_ble_scn_handle_event(ciot_ble_scn_t self, void *event, void *eve
     default:
         break;
     }
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 static ciot_err_t ciot_ble_scn_get_error(uint32_t nrf_error)
@@ -165,19 +166,19 @@ static ciot_err_t ciot_ble_scn_get_error(uint32_t nrf_error)
     switch (nrf_error)
     {
     case NRF_ERROR_INVALID_ADDR:
-        return CIOT__ERR__INVALID_ADDR;
+        return CIOT_ERR_INVALID_ADDR;
     case NRF_ERROR_INVALID_STATE:
-        return CIOT__ERR__INVALID_STATE;
+        return CIOT_ERR_INVALID_STATE;
     case NRF_ERROR_INVALID_PARAM:
-        return CIOT__ERR__INVALID_ARG;
+        return CIOT_ERR_INVALID_ARG;
     case NRF_ERROR_NOT_SUPPORTED:
-        return CIOT__ERR__NOT_SUPPORTED;
+        return CIOT_ERR_NOT_SUPPORTED;
     case NRF_ERROR_INVALID_LENGTH:
-        return CIOT__ERR__INVALID_SIZE;
+        return CIOT_ERR_INVALID_SIZE;
     case NRF_ERROR_RESOURCES:
-        return CIOT__ERR__RESOURCES;
+        return CIOT_ERR_RESOURCES;
     default:
-        return CIOT__ERR__UNKNOWN;
+        return CIOT_ERR_UNKNOWN;
     }
 }
 

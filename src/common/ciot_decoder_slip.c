@@ -11,6 +11,7 @@
 
 #include <stdlib.h>
 #include "ciot_iface.h"
+#include "ciot_decoder.h"
 #include "ciot_decoder_slip.h"
 
 #define SLIP_BYTE_END 0xc0
@@ -20,8 +21,9 @@
 
 typedef struct ciot_decoder_slip *ciot_decoder_slip_t;
 
-static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte);
-static ciot_err_t ciot_decoder_slip_send(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_decoder_slip_decode(ciot_decoder_t base, uint8_t byte);
+static ciot_err_t ciot_decoder_slip_encode(ciot_decoder_t base, uint8_t *bytes, int size);
+static ciot_err_t ciot_decoder_slip_send(ciot_decoder_t base, ciot_iface_t *iface, uint8_t *bytes, int size);
 
 static uint8_t slip_byte_end = SLIP_BYTE_END;
 static uint8_t slip_byte_esc = SLIP_BYTE_ESC;
@@ -43,30 +45,29 @@ typedef struct ciot_decoder_slip_buf
 
 struct ciot_decoder_slip
 {
-    struct ciot_iface_decoder base;
-    ciot_decoder_slip_buf_t buf;
+    struct ciot_decoder base;
     ciot_decoder_slip_read_state_t state;
+    ciot_decoder_slip_buf_t buf;
     // int size;
     int idx;
 };
 
 static const char *TAG = "ciot_decoder_slip";
 
-ciot_iface_decoder_t ciot_decoder_slip_new(uint8_t *buf, int size)
+ciot_decoder_t ciot_decoder_slip_new(uint8_t *buf, int size)
 {
     ciot_decoder_slip_t self = calloc(1, sizeof(struct ciot_decoder_slip));
     self->buf.ptr = buf;
     self->buf.len = size;
     self->base.decode = ciot_decoder_slip_decode;
+    self->base.encode = ciot_decoder_slip_encode;
     self->base.send = ciot_decoder_slip_send;
-    self->base.event_type = CIOT_IFACE_EVENT_REQUEST;
     return &self->base;
 }
 
-static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
+static ciot_err_t ciot_decoder_slip_decode(ciot_decoder_t base, uint8_t byte)
 {
-    ciot_decoder_slip_t self = (ciot_decoder_slip_t)iface->decoder;
-    ciot_iface_decoder_t base = &self->base;
+    ciot_decoder_slip_t self = (ciot_decoder_slip_t)base;
     
     CIOT_ERR_NULL_CHECK(self->buf.ptr);
     
@@ -74,8 +75,8 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
     {
         CIOT_LOGE(TAG, "Overflow");
         self->idx = 0;
-        base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-        return CIOT__ERR__OVERFLOW;
+        base->state = CIOT_DECODER_STATE_ERROR;
+        return CIOT_ERR_OVERFLOW;
     }
 
     switch (self->state)
@@ -85,11 +86,13 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
         {
         case SLIP_BYTE_END:
         {
-            ciot_iface_event_t iface_event = {0};
-            iface_event.type = base->event_type;
-            iface_event.data = self->buf.ptr;
-            iface_event.size = self->idx;
-            ciot_iface_send_event(iface, &iface_event);
+            // ciot_iface_event_t iface_event = {0};
+            // iface_event.type = base->event_type;
+            // iface_event.data = self->buf.ptr;
+            // iface_event.size = self->idx;
+            // ciot_iface_send_event(iface, &iface_event);
+            base->state = CIOT_DECODER_STATE_DONE;
+            base->result.size = self->idx;
             self->idx = 0;
             break;
         }
@@ -114,8 +117,8 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
             break;
         default:
             self->state = CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET;
-            base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-            return CIOT__ERR__PROTOCOL_VIOLATION;
+            base->state = CIOT_DECODER_STATE_ERROR;
+            return CIOT_ERR_PROTOCOL_VIOLATION;
         }
         break;
     case CIOT_DECODER_SLIP_STATE_CLEARING_INVALID_PACKET:
@@ -129,19 +132,49 @@ static ciot_err_t ciot_decoder_slip_decode(ciot_iface_t *iface, uint8_t byte)
         break;
     }
 
-    base->state = CIOT_IFACE_DECODER_STATE_DECODING;
+    base->state = CIOT_DECODER_STATE_DECODING;
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
-static ciot_err_t ciot_decoder_slip_send(ciot_iface_t *iface, uint8_t *data, int size)
+static ciot_err_t ciot_decoder_slip_encode(ciot_decoder_t decoder, uint8_t *bytes, int size)
 {
-    CIOT_ERR_NULL_CHECK(data);
+    // CIOT_ERR_NULL_CHECK(bytes);
+    // CIOT_ERR_NULL_CHECK(iface);
+
+    // for (size_t i = 0; i < size; i++)
+    // {
+    //     switch (bytes[i])
+    //     {
+    //     case SLIP_BYTE_END:
+    //         iface->send_bytes(iface, &slip_byte_esc, 1);
+    //         iface->send_bytes(iface, &slip_byte_esc_end, 1);
+    //         break;
+    //     case SLIP_BYTE_ESC:
+    //         iface->send_bytes(iface, &slip_byte_esc, 1);
+    //         iface->send_bytes(iface, &slip_byte_esc_esc, 1);
+    //         break;
+    //     default:
+    //         iface->send_bytes(iface, &bytes[i], 1);
+    //         break;
+    //     }
+    // }
+    
+    // iface->send_bytes(iface, &slip_byte_end, 1);
+
+    // return CIOT__ERR__OK;
+    return CIOT_ERR_NOT_IMPLEMENTED;
+}
+
+static ciot_err_t ciot_decoder_slip_send(ciot_decoder_t base, ciot_iface_t *iface, uint8_t *bytes, int size)
+{
+    CIOT_ERR_NULL_CHECK(base);
+    CIOT_ERR_NULL_CHECK(bytes);
     CIOT_ERR_NULL_CHECK(iface);
 
     for (size_t i = 0; i < size; i++)
     {
-        switch (data[i])
+        switch (bytes[i])
         {
         case SLIP_BYTE_END:
             iface->send_data(iface, &slip_byte_esc, 1);
@@ -152,12 +185,12 @@ static ciot_err_t ciot_decoder_slip_send(ciot_iface_t *iface, uint8_t *data, int
             iface->send_data(iface, &slip_byte_esc_esc, 1);
             break;
         default:
-            iface->send_data(iface, &data[i], 1);
+            iface->send_data(iface, &bytes[i], 1);
             break;
         }
     }
     
     iface->send_data(iface, &slip_byte_end, 1);
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

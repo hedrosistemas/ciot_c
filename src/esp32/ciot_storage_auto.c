@@ -24,8 +24,7 @@ typedef struct ciot_storage_auto *ciot_storage_auto_t;
 
 ciot_storage_t ciot_storage_auto_new(void)
 {
-    esp_partition_iterator_t iterator = esp_partition_find(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_ANY, FS_PARTITION_LABLE);
-    const esp_partition_t* partition = esp_partition_get(iterator);
+    const esp_partition_t* partition = esp_partition_find_first(ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_ANY, FS_PARTITION_LABLE);
 
     switch (partition->subtype)
     {

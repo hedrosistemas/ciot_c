@@ -18,7 +18,6 @@ extern "C" {
 #include <stdlib.h>
 #include <inttypes.h>
 #include <stdbool.h>
-#include "protobuf-c/protobuf-c.h"
 
 /**
  * @brief Convert bytes to hexadecimal representation.

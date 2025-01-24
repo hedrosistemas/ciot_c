@@ -20,6 +20,9 @@ typedef struct ciot_eth_base
 {
     ciot_iface_t iface;
     ciot_tcp_t tcp;
+    ciot_tcp_cfg_t cfg;
+    ciot_tcp_status_t status;
+    ciot_tcp_info_t info;
 } ciot_eth_base_t;
 
 ciot_eth_t ciot_eth_new(void *handle);

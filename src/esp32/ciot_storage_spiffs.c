@@ -13,6 +13,7 @@
 #include "ciot_storage.h"
 #include "ciot_storage_fs.h"
 #include "esp_spiffs.h"
+#include "ciot_err.h"
 
 #define FS_BASE_PATH "/fs"
 #define FS_PARTITION_LABLE "storage"
@@ -40,6 +41,7 @@ ciot_storage_t ciot_storage_spiffs_new(void)
     base->delete = ciot_storage_fs_delete;
     base->write_bytes = ciot_storage_fs_write_bytes;
     base->read_bytes = ciot_storage_fs_read_bytes;
+    base->type = CIOT_STORAGE_TYPE_FS;
     return &self->base;
 }
 
@@ -55,7 +57,7 @@ static ciot_err_t ciot_storage_spiffs_init(ciot_storage_spiffs_t self)
     if(err)
     {
         CIOT_LOGE(TAG, "Error mounting spiffs: %s", esp_err_to_name(err));
-        return CIOT__ERR__FAIL;
+        return CIOT_ERR_FAIL;
     }
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

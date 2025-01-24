@@ -13,7 +13,9 @@
 #include "ciot_custom_config.h"
 #else
 
-#define CIOT_CONFIG_LOG_LEVEL CIOT__LOG_LEVEL__LOG_LEVEL_INFO
+#include "ciot_serializer_pb.h"
+
+#define CIOT_CONFIG_LOG_LEVEL CIOT_LOG_LEVEL_INFO
 #define CIOT_CONFIG_HARDWARE_NAME "CIoT Device"
 #define CIOT_CONFIG_APP_VER 0, 1, 0             
 
@@ -34,5 +36,12 @@
 #define CIOT_CONFIG_FEATURE_TIMER 0
 #define CIOT_CONFIG_FEATURE_SERIALIZER 0
 #define CIOT_CONFIG_FEATURE_CRYPT 0
+
+#define CIOT_CONFIG_MSG_SIZE 256
+#define CIOT_CONFIG_URL_SIZE 48
+#define CIOT_CONFIG_MQTT_TOPIC_SIZE 48
+
+#define ciot_serializer_to_bytes ciot_serializer_pb_to_bytes
+#define ciot_serializer_from_bytes ciot_serializer_pb_from_bytes
 
 #endif

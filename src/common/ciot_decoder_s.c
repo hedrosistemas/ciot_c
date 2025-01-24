@@ -22,8 +22,9 @@ typedef enum ciot_decoder_s_state
 
 typedef struct ciot_decoder_s *ciot_decoder_s_t;
 
-static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte);
-static ciot_err_t ciot_decoder_s_send(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_decoder_s_decode(ciot_decoder_t base, uint8_t byte);
+static ciot_err_t ciot_decoder_s_encode(ciot_decoder_t base, uint8_t *bytes, int size);
+static ciot_err_t ciot_decoder_s_send(ciot_decoder_t base, ciot_iface_t *iface, uint8_t *bytes, int size);
 
 typedef struct ciot_decoder_s_buf
 {
@@ -33,7 +34,7 @@ typedef struct ciot_decoder_s_buf
 
 struct ciot_decoder_s
 {
-    struct ciot_iface_decoder base;
+    struct ciot_decoder base;
     ciot_decoder_s_state_t state;
     ciot_decoder_s_buf_t buf;
     int size;
@@ -44,21 +45,21 @@ static const char *TAG = "ciot_decoder_s";
 static uint8_t start_ch = CIOT_DECODER_S_START_CH;
 static uint8_t end_ch = CIOT_DECODER_S_END_CH;
 
-ciot_iface_decoder_t ciot_decoder_s_new(uint8_t *buf, int size)
+ciot_decoder_t ciot_decoder_s_new(uint8_t *buf, int size)
 {
     ciot_decoder_s_t self = calloc(1, sizeof(struct ciot_decoder_s));
+    self->base.result.buf = buf;
     self->buf.ptr = buf;
     self->buf.len = size;
     self->base.decode = ciot_decoder_s_decode;
+    self->base.encode = ciot_decoder_s_encode;
     self->base.send = ciot_decoder_s_send;
-    self->base.event_type = CIOT_IFACE_EVENT_REQUEST;
     return &self->base;
 }
 
-static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
+static ciot_err_t ciot_decoder_s_decode(ciot_decoder_t base, uint8_t byte)
 {
-    ciot_decoder_s_t self = (ciot_decoder_s_t)iface->decoder;
-    ciot_iface_decoder_t base = &self->base;
+    ciot_decoder_s_t self = (ciot_decoder_s_t)base;
 
     CIOT_ERR_NULL_CHECK(self->buf.ptr);
 
@@ -71,8 +72,8 @@ static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
         CIOT_LOGE(TAG, "Overflow");
         self->idx = 0;
         self->state = CIOT_DECODER_S_STATE_WAIT_START_CH;
-        base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-        return CIOT__ERR__OVERFLOW;
+        base->state = CIOT_DECODER_STATE_ERROR;
+        return CIOT_ERR_OVERFLOW;
     }
 
     switch (self->state)
@@ -97,37 +98,52 @@ static ciot_err_t ciot_decoder_s_decode(ciot_iface_t *iface, uint8_t byte)
         {
             self->idx = 0;
             self->state = CIOT_DECODER_S_STATE_WAIT_START_CH;
-            base->state = CIOT_IFACE_DECODER_STATE_DONE;
-            ciot_iface_event_t iface_event = {0};
-            iface_event.type = base->event_type;
-            iface_event.data = self->buf.ptr;
-            iface_event.size = self->size;
-            ciot_iface_send_event(iface, &iface_event);
+            base->state = CIOT_DECODER_STATE_DONE;
+            base->result.buf = self->buf.ptr;
+            base->result.size = self->size;
+            return CIOT_ERR_OK;
         }  
         if(self->idx == self->size + 1)
         {
             CIOT_LOGE(TAG, "Missing terminator");
             self->idx = 0;
             self->state = CIOT_DECODER_S_STATE_WAIT_START_CH;
-            base->state = CIOT_IFACE_DECODER_STATE_ERROR;
-            return CIOT__ERR__PROTOCOL_VIOLATION;
+            base->state = CIOT_DECODER_STATE_ERROR;
+            return CIOT_ERR_PROTOCOL_VIOLATION;
         }
     default:
         break;
     }
 
-    base->state = CIOT_IFACE_DECODER_STATE_DECODING;
+    base->state = CIOT_DECODER_STATE_DECODING;
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
-static ciot_err_t ciot_decoder_s_send(ciot_iface_t *iface, uint8_t *data, int size)
+static ciot_err_t ciot_decoder_s_encode(ciot_decoder_t base, uint8_t *bytes, int size)
 {
-    CIOT_ERR_NULL_CHECK(data);
+    CIOT_ERR_NULL_CHECK(base);
+    CIOT_ERR_NULL_CHECK(bytes);
+    ciot_decoder_s_t self = (ciot_decoder_s_t)base;
+    if (size > self->buf.len - 4) {
+        return CIOT_ERR_OVERFLOW;
+    }
+    base->result.buf[0] = start_ch;
+    memcpy(&base->result.buf[1], (uint8_t*)&size, 2);
+    memcpy(&base->result.buf[3], bytes, size);
+    base->result.buf[3 + size] = end_ch;
+    base->result.size = 4 + size;
+    return CIOT_ERR_OK;
+}
+
+static ciot_err_t ciot_decoder_s_send(ciot_decoder_t base, ciot_iface_t *iface, uint8_t *bytes, int size)
+{
+    CIOT_ERR_NULL_CHECK(base);
+    CIOT_ERR_NULL_CHECK(bytes);
     CIOT_ERR_NULL_CHECK(iface);
     iface->send_data(iface, &start_ch, 1);
     iface->send_data(iface, (uint8_t*)&size, 2);
-    iface->send_data(iface, data, size);
+    iface->send_data(iface, bytes, size);
     iface->send_data(iface, &end_ch, 1);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }

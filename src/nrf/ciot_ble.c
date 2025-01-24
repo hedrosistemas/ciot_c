@@ -18,7 +18,6 @@
 #include "app_error.h"
 #include "ciot_ble.h"
 #include "ciot_err.h"
-#include "ciot_msg.h"
 #include "ciot_utils.h"
 
 #define APP_BLE_OBSERVER_PRIO 3 /**< Application's BLE observer priority. You shouldn't need to modify this value. */
@@ -56,42 +55,43 @@ ciot_err_t ciot_ble_start(ciot_ble_t self, ciot_ble_cfg_t *cfg)
     ciot_ble_base_t *base = &self->base;
     base->cfg = *cfg;
 
-    if (base->status.state != CIOT__BLE_STATE__BLE_STATE_STARTED)
+    if (base->status.state != CIOT_BLE_STATE_STARTED)
     {
         ciot_ble_power_management_init(self);
         ciot_ble_stack_init(self);
-        base->status.state = CIOT__BLE_STATE__BLE_STATE_STARTED;
+        base->status.state = CIOT_BLE_STATE_STARTED;
     }
 
-    uint32_t err = ciot_ble_set_mac(self, cfg->mac.data);
+    uint32_t err = ciot_ble_set_mac(self, cfg->mac);
     if (err == NRF_SUCCESS)
     {
         base->status.using_sw_mac = true;
         // memcpy(base->macs.sw, cfg->mac.data, sizeof(base->macs.sw));
     }
 
-    if (base->iface.req_status.type == CIOT__MSG_TYPE__MSG_TYPE_START)
-    {
-        base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
-    }
+    // if (base->iface.req_status.data_type == CIOT_BLE_)
+    // {
+    //     base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
+    // }
 
-    ciot_iface_event_t iface_event = {0};
-    iface_event.type = CIOT_IFACE_EVENT_STARTED;
-    iface_event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-    ciot_iface_send_event(&base->iface, &iface_event);
+    // ciot_event_t iface_event = {0};
+    // iface_event.type = CIOT_EVENT_TYPE_STARTED;
+    // iface_event.msg = ciot_msg_get(CIOT_MSG_TYPE_STATUS, &base->iface);
+    // ciot_iface_send_event(&base->iface, &iface_event);
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_ble_stop(ciot_ble_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_ble_task(ciot_ble_t self)
 {
-    return CIOT__ERR__NOT_IMPLEMENTED;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
@@ -103,7 +103,7 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 
     if (ciot_ble_mac_is_valid(mac) == false)
     {
-        return CIOT__ERR__INVALID_ARG;
+        return CIOT_ERR_INVALID_ARG;
     }
 
     uint32_t err = 0;
@@ -120,7 +120,9 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 
     if (err == NRF_SUCCESS)
     {
-        memcpy(base->macs.sw, mac, sizeof(base->macs.sw));
+        base->status.using_sw_mac = true;
+        memcpy(base->cfg.mac, mac, 6);
+        memcpy(base->info.sw_mac, mac, 6);
         err = ciot_ble_scn_start(base->ifaces.scn, NULL);
     }
 
@@ -138,10 +140,10 @@ ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t m
     switch (type)
     {
     case CIOT_BLE_MAC_TYPE_HARDWARE:
-        memcpy(mac, base->info.hw_mac.data, 6);
+        memcpy(mac, base->info.hw_mac, 6);
         break;
     case CIOT_BLE_MAC_TYPE_SOFTWARE:
-        memcpy(mac, base->info.sw_mac.data, 6);
+        memcpy(mac, base->info.sw_mac, 6);
         break;
     case CIOT_BLE_MAC_TYPE_REAL:
     {
@@ -156,7 +158,7 @@ ciot_err_t ciot_ble_get_mac(ciot_ble_t self, ciot_ble_mac_type_t type, uint8_t m
         break;
     }
     default:
-        return CIOT__ERR__INVALID_TYPE;
+        return CIOT_ERR_INVALID_TYPE;
     }
 
     return err;
@@ -217,7 +219,7 @@ static void ciot_ble_stack_init(ciot_ble_t self)
 #endif
 
     // Get hardware MAC
-    err_code = ciot_ble_get_mac(self, CIOT_BLE_MAC_TYPE_REAL, self->base.macs.hw);
+    err_code = ciot_ble_get_mac(self, CIOT_BLE_MAC_TYPE_REAL, self->base.info.hw_mac);
 
     APP_ERROR_CHECK(err_code);
 }

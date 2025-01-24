@@ -9,15 +9,14 @@
  * 
  */
 
+#include <stdlib.h>
+#include "ciot_uart.h"
+#include "ciot_err.h"
+
 #include "driver/uart.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
-
-#include <stdlib.h>
-#include "ciot_uart.h"
-#include "ciot_err.h"
-#include "ciot_msg.h"
 
 #ifndef CIOT_CONFIG_UART_RX_BUF_SIZE
 #define CIOT_CONFIG_UART_RX_BUF_SIZE 256
@@ -72,6 +71,8 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 
     ciot_uart_base_t *base = &self->base;
 
+    CIOT_LOGI(TAG, "num: %d", (int)cfg->num);
+
     base->cfg = *cfg;
 
     int num = base->cfg.num;
@@ -92,21 +93,21 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     if(num == 1) xTaskCreatePinnedToCore(ciot_uart1_task, "ciot_uart1_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
     if(num == 2) xTaskCreatePinnedToCore(ciot_uart2_task, "ciot_uart2_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
 
-    ciot_iface_event_t event = { 0 };
-    base->status.state = CIOT__UART_STATE__UART_STATE_STARTED;
-    event.type = CIOT_IFACE_EVENT_STARTED;
-    event.msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-    ciot_iface_send_event(&base->iface, &event);
+    ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 
-    return CIOT__ERR__OK;
+    return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    uart_driver_delete(self->base.cfg.num);
-    vTaskDelete(self->task);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_NOT_IMPLEMENTED;
+}
+
+ciot_err_t ciot_uart_task(ciot_uart_t self)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
@@ -114,13 +115,7 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(bytes);
     uart_write_bytes(self->base.cfg.num, bytes, size);
-    return CIOT__ERR__OK;
-}
-
-ciot_err_t ciot_uart_task(ciot_uart_t self)
-{
-    CIOT_ERR_NULL_CHECK(self);
-    return CIOT__ERR__OK;
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 static void ciot_uart0_task(void *args)
@@ -176,45 +171,35 @@ static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
     switch (event->type)
     {
     case UART_DATA:
-        // if(event->size > 0)
-        // {
-        //     uint8_t data[event->size];
-        //     uart_read_bytes(base->cfg.num, data, event->size, portMAX_DELAY);
-        //     ciot_err_t err = ciot_iface_process_data(&base->iface, data, event->size);
-        //     if(err != CIOT__ERR__OK)
-        //     {
-        //         CIOT_LOGI(TAG, "Process data error %s", ciot_err_to_message(err));
-        //     }
-        // }
         while (event->size)
         {
             uint8_t byte;
             uart_read_bytes(base->cfg.num, &byte, 1, portMAX_DELAY);
             event->size--;
-            ciot_iface_process_data(&base->iface, &byte, 1);
+            ciot_iface_process_data(&base->iface, &byte, 1, CIOT_EVENT_TYPE_REQUEST);
         }
         break;
     case UART_FIFO_OVF:
         ESP_LOGE(TAG, "UART_FIFO_OVF[%ld]", base->cfg.num);
-        base->status.error = CIOT__UART_ERROR__UART_ERR_FIFO_OVERFLOW;
+        base->status.error = CIOT_UART_ERROR_FIFO_OVERFLOW;
         uart_flush_input(base->cfg.num);
         xQueueReset(self->queue);
         break;
     case UART_BUFFER_FULL:
         ESP_LOGE(TAG, "UART_BUFFER_FULL[%ld]: %d", base->cfg.num, event->size);
-        base->status.error = CIOT__UART_ERROR__UART_ERR_BUFFER_FULL;
+        base->status.error = CIOT_UART_ERROR_BUFFER_FULL;
         uart_flush_input(base->cfg.num);
         xQueueReset(self->queue);
         break;
     case UART_BREAK:
         ESP_LOGE(TAG, "UART_BREAK[%ld]", base->cfg.num);
-        base->status.error = CIOT__UART_ERROR__UART_ERR_BREAK;
+        base->status.error = CIOT_UART_ERROR_BREAK;
         uart_flush_input(base->cfg.num);
         xQueueReset(self->queue);
         break;
     case UART_FRAME_ERR:
         ESP_LOGE(TAG, "UART_FRAME_ERR[%ld]", base->cfg.num);
-        base->status.error = CIOT__UART_ERROR__UART_ERR_FRAME;
+        base->status.error = CIOT_UART_ERROR_FRAME;
         uart_flush_input(base->cfg.num);
         xQueueReset(self->queue);
         break;
