@@ -94,6 +94,12 @@ ciot_err_t ciot_mqtt_client_set_subtopic(ciot_mqtt_client_t self, char *subtopic
     return CIOT_ERR_OK;
 }
 
+bool ciot_mqtt_client_is_connected(ciot_mqtt_client_t self)
+{
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    return base->status.state == CIOT_MQTT_CLIENT_STATE_CONNECTED;
+}
+
 static ciot_err_t ciot_mqtt_client_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
     CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_MQTT_CLIENT_TAG);
