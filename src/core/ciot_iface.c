@@ -25,17 +25,7 @@ ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(msg);
-
-    if (self->req_status.state != CIOT_IFACE_REQ_STATE_IDLE)
-    {
-        CIOT_LOGE(TAG, "Iface %s (%lu) is busy", ciot_iface_to_str(self), self->info.id);
-        return CIOT_ERR_BUSY;
-    }
-    else
-    {
-        msg->id = ciot_iface_get_msg_id();
-        return ciot_iface_send(self, msg);
-    }
+    return ciot_iface_send(self, msg);
 }
 
 ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp)

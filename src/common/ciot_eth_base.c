@@ -58,7 +58,7 @@ static ciot_err_t ciot_eth_process_data(ciot_iface_t *iface, ciot_msg_data_t *da
         return CIOT_ERR_INVALID_TYPE;
     }
 
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    return CIOT_ERR_INVALID_TYPE;
 }
 
 static ciot_err_t ciot_eth_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
