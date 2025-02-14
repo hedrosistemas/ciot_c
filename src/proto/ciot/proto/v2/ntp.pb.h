@@ -25,9 +25,9 @@ typedef struct ciot_ntp_stop {
 
 /* Message representing configuration for the NTP module. */
 typedef struct ciot_ntp_cfg {
-    int32_t op_mode; /* Operation mode for NTP. */
-    int32_t sync_mode; /* Synchronization mode for NTP. */
-    int32_t sync_interval; /* Synchronization interval for NTP. */
+    uint32_t op_mode; /* Operation mode for NTP. */
+    uint32_t sync_mode; /* Synchronization mode for NTP. */
+    uint32_t sync_interval; /* Synchronization interval for NTP. */
     char timezone[16]; /* Timezone for NTP. */
     char server1[48]; /* NTP server 1. */
     char server2[48]; /* NTP server 2. */
@@ -116,9 +116,9 @@ extern "C" {
 #define CIOT_NTP_STOP_DEFAULT NULL
 
 #define CIOT_NTP_CFG_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, INT32,    op_mode,           1) \
-X(a, STATIC,   SINGULAR, INT32,    sync_mode,         2) \
-X(a, STATIC,   SINGULAR, INT32,    sync_interval,     3) \
+X(a, STATIC,   SINGULAR, UINT32,   op_mode,           1) \
+X(a, STATIC,   SINGULAR, UINT32,   sync_mode,         2) \
+X(a, STATIC,   SINGULAR, UINT32,   sync_interval,     3) \
 X(a, STATIC,   SINGULAR, STRING,   timezone,          4) \
 X(a, STATIC,   SINGULAR, STRING,   server1,           5) \
 X(a, STATIC,   SINGULAR, STRING,   server2,           6) \
@@ -167,8 +167,8 @@ extern const pb_msgdesc_t ciot_ntp_data_t_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_NTP_PB_H_MAX_SIZE     CIOT_NTP_DATA_SIZE
-#define CIOT_NTP_CFG_SIZE                        197
-#define CIOT_NTP_DATA_SIZE                       200
+#define CIOT_NTP_CFG_SIZE                        182
+#define CIOT_NTP_DATA_SIZE                       185
 #define CIOT_NTP_REQ_SIZE                        0
 #define CIOT_NTP_STATUS_SIZE                     23
 #define CIOT_NTP_STOP_SIZE                       0

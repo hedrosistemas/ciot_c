@@ -102,7 +102,7 @@ extern "C" {
 #define CIOT_REQ_DELETE_CFG_TAG                  2
 #define CIOT_DATA_STATUS_TAG                     2
 #define CIOT_DATA_REQUEST_TAG                    3
-#define CIOT_DATA_INFO_TAG                       4
+#define CIOT_DATA_INFO_TAG                       6
 
 /* Struct field encoding specification for nanopb */
 #define CIOT_INFO_FIELDLIST(X, a) \
@@ -127,7 +127,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,delete_cfg,delete_cfg),   2)
 #define CIOT_DATA_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,status,status),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,request,request),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   4)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   6)
 #define CIOT_DATA_CALLBACK NULL
 #define CIOT_DATA_DEFAULT NULL
 #define ciot_data_t_type_status_MSGTYPE ciot_status_t

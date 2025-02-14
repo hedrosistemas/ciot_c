@@ -38,12 +38,12 @@ typedef enum ciot_mqtt_client_broker_kind {
 /* Struct definitions */
 /* Message representing error details for the MQTT client. */
 typedef struct ciot_mqtt_client_error {
-    int32_t tls_last_err; /* TLS last error code. */
-    int32_t tls_stack_err; /* TLS stack error code. */
-    int32_t tls_cert_verify_flags; /* TLS certificate verification flags. */
-    int32_t type; /* Type of the error. */
-    int32_t code; /* Error code. */
-    int32_t transport_sock; /* Transport socket error. */
+    uint32_t tls_last_err; /* TLS last error code. */
+    uint32_t tls_stack_err; /* TLS stack error code. */
+    uint32_t tls_cert_verify_flags; /* TLS certificate verification flags. */
+    uint32_t type; /* Type of the error. */
+    uint32_t code; /* Error code. */
+    uint32_t transport_sock; /* Transport socket error. */
 } ciot_mqtt_client_error_t;
 
 /* Message representing configuration for MQTT client topics. */
@@ -83,13 +83,13 @@ typedef struct ciot_mqtt_client_status {
 typedef struct ciot_mqtt_client_req_publish {
     char topic[48]; /* Topic for publishing. */
     pb_byte_t payload[128]; /* Message payload. */
-    int32_t qos; /* Quality of Service level for the publish request. */
+    uint32_t qos; /* Quality of Service level for the publish request. */
 } ciot_mqtt_client_req_publish_t;
 
 /* Message representing a subscribe request for the MQTT client. */
 typedef struct ciot_mqtt_client_req_subscribe {
     char topic[48]; /* Topic to subscribe to. */
-    int32_t qos; /* Quality of Service level for the subscribe request. */
+    uint32_t qos; /* Quality of Service level for the subscribe request. */
 } ciot_mqtt_client_req_subscribe_t;
 
 /* Message representing a request for the MQTT client. */
@@ -210,12 +210,12 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define CIOT_MQTT_CLIENT_ERROR_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, INT32,    tls_last_err,      1) \
-X(a, STATIC,   SINGULAR, INT32,    tls_stack_err,     2) \
-X(a, STATIC,   SINGULAR, INT32,    tls_cert_verify_flags,   3) \
-X(a, STATIC,   SINGULAR, INT32,    type,              4) \
-X(a, STATIC,   SINGULAR, INT32,    code,              5) \
-X(a, STATIC,   SINGULAR, INT32,    transport_sock,    6)
+X(a, STATIC,   SINGULAR, UINT32,   tls_last_err,      1) \
+X(a, STATIC,   SINGULAR, UINT32,   tls_stack_err,     2) \
+X(a, STATIC,   SINGULAR, UINT32,   tls_cert_verify_flags,   3) \
+X(a, STATIC,   SINGULAR, UINT32,   type,              4) \
+X(a, STATIC,   SINGULAR, UINT32,   code,              5) \
+X(a, STATIC,   SINGULAR, UINT32,   transport_sock,    6)
 #define CIOT_MQTT_CLIENT_ERROR_CALLBACK NULL
 #define CIOT_MQTT_CLIENT_ERROR_DEFAULT NULL
 
@@ -255,13 +255,13 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  error,             5)
 #define CIOT_MQTT_CLIENT_REQ_PUBLISH_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   topic,             1) \
 X(a, STATIC,   SINGULAR, FIXED_LENGTH_BYTES, payload,           2) \
-X(a, STATIC,   SINGULAR, INT32,    qos,               3)
+X(a, STATIC,   SINGULAR, UINT32,   qos,               3)
 #define CIOT_MQTT_CLIENT_REQ_PUBLISH_CALLBACK NULL
 #define CIOT_MQTT_CLIENT_REQ_PUBLISH_DEFAULT NULL
 
 #define CIOT_MQTT_CLIENT_REQ_SUBSCRIBE_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   topic,             1) \
-X(a, STATIC,   SINGULAR, INT32,    qos,               2)
+X(a, STATIC,   SINGULAR, UINT32,   qos,               2)
 #define CIOT_MQTT_CLIENT_REQ_SUBSCRIBE_CALLBACK NULL
 #define CIOT_MQTT_CLIENT_REQ_SUBSCRIBE_DEFAULT NULL
 
@@ -310,11 +310,11 @@ extern const pb_msgdesc_t ciot_mqtt_client_data_t_msg;
 #define CIOT_CIOT_PROTO_V2_MQTT_CLIENT_PB_H_MAX_SIZE CIOT_MQTT_CLIENT_DATA_SIZE
 #define CIOT_MQTT_CLIENT_CFG_SIZE                256
 #define CIOT_MQTT_CLIENT_DATA_SIZE               259
-#define CIOT_MQTT_CLIENT_ERROR_SIZE              66
-#define CIOT_MQTT_CLIENT_REQ_PUBLISH_SIZE        191
-#define CIOT_MQTT_CLIENT_REQ_SIZE                194
-#define CIOT_MQTT_CLIENT_REQ_SUBSCRIBE_SIZE      60
-#define CIOT_MQTT_CLIENT_STATUS_SIZE             93
+#define CIOT_MQTT_CLIENT_ERROR_SIZE              36
+#define CIOT_MQTT_CLIENT_REQ_PUBLISH_SIZE        186
+#define CIOT_MQTT_CLIENT_REQ_SIZE                189
+#define CIOT_MQTT_CLIENT_REQ_SUBSCRIBE_SIZE      55
+#define CIOT_MQTT_CLIENT_STATUS_SIZE             63
 #define CIOT_MQTT_CLIENT_STOP_SIZE               0
 #define CIOT_MQTT_CLIENT_TOPICS_CFG_SIZE         98
 
