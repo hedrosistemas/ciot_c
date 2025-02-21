@@ -14,10 +14,10 @@
 /* Enum representing the state of CIOT. */
 typedef enum ciot_state {
     CIOT_STATE_IDLE = 0, /* CIOT core is in an idle state. */
-    CIOT_STATE_STARTING = 1, /* CIOT core is starting. */
-    CIOT_STATE_STARTED = 2, /* CIOT core is started. */
+    CIOT_STATE_STARTED = 1, /* CIOT core is started. */
+    CIOT_STATE_STARTING = 2, /* CIOT core is starting. */
     CIOT_STATE_BUSY = 3, /* CIOT core is busy. */
-    CIOT_STATE_ERROR = -1 /* CIOT core encountered an error. */
+    CIOT_STATE_ERROR = 4 /* CIOT core encountered an error. */
 } ciot_state_t;
 
 /* Enum representing different serialization types for CIOT. */
@@ -33,9 +33,17 @@ typedef struct ciot_info {
     ciot_iface_type_t ifaces[10]; /* CIOT ifaces types list */
 } ciot_info_t;
 
+/* Message representing an CIOT iface status. */
+typedef struct ciot_iface_status {
+    ciot_iface_type_t type; /* Iface type */
+    bool started; /* Iface status (false: stopped, true: started) */
+} ciot_iface_status_t;
+
 /* Message representing CIOT status. */
 typedef struct ciot_status {
     ciot_state_t state; /* State of the CIOT device. */
+    pb_size_t ifaces_count;
+    ciot_iface_status_t ifaces[10]; /* Status of each CIOT iface. */
 } ciot_status_t;
 
 /* Message representing a CIOT request. */
@@ -63,12 +71,12 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
-#define _CIOT_STATE_MIN CIOT_STATE_ERROR
-#define _CIOT_STATE_MAX CIOT_STATE_BUSY
-#define _CIOT_STATE_ARRAYSIZE ((ciot_state_t)(CIOT_STATE_BUSY+1))
+#define _CIOT_STATE_MIN CIOT_STATE_IDLE
+#define _CIOT_STATE_MAX CIOT_STATE_ERROR
+#define _CIOT_STATE_ARRAYSIZE ((ciot_state_t)(CIOT_STATE_ERROR+1))
 #define CIOT_STATE_STATE_IDLE CIOT_STATE_IDLE
-#define CIOT_STATE_STATE_STARTING CIOT_STATE_STARTING
 #define CIOT_STATE_STATE_STARTED CIOT_STATE_STARTED
+#define CIOT_STATE_STATE_STARTING CIOT_STATE_STARTING
 #define CIOT_STATE_STATE_BUSY CIOT_STATE_BUSY
 #define CIOT_STATE_STATE_ERROR CIOT_STATE_ERROR
 
@@ -81,23 +89,30 @@ extern "C" {
 
 #define ciot_status_t_state_ENUMTYPE ciot_state_t
 
+#define ciot_iface_status_t_type_ENUMTYPE ciot_iface_type_t
+
 
 
 
 /* Initializer values for message structs */
 #define CIOT_INFO_INIT_DEFAULT                   {{0}, 0, {_CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN}}
-#define CIOT_STATUS_INIT_DEFAULT                 {_CIOT_STATE_MIN}
+#define CIOT_STATUS_INIT_DEFAULT                 {_CIOT_STATE_MIN, 0, {CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT}}
+#define CIOT_IFACE_STATUS_INIT_DEFAULT           {_CIOT_IFACE_TYPE_MIN, 0}
 #define CIOT_REQ_INIT_DEFAULT                    {0, {CIOT_IFACE_INFO_INIT_DEFAULT}}
 #define CIOT_DATA_INIT_DEFAULT                   {0, {CIOT_STATUS_INIT_DEFAULT}}
 #define CIOT_INFO_INIT_ZERO                      {{0}, 0, {_CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN}}
-#define CIOT_STATUS_INIT_ZERO                    {_CIOT_STATE_MIN}
+#define CIOT_STATUS_INIT_ZERO                    {_CIOT_STATE_MIN, 0, {CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO}}
+#define CIOT_IFACE_STATUS_INIT_ZERO              {_CIOT_IFACE_TYPE_MIN, 0}
 #define CIOT_REQ_INIT_ZERO                       {0, {CIOT_IFACE_INFO_INIT_ZERO}}
 #define CIOT_DATA_INIT_ZERO                      {0, {CIOT_STATUS_INIT_ZERO}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define CIOT_INFO_VERSION_TAG                    1
 #define CIOT_INFO_IFACES_TAG                     2
+#define CIOT_IFACE_STATUS_TYPE_TAG               1
+#define CIOT_IFACE_STATUS_STARTED_TAG            2
 #define CIOT_STATUS_STATE_TAG                    1
+#define CIOT_STATUS_IFACES_TAG                   2
 #define CIOT_REQ_SAVE_CFG_TAG                    1
 #define CIOT_REQ_DELETE_CFG_TAG                  2
 #define CIOT_DATA_STATUS_TAG                     2
@@ -112,9 +127,17 @@ X(a, STATIC,   REPEATED, UENUM,    ifaces,            2)
 #define CIOT_INFO_DEFAULT NULL
 
 #define CIOT_STATUS_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, ENUM,     state,             1)
+X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
+X(a, STATIC,   REPEATED, MESSAGE,  ifaces,            2)
 #define CIOT_STATUS_CALLBACK NULL
 #define CIOT_STATUS_DEFAULT NULL
+#define ciot_status_t_ifaces_MSGTYPE ciot_iface_status_t
+
+#define CIOT_IFACE_STATUS_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
+X(a, STATIC,   SINGULAR, BOOL,     started,           2)
+#define CIOT_IFACE_STATUS_CALLBACK NULL
+#define CIOT_IFACE_STATUS_DEFAULT NULL
 
 #define CIOT_REQ_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,save_cfg,save_cfg),   1) \
@@ -136,21 +159,24 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   6)
 
 extern const pb_msgdesc_t ciot_info_t_msg;
 extern const pb_msgdesc_t ciot_status_t_msg;
+extern const pb_msgdesc_t ciot_iface_status_t_msg;
 extern const pb_msgdesc_t ciot_req_t_msg;
 extern const pb_msgdesc_t ciot_data_t_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define CIOT_INFO_FIELDS &ciot_info_t_msg
 #define CIOT_STATUS_FIELDS &ciot_status_t_msg
+#define CIOT_IFACE_STATUS_FIELDS &ciot_iface_status_t_msg
 #define CIOT_REQ_FIELDS &ciot_req_t_msg
 #define CIOT_DATA_FIELDS &ciot_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_CIOT_PB_H_MAX_SIZE    CIOT_DATA_SIZE
-#define CIOT_DATA_SIZE                           28
+#define CIOT_DATA_SIZE                           64
+#define CIOT_IFACE_STATUS_SIZE                   4
 #define CIOT_INFO_SIZE                           26
 #define CIOT_REQ_SIZE                            10
-#define CIOT_STATUS_SIZE                         11
+#define CIOT_STATUS_SIZE                         62
 
 #ifdef __cplusplus
 } /* extern "C" */
