@@ -12,6 +12,9 @@ PB_BIND(CIOT_INFO, ciot_info_t, AUTO)
 PB_BIND(CIOT_STATUS, ciot_status_t, AUTO)
 
 
+PB_BIND(CIOT_IFACE_STATUS, ciot_iface_status_t, AUTO)
+
+
 PB_BIND(CIOT_REQ, ciot_req_t, AUTO)
 
 

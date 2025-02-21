@@ -397,10 +397,12 @@ static ciot_err_t ciot_set_iface_list(ciot_t self, ciot_iface_t *ifaces[], int c
 
     self->ifaces.list = ifaces;
     self->ifaces.count = count;
+    self->status.ifaces_count = count;
 
     for (size_t i = 0; i < count; i++)
     {
         ciot_iface_t *iface = self->ifaces.list[i];
+        self->status.ifaces[i].type = iface ? iface->info.type : CIOT_IFACE_TYPE_UNDEFINED;
         if (iface != NULL)
         {
             iface->info.id = i;
@@ -430,6 +432,18 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
     ciot_receiver_t *receiver = &self->receiver;
 
     CIOT_LOGI(TAG, "evt: %s(%lu): %s", ciot_iface_to_str(sender), sender->info.id, ciot_event_to_str(event));
+
+    if(sender->info.id < sizeof(self->status.ifaces))
+    {
+        if(event->type == CIOT_EVENT_TYPE_STARTED)
+        {
+            self->status.ifaces[sender->info.id].started = true;
+        }
+        if(event->type == CIOT_EVENT_TYPE_STOPPED)
+        {
+            self->status.ifaces[sender->info.id].started = false;
+        }
+    }
 
     if ((event->type == CIOT_EVENT_TYPE_DATA || 
          event->type == CIOT_EVENT_TYPE_INTERNAL ||
