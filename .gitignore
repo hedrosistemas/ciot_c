@@ -4,3 +4,4 @@
 .vscode/settings.json
 deprecated
 bkp
+__pycache__
