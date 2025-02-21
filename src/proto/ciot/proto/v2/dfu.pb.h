@@ -49,7 +49,7 @@ typedef struct ciot_dfu_cfg {
 /* Dfu status */
 typedef struct ciot_dfu_status {
     ciot_dfu_state_t state; /* Dfu current state */
-    int32_t code; /* Dfu response/status code */
+    uint32_t code; /* Dfu response/status code */
     ciot_err_t error; /* Dfu error code */
     uint32_t image_size; /* Dfu image size */
     uint32_t image_written; /* Dfu image written on client */
@@ -141,7 +141,7 @@ X(a, STATIC,   SINGULAR, UENUM,    type,              1)
 
 #define CIOT_DFU_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
-X(a, STATIC,   SINGULAR, INT32,    code,              2) \
+X(a, STATIC,   SINGULAR, UINT32,   code,              2) \
 X(a, STATIC,   SINGULAR, UENUM,    error,             3) \
 X(a, STATIC,   SINGULAR, UINT32,   image_size,        4) \
 X(a, STATIC,   SINGULAR, UINT32,   image_written,     5)
@@ -181,9 +181,9 @@ extern const pb_msgdesc_t ciot_dfu_data_t_msg;
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_DFU_PB_H_MAX_SIZE     CIOT_DFU_DATA_SIZE
 #define CIOT_DFU_CFG_SIZE                        2
-#define CIOT_DFU_DATA_SIZE                       29
+#define CIOT_DFU_DATA_SIZE                       24
 #define CIOT_DFU_REQ_SIZE                        0
-#define CIOT_DFU_STATUS_SIZE                     27
+#define CIOT_DFU_STATUS_SIZE                     22
 #define CIOT_DFU_STOP_SIZE                       0
 
 #ifdef __cplusplus

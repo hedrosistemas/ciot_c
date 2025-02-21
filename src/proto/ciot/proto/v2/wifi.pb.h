@@ -88,11 +88,18 @@ typedef struct ciot_wifi_req {
     pb_size_t which_type;
     union {
         ciot_wifi_req_scan_t scan; /* Start wifi scanner */
-        ciot_wifi_req_scan_result_t scan_result; /* Wifi scanner result */
         ciot_wifi_req_get_ap_t get_ap; /* Get acess point information from wifi scanner queue */
-        ciot_wifi_ap_info_t get_ap_result; /* Get acess point result */
     };
 } ciot_wifi_req_t;
+
+/* Message representing a Wi-Fi response. */
+typedef struct ciot_wifi_resp {
+    pb_size_t which_type;
+    union {
+        ciot_wifi_req_scan_result_t scan; /* Wifi scanner result */
+        ciot_wifi_ap_info_t get_ap; /* Get acess point result */
+    };
+} ciot_wifi_resp_t;
 
 /* Message representing data for the Wi-Fi interface. */
 typedef struct ciot_wifi_data {
@@ -102,6 +109,7 @@ typedef struct ciot_wifi_data {
         ciot_wifi_cfg_t config; /* Configuration for the Wi-Fi interface. */
         ciot_wifi_status_t status; /* Status of the Wi-Fi interface. */
         ciot_wifi_req_t request; /* Wi-Fi request data. */
+        ciot_wifi_resp_t response; /* Wi-Fi response data. */
         ciot_wifi_info_t info; /* TCP information. */
     };
 } ciot_wifi_data_t;
@@ -143,6 +151,7 @@ extern "C" {
 
 
 
+
 /* Initializer values for message structs */
 #define CIOT_WIFI_AP_INFO_INIT_DEFAULT           {{0}, "", 0, 0}
 #define CIOT_WIFI_STOP_INIT_DEFAULT              {0}
@@ -153,6 +162,7 @@ extern "C" {
 #define CIOT_WIFI_REQ_SCAN_RESULT_INIT_DEFAULT   {0}
 #define CIOT_WIFI_REQ_GET_AP_INIT_DEFAULT        {0}
 #define CIOT_WIFI_REQ_INIT_DEFAULT               {0, {CIOT_WIFI_REQ_SCAN_INIT_DEFAULT}}
+#define CIOT_WIFI_RESP_INIT_DEFAULT              {0, {CIOT_WIFI_REQ_SCAN_RESULT_INIT_DEFAULT}}
 #define CIOT_WIFI_DATA_INIT_DEFAULT              {0, {CIOT_WIFI_STOP_INIT_DEFAULT}}
 #define CIOT_WIFI_AP_INFO_INIT_ZERO              {{0}, "", 0, 0}
 #define CIOT_WIFI_STOP_INIT_ZERO                 {0}
@@ -163,6 +173,7 @@ extern "C" {
 #define CIOT_WIFI_REQ_SCAN_RESULT_INIT_ZERO      {0}
 #define CIOT_WIFI_REQ_GET_AP_INIT_ZERO           {0}
 #define CIOT_WIFI_REQ_INIT_ZERO                  {0, {CIOT_WIFI_REQ_SCAN_INIT_ZERO}}
+#define CIOT_WIFI_RESP_INIT_ZERO                 {0, {CIOT_WIFI_REQ_SCAN_RESULT_INIT_ZERO}}
 #define CIOT_WIFI_DATA_INIT_ZERO                 {0, {CIOT_WIFI_STOP_INIT_ZERO}}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -182,14 +193,15 @@ extern "C" {
 #define CIOT_WIFI_REQ_SCAN_RESULT_COUNT_TAG      1
 #define CIOT_WIFI_REQ_GET_AP_ID_TAG              1
 #define CIOT_WIFI_REQ_SCAN_TAG                   1
-#define CIOT_WIFI_REQ_SCAN_RESULT_TAG            2
-#define CIOT_WIFI_REQ_GET_AP_TAG                 3
-#define CIOT_WIFI_REQ_GET_AP_RESULT_TAG          4
+#define CIOT_WIFI_REQ_GET_AP_TAG                 2
+#define CIOT_WIFI_RESP_SCAN_TAG                  1
+#define CIOT_WIFI_RESP_GET_AP_TAG                2
 #define CIOT_WIFI_DATA_STOP_TAG                  1
 #define CIOT_WIFI_DATA_CONFIG_TAG                2
 #define CIOT_WIFI_DATA_STATUS_TAG                3
 #define CIOT_WIFI_DATA_REQUEST_TAG               4
-#define CIOT_WIFI_DATA_INFO_TAG                  5
+#define CIOT_WIFI_DATA_RESPONSE_TAG              5
+#define CIOT_WIFI_DATA_INFO_TAG                  6
 
 /* Struct field encoding specification for nanopb */
 #define CIOT_WIFI_AP_INFO_FIELDLIST(X, a) \
@@ -247,28 +259,34 @@ X(a, STATIC,   SINGULAR, UINT32,   id,                1)
 
 #define CIOT_WIFI_REQ_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,scan,scan),   1) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,scan_result,scan_result),   2) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,get_ap,get_ap),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,get_ap_result,get_ap_result),   4)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,get_ap,get_ap),   2)
 #define CIOT_WIFI_REQ_CALLBACK NULL
 #define CIOT_WIFI_REQ_DEFAULT NULL
 #define ciot_wifi_req_t_type_scan_MSGTYPE ciot_wifi_req_scan_t
-#define ciot_wifi_req_t_type_scan_result_MSGTYPE ciot_wifi_req_scan_result_t
 #define ciot_wifi_req_t_type_get_ap_MSGTYPE ciot_wifi_req_get_ap_t
-#define ciot_wifi_req_t_type_get_ap_result_MSGTYPE ciot_wifi_ap_info_t
+
+#define CIOT_WIFI_RESP_FIELDLIST(X, a) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,scan,scan),   1) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,get_ap,get_ap),   2)
+#define CIOT_WIFI_RESP_CALLBACK NULL
+#define CIOT_WIFI_RESP_DEFAULT NULL
+#define ciot_wifi_resp_t_type_scan_MSGTYPE ciot_wifi_req_scan_result_t
+#define ciot_wifi_resp_t_type_get_ap_MSGTYPE ciot_wifi_ap_info_t
 
 #define CIOT_WIFI_DATA_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,stop,stop),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,config,config),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,status,status),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,request,request),   4) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   5)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,response,response),   5) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   6)
 #define CIOT_WIFI_DATA_CALLBACK NULL
 #define CIOT_WIFI_DATA_DEFAULT NULL
 #define ciot_wifi_data_t_type_stop_MSGTYPE ciot_wifi_stop_t
 #define ciot_wifi_data_t_type_config_MSGTYPE ciot_wifi_cfg_t
 #define ciot_wifi_data_t_type_status_MSGTYPE ciot_wifi_status_t
 #define ciot_wifi_data_t_type_request_MSGTYPE ciot_wifi_req_t
+#define ciot_wifi_data_t_type_response_MSGTYPE ciot_wifi_resp_t
 #define ciot_wifi_data_t_type_info_MSGTYPE ciot_wifi_info_t
 
 extern const pb_msgdesc_t ciot_wifi_ap_info_t_msg;
@@ -280,6 +298,7 @@ extern const pb_msgdesc_t ciot_wifi_req_scan_t_msg;
 extern const pb_msgdesc_t ciot_wifi_req_scan_result_t_msg;
 extern const pb_msgdesc_t ciot_wifi_req_get_ap_t_msg;
 extern const pb_msgdesc_t ciot_wifi_req_t_msg;
+extern const pb_msgdesc_t ciot_wifi_resp_t_msg;
 extern const pb_msgdesc_t ciot_wifi_data_t_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
@@ -292,6 +311,7 @@ extern const pb_msgdesc_t ciot_wifi_data_t_msg;
 #define CIOT_WIFI_REQ_SCAN_RESULT_FIELDS &ciot_wifi_req_scan_result_t_msg
 #define CIOT_WIFI_REQ_GET_AP_FIELDS &ciot_wifi_req_get_ap_t_msg
 #define CIOT_WIFI_REQ_FIELDS &ciot_wifi_req_t_msg
+#define CIOT_WIFI_RESP_FIELDS &ciot_wifi_resp_t_msg
 #define CIOT_WIFI_DATA_FIELDS &ciot_wifi_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
@@ -303,7 +323,8 @@ extern const pb_msgdesc_t ciot_wifi_data_t_msg;
 #define CIOT_WIFI_REQ_GET_AP_SIZE                6
 #define CIOT_WIFI_REQ_SCAN_RESULT_SIZE           6
 #define CIOT_WIFI_REQ_SCAN_SIZE                  0
-#define CIOT_WIFI_REQ_SIZE                       65
+#define CIOT_WIFI_REQ_SIZE                       8
+#define CIOT_WIFI_RESP_SIZE                      65
 #define CIOT_WIFI_STATUS_SIZE                    22
 #define CIOT_WIFI_STOP_SIZE                      0
 

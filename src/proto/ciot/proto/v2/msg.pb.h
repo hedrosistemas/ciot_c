@@ -24,6 +24,8 @@
 #include "ciot/proto/v2/wifi.pb.h"
 #include "ciot/proto/v2/logger.pb.h"
 #include "ciot/proto/v2/usb.pb.h"
+#include "ciot/proto/v2/mbus_client.pb.h"
+#include "ciot/proto/v2/mbus_server.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -44,10 +46,18 @@ typedef struct ciot_get_data {
     ciot_data_type_t type;
 } ciot_get_data_t;
 
+typedef struct ciot_common {
+    pb_size_t which_type;
+    union {
+        bool stop;
+    };
+} ciot_common_t;
+
 typedef struct ciot_msg_data {
     pb_size_t which_type;
     union {
         /* bytes raw = 1;                 // Raw data. */
+        ciot_common_t common; /* Common data. */
         ciot_get_data_t get_data; /* Get data request. */
         ciot_data_t ciot; /* CioT data. */
         ciot_sys_data_t sys; /* System data. */
@@ -67,6 +77,8 @@ typedef struct ciot_msg_data {
         ciot_wifi_data_t wifi; /* WiFi data. */
         ciot_log_data_t log; /* Log data. */
         ciot_usb_data_t usb; /* USB data. */
+        ciot_mbus_client_data_t mbus_client; /* Modbus client data. */
+        ciot_mbus_server_data_t mbus_server; /* Modbus server data. */
     };
 } ciot_msg_data_t;
 
@@ -98,20 +110,25 @@ extern "C" {
 
 #define ciot_get_data_t_type_ENUMTYPE ciot_data_type_t
 
+
 #define ciot_msg_t_error_ENUMTYPE ciot_err_t
 
 
 
 /* Initializer values for message structs */
 #define CIOT_GET_DATA_INIT_DEFAULT               {_CIOT_DATA_TYPE_MIN}
+#define CIOT_COMMON_INIT_DEFAULT                 {0, {0}}
 #define CIOT_MSG_INIT_DEFAULT                    {0, false, CIOT_IFACE_INFO_INIT_DEFAULT, _CIOT_ERR_MIN, false, CIOT_MSG_DATA_INIT_DEFAULT}
-#define CIOT_MSG_DATA_INIT_DEFAULT               {0, {CIOT_GET_DATA_INIT_DEFAULT}}
+#define CIOT_MSG_DATA_INIT_DEFAULT               {0, {CIOT_COMMON_INIT_DEFAULT}}
 #define CIOT_GET_DATA_INIT_ZERO                  {_CIOT_DATA_TYPE_MIN}
+#define CIOT_COMMON_INIT_ZERO                    {0, {0}}
 #define CIOT_MSG_INIT_ZERO                       {0, false, CIOT_IFACE_INFO_INIT_ZERO, _CIOT_ERR_MIN, false, CIOT_MSG_DATA_INIT_ZERO}
-#define CIOT_MSG_DATA_INIT_ZERO                  {0, {CIOT_GET_DATA_INIT_ZERO}}
+#define CIOT_MSG_DATA_INIT_ZERO                  {0, {CIOT_COMMON_INIT_ZERO}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define CIOT_GET_DATA_TYPE_TAG                   1
+#define CIOT_COMMON_STOP_TAG                     1
+#define CIOT_MSG_DATA_COMMON_TAG                 1
 #define CIOT_MSG_DATA_GET_DATA_TAG               2
 #define CIOT_MSG_DATA_CIOT_TAG                   3
 #define CIOT_MSG_DATA_SYS_TAG                    4
@@ -131,6 +148,8 @@ extern "C" {
 #define CIOT_MSG_DATA_WIFI_TAG                   18
 #define CIOT_MSG_DATA_LOG_TAG                    19
 #define CIOT_MSG_DATA_USB_TAG                    20
+#define CIOT_MSG_DATA_MBUS_CLIENT_TAG            21
+#define CIOT_MSG_DATA_MBUS_SERVER_TAG            22
 #define CIOT_MSG_ID_TAG                          1
 #define CIOT_MSG_IFACE_TAG                       2
 #define CIOT_MSG_ERROR_TAG                       3
@@ -141,6 +160,11 @@ extern "C" {
 X(a, STATIC,   SINGULAR, UENUM,    type,              1)
 #define CIOT_GET_DATA_CALLBACK NULL
 #define CIOT_GET_DATA_DEFAULT NULL
+
+#define CIOT_COMMON_FIELDLIST(X, a) \
+X(a, STATIC,   ONEOF,    BOOL,     (type,stop,stop),   1)
+#define CIOT_COMMON_CALLBACK NULL
+#define CIOT_COMMON_DEFAULT NULL
 
 #define CIOT_MSG_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   id,                1) \
@@ -153,6 +177,7 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  data,              4)
 #define ciot_msg_t_data_MSGTYPE ciot_msg_data_t
 
 #define CIOT_MSG_DATA_FIELDLIST(X, a) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,common,common),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,get_data,get_data),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,ciot,ciot),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,sys,sys),    4) \
@@ -171,9 +196,12 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,storage,storage),  16) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,eth,eth),   17) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,wifi,wifi),  18) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,log,log),   19) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,usb,usb),   20)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,usb,usb),   20) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,mbus_client,mbus_client),  21) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,mbus_server,mbus_server),  22)
 #define CIOT_MSG_DATA_CALLBACK NULL
 #define CIOT_MSG_DATA_DEFAULT NULL
+#define ciot_msg_data_t_type_common_MSGTYPE ciot_common_t
 #define ciot_msg_data_t_type_get_data_MSGTYPE ciot_get_data_t
 #define ciot_msg_data_t_type_ciot_MSGTYPE ciot_data_t
 #define ciot_msg_data_t_type_sys_MSGTYPE ciot_sys_data_t
@@ -193,21 +221,31 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,usb,usb),   20)
 #define ciot_msg_data_t_type_wifi_MSGTYPE ciot_wifi_data_t
 #define ciot_msg_data_t_type_log_MSGTYPE ciot_log_data_t
 #define ciot_msg_data_t_type_usb_MSGTYPE ciot_usb_data_t
+#define ciot_msg_data_t_type_mbus_client_MSGTYPE ciot_mbus_client_data_t
+#define ciot_msg_data_t_type_mbus_server_MSGTYPE ciot_mbus_server_data_t
 
 extern const pb_msgdesc_t ciot_get_data_t_msg;
+extern const pb_msgdesc_t ciot_common_t_msg;
 extern const pb_msgdesc_t ciot_msg_t_msg;
 extern const pb_msgdesc_t ciot_msg_data_t_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define CIOT_GET_DATA_FIELDS &ciot_get_data_t_msg
+#define CIOT_COMMON_FIELDS &ciot_common_t_msg
 #define CIOT_MSG_FIELDS &ciot_msg_t_msg
 #define CIOT_MSG_DATA_FIELDS &ciot_msg_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-#define CIOT_CIOT_PROTO_V2_MSG_PB_H_MAX_SIZE     CIOT_MSG_SIZE
+#if defined(Ciot_MbusClientData_size)
+union Ciot_MsgData_type_size_union {char f21[(7 + Ciot_MbusClientData_size)]; char f0[262];};
+#endif
+#define CIOT_COMMON_SIZE                         2
 #define CIOT_GET_DATA_SIZE                       2
-#define CIOT_MSG_DATA_SIZE                       262
-#define CIOT_MSG_SIZE                            283
+#if defined(Ciot_MbusClientData_size)
+#define CIOT_CIOT_PROTO_V2_MSG_PB_H_MAX_SIZE     CIOT_MSG_SIZE
+#define CIOT_MSG_DATA_SIZE                       (0 + sizeof(union Ciot_MsgData_type_size_union))
+#define CIOT_MSG_SIZE                            (24 + sizeof(union Ciot_MsgData_type_size_union))
+#endif
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -168,7 +168,7 @@ extern "C" {
 #define CIOT_TCP_DATA_CONFIG_TAG                 2
 #define CIOT_TCP_DATA_STATUS_TAG                 3
 #define CIOT_TCP_DATA_REQUEST_TAG                4
-#define CIOT_TCP_DATA_INFO_TAG                   5
+#define CIOT_TCP_DATA_INFO_TAG                   6
 
 /* Struct field encoding specification for nanopb */
 #define CIOT_TCP_STOP_FIELDLIST(X, a) \
@@ -216,7 +216,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,stop,stop),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,config,config),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,status,status),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,request,request),   4) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   5)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   6)
 #define CIOT_TCP_DATA_CALLBACK NULL
 #define CIOT_TCP_DATA_DEFAULT NULL
 #define ciot_tcp_data_t_type_stop_MSGTYPE ciot_tcp_stop_t

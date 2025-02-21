@@ -23,6 +23,8 @@
 #include "ciot/proto/v2/mqtt_client.pb.h"
 #include "ciot/proto/v2/iface.pb.h"
 #include "ciot/proto/v2/logger.pb.h"
+#include "ciot/proto/v2/mbus_client.pb.h"
+#include "ciot/proto/v2/mbus_server.pb.h"
 #include "ciot/proto/v2/msg.pb.h"
 #include "ciot/proto/v2/sys.pb.h"
 #include "ciot/proto/v2/ble_adv.pb.h"
