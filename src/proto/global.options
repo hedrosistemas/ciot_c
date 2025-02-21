@@ -4,6 +4,7 @@
 Ciot.Info.version fixed_length:true
 Ciot.Info.version max_size:4
 Ciot.Info.ifaces max_count:10
+Ciot.Status.ifaces max_count:10
 
 Ciot.Msg.raw max_size:128
 Ciot.Event.raw max_size:128
