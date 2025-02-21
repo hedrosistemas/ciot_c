@@ -46,18 +46,19 @@ typedef struct ciot_ble_scn_cfg {
 /* Ble scanner advertisement information */
 typedef struct ciot_ble_scn_adv_info {
     /* Device mac */
-    pb_callback_t mac;
+    pb_byte_t mac[6];
     /* Signal strenght */
     int32_t rssi;
 } ciot_ble_scn_adv_info_t;
 
+typedef PB_BYTES_ARRAY_T(38) ciot_ble_scn_adv_payload_t;
 /* Ble scanner advertisement */
 typedef struct ciot_ble_scn_adv {
     /* Advertisement information */
     bool has_info;
     ciot_ble_scn_adv_info_t info;
     /* Advertisement payload */
-    pb_callback_t payload;
+    ciot_ble_scn_adv_payload_t payload;
 } ciot_ble_scn_adv_t;
 
 /* Ble scanner status */
@@ -67,11 +68,11 @@ typedef struct ciot_ble_scn_status {
     /* Current error code */
     ciot_err_t err_code;
     /* ADVs counter */
-    int32_t advs_losted;
+    uint32_t advs_losted;
     /* Current fifo lenght */
-    int32_t fifo_len;
+    uint32_t fifo_len;
     /* Fifo maximum size */
-    int32_t fifo_max;
+    uint32_t fifo_max;
 } ciot_ble_scn_status_t;
 
 /* Ble scanner request */
@@ -120,15 +121,15 @@ extern "C" {
 /* Initializer values for message structs */
 #define CIOT_BLE_SCN_STOP_INIT_DEFAULT           {0}
 #define CIOT_BLE_SCN_CFG_INIT_DEFAULT            {0, 0, 0, 0, 0}
-#define CIOT_BLE_SCN_ADV_INFO_INIT_DEFAULT       {{{NULL}, NULL}, 0}
-#define CIOT_BLE_SCN_ADV_INIT_DEFAULT            {false, CIOT_BLE_SCN_ADV_INFO_INIT_DEFAULT, {{NULL}, NULL}}
+#define CIOT_BLE_SCN_ADV_INFO_INIT_DEFAULT       {{0}, 0}
+#define CIOT_BLE_SCN_ADV_INIT_DEFAULT            {false, CIOT_BLE_SCN_ADV_INFO_INIT_DEFAULT, {0, {0}}}
 #define CIOT_BLE_SCN_STATUS_INIT_DEFAULT         {_CIOT_BLE_SCN_STATE_MIN, _CIOT_ERR_MIN, 0, 0, 0}
 #define CIOT_BLE_SCN_REQ_INIT_DEFAULT            {0}
 #define CIOT_BLE_SCN_DATA_INIT_DEFAULT           {0, {CIOT_BLE_SCN_STOP_INIT_DEFAULT}}
 #define CIOT_BLE_SCN_STOP_INIT_ZERO              {0}
 #define CIOT_BLE_SCN_CFG_INIT_ZERO               {0, 0, 0, 0, 0}
-#define CIOT_BLE_SCN_ADV_INFO_INIT_ZERO          {{{NULL}, NULL}, 0}
-#define CIOT_BLE_SCN_ADV_INIT_ZERO               {false, CIOT_BLE_SCN_ADV_INFO_INIT_ZERO, {{NULL}, NULL}}
+#define CIOT_BLE_SCN_ADV_INFO_INIT_ZERO          {{0}, 0}
+#define CIOT_BLE_SCN_ADV_INIT_ZERO               {false, CIOT_BLE_SCN_ADV_INFO_INIT_ZERO, {0, {0}}}
 #define CIOT_BLE_SCN_STATUS_INIT_ZERO            {_CIOT_BLE_SCN_STATE_MIN, _CIOT_ERR_MIN, 0, 0, 0}
 #define CIOT_BLE_SCN_REQ_INIT_ZERO               {0}
 #define CIOT_BLE_SCN_DATA_INIT_ZERO              {0, {CIOT_BLE_SCN_STOP_INIT_ZERO}}
@@ -169,24 +170,24 @@ X(a, STATIC,   SINGULAR, BOOL,     bridge_mode,       5)
 #define CIOT_BLE_SCN_CFG_DEFAULT NULL
 
 #define CIOT_BLE_SCN_ADV_INFO_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, BYTES,    mac,               1) \
-X(a, STATIC,   SINGULAR, INT32,    rssi,              2)
-#define CIOT_BLE_SCN_ADV_INFO_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, FIXED_LENGTH_BYTES, mac,               1) \
+X(a, STATIC,   SINGULAR, SINT32,   rssi,              2)
+#define CIOT_BLE_SCN_ADV_INFO_CALLBACK NULL
 #define CIOT_BLE_SCN_ADV_INFO_DEFAULT NULL
 
 #define CIOT_BLE_SCN_ADV_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  info,              1) \
-X(a, CALLBACK, SINGULAR, BYTES,    payload,           2)
-#define CIOT_BLE_SCN_ADV_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, BYTES,    payload,           2)
+#define CIOT_BLE_SCN_ADV_CALLBACK NULL
 #define CIOT_BLE_SCN_ADV_DEFAULT NULL
 #define ciot_ble_scn_adv_t_info_MSGTYPE ciot_ble_scn_adv_info_t
 
 #define CIOT_BLE_SCN_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    err_code,          2) \
-X(a, STATIC,   SINGULAR, INT32,    advs_losted,       3) \
-X(a, STATIC,   SINGULAR, INT32,    fifo_len,          4) \
-X(a, STATIC,   SINGULAR, INT32,    fifo_max,          5)
+X(a, STATIC,   SINGULAR, UINT32,   advs_losted,       3) \
+X(a, STATIC,   SINGULAR, UINT32,   fifo_len,          4) \
+X(a, STATIC,   SINGULAR, UINT32,   fifo_max,          5)
 #define CIOT_BLE_SCN_STATUS_CALLBACK NULL
 #define CIOT_BLE_SCN_STATUS_DEFAULT NULL
 
@@ -225,14 +226,14 @@ extern const pb_msgdesc_t ciot_ble_scn_data_t_msg;
 #define CIOT_BLE_SCN_DATA_FIELDS &ciot_ble_scn_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-/* Ciot_BleScnAdvInfo_size depends on runtime parameters */
-/* Ciot_BleScnAdv_size depends on runtime parameters */
+#define CIOT_BLE_SCN_ADV_INFO_SIZE               14
+#define CIOT_BLE_SCN_ADV_SIZE                    56
 #define CIOT_BLE_SCN_CFG_SIZE                    22
-#define CIOT_BLE_SCN_DATA_SIZE                   39
+#define CIOT_BLE_SCN_DATA_SIZE                   24
 #define CIOT_BLE_SCN_REQ_SIZE                    0
-#define CIOT_BLE_SCN_STATUS_SIZE                 37
+#define CIOT_BLE_SCN_STATUS_SIZE                 22
 #define CIOT_BLE_SCN_STOP_SIZE                   0
-#define CIOT_CIOT_PROTO_V2_BLE_SCN_PB_H_MAX_SIZE CIOT_BLE_SCN_DATA_SIZE
+#define CIOT_CIOT_PROTO_V2_BLE_SCN_PB_H_MAX_SIZE CIOT_BLE_SCN_ADV_SIZE
 
 #ifdef __cplusplus
 } /* extern "C" */

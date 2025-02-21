@@ -37,12 +37,12 @@ typedef struct ciot_storage_cfg {
 /* Message representing status for the storage module. */
 typedef struct ciot_storage_status {
     ciot_storage_state_t state; /* State of the storage module. */
-    int32_t free_space; /* Storage module free space */
+    uint32_t free_space; /* Storage module free space */
 } ciot_storage_status_t;
 
 /* Message representing storage module information. */
 typedef struct ciot_storage_info {
-    int32_t total_size;
+    uint32_t total_size;
 } ciot_storage_info_t;
 
 /* Message representing data for a storage request. */
@@ -151,7 +151,7 @@ extern "C" {
 #define CIOT_STORAGE_DATA_CONFIG_TAG             2
 #define CIOT_STORAGE_DATA_STATUS_TAG             3
 #define CIOT_STORAGE_DATA_REQUEST_TAG            4
-#define CIOT_STORAGE_DATA_INFO_TAG               5
+#define CIOT_STORAGE_DATA_INFO_TAG               6
 
 /* Struct field encoding specification for nanopb */
 #define CIOT_STORAGE_STOP_FIELDLIST(X, a) \
@@ -166,12 +166,12 @@ X(a, STATIC,   SINGULAR, UENUM,    type,              1)
 
 #define CIOT_STORAGE_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
-X(a, STATIC,   SINGULAR, INT32,    free_space,        2)
+X(a, STATIC,   SINGULAR, UINT32,   free_space,        2)
 #define CIOT_STORAGE_STATUS_CALLBACK NULL
 #define CIOT_STORAGE_STATUS_DEFAULT NULL
 
 #define CIOT_STORAGE_INFO_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, INT32,    total_size,        1)
+X(a, STATIC,   SINGULAR, UINT32,   total_size,        1)
 #define CIOT_STORAGE_INFO_CALLBACK NULL
 #define CIOT_STORAGE_INFO_DEFAULT NULL
 
@@ -208,7 +208,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,stop,stop),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,config,config),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,status,status),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,request,request),   4) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   5)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   6)
 #define CIOT_STORAGE_DATA_CALLBACK NULL
 #define CIOT_STORAGE_DATA_DEFAULT NULL
 #define ciot_storage_data_t_type_stop_MSGTYPE ciot_storage_stop_t
@@ -243,11 +243,11 @@ extern const pb_msgdesc_t ciot_storage_data_t_msg;
 #define CIOT_STORAGE_CFG_SIZE                    2
 #define CIOT_STORAGE_DATA_SIZE                   170
 #define CIOT_STORAGE_FILE_SIZE                   164
-#define CIOT_STORAGE_INFO_SIZE                   11
+#define CIOT_STORAGE_INFO_SIZE                   6
 #define CIOT_STORAGE_REQ_DELETE_SIZE             33
 #define CIOT_STORAGE_REQ_FORMAT_SIZE             0
 #define CIOT_STORAGE_REQ_SIZE                    167
-#define CIOT_STORAGE_STATUS_SIZE                 13
+#define CIOT_STORAGE_STATUS_SIZE                 8
 #define CIOT_STORAGE_STOP_SIZE                   0
 
 #ifdef __cplusplus

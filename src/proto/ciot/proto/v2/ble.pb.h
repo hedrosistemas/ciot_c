@@ -42,7 +42,7 @@ typedef struct ciot_ble_status {
     /* Current state */
     ciot_ble_state_t state;
     /* Current error code */
-    int32_t err_code;
+    uint32_t err_code;
     /* Software mac assigned */
     bool using_sw_mac;
 } ciot_ble_status_t;
@@ -113,7 +113,7 @@ extern "C" {
 #define CIOT_BLE_DATA_CONFIG_TAG                 2
 #define CIOT_BLE_DATA_STATUS_TAG                 3
 #define CIOT_BLE_DATA_REQUEST_TAG                4
-#define CIOT_BLE_DATA_INFO_TAG                   5
+#define CIOT_BLE_DATA_INFO_TAG                   6
 
 /* Struct field encoding specification for nanopb */
 #define CIOT_BLE_STOP_FIELDLIST(X, a) \
@@ -134,7 +134,7 @@ X(a, STATIC,   SINGULAR, FIXED_LENGTH_BYTES, sw_mac,            2)
 
 #define CIOT_BLE_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
-X(a, STATIC,   SINGULAR, INT32,    err_code,          2) \
+X(a, STATIC,   SINGULAR, UINT32,   err_code,          2) \
 X(a, STATIC,   SINGULAR, BOOL,     using_sw_mac,      3)
 #define CIOT_BLE_STATUS_CALLBACK NULL
 #define CIOT_BLE_STATUS_DEFAULT NULL
@@ -149,7 +149,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (type,stop,stop),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,config,config),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,status,status),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,request,request),   4) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   5)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,info,info),   6)
 #define CIOT_BLE_DATA_CALLBACK NULL
 #define CIOT_BLE_DATA_DEFAULT NULL
 #define ciot_ble_data_t_type_stop_MSGTYPE ciot_ble_stop_t
@@ -178,7 +178,7 @@ extern const pb_msgdesc_t ciot_ble_data_t_msg;
 #define CIOT_BLE_DATA_SIZE                       18
 #define CIOT_BLE_INFO_SIZE                       16
 #define CIOT_BLE_REQ_SIZE                        8
-#define CIOT_BLE_STATUS_SIZE                     15
+#define CIOT_BLE_STATUS_SIZE                     10
 #define CIOT_BLE_STOP_SIZE                       0
 #define CIOT_CIOT_PROTO_V2_BLE_PB_H_MAX_SIZE     CIOT_BLE_DATA_SIZE
 

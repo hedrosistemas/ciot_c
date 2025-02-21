@@ -36,7 +36,7 @@ typedef struct ciot_ble_adv_cfg {
 /* Ble adv status */
 typedef struct ciot_ble_adv_status {
     ciot_ble_adv_state_t state;
-    int32_t err_code;
+    uint32_t err_code;
 } ciot_ble_adv_status_t;
 
 /* Ble adv request */
@@ -117,7 +117,7 @@ X(a, STATIC,   SINGULAR, UINT32,   tx_power,          5)
 
 #define CIOT_BLE_ADV_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
-X(a, STATIC,   SINGULAR, INT32,    err_code,          2)
+X(a, STATIC,   SINGULAR, UINT32,   err_code,          2)
 #define CIOT_BLE_ADV_STATUS_CALLBACK NULL
 #define CIOT_BLE_ADV_STATUS_DEFAULT NULL
 
@@ -155,7 +155,7 @@ extern const pb_msgdesc_t ciot_ble_adv_data_t_msg;
 #define CIOT_BLE_ADV_CFG_SIZE                    30
 #define CIOT_BLE_ADV_DATA_SIZE                   32
 #define CIOT_BLE_ADV_REQ_SIZE                    0
-#define CIOT_BLE_ADV_STATUS_SIZE                 13
+#define CIOT_BLE_ADV_STATUS_SIZE                 8
 #define CIOT_BLE_ADV_STOP_SIZE                   0
 #define CIOT_CIOT_PROTO_V2_BLE_ADV_PB_H_MAX_SIZE CIOT_BLE_ADV_DATA_SIZE
 

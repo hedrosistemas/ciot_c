@@ -35,7 +35,7 @@ typedef enum ciot_uart_error {
     CIOT_UART_ERROR_PARITY = 5, /* UART parity error. */
     CIOT_UART_ERROR_DATA_BREAK = 6, /* UART data break error. */
     CIOT_UART_ERROR_OPEN = 8, /* UART open error. */
-    CIOT_UART_ERROR_UNKNOWN = -1 /* Unknown UART event error. */
+    CIOT_UART_ERROR_UNKNOWN = 9 /* Unknown UART event error. */
 } ciot_uart_error_t;
 
 /* Struct definitions */
@@ -46,13 +46,13 @@ typedef struct ciot_uart_stop {
 
 /* Message representing configuration for the UART module. */
 typedef struct ciot_uart_cfg {
-    int32_t baud_rate; /* Baud rate for UART. */
-    int32_t num; /* UART number. */
-    int32_t rx_pin; /* RX pin number. */
-    int32_t tx_pin; /* TX pin number. */
-    int32_t rts_pin; /* RTS pin number. */
-    int32_t cts_pin; /* CTS pin number. */
-    int32_t parity; /* Parity for UART. */
+    uint32_t baud_rate; /* Baud rate for UART. */
+    uint32_t num; /* UART number. */
+    uint32_t rx_pin; /* RX pin number. */
+    uint32_t tx_pin; /* TX pin number. */
+    uint32_t rts_pin; /* RTS pin number. */
+    uint32_t cts_pin; /* CTS pin number. */
+    uint32_t parity; /* Parity for UART. */
     bool flow_control; /* Flow control for UART. */
     bool dtr; /* DTR (Data Terminal Ready) signal. */
     bool bridge_mode; /* Bridge mode for UART. */
@@ -105,9 +105,9 @@ extern "C" {
 #define CIOT_UART_REQ_TYPE_UART_REQ_TYPE_SEND_DATA CIOT_UART_REQ_TYPE_SEND_DATA
 #define CIOT_UART_REQ_TYPE_UART_REQ_TYPE_SEND_BYTES CIOT_UART_REQ_TYPE_SEND_BYTES
 
-#define _CIOT_UART_ERROR_MIN CIOT_UART_ERROR_UNKNOWN
-#define _CIOT_UART_ERROR_MAX CIOT_UART_ERROR_OPEN
-#define _CIOT_UART_ERROR_ARRAYSIZE ((ciot_uart_error_t)(CIOT_UART_ERROR_OPEN+1))
+#define _CIOT_UART_ERROR_MIN CIOT_UART_ERROR_NONE
+#define _CIOT_UART_ERROR_MAX CIOT_UART_ERROR_UNKNOWN
+#define _CIOT_UART_ERROR_ARRAYSIZE ((ciot_uart_error_t)(CIOT_UART_ERROR_UNKNOWN+1))
 #define CIOT_UART_ERROR_UART_ERROR_NONE CIOT_UART_ERROR_NONE
 #define CIOT_UART_ERROR_UART_ERROR_BREAK CIOT_UART_ERROR_BREAK
 #define CIOT_UART_ERROR_UART_ERROR_BUFFER_FULL CIOT_UART_ERROR_BUFFER_FULL
@@ -164,13 +164,13 @@ extern "C" {
 #define CIOT_UART_STOP_DEFAULT NULL
 
 #define CIOT_UART_CFG_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, INT32,    baud_rate,         1) \
-X(a, STATIC,   SINGULAR, INT32,    num,               2) \
-X(a, STATIC,   SINGULAR, INT32,    rx_pin,            3) \
-X(a, STATIC,   SINGULAR, INT32,    tx_pin,            4) \
-X(a, STATIC,   SINGULAR, INT32,    rts_pin,           5) \
-X(a, STATIC,   SINGULAR, INT32,    cts_pin,           6) \
-X(a, STATIC,   SINGULAR, INT32,    parity,            7) \
+X(a, STATIC,   SINGULAR, UINT32,   baud_rate,         1) \
+X(a, STATIC,   SINGULAR, UINT32,   num,               2) \
+X(a, STATIC,   SINGULAR, UINT32,   rx_pin,            3) \
+X(a, STATIC,   SINGULAR, UINT32,   tx_pin,            4) \
+X(a, STATIC,   SINGULAR, UINT32,   rts_pin,           5) \
+X(a, STATIC,   SINGULAR, UINT32,   cts_pin,           6) \
+X(a, STATIC,   SINGULAR, UINT32,   parity,            7) \
 X(a, STATIC,   SINGULAR, BOOL,     flow_control,      8) \
 X(a, STATIC,   SINGULAR, BOOL,     dtr,               9) \
 X(a, STATIC,   SINGULAR, BOOL,     bridge_mode,      10)
@@ -179,7 +179,7 @@ X(a, STATIC,   SINGULAR, BOOL,     bridge_mode,      10)
 
 #define CIOT_UART_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
-X(a, STATIC,   SINGULAR, ENUM,     error,             2)
+X(a, STATIC,   SINGULAR, UENUM,    error,             2)
 #define CIOT_UART_STATUS_CALLBACK NULL
 #define CIOT_UART_STATUS_DEFAULT NULL
 
@@ -215,10 +215,10 @@ extern const pb_msgdesc_t ciot_uart_data_t_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_UART_PB_H_MAX_SIZE    CIOT_UART_DATA_SIZE
-#define CIOT_UART_CFG_SIZE                       83
+#define CIOT_UART_CFG_SIZE                       48
 #define CIOT_UART_DATA_SIZE                      134
 #define CIOT_UART_REQ_SIZE                       131
-#define CIOT_UART_STATUS_SIZE                    13
+#define CIOT_UART_STATUS_SIZE                    4
 #define CIOT_UART_STOP_SIZE                      0
 
 #ifdef __cplusplus

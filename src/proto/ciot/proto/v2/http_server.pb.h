@@ -34,7 +34,7 @@ typedef struct ciot_http_server_cfg {
 /* Message representing HTTP server status. */
 typedef struct ciot_http_server_status {
     ciot_http_server_state_t state; /* State of the HTTP server. */
-    int32_t error; /* Error code, if any. */
+    uint32_t error; /* Error code, if any. */
 } ciot_http_server_status_t;
 
 /* Message representing an HTTP server request. */
@@ -113,7 +113,7 @@ X(a, STATIC,   SINGULAR, STRING,   root,              4)
 
 #define CIOT_HTTP_SERVER_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
-X(a, STATIC,   SINGULAR, INT32,    error,             2)
+X(a, STATIC,   SINGULAR, UINT32,   error,             2)
 #define CIOT_HTTP_SERVER_STATUS_CALLBACK NULL
 #define CIOT_HTTP_SERVER_STATUS_DEFAULT NULL
 
@@ -152,7 +152,7 @@ extern const pb_msgdesc_t ciot_http_server_data_t_msg;
 #define CIOT_HTTP_SERVER_CFG_SIZE                121
 #define CIOT_HTTP_SERVER_DATA_SIZE               123
 #define CIOT_HTTP_SERVER_REQ_SIZE                0
-#define CIOT_HTTP_SERVER_STATUS_SIZE             13
+#define CIOT_HTTP_SERVER_STATUS_SIZE             8
 #define CIOT_HTTP_SERVER_STOP_SIZE               0
 
 #ifdef __cplusplus
