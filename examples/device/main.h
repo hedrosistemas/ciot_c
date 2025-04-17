@@ -22,7 +22,6 @@
 #include "ciot_mqtt_client.h"
 #include "ciot_ntp.h"
 #include "ciot_gpio.h"
-#include "ciot_mbus.h"
 
 #include "ciot_decoder_s.h"
 #include "ciot_serializer_pb.h"

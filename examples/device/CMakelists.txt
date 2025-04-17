@@ -7,7 +7,6 @@ FILE(GLOB_RECURSE MAIN_SRCS *.c)
 include_directories(
     ${CIOT_INCLUDE_DIRS}
     ${CIOT_PB_INCLUDE_DIRS}
-    ${CIOT_MBUS_INCLUDE_DIRS}
     .
 )
 
@@ -16,7 +15,6 @@ add_executable(${PROJECT_NAME}
     ${CIOT_PB_V2_SRCS}
     ${CIOT_MG_SRCS}
     ${CIOT_WIN_SRCS}
-    ${CIOT_MBUS_SRCS}
     ${MAIN_SRCS}
 )
 
