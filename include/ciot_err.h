@@ -15,7 +15,7 @@
 #include "ciot_types.h"
 #include "ciot_log.h"
 
-#define CIOT_ERR_LOG(TAG, x) CIOT_LOGE(TAG, "%s:%d %s", __FILE__, __LINE__, ciot_err_to_message(x))
+#define CIOT_ERR_LOG(TAG, x) CIOT_LOGE(TAG, "%s", ciot_err_to_message(x))
 
 #define CIOT_ERR_NULL_CHECK(x)                       \
     if (x == NULL)                                   \
