@@ -143,6 +143,12 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     }
 }
 
+ciot_err_t ciot_uart_read_bytes(ciot_uart_t self, uint8_t *bytes, int size)
+{
+    ReadFile(self->handle, bytes, size, &self->bytes_read, NULL);
+    return self->bytes_read == size ? CIOT_ERR_OK : CIOT_ERR_READING;
+}
+
 static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
 {
     ciot_uart_base_t *base = &self->base;
