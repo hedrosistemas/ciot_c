@@ -24,6 +24,7 @@ typedef struct ciot_decoder *ciot_decoder_t; // Forward declaration.
 typedef struct ciot_iface ciot_iface_t;
 typedef ciot_err_t (ciot_iface_process_data_fn)(ciot_iface_t *self, ciot_msg_data_t *req);
 typedef ciot_err_t (ciot_iface_send_data_fn)(ciot_iface_t *self, uint8_t *data, int size);
+typedef ciot_err_t (ciot_iface_read_data_fn)(ciot_iface_t *self, uint8_t *data, int size);
 typedef ciot_err_t (ciot_iface_get_data_fn)(ciot_iface_t *self, ciot_msg_data_t *req);
 typedef ciot_err_t (ciot_iface_event_handler_fn)(ciot_iface_t *sender, ciot_event_t *event, void *args);
 
@@ -32,6 +33,7 @@ struct ciot_iface
     void *ptr;
     ciot_iface_process_data_fn *process_data;
     ciot_iface_send_data_fn *send_data;
+    ciot_iface_read_data_fn *read_data;
     ciot_iface_get_data_fn *get_data;
     ciot_iface_event_handler_fn *event_handler;
     void *event_args;
