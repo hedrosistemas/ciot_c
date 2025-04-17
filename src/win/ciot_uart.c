@@ -97,7 +97,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     }
 
     ciot_uart_flush(self);
-    return CIOT_ERR_OK;
+    return ciot_uart_task(self);
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
