@@ -57,6 +57,9 @@ ciot_err_t ciot_iface_set_serializer(ciot_iface_t *self, ciot_serializer_t seria
 ciot_err_t ciot_iface_set_decoder(ciot_iface_t *self, ciot_decoder_t decoder);
 ciot_err_t ciot_iface_get_msg_id(void);
 
+int ciot_iface_send_bytes(ciot_iface_t *self, uint8_t *bytes, int size);
+int ciot_iface_read_bytes(ciot_iface_t *self, uint8_t *bytes, int size);
+
 const char *ciot_iface_to_str(ciot_iface_t *iface);
 const char *ciot_iface_type_to_str(ciot_iface_type_t iface_type);
 
