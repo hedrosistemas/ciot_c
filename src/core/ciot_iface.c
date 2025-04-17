@@ -194,6 +194,24 @@ ciot_err_t ciot_iface_get_msg_id(void)
     return msg_id++;
 }
 
+int ciot_iface_send_bytes(ciot_iface_t *self, uint8_t *bytes, int size)
+{
+    if(self == NULL) return 0;
+    if(bytes == NULL) return 0;
+    if(self->send_data == NULL) return 0;
+    if(self->send_data(self, bytes, size) == CIOT_ERR_OK) return size;
+    return 0;
+}
+
+int ciot_iface_read_bytes(ciot_iface_t *self, uint8_t *bytes, int size)
+{
+    if(self == NULL) return 0;
+    if(bytes == NULL) return 0;
+    if(self->read_data == NULL) return 0;
+    if(self->read_data(self, bytes, size) == CIOT_ERR_OK) return size;
+    return 0;
+}
+
 const char* ciot_iface_to_str(ciot_iface_t *self)
 {
     if(self == NULL) return "NULL";
@@ -252,9 +270,12 @@ const char* ciot_iface_type_to_str(ciot_iface_type_t iface_type)
             return "IOTA_CLIENT";
         case CIOT_IFACE_TYPE_IOTA_SERVER:
             return "IOTA_SERVER";
-        break;
         case CIOT_IFACE_TYPE_LOG:
             return "LOG";
+        case CIOT_IFACE_TYPE_MBUS_CLIENT:
+            return "MBUS_CLIENT";
+        case CIOT_IFACE_TYPE_MBUS_SERVER:
+            return "MBUS_SERVER";
         default:
             return "UNKNOWN";
         break;

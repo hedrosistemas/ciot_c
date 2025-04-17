@@ -1,57 +1,35 @@
 /**
  * @file ciot_mbus.h
  * @author your name (you@domain.com)
- * @brief
+ * @brief 
  * @version 0.1
- * @date 2025-02-11
- *
+ * @date 2025-04-15
+ * 
  * @copyright Copyright (c) 2025
- *
+ * 
  */
 
-#include "nanomodbus.h"
-#include "ciot_iface.h"
+#ifndef __CIOT_MBUS__H__
+#define __CIOT_MBUS__H__
 
-typedef struct ciot_mbus_base
+#include <inttypes.h>
+
+typedef struct ciot_mbus_server_coils
 {
-    ciot_iface_t *iface;
-    uint8_t recv_buf[256];
-    uint16_t available;
-} ciot_mbus_base_t;
+    uint8_t *values;
+    uint8_t count;
+} ciot_mbus_server_coils_t;
 
-static int32_t read_serial(uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg);
-static int32_t write_serial(const uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg);
-static ciot_err_t ciot_mbus_event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args);
-
-ciot_err_t ciot_mbus_init(ciot_mbus_base_t *self)
+typedef struct ciot_mbus_server_regs
 {
-    self->iface->event_handler = ciot_mbus_event_handler;
-}
+    uint16_t *values;
+    uint16_t count;
+} ciot_mbus_server_regs_t;
 
-static int32_t read_serial(uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg)
+typedef struct ciot_mbus_data
 {
-    ciot_mbus_base_t *base = arg;
-    uint16_t available = base->available;
-    if(available)
-    {
-        memcpy(buf, base->recv_buf, available);
-        base->available = 0;
-    }
-    return available;
-}
+    ciot_mbus_server_coils_t coils;
+    ciot_mbus_server_regs_t regs;
+} ciot_mbus_data_t;
 
-static int32_t write_serial(const uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg)
-{
-    ciot_iface_t *iface = arg;
-    return iface->send_data(iface, (uint8_t*)buf, (int)count);
-}
-
-static ciot_err_t ciot_mbus_event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args)
-{
-    ciot_mbus_base_t *base = args;
-    if(event->type == CIOT_EVENT_TYPE_DATA)
-    {
-        memcpy(&base->recv_buf[base->available], event->raw.bytes, event->raw.size);
-    }
-    return CIOT_ERR_OK;
-}
+#endif  //!__CIOT_MBUS__H__

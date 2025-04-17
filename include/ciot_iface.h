@@ -24,6 +24,7 @@ typedef struct ciot_decoder *ciot_decoder_t; // Forward declaration.
 typedef struct ciot_iface ciot_iface_t;
 typedef ciot_err_t (ciot_iface_process_data_fn)(ciot_iface_t *self, ciot_msg_data_t *req);
 typedef ciot_err_t (ciot_iface_send_data_fn)(ciot_iface_t *self, uint8_t *data, int size);
+typedef ciot_err_t (ciot_iface_read_data_fn)(ciot_iface_t *self, uint8_t *data, int size);
 typedef ciot_err_t (ciot_iface_get_data_fn)(ciot_iface_t *self, ciot_msg_data_t *req);
 typedef ciot_err_t (ciot_iface_event_handler_fn)(ciot_iface_t *sender, ciot_event_t *event, void *args);
 
@@ -32,6 +33,7 @@ struct ciot_iface
     void *ptr;
     ciot_iface_process_data_fn *process_data;
     ciot_iface_send_data_fn *send_data;
+    ciot_iface_read_data_fn *read_data;
     ciot_iface_get_data_fn *get_data;
     ciot_iface_event_handler_fn *event_handler;
     void *event_args;
@@ -54,6 +56,9 @@ ciot_err_t ciot_iface_set_event_handler(ciot_iface_t *self, ciot_iface_event_han
 ciot_err_t ciot_iface_set_serializer(ciot_iface_t *self, ciot_serializer_t serializer);
 ciot_err_t ciot_iface_set_decoder(ciot_iface_t *self, ciot_decoder_t decoder);
 ciot_err_t ciot_iface_get_msg_id(void);
+
+int ciot_iface_send_bytes(ciot_iface_t *self, uint8_t *bytes, int size);
+int ciot_iface_read_bytes(ciot_iface_t *self, uint8_t *bytes, int size);
 
 const char *ciot_iface_to_str(ciot_iface_t *iface);
 const char *ciot_iface_type_to_str(ciot_iface_type_t iface_type);

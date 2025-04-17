@@ -97,7 +97,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     }
 
     ciot_uart_flush(self);
-    return CIOT_ERR_OK;
+    return ciot_uart_task(self);
 }
 
 ciot_err_t ciot_uart_stop(ciot_uart_t self)
@@ -141,6 +141,12 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
         CIOT_LOGE(TAG, "Port COM%d is closed", base->cfg.num);
         return CIOT_ERR_INVALID_STATE;
     }
+}
+
+ciot_err_t ciot_uart_read_bytes(ciot_uart_t self, uint8_t *bytes, int size)
+{
+    ReadFile(self->handle, bytes, size, &self->bytes_read, NULL);
+    return self->bytes_read == size ? CIOT_ERR_OK : CIOT_ERR_READING;
 }
 
 static void ciot_uart_process_error(ciot_uart_t self, DWORD error)
