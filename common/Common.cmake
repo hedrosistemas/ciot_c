@@ -4,6 +4,7 @@ set(CIOT_INCLUDE_DIRS
     ${CIOT_DIR}/include
     ${CIOT_DIR}/src/mg/
     ${CIOT_DIR}/src/proto/nanopb
+    ${CIOT_DIR}/libs/nanomodbus
 )
 
 set(CIOT_PB_INCLUDE_DIRS
@@ -12,10 +13,6 @@ set(CIOT_PB_INCLUDE_DIRS
 
 set(CIOT_MBED_INCLUDE_DIRS
     ${CIOT_DIR}/libs/crypt
-)
-
-set(CIOT_MBUS_INCLUDE_DIRS
-    ${CIOT_DIR}/libs/nanomodbus
 )
 
 FILE(GLOB_RECURSE CIOT_COMMON_SRCS ${CIOT_DIR}/src/common/*.c)
@@ -29,6 +26,7 @@ FILE(GLOB_RECURSE CIOT_MBUS_SRCS ${CIOT_DIR}/libs/nanomodbus/*.c)
 list(APPEND CIOT_SRCS ${CIOT_COMMON_SRCS})
 list(APPEND CIOT_SRCS ${CIOT_CORE_SRCS})
 list(APPEND CIOT_SRCS ${CIOT_NANOPB_C_SRCS})
+list(APPEND CIOT_SRCS ${CIOT_MBUS_SRCS})
 
 FILE(GLOB_RECURSE CIOT_NRF_SRCS ${CIOT_DIR}/src/nrf/*.c)
 FILE(GLOB_RECURSE CIOT_ESP32_SRCS ${CIOT_DIR}/src/esp32/*.c)

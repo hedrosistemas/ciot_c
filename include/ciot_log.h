@@ -61,71 +61,71 @@ extern "C"
 /**
  * @brief Macro to log debug level messages.
  */
-#define CIOT_LOGD(TAG, MASK, ...)                                      \
-    do                                                                 \
-    {                                                                  \
+#define CIOT_LOGD(TAG, MASK, ...)                          \
+    do                                                     \
+    {                                                      \
         if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_DEBUG) \
-        {                                                              \
-            printf("[%s] <DBG>: ", TAG);                               \
-            printf(MASK, ##__VA_ARGS__);                               \
-            printf("\n");                                              \
-        }                                                              \
+        {                                                  \
+            printf("[%s] <DBG>: ", TAG);                   \
+            printf(MASK, ##__VA_ARGS__);                   \
+            printf("\n");                                  \
+        }                                                  \
     } while (0)
 
 /**
  * @brief Macro to log verbose level messages.
  */
-#define CIOT_LOGV(TAG, MASK, ...)                                        \
-    do                                                                   \
-    {                                                                    \
+#define CIOT_LOGV(TAG, MASK, ...)                            \
+    do                                                       \
+    {                                                        \
         if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_VERBOSE) \
-        {                                                                \
-            printf("[%s] <VRB>: ", TAG);                                 \
-            printf(MASK, ##__VA_ARGS__);                                 \
-            printf("\n");                                                \
-        }                                                                \
+        {                                                    \
+            printf("[%s] <VRB>: ", TAG);                     \
+            printf(MASK, ##__VA_ARGS__);                     \
+            printf("\n");                                    \
+        }                                                    \
     } while (0)
 
 /**
  * @brief Macro to log info level messages.
  */
-#define CIOT_LOGI(TAG, MASK, ...)                                     \
-    do                                                                \
-    {                                                                 \
+#define CIOT_LOGI(TAG, MASK, ...)                         \
+    do                                                    \
+    {                                                     \
         if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_INFO) \
-        {                                                             \
-            printf("[%s] <INF>: ", TAG);                              \
-            printf(MASK, ##__VA_ARGS__);                              \
-            printf("\n");                                             \
-        }                                                             \
+        {                                                 \
+            printf("[%s] <INF>: ", TAG);                  \
+            printf(MASK, ##__VA_ARGS__);                  \
+            printf("\n");                                 \
+        }                                                 \
     } while (0)
 
 /**
  * @brief Macro to log warning level messages.
  */
-#define CIOT_LOGW(TAG, MASK, ...)                                        \
-    do                                                                   \
-    {                                                                    \
+#define CIOT_LOGW(TAG, MASK, ...)                            \
+    do                                                       \
+    {                                                        \
         if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_WARNING) \
-        {                                                                \
-            printf("[%s] <WRN>: ", TAG);                                 \
-            printf(MASK, ##__VA_ARGS__);                                 \
-            printf("\n");                                                \
-        }                                                                \
+        {                                                    \
+            printf("[%s] <WRN>: ", TAG);                     \
+            printf(MASK, ##__VA_ARGS__);                     \
+            printf("\n");                                    \
+        }                                                    \
     } while (0)
 
 /**
  * @brief Macro to log error level messages.
  */
-#define CIOT_LOGE(TAG, MASK, ...)                                      \
-    do                                                                 \
-    {                                                                  \
-        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_ERROR) \
-        {                                                              \
-            printf("[%s] <ERR>: ", TAG);                               \
-            printf(MASK, ##__VA_ARGS__);                               \
-            printf("\n");                                              \
-        }                                                              \
+#define CIOT_LOGE(TAG, MASK, ...)                                  \
+    do                                                             \
+    {                                                              \
+        if (CIOT_CONFIG_LOG_LEVEL >= CIOT_LOG_LEVEL_ERROR)         \
+        {                                                          \
+            printf("[%s] <ERR>: %s:%d ", TAG, __FILE__, __LINE__); \
+            printf(MASK, ##__VA_ARGS__);                           \
+            printf("\n");                                          \
+        }                                                          \
     } while (0)
 
 #endif // IDF_VER

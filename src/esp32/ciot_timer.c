@@ -10,6 +10,8 @@
  */
 
 #include <time.h>
+
+#include "esp_timer.h"
 #include "ciot_timer.h"
 
 uint64_t ciot_timer_now(void)

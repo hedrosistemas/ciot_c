@@ -15,6 +15,7 @@
 static ciot_err_t ciot_mbus_server_process_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_mbus_server_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_mbus_server_send_data(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_mbus_server_read_data(ciot_iface_t *iface, uint8_t *data, int size);
 
 ciot_err_t ciot_mbus_server_init(ciot_mbus_server_t self)
 {
@@ -24,6 +25,7 @@ ciot_err_t ciot_mbus_server_init(ciot_mbus_server_t self)
     base->iface.process_data = ciot_mbus_server_process_data;
     base->iface.get_data = ciot_mbus_server_get_data;
     base->iface.send_data = ciot_mbus_server_send_data;
+    base->iface.read_data = ciot_mbus_server_read_data;
     base->iface.info.type = CIOT_IFACE_TYPE_MBUS_SERVER;
     return CIOT_ERR_OK;
 }
@@ -84,7 +86,10 @@ static ciot_err_t ciot_mbus_server_get_data(ciot_iface_t *iface, ciot_msg_data_t
 
 static ciot_err_t ciot_mbus_server_send_data(ciot_iface_t *iface, uint8_t *data, int size)
 {
-    CIOT_ERR_NULL_CHECK(iface);
-    CIOT_ERR_NULL_CHECK(data);
-    return CIOT_ERR_NOT_SUPPORTED;
+    return CIOT_ERR_NOT_IMPLEMENTED;
+}
+
+static ciot_err_t ciot_mbus_server_read_data(ciot_iface_t *iface, uint8_t *data, int size)
+{
+    return CIOT_ERR_NOT_IMPLEMENTED;
 }

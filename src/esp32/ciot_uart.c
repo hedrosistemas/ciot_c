@@ -115,7 +115,15 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(bytes);
     uart_write_bytes(self->base.cfg.num, bytes, size);
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    return CIOT_ERR_OK;
+}
+
+ciot_err_t ciot_uart_read_bytes(ciot_uart_t self, uint8_t *bytes, int size)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(bytes);
+    int read = uart_read_bytes(self->base.cfg.num, bytes, size, portMAX_DELAY);
+    return read == size ? CIOT_ERR_OK : CIOT_ERR_READING;
 }
 
 static void ciot_uart0_task(void *args)

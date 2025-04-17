@@ -15,6 +15,7 @@
 static ciot_err_t ciot_uart_process_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_uart_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_uart_send_data(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_uart_read_data(ciot_iface_t *iface, uint8_t *data, int size);
 
 ciot_err_t ciot_uart_init(ciot_uart_t self)
 {
@@ -24,6 +25,7 @@ ciot_err_t ciot_uart_init(ciot_uart_t self)
     base->iface.process_data = ciot_uart_process_data;
     base->iface.get_data = ciot_uart_get_data;
     base->iface.send_data = ciot_uart_send_data;
+    base->iface.read_data = ciot_uart_read_data;
     base->iface.info.type = CIOT_IFACE_TYPE_UART;
     
     return CIOT_ERR_OK;
@@ -89,6 +91,14 @@ static ciot_err_t ciot_uart_send_data(ciot_iface_t *iface, uint8_t *data, int si
     CIOT_ERR_NULL_CHECK(data);
     ciot_uart_t self = (ciot_uart_t)iface;
     return ciot_uart_send_bytes(self, data, size);
+}
+
+static ciot_err_t ciot_uart_read_data(ciot_iface_t *iface, uint8_t *data, int size)
+{
+    CIOT_ERR_NULL_CHECK(iface);
+    CIOT_ERR_NULL_CHECK(data);
+    ciot_uart_t self = (ciot_uart_t)iface;
+    return ciot_uart_read_bytes(self, data, size);
 }
 
 ciot_err_t ciot_uart_get_cfg(ciot_uart_t self, ciot_uart_cfg_t *cfg)
