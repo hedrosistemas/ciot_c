@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_TIMER == 1
+
 #include <time.h>
 #include "mongoose.h"
 #include "ciot_timer.h"
@@ -22,3 +26,5 @@ uint64_t ciot_timer_millis(void)
 {
     return mg_millis();
 }
+
+#endif // CIOT_CONFIG_FEATURE_TIMER == 1

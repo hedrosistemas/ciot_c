@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE_ADV == 1
+
 #include <stdlib.h>
 #if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)
 #include "softdevice_handler.h"
@@ -155,3 +159,5 @@ ciot_err_t ciot_ble_adv_handle_event(ciot_ble_adv_t self, void *event, void *eve
 
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_BLE_ADV == 1

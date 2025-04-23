@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE_SCN == 1
+
 #include <stdlib.h>
 #if (NRF_SD_BLE_API_VERSION == 2 || NRF_SD_BLE_API_VERSION == 3)
 #include "softdevice_handler.h"
@@ -189,3 +193,5 @@ static void ciot_ble_scn_copy_mac(uint8_t destiny[6], uint8_t source[6], bool re
         destiny[i] = reverse ? source[5 - i] : source[i];
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_BLE_SCN == 1

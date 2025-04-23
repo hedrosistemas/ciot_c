@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_SYS == 1
+
 #include "ciot_sys.h"
 
 // static const char *TAG = "ciot_sys";
@@ -62,3 +66,5 @@ ciot_err_t ciot_sys_init_dfu(void)
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_SYS == 1

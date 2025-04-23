@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_ETH == 1
+
 #include <stdlib.h>
 #include "ciot_eth.h"
 #include "ciot_tcp.h"
@@ -147,3 +151,4 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
     }
 }
 
+#endif  //!CIOT_CONFIG_FEATURE_ETH == 1

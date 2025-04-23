@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_UART == 1
+
 #include <stdlib.h>
 #include "app_fifo.h"
 #include "app_util_platform.h"
@@ -184,3 +188,5 @@ static void ciot_uart_event_handler(nrf_drv_uart_event_t *event, void *args)
         break;
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_UART == 1

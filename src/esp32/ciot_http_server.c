@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_HTTP_SERVER == 1
+
 #include "ciot_http_server.h"
 #include "esp_http_server.h"
 #include <freertos/timers.h>
@@ -231,3 +235,5 @@ static void ciot_timeout_callback(TimerHandle_t xTimer)
         self->req = NULL;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_HTTP_SERVER == 1

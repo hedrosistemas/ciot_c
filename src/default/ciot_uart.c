@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_UART == 1
+
 #include <stdlib.h>
 #include "ciot_uart.h"
 #include "ciot_err.h"
@@ -52,3 +56,5 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     CIOT_ERR_NULL_CHECK(bytes);
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_UART == 1

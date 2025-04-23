@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_WIFI == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_wifi.h"
@@ -116,3 +120,5 @@ static ciot_err_t ciot_wifi_set_cfg(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_WIFI == 1

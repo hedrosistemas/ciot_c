@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_OTA == 1
+
 #include <stdlib.h>
 #include "ciot_ota.h"
 #include "ciot_err.h"
@@ -42,3 +46,5 @@ ciot_err_t ciot_ota_rollback(ciot_ota_t self)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_OTA == 1

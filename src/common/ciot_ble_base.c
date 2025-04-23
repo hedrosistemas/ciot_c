@@ -9,6 +9,11 @@
  * 
  */
 
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_ble.h"
@@ -152,3 +157,5 @@ ciot_err_t ciot_ble_set_ifaces(ciot_ble_t self, ciot_ble_ifaces_t *ifaces)
     base->ifaces = *ifaces;
     return CIOT_ERR_OK;
 }
+
+#endif

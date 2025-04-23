@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1
+
 #include "ciot_mqtt_client.h"
 
 struct ciot_mqtt_client
@@ -56,3 +60,5 @@ ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *d
     CIOT_ERR_NULL_CHECK(topic);
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1

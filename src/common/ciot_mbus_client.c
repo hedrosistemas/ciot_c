@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+ 
+#if CIOT_CONFIG_FEATURE_MBUS_CLIENT == 1 
+
 #include "ciot_mbus_client.h"
 #include <stdlib.h>
 
@@ -43,3 +47,5 @@ ciot_err_t ciot_mbus_client_send_bytes(ciot_mbus_client_t self, uint8_t *data, i
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_MBUS_CLIENT == 1

@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1
+
 #include "ciot_mqtt_client.h"
 
 #include "ciot_err.h"
@@ -165,3 +169,5 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
         return;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1

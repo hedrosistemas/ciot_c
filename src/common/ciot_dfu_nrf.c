@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_DFU == 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "ciot_types.h"
@@ -633,3 +637,5 @@ static ciot_err_t ciot_dfu_nrf_event_handler(ciot_iface_t *sender, ciot_event_t 
 
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_DFU == 1

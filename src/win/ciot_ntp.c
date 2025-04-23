@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_NTP == 1
+
 #include <stdlib.h>
 #include "ciot_ntp.h"
 
@@ -41,3 +45,5 @@ ciot_err_t ciot_ntp_stop(ciot_ntp_t self)
     CIOT_ERR_NULL_CHECK(self);
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_NTP == 1

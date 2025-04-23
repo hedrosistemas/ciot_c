@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_UART == 1
+
 #include <stdlib.h>
 #include "ciot_uart.h"
 #include "ciot_err.h"
@@ -216,3 +220,5 @@ static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
         break;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_UART == 1

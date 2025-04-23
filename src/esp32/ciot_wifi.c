@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_WIFI == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_wifi.h"
@@ -340,3 +344,5 @@ static void ciot_wifi_sta_event_handler(void *handler_args, esp_event_base_t eve
         break;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_WIFI == 1
