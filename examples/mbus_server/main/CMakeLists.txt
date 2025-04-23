@@ -14,17 +14,17 @@ if(DEFINED ENV{IDF_PATH})
             ${CIOT_MBUS_SRCS}
             ${MAIN_SRCS}
         INCLUDE_DIRS
+            .
             ${CIOT_INCLUDE_DIRS}
             ${CIOT_PB_INCLUDE_DIRS}
             ${CIOT_MBUS_INCLUDE_DIRS}
-            .
     )
 else()
     include_directories(
+        .
         ${CIOT_INCLUDE_DIRS}
         ${CIOT_PB_INCLUDE_DIRS}
         ${CIOT_MBUS_INCLUDE_DIRS}
-        .
     )
     add_executable(${PROJECT_NAME}
         ${CIOT_SRCS}
