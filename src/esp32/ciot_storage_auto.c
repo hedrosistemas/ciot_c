@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_STORAGE == 1
+
 #include <stdlib.h>
 #include "esp_vfs.h"
 #include "esp_vfs_fat.h"
@@ -36,3 +40,5 @@ ciot_storage_t ciot_storage_auto_new(void)
         return NULL;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_STORAGE == 1

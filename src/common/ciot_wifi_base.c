@@ -8,7 +8,11 @@
  * @copyright Copyright (c) 2024
  *
  */
+ 
+#include "ciot_config.h"
 
+#if CIOT_CONFIG_FEATURE_WIFI == 1
+ 
 #include "ciot_wifi.h"
 #include "ciot_types.h"
 
@@ -140,3 +144,5 @@ ciot_err_t ciot_wifi_toggle(ciot_wifi_t self)
     base->cfg.disabled = base->status.tcp.state != CIOT_TCP_STATE_STOPPED;
     return ciot_wifi_start(self, &base->cfg);
 }
+
+#endif // CIOT_CONFIG_FEATURE_WIFI == 1

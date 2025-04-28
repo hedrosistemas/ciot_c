@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_UART == 1
+
 #include <stdlib.h>
 #include "ciot_uart.h"
 #include "ciot_err.h"
@@ -88,6 +92,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     ESP_ERROR_CHECK(uart_param_config(num, &uart_cfg));
     ESP_ERROR_CHECK(uart_set_pin(num, cfg->tx_pin, cfg->rx_pin, cfg->rts_pin, cfg->cts_pin));
     ESP_ERROR_CHECK(uart_driver_install(num, CIOT_CONFIG_UART_RX_BUF_SIZE, CIOT_CONFIG_UART_TX_BUF_SIZE, CIOT_CONFIG_UART_QUEUE_SIZE, &self->queue, 0));
+    ESP_ERROR_CHECK(uart_set_mode(num, cfg->mode));
 
     if(num == 0) xTaskCreatePinnedToCore(ciot_uart0_task, "ciot_uart0_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
     if(num == 1) xTaskCreatePinnedToCore(ciot_uart1_task, "ciot_uart1_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
@@ -216,3 +221,5 @@ static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
         break;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_UART == 1

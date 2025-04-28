@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_SYS == 1
+
 #include "ciot_sys.h"
 
 #include <stdlib.h>
@@ -17,7 +21,6 @@
 #include "ciot_sys.h"
 #include "ciot_err.h"
 #include "ciot_timer.h"
-#include "ciot_config.h"
 #include "mongoose.h"
 
 static const char *TAG = "ciot_sys";
@@ -168,3 +171,5 @@ static void ciot_sys_get_process_name(char *name)
 }
 
 #endif
+
+#endif // CIOT_CONFIG_FEATURE_SYS == 1

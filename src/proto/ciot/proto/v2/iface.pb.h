@@ -38,7 +38,8 @@ typedef enum ciot_iface_type {
     CIOT_IFACE_TYPE_IOTA_SERVER = 23, /* IOTA server interface type. */
     CIOT_IFACE_TYPE_LOG = 24, /* LOG interface type. */
     CIOT_IFACE_TYPE_MBUS_CLIENT = 25, /* Modbus client interface type. */
-    CIOT_IFACE_TYPE_MBUS_SERVER = 26 /* Modbus server interface type. */
+    CIOT_IFACE_TYPE_MBUS_SERVER = 26, /* Modbus server interface type. */
+    CIOT_IFACE_TYPE_PWM = 27 /* PWM interface type. */
 } ciot_iface_type_t;
 
 /* Enum representing different states of the interface request. */
@@ -48,7 +49,30 @@ typedef enum ciot_iface_req_state {
     CIOT_IFACE_REQ_STATE_RECEIVED = 3 /* Request received */
 } ciot_iface_req_state_t;
 
+/* Enum representing different data types for the interface request. */
+typedef enum ciot_data_type {
+    CIOT_DATA_TYPE_UNKNOWN = 0, /* Unknown data type. */
+    CIOT_DATA_TYPE_STOP = 1, /* Stop data type. */
+    CIOT_DATA_TYPE_CONFIG = 2, /* Configuration data type. */
+    CIOT_DATA_TYPE_STATUS = 3, /* Status data type. */
+    CIOT_DATA_TYPE_REQUEST = 4, /* Request data type. */
+    CIOT_DATA_TYPE_INFO = 5 /* Information data type. */
+} ciot_data_type_t;
+
 /* Struct definitions */
+/* Message representing a request to get data. */
+typedef struct ciot_get_data {
+    ciot_data_type_t type; /* Data type of the request. */
+} ciot_get_data_t;
+
+/* Message representing common data. */
+typedef struct ciot_common {
+    pb_size_t which_type;
+    union {
+        bool stop; /* Stop request. */
+    };
+} ciot_common_t;
+
 /* Message representing information about an interface. */
 typedef struct ciot_iface_info {
     uint32_t id; /* Interface ID. */
@@ -71,8 +95,8 @@ extern "C" {
 
 /* Helper constants for enums */
 #define _CIOT_IFACE_TYPE_MIN CIOT_IFACE_TYPE_UNDEFINED
-#define _CIOT_IFACE_TYPE_MAX CIOT_IFACE_TYPE_MBUS_SERVER
-#define _CIOT_IFACE_TYPE_ARRAYSIZE ((ciot_iface_type_t)(CIOT_IFACE_TYPE_MBUS_SERVER+1))
+#define _CIOT_IFACE_TYPE_MAX CIOT_IFACE_TYPE_PWM
+#define _CIOT_IFACE_TYPE_ARRAYSIZE ((ciot_iface_type_t)(CIOT_IFACE_TYPE_PWM+1))
 #define CIOT_IFACE_TYPE_IFACE_TYPE_UNDEFINED CIOT_IFACE_TYPE_UNDEFINED
 #define CIOT_IFACE_TYPE_IFACE_TYPE_CUSTOM CIOT_IFACE_TYPE_CUSTOM
 #define CIOT_IFACE_TYPE_IFACE_TYPE_CIOT CIOT_IFACE_TYPE_CIOT
@@ -100,6 +124,7 @@ extern "C" {
 #define CIOT_IFACE_TYPE_IFACE_TYPE_LOG CIOT_IFACE_TYPE_LOG
 #define CIOT_IFACE_TYPE_IFACE_TYPE_MBUS_CLIENT CIOT_IFACE_TYPE_MBUS_CLIENT
 #define CIOT_IFACE_TYPE_IFACE_TYPE_MBUS_SERVER CIOT_IFACE_TYPE_MBUS_SERVER
+#define CIOT_IFACE_TYPE_IFACE_TYPE_PWM CIOT_IFACE_TYPE_PWM
 
 #define _CIOT_IFACE_REQ_STATE_MIN CIOT_IFACE_REQ_STATE_IDLE
 #define _CIOT_IFACE_REQ_STATE_MAX CIOT_IFACE_REQ_STATE_RECEIVED
@@ -108,18 +133,37 @@ extern "C" {
 #define CIOT_IFACE_REQ_STATE_IFACE_REQ_STATE_SENDED CIOT_IFACE_REQ_STATE_SENDED
 #define CIOT_IFACE_REQ_STATE_IFACE_REQ_STATE_RECEIVED CIOT_IFACE_REQ_STATE_RECEIVED
 
+#define _CIOT_DATA_TYPE_MIN CIOT_DATA_TYPE_UNKNOWN
+#define _CIOT_DATA_TYPE_MAX CIOT_DATA_TYPE_INFO
+#define _CIOT_DATA_TYPE_ARRAYSIZE ((ciot_data_type_t)(CIOT_DATA_TYPE_INFO+1))
+#define CIOT_DATA_TYPE_DATA_TYPE_UNKNOWN CIOT_DATA_TYPE_UNKNOWN
+#define CIOT_DATA_TYPE_DATA_TYPE_STOP CIOT_DATA_TYPE_STOP
+#define CIOT_DATA_TYPE_DATA_TYPE_CONFIG CIOT_DATA_TYPE_CONFIG
+#define CIOT_DATA_TYPE_DATA_TYPE_STATUS CIOT_DATA_TYPE_STATUS
+#define CIOT_DATA_TYPE_DATA_TYPE_REQUEST CIOT_DATA_TYPE_REQUEST
+#define CIOT_DATA_TYPE_DATA_TYPE_INFO CIOT_DATA_TYPE_INFO
+
+#define ciot_get_data_t_type_ENUMTYPE ciot_data_type_t
+
+
 #define ciot_iface_info_t_type_ENUMTYPE ciot_iface_type_t
 
 #define ciot_iface_req_status_t_state_ENUMTYPE ciot_iface_req_state_t
 
 
 /* Initializer values for message structs */
+#define CIOT_GET_DATA_INIT_DEFAULT               {_CIOT_DATA_TYPE_MIN}
+#define CIOT_COMMON_INIT_DEFAULT                 {0, {0}}
 #define CIOT_IFACE_INFO_INIT_DEFAULT             {0, _CIOT_IFACE_TYPE_MIN}
 #define CIOT_IFACE_REQ_STATUS_INIT_DEFAULT       {0, _CIOT_IFACE_REQ_STATE_MIN, 0, false, CIOT_IFACE_INFO_INIT_DEFAULT}
+#define CIOT_GET_DATA_INIT_ZERO                  {_CIOT_DATA_TYPE_MIN}
+#define CIOT_COMMON_INIT_ZERO                    {0, {0}}
 #define CIOT_IFACE_INFO_INIT_ZERO                {0, _CIOT_IFACE_TYPE_MIN}
 #define CIOT_IFACE_REQ_STATUS_INIT_ZERO          {0, _CIOT_IFACE_REQ_STATE_MIN, 0, false, CIOT_IFACE_INFO_INIT_ZERO}
 
 /* Field tags (for use in manual encoding/decoding) */
+#define CIOT_GET_DATA_TYPE_TAG                   1
+#define CIOT_COMMON_STOP_TAG                     1
 #define CIOT_IFACE_INFO_ID_TAG                   1
 #define CIOT_IFACE_INFO_TYPE_TAG                 2
 #define CIOT_IFACE_REQ_STATUS_ID_TAG             1
@@ -128,6 +172,16 @@ extern "C" {
 #define CIOT_IFACE_REQ_STATUS_IFACE_TAG          4
 
 /* Struct field encoding specification for nanopb */
+#define CIOT_GET_DATA_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    type,              1)
+#define CIOT_GET_DATA_CALLBACK NULL
+#define CIOT_GET_DATA_DEFAULT NULL
+
+#define CIOT_COMMON_FIELDLIST(X, a) \
+X(a, STATIC,   ONEOF,    BOOL,     (type,stop,stop),   1)
+#define CIOT_COMMON_CALLBACK NULL
+#define CIOT_COMMON_DEFAULT NULL
+
 #define CIOT_IFACE_INFO_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   id,                1) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              2)
@@ -143,15 +197,21 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  iface,             4)
 #define CIOT_IFACE_REQ_STATUS_DEFAULT NULL
 #define ciot_iface_req_status_t_iface_MSGTYPE ciot_iface_info_t
 
+extern const pb_msgdesc_t ciot_get_data_t_msg;
+extern const pb_msgdesc_t ciot_common_t_msg;
 extern const pb_msgdesc_t ciot_iface_info_t_msg;
 extern const pb_msgdesc_t ciot_iface_req_status_t_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
+#define CIOT_GET_DATA_FIELDS &ciot_get_data_t_msg
+#define CIOT_COMMON_FIELDS &ciot_common_t_msg
 #define CIOT_IFACE_INFO_FIELDS &ciot_iface_info_t_msg
 #define CIOT_IFACE_REQ_STATUS_FIELDS &ciot_iface_req_status_t_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_IFACE_PB_H_MAX_SIZE   CIOT_IFACE_REQ_STATUS_SIZE
+#define CIOT_COMMON_SIZE                         2
+#define CIOT_GET_DATA_SIZE                       2
 #define CIOT_IFACE_INFO_SIZE                     8
 #define CIOT_IFACE_REQ_STATUS_SIZE               24
 

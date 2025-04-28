@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_SYS == 1
+
 #include "ciot_sys.h"
 #include "esp_system.h"
 #include "ciot_sys.h"
@@ -94,3 +98,5 @@ ciot_err_t ciot_sys_init_dfu(void)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_SYS == 1

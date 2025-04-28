@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_TIMER == 1
+
 #include <time.h>
 
 #include "esp_timer.h"
@@ -23,3 +27,5 @@ uint64_t ciot_timer_millis(void)
 {
     return (esp_timer_get_time() / 1000);
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_TIMER == 1

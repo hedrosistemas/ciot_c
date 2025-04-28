@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2024
  * 
  */
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_GPIO == 1
 
 #include <stdlib.h>
 #include <string.h>
@@ -202,3 +206,5 @@ ciot_gpio_state_t ciot_gpio_get_state(ciot_gpio_t self, uint16_t id)
     int num = base->cfg.pins[id].num;
     return base->get_state(num);
 }
+
+#endif // CIOT_CONFIG_FEATURE_GPIO == 1

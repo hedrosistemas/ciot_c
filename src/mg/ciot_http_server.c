@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_HTTP_SERVER == 1
+
 #include "ciot_http_server.h"
 #include "mongoose.h"
 
@@ -152,3 +156,5 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
         return;
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_HTTP_SERVER == 1

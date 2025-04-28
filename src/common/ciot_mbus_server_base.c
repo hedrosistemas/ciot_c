@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2024
  *
  */
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_MBUS_SERVER == 1
 
 #include "ciot_mbus_server.h"
 #include "ciot_types.h"
@@ -93,3 +97,5 @@ static ciot_err_t ciot_mbus_server_read_data(ciot_iface_t *iface, uint8_t *data,
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_MBUS_SERVER == 1

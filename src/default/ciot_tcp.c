@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE_TCP == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_tcp.h"
@@ -54,3 +58,5 @@ ciot_err_t ciot_tcp_stop(ciot_tcp_t self)
     CIOT_ERR_NULL_CHECK(self);
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_BLE_TCP == 1

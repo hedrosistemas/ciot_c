@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_GPIO == 1
+
 #include <stdlib.h>
 #include "ciot_gpio.h"
 #include "ciot_err.h"
@@ -63,3 +67,5 @@ ciot_err_t ciot_gpio_stop(ciot_gpio_t self)
     CIOT_ERR_NULL_CHECK(self);
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_GPIO == 1

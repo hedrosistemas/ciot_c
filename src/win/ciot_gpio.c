@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_GPIO == 1
+
 #include <stdlib.h>
 #include "ciot_gpio.h"
 #include "ciot_err.h"
@@ -62,3 +66,5 @@ static int get_bit(int bit_position)
 {
     return (states_mask >> bit_position) & 1ULL;
 }
+
+#endif // CIOT_CONFIG_FEATURE_GPIO == 1

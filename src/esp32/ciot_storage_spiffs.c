@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_STORAGE == 1
+
 #include <stdlib.h>
 #include "ciot_storage.h"
 #include "ciot_storage_fs.h"
@@ -61,3 +65,5 @@ static ciot_err_t ciot_storage_spiffs_init(ciot_storage_spiffs_t self)
     }
     return CIOT_ERR_OK;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_STORAGE == 1

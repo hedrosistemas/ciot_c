@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_NTP == 1
+
 #include <stdlib.h>
 #include "ciot_ntp.h"
 #include "ciot_timer.h"
@@ -100,3 +104,5 @@ static void ciot_ntp_sync_notification_cb(struct timeval *tv)
     base->status.last_sync = ciot_timer_now();
     ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_NTP == 1

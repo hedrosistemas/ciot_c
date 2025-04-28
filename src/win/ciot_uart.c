@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_UART == 1
+ 
 #include "ciot_uart.h"
 #include "winsock2.h"
 #include "windows.h"
@@ -236,3 +240,5 @@ static void ciot_uart_flush(ciot_uart_t self)
         ReadFile(self->handle, &bytes, status.cbInQue, &self->bytes_read, NULL);
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_UART == 1

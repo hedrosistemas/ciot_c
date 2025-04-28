@@ -8,7 +8,11 @@
  * @copyright Copyright (c) 2024
  *
  */
+ 
+#include "ciot_config.h"
 
+#if CIOT_CONFIG_FEATURE_HTTP_SERVER == 1
+ 
 #include "ciot_http_server.h"
 #include "ciot_types.h"
 
@@ -89,3 +93,5 @@ static ciot_err_t ciot_http_server_send_data(ciot_iface_t *iface, uint8_t *data,
     ciot_http_server_t self = (ciot_http_server_t)iface;
     return ciot_http_server_send_bytes(self, data, size);
 }
+
+#endif // CIOT_CONFIG_FEATURE_HTTP_SERVER == 1

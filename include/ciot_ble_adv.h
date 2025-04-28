@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef __CIOT_BLE_adv__H__
-#define __CIOT_BLE_adv__H__
+#ifndef __CIOT_BLE_ADV__H__
+#define __CIOT_BLE_ADV__H__
 
 #ifdef __cplusplus
 extern "C" {

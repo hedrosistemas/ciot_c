@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE_SCN == 1
+
 #include <stdlib.h>
 #include "ciot_ble_scn.h"
 #include "ciot_err.h"
@@ -39,3 +43,5 @@ ciot_err_t ciot_ble_scn_stop(ciot_ble_scn_t self)
     CIOT_ERR_NULL_CHECK(self);
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_BLE_SCN == 1

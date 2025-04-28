@@ -472,6 +472,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
 
         CIOT_ERR_RETURN(ciot_bytes_received(self, sender, event->raw.bytes, event->raw.size));
 
+#if CIOT_CONFIG_FEATURE_LOG == 1
         if(receiver->event.msg.data.which_type == CIOT_MSG_DATA_LOG_TAG)
         {
             ciot_log_data_t *log = &receiver->event.msg.data.log;
@@ -479,6 +480,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
             if(log->level == CIOT_LOG_LEVEL_WARNING) CIOT_LOGW(TAG, "[%s] %s", log->tag, log->message);
             if(log->level == CIOT_LOG_LEVEL_ERROR) CIOT_LOGE(TAG, "[%s] %s", log->tag, log->message);
         }
+#endif 
 
         if(receiver->event.msg.iface.type == CIOT_IFACE_TYPE_CUSTOM && self->iface.event_handler != NULL)
         {

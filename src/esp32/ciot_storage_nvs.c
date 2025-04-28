@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_STORAGE == 1
+
 #include <stdio.h>
 #include "nvs_flash.h"
 #include "ciot_storage_nvs.h"
@@ -114,3 +118,5 @@ static ciot_err_t ciot_storage_nvs_init(void)
         return CIOT_ERR_OK;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_STORAGE == 1

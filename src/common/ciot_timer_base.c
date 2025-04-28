@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2024
  * 
  */
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_TIMER == 1
 
 #include "ciot_timer.h"
 
@@ -27,3 +31,5 @@ ciot_err_t ciot_timer_init(uint64_t *timer, uint16_t interval)
     *timer = ciot_timer_now() + interval;
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_TIMER == 1

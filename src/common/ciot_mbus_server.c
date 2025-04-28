@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2024
  *
  */
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_MBUS_SERVER == 1
 
 #include "ciot_mbus_server.h"
 #include <stdlib.h>
@@ -19,8 +23,6 @@ struct ciot_mbus_server
     ciot_iface_t *iface;
     nmbs_t nmbs;
 };
-
-static const char *TAG = "ciot_mbus_server";
 
 static int32_t ciot_mbus_server_read(uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg);
 static int32_t ciot_mbus_server_write(const uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg);
@@ -241,6 +243,10 @@ static ciot_err_t ciot_mbus_server_event_handler(ciot_iface_t *sender, ciot_even
     case CIOT_EVENT_TYPE_ERROR:
         self->base.status.state = CIOT_MBUS_SERVER_STATE_ERROR;
         break;
+    default:
+        break;
     }
     return ciot_iface_send_event_type(self->iface, event->type);
 }
+
+#endif // CIOT_CONFIG_FEATURE_MBUS_SERVER == 1
