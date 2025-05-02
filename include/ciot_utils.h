@@ -19,6 +19,8 @@ extern "C" {
 #include <inttypes.h>
 #include <stdbool.h>
 
+#define CONSTRAIN(value, min, max) (((value) < (min)) ? (min) : ((value) > (max)) ? (max) : (value))
+
 /**
  * @brief Convert bytes to hexadecimal representation.
  *
