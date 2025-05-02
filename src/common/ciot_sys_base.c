@@ -149,6 +149,7 @@ static ciot_err_t ciot_sys_get_features(ciot_sys_features_t *features)
     features->http_server = CIOT_CONFIG_FEATURE_HTTP_SERVER;
     features->mbus_client = CIOT_CONFIG_FEATURE_MBUS_CLIENT;
     features->mbus_server = CIOT_CONFIG_FEATURE_MBUS_SERVER;
+    features->mqtt_client = CIOT_CONFIG_FEATURE_MQTT_CLIENT;
     features->ntp = CIOT_CONFIG_FEATURE_NTP;
     features->ota = CIOT_CONFIG_FEATURE_OTA;
     features->pwm = CIOT_CONFIG_FEATURE_PWM;
