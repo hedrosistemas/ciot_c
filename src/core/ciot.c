@@ -482,9 +482,22 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
         }
 #endif 
 
-        if(receiver->event.msg.iface.type == CIOT_IFACE_TYPE_CUSTOM && self->iface.event_handler != NULL)
+        if(receiver->event.msg.iface.type == CIOT_IFACE_TYPE_CUSTOM)
         {
-            self->iface.event_handler(sender, &receiver->event, self->iface.event_args);
+            if(self->iface.event_handler != NULL)
+            {
+                ciot_err_t err = self->iface.event_handler(sender, &receiver->event, self->iface.event_args);
+                if(err != CIOT_ERR_OK)
+                {
+                    CIOT_LOGE(TAG, "error from application event handler: %s", ciot_err_to_message(err));
+                    ciot_iface_send_error(receiver->sender, receiver->event.msg.iface.type, receiver->event.msg.iface.type, &receiver->event.msg, err);
+                }
+            }
+            else
+            {
+                CIOT_LOGE(TAG, "ciot event handler is null");
+                ciot_iface_send_error(receiver->sender, CIOT_IFACE_TYPE_CIOT, self->iface.info.id, &receiver->event.msg, CIOT_ERR_NULL_EVENT_HANDLER);
+            }
         }
         else
         {
