@@ -69,6 +69,26 @@ uint32_t crc32_compute(uint8_t const *p_data, uint32_t size, uint32_t const *p_c
  */
 void ciot_copy_data(uint8_t *destiny, uint8_t *source, int size, bool reverse);
 
+/**
+ * @brief Maps a value from one range to another.
+ * 
+ * This function linearly maps the input value `in`, which is assumed to be in the range 
+ * [`in_min`, `in_max`], to a corresponding value in the range [`out_min`, `out_max`].
+ * If `in_max` is equal to `in_min`, the function returns `out_min` to avoid division by zero.
+ * 
+ * @param in       The input value to be mapped.
+ * @param in_min   The lower bound of the input range.
+ * @param in_max   The upper bound of the input range.
+ * @param out_min  The lower bound of the output range.
+ * @param out_max  The upper bound of the output range.
+ * @return double  The mapped value in the output range.
+ */
+static inline double map_range(double in, double in_min, double in_max, double out_min, double out_max)
+{
+    if (in_max == in_min) return out_min;
+    return (in - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 #ifdef __cplusplus
 }
 #endif
