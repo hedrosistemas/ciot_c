@@ -24,7 +24,7 @@ ciot_storage_t ciot_storage_fs_new(void)
 {
     ciot_storage_fs_t self = calloc(1, sizeof(struct ciot_storage_fs));
     ciot_storage_t base = &self->base;
-    base->delete = ciot_storage_fs_delete;
+    base->remove = ciot_storage_fs_delete;
     base->write_bytes = ciot_storage_fs_write_bytes;
     base->read_bytes = ciot_storage_fs_read_bytes;
     base->type = CIOT_STORAGE_TYPE_FS;
