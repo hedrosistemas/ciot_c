@@ -143,7 +143,15 @@ ciot_err_t ciot_gpio_process_req(ciot_gpio_t self, ciot_gpio_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    switch (req->which_type)
+    {
+    case CIOT_GPIO_REQ_SET_STATUS_TAG:
+        return ciot_gpio_process_set_status(self, &req->set_status);
+    case CIOT_GPIO_REQ_SET_STATE_TAG:
+        return ciot_gpio_process_set_state(self, &req->set_state);
+    default:
+        return CIOT_ERR_INVALID_TYPE;
+    }
 }
 
 ciot_err_t ciot_gpio_set_cfg(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
