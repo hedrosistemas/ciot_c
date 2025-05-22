@@ -19,7 +19,6 @@
 struct ciot_mbus_server
 {
     ciot_mbus_server_base_t base;
-    ciot_mbus_data_t data;
     ciot_iface_t *iface;
     nmbs_t nmbs;
 };
@@ -129,14 +128,14 @@ static nmbs_error ciot_mbus_server_read_coils(uint16_t address, uint16_t quantit
 {
     ciot_mbus_server_t self = (ciot_mbus_server_t)arg;
 
-    if (address + quantity > self->data.coils.count)
+    if (address + quantity > self->base.data.coils.count)
     {
         return CIOT_ERR_MBUS_EXCEPTION_ILLEGAL_DATA_ADDR;
     }
 
     for (size_t i = 0; i < quantity; i++)
     {
-        bool value = nmbs_bitfield_read(self->data.coils.values, address + i);
+        bool value = nmbs_bitfield_read(self->base.data.coils.values, address + i);
         nmbs_bitfield_write(coils_out, i, value);
     }
 
@@ -147,14 +146,14 @@ static nmbs_error ciot_mbus_server_write_multiple_coils(uint16_t address, uint16
 {
     ciot_mbus_server_t self = (ciot_mbus_server_t)arg;
 
-    if (address + quantity > self->data.coils.count)
+    if (address + quantity > self->base.data.coils.count)
     {
         return CIOT_ERR_MBUS_EXCEPTION_ILLEGAL_DATA_ADDR;
     }
 
     for (int i = 0; i < quantity; i++)
     {
-        nmbs_bitfield_write(self->data.coils.values, address + i, nmbs_bitfield_read(coils, i));
+        nmbs_bitfield_write(self->base.data.coils.values, address + i, nmbs_bitfield_read(coils, i));
     }
 
     return CIOT_ERR_OK;
@@ -164,14 +163,14 @@ static nmbs_error ciot_mbus_server_read_holding_registers(uint16_t address, uint
 {
     ciot_mbus_server_t self = (ciot_mbus_server_t)arg;
 
-    if (address + quantity > self->data.regs.count)
+    if (address + quantity > self->base.data.regs.count)
     {
         return CIOT_ERR_MBUS_EXCEPTION_ILLEGAL_DATA_ADDR;
     }
 
     for (size_t i = 0; i < quantity; i++)
     {
-        registers_out[i] = self->data.regs.values[address + i];
+        registers_out[i] = self->base.data.regs.values[address + i];
     }
 
     return CIOT_ERR_OK;
@@ -181,14 +180,14 @@ static nmbs_error ciot_mbus_server_write_multiple_registers(uint16_t address, ui
 {
     ciot_mbus_server_t self = (ciot_mbus_server_t)arg;
 
-    if (address + quantity > self->data.regs.count)
+    if (address + quantity > self->base.data.regs.count)
     {
         return CIOT_ERR_MBUS_EXCEPTION_ILLEGAL_DATA_ADDR;
     }
 
     for (size_t i = 0; i < quantity; i++)
     {
-        self->data.regs.values[address + i] = registers[i];
+        self->base.data.regs.values[address + i] = registers[i];
     }
 
     return CIOT_ERR_OK;
@@ -246,7 +245,7 @@ static ciot_err_t ciot_mbus_server_event_handler(ciot_iface_t *sender, ciot_even
     default:
         break;
     }
-    return ciot_iface_send_event_type(self->iface, event->type);
+        return ciot_iface_send_event_type(&self->base.iface, event->type);
 }
 
 #endif // CIOT_CONFIG_FEATURE_MBUS_SERVER == 1
