@@ -53,7 +53,7 @@ ciot_err_t ciot_storage_fs_read_bytes(ciot_storage_t self, char *path, uint8_t *
     if(f == NULL)
     {
         *size = 0;
-        return CIOT_ERR_FAIL;
+        return CIOT_ERR_NOT_FOUND;
     }
 
     if(bytes == NULL)
