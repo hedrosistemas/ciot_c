@@ -1,12 +1,12 @@
 /**
  * @file ciot_uart.c
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2024-06-07
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #include "ciot_config.h"
@@ -36,7 +36,7 @@
 
 #ifndef CIOT_CONFIG_UART_TASK_SIZE
 #define CIOT_CONFIG_UART_TASK_SIZE 4096
-#endif 
+#endif
 
 #ifndef CIOT_CONFIG_UART_TASK_PRIO
 #define CIOT_CONFIG_UART_TASK_PRIO (tskIDLE_PRIORITY + 1)
@@ -140,12 +140,11 @@ ciot_err_t ciot_uart_read_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 static void ciot_uart0_task(void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
-
     CIOT_LOGI(TAG, "uart0 task started");
 
     while (true)
     {
-        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        if (xQueueReceive(self->queue, (void *)&self->event, portMAX_DELAY))
         {
             ciot_uart_event_handler(self, &self->event);
         }
@@ -155,28 +154,25 @@ static void ciot_uart0_task(void *args)
 static void ciot_uart1_task(void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
-
     CIOT_LOGI(TAG, "uart1 task started");
 
     while (true)
     {
-        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        if (xQueueReceive(self->queue, (void *)&self->event, portMAX_DELAY))
         {
             ciot_uart_event_handler(self, &self->event);
         }
     }
-
 }
 
 static void ciot_uart2_task(void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
-
     CIOT_LOGI(TAG, "uart2 task started");
 
     while (true)
     {
-        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        if (xQueueReceive(self->queue, (void *)&self->event, portMAX_DELAY))
         {
             ciot_uart_event_handler(self, &self->event);
         }
@@ -228,4 +224,4 @@ static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
     }
 }
 
-#endif  //!CIOT_CONFIG_FEATURE_UART == 1
+#endif //! CIOT_CONFIG_FEATURE_UART == 1
