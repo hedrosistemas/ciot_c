@@ -63,6 +63,14 @@ static ciot_err_t ciot_storage_spiffs_init(ciot_storage_spiffs_t self)
         CIOT_LOGE(TAG, "Error mounting spiffs: %s", esp_err_to_name(err));
         return CIOT_ERR_FAIL;
     }
+    size_t total = 0, used = 0;
+    err = esp_spiffs_info(FS_PARTITION_LABLE, &total, &used);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to get SPIFFS partition information (%s)", esp_err_to_name(err));
+        return CIOT_ERR_FAIL;
+    } else {
+        ESP_LOGI(TAG, "Partition size: total: %d, used: %d, free: %d", total, used, total - used);
+    }
     return CIOT_ERR_OK;
 }
 
