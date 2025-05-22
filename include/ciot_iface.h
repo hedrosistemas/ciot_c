@@ -41,6 +41,7 @@ struct ciot_iface
     ciot_decoder_t decoder;
     ciot_serializer_t serializer;
     ciot_iface_req_status_t req_status;
+    ciot_iface_state_t state;
 };
 
 ciot_err_t ciot_iface_send_msg(ciot_iface_t *self, ciot_msg_t *msg);
