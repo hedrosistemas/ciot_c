@@ -27,9 +27,14 @@ ciot_msg_data_t uart_cfg = {
         .which_type = CIOT_UART_DATA_CONFIG_TAG,
         .config = {
             .baud_rate = 9600,
-            .num = 5,
-            .rx_pin = 16,
-            .tx_pin = 17,
+            .num = 2,
+            .rx_pin = 34,
+            .tx_pin = 32,
+            .rts_pin = 33,
+            .cts_pin = -1,
+            .mode = 1,
+            .read_timeout = 0,
+            .write_timeout = 0,
         },
     },
 };
@@ -49,10 +54,10 @@ ciot_msg_data_t mbus_server_cfg = {
 
 static const char *TAG = "main";
 
+static ciot_err_t event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args);
+
 static void device_start()
 {
-    // self.ifaces.storage = ciot_storage_nvs_new();
-
     self.ifaces.ciot = ciot_new();
     self.ifaces.list[DEVICE_IFACE_ID_CIOT] = (ciot_iface_t *)self.ifaces.ciot;
     self.ifaces.cfgs[DEVICE_IFACE_ID_CIOT] = NULL;
@@ -60,8 +65,6 @@ static void device_start()
     self.ifaces.sys = ciot_sys_new(CIOT_HANDLE);
     self.ifaces.list[DEVICE_IFACE_ID_SYS] = (ciot_iface_t *)self.ifaces.sys;
     self.ifaces.cfgs[DEVICE_IFACE_ID_SYS] = NULL;
-
-    CIOT_LOGI(TAG, "1 sys cfg %p", self.ifaces.cfgs[DEVICE_IFACE_ID_SYS]);
 
     self.ifaces.uart = ciot_uart_new(CIOT_HANDLE);
     self.ifaces.list[DEVICE_IFACE_ID_UART] = (ciot_iface_t *)self.ifaces.uart;
@@ -110,4 +113,10 @@ int main(void)
     }
 
     return 0;
+}
+
+static ciot_err_t event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args)
+{
+    ciot_mbus_server_event_handler(self.ifaces.mbus_server, sender, event);
+    return CIOT_ERR_OK;
 }

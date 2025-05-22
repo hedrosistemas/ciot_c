@@ -67,7 +67,7 @@ typedef struct ciot_storage_req {
     union {
         ciot_storage_file_t save;
         ciot_storage_file_t load;
-        ciot_storage_file_t delete;
+        ciot_storage_file_t remove;
         ciot_storage_req_format_t format;
     };
 } ciot_storage_req_t;
@@ -145,7 +145,7 @@ extern "C" {
 #define CIOT_STORAGE_REQ_DELETE_PATH_TAG         1
 #define CIOT_STORAGE_REQ_SAVE_TAG                1
 #define CIOT_STORAGE_REQ_LOAD_TAG                2
-#define CIOT_STORAGE_REQ_DELETE_TAG              3
+#define CIOT_STORAGE_REQ_REMOVE_TAG              3
 #define CIOT_STORAGE_REQ_FORMAT_TAG              4
 #define CIOT_STORAGE_DATA_STOP_TAG               1
 #define CIOT_STORAGE_DATA_CONFIG_TAG             2
@@ -194,13 +194,13 @@ X(a, STATIC,   SINGULAR, STRING,   path,              1)
 #define CIOT_STORAGE_REQ_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,save,save),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,load,load),   2) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,delete,delete),   3) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,remove,remove),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,format,format),   4)
 #define CIOT_STORAGE_REQ_CALLBACK NULL
 #define CIOT_STORAGE_REQ_DEFAULT NULL
 #define ciot_storage_req_t_type_save_MSGTYPE ciot_storage_file_t
 #define ciot_storage_req_t_type_load_MSGTYPE ciot_storage_file_t
-#define ciot_storage_req_t_type_delete_MSGTYPE ciot_storage_file_t
+#define ciot_storage_req_t_type_remove_MSGTYPE ciot_storage_file_t
 #define ciot_storage_req_t_type_format_MSGTYPE ciot_storage_req_format_t
 
 #define CIOT_STORAGE_DATA_FIELDLIST(X, a) \

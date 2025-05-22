@@ -1,12 +1,12 @@
 /**
  * @file ciot_uart.c
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2024-06-07
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #include "ciot_config.h"
@@ -36,7 +36,7 @@
 
 #ifndef CIOT_CONFIG_UART_TASK_SIZE
 #define CIOT_CONFIG_UART_TASK_SIZE 4096
-#endif 
+#endif
 
 #ifndef CIOT_CONFIG_UART_TASK_PRIO
 #define CIOT_CONFIG_UART_TASK_PRIO (tskIDLE_PRIORITY + 1)
@@ -94,9 +94,15 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     ESP_ERROR_CHECK(uart_driver_install(num, CIOT_CONFIG_UART_RX_BUF_SIZE, CIOT_CONFIG_UART_TX_BUF_SIZE, CIOT_CONFIG_UART_QUEUE_SIZE, &self->queue, 0));
     ESP_ERROR_CHECK(uart_set_mode(num, cfg->mode));
 
-    if(num == 0) xTaskCreatePinnedToCore(ciot_uart0_task, "ciot_uart0_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
-    if(num == 1) xTaskCreatePinnedToCore(ciot_uart1_task, "ciot_uart1_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
-    if(num == 2) xTaskCreatePinnedToCore(ciot_uart2_task, "ciot_uart2_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+    if(base->iface.decoder)
+    {
+        if (num == 0)
+            xTaskCreatePinnedToCore(ciot_uart0_task, "ciot_uart0_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+        if (num == 1)
+            xTaskCreatePinnedToCore(ciot_uart1_task, "ciot_uart1_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+        if (num == 2)
+            xTaskCreatePinnedToCore(ciot_uart2_task, "ciot_uart2_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
+    }
 
     ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 
@@ -127,19 +133,18 @@ ciot_err_t ciot_uart_read_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(bytes);
-    int read = uart_read_bytes(self->base.cfg.num, bytes, size, portMAX_DELAY);
-    return read == size ? CIOT_ERR_OK : CIOT_ERR_READING;
+    int read = uart_read_bytes(self->base.cfg.num, bytes, size, pdMS_TO_TICKS(self->base.cfg.read_timeout));
+    return read == size ? CIOT_ERR_OK : CIOT_ERR_TIMEOUT;
 }
 
 static void ciot_uart0_task(void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
-
     CIOT_LOGI(TAG, "uart0 task started");
 
     while (true)
     {
-        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        if (xQueueReceive(self->queue, (void *)&self->event, portMAX_DELAY))
         {
             ciot_uart_event_handler(self, &self->event);
         }
@@ -149,28 +154,25 @@ static void ciot_uart0_task(void *args)
 static void ciot_uart1_task(void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
-
     CIOT_LOGI(TAG, "uart1 task started");
 
     while (true)
     {
-        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        if (xQueueReceive(self->queue, (void *)&self->event, portMAX_DELAY))
         {
             ciot_uart_event_handler(self, &self->event);
         }
     }
-
 }
 
 static void ciot_uart2_task(void *args)
 {
     ciot_uart_t self = (ciot_uart_t)args;
-
     CIOT_LOGI(TAG, "uart2 task started");
 
     while (true)
     {
-        if(xQueueReceive(self->queue, (void*)&self->event, portMAX_DELAY))
+        if (xQueueReceive(self->queue, (void *)&self->event, portMAX_DELAY))
         {
             ciot_uart_event_handler(self, &self->event);
         }
@@ -222,4 +224,4 @@ static void ciot_uart_event_handler(ciot_uart_t self, uart_event_t *event)
     }
 }
 
-#endif  //!CIOT_CONFIG_FEATURE_UART == 1
+#endif //! CIOT_CONFIG_FEATURE_UART == 1

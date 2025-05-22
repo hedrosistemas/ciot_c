@@ -9,6 +9,8 @@
  * 
  */
 
+#include <stdlib.h>
+
 #include "ciot.h"
 #include "ciot_log.h"
 #include "ciot_timer.h"
@@ -70,12 +72,12 @@ ciot_err_t ciot_stop(ciot_t self)
 
 ciot_err_t ciot_task(ciot_t self)
 {
-    CIOT_ERR_NULL_CHECK(self);
-
     #ifdef CIOT_MG_ENABLED
     mg_mgr_poll(CIOT_HANDLE, CIOT_CONFIG_MG_POOL_INTERVAL_MS);
     #endif
-
+    
+    CIOT_ERR_NULL_CHECK(self);
+    
     switch (self->status.state)
     {
     case CIOT_STATE_STARTING:
@@ -122,7 +124,8 @@ ciot_err_t ciot_delete_cfg(ciot_t self, ciot_iface_info_t *iface)
     CIOT_ERR_VALUE_CHECK(iface->type, self->ifaces.list[iface->id]->info.type, CIOT_ERR_INVALID_TYPE);
     char filename[16];
     sprintf(filename, CIOT_IFACE_CFG_FILENAME, (int)iface->id);
-    return self->storage->delete(self->storage, filename);
+    CIOT_LOGI(TAG, "Deleting configuration: %s file: %s", ciot_iface_type_to_str(iface->type), filename);
+    return self->storage->remove(self->storage, filename);
 }
 
 ciot_err_t ciot_save_cfg(ciot_t self, ciot_iface_info_t *iface)
@@ -167,13 +170,31 @@ ciot_err_t ciot_get_ifaces_info(ciot_t self, ciot_info_t *info)
     return CIOT_ERR_OK;
 }
 
+ciot_err_t ciot_delete_all(ciot_t self)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    for (size_t i = 0; i < self->ifaces.count; i++)
+    {
+        if(self->ifaces.list[i] != NULL)
+        {
+            ciot_err_t err = ciot_delete_cfg(self, &self->ifaces.list[i]->info);
+            if(err != CIOT_ERR_OK) {
+                CIOT_LOGI(TAG, "iface %s cfg file not deleted. reason: %s", 
+                    ciot_iface_type_to_str(self->ifaces.list[i]->info.type) ,
+                    ciot_err_to_message(err));
+            }
+        }
+    }
+    return CIOT_ERR_OK;
+}
+
 bool ciot_cfg_exists(ciot_t self, uint8_t iface_id)
 {
     if(self == NULL) return false;
     if(self->storage == NULL) return false;
     if(iface_id >= self->ifaces.count) return false;
-    char filename[16];
-    int size;
+    char filename[18];
+    int size = 0;
     sprintf(filename, CIOT_IFACE_CFG_FILENAME, iface_id);
     self->storage->read_bytes(self->storage, filename, NULL, &size);
     return size > 0;
@@ -229,7 +250,7 @@ static ciot_err_t ciot_starting_task(ciot_t self)
             ciot_iface_event_is_ack(receiver->event.type) &&
             starter->iface_id == receiver->sender->info.id)
         {
-            CIOT_LOGI(TAG, "Interface [%lu]:%s evt %s received", receiver->sender->info.id, ciot_iface_to_str(receiver->sender), ciot_event_to_str(&receiver->event));
+            CIOT_LOGI(TAG, "Interface [%lu]:%s evt %s received", (long unsigned int)receiver->sender->info.id, ciot_iface_to_str(receiver->sender), ciot_event_to_str(&receiver->event));
             if(self->iface.event_handler != NULL)
             {
                 self->iface.event_handler(receiver->sender, &receiver->event, self->iface.event_args);
@@ -239,7 +260,7 @@ static ciot_err_t ciot_starting_task(ciot_t self)
         }
         else if (ciot_timer_compare(&starter->timer, CIOT_IFACE_START_TIMEOUT_SECS))
         {
-            CIOT_LOGE(TAG, "Interface [%lu]:%s Timeout", starter->iface_id, ciot_iface_to_str(self->ifaces.list[starter->iface_id]));
+            CIOT_LOGE(TAG, "Interface [%lu]:%s Timeout", (long unsigned int)starter->iface_id, ciot_iface_to_str(self->ifaces.list[starter->iface_id]));
             starter->iface_id++;
             starter->waiting_result = false;
         }
@@ -326,7 +347,7 @@ static ciot_err_t ciot_busy_task(ciot_t self)
     ciot_event_t *event = &receiver->event;
     ciot_iface_t *sender = receiver->sender;
 
-    if (sender->req_status.state != CIOT_IFACE_REQ_STATE_IDLE && event->which_data == CIOT_EVENT_MSG_TAG)
+    if (sender->req_status.state != CIOT_IFACE_REQ_STATE_IDLE && (event->which_data == CIOT_EVENT_MSG_TAG))
     {
         CIOT_LOGI(TAG, "Processing event from %s", ciot_iface_to_str(sender));
         bool iface_is_equal = sender->req_status.state == CIOT_IFACE_REQ_STATE_SENDED 
@@ -431,17 +452,24 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
     ciot_t self = (ciot_t)event_args;
     ciot_receiver_t *receiver = &self->receiver;
 
-    CIOT_LOGI(TAG, "evt: %s(%lu): %s", ciot_iface_to_str(sender), sender->info.id, ciot_event_to_str(event));
+    CIOT_LOGI(TAG, "evt: %s(%lu): %s", ciot_iface_to_str(sender), (long unsigned int)sender->info.id, ciot_event_to_str(event));
 
     if(sender->info.id < sizeof(self->status.ifaces))
     {
         if(event->type == CIOT_EVENT_TYPE_STARTED)
         {
-            self->status.ifaces[sender->info.id].started = true;
+            self->status.ifaces[sender->info.id].state = CIOT_IFACE_STATE_STARTED;
+            self->ifaces.list[sender->info.id]->state = CIOT_IFACE_STATE_STARTED;
         }
         if(event->type == CIOT_EVENT_TYPE_STOPPED)
         {
-            self->status.ifaces[sender->info.id].started = false;
+            self->status.ifaces[sender->info.id].state = CIOT_IFACE_STATE_STOPPED;
+            self->ifaces.list[sender->info.id]->state = CIOT_IFACE_STATE_STOPPED;
+        }
+        if(event->type == CIOT_EVENT_TYPE_ERROR)
+        {
+            self->status.ifaces[sender->info.id].state = CIOT_IFACE_STATE_STOPPED;
+            self->ifaces.list[sender->info.id]->state = CIOT_IFACE_STATE_STOPPED;
         }
     }
 
@@ -455,7 +483,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
 
     if (self->status.state == CIOT_STATE_BUSY)
     {
-        CIOT_LOGE(TAG, "ciot busy. %s(%lu) evt:%s ignored", ciot_iface_to_str(sender), sender->info.id, ciot_event_to_str(event));
+        CIOT_LOGE(TAG, "ciot busy. %s(%lu) evt:%s ignored", ciot_iface_to_str(sender), (long unsigned int)sender->info.id, ciot_event_to_str(event));
         return CIOT_ERR_BUSY;
     }
 
@@ -525,6 +553,7 @@ static ciot_err_t ciot_bytes_received(ciot_t self, ciot_iface_t *sender, uint8_t
     else
     {
         ciot_serializer_from_bytes(bytes, size, &self->receiver.event.msg, CIOT_MSG_FIELDS);
+        self->receiver.event.which_data = CIOT_EVENT_MSG_TAG;
         return CIOT_ERR_OK;
     }
 }

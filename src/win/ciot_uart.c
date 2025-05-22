@@ -86,11 +86,11 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         return CIOT_ERR_FAIL;
     }
 
-    self->timeouts.ReadIntervalTimeout = 50;
-    self->timeouts.ReadTotalTimeoutConstant = 50;
-    self->timeouts.ReadTotalTimeoutMultiplier = 20;
-    self->timeouts.WriteTotalTimeoutConstant = 50;
-    self->timeouts.WriteTotalTimeoutMultiplier = 20;
+    self->timeouts.ReadIntervalTimeout = base->cfg.read_timeout;
+    self->timeouts.ReadTotalTimeoutConstant = base->cfg.read_timeout;
+    self->timeouts.ReadTotalTimeoutMultiplier = 1;
+    self->timeouts.WriteTotalTimeoutConstant = base->cfg.write_timeout;
+    self->timeouts.WriteTotalTimeoutMultiplier = 1;
     if(!SetCommTimeouts(self->handle, &self->timeouts))
     {
         CIOT_LOGE(TAG, "SetCommTimeouts error at CO%d", base->cfg.num);
@@ -191,39 +191,22 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
 
     if(status->cbInQue > 0)
     {
-        // uint8_t bytes[status->cbInQue];
-        // if(ReadFile(self->handle, &bytes, status->cbInQue, &self->bytes_read, NULL))
-        // {
-        //     // CIOT_LOG_HEX(TAG, bytes, sizeof(bytes), CIOT_LOG_LEVEL_INFO);
-        //     ciot_err_t err = ciot_iface_process_data(&base->iface, bytes, self->bytes_read, CIOT_EVENT_TYPE_REQUEST);
-        //     if(err != CIOT_ERR_OK)
-        //     {
-        //         base->status.error = err;
-        //     }
-        // }
-
         uint8_t byte;
         while (status->cbInQue > 0)
         {
-            if(ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL))
+            if(self->base.iface.decoder)
             {
-                ciot_err_t err = ciot_iface_process_data(&base->iface, &byte, 1, CIOT_EVENT_TYPE_REQUEST);
-                if(err != CIOT_ERR_OK)
+                if(ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL))
                 {
-                    base->status.error = err;
+                    ciot_err_t err = ciot_iface_process_data(&base->iface, &byte, 1, CIOT_EVENT_TYPE_REQUEST);
+                    if(err != CIOT_ERR_OK)
+                    {
+                        base->status.error = err;
+                    }
                 }
+                status->cbInQue--;
             }
-            status->cbInQue--;
         }
-
-        // while (status->cbInQue)
-        // {
-        //     uint8_t byte;
-        //     ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL);
-        //     printf("%0x", byte);
-        //     if(byte == '}') printf("\n");
-        //     status->cbInQue--;
-        // }
     }
 
     return CIOT_ERR_OK;

@@ -10,6 +10,12 @@
 #endif
 
 /* Enum definitions */
+typedef enum ciot_iface_state {
+    CIOT_IFACE_STATE_STOPPED = 0,
+    CIOT_IFACE_STATE_STARTED = 1,
+    CIOT_IFACE_STATE_ERROR = 2
+} ciot_iface_state_t;
+
 /* Enum representing different interface types. */
 typedef enum ciot_iface_type {
     CIOT_IFACE_TYPE_UNDEFINED = 0, /* Undefined interface type. */
@@ -94,6 +100,13 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
+#define _CIOT_IFACE_STATE_MIN CIOT_IFACE_STATE_STOPPED
+#define _CIOT_IFACE_STATE_MAX CIOT_IFACE_STATE_ERROR
+#define _CIOT_IFACE_STATE_ARRAYSIZE ((ciot_iface_state_t)(CIOT_IFACE_STATE_ERROR+1))
+#define CIOT_IFACE_STATE_IFACE_STATE_STOPPED CIOT_IFACE_STATE_STOPPED
+#define CIOT_IFACE_STATE_IFACE_STATE_STARTED CIOT_IFACE_STATE_STARTED
+#define CIOT_IFACE_STATE_IFACE_STATE_ERROR CIOT_IFACE_STATE_ERROR
+
 #define _CIOT_IFACE_TYPE_MIN CIOT_IFACE_TYPE_UNDEFINED
 #define _CIOT_IFACE_TYPE_MAX CIOT_IFACE_TYPE_PWM
 #define _CIOT_IFACE_TYPE_ARRAYSIZE ((ciot_iface_type_t)(CIOT_IFACE_TYPE_PWM+1))

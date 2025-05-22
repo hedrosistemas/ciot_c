@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "ciot_log.h"
 #include "ciot_storage_fs.h"
 
 struct ciot_storage_fs
@@ -20,11 +21,13 @@ struct ciot_storage_fs
 
 typedef struct ciot_storage_fs *ciot_storage_fs_t;
 
+static const char *TAG = "ciot_storage";
+
 ciot_storage_t ciot_storage_fs_new(void)
 {
     ciot_storage_fs_t self = calloc(1, sizeof(struct ciot_storage_fs));
     ciot_storage_t base = &self->base;
-    base->delete = ciot_storage_fs_delete;
+    base->remove = ciot_storage_fs_delete;
     base->write_bytes = ciot_storage_fs_write_bytes;
     base->read_bytes = ciot_storage_fs_read_bytes;
     base->type = CIOT_STORAGE_TYPE_FS;
@@ -33,14 +36,14 @@ ciot_storage_t ciot_storage_fs_new(void)
 
 ciot_err_t ciot_storage_fs_write_bytes(ciot_storage_t self, char *path, uint8_t *bytes, int size)
 {
-    FILE *f = fopen(path, "wb");
+    FILE *f = fopen(path, "w");
     if(f != NULL)
     {
         fwrite(bytes, size, 1, f);
         fclose(f);
         return CIOT_ERR_OK;
     }
-
+    CIOT_LOGE(TAG, "Error writing on file %s", path);
     return CIOT_ERR_FAIL;
 }
 
@@ -50,7 +53,7 @@ ciot_err_t ciot_storage_fs_read_bytes(ciot_storage_t self, char *path, uint8_t *
     if(f == NULL)
     {
         *size = 0;
-        return CIOT_ERR_FAIL;
+        return CIOT_ERR_NOT_FOUND;
     }
 
     if(bytes == NULL)
