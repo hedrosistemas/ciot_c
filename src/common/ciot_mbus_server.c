@@ -106,7 +106,7 @@ ciot_err_t ciot_mbus_server_stop(ciot_mbus_server_t self)
 ciot_err_t ciot_mbus_server_task(ciot_mbus_server_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
-    if (self->base.status.state == CIOT_MBUS_SERVER_STATE_STARTED)
+    if (self->base.status.state == CIOT_MBUS_SERVER_STATE_STARTED && self->iface->state == CIOT_IFACE_STATE_STARTED)
     {
         nmbs_error err = nmbs_server_poll(&self->nmbs);
         return err != NMBS_ERROR_NONE ? ciot_mbus_server_get_error(err) : CIOT_ERR_OK;
