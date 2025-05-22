@@ -546,6 +546,7 @@ static ciot_err_t ciot_bytes_received(ciot_t self, ciot_iface_t *sender, uint8_t
     else
     {
         ciot_serializer_from_bytes(bytes, size, &self->receiver.event.msg, CIOT_MSG_FIELDS);
+        self->receiver.event.which_data = CIOT_EVENT_MSG_TAG;
         return CIOT_ERR_OK;
     }
 }
