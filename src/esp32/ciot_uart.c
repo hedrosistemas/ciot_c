@@ -133,8 +133,8 @@ ciot_err_t ciot_uart_read_bytes(ciot_uart_t self, uint8_t *bytes, int size)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(bytes);
-    int read = uart_read_bytes(self->base.cfg.num, bytes, size, portMAX_DELAY);
-    return read == size ? CIOT_ERR_OK : CIOT_ERR_READING;
+    int read = uart_read_bytes(self->base.cfg.num, bytes, size, pdMS_TO_TICKS(self->base.cfg.read_timeout));
+    return read == size ? CIOT_ERR_OK : CIOT_ERR_TIMEOUT;
 }
 
 static void ciot_uart0_task(void *args)
