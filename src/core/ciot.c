@@ -250,7 +250,7 @@ static ciot_err_t ciot_starting_task(ciot_t self)
             ciot_iface_event_is_ack(receiver->event.type) &&
             starter->iface_id == receiver->sender->info.id)
         {
-            CIOT_LOGI(TAG, "Interface [%lu]:%s evt %s received", receiver->sender->info.id, ciot_iface_to_str(receiver->sender), ciot_event_to_str(&receiver->event));
+            CIOT_LOGI(TAG, "Interface [%lu]:%s evt %s received", (long unsigned int)receiver->sender->info.id, ciot_iface_to_str(receiver->sender), ciot_event_to_str(&receiver->event));
             if(self->iface.event_handler != NULL)
             {
                 self->iface.event_handler(receiver->sender, &receiver->event, self->iface.event_args);
@@ -260,7 +260,7 @@ static ciot_err_t ciot_starting_task(ciot_t self)
         }
         else if (ciot_timer_compare(&starter->timer, CIOT_IFACE_START_TIMEOUT_SECS))
         {
-            CIOT_LOGE(TAG, "Interface [%lu]:%s Timeout", starter->iface_id, ciot_iface_to_str(self->ifaces.list[starter->iface_id]));
+            CIOT_LOGE(TAG, "Interface [%lu]:%s Timeout", (long unsigned int)starter->iface_id, ciot_iface_to_str(self->ifaces.list[starter->iface_id]));
             starter->iface_id++;
             starter->waiting_result = false;
         }
@@ -452,7 +452,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
     ciot_t self = (ciot_t)event_args;
     ciot_receiver_t *receiver = &self->receiver;
 
-    CIOT_LOGI(TAG, "evt: %s(%lu): %s", ciot_iface_to_str(sender), sender->info.id, ciot_event_to_str(event));
+    CIOT_LOGI(TAG, "evt: %s(%lu): %s", ciot_iface_to_str(sender), (long unsigned int)sender->info.id, ciot_event_to_str(event));
 
     if(sender->info.id < sizeof(self->status.ifaces))
     {
