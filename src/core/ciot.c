@@ -476,7 +476,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
 
     if (self->status.state == CIOT_STATE_BUSY)
     {
-        CIOT_LOGE(TAG, "ciot busy. %s(%lu) evt:%s ignored", ciot_iface_to_str(sender), sender->info.id, ciot_event_to_str(event));
+        CIOT_LOGE(TAG, "ciot busy. %s(%lu) evt:%s ignored", ciot_iface_to_str(sender), (long unsigned int)sender->info.id, ciot_event_to_str(event));
         return CIOT_ERR_BUSY;
     }
 
