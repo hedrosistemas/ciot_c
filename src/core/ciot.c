@@ -170,6 +170,24 @@ ciot_err_t ciot_get_ifaces_info(ciot_t self, ciot_info_t *info)
     return CIOT_ERR_OK;
 }
 
+ciot_err_t ciot_delete_all(ciot_t self)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    for (size_t i = 0; i < self->ifaces.count; i++)
+    {
+        if(self->ifaces.list[i] != NULL)
+        {
+            ciot_err_t err = ciot_delete_cfg(self, &self->ifaces.list[i]->info);
+            if(err != CIOT_ERR_OK) {
+                CIOT_LOGI(TAG, "iface %s cfg file not deleted. reason: %s", 
+                    ciot_iface_type_to_str(self->ifaces.list[i]->info.type) ,
+                    ciot_err_to_message(err));
+            }
+        }
+    }
+    return CIOT_ERR_OK;
+}
+
 bool ciot_cfg_exists(ciot_t self, uint8_t iface_id)
 {
     if(self == NULL) return false;
