@@ -54,7 +54,6 @@ Ciot.BleReq.set_mac fixed_length:true
 Ciot.BleReq.set_mac max_size:6
 
 Ciot.GpioCfg.pins max_count:16
-Ciot.GpioStatus.states fixed_length:true
 Ciot.GpioStatus.states max_size:16
 
 Ciot.OtaCfg.url max_size:48
@@ -94,3 +93,5 @@ Ciot.BleScnAdv.payload max_size:38
 
 Ciot.LogData.tag max_size:16
 Ciot.LogData.message max_size:128
+
+Ciot.MbusFunctionReq.data max_size:32
