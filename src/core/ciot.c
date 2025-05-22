@@ -9,6 +9,8 @@
  * 
  */
 
+#include <stdlib.h>
+
 #include "ciot.h"
 #include "ciot_log.h"
 #include "ciot_timer.h"
