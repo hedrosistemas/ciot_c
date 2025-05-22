@@ -45,7 +45,7 @@ ciot_mbus_server_t ciot_mbus_server_new(void *handle, ciot_mbus_data_t *data, ci
     }
     ciot_mbus_server_t self = calloc(1, sizeof(struct ciot_mbus_server));
     ciot_mbus_server_init(self);
-    self->data = *data;
+    self->base.data = *data;
     self->iface = iface;
     return self;
 }
