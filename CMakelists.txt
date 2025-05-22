@@ -6,5 +6,8 @@
 cmake_minimum_required(VERSION 3.10...3.25)
 
 add_subdirectory(examples/device)
+add_subdirectory(examples/cli)
 add_subdirectory(examples/mbus_server)
+add_subdirectory(examples/ciota)
+add_subdirectory(examples/hdr_network_tester)
 add_subdirectory(tests)
