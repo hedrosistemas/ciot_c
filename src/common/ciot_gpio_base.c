@@ -92,6 +92,7 @@ static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *d
     CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_GPIO_TAG);
 
     ciot_gpio_t self = iface->ptr;
+    ciot_gpio_base_t *base = iface->ptr;
     ciot_gpio_data_t *gpio = &data->gpio;
 
     switch (gpio->which_type)
@@ -101,6 +102,7 @@ static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *d
     case CIOT_GPIO_DATA_CONFIG_TAG:
         return ciot_gpio_start(self, &gpio->config);
     case CIOT_GPIO_DATA_REQUEST_TAG:
+        base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
         return ciot_gpio_process_req(self, &gpio->request);
     default:
         return CIOT_ERR_INVALID_TYPE;
