@@ -82,7 +82,6 @@ ciot_err_t ciot_mbus_server_start(ciot_mbus_server_t self, ciot_mbus_server_cfg_
         return CIOT_ERR_INVALID_ARG;
     }
 
-    ciot_iface_set_event_handler(self->iface, ciot_mbus_server_event_handler, self);
     err = nmbs_server_create(&self->nmbs, cfg->rtu.server_id, &platform_conf, &callbacks);
     if (err == NMBS_ERROR_NONE)
     {
@@ -94,6 +93,7 @@ ciot_err_t ciot_mbus_server_start(ciot_mbus_server_t self, ciot_mbus_server_cfg_
         self->base.status.state = CIOT_MBUS_SERVER_STATE_ERROR;
         ciot_iface_send_event_type(&self->base.iface, CIOT_EVENT_TYPE_ERROR);
     }
+
     return ciot_mbus_server_get_error(err);
 }
 
