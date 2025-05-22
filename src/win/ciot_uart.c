@@ -86,11 +86,11 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
         return CIOT_ERR_FAIL;
     }
 
-    self->timeouts.ReadIntervalTimeout = 50;
-    self->timeouts.ReadTotalTimeoutConstant = 50;
-    self->timeouts.ReadTotalTimeoutMultiplier = 20;
-    self->timeouts.WriteTotalTimeoutConstant = 50;
-    self->timeouts.WriteTotalTimeoutMultiplier = 20;
+    self->timeouts.ReadIntervalTimeout = base->cfg.read_timeout;
+    self->timeouts.ReadTotalTimeoutConstant = base->cfg.read_timeout;
+    self->timeouts.ReadTotalTimeoutMultiplier = 1;
+    self->timeouts.WriteTotalTimeoutConstant = base->cfg.write_timeout;
+    self->timeouts.WriteTotalTimeoutMultiplier = 1;
     if(!SetCommTimeouts(self->handle, &self->timeouts))
     {
         CIOT_LOGE(TAG, "SetCommTimeouts error at CO%d", base->cfg.num);
