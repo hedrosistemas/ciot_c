@@ -109,6 +109,7 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, ciot_ifac
     switch (msg->data.which_type)
     {
     case CIOT_MSG_DATA_GET_DATA_TAG:
+        self->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
         msg->error = self->get_data(self, &msg->data);
         msg->has_data = msg->data.which_type != 0;
         msg->error = ciot_iface_process_data_result(self, sender, msg, msg->error);          
