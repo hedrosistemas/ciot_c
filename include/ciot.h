@@ -103,6 +103,7 @@ ciot_err_t ciot_delete_cfg(ciot_t self, ciot_iface_info_t *iface);
 ciot_err_t ciot_save_cfg(ciot_t self, ciot_iface_info_t *iface);
 ciot_err_t ciot_load_cfg(ciot_t self, ciot_iface_info_t *iface, ciot_msg_data_t *cfg);
 ciot_err_t ciot_get_ifaces_info(ciot_t self, ciot_info_t *info);
+ciot_err_t ciot_delete_all(ciot_t self);
 bool ciot_cfg_exists(ciot_t self, uint8_t iface_id);
 const char *ciot_event_to_str(ciot_event_t *event);
 
