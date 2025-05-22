@@ -158,6 +158,7 @@ ciot_err_t ciot_gpio_set_cfg(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
+    CIOT_ERR_INDEX_CHECK(cfg->pins_count, 0, sizeof(cfg->pins) / sizeof(cfg->pins[0]));
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
     base->cfg = *cfg;
     return CIOT_ERR_OK;
