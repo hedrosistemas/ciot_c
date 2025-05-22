@@ -60,12 +60,12 @@ ciot_err_t ciot_gpio_task(ciot_gpio_t self)
                 }
 
                 int num = base->cfg.pins[i].num;
-                ciot_gpio_state_t state = base->status.states[i];
+                ciot_gpio_state_t state = base->status.states.bytes[i];
 
                 if(state == CIOT_GPIO_STATE_LOW || state == CIOT_GPIO_STATE_HIGH)
                 {
                     base->set_state(num, state);
-                    base->status.states[i] = state;
+                    base->status.states.bytes[i] = state;
                 }
 
                 if(state == CIOT_GPIO_STATE_BLINKING)
@@ -180,10 +180,10 @@ ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t 
     if(state == CIOT_GPIO_STATE_LOW || state == CIOT_GPIO_STATE_HIGH)
     {
         base->set_state(num, state);
-        base->status.states[id] = state;
+        base->status.states.bytes[id] = state;
     }
 
-    if(state == CIOT_GPIO_STATE_BLINK && base->status.states[id] != CIOT_GPIO_STATE_BLINKING)
+    if(state == CIOT_GPIO_STATE_BLINK && base->status.states.bytes[id] != CIOT_GPIO_STATE_BLINKING)
     {
         base->blinking = true;
         base->set_state(num, !base->get_state(num));
@@ -192,7 +192,7 @@ ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t 
     if(state == CIOT_GPIO_STATE_BLINKING)
     {
         base->blinking = true;
-        base->status.states[id] = state;
+        base->status.states.bytes[id] = state;
     }
 
     return CIOT_ERR_OK;
