@@ -271,6 +271,8 @@ ciot_err_t ciot_mbus_server_event_handler(ciot_mbus_server_t self, ciot_iface_t 
             break;
         }
         return ciot_iface_send_event_type(&self->base.iface, event->type);
+    }
+    return CIOT_ERR_OK;
 }
 
 #endif // CIOT_CONFIG_FEATURE_MBUS_SERVER == 1
