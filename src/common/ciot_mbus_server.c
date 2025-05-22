@@ -253,7 +253,7 @@ static ciot_err_t ciot_mbus_server_get_error(nmbs_error error)
     }
 }
 
-static ciot_err_t ciot_mbus_server_event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args)
+ciot_err_t ciot_mbus_server_event_handler(ciot_mbus_server_t self, ciot_iface_t *sender, ciot_event_t *event)
 {
     if(sender->info.id == self->iface->info.id)
     {
