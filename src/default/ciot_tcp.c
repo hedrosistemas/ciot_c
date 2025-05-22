@@ -11,7 +11,7 @@
 
 #include "ciot_config.h"
 
-#if CIOT_CONFIG_FEATURE_BLE_TCP == 1
+#if CIOT_CONFIG_FEATURE_TCP == 1
 
 #include <stdlib.h>
 #include <string.h>
