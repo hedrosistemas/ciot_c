@@ -6,6 +6,9 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
+PB_BIND(CIOT_MBUS_FUNCTION_REQ, ciot_mbus_function_req_t, AUTO)
+
+
 
 
 

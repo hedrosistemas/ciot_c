@@ -55,7 +55,9 @@ typedef struct ciot_uart_cfg {
     uint32_t parity; /* Parity for UART. */
     bool flow_control; /* Flow control for UART. */
     bool dtr; /* DTR (Data Terminal Ready) signal. */
-    bool bridge_mode; /* Bridge mode for UART. */
+    uint32_t mode; /* UART mode (used to enable rs485 mode on some mcus). */
+    uint32_t read_timeout; /* UART read timeout */
+    uint32_t write_timeout; /* UART write timeout */
 } ciot_uart_cfg_t;
 
 /* Message representing status for the UART module. */
@@ -128,12 +130,12 @@ extern "C" {
 
 /* Initializer values for message structs */
 #define CIOT_UART_STOP_INIT_DEFAULT              {0}
-#define CIOT_UART_CFG_INIT_DEFAULT               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define CIOT_UART_CFG_INIT_DEFAULT               {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 #define CIOT_UART_STATUS_INIT_DEFAULT            {_CIOT_UART_STATE_MIN, _CIOT_UART_ERROR_MIN}
 #define CIOT_UART_REQ_INIT_DEFAULT               {0, {{0, {0}}}}
 #define CIOT_UART_DATA_INIT_DEFAULT              {0, {CIOT_UART_STOP_INIT_DEFAULT}}
 #define CIOT_UART_STOP_INIT_ZERO                 {0}
-#define CIOT_UART_CFG_INIT_ZERO                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define CIOT_UART_CFG_INIT_ZERO                  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 #define CIOT_UART_STATUS_INIT_ZERO               {_CIOT_UART_STATE_MIN, _CIOT_UART_ERROR_MIN}
 #define CIOT_UART_REQ_INIT_ZERO                  {0, {{0, {0}}}}
 #define CIOT_UART_DATA_INIT_ZERO                 {0, {CIOT_UART_STOP_INIT_ZERO}}
@@ -148,7 +150,9 @@ extern "C" {
 #define CIOT_UART_CFG_PARITY_TAG                 7
 #define CIOT_UART_CFG_FLOW_CONTROL_TAG           8
 #define CIOT_UART_CFG_DTR_TAG                    9
-#define CIOT_UART_CFG_BRIDGE_MODE_TAG            10
+#define CIOT_UART_CFG_MODE_TAG                   10
+#define CIOT_UART_CFG_READ_TIMEOUT_TAG           11
+#define CIOT_UART_CFG_WRITE_TIMEOUT_TAG          12
 #define CIOT_UART_STATUS_STATE_TAG               1
 #define CIOT_UART_STATUS_ERROR_TAG               2
 #define CIOT_UART_REQ_SEND_DATA_TAG              1
@@ -173,7 +177,9 @@ X(a, STATIC,   SINGULAR, UINT32,   cts_pin,           6) \
 X(a, STATIC,   SINGULAR, UINT32,   parity,            7) \
 X(a, STATIC,   SINGULAR, BOOL,     flow_control,      8) \
 X(a, STATIC,   SINGULAR, BOOL,     dtr,               9) \
-X(a, STATIC,   SINGULAR, BOOL,     bridge_mode,      10)
+X(a, STATIC,   SINGULAR, UINT32,   mode,             10) \
+X(a, STATIC,   SINGULAR, UINT32,   read_timeout,     11) \
+X(a, STATIC,   SINGULAR, UINT32,   write_timeout,    12)
 #define CIOT_UART_CFG_CALLBACK NULL
 #define CIOT_UART_CFG_DEFAULT NULL
 
@@ -215,7 +221,7 @@ extern const pb_msgdesc_t ciot_uart_data_t_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_UART_PB_H_MAX_SIZE    CIOT_UART_DATA_SIZE
-#define CIOT_UART_CFG_SIZE                       48
+#define CIOT_UART_CFG_SIZE                       64
 #define CIOT_UART_DATA_SIZE                      134
 #define CIOT_UART_REQ_SIZE                       131
 #define CIOT_UART_STATUS_SIZE                    4

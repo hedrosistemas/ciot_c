@@ -51,6 +51,7 @@ typedef struct ciot_sys_features {
     bool http_server; /* HTTP server support. */
     bool mbus_client; /* Modbus client support. */
     bool mbus_server; /* Modbus server support. */
+    bool mqtt_client; /* Mqtt client support. */
     bool ntp; /* Network Time Protocol support. */
     bool ota; /* Over-the-Air update support. */
     bool pwm; /* Pulse Width Modulation support. */
@@ -141,14 +142,14 @@ extern "C" {
 /* Initializer values for message structs */
 #define CIOT_SYS_STOP_INIT_DEFAULT               {0}
 #define CIOT_SYS_CFG_INIT_DEFAULT                {0}
-#define CIOT_SYS_FEATURES_INIT_DEFAULT           {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define CIOT_SYS_FEATURES_INIT_DEFAULT           {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 #define CIOT_SYS_INFO_INIT_DEFAULT               {{0}, "", _CIOT_SYS_HW_MIN, false, CIOT_SYS_FEATURES_INIT_DEFAULT}
 #define CIOT_SYS_STATUS_INIT_DEFAULT             {0, 0, 0, 0}
 #define CIOT_SYS_REQ_INIT_DEFAULT                {0, {_CIOT_SYS_REQ_CMD_MIN}}
 #define CIOT_SYS_DATA_INIT_DEFAULT               {0, {CIOT_SYS_STOP_INIT_DEFAULT}}
 #define CIOT_SYS_STOP_INIT_ZERO                  {0}
 #define CIOT_SYS_CFG_INIT_ZERO                   {0}
-#define CIOT_SYS_FEATURES_INIT_ZERO              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define CIOT_SYS_FEATURES_INIT_ZERO              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 #define CIOT_SYS_INFO_INIT_ZERO                  {{0}, "", _CIOT_SYS_HW_MIN, false, CIOT_SYS_FEATURES_INIT_ZERO}
 #define CIOT_SYS_STATUS_INIT_ZERO                {0, 0, 0, 0}
 #define CIOT_SYS_REQ_INIT_ZERO                   {0, {_CIOT_SYS_REQ_CMD_MIN}}
@@ -164,19 +165,20 @@ extern "C" {
 #define CIOT_SYS_FEATURES_HTTP_SERVER_TAG        7
 #define CIOT_SYS_FEATURES_MBUS_CLIENT_TAG        8
 #define CIOT_SYS_FEATURES_MBUS_SERVER_TAG        9
-#define CIOT_SYS_FEATURES_NTP_TAG                10
-#define CIOT_SYS_FEATURES_OTA_TAG                11
-#define CIOT_SYS_FEATURES_PWM_TAG                12
-#define CIOT_SYS_FEATURES_SYS_TAG                13
-#define CIOT_SYS_FEATURES_TCP_TAG                14
-#define CIOT_SYS_FEATURES_TIMER_TAG              15
-#define CIOT_SYS_FEATURES_UART_TAG               16
-#define CIOT_SYS_FEATURES_USB_TAG                17
-#define CIOT_SYS_FEATURES_WIFI_TAG               18
-#define CIOT_SYS_FEATURES_STORAGE_TAG            19
-#define CIOT_SYS_FEATURES_SERIALIZER_TAG         20
-#define CIOT_SYS_FEATURES_CRYPT_TAG              21
-#define CIOT_SYS_FEATURES_DFU_TAG                22
+#define CIOT_SYS_FEATURES_MQTT_CLIENT_TAG        10
+#define CIOT_SYS_FEATURES_NTP_TAG                11
+#define CIOT_SYS_FEATURES_OTA_TAG                12
+#define CIOT_SYS_FEATURES_PWM_TAG                13
+#define CIOT_SYS_FEATURES_SYS_TAG                14
+#define CIOT_SYS_FEATURES_TCP_TAG                15
+#define CIOT_SYS_FEATURES_TIMER_TAG              16
+#define CIOT_SYS_FEATURES_UART_TAG               17
+#define CIOT_SYS_FEATURES_USB_TAG                18
+#define CIOT_SYS_FEATURES_WIFI_TAG               19
+#define CIOT_SYS_FEATURES_STORAGE_TAG            20
+#define CIOT_SYS_FEATURES_SERIALIZER_TAG         21
+#define CIOT_SYS_FEATURES_CRYPT_TAG              22
+#define CIOT_SYS_FEATURES_DFU_TAG                23
 #define CIOT_SYS_INFO_APP_VER_TAG                1
 #define CIOT_SYS_INFO_HW_NAME_TAG                2
 #define CIOT_SYS_INFO_HW_TYPE_TAG                3
@@ -213,19 +215,20 @@ X(a, STATIC,   SINGULAR, BOOL,     http_client,       6) \
 X(a, STATIC,   SINGULAR, BOOL,     http_server,       7) \
 X(a, STATIC,   SINGULAR, BOOL,     mbus_client,       8) \
 X(a, STATIC,   SINGULAR, BOOL,     mbus_server,       9) \
-X(a, STATIC,   SINGULAR, BOOL,     ntp,              10) \
-X(a, STATIC,   SINGULAR, BOOL,     ota,              11) \
-X(a, STATIC,   SINGULAR, BOOL,     pwm,              12) \
-X(a, STATIC,   SINGULAR, BOOL,     sys,              13) \
-X(a, STATIC,   SINGULAR, BOOL,     tcp,              14) \
-X(a, STATIC,   SINGULAR, BOOL,     timer,            15) \
-X(a, STATIC,   SINGULAR, BOOL,     uart,             16) \
-X(a, STATIC,   SINGULAR, BOOL,     usb,              17) \
-X(a, STATIC,   SINGULAR, BOOL,     wifi,             18) \
-X(a, STATIC,   SINGULAR, BOOL,     storage,          19) \
-X(a, STATIC,   SINGULAR, BOOL,     serializer,       20) \
-X(a, STATIC,   SINGULAR, BOOL,     crypt,            21) \
-X(a, STATIC,   SINGULAR, BOOL,     dfu,              22)
+X(a, STATIC,   SINGULAR, BOOL,     mqtt_client,      10) \
+X(a, STATIC,   SINGULAR, BOOL,     ntp,              11) \
+X(a, STATIC,   SINGULAR, BOOL,     ota,              12) \
+X(a, STATIC,   SINGULAR, BOOL,     pwm,              13) \
+X(a, STATIC,   SINGULAR, BOOL,     sys,              14) \
+X(a, STATIC,   SINGULAR, BOOL,     tcp,              15) \
+X(a, STATIC,   SINGULAR, BOOL,     timer,            16) \
+X(a, STATIC,   SINGULAR, BOOL,     uart,             17) \
+X(a, STATIC,   SINGULAR, BOOL,     usb,              18) \
+X(a, STATIC,   SINGULAR, BOOL,     wifi,             19) \
+X(a, STATIC,   SINGULAR, BOOL,     storage,          20) \
+X(a, STATIC,   SINGULAR, BOOL,     serializer,       21) \
+X(a, STATIC,   SINGULAR, BOOL,     crypt,            22) \
+X(a, STATIC,   SINGULAR, BOOL,     dfu,              23)
 #define CIOT_SYS_FEATURES_CALLBACK NULL
 #define CIOT_SYS_FEATURES_DEFAULT NULL
 
@@ -285,9 +288,9 @@ extern const pb_msgdesc_t ciot_sys_data_t_msg;
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_SYS_PB_H_MAX_SIZE     CIOT_SYS_DATA_SIZE
 #define CIOT_SYS_CFG_SIZE                        0
-#define CIOT_SYS_DATA_SIZE                       80
-#define CIOT_SYS_FEATURES_SIZE                   51
-#define CIOT_SYS_INFO_SIZE                       78
+#define CIOT_SYS_DATA_SIZE                       83
+#define CIOT_SYS_FEATURES_SIZE                   54
+#define CIOT_SYS_INFO_SIZE                       81
 #define CIOT_SYS_REQ_SIZE                        2
 #define CIOT_SYS_STATUS_SIZE                     24
 #define CIOT_SYS_STOP_SIZE                       0

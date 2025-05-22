@@ -36,7 +36,7 @@ typedef struct ciot_info {
 /* Message representing an CIOT iface status. */
 typedef struct ciot_iface_status {
     ciot_iface_type_t type; /* Iface type */
-    bool started; /* Iface status (false: stopped, true: started) */
+    ciot_iface_state_t state; /* Iface state */
 } ciot_iface_status_t;
 
 /* Message representing CIOT status. */
@@ -90,6 +90,7 @@ extern "C" {
 #define ciot_status_t_state_ENUMTYPE ciot_state_t
 
 #define ciot_iface_status_t_type_ENUMTYPE ciot_iface_type_t
+#define ciot_iface_status_t_state_ENUMTYPE ciot_iface_state_t
 
 
 
@@ -97,12 +98,12 @@ extern "C" {
 /* Initializer values for message structs */
 #define CIOT_INFO_INIT_DEFAULT                   {{0}, 0, {_CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN}}
 #define CIOT_STATUS_INIT_DEFAULT                 {_CIOT_STATE_MIN, 0, {CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT, CIOT_IFACE_STATUS_INIT_DEFAULT}}
-#define CIOT_IFACE_STATUS_INIT_DEFAULT           {_CIOT_IFACE_TYPE_MIN, 0}
+#define CIOT_IFACE_STATUS_INIT_DEFAULT           {_CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_STATE_MIN}
 #define CIOT_REQ_INIT_DEFAULT                    {0, {CIOT_IFACE_INFO_INIT_DEFAULT}}
 #define CIOT_DATA_INIT_DEFAULT                   {0, {CIOT_STATUS_INIT_DEFAULT}}
 #define CIOT_INFO_INIT_ZERO                      {{0}, 0, {_CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_TYPE_MIN}}
 #define CIOT_STATUS_INIT_ZERO                    {_CIOT_STATE_MIN, 0, {CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO, CIOT_IFACE_STATUS_INIT_ZERO}}
-#define CIOT_IFACE_STATUS_INIT_ZERO              {_CIOT_IFACE_TYPE_MIN, 0}
+#define CIOT_IFACE_STATUS_INIT_ZERO              {_CIOT_IFACE_TYPE_MIN, _CIOT_IFACE_STATE_MIN}
 #define CIOT_REQ_INIT_ZERO                       {0, {CIOT_IFACE_INFO_INIT_ZERO}}
 #define CIOT_DATA_INIT_ZERO                      {0, {CIOT_STATUS_INIT_ZERO}}
 
@@ -110,7 +111,7 @@ extern "C" {
 #define CIOT_INFO_VERSION_TAG                    1
 #define CIOT_INFO_IFACES_TAG                     2
 #define CIOT_IFACE_STATUS_TYPE_TAG               1
-#define CIOT_IFACE_STATUS_STARTED_TAG            2
+#define CIOT_IFACE_STATUS_STATE_TAG              2
 #define CIOT_STATUS_STATE_TAG                    1
 #define CIOT_STATUS_IFACES_TAG                   2
 #define CIOT_REQ_SAVE_CFG_TAG                    1
@@ -135,7 +136,7 @@ X(a, STATIC,   REPEATED, MESSAGE,  ifaces,            2)
 
 #define CIOT_IFACE_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
-X(a, STATIC,   SINGULAR, BOOL,     started,           2)
+X(a, STATIC,   SINGULAR, UENUM,    state,             2)
 #define CIOT_IFACE_STATUS_CALLBACK NULL
 #define CIOT_IFACE_STATUS_DEFAULT NULL
 
