@@ -15,16 +15,19 @@
 
 #include "ciot_http_server.h"
 #include "esp_http_server.h"
-#include <freertos/timers.h>
+#include "freertos/event_groups.h"
 
 #define CIOT_HTTP_SERVER_TIMEOUT_MS 15000
+#define CIOT_HTTP_SERVER_RESP_READY_BIT BIT0
 
 struct ciot_http_server
 {
     ciot_http_server_base_t base;
     httpd_handle_t handle;
     httpd_req_t *req;
-    TimerHandle_t timer;
+    uint8_t resp[512];
+    uint16_t resp_size;
+    EventGroupHandle_t event_group;
 };
 
 static const char *TAG = "ciot_http_server";
@@ -33,25 +36,12 @@ static ciot_err_t ciot_https_register_routes(ciot_http_server_t self);
 static esp_err_t ciot_post_handler(httpd_req_t *req);
 static esp_err_t ciot_file_handler(httpd_req_t *req);
 static const char *get_mime_type(const char *filename);
-static void ciot_timeout_callback(TimerHandle_t xTimer);
 
 ciot_http_server_t ciot_http_server_new(void *handle)
 {
     ciot_http_server_t self = calloc(1, sizeof(struct ciot_http_server));
+    self->event_group = xEventGroupCreate();
     ciot_http_server_init(self);
-
-    self->timer = xTimerCreate(
-        "ciot_http_server_timeout", 
-        pdMS_TO_TICKS(CIOT_HTTP_SERVER_TIMEOUT_MS),
-        pdFALSE,
-        self,
-        ciot_timeout_callback
-    );
-    if(self->timer == NULL)
-    {
-        CIOT_LOGE(TAG, "Error creating timer");
-    }
-
     return self;
 }
 
@@ -92,15 +82,9 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(data);
-    httpd_resp_set_status(self->req, HTTPD_200);
-    httpd_resp_set_type(self->req, HTTPD_TYPE_OCTET);
-    httpd_resp_send(self->req, (const char*)data, size);
-    if(self->req != NULL)
-    {
-        httpd_req_async_handler_complete(self->req);
-        self->req = NULL;
-    }
-    xTimerStop(self->timer, 0);
+    memcpy(self->resp, data, size);
+    self->resp_size = size;
+    xEventGroupSetBits(self->event_group, CIOT_HTTP_SERVER_RESP_READY_BIT);
     return CIOT_ERR_OK;
 }
 
@@ -138,18 +122,35 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
     ciot_http_server_t self = (ciot_http_server_t)req->user_ctx;
     ciot_event_t event = { 0 };
 
-    httpd_req_async_handler_begin(req, &self->req);
+    httpd_req_recv(req, (char *)event.raw.bytes, req->content_len);
 
     event.type = CIOT_EVENT_TYPE_REQUEST;
-    httpd_req_recv(req, (char*)event.raw.bytes, req->content_len);
     event.raw.size = req->content_len;
     ciot_iface_send_event(&self->base.iface, &event);
 
-    if(self->timer != NULL)
+    if(self->resp_size == 0)
     {
-        if (xTimerStart(self->timer, 0) != pdPASS) {
-            CIOT_LOGE(TAG, "Failed to start timer for request timeout");
-        }
+        xEventGroupClearBits(self->event_group, CIOT_HTTP_SERVER_RESP_READY_BIT);
+        xEventGroupWaitBits(
+            self->event_group,
+            CIOT_HTTP_SERVER_RESP_READY_BIT,
+            pdTRUE,
+            pdFALSE,
+            pdMS_TO_TICKS(CIOT_HTTP_SERVER_TIMEOUT_MS));
+    }
+
+    if (self->resp_size > 0)
+    {
+        CIOT_LOGI(TAG, "Resp OK");
+        httpd_resp_set_status(req, HTTPD_200);
+        httpd_resp_set_type(req, HTTPD_TYPE_OCTET);
+        httpd_resp_send(req, (const char *)self->resp, self->resp_size);
+        self->resp_size = 0;
+    }
+    else
+    {
+        CIOT_LOGW(TAG, "Timeout waiting for response");
+        httpd_resp_send_500(req);
     }
 
     return CIOT_ERR_OK;
