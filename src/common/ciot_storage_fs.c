@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "ciot_log.h"
 #include "ciot_storage_fs.h"
 
 struct ciot_storage_fs
@@ -19,6 +20,8 @@ struct ciot_storage_fs
 };
 
 typedef struct ciot_storage_fs *ciot_storage_fs_t;
+
+static const char *TAG = "ciot_storage";
 
 ciot_storage_t ciot_storage_fs_new(void)
 {
@@ -40,7 +43,7 @@ ciot_err_t ciot_storage_fs_write_bytes(ciot_storage_t self, char *path, uint8_t 
         fclose(f);
         return CIOT_ERR_OK;
     }
-
+    CIOT_LOGE(TAG, "Error writing on file %s", path);
     return CIOT_ERR_FAIL;
 }
 
