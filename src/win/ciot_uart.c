@@ -191,39 +191,22 @@ static ciot_err_t ciot_uart_process_status(ciot_uart_t self, COMSTAT *status)
 
     if(status->cbInQue > 0)
     {
-        // uint8_t bytes[status->cbInQue];
-        // if(ReadFile(self->handle, &bytes, status->cbInQue, &self->bytes_read, NULL))
-        // {
-        //     // CIOT_LOG_HEX(TAG, bytes, sizeof(bytes), CIOT_LOG_LEVEL_INFO);
-        //     ciot_err_t err = ciot_iface_process_data(&base->iface, bytes, self->bytes_read, CIOT_EVENT_TYPE_REQUEST);
-        //     if(err != CIOT_ERR_OK)
-        //     {
-        //         base->status.error = err;
-        //     }
-        // }
-
         uint8_t byte;
         while (status->cbInQue > 0)
         {
-            if(ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL))
+            if(self->base.iface.decoder)
             {
-                ciot_err_t err = ciot_iface_process_data(&base->iface, &byte, 1, CIOT_EVENT_TYPE_REQUEST);
-                if(err != CIOT_ERR_OK)
+                if(ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL))
                 {
-                    base->status.error = err;
+                    ciot_err_t err = ciot_iface_process_data(&base->iface, &byte, 1, CIOT_EVENT_TYPE_REQUEST);
+                    if(err != CIOT_ERR_OK)
+                    {
+                        base->status.error = err;
+                    }
                 }
+                status->cbInQue--;
             }
-            status->cbInQue--;
         }
-
-        // while (status->cbInQue)
-        // {
-        //     uint8_t byte;
-        //     ReadFile(self->handle, &byte, 1, &self->bytes_read, NULL);
-        //     printf("%0x", byte);
-        //     if(byte == '}') printf("\n");
-        //     status->cbInQue--;
-        // }
     }
 
     return CIOT_ERR_OK;
