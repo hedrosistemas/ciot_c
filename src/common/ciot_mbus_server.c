@@ -30,10 +30,19 @@ static nmbs_error ciot_mbus_server_write_multiple_coils(uint16_t address, uint16
 static nmbs_error ciot_mbus_server_read_holding_registers(uint16_t address, uint16_t quantity, uint16_t *registers_out, uint8_t unit_id, void *arg);
 static nmbs_error ciot_mbus_server_write_multiple_registers(uint16_t address, uint16_t quantity, const uint16_t *registers, uint8_t unit_id, void *arg);
 static ciot_err_t ciot_mbus_server_get_error(nmbs_error error);
-static ciot_err_t ciot_mbus_server_event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args);
+
+static const char *TAG = "ciot_mbus_server";
 
 ciot_mbus_server_t ciot_mbus_server_new(void *handle, ciot_mbus_data_t *data, ciot_iface_t *iface)
 {
+    if(data == NULL) {
+        CIOT_LOGE(TAG, "data is null");
+        return NULL;
+    }
+    if(iface == NULL) {
+        CIOT_LOGE(TAG, "iface is null");
+        return NULL;
+    }
     ciot_mbus_server_t self = calloc(1, sizeof(struct ciot_mbus_server));
     ciot_mbus_server_init(self);
     self->data = *data;
