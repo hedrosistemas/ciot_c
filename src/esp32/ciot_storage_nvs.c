@@ -36,7 +36,7 @@ ciot_storage_t ciot_storage_nvs_new(void)
 {
     ciot_storage_nvs_t self = calloc(1, sizeof(struct ciot_storage_nvs));
     ciot_storage_t base = &self->base;
-    base->delete = ciot_storage_nvs_delete;
+    base->remove = ciot_storage_nvs_delete;
     base->write_bytes = ciot_storage_nvs_write_bytes;
     base->read_bytes = ciot_storage_nvs_read_bytes;
     ciot_storage_nvs_init();

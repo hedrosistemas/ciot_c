@@ -42,7 +42,7 @@ ciot_storage_t ciot_storage_spiffs_new(void)
     ciot_storage_spiffs_t self = calloc(1, sizeof(struct ciot_storage_spiffs));
     ciot_storage_t base = &self->base;
     ciot_storage_spiffs_init(self);
-    base->delete = ciot_storage_fs_delete;
+    base->remove = ciot_storage_fs_delete;
     base->write_bytes = ciot_storage_fs_write_bytes;
     base->read_bytes = ciot_storage_fs_read_bytes;
     base->type = CIOT_STORAGE_TYPE_FS;
