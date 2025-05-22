@@ -33,7 +33,7 @@ ciot_storage_t ciot_storage_fs_new(void)
 
 ciot_err_t ciot_storage_fs_write_bytes(ciot_storage_t self, char *path, uint8_t *bytes, int size)
 {
-    FILE *f = fopen(path, "wb");
+    FILE *f = fopen(path, "w");
     if(f != NULL)
     {
         fwrite(bytes, size, 1, f);
