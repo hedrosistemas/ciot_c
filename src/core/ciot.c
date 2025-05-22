@@ -458,11 +458,18 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
     {
         if(event->type == CIOT_EVENT_TYPE_STARTED)
         {
-            self->status.ifaces[sender->info.id].started = true;
+            self->status.ifaces[sender->info.id].state = CIOT_IFACE_STATE_STARTED;
+            self->ifaces.list[sender->info.id]->state = CIOT_IFACE_STATE_STARTED;
         }
         if(event->type == CIOT_EVENT_TYPE_STOPPED)
         {
-            self->status.ifaces[sender->info.id].started = false;
+            self->status.ifaces[sender->info.id].state = CIOT_IFACE_STATE_STOPPED;
+            self->ifaces.list[sender->info.id]->state = CIOT_IFACE_STATE_STOPPED;
+        }
+        if(event->type == CIOT_EVENT_TYPE_ERROR)
+        {
+            self->status.ifaces[sender->info.id].state = CIOT_IFACE_STATE_STOPPED;
+            self->ifaces.list[sender->info.id]->state = CIOT_IFACE_STATE_STOPPED;
         }
     }
 
