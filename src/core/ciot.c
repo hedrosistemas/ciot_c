@@ -70,12 +70,12 @@ ciot_err_t ciot_stop(ciot_t self)
 
 ciot_err_t ciot_task(ciot_t self)
 {
-    CIOT_ERR_NULL_CHECK(self);
-
     #ifdef CIOT_MG_ENABLED
     mg_mgr_poll(CIOT_HANDLE, CIOT_CONFIG_MG_POOL_INTERVAL_MS);
     #endif
-
+    
+    CIOT_ERR_NULL_CHECK(self);
+    
     switch (self->status.state)
     {
     case CIOT_STATE_STARTING:
