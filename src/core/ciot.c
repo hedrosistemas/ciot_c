@@ -124,7 +124,8 @@ ciot_err_t ciot_delete_cfg(ciot_t self, ciot_iface_info_t *iface)
     CIOT_ERR_VALUE_CHECK(iface->type, self->ifaces.list[iface->id]->info.type, CIOT_ERR_INVALID_TYPE);
     char filename[16];
     sprintf(filename, CIOT_IFACE_CFG_FILENAME, (int)iface->id);
-    return self->storage->delete(self->storage, filename);
+    CIOT_LOGI(TAG, "Deleting configuration: %s file: %s", ciot_iface_type_to_str(iface->type), filename);
+    return self->storage->remove(self->storage, filename);
 }
 
 ciot_err_t ciot_save_cfg(ciot_t self, ciot_iface_info_t *iface)
