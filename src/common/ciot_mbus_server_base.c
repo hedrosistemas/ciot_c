@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2024
  *
  */
- 
+
 #include "ciot_config.h"
 
 #if CIOT_CONFIG_FEATURE_MBUS_SERVER == 1
@@ -20,6 +20,7 @@ static ciot_err_t ciot_mbus_server_process_data(ciot_iface_t *iface, ciot_msg_da
 static ciot_err_t ciot_mbus_server_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_mbus_server_send_data(ciot_iface_t *iface, uint8_t *data, int size);
 static ciot_err_t ciot_mbus_server_read_data(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_mbus_server_process_func(ciot_mbus_server_t self, ciot_mbus_function_req_t *func);
 
 ciot_err_t ciot_mbus_server_init(ciot_mbus_server_t self)
 {
@@ -36,9 +37,47 @@ ciot_err_t ciot_mbus_server_init(ciot_mbus_server_t self)
 
 ciot_err_t ciot_mbus_server_process_req(ciot_mbus_server_t self, ciot_mbus_server_req_t *req)
 {
+    ciot_mbus_server_base_t *base = (ciot_mbus_server_base_t *)self;
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR_NOT_SUPPORTED;    
+    switch (req->which_type)
+    {
+    case CIOT_MBUS_SERVER_REQ_FUNCTION_TAG:
+        base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
+        return ciot_mbus_server_process_func(self, &req->function);
+    default:
+        return CIOT_ERR_INVALID_TYPE;
+    }
+}
+
+static ciot_err_t ciot_mbus_server_process_func(ciot_mbus_server_t self, ciot_mbus_function_req_t *func)
+{
+    switch (func->code)
+    {
+    case CIOT_MBUS_FUNC_CODE_NONE:
+    case CIOT_MBUS_FUNC_CODE_READ_COILS:
+    case CIOT_MBUS_FUNC_CODE_READ_DI:
+    case CIOT_MBUS_FUNC_CODE_READ_HR:
+        for (size_t i = func->address; i < func->read_count; i++)
+        {
+            CIOT_ERR_RETURN(ciot_mbus_server_get_reg(self, func->address + i, &func->data[i], 2));
+            func->data_count = i + 1;
+        }
+        return CIOT_ERR_OK;
+    case CIOT_MBUS_FUNC_CODE_READ_IR:
+    case CIOT_MBUS_FUNC_CODE_WRITE_SINGLE_COIL:
+    case CIOT_MBUS_FUNC_CODE_WRITE_SINGLE_HR:
+    case CIOT_MBUS_FUNC_CODE_WRITE_MULTIPLE_COILS:
+        return CIOT_ERR_NOT_IMPLEMENTED;
+    case CIOT_MBUS_FUNC_CODE_WRITE_MULTIPLE_HR:
+        for (size_t i = func->address; i < func->data_count; i++)
+        {
+            CIOT_ERR_RETURN(ciot_mbus_server_set_reg(self, func->address + i, &func->data[i], 2));
+        }
+        return CIOT_ERR_OK;
+    default:
+        return CIOT_ERR_INVALID_TYPE;
+    }
 }
 
 static ciot_err_t ciot_mbus_server_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
