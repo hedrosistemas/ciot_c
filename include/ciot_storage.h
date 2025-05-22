@@ -30,6 +30,8 @@ struct ciot_storage
     ciot_storage_remove_fn *remove;
 };
 
+ciot_err_t ciot_storage_save_obj(ciot_storage_t self, char *path, void *obj, const void *obj_type, int size);
+ciot_err_t ciot_storage_load_obj(ciot_storage_t self, char *path, void *obj, const void *obj_type);
 ciot_err_t ciot_storage_save_data(ciot_storage_t self, char *path, ciot_msg_data_t *data);
 ciot_err_t ciot_storage_load_data(ciot_storage_t self, char *path, ciot_msg_data_t *data);
 
