@@ -119,6 +119,22 @@ ciot_err_t ciot_mbus_server_send_bytes(ciot_mbus_server_t self, uint8_t *data, i
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
+ciot_err_t ciot_mbus_server_set_reg(ciot_mbus_server_t self, uint16_t addr, void *data, uint16_t size)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_INDEX_CHECK(addr, (uint16_t)0, self->base.data.regs.count - size);
+    memcpy(&self->base.data.regs.values[addr], data, size);
+    return CIOT_ERR_OK;
+}
+
+ciot_err_t ciot_mbus_server_get_reg(ciot_mbus_server_t self, uint16_t addr, void *data, uint16_t size)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_INDEX_CHECK(addr, (uint16_t)0, self->base.data.regs.count - size);
+    memcpy(data, &self->base.data.regs.values[addr], size);
+    return CIOT_ERR_OK;
+}
+
 static int32_t ciot_mbus_server_read(uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg)
 {
     ciot_mbus_server_t self = (ciot_mbus_server_t)arg;
