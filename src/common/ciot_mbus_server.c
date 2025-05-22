@@ -255,21 +255,21 @@ static ciot_err_t ciot_mbus_server_get_error(nmbs_error error)
 
 static ciot_err_t ciot_mbus_server_event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args)
 {
-    ciot_mbus_server_t self = (ciot_mbus_server_t)args;
-    switch (event->type)
+    if(sender->info.id == self->iface->info.id)
     {
-    case CIOT_EVENT_TYPE_STARTED:
-        self->base.status.state = CIOT_MBUS_SERVER_STATE_STARTED;
-        break;
-    case CIOT_EVENT_TYPE_STOPPED:
-        self->base.status.state = CIOT_MBUS_SERVER_STATE_STOPPED;
-        break;
-    case CIOT_EVENT_TYPE_ERROR:
-        self->base.status.state = CIOT_MBUS_SERVER_STATE_ERROR;
-        break;
-    default:
-        break;
-    }
+        switch (event->type)
+        {
+        case CIOT_EVENT_TYPE_STOPPED:
+            CIOT_LOGI(TAG, "CIOT_MBUS_SERVER_STATE_STOPPED");
+            self->base.status.state = CIOT_MBUS_SERVER_STATE_STOPPED;
+            break;
+        case CIOT_EVENT_TYPE_ERROR:
+            CIOT_LOGI(TAG, "CIOT_MBUS_SERVER_STATE_ERROR");
+            self->base.status.state = CIOT_MBUS_SERVER_STATE_ERROR;
+            break;
+        default:
+            break;
+        }
         return ciot_iface_send_event_type(&self->base.iface, event->type);
 }
 
