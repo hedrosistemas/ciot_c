@@ -31,3 +31,13 @@ ciot_err_t ciot_storage_load_obj(ciot_storage_t self, char *path, void *obj, con
     ciot_serializer_from_bytes(bytes, size, obj, obj_type);
     return CIOT_ERR_OK;
 }
+
+ciot_err_t ciot_storage_save_data(ciot_storage_t self, char *path, ciot_msg_data_t *data)
+{
+    return ciot_storage_save_obj(self, path, data, CIOT_MSG_DATA_FIELDS, CIOT_CONFIG_MSG_SIZE);
+}
+
+ciot_err_t ciot_storage_load_data(ciot_storage_t self, char *path, ciot_msg_data_t *data)
+{
+    return ciot_storage_load_obj(self, path, data, CIOT_MSG_DATA_FIELDS);
+}
