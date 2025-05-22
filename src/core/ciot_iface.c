@@ -53,7 +53,7 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req)
         req->data.which_type != self->req_status.data_type &&
         !ciot_iface_is_equal(&req->iface, &self->req_status.iface))
     {
-        CIOT_LOGW(TAG, "Overwriting last request on iface %s (%lu)", ciot_iface_to_str(self), self->info.id);
+        CIOT_LOGW(TAG, "Overwriting last request on iface %s (%lu)", ciot_iface_to_str(self), (long unsigned int)self->info.id);
     }
 
     req->id = ciot_iface_get_msg_id();
