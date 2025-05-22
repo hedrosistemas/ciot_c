@@ -10,7 +10,9 @@
         "NRF_TARGET": "pca10056",
         "NRF_SOFTDEVICE": "s140",
         "NRF_SOFTDEVICE_FLAG": "S140",
-        "NRF_SD_BLE_API_VERSION": "7"
+        "NRF_SD_BLE_API_VERSION": "7",
+        "ESP8266_PATH": "C:/msys32/home/BINAR/esp",
+        "ESP8266_COMPILER": "${ESP8266_PATH}/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe"
     },
     "configurations": [
         {
@@ -50,28 +52,37 @@
             ]
         },
         {
-            "name": "esp8266",
+            "name": "ESP8266",
+            "compilerPath": "${ESP8266_COMPILER}",
             "forcedInclude": [
                 "${workspaceFolder}/examples/esp8266/build/include/sdkconfig.h"
             ],
-            "compilerPath": "C:/msys32/opt/xtensa-lx106-elf/bin/xtensa-lx106-elf-gcc.exe",
-            "defines": [
-                "IDF_VER",
-                "ICACHE_FLASH"
-            ],
             "includePath": [
-                "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**",
-                "${workspaceFolder}/include/**",
-                "${workspaceFolder}/src/platform/mongoose",
-                "${workspaceFolder}/src/platform/esp8266",
-                "${workspaceFolder}/examples/esp8266/main"
+                "${ESP8266_PATH}/components/**/include",
+                "${workspaceFolder}/examples/esp8266/build/include",
+                "${workspaceFolder}/examples/esp8266/main/**",
+                "${CIOT_PATH}/include",
+                "${CIOT_PATH}/src/esp32",
+                "${CIOT_PATH}/src/common",
+                "${CIOT_PATH}/src/proto/nanopb",
+                "${CIOT_PATH}/src/proto"
             ],
             "browse": {
                 "path": [
-                    "c:/msys32/home/BINAR/esp/ESP8266_RTOS_SDK/components/**"
+                    "${ESP8266_PATH}/components/**",
+                    "${CIOT_PATH}/src/esp8266/**",
+                    "${CIOT_PATH}/src/mg/**",
+                    "${CIOT_PATH}/src/common/**",
+                    "${CIOT_PATH}/src/core/**",
+                    "${workspaceFolder}/examples/esp8266/main/**"
                 ],
                 "limitSymbolsToIncludedHeaders": false
-            }
+            },
+            "compilerArgs": [
+                "-DIDF_VER",
+                "-DICACHE_FLASH",
+                "-DTARGET_X4_ESP12F"
+            ]
         },
         {
             "name": "nrf-sdk17",
