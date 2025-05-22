@@ -347,7 +347,7 @@ static ciot_err_t ciot_busy_task(ciot_t self)
     ciot_event_t *event = &receiver->event;
     ciot_iface_t *sender = receiver->sender;
 
-    if (sender->req_status.state != CIOT_IFACE_REQ_STATE_IDLE && event->which_data == CIOT_EVENT_MSG_TAG)
+    if (sender->req_status.state != CIOT_IFACE_REQ_STATE_IDLE && (event->which_data == CIOT_EVENT_MSG_TAG))
     {
         CIOT_LOGI(TAG, "Processing event from %s", ciot_iface_to_str(sender));
         bool iface_is_equal = sender->req_status.state == CIOT_IFACE_REQ_STATE_SENDED 
