@@ -511,7 +511,7 @@ static ciot_err_t ciot_dfu_nrf_process_response(ciot_dfu_nrf_t self, uint8_t *da
         self->crc.received += data[len - 4];
         if (self->crc.received != self->crc.expected)
         {
-            CIOT_LOGI(TAG, "CRC error: expected = %lu, received = %lu", self->crc.expected, self->crc.received);
+            CIOT_LOGI(TAG, "CRC error: expected = %d, received = %d", (int)self->crc.expected, (int)self->crc.received);
             self->state = CIOT_DFU_NRF_STATE_ERROR;
             ciot_dfu_nrf_set_state(self, CIOT_DFU_STATE_ERROR);
             return CIOT_ERR_CHECKSUM;
