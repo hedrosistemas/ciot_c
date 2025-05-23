@@ -1,38 +1,12 @@
-OPT:=src/proto/global.options
-O:=src/proto
+CIOT_PATH := $(subst \,/,$(CIOT_PATH))
 
-gen-c:
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\ble_adv.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\ble_scn.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\ble.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\gpio.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\dfu.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\ciot.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\errors.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\event.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\http_client.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\http_server.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\iface.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\logger.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\mbus.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\mbus_client.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\mbus_server.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\mqtt_client.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\msg.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\msg_data.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\ntp.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\ota.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\storage.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\sys.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\tcp.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\uart.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\usb.proto --proto_path=proto
-	generator\protoc --nanopb_opt=" -f $(OPT) --c-style" --nanopb_out=$(O) proto\ciot\proto\v2\wifi.proto --proto_path=proto
-	
-gen-py:
-	$(MAKE) gen L=python O=../scripts -C proto -f Makefile
+PB_CIOT_PATH := $(CIOT_PATH)/ciot_protos
+PB_CIOT_OPTIONS := src/proto/global.options
+PB_OUT := src/proto
+
+gen-ciot:
+	generator\protoc --nanopb_opt=" -f $(PB_CIOT_OPTIONS) --c-style" --nanopb_out=$(PB_OUT) $(PB_CIOT_PATH)/ciot/proto/v2/*.proto --proto_path=$(PB_CIOT_PATH)
 
 help:
-	@echo gen-c: generate ANSI-C proto files
-	@echo gen-py: generate python proto files
+	@echo gen-ciot: generate ANSI-C proto files
 	

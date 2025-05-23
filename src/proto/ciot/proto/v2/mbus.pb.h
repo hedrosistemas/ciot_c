@@ -40,8 +40,8 @@ typedef enum ciot_mbus_func_code {
 typedef struct ciot_mbus_function_req {
     ciot_mbus_func_code_t code; /* Modbus function code */
     uint32_t address; /* Register/coil start address */
-    uint32_t count; /* Register/coils count */
-    pb_callback_t values; /* Optional written values. 2 bytes per register, 1 byte for each 8 coils/discrete. */
+    pb_callback_t data; /* Optional written values. */
+    uint32_t read_count; /* Optional values count to read */
     uint32_t max_attempts; /* Max attempts */
     uint32_t error; /* Error code */
 } ciot_mbus_function_req_t;
@@ -81,14 +81,14 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT      {_CIOT_MBUS_FUNC_CODE_MIN, 0, 0, {{NULL}, NULL}, 0, 0}
-#define CIOT_MBUS_FUNCTION_REQ_INIT_ZERO         {_CIOT_MBUS_FUNC_CODE_MIN, 0, 0, {{NULL}, NULL}, 0, 0}
+#define CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT      {_CIOT_MBUS_FUNC_CODE_MIN, 0, {{NULL}, NULL}, 0, 0, 0}
+#define CIOT_MBUS_FUNCTION_REQ_INIT_ZERO         {_CIOT_MBUS_FUNC_CODE_MIN, 0, {{NULL}, NULL}, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define CIOT_MBUS_FUNCTION_REQ_CODE_TAG          1
 #define CIOT_MBUS_FUNCTION_REQ_ADDRESS_TAG       2
-#define CIOT_MBUS_FUNCTION_REQ_COUNT_TAG         3
-#define CIOT_MBUS_FUNCTION_REQ_VALUES_TAG        4
+#define CIOT_MBUS_FUNCTION_REQ_DATA_TAG          3
+#define CIOT_MBUS_FUNCTION_REQ_READ_COUNT_TAG    4
 #define CIOT_MBUS_FUNCTION_REQ_MAX_ATTEMPTS_TAG  5
 #define CIOT_MBUS_FUNCTION_REQ_ERROR_TAG         6
 
@@ -96,8 +96,8 @@ extern "C" {
 #define CIOT_MBUS_FUNCTION_REQ_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    code,              1) \
 X(a, STATIC,   SINGULAR, UINT32,   address,           2) \
-X(a, STATIC,   SINGULAR, UINT32,   count,             3) \
-X(a, CALLBACK, SINGULAR, BYTES,    values,            4) \
+X(a, CALLBACK, REPEATED, UINT32,   data,              3) \
+X(a, STATIC,   SINGULAR, UINT32,   read_count,        4) \
 X(a, STATIC,   SINGULAR, UINT32,   max_attempts,      5) \
 X(a, STATIC,   SINGULAR, UINT32,   error,             6)
 #define CIOT_MBUS_FUNCTION_REQ_CALLBACK pb_default_field_callback
