@@ -17,6 +17,7 @@ ciot_err_t ciot_storage_save_obj(ciot_storage_t self, char *path, void *obj, con
 {
     CIOT_ERR_NULL_CHECK(self);
     uint8_t bytes[size];
+    memset(bytes, 0, size);
     size = ciot_serializer_to_bytes(bytes, sizeof(bytes), obj, obj_type);
     return self->write_bytes(self, path, bytes, size);
 }
@@ -26,7 +27,8 @@ ciot_err_t ciot_storage_load_obj(ciot_storage_t self, char *path, void *obj, con
     CIOT_ERR_NULL_CHECK(self);
     int size = 0;
     CIOT_ERR_RETURN(self->read_bytes(self, path, NULL, &size));
-    uint8_t bytes[CIOT_CONFIG_MSG_SIZE];
+    uint8_t bytes[size];
+    memset(bytes, 0, size);
     CIOT_ERR_RETURN(self->read_bytes(self, path, bytes, &size));
     ciot_serializer_from_bytes(bytes, size, obj, obj_type);
     return CIOT_ERR_OK;
