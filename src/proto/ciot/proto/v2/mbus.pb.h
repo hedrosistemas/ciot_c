@@ -40,7 +40,8 @@ typedef enum ciot_mbus_func_code {
 typedef struct ciot_mbus_function_req {
     ciot_mbus_func_code_t code; /* Modbus function code */
     uint32_t address; /* Register/coil start address */
-    pb_callback_t data; /* Optional written values. */
+    pb_size_t data_count;
+    uint32_t data[32]; /* Optional written values. */
     uint32_t read_count; /* Optional values count to read */
     uint32_t max_attempts; /* Max attempts */
     uint32_t error; /* Error code */
@@ -81,8 +82,8 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT      {_CIOT_MBUS_FUNC_CODE_MIN, 0, {{NULL}, NULL}, 0, 0, 0}
-#define CIOT_MBUS_FUNCTION_REQ_INIT_ZERO         {_CIOT_MBUS_FUNC_CODE_MIN, 0, {{NULL}, NULL}, 0, 0, 0}
+#define CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT      {_CIOT_MBUS_FUNC_CODE_MIN, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
+#define CIOT_MBUS_FUNCTION_REQ_INIT_ZERO         {_CIOT_MBUS_FUNC_CODE_MIN, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define CIOT_MBUS_FUNCTION_REQ_CODE_TAG          1
@@ -96,11 +97,11 @@ extern "C" {
 #define CIOT_MBUS_FUNCTION_REQ_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    code,              1) \
 X(a, STATIC,   SINGULAR, UINT32,   address,           2) \
-X(a, CALLBACK, REPEATED, UINT32,   data,              3) \
+X(a, STATIC,   REPEATED, UINT32,   data,              3) \
 X(a, STATIC,   SINGULAR, UINT32,   read_count,        4) \
 X(a, STATIC,   SINGULAR, UINT32,   max_attempts,      5) \
 X(a, STATIC,   SINGULAR, UINT32,   error,             6)
-#define CIOT_MBUS_FUNCTION_REQ_CALLBACK pb_default_field_callback
+#define CIOT_MBUS_FUNCTION_REQ_CALLBACK NULL
 #define CIOT_MBUS_FUNCTION_REQ_DEFAULT NULL
 
 extern const pb_msgdesc_t ciot_mbus_function_req_t_msg;
@@ -109,7 +110,8 @@ extern const pb_msgdesc_t ciot_mbus_function_req_t_msg;
 #define CIOT_MBUS_FUNCTION_REQ_FIELDS &ciot_mbus_function_req_t_msg
 
 /* Maximum encoded size of messages (where known) */
-/* Ciot_MbusFunctionReq_size depends on runtime parameters */
+#define CIOT_CIOT_PROTO_V2_MBUS_PB_H_MAX_SIZE    CIOT_MBUS_FUNCTION_REQ_SIZE
+#define CIOT_MBUS_FUNCTION_REQ_SIZE              218
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -46,9 +46,6 @@ typedef struct ciot_mbus_client_cfg {
         ciot_mbus_client_tcp_cfg_t tcp; /* Modbus TCP configuration */
     };
     uint32_t timeout; /* Timeout in milliseconds */
-    uint32_t pool_interval; /* Modbus client pooling interval in milliseconds */
-    bool has_function;
-    ciot_mbus_function_req_t function; /* Optional function to run on pooling */
 } ciot_mbus_client_cfg_t;
 
 /* Message representing Modbus client status. */
@@ -103,14 +100,14 @@ extern "C" {
 #define CIOT_MBUS_CLIENT_STOP_INIT_DEFAULT       {0}
 #define CIOT_MBUS_CLIENT_RTU_CFG_INIT_DEFAULT    {0, false, CIOT_UART_CFG_INIT_DEFAULT}
 #define CIOT_MBUS_CLIENT_TCP_CFG_INIT_DEFAULT    {{{NULL}, NULL}, 0}
-#define CIOT_MBUS_CLIENT_CFG_INIT_DEFAULT        {0, {CIOT_MBUS_CLIENT_RTU_CFG_INIT_DEFAULT}, 0, 0, false, CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT}
+#define CIOT_MBUS_CLIENT_CFG_INIT_DEFAULT        {0, {CIOT_MBUS_CLIENT_RTU_CFG_INIT_DEFAULT}, 0}
 #define CIOT_MBUS_CLIENT_STATUS_INIT_DEFAULT     {_CIOT_MBUS_CLIENT_STATE_MIN, _CIOT_MBUS_ERROR_MIN}
 #define CIOT_MBUS_CLIENT_REQ_INIT_DEFAULT        {0, {CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT}}
 #define CIOT_MBUS_CLIENT_DATA_INIT_DEFAULT       {0, {CIOT_MBUS_CLIENT_STOP_INIT_DEFAULT}}
 #define CIOT_MBUS_CLIENT_STOP_INIT_ZERO          {0}
 #define CIOT_MBUS_CLIENT_RTU_CFG_INIT_ZERO       {0, false, CIOT_UART_CFG_INIT_ZERO}
 #define CIOT_MBUS_CLIENT_TCP_CFG_INIT_ZERO       {{{NULL}, NULL}, 0}
-#define CIOT_MBUS_CLIENT_CFG_INIT_ZERO           {0, {CIOT_MBUS_CLIENT_RTU_CFG_INIT_ZERO}, 0, 0, false, CIOT_MBUS_FUNCTION_REQ_INIT_ZERO}
+#define CIOT_MBUS_CLIENT_CFG_INIT_ZERO           {0, {CIOT_MBUS_CLIENT_RTU_CFG_INIT_ZERO}, 0}
 #define CIOT_MBUS_CLIENT_STATUS_INIT_ZERO        {_CIOT_MBUS_CLIENT_STATE_MIN, _CIOT_MBUS_ERROR_MIN}
 #define CIOT_MBUS_CLIENT_REQ_INIT_ZERO           {0, {CIOT_MBUS_FUNCTION_REQ_INIT_ZERO}}
 #define CIOT_MBUS_CLIENT_DATA_INIT_ZERO          {0, {CIOT_MBUS_CLIENT_STOP_INIT_ZERO}}
@@ -123,8 +120,6 @@ extern "C" {
 #define CIOT_MBUS_CLIENT_CFG_RTU_TAG             1
 #define CIOT_MBUS_CLIENT_CFG_TCP_TAG             2
 #define CIOT_MBUS_CLIENT_CFG_TIMEOUT_TAG         3
-#define CIOT_MBUS_CLIENT_CFG_POOL_INTERVAL_TAG   4
-#define CIOT_MBUS_CLIENT_CFG_FUNCTION_TAG        5
 #define CIOT_MBUS_CLIENT_STATUS_STATE_TAG        1
 #define CIOT_MBUS_CLIENT_STATUS_ERROR_TAG        2
 #define CIOT_MBUS_CLIENT_REQ_FUNCTION_TAG        1
@@ -155,14 +150,11 @@ X(a, STATIC,   SINGULAR, UINT32,   port,              2)
 #define CIOT_MBUS_CLIENT_CFG_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,rtu,rtu),    1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,tcp,tcp),    2) \
-X(a, STATIC,   SINGULAR, UINT32,   timeout,           3) \
-X(a, STATIC,   SINGULAR, UINT32,   pool_interval,     4) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  function,          5)
+X(a, STATIC,   SINGULAR, UINT32,   timeout,           3)
 #define CIOT_MBUS_CLIENT_CFG_CALLBACK NULL
 #define CIOT_MBUS_CLIENT_CFG_DEFAULT NULL
 #define ciot_mbus_client_cfg_t_type_rtu_MSGTYPE ciot_mbus_client_rtu_cfg_t
 #define ciot_mbus_client_cfg_t_type_tcp_MSGTYPE ciot_mbus_client_tcp_cfg_t
-#define ciot_mbus_client_cfg_t_function_MSGTYPE ciot_mbus_function_req_t
 
 #define CIOT_MBUS_CLIENT_STATUS_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    state,             1) \
@@ -206,18 +198,14 @@ extern const pb_msgdesc_t ciot_mbus_client_data_t_msg;
 #define CIOT_MBUS_CLIENT_DATA_FIELDS &ciot_mbus_client_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-#if defined(Ciot_MbusFunctionReq_size)
-#endif
 /* Ciot_MbusClientTcpCfg_size depends on runtime parameters */
 /* Ciot_MbusClientCfg_size depends on runtime parameters */
 /* Ciot_MbusClientData_size depends on runtime parameters */
-#define CIOT_CIOT_PROTO_V2_MBUS_CLIENT_PB_H_MAX_SIZE CIOT_MBUS_CLIENT_RTU_CFG_SIZE
+#define CIOT_CIOT_PROTO_V2_MBUS_CLIENT_PB_H_MAX_SIZE CIOT_MBUS_CLIENT_REQ_SIZE
+#define CIOT_MBUS_CLIENT_REQ_SIZE                221
 #define CIOT_MBUS_CLIENT_RTU_CFG_SIZE            72
 #define CIOT_MBUS_CLIENT_STATUS_SIZE             4
 #define CIOT_MBUS_CLIENT_STOP_SIZE               0
-#if defined(Ciot_MbusFunctionReq_size)
-#define CIOT_MBUS_CLIENT_REQ_SIZE                (6 + Ciot_MbusFunctionReq_size)
-#endif
 
 #ifdef __cplusplus
 } /* extern "C" */
