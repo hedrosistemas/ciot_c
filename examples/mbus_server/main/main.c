@@ -27,7 +27,7 @@ ciot_msg_data_t uart_cfg = {
         .which_type = CIOT_UART_DATA_CONFIG_TAG,
         .config = {
             .baud_rate = 9600,
-            .num = 2,
+            .num = 9,
             .rx_pin = 34,
             .tx_pin = 32,
             .rts_pin = 33,
@@ -48,8 +48,8 @@ ciot_msg_data_t mbus_server_cfg = {
             .rtu = {
                 .server_id = 1,
             },
-        }
-    }
+        },
+    },
 };
 
 static const char *TAG = "main";
@@ -80,6 +80,7 @@ static void device_start()
     self.ifaces.list[DEVICE_IFACE_ID_MBUS_SERVER] = (ciot_iface_t*)self.ifaces.mbus_server;
     self.ifaces.cfgs[DEVICE_IFACE_ID_MBUS_SERVER] = &mbus_server_cfg;
 
+    ciot_iface_set_event_handler(&self.ifaces.ciot->iface, event_handler, &self);
     ciot_cfg_t ciot_cfg = {
         .ifaces = {
             .list = self.ifaces.list,
