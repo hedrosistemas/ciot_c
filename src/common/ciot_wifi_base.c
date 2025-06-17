@@ -88,6 +88,10 @@ static ciot_err_t ciot_wifi_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->wifi.which_type = CIOT_WIFI_DATA_STATUS_TAG;
         data->wifi.status = self->status;
         break;
+    case CIOT_DATA_TYPE_INFO:
+        data->wifi.which_type = CIOT_WIFI_DATA_INFO_TAG;
+        data->wifi.info = self->info;
+        break;
     default:
         return CIOT_ERR_NOT_FOUND;
     }
