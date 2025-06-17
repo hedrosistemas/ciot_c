@@ -102,11 +102,7 @@ ciot_err_t ciot_dfu_nrf_start(ciot_dfu_nrf_t self, ciot_dfu_cfg_t *cfg)
     ciot_iface_set_decoder(self->cfg.iface, self->decoder);
     ciot_iface_set_event_handler(self->cfg.iface, ciot_dfu_nrf_event_handler, self);
 
-    // TODO: trigger start event
-    // ciot_msg_t msg = {
-    //     .type = CIOT__MSG_TYPE__MSG_TYPE_START,
-    //     .data = self->cfg.iface_cfg};
-    // self->base.status.error = self->cfg.iface->process_req(self->cfg.iface, &msg);
+    self->base.status.error = self->cfg.iface->process_data(self->cfg.iface, self->cfg.iface_cfg);
 
     return self->base.status.error;
 }
@@ -121,79 +117,71 @@ ciot_err_t ciot_dfu_nrf_stop(ciot_dfu_nrf_t self)
     self->crc.expected = 0;
     self->crc.received = 0;
     self->object.packet = &self->cfg.init_packet;
-
-    // TODO: trigger stop event
-    // ciot_msg_t msg = {
-    //     .type = CIOT__MSG_TYPE__MSG_TYPE_STOP,
-    // };
-    // self->cfg.iface->process_req(self->cfg.iface, &msg);
-
+    ciot_msg_data_t data = {
+        .which_type = self->cfg.iface_cfg->which_type,
+        .common.which_type = CIOT_COMMON_STOP_TAG,
+        .common.stop = true,
+    };
+    self->cfg.iface->process_data(self->cfg.iface, &data);
     return CIOT_ERR_OK;
 }
 
 ciot_err_t ciot_dfu_nrf_init(ciot_dfu_nrf_t self)
 {
     ciot_dfu_t *base = (ciot_dfu_t *)&self->base;
-
-    // ciot_iface_init(&base->iface);
-    // ciot__dfu_data__init(&base->data);
-    // ciot__dfu_cfg__init(&base->cfg);
-    // ciot__dfu_status__init(&base->status);
-
     base->iface.ptr = self;
     base->iface.process_data = ciot_dfu_nrf_process_data;
     base->iface.get_data = ciot_dfu_nrf_get_data;
     base->iface.send_data = ciot_dfu_nrf_send_data;
     base->iface.info.type = CIOT_IFACE_TYPE_IFACE_TYPE_DFU;
-
     return CIOT_ERR_OK;
 }
 
 static ciot_err_t ciot_dfu_nrf_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
-    // ciot_dfu_nrf_t self = iface->ptr;
+    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_DFU_TAG);
 
-    // switch (req->type)
-    // {
-    // case CIOT__MSG_TYPE__MSG_TYPE_START:
-    //     return ciot_dfu_nrf_start(self, req->data->dfu->config);
-    // case CIOT__MSG_TYPE__MSG_TYPE_STOP:
-    //     return ciot_dfu_nrf_stop(self);
-    // case CIOT__MSG_TYPE__MSG_TYPE_REQUEST:
-    //     return ciot_dfu_nrf_process_req(self, req->data->dfu->request);
-    // default:
-    //     break;
-    // }
+    ciot_dfu_nrf_t self = iface->ptr;
+    ciot_dfu_data_t *dfu = &data->dfu;
+
+    switch (dfu->which_type)
+    {
+    case CIOT_DFU_DATA_STOP_TAG:
+        return ciot_dfu_nrf_stop(self);
+    case CIOT_DFU_DATA_CONFIG_TAG:
+        return ciot_dfu_nrf_start(self, &dfu->config);
+    case CIOT_DFU_DATA_REQUEST_TAG:
+        return ciot_dfu_nrf_process_req(self, &dfu->request);
+    default:
+        break;
+    }
 
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
 
 static ciot_err_t ciot_dfu_nrf_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
-    // ciot_dfu_t *self = iface->ptr;
+    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_DFU_TAG);
 
-    // self->data.config = NULL;
-    // self->data.status = NULL;
-    // self->data.request = NULL;
+    ciot_dfu_nrf_t self = iface->ptr;
+    ciot_data_type_t data_type = data->get_data.type;
+    data->which_type = CIOT_MSG_DATA_DFU_TAG;
 
-    // switch (msg->type)
-    // {
-    // case CIOT__MSG_TYPE__MSG_TYPE_CONFIG:
-    //     self->data.config = &self->cfg;
-    //     break;
-    // case CIOT__MSG_TYPE__MSG_TYPE_STATUS:
-    //     self->data.status = &self->status;
-    //     break;
-    // case CIOT__MSG_TYPE__MSG_TYPE_INFO:
-    //     break;
-    // default:
-    //     break;
-    // }
+    switch (data_type)
+    {
+    case CIOT_DATA_TYPE_CONFIG:
+        data->dfu.which_type = CIOT_DFU_DATA_CONFIG_TAG;
+        data->dfu.config = self->base.cfg;
+        break;
+    case CIOT_DATA_TYPE_STATUS:
+        data->dfu.which_type = CIOT_DFU_DATA_STATUS_TAG;
+        data->dfu.status = self->base.status;
+        break;
+    default:
+        return CIOT_ERR_NOT_FOUND;
+    }
 
-    // self->iface.data.dfu = &self->data;
-    // msg->data = &self->iface.data;
-
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    return CIOT_ERR_OK;
 }
 
 static ciot_err_t ciot_dfu_nrf_send_data(ciot_iface_t *iface, uint8_t *data, int size)
@@ -228,15 +216,6 @@ ciot_err_t ciot_dfu_nrf_get_status(ciot_dfu_nrf_t self, ciot_dfu_status_t *statu
     *status = base->status;
     return CIOT_ERR_OK;
 }
-
-// ciot_err_t ciot_dfu_nrf_get_info(ciot_dfu_nrf_t self, ciot_dfu_info_t *info)
-// {
-//     CIOT_ERR_NULL_CHECK(self);
-//     CIOT_ERR_NULL_CHECK(info);
-//     ciot_dfu_t *base = (ciot_dfu_t*)self;
-//     *info = base->info;
-//     return CIOT_ERR_OK;
-// }
 
 ciot_err_t ciot_dfu_nrf_task(ciot_dfu_nrf_t self)
 {
@@ -315,27 +294,26 @@ ciot_err_t ciot_dfu_nrf_read_file(ciot_dfu_nrf_packet_t *object, const char *nam
 
 ciot_err_t ciot_dfu_nrf_start_bootloader(ciot_dfu_nrf_t self, ciot_iface_t *iface, int sys_id)
 {
-    // CIOT_LOGI(TAG, "Starting bootloader");
-    // ciot_sys_data_t sys_data = CIOT__SYS_DATA__INIT;
-    // ciot_sys_req_t sys_req = CIOT__SYS_REQ__INIT;
-    // sys_data.request = &sys_req;
-    // sys_data.request->type = CIOT__SYS_REQ_TYPE__SYS_REQ_TYPE_INIT_DFU;
-
-    // ciot_msg_t *msg = ciot_msg_get_empty(CIOT__MSG_TYPE__MSG_TYPE_REQUEST, CIOT__IFACE_TYPE__IFACE_TYPE_SYS, sys_id);
-    // msg->data->sys = &sys_data;
-
-    // ciot_err_t err = ciot_iface_send_req(iface, msg);
-    // if (err != CIOT_ERR_OK)
-    // {
-    //     self->base.status.error = err;
-    //     self->state = CIOT_DFU_NRF_STATE_ERROR;
-    //     ciot_dfu_nrf_set_state(self, CIOT_DFU_STATE_ERROR);
-    // }
-
-    // iface->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
-
-    // return err;
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    CIOT_LOGI(TAG, "Starting bootloader");
+    ciot_msg_t req = {
+        .has_iface = true,
+        .iface.type = CIOT_IFACE_TYPE_SYS,
+        .iface.id = sys_id,
+        .has_data = true,
+        .data.which_type = CIOT_MSG_DATA_SYS_TAG,
+        .data.sys.which_type = CIOT_SYS_DATA_REQUEST_TAG,
+        .data.sys.request.which_type = CIOT_SYS_REQ_CMD_TAG,
+        .data.sys.request.cmd = CIOT_SYS_REQ_CMD_INIT_DFU,
+    };
+    ciot_err_t err = ciot_iface_send_req(iface, &req);
+    if(err != CIOT_ERR_OK)
+    {
+        self->base.status.error = err;
+        self->state = CIOT_DFU_NRF_STATE_ERROR;
+        ciot_dfu_nrf_set_state(self, CIOT_DFU_STATE_ERROR);
+        CIOT_LOGE(TAG, "Start bootloader error: %s", ciot_err_to_message(err));
+    }
+    return err;
 }
 
 ciot_dfu_nrf_state_t ciot_dfu_nrf_state(ciot_dfu_nrf_t self)
@@ -601,12 +579,7 @@ static ciot_err_t ciot_dfu_nrf_set_state(ciot_dfu_nrf_t self, ciot_dfu_state_t s
     }
     if (base->iface.event_handler != NULL)
     {
-        // TODO: triger state changed event
-        // ciot_msg_t *msg = ciot_msg_get(CIOT__MSG_TYPE__MSG_TYPE_STATUS, &base->iface);
-        // ciot_iface_event_t iface_event = {0};
-        // iface_event.type = CIOT_IFACE_EVENT_INTERNAL;
-        // iface_event.msg = msg;
-        // return base->iface.event_handler(&base->iface, &iface_event, base->iface.event_args);
+        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
     }
     return CIOT_ERR_OK;
 }

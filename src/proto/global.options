@@ -94,4 +94,4 @@ Ciot.BleScnAdv.payload max_size:38
 Ciot.LogData.tag max_size:16
 Ciot.LogData.message max_size:128
 
-Ciot.MbusFunctionReq.data max_size:32
+Ciot.MbusFunctionReq.data max_count:32

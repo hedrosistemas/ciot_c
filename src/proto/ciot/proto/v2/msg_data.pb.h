@@ -147,10 +147,10 @@ extern const pb_msgdesc_t ciot_msg_data_t_msg;
 #define CIOT_MSG_DATA_FIELDS &ciot_msg_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-#if defined(Ciot_MbusClientData_size) && defined(Ciot_MbusServerData_size)
-union Ciot_MsgData_type_size_union {char f21[(7 + Ciot_MbusClientData_size)]; char f22[(7 + Ciot_MbusServerData_size)]; char f0[262];};
+#if defined(Ciot_MbusClientData_size)
+union Ciot_MsgData_type_size_union {char f21[(7 + Ciot_MbusClientData_size)]; char f0[262];};
 #endif
-#if defined(Ciot_MbusClientData_size) && defined(Ciot_MbusServerData_size)
+#if defined(Ciot_MbusClientData_size)
 #define CIOT_CIOT_PROTO_V2_MSG_DATA_PB_H_MAX_SIZE CIOT_MSG_DATA_SIZE
 #define CIOT_MSG_DATA_SIZE                       (0 + sizeof(union Ciot_MsgData_type_size_union))
 #endif

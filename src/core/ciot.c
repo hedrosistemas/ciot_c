@@ -38,6 +38,8 @@ ciot_t ciot_new(void)
     #ifdef CIOT_MG_ENABLED
     mg_mgr_init(CIOT_HANDLE);
     #endif
+    uint8_t version[] = { CIOT_VER };
+    memcpy(self->info.version, version, sizeof(self->info.version));
     return self;
 }
 

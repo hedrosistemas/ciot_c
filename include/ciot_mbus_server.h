@@ -18,8 +18,6 @@
 #include "ciot_mbus.h"
 #include "nanomodbus.h"
 
-#define CIOT_MBUS_COIL_WRITE(coils, addr, value) nmbs_bitfield_write(coils, addr, value)
-
 typedef struct ciot_mbus_server *ciot_mbus_server_t;
 
 typedef struct ciot_mbus_server_base
@@ -40,6 +38,5 @@ ciot_err_t ciot_mbus_server_get_cfg(ciot_mbus_server_t self, ciot_mbus_server_cf
 ciot_err_t ciot_mbus_server_get_status(ciot_mbus_server_t self, ciot_mbus_server_status_t *status);
 ciot_err_t ciot_mbus_server_set_reg(ciot_mbus_server_t self, uint16_t addr, void *data, uint16_t size);
 ciot_err_t ciot_mbus_server_get_reg(ciot_mbus_server_t self, uint16_t addr, void *data, uint16_t size);
-ciot_err_t ciot_mbus_server_event_handler(ciot_mbus_server_t self, ciot_iface_t *sender, ciot_event_t *event);
 
 #endif  //!__CIOT_MBUS_SERVER__H__

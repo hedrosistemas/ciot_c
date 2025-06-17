@@ -185,21 +185,14 @@ extern const pb_msgdesc_t ciot_mbus_server_data_t_msg;
 #define CIOT_MBUS_SERVER_DATA_FIELDS &ciot_mbus_server_data_t_msg
 
 /* Maximum encoded size of messages (where known) */
-#if defined(Ciot_MbusFunctionReq_size)
-#endif
-#if defined(Ciot_MbusFunctionReq_size)
-union Ciot_MbusServerData_type_size_union {char f4[(12 + Ciot_MbusFunctionReq_size)]; char f0[16];};
-#endif
-#define CIOT_CIOT_PROTO_V2_MBUS_SERVER_PB_H_MAX_SIZE CIOT_MBUS_SERVER_CFG_SIZE
+#define CIOT_CIOT_PROTO_V2_MBUS_SERVER_PB_H_MAX_SIZE CIOT_MBUS_SERVER_DATA_SIZE
 #define CIOT_MBUS_SERVER_CFG_SIZE                14
+#define CIOT_MBUS_SERVER_DATA_SIZE               224
+#define CIOT_MBUS_SERVER_REQ_SIZE                221
 #define CIOT_MBUS_SERVER_RTU_CFG_SIZE            6
 #define CIOT_MBUS_SERVER_STATUS_SIZE             2
 #define CIOT_MBUS_SERVER_STOP_SIZE               0
 #define CIOT_MBUS_SERVER_TCP_CFG_SIZE            12
-#if defined(Ciot_MbusFunctionReq_size)
-#define CIOT_MBUS_SERVER_DATA_SIZE               (0 + sizeof(union Ciot_MbusServerData_type_size_union))
-#define CIOT_MBUS_SERVER_REQ_SIZE                (6 + Ciot_MbusFunctionReq_size)
-#endif
 
 #ifdef __cplusplus
 } /* extern "C" */

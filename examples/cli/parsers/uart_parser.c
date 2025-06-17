@@ -32,21 +32,21 @@ ciot_err_t parse_uart_args(int argc, char **argv, ciot_uart_data_t *uart_data)
         {
             uart_data->config.num = atoi(val);
         }
-        else if ((val = get_arg_value(argv[i], "--rx-pin=")) != NULL)
+        else if ((val = get_arg_value(argv[i], "--gpio-rx=")) != NULL)
         {
-            uart_data->config.rx_pin = atoi(val);
+            uart_data->config.gpio.rx = atoi(val);
         }
-        else if ((val = get_arg_value(argv[i], "--tx-pin=")) != NULL)
+        else if ((val = get_arg_value(argv[i], "--gpio-tx=")) != NULL)
         {
-            uart_data->config.tx_pin = atoi(val);
+            uart_data->config.gpio.tx = atoi(val);
         }
-        else if ((val = get_arg_value(argv[i], "--rts-pin=")) != NULL)
+        else if ((val = get_arg_value(argv[i], "--gpio-rts=")) != NULL)
         {
-            uart_data->config.rts_pin = atoi(val);
+            uart_data->config.gpio.rts = atoi(val);
         }
-        else if ((val = get_arg_value(argv[i], "--cts-pin=")) != NULL)
+        else if ((val = get_arg_value(argv[i], "--gpio-cts=")) != NULL)
         {
-            uart_data->config.cts_pin = atoi(val);
+            uart_data->config.gpio.cts = atoi(val);
         }
         else if ((val = get_arg_value(argv[i], "--parity=")) != NULL)
         {
@@ -79,10 +79,10 @@ ciot_err_t print_uart_data(ciot_uart_data_t *uart_data)
         printf("UART Config\n");
         printf("--baud-rate=%u\n", uart_data->config.baud_rate);
         printf("--num=%u\n", uart_data->config.num);
-        printf("--rx-pin=%u\n", uart_data->config.rx_pin);
-        printf("--tx-pin=%u\n", uart_data->config.tx_pin);
-        printf("--rts-pin=%u\n", uart_data->config.rts_pin);
-        printf("--cts-pin=%u\n", uart_data->config.cts_pin);
+        printf("--gpio-rx=%u\n", uart_data->config.gpio.rx);
+        printf("--gpio-tx=%u\n", uart_data->config.gpio.tx);
+        printf("--gpio-rts=%u\n", uart_data->config.gpio.rts);
+        printf("--gpio-cts=%u\n", uart_data->config.gpio.cts);
         printf("--parity=%u\n", uart_data->config.parity);
         printf("--flow-control=%s\n", uart_data->config.flow_control ? "true" : "false");
         printf("--dtr=%s\n", uart_data->config.dtr ? "true" : "false");
