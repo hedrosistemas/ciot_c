@@ -55,6 +55,10 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 
     ciot_uart_base_t *base = &self->base;
 
+    if(cfg->has_gpio == false)
+    {
+        *cfg->gpio = base->cfg.gpio;
+    }
     base->cfg = *cfg;
 
     uint32_t err_code = app_fifo_init(&self->fifo.tx, self->fifo.tx_buf, CIOT_CONFIG_UART_TX_BUF_SIZE);
@@ -65,10 +69,10 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     config.hwfc = base->cfg.flow_control;
     config.interrupt_priority = APP_IRQ_PRIORITY_LOWEST;
     config.parity = base->cfg.parity;
-    config.pselcts = base->cfg.cts_pin;
-    config.pselrts = base->cfg.rts_pin;
-    config.pselrxd = base->cfg.rx_pin;
-    config.pseltxd = base->cfg.tx_pin;
+    config.pselcts = base->cfg.gpio.cts;
+    config.pselrts = base->cfg.gpio.rts;
+    config.pselrxd = base->cfg.gpio.rx;
+    config.pseltxd = base->cfg.gpio.tx;
     config.p_context = self;
 
     switch (cfg->num)
@@ -149,6 +153,14 @@ ciot_err_t ciot_uart_send_bytes(ciot_uart_t self, uint8_t *bytes, int size)
     }
 
     return err_code;
+}
+
+ciot_err_t ciot_uart_read_bytes(ciot_uart_t self, uint8_t *bytes, int size)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(bytes);
+    ret_code_t code = nrf_drv_uart_rx(&self->handle, bytes,  size);
+    return code == NRF_SUCCESS ? size : CIOT_ERR_FAIL;
 }
 
 ciot_err_t ciot_uart_task(ciot_uart_t self)
