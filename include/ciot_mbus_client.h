@@ -46,7 +46,6 @@ ciot_err_t ciot_mbus_client_write_single_coil(ciot_mbus_client_t self, uint16_t 
 ciot_err_t ciot_mbus_client_write_single_register(ciot_mbus_client_t self, uint16_t address, uint16_t value);
 ciot_err_t ciot_mbus_client_write_multiple_coils(ciot_mbus_client_t self, uint16_t address, uint16_t quantity, const nmbs_bitfield coils);
 ciot_err_t ciot_mbus_client_write_multiple_registers(ciot_mbus_client_t self, uint16_t address, uint16_t quantity, const uint16_t* registers);
-ciot_err_t ciot_mbus_client_event_handler(ciot_mbus_client_t self, ciot_iface_t *sender, ciot_event_t *event);
 
 #ifdef __cplusplus
 }

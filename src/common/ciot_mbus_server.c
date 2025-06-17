@@ -217,26 +217,4 @@ static nmbs_error ciot_mbus_server_write_multiple_registers(uint16_t address, ui
     return CIOT_ERR_OK;
 }
 
-ciot_err_t ciot_mbus_server_event_handler(ciot_mbus_server_t self, ciot_iface_t *sender, ciot_event_t *event)
-{
-    if(sender->info.id == self->iface->info.id)
-    {
-        switch (event->type)
-        {
-        case CIOT_EVENT_TYPE_STOPPED:
-            CIOT_LOGI(TAG, "CIOT_MBUS_SERVER_STATE_STOPPED");
-            self->base.status.state = CIOT_MBUS_SERVER_STATE_STOPPED;
-            break;
-        case CIOT_EVENT_TYPE_ERROR:
-            CIOT_LOGI(TAG, "CIOT_MBUS_SERVER_STATE_ERROR");
-            self->base.status.state = CIOT_MBUS_SERVER_STATE_ERROR;
-            break;
-        default:
-            break;
-        }
-        return ciot_iface_send_event_type(&self->base.iface, event->type);
-    }
-    return CIOT_ERR_OK;
-}
-
 #endif // CIOT_CONFIG_FEATURE_MBUS_SERVER == 1

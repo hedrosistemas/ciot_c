@@ -141,28 +141,6 @@ ciot_err_t ciot_mbus_client_write_multiple_registers(ciot_mbus_client_t self, ui
     return ciot_mbus_get_error(error);
 }
 
-ciot_err_t ciot_mbus_client_event_handler(ciot_mbus_client_t self, ciot_iface_t *sender, ciot_event_t *event)
-{
-    if(sender->info.id == self->iface->info.id)
-    {
-        switch (event->type)
-        {
-        case CIOT_EVENT_TYPE_STOPPED:
-            CIOT_LOGI(TAG, "CIOT_MBUS_CLIENT_STATE_STOPPED");
-            self->base.status.state = CIOT_MBUS_CLIENT_STATE_STOPPED;
-            break;
-        case CIOT_EVENT_TYPE_ERROR:
-            CIOT_LOGI(TAG, "CIOT_MBUS_CLIENT_STATE_ERROR");
-            self->base.status.state = CIOT_MBUS_CLIENT_STATE_ERROR;
-            break;
-        default:
-            break;
-        }
-        return ciot_iface_send_event_type(&self->base.iface, event->type);
-    }
-    return CIOT_ERR_OK;
-}
-
 static int32_t ciot_mbus_client_read(uint8_t *buf, uint16_t count, int32_t byte_timeout_ms, void *arg)
 {
     ciot_mbus_client_t self = (ciot_mbus_client_t)arg;
