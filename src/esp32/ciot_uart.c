@@ -77,13 +77,12 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 
     CIOT_LOGI(TAG, "num: %d", (int)cfg->num);
 
-    ciot_uart_gpio_cfg_t gpio = base->cfg.gpio;
-    base->cfg = *cfg;
-
     if(cfg->has_gpio == false)
     {
-        base->cfg.gpio = gpio;
+        cfg->gpio = base->cfg.gpio;
     }
+    base->cfg = *cfg;
+
 
     int num = base->cfg.num;
     const uart_config_t uart_cfg = {
