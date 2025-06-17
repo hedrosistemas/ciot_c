@@ -29,10 +29,10 @@ ciot_msg_data_t uart_cfg = {
         .config = {
             .baud_rate = 9600,
             .num = 1,
-            .rx_pin = 34,
-            .tx_pin = 32,
-            .rts_pin = 33,
-            .cts_pin = -1,
+            .gpio.rx = 34,
+            .gpio.tx = 32,
+            .gpio.rts = 33,
+            .gpio.cts = -1,
             .mode = 1,
             .read_timeout = 500,
             .write_timeout = 500,
@@ -121,7 +121,6 @@ int main(void)
 static ciot_err_t event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args)
 {
     device_t *device = args;
-    ciot_mbus_client_event_handler(self.ifaces.mbus_client, sender, event);
     if(sender->info.id == DEVICE_IFACE_ID_UART && event->type == CIOT_EVENT_TYPE_STARTED)
     {
         device->uart_started = true;

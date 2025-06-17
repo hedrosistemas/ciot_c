@@ -31,7 +31,7 @@ ciot_err_t print_ciot_data(ciot_data_t *ciot_data)
         for (int i = 0; i < ciot_data->status.ifaces_count; i++)
         {
             printf("--iface-type=%d\n", ciot_iface_type_to_str(ciot_data->status.ifaces[i].type));
-            printf("--iface-status=%d\n", ciot_data->status.ifaces[i].started);
+            printf("--iface-state=%d\n", ciot_data->status.ifaces[i].state);
         }
         break;
     case CIOT_DATA_REQUEST_TAG:

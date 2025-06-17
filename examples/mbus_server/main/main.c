@@ -28,10 +28,10 @@ ciot_msg_data_t uart_cfg = {
         .config = {
             .baud_rate = 9600,
             .num = 9,
-            .rx_pin = 34,
-            .tx_pin = 32,
-            .rts_pin = 33,
-            .cts_pin = -1,
+            .gpio.rx = 34,
+            .gpio.tx = 32,
+            .gpio.rts = 33,
+            .gpio.cts = -1,
             .mode = 1,
             .read_timeout = 0,
             .write_timeout = 0,
@@ -80,7 +80,6 @@ static void device_start()
     self.ifaces.list[DEVICE_IFACE_ID_MBUS_SERVER] = (ciot_iface_t*)self.ifaces.mbus_server;
     self.ifaces.cfgs[DEVICE_IFACE_ID_MBUS_SERVER] = &mbus_server_cfg;
 
-    ciot_iface_set_event_handler(&self.ifaces.ciot->iface, event_handler, &self);
     ciot_cfg_t ciot_cfg = {
         .ifaces = {
             .list = self.ifaces.list,
@@ -114,10 +113,4 @@ int main(void)
     }
 
     return 0;
-}
-
-static ciot_err_t event_handler(ciot_iface_t *sender, ciot_event_t *event, void *args)
-{
-    ciot_mbus_server_event_handler(self.ifaces.mbus_server, sender, event);
-    return CIOT_ERR_OK;
 }
