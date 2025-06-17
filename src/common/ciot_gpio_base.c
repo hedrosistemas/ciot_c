@@ -234,7 +234,6 @@ static ciot_err_t ciot_gpio_process_set_status(ciot_gpio_t self, ciot_gpio_statu
 
 static ciot_err_t ciot_gpio_process_set_state(ciot_gpio_t self, ciot_gpio_state_info_t *set_state)
 {
-    ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
     return ciot_gpio_set_state(self, set_state->num, set_state->state);
 }
 
