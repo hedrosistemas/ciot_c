@@ -137,9 +137,9 @@ static void device_start()
     self.ifaces.list[DEVICE_IFACE_ID_UART] = (ciot_iface_t *)self.ifaces.uart;
     self.ifaces.cfgs[DEVICE_IFACE_ID_UART] = &uart_cfg;
 
-    self.ifaces.eth = ciot_eth_new(CIOT_HANDLE);
-    self.ifaces.list[DEVICE_IFACE_ID_ETH] = (ciot_iface_t *)self.ifaces.eth;
-    self.ifaces.cfgs[DEVICE_IFACE_ID_ETH] = &eth_cfg;
+    // self.ifaces.eth = ciot_eth_new(CIOT_HANDLE);
+    // self.ifaces.list[DEVICE_IFACE_ID_ETH] = (ciot_iface_t *)self.ifaces.eth;
+    // self.ifaces.cfgs[DEVICE_IFACE_ID_ETH] = &eth_cfg;
 
     self.ifaces.wifi_ap = ciot_wifi_new(CIOT_WIFI_TYPE_AP);
     self.ifaces.list[DEVICE_IFACE_ID_WIFI_AP] = (ciot_iface_t *)self.ifaces.wifi_ap;

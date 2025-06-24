@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_HTTP_SERVER == 1
+ 
 #include "ciot_http_server.h"
 
 struct ciot_http_server
@@ -42,3 +46,5 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_HTTP_SERVER == 1

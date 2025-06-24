@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_SYS == 1
+
 #include "ciot_sys.h"
 #include "ciot_types.h"
 
@@ -136,21 +140,29 @@ static ciot_err_t ciot_sys_get_hw(ciot_sys_hw_t *hw)
 
 static ciot_err_t ciot_sys_get_features(ciot_sys_features_t *features)
 {
-    features->storage = CIOT_CONFIG_FEATURE_STORAGE;
-    features->sys = CIOT_CONFIG_FEATURE_SYSTEM;
-    features->uart = CIOT_CONFIG_FEATURE_UART;
-    features->usb = CIOT_CONFIG_FEATURE_USB;
-    features->ethernet = CIOT_CONFIG_FEATURE_ETHERNET;
-    features->wifi = CIOT_CONFIG_FEATURE_WIFI;
+    features->ble_adv = CIOT_CONFIG_FEATURE_BLE_ADV;
     features->ble_scn = CIOT_CONFIG_FEATURE_BLE_SCN;
+    features->ble = CIOT_CONFIG_FEATURE_BLE;
+    features->eth = CIOT_CONFIG_FEATURE_ETH;
     features->gpio = CIOT_CONFIG_FEATURE_GPIO;
-    features->ntp = CIOT_CONFIG_FEATURE_NTP;
-    features->ota = CIOT_CONFIG_FEATURE_OTA;
-    features->dfu = CIOT_CONFIG_FEATURE_DFU;
     features->http_client = CIOT_CONFIG_FEATURE_HTTP_CLIENT;
     features->http_server = CIOT_CONFIG_FEATURE_HTTP_SERVER;
+    features->mbus_client = CIOT_CONFIG_FEATURE_MBUS_CLIENT;
+    features->mbus_server = CIOT_CONFIG_FEATURE_MBUS_SERVER;
     features->mqtt_client = CIOT_CONFIG_FEATURE_MQTT_CLIENT;
+    features->ntp = CIOT_CONFIG_FEATURE_NTP;
+    features->ota = CIOT_CONFIG_FEATURE_OTA;
+    features->pwm = CIOT_CONFIG_FEATURE_PWM;
+    features->sys = CIOT_CONFIG_FEATURE_SYS;
+    features->tcp = CIOT_CONFIG_FEATURE_TCP;
     features->timer = CIOT_CONFIG_FEATURE_TIMER;
+    features->uart = CIOT_CONFIG_FEATURE_UART;
+    features->usb = CIOT_CONFIG_FEATURE_USB;
+    features->wifi = CIOT_CONFIG_FEATURE_WIFI;
+    features->storage = CIOT_CONFIG_FEATURE_STORAGE;
+    features->serializer = CIOT_CONFIG_FEATURE_SERIALIZER;
+    features->crypt = CIOT_CONFIG_FEATURE_CRYPT;
+    features->dfu = CIOT_CONFIG_FEATURE_DFU;
     return CIOT_ERR_OK;
 }
 
@@ -188,3 +200,5 @@ ciot_err_t ciot_sys_get_info(ciot_sys_t self, ciot_sys_info_t *info)
     ciot_sys_get_features(&info->features);
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_SYS == 1

@@ -9,6 +9,9 @@
 PB_BIND(CIOT_UART_STOP, ciot_uart_stop_t, AUTO)
 
 
+PB_BIND(CIOT_UART_GPIO_CFG, ciot_uart_gpio_cfg_t, AUTO)
+
+
 PB_BIND(CIOT_UART_CFG, ciot_uart_cfg_t, AUTO)
 
 

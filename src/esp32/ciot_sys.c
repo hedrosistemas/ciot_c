@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_SYS == 1
+
 #include "ciot_sys.h"
 #include "esp_system.h"
 #include "ciot_sys.h"
@@ -67,7 +71,7 @@ ciot_err_t ciot_sys_task(ciot_sys_t self)
     ciot_sys_base_t *base = &self->base;
     base->status.free_memory = esp_get_free_heap_size();
     base->status.lifetime = ciot_timer_now() - self->init_time;
-    xEventGroupWaitBits(self->event_group, CIOT_SYS_EVT_BIT_POOLING, pdTRUE, pdTRUE, pdMS_TO_TICKS(100));
+    xEventGroupWaitBits(self->event_group, CIOT_SYS_EVT_BIT_POOLING, pdTRUE, pdTRUE, pdMS_TO_TICKS(20));
     return CIOT_ERR_OK;
 }
 
@@ -94,3 +98,5 @@ ciot_err_t ciot_sys_init_dfu(void)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_SYS == 1

@@ -6,18 +6,7 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-PB_BIND(CIOT_GET_DATA, ciot_get_data_t, AUTO)
-
-
-PB_BIND(CIOT_COMMON, ciot_common_t, AUTO)
-
-
 PB_BIND(CIOT_MSG, ciot_msg_t, 2)
-
-
-PB_BIND(CIOT_MSG_DATA, ciot_msg_data_t, 2)
-
-
 
 
 

@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2024
  *
  */
+  
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_OTA == 1
 
 #include "ciot_ota.h"
 #include "ciot_types.h"
@@ -107,3 +111,5 @@ ciot_err_t ciot_ota_get_status(ciot_ota_t self, ciot_ota_status_t *status)
     *status = base->status;
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_OTA == 1

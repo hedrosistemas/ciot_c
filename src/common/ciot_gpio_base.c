@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2024
  * 
  */
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_GPIO == 1
 
 #include <stdlib.h>
 #include <string.h>
@@ -20,6 +24,8 @@
 static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_gpio_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_gpio_send_data(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_gpio_process_set_status(ciot_gpio_t self, ciot_gpio_status_t *status);
+static ciot_err_t ciot_gpio_process_set_state(ciot_gpio_t self, ciot_gpio_state_info_t *set_state);
 
 ciot_err_t ciot_gpio_init(ciot_gpio_t self)
 {
@@ -56,12 +62,12 @@ ciot_err_t ciot_gpio_task(ciot_gpio_t self)
                 }
 
                 int num = base->cfg.pins[i].num;
-                ciot_gpio_state_t state = base->status.states[i];
+                ciot_gpio_state_t state = base->status.states.bytes[i];
 
                 if(state == CIOT_GPIO_STATE_LOW || state == CIOT_GPIO_STATE_HIGH)
                 {
                     base->set_state(num, state);
-                    base->status.states[i] = state;
+                    base->status.states.bytes[i] = state;
                 }
 
                 if(state == CIOT_GPIO_STATE_BLINKING)
@@ -86,6 +92,7 @@ static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *d
     CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_GPIO_TAG);
 
     ciot_gpio_t self = iface->ptr;
+    ciot_gpio_base_t *base = iface->ptr;
     ciot_gpio_data_t *gpio = &data->gpio;
 
     switch (gpio->which_type)
@@ -95,6 +102,7 @@ static ciot_err_t ciot_gpio_process_data(ciot_iface_t *iface, ciot_msg_data_t *d
     case CIOT_GPIO_DATA_CONFIG_TAG:
         return ciot_gpio_start(self, &gpio->config);
     case CIOT_GPIO_DATA_REQUEST_TAG:
+        base->iface.req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
         return ciot_gpio_process_req(self, &gpio->request);
     default:
         return CIOT_ERR_INVALID_TYPE;
@@ -137,15 +145,25 @@ ciot_err_t ciot_gpio_process_req(ciot_gpio_t self, ciot_gpio_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR_NOT_IMPLEMENTED;
+    switch (req->which_type)
+    {
+    case CIOT_GPIO_REQ_SET_STATUS_TAG:
+        return ciot_gpio_process_set_status(self, &req->set_status);
+    case CIOT_GPIO_REQ_SET_STATE_TAG:
+        return ciot_gpio_process_set_state(self, &req->set_state);
+    default:
+        return CIOT_ERR_INVALID_TYPE;
+    }
 }
 
 ciot_err_t ciot_gpio_set_cfg(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
+    CIOT_ERR_INDEX_CHECK(cfg->pins_count, 0, sizeof(cfg->pins) / sizeof(cfg->pins[0]));
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
     base->cfg = *cfg;
+    base->status.states.size = cfg->pins_count;
     return CIOT_ERR_OK;
 }
 
@@ -176,10 +194,10 @@ ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t 
     if(state == CIOT_GPIO_STATE_LOW || state == CIOT_GPIO_STATE_HIGH)
     {
         base->set_state(num, state);
-        base->status.states[id] = state;
+        base->status.states.bytes[id] = state;
     }
 
-    if(state == CIOT_GPIO_STATE_BLINK && base->status.states[id] != CIOT_GPIO_STATE_BLINKING)
+    if(state == CIOT_GPIO_STATE_BLINK && base->status.states.bytes[id] != CIOT_GPIO_STATE_BLINKING)
     {
         base->blinking = true;
         base->set_state(num, !base->get_state(num));
@@ -188,7 +206,7 @@ ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t 
     if(state == CIOT_GPIO_STATE_BLINKING)
     {
         base->blinking = true;
-        base->status.states[id] = state;
+        base->status.states.bytes[id] = state;
     }
 
     return CIOT_ERR_OK;
@@ -202,3 +220,21 @@ ciot_gpio_state_t ciot_gpio_get_state(ciot_gpio_t self, uint16_t id)
     int num = base->cfg.pins[id].num;
     return base->get_state(num);
 }
+
+static ciot_err_t ciot_gpio_process_set_status(ciot_gpio_t self, ciot_gpio_status_t *set_status)
+{
+    ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
+    CIOT_ERR_INDEX_CHECK(set_status->states.size, 0, base->cfg.pins_count);
+    for (size_t i = 0; i < set_status->states.size; i++)
+    {
+        CIOT_ERR_RETURN(ciot_gpio_set_state(self, i, set_status->states.bytes[i]));
+    }
+    return CIOT_ERR_OK;
+}
+
+static ciot_err_t ciot_gpio_process_set_state(ciot_gpio_t self, ciot_gpio_state_info_t *set_state)
+{
+    return ciot_gpio_set_state(self, set_state->num, set_state->state);
+}
+
+#endif // CIOT_CONFIG_FEATURE_GPIO == 1

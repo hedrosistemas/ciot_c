@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ble.h"
@@ -246,3 +250,5 @@ static void ciot_ble_evt_handler(ble_evt_t const *p_ble_evt, void *p_context)
         ciot_ble_adv_handle_event(base->ifaces.adv, (void *)p_ble_evt, p_context);
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_BLE == 1

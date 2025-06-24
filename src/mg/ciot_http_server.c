@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_HTTP_SERVER == 1
+
 #include "ciot_http_server.h"
 #include "mongoose.h"
 
@@ -42,7 +46,7 @@ ciot_err_t ciot_http_server_start(ciot_http_server_t self, ciot_http_server_cfg_
 
     ciot_http_server_base_t *base = &self->base;
 
-    sprintf(self->endpoint, "%s:%ld", cfg->address, cfg->port);
+    sprintf(self->endpoint, "%s:%ld", cfg->address, (long int)cfg->port);
 
     base->cfg = *cfg;
 
@@ -102,7 +106,7 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
     }
     case MG_EV_OPEN:
     {
-        CIOT_LOGI(TAG, "MG_EV_OPEN url:%s", base->cfg.address);
+        CIOT_LOGI(TAG, "MG_EV_OPEN url:%s:%d", base->cfg.address, base->cfg.port);
         if(base->status.state != CIOT_HTTP_SERVER_STATE_STARTED)
         {
             base->status.state = CIOT_HTTP_SERVER_STATE_STARTED;
@@ -152,3 +156,5 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
         return;
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_HTTP_SERVER == 1

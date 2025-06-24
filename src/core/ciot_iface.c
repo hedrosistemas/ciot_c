@@ -35,7 +35,7 @@ ciot_err_t ciot_iface_send_rsp(ciot_iface_t *self, ciot_msg_t *rsp)
 
     if (self->req_status.state != CIOT_IFACE_REQ_STATE_IDLE)
     {
-        CIOT_LOGE(TAG, "Iface %s (%lu) is busy", ciot_iface_to_str(self), self->info.id);
+        CIOT_LOGE(TAG, "Iface %s (%lu) is busy", ciot_iface_to_str(self), (long unsigned int)self->info.id);
         return CIOT_ERR_BUSY;
     }
     else
@@ -53,7 +53,7 @@ ciot_err_t ciot_iface_send_req(ciot_iface_t *self, ciot_msg_t *req)
         req->data.which_type != self->req_status.data_type &&
         !ciot_iface_is_equal(&req->iface, &self->req_status.iface))
     {
-        CIOT_LOGW(TAG, "Overwriting last request on iface %s (%lu)", ciot_iface_to_str(self), self->info.id);
+        CIOT_LOGW(TAG, "Overwriting last request on iface %s (%lu)", ciot_iface_to_str(self), (long unsigned int)self->info.id);
     }
 
     req->id = ciot_iface_get_msg_id();
@@ -109,6 +109,7 @@ ciot_err_t ciot_iface_process_msg(ciot_iface_t *self, ciot_msg_t *msg, ciot_ifac
     switch (msg->data.which_type)
     {
     case CIOT_MSG_DATA_GET_DATA_TAG:
+        self->req_status.state = CIOT_IFACE_REQ_STATE_IDLE;
         msg->error = self->get_data(self, &msg->data);
         msg->has_data = msg->data.which_type != 0;
         msg->error = ciot_iface_process_data_result(self, sender, msg, msg->error);          

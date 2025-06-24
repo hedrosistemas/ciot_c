@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_OTA == 1
+
 #include <stdlib.h>
 #include "ciot_ota.h"
 #include "ciot_err.h"
@@ -401,3 +405,5 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
         break;
     }
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_OTA == 1

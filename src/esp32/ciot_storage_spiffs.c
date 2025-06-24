@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_STORAGE == 1
+
 #include <stdlib.h>
 #include "ciot_storage.h"
 #include "ciot_storage_fs.h"
@@ -38,7 +42,7 @@ ciot_storage_t ciot_storage_spiffs_new(void)
     ciot_storage_spiffs_t self = calloc(1, sizeof(struct ciot_storage_spiffs));
     ciot_storage_t base = &self->base;
     ciot_storage_spiffs_init(self);
-    base->delete = ciot_storage_fs_delete;
+    base->remove = ciot_storage_fs_delete;
     base->write_bytes = ciot_storage_fs_write_bytes;
     base->read_bytes = ciot_storage_fs_read_bytes;
     base->type = CIOT_STORAGE_TYPE_FS;
@@ -59,5 +63,15 @@ static ciot_err_t ciot_storage_spiffs_init(ciot_storage_spiffs_t self)
         CIOT_LOGE(TAG, "Error mounting spiffs: %s", esp_err_to_name(err));
         return CIOT_ERR_FAIL;
     }
+    size_t total = 0, used = 0;
+    err = esp_spiffs_info(FS_PARTITION_LABLE, &total, &used);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to get SPIFFS partition information (%s)", esp_err_to_name(err));
+        return CIOT_ERR_FAIL;
+    } else {
+        ESP_LOGI(TAG, "Partition size: total: %d, used: %d, free: %d", total, used, total - used);
+    }
     return CIOT_ERR_OK;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_STORAGE == 1

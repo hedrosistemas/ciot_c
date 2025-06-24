@@ -51,7 +51,10 @@ typedef struct ciot_mbus_server_status {
 
 /* Message representing an Modbus server request. */
 typedef struct ciot_mbus_server_req {
-    char dummy_field;
+    pb_size_t which_type;
+    union {
+        ciot_mbus_function_req_t function; /* Function request */
+    };
 } ciot_mbus_server_req_t;
 
 /* Message representing Modbus server data. */
@@ -93,14 +96,14 @@ extern "C" {
 #define CIOT_MBUS_SERVER_TCP_CFG_INIT_DEFAULT    {0, 0}
 #define CIOT_MBUS_SERVER_CFG_INIT_DEFAULT        {0, {CIOT_MBUS_SERVER_RTU_CFG_INIT_DEFAULT}}
 #define CIOT_MBUS_SERVER_STATUS_INIT_DEFAULT     {_CIOT_MBUS_SERVER_STATE_MIN}
-#define CIOT_MBUS_SERVER_REQ_INIT_DEFAULT        {0}
+#define CIOT_MBUS_SERVER_REQ_INIT_DEFAULT        {0, {CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT}}
 #define CIOT_MBUS_SERVER_DATA_INIT_DEFAULT       {0, {CIOT_MBUS_SERVER_STOP_INIT_DEFAULT}}
 #define CIOT_MBUS_SERVER_STOP_INIT_ZERO          {0}
 #define CIOT_MBUS_SERVER_RTU_CFG_INIT_ZERO       {0}
 #define CIOT_MBUS_SERVER_TCP_CFG_INIT_ZERO       {0, 0}
 #define CIOT_MBUS_SERVER_CFG_INIT_ZERO           {0, {CIOT_MBUS_SERVER_RTU_CFG_INIT_ZERO}}
 #define CIOT_MBUS_SERVER_STATUS_INIT_ZERO        {_CIOT_MBUS_SERVER_STATE_MIN}
-#define CIOT_MBUS_SERVER_REQ_INIT_ZERO           {0}
+#define CIOT_MBUS_SERVER_REQ_INIT_ZERO           {0, {CIOT_MBUS_FUNCTION_REQ_INIT_ZERO}}
 #define CIOT_MBUS_SERVER_DATA_INIT_ZERO          {0, {CIOT_MBUS_SERVER_STOP_INIT_ZERO}}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -110,6 +113,7 @@ extern "C" {
 #define CIOT_MBUS_SERVER_CFG_RTU_TAG             1
 #define CIOT_MBUS_SERVER_CFG_TCP_TAG             2
 #define CIOT_MBUS_SERVER_STATUS_STATE_TAG        1
+#define CIOT_MBUS_SERVER_REQ_FUNCTION_TAG        1
 #define CIOT_MBUS_SERVER_DATA_STOP_TAG           1
 #define CIOT_MBUS_SERVER_DATA_CONFIG_TAG         2
 #define CIOT_MBUS_SERVER_DATA_STATUS_TAG         3
@@ -146,9 +150,10 @@ X(a, STATIC,   SINGULAR, UENUM,    state,             1)
 #define CIOT_MBUS_SERVER_STATUS_DEFAULT NULL
 
 #define CIOT_MBUS_SERVER_REQ_FIELDLIST(X, a) \
-
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,function,function),   1)
 #define CIOT_MBUS_SERVER_REQ_CALLBACK NULL
 #define CIOT_MBUS_SERVER_REQ_DEFAULT NULL
+#define ciot_mbus_server_req_t_type_function_MSGTYPE ciot_mbus_function_req_t
 
 #define CIOT_MBUS_SERVER_DATA_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (type,stop,stop),   1) \
@@ -182,8 +187,8 @@ extern const pb_msgdesc_t ciot_mbus_server_data_t_msg;
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_MBUS_SERVER_PB_H_MAX_SIZE CIOT_MBUS_SERVER_DATA_SIZE
 #define CIOT_MBUS_SERVER_CFG_SIZE                14
-#define CIOT_MBUS_SERVER_DATA_SIZE               16
-#define CIOT_MBUS_SERVER_REQ_SIZE                0
+#define CIOT_MBUS_SERVER_DATA_SIZE               224
+#define CIOT_MBUS_SERVER_REQ_SIZE                221
 #define CIOT_MBUS_SERVER_RTU_CFG_SIZE            6
 #define CIOT_MBUS_SERVER_STATUS_SIZE             2
 #define CIOT_MBUS_SERVER_STOP_SIZE               0

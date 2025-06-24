@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE == 1
+
 #include <stdlib.h>
 #include "ciot_ble.h"
 #include "ciot_err.h"
@@ -44,3 +48,5 @@ ciot_err_t ciot_ble_set_mac(ciot_ble_t self, uint8_t mac[6])
 {
     return CIOT_ERR_NOT_IMPLEMENTED;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_BLE == 1

@@ -21,16 +21,7 @@ PB_BIND(CIOT_MBUS_CLIENT_CFG, ciot_mbus_client_cfg_t, AUTO)
 PB_BIND(CIOT_MBUS_CLIENT_STATUS, ciot_mbus_client_status_t, AUTO)
 
 
-PB_BIND(CIOT_MBUS_CLIENT_FUNCTION_REQ, ciot_mbus_client_function_req_t, AUTO)
-
-
-PB_BIND(CIOT_MBUS_CLIENT_FUNCTION_RESP, ciot_mbus_client_function_resp_t, AUTO)
-
-
 PB_BIND(CIOT_MBUS_CLIENT_REQ, ciot_mbus_client_req_t, AUTO)
-
-
-PB_BIND(CIOT_MBUS_CLIENT_RESP, ciot_mbus_client_resp_t, AUTO)
 
 
 PB_BIND(CIOT_MBUS_CLIENT_DATA, ciot_mbus_client_data_t, AUTO)

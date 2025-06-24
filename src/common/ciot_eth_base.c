@@ -9,6 +9,11 @@
  * 
  */
 
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_ETH == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_eth.h"
@@ -131,3 +136,5 @@ ciot_err_t ciot_eth_get_mac(ciot_eth_t self, uint8_t mac[6])
     memcpy(mac, tcp->info->mac, 6);
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_ETH == 1

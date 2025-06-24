@@ -8,7 +8,11 @@
  * @copyright Copyright (c) 2024
  *
  */
+ 
+#include "ciot_config.h"
 
+#if CIOT_CONFIG_FEATURE_WIFI == 1
+ 
 #include "ciot_wifi.h"
 #include "ciot_types.h"
 
@@ -84,6 +88,10 @@ static ciot_err_t ciot_wifi_get_data(ciot_iface_t *iface, ciot_msg_data_t *data)
         data->wifi.which_type = CIOT_WIFI_DATA_STATUS_TAG;
         data->wifi.status = self->status;
         break;
+    case CIOT_DATA_TYPE_INFO:
+        data->wifi.which_type = CIOT_WIFI_DATA_INFO_TAG;
+        data->wifi.info = self->info;
+        break;
     default:
         return CIOT_ERR_NOT_FOUND;
     }
@@ -140,3 +148,5 @@ ciot_err_t ciot_wifi_toggle(ciot_wifi_t self)
     base->cfg.disabled = base->status.tcp.state != CIOT_TCP_STATE_STOPPED;
     return ciot_wifi_start(self, &base->cfg);
 }
+
+#endif // CIOT_CONFIG_FEATURE_WIFI == 1

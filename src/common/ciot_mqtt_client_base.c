@@ -8,7 +8,11 @@
  * @copyright Copyright (c) 2024
  *
  */
+ 
+#include "ciot_config.h"
 
+#if CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1
+ 
 #include "ciot_mqtt_client.h"
 #include "ciot_timer.h"
 #include "ciot_types.h"
@@ -171,3 +175,5 @@ ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client
     *status = base->status;
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1

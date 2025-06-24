@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_TCP == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_tcp.h"
@@ -336,3 +340,5 @@ void *ciot_tcp_get_netif(ciot_tcp_t self)
         return NULL;
     return self->netif;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_TCP == 1

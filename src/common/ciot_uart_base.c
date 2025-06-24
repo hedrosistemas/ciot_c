@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_UART == 1
+
 #include "ciot_uart.h"
 #include "ciot_types.h"
 
@@ -118,3 +122,5 @@ ciot_err_t ciot_uart_get_status(ciot_uart_t self, ciot_uart_status_t *status)
     *status = base->status;
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_UART == 1

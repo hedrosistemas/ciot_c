@@ -6,10 +6,20 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
+PB_BIND(CIOT_GET_DATA, ciot_get_data_t, AUTO)
+
+
+PB_BIND(CIOT_COMMON, ciot_common_t, AUTO)
+
+
 PB_BIND(CIOT_IFACE_INFO, ciot_iface_info_t, AUTO)
 
 
 PB_BIND(CIOT_IFACE_REQ_STATUS, ciot_iface_req_status_t, AUTO)
+
+
+
+
 
 
 

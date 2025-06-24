@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_ETH == 1
+
 #include <stdlib.h>
 #include "ciot_eth.h"
 #include "ciot_tcp.h"
@@ -38,3 +42,5 @@ ciot_err_t ciot_eth_stop(ciot_eth_t self)
 {
     return CIOT_ERR_NOT_SUPPORTED;
 }
+
+#endif // CIOT_CONFIG_FEATURE_ETH == 1

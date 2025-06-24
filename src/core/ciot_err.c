@@ -123,6 +123,8 @@ const char *ciot_err_to_message(ciot_err_t error)
         return "CIOT_ERR_MBUS_EXCEPTION_ILLEGAL_DATA_VAL";
     case CIOT_ERR_MBUS_EXCEPTION_SERVER_DEVICE_FAILURE:
         return "CIOT_ERR_MBUS_EXCEPTION_SERVER_DEVICE_FAILURE";
+    case CIOT_ERR_NULL_EVENT_HANDLER:
+        return "CIOT_ERR_NULL_EVENT_HANDLER";
     default:
         return "ERR_UNSPECIFIED";
     }

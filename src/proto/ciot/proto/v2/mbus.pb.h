@@ -35,6 +35,19 @@ typedef enum ciot_mbus_func_code {
     CIOT_MBUS_FUNC_CODE_WRITE_MULTIPLE_HR = 16 /* Write Holding Registers (0x10) */
 } ciot_mbus_func_code_t;
 
+/* Struct definitions */
+/* Message representing a Modbus function request */
+typedef struct ciot_mbus_function_req {
+    ciot_mbus_func_code_t code; /* Modbus function code */
+    uint32_t address; /* Register/coil start address */
+    pb_size_t data_count;
+    uint32_t data[32]; /* Optional written values. */
+    uint32_t read_count; /* Optional values count to read */
+    uint32_t max_attempts; /* Max attempts */
+    uint32_t error; /* Error code */
+} ciot_mbus_function_req_t;
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -65,6 +78,40 @@ extern "C" {
 #define CIOT_MBUS_FUNC_CODE_MBUS_FUNC_CODE_WRITE_MULTIPLE_COILS CIOT_MBUS_FUNC_CODE_WRITE_MULTIPLE_COILS
 #define CIOT_MBUS_FUNC_CODE_MBUS_FUNC_CODE_WRITE_MULTIPLE_HR CIOT_MBUS_FUNC_CODE_WRITE_MULTIPLE_HR
 
+#define ciot_mbus_function_req_t_code_ENUMTYPE ciot_mbus_func_code_t
+
+
+/* Initializer values for message structs */
+#define CIOT_MBUS_FUNCTION_REQ_INIT_DEFAULT      {_CIOT_MBUS_FUNC_CODE_MIN, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
+#define CIOT_MBUS_FUNCTION_REQ_INIT_ZERO         {_CIOT_MBUS_FUNC_CODE_MIN, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 0, 0}
+
+/* Field tags (for use in manual encoding/decoding) */
+#define CIOT_MBUS_FUNCTION_REQ_CODE_TAG          1
+#define CIOT_MBUS_FUNCTION_REQ_ADDRESS_TAG       2
+#define CIOT_MBUS_FUNCTION_REQ_DATA_TAG          3
+#define CIOT_MBUS_FUNCTION_REQ_READ_COUNT_TAG    4
+#define CIOT_MBUS_FUNCTION_REQ_MAX_ATTEMPTS_TAG  5
+#define CIOT_MBUS_FUNCTION_REQ_ERROR_TAG         6
+
+/* Struct field encoding specification for nanopb */
+#define CIOT_MBUS_FUNCTION_REQ_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    code,              1) \
+X(a, STATIC,   SINGULAR, UINT32,   address,           2) \
+X(a, STATIC,   REPEATED, UINT32,   data,              3) \
+X(a, STATIC,   SINGULAR, UINT32,   read_count,        4) \
+X(a, STATIC,   SINGULAR, UINT32,   max_attempts,      5) \
+X(a, STATIC,   SINGULAR, UINT32,   error,             6)
+#define CIOT_MBUS_FUNCTION_REQ_CALLBACK NULL
+#define CIOT_MBUS_FUNCTION_REQ_DEFAULT NULL
+
+extern const pb_msgdesc_t ciot_mbus_function_req_t_msg;
+
+/* Defines for backwards compatibility with code written before nanopb-0.4.0 */
+#define CIOT_MBUS_FUNCTION_REQ_FIELDS &ciot_mbus_function_req_t_msg
+
+/* Maximum encoded size of messages (where known) */
+#define CIOT_CIOT_PROTO_V2_MBUS_PB_H_MAX_SIZE    CIOT_MBUS_FUNCTION_REQ_SIZE
+#define CIOT_MBUS_FUNCTION_REQ_SIZE              218
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1
+
 #include "ciot_mqtt_client.h"
 #include "ciot_ca_crt_all.h"
 #include "ciot_timer.h"
@@ -218,3 +222,6 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
         return;
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1
+

@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2024
  *
  */
+  
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_NTP == 1
 
 #include "ciot_ntp.h"
 #include "ciot_types.h"
@@ -106,3 +110,5 @@ ciot_err_t ciot_ntp_get_status(ciot_ntp_t self, ciot_ntp_status_t *status)
     *status = base->status;
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_NTP == 1

@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_TIMER == 1
+
 #include "ciot_timer.h"
 #include "nrf_error.h"
 #include "nrf_drv_rtc.h"
@@ -83,3 +87,5 @@ static void hg_ble_rtc_event_handler(nrf_drv_rtc_int_type_t int_type)
         break;
     }
 }
+
+#endif // CIOT_CONFIG_FEATURE_TIMER == 1

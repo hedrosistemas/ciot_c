@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE_ADV == 1
+
 #include <stdlib.h>
 #include "ciot_ble_adv.h"
 #include "ciot_config.h"
@@ -107,3 +111,5 @@ ciot_err_t ciot_ble_adv_get_status(ciot_ble_adv_t self, ciot_ble_adv_status_t *s
     *status = base->status;
     return CIOT_ERR_OK;
 }
+
+#endif  //!CIOT_CONFIG_FEATURE_BLE_ADV == 1

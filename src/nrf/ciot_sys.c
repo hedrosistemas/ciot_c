@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_SYS == 1
+
 #include <stdlib.h>
 #include "nrf_nvic.h"
 #include "nrf_soc.h"
@@ -81,3 +85,5 @@ ciot_err_t ciot_sys_init_dfu(void)
     
     return err_code;
 }
+
+#endif // CIOT_CONFIG_FEATURE_SYS == 1

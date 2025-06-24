@@ -20,6 +20,12 @@ extern "C" {
 #include "ciot_tcp.h"
 #include "ciot_iface.h"
 
+typedef enum ciot_wifi_event
+{
+    CIOT_WIFI_EVENT_AP_STA_CONNECTED = CIOT_EVENT_TYPE_CUSTOM,
+    CIOT_WIFI_EVENT_AP_STA_DISCONNECTED,
+} ciot_wifi_event_t;
+
 typedef struct ciot_wifi *ciot_wifi_t;
 
 typedef struct ciot_wifi_base

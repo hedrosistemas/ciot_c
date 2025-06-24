@@ -9,13 +9,16 @@
  *
  */
 
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_MBUS_CLIENT == 1
+
 #include "ciot_mbus_client.h"
 #include "ciot_types.h"
 
 static ciot_err_t ciot_mbus_client_process_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_mbus_client_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
-static int ciot_mbus_client_send_data(ciot_iface_t *iface, uint8_t *data, int size);
-static int ciot_mbus_client_read_data(ciot_iface_t *iface, uint8_t *data, int size);
 
 ciot_err_t ciot_mbus_client_init(ciot_mbus_client_t self)
 {
@@ -81,3 +84,5 @@ static ciot_err_t ciot_mbus_client_get_data(ciot_iface_t *iface, ciot_msg_data_t
 
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_MBUS_CLIENT == 1

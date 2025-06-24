@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_GPIO == 1
+
 #include <stdlib.h>
 #include "ciot_gpio.h"
 #include "ciot_err.h"
@@ -37,7 +41,12 @@ ciot_err_t ciot_gpio_start(ciot_gpio_t self, ciot_gpio_cfg_t *cfg)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(cfg);
-    return ciot_gpio_set_cfg(self, cfg);
+    ciot_err_t err = ciot_gpio_set_cfg(self, cfg);
+    if(err == CIOT_ERR_OK)
+    {
+        err = ciot_iface_send_event_type(&self->base.iface, CIOT_EVENT_TYPE_STARTED);
+    }
+    return err;
 }
 
 ciot_err_t ciot_gpio_stop(ciot_gpio_t self)
@@ -62,3 +71,5 @@ static int get_bit(int bit_position)
 {
     return (states_mask >> bit_position) & 1ULL;
 }
+
+#endif // CIOT_CONFIG_FEATURE_GPIO == 1

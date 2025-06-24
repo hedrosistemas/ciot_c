@@ -5,9 +5,9 @@ project(device)
 FILE(GLOB_RECURSE MAIN_SRCS *.c)
 
 include_directories(
+    .
     ${CIOT_INCLUDE_DIRS}
     ${CIOT_PB_INCLUDE_DIRS}
-    .
 )
 
 add_executable(${PROJECT_NAME}

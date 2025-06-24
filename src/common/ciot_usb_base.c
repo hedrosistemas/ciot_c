@@ -9,6 +9,10 @@
  *
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_USB == 1
+
 #include "ciot_usb.h"
 #include "ciot_types.h"
 
@@ -108,3 +112,5 @@ ciot_err_t ciot_usb_get_status(ciot_usb_t self, ciot_usb_status_t *status)
     *status = base->status;
     return CIOT_ERR_OK;
 }
+
+#endif // CIOT_CONFIG_FEATURE_USB == 1

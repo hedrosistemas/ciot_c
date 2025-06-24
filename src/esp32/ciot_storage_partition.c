@@ -9,6 +9,10 @@
  * 
  */
 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_STORAGE == 1
+
 #include "ciot_storage_partition.h"
 
 struct ciot_storage_partition
@@ -27,4 +31,4 @@ ciot_storage_t ciot_storage_partition_new(int type, int subtype)
     return &self->base;
 }
 
-
+#endif  //!CIOT_CONFIG_FEATURE_STORAGE == 1

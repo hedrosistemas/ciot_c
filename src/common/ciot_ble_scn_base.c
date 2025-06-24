@@ -9,6 +9,11 @@
  * 
  */
 
+ 
+#include "ciot_config.h"
+
+#if CIOT_CONFIG_FEATURE_BLE_SCN == 1
+
 #include <stdlib.h>
 #include <string.h>
 #include "ciot_ble_scn.h"
@@ -223,3 +228,5 @@ static ciot_err_t ciot_ble_scn_base_init_fifo(ciot_ble_scn_adv_fifo_t *adv_fifo)
     return CIOT_ERR_OK;
 }
 #endif
+
+#endif  //!CIOT_CONFIG_FEATURE_BLE_SCN == 1
