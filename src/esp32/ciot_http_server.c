@@ -168,6 +168,10 @@ static esp_err_t ciot_file_handler(httpd_req_t *req)
     char filepath[36];
     snprintf(filepath, sizeof(filepath), "/fs%.*s", (int)(sizeof(filepath) - 4), req->uri);
 
+#ifdef CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN);
+#endif
+
     // Verificar se a URI é "/", servir "index.html"
     if (strcmp(req->uri, "/") == 0)
     {

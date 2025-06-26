@@ -75,6 +75,9 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
 {
     mg_printf(self->conn_tx,
               "HTTP/1.0 200 OK\r\n"
+#ifdef CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN
+              "Access-Control-Allow-Origin: " CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN "\r\n"
+#endif
               "Content-Type: octet-stream\r\n"
               "Content-Length: %d\r\n\r\n",
               size);
