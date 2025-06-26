@@ -39,9 +39,16 @@ ciot_err_t ciot_http_server_process_req(ciot_http_server_t self, ciot_http_serve
     return CIOT_ERR_NOT_SUPPORTED;    
 }
 
+ciot_err_t ciot_http_server_set_homepage(ciot_http_server_t self, ciot_http_server_homepage_cfg_t *homepage)
+{
+    ciot_http_server_base_t *base = (ciot_http_server_base_t *)self;
+    base->homepage = *homepage;
+    return CIOT_ERR_OK;
+}
+
 static ciot_err_t ciot_http_server_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
 {
-    CIOT_ERR_TYPE_CHECK(data->which_type, CIOT_MSG_DATA_HTTP_SERVER_TAG);
+    CIOT_ERR_MSG_DATA_TAG_CHECK(data->which_type, CIOT_MSG_DATA_HTTP_SERVER_TAG);
 
     ciot_http_server_t self = iface->ptr;
     ciot_http_server_data_t *http_server = &data->http_server;
