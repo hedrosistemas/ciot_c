@@ -1,4 +1,5 @@
 # ciot_c Release
 
 ### Changed
-    - First alpha release
+    - add homepage configuration support to HTTP server
+    - add support for Access-Control-Allow-Origin header in HTTP server

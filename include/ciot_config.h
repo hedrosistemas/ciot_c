@@ -51,6 +51,8 @@
 #define CIOT_CONFIG_URL_SIZE 48
 #define CIOT_CONFIG_MQTT_TOPIC_SIZE 48
 
+// #define CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN "*"
+
 #define ciot_serializer_to_bytes ciot_serializer_pb_to_bytes
 #define ciot_serializer_from_bytes ciot_serializer_pb_from_bytes
 
