@@ -32,6 +32,14 @@
         return CIOT_ERR_INVALID_TYPE;                                          \
     }
 
+#define CIOT_ERR_MSG_DATA_TAG_CHECK(current, expected)                         \
+    if (current != expected && current != CIOT_MSG_DATA_COMMON_TAG)            \
+    {                                                                          \
+        CIOT_ERR_LOG("ciot_err", CIOT_ERR_INVALID_TYPE);                       \
+        CIOT_LOGE("ciot_err", "current: %d, expected: %d", current, expected); \
+        return CIOT_ERR_INVALID_TYPE;                                          \
+    }
+
 #define CIOT_ERR_SIZE_CHECK(size, min) \
     if (size <= min)                   \
         return CIOT_ERR_INVALID_SIZE;
@@ -49,9 +57,9 @@
     return CIOT_ERR_NO_MEMORY
 
 #define CIOT_ERR_CAPACITY_CHECK(index, size) \
-    if (index < 0)                     \
-        return CIOT_ERR_INVALID_INDEX; \
-    if (index >= size)                 \
+    if (index < 0)                           \
+        return CIOT_ERR_INVALID_INDEX;       \
+    if (index >= size)                       \
         return CIOT_ERR_NO_MEMORY;
 
 #define CIOT_ERR_EXISTENCE_CHECK(id, size) \
