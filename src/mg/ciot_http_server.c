@@ -1,12 +1,12 @@
 /**
  * @file ciot_http_server.c
  * @author your name (you@domain.com)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2024-12-11
- * 
+ *
  * @copyright Copyright (c) 2024
- * 
+ *
  */
 
 #include "ciot_config.h"
@@ -27,7 +27,7 @@ struct ciot_http_server
 
 static const char *TAG = "ciot_http_server";
 
-static bool check_method(struct mg_http_message *hm, const char* method);
+static bool check_method(struct mg_http_message *hm, const char *method);
 static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void *ev_data);
 
 ciot_http_server_t ciot_http_server_new(void *handle)
@@ -85,7 +85,7 @@ ciot_err_t ciot_http_server_send_bytes(ciot_http_server_t self, uint8_t *data, i
     return CIOT_ERR_OK;
 }
 
-static bool check_method(struct mg_http_message *hm, const char* method)
+static bool check_method(struct mg_http_message *hm, const char *method)
 {
     return strncmp(hm->method.buf, method, hm->method.len) == 0;
 }
@@ -110,7 +110,7 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
     case MG_EV_OPEN:
     {
         CIOT_LOGI(TAG, "MG_EV_OPEN url:%s:%d", base->cfg.address, base->cfg.port);
-        if(base->status.state != CIOT_HTTP_SERVER_STATE_STARTED)
+        if (base->status.state != CIOT_HTTP_SERVER_STATE_STARTED)
         {
             base->status.state = CIOT_HTTP_SERVER_STATE_STARTED;
             event.type = CIOT_EVENT_TYPE_STARTED;
@@ -139,7 +139,20 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
             event.raw.size = hm->body.len;
             ciot_iface_send_event(&base->iface, &event);
         }
-        else if(base->cfg.root && base->cfg.root[0] != '\0' && check_method(hm, "GET"))
+        else if (mg_match(hm->uri, mg_str("/"), NULL) && check_method(hm, "GET") && base->homepage.size > 0)
+        {
+            mg_printf(self->conn_tx,
+                      "HTTP/1.0 200 OK\r\n"
+                      "Access-Control-Allow-Origin: *\r\n"
+                      "Content-Type: text/html\r\n"
+                      "%s"
+                      "Content-Length: %d\r\n"
+                      "\r\n",
+                      base->homepage.gz ? "Content-Encoding: gzip\r\n" : "",
+                      (int)base->homepage.size);
+            mg_send(self->conn_tx, base->homepage.data, base->homepage.size);
+        }
+        else if (base->cfg.root && base->cfg.root[0] != '\0' && check_method(hm, "GET"))
         {
             struct mg_http_serve_opts opts = {0};
             opts.root_dir = base->cfg.root;
@@ -147,7 +160,7 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
         }
         else
         {
-            ciot_http_server_event_data_t *event_data = (ciot_http_server_event_data_t*)&event.raw; 
+            ciot_http_server_event_data_t *event_data = (ciot_http_server_event_data_t *)&event.raw;
             memcpy(event_data->uri, hm->uri.buf, hm->uri.len);
             memcpy(event_data->body, hm->body.buf, hm->body.len);
             event.type = CIOT_EVENT_TYPE_DATA;

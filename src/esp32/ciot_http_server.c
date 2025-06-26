@@ -135,7 +135,7 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
     event.raw.size = req->content_len;
     ciot_iface_send_event(&self->base.iface, &event);
 
-    if(self->resp_size == 0)
+    if (self->resp_size == 0)
     {
         xEventGroupClearBits(self->event_group, CIOT_HTTP_SERVER_RESP_READY_BIT);
         xEventGroupWaitBits(
@@ -165,6 +165,8 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
 
 static esp_err_t ciot_file_handler(httpd_req_t *req)
 {
+    ciot_http_server_t self = (ciot_http_server_t)req->user_ctx;
+
     char filepath[36];
     snprintf(filepath, sizeof(filepath), "/fs%.*s", (int)(sizeof(filepath) - 4), req->uri);
 
@@ -172,9 +174,25 @@ static esp_err_t ciot_file_handler(httpd_req_t *req)
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN);
 #endif
 
+    if (((req->uri[strlen(req->uri) - 1] == '/') || (strcmp(req->uri, "/index.html") == 0)) && self->base.homepage.size > 0)
+    {
+        if(self->base.homepage.gz)
+        {
+            CIOT_LOGI(TAG, "Serving embed gzip");
+            httpd_resp_set_hdr(req, "Content-Encoding", "gzip");
+        }
+        else
+        {
+            CIOT_LOGI(TAG, "Serving embed html");
+        }
+        httpd_resp_send(req, (const char *)self->base.homepage.data, self->base.homepage.size - 1);
+        return ESP_OK;
+    }
+
     // Verificar se a URI é "/", servir "index.html"
     if (strcmp(req->uri, "/") == 0)
     {
+        CIOT_LOGI(TAG, "Serving fs html");
         strcpy(filepath, "/fs/index.html");
     }
 
