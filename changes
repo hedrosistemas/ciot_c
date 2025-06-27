@@ -4,3 +4,4 @@
     - add homepage configuration support to HTTP server
     - add support for Access-Control-Allow-Origin header in HTTP server
     - add CIOT_ERR_MSG_DATA_TAG_CHECK macro for enhanced error handling
+    - add support to linux
