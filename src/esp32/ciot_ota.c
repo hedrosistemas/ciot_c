@@ -156,7 +156,7 @@ static void ciot_ota_task(void *pvParameters)
         if (!self->decrypt_handle)
         {
             ESP_LOGI(TAG, "Failed to start decrypt");
-            self->status.error = ESP_ERR_OTA_VALIDATE_FAILED;
+            base->status.error = ESP_ERR_OTA_VALIDATE_FAILED;
             ciot_ota_task_fatal_error(self);
         }
 
