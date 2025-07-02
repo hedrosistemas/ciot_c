@@ -50,6 +50,10 @@
     if (index > max)                          \
         return CIOT_ERR_INVALID_INDEX;
 
+#define CIOT_ERR_UINDEX_CHECK(index, max) \
+    if (index > max)                      \
+        return CIOT_ERR_INVALID_INDEX;
+
 #define CIOT_ERR_ID_CHECK(id, size) \
     if (id < 0)                     \
         return CIOT_ERR_INVALID_ID; \
