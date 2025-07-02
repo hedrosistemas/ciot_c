@@ -152,7 +152,7 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
                       (int)base->homepage.size);
             mg_send(self->conn_tx, base->homepage.data, base->homepage.size);
         }
-        else if (base->cfg.root && base->cfg.root[0] != '\0' && check_method(hm, "GET"))
+        else if (base->cfg.root[0] != '\0' && check_method(hm, "GET"))
         {
             struct mg_http_serve_opts opts = {0};
             opts.root_dir = base->cfg.root;
