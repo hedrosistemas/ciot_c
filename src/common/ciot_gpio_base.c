@@ -214,9 +214,9 @@ ciot_err_t ciot_gpio_set_state(ciot_gpio_t self, uint16_t id, ciot_gpio_state_t 
 
 ciot_gpio_state_t ciot_gpio_get_state(ciot_gpio_t self, uint16_t id)
 {
-    CIOT_ERR_NULL_CHECK(self);
+    if(self == NULL) return CIOT_GPIO_STATE_ERROR;
     ciot_gpio_base_t *base = (ciot_gpio_base_t*)self;
-    CIOT_ERR_NULL_CHECK(base->get_state);
+    if(base->get_state == NULL) return CIOT_GPIO_STATE_ERROR;
     int num = base->cfg.pins[id].num;
     return base->get_state(num);
 }
