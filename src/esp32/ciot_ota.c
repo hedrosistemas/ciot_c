@@ -41,14 +41,20 @@ struct ciot_ota
     char *buffer;
     esp_partition_type_t partition_type;
     esp_partition_subtype_t partition_subtype;
+    esp_decrypt_handle_t decrypt_handle;
 };
 
 static void ciot_ota_task(void *pvParameters);
 static void ciot_ota_advanced_task(void *pvParameters);
 static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self);
 static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
+static esp_err_t ciot_ota_decrypt_cb(decrypt_cb_arg_t *args, void *user_ctx);
+static esp_err_t ciot_ota_validate_image_header(esp_app_desc_t *new_app_info, bool force);
 
 static const char *TAG = "ciot_ota";
+
+extern const char rsa_private_pem_start[] asm("_binary_private_pem_start");
+extern const char rsa_private_pem_end[] asm("_binary_private_pem_end");
 
 ciot_ota_t ciot_ota_new(void *handle)
 {
@@ -139,15 +145,15 @@ static void ciot_ota_task(void *pvParameters)
     };
 
 #ifdef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
-    esp_decrypt_handle_t decrypt_handle = NULL;
-    if (self->cfg.encrypted)
+    self->decrypt_handle = NULL;
+    if (base->cfg.encrypted)
     {
         esp_decrypt_cfg_t decrypt_cfg = {};
-        decrypt_cfg.rsa_pub_key = rsa_private_pem_start;
-        decrypt_cfg.rsa_pub_key_len = rsa_private_pem_end - rsa_private_pem_start;
+        decrypt_cfg.rsa_priv_key = rsa_private_pem_start;
+        decrypt_cfg.rsa_priv_key_len = rsa_private_pem_end - rsa_private_pem_start;
 
-        decrypt_handle = esp_encrypted_img_decrypt_start(&decrypt_cfg);
-        if (!decrypt_handle)
+        self->decrypt_handle = esp_encrypted_img_decrypt_start(&decrypt_cfg);
+        if (!self->decrypt_handle)
         {
             ESP_LOGI(TAG, "Failed to start decrypt");
             self->status.error = ESP_ERR_OTA_VALIDATE_FAILED;
@@ -155,7 +161,7 @@ static void ciot_ota_task(void *pvParameters)
         }
 
         ota_config.decrypt_cb = ciot_ota_decrypt_cb;
-        ota_config.decrypt_user_ctx = (void *)decrypt_handle;
+        ota_config.decrypt_user_ctx = (void *)self;
     }
     
 #endif // CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
@@ -187,10 +193,10 @@ static void ciot_ota_task(void *pvParameters)
     else
     {
 #ifdef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
-        if (self->cfg.encrypted && decrypt_handle != NULL)
+        if (base->cfg.encrypted && self->decrypt_handle != NULL)
         {
-            self->status.error = esp_encrypted_img_decrypt_end(decrypt_handle);
-            if (self->status.error != ESP_OK)
+            base->status.error = esp_encrypted_img_decrypt_end(self->decrypt_handle);
+            if (base->status.error != ESP_OK)
             {
                 esp_https_ota_abort(self->handle);
                 ESP_LOGE(TAG, "upgrade failed");
@@ -404,6 +410,76 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     default:
         break;
     }
+}
+
+static esp_err_t ciot_ota_decrypt_cb(decrypt_cb_arg_t *args, void *user_ctx)
+{
+    if (args == NULL || user_ctx == NULL)
+    {
+        ESP_LOGE(TAG, "ciot_ota_decrypt_cb: Invalid argument");
+        return ESP_ERR_INVALID_ARG;
+    }
+    esp_err_t err;
+    pre_enc_decrypt_arg_t pargs = {};
+    ciot_ota_t self = (ciot_ota_t)user_ctx;
+    ciot_ota_base_t *base = &self->base;
+    pargs.data_in = args->data_in;
+    pargs.data_in_len = args->data_in_len;
+    err = esp_encrypted_img_decrypt_data(self->decrypt_handle, &pargs);
+    if (err != ESP_OK && err != ESP_ERR_NOT_FINISHED)
+    {
+        return err;
+    }
+    static bool is_image_verified = false;
+    if (pargs.data_out_len > 0)
+    {
+        args->data_out = pargs.data_out;
+        args->data_out_len = pargs.data_out_len;
+        if (!is_image_verified)
+        {
+            is_image_verified = true;
+            const int app_desc_offset = sizeof(esp_image_header_t) + sizeof(esp_image_segment_header_t);
+            // It is unlikely to not have App Descriptor available in first iteration of decrypt callback.
+            assert(args->data_out_len >= app_desc_offset + sizeof(esp_app_desc_t));
+            esp_app_desc_t *app_info = (esp_app_desc_t *)&args->data_out[app_desc_offset];
+            err = ciot_ota_validate_image_header(app_info, base->cfg.force);
+            if (err != ESP_OK)
+            {
+                free(pargs.data_out);
+            }
+            return err;
+        }
+    }
+    else
+    {
+        args->data_out_len = 0;
+    }
+
+    return ESP_OK;
+}
+
+static esp_err_t ciot_ota_validate_image_header(esp_app_desc_t *new_app_info, bool force)
+{
+    if (new_app_info == NULL)
+    {
+        return ESP_ERR_INVALID_ARG;
+    }
+
+    const esp_partition_t *running = esp_ota_get_running_partition();
+    esp_app_desc_t running_app_info;
+    if (esp_ota_get_partition_description(running, &running_app_info) == ESP_OK)
+    {
+        ESP_LOGI(TAG, "Running firmware version: %s", running_app_info.version);
+    }
+
+#ifndef CONFIG_EXAMPLE_SKIP_VERSION_CHECK
+    if (memcmp(new_app_info->version, running_app_info.version, sizeof(new_app_info->version)) == 0 && force == false)
+    {
+        ESP_LOGW(TAG, "Current running version is the same as a new. We will not continue the update.");
+        return ESP_ERR_INVALID_VERSION;
+    }
+#endif
+    return ESP_OK;
 }
 
 #endif  //!CIOT_CONFIG_FEATURE_OTA == 1

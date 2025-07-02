@@ -6,3 +6,4 @@
     - add CIOT_ERR_MSG_DATA_TAG_CHECK macro for enhanced error handling
     - add support to linux
     - improve code quality solving some warnings
+    - add support to encrypted OTA on ESP32
