@@ -152,7 +152,7 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
         httpd_resp_set_status(req, HTTPD_200);
         httpd_resp_set_type(req, HTTPD_TYPE_OCTET);
 #ifdef CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN
-    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN);
+        httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN);
 #endif
         httpd_resp_send(req, (const char *)self->resp, self->resp_size);
         self->resp_size = 0;
