@@ -108,7 +108,7 @@ static ciot_err_t ciot_https_register_routes(ciot_http_server_t self)
         .uri = "/*", // Captura todas as URIs
         .method = HTTP_GET,
         .handler = ciot_file_handler,
-        .user_ctx = NULL};
+        .user_ctx = self};
     err = httpd_register_uri_handler(self->handle, &file_uri);
     if (err)
     {
