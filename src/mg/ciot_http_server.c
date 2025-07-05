@@ -143,7 +143,9 @@ static void ciot_http_server_event_handler(struct mg_connection *c, int ev, void
         {
             mg_printf(self->conn_tx,
                       "HTTP/1.0 200 OK\r\n"
-                      "Access-Control-Allow-Origin: *\r\n"
+#ifdef CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN
+                      "Access-Control-Allow-Origin: " CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN "\r\n"
+#endif
                       "Content-Type: text/html\r\n"
                       "%s"
                       "Content-Length: %d\r\n"

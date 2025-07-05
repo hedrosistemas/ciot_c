@@ -7,3 +7,4 @@
     - add support to linux
     - improve code quality solving some warnings
     - add support to encrypted OTA on ESP32
+    - fixed http server context on ESP32
