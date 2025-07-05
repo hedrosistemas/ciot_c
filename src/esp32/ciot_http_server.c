@@ -108,7 +108,7 @@ static ciot_err_t ciot_https_register_routes(ciot_http_server_t self)
         .uri = "/*", // Captura todas as URIs
         .method = HTTP_GET,
         .handler = ciot_file_handler,
-        .user_ctx = NULL};
+        .user_ctx = self};
     err = httpd_register_uri_handler(self->handle, &file_uri);
     if (err)
     {
@@ -151,6 +151,9 @@ static esp_err_t ciot_post_handler(httpd_req_t *req)
         CIOT_LOGI(TAG, "Resp OK");
         httpd_resp_set_status(req, HTTPD_200);
         httpd_resp_set_type(req, HTTPD_TYPE_OCTET);
+#ifdef CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN
+        httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN);
+#endif
         httpd_resp_send(req, (const char *)self->resp, self->resp_size);
         self->resp_size = 0;
     }
@@ -167,14 +170,11 @@ static esp_err_t ciot_file_handler(httpd_req_t *req)
 {
     ciot_http_server_t self = (ciot_http_server_t)req->user_ctx;
 
-    char filepath[36];
-    snprintf(filepath, sizeof(filepath), "/fs%.*s", (int)(sizeof(filepath) - 4), req->uri);
-
 #ifdef CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", CIOT_CONFIG_HTTP_SERVER_ALLOW_ORIGIN);
 #endif
 
-    if (((req->uri[strlen(req->uri) - 1] == '/') || (strcmp(req->uri, "/index.html") == 0)) && self->base.homepage.size > 0)
+    if (((strcmp(req->uri, "/") == 0) || (strcmp(req->uri, "/index.html") == 0)) && self->base.homepage.size > 0)
     {
         if(self->base.homepage.gz)
         {
@@ -188,6 +188,9 @@ static esp_err_t ciot_file_handler(httpd_req_t *req)
         httpd_resp_send(req, (const char *)self->base.homepage.data, self->base.homepage.size - 1);
         return ESP_OK;
     }
+
+    char filepath[36];
+    snprintf(filepath, sizeof(filepath), "/fs%.*s", (int)(sizeof(filepath) - 4), req->uri);
 
     // Verificar se a URI é "/", servir "index.html"
     if (strcmp(req->uri, "/") == 0)
