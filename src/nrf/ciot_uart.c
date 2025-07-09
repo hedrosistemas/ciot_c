@@ -57,7 +57,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 
     if(cfg->has_gpio == false)
     {
-        *cfg->gpio = base->cfg.gpio;
+        cfg->gpio = base->cfg.gpio;
     }
     base->cfg = *cfg;
 
@@ -100,7 +100,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     err_code = nrf_drv_uart_init(&self->handle, &config, ciot_uart_event_handler);
     VERIFY_SUCCESS(err_code);
 
-    if (base->cfg.rx_pin != UART_PIN_DISCONNECTED)
+    if (base->cfg.gpio.rx != UART_PIN_DISCONNECTED)
     {
         nrf_drv_uart_rx(&self->handle, self->rx_byte, 1);
     }
