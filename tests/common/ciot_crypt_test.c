@@ -145,6 +145,25 @@ void test_ciot_crypt_dec_ok(void)
     TEST_ASSERT(strcmp(out, CIOT_CRYPT_DATA_DECRYPTED) == 0);
 }
 
+void test_ciot_crypt_pkcs7_padding(void)
+{
+    const char *input = "1234567890abcdef";
+    char encrypted[128] = {0};
+    char decrypted[128] = {0};
+    ciot_crypt_t crypt = {
+        .key = {
+            .data = CIOT_CRYPT_VALID_KEY,
+            .size = CIOT_CRYPT_VALID_KEY_SIZE
+        }
+    };
+    ciot_err_t err = ciot_crypt_enc(&crypt, (char*)input, encrypted, sizeof(encrypted));
+    TEST_ASSERT_EQUAL(CIOT_ERR_OK, err);
+    TEST_ASSERT_NOT_EQUAL(0, strlen(encrypted));
+    err = ciot_crypt_dec(&crypt, encrypted, decrypted, sizeof(decrypted));
+    TEST_ASSERT_EQUAL(CIOT_ERR_OK, err);
+    TEST_ASSERT_EQUAL_STRING(input, decrypted);
+}
+
 void test_ciot_crypt(void)
 {
     RUN_TEST(test_ciot_crypt_enc_null_crypt);
@@ -160,4 +179,5 @@ void test_ciot_crypt(void)
     RUN_TEST(test_ciot_crypt_dec_invalid_key_size);
     RUN_TEST(test_ciot_crypt_dec_invalid_size);
     RUN_TEST(test_ciot_crypt_dec_ok);
+    RUN_TEST(test_ciot_crypt_pkcs7_padding);
 }
