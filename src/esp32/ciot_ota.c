@@ -41,14 +41,18 @@ struct ciot_ota
     char *buffer;
     esp_partition_type_t partition_type;
     esp_partition_subtype_t partition_subtype;
+#ifdef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
     esp_decrypt_handle_t decrypt_handle;
+#endif // CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
 };
 
 static void ciot_ota_task(void *pvParameters);
 static void ciot_ota_advanced_task(void *pvParameters);
 static void __attribute__((noreturn)) ciot_ota_task_fatal_error(ciot_ota_t self);
 static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data);
+#ifdef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
 static esp_err_t ciot_ota_decrypt_cb(decrypt_cb_arg_t *args, void *user_ctx);
+#endif // CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
 static esp_err_t ciot_ota_validate_image_header(esp_app_desc_t *new_app_info, bool force);
 
 static const char *TAG = "ciot_ota";
@@ -412,6 +416,7 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     }
 }
 
+#ifdef CONFIG_ESP_HTTPS_OTA_DECRYPT_CB
 static esp_err_t ciot_ota_decrypt_cb(decrypt_cb_arg_t *args, void *user_ctx)
 {
     if (args == NULL || user_ctx == NULL)
@@ -457,6 +462,7 @@ static esp_err_t ciot_ota_decrypt_cb(decrypt_cb_arg_t *args, void *user_ctx)
 
     return ESP_OK;
 }
+#endif
 
 static esp_err_t ciot_ota_validate_image_header(esp_app_desc_t *new_app_info, bool force)
 {
