@@ -9,3 +9,4 @@
     - add support to encrypted OTA on ESP32
     - fixed http server context on ESP32 and ES8266
     - improve wifi interface on ESP32 and ESP8266
+    - fix nrf-uart implementation
