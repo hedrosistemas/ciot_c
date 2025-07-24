@@ -135,7 +135,6 @@ static void ciot_eth_event_handler(void *handler_args, esp_event_base_t event_ba
     case ETHERNET_EVENT_START:
         ESP_LOGI(TAG, "ETHERNET_EVENT_START");
         CIOT_ERR_PRINT(TAG, esp_read_mac(tcp->info->mac, ESP_MAC_ETH));
-        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
         break;
     case ETHERNET_EVENT_STOP:
         ESP_LOGI(TAG, "ETHERNET_EVENT_STOP");
