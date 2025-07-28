@@ -11,3 +11,4 @@
     - improve wifi interface on ESP32 and ESP8266
     - fix nrf-uart implementation
     - fix remove incorrect event notification for ethernet start on ESP32
+    - improved tcp state and ip addr handling on windows wifi/eth implementation
