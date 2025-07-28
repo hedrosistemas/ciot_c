@@ -72,7 +72,7 @@ ciot_err_t ciot_wifi_start(ciot_wifi_t self, ciot_wifi_cfg_t *cfg)
 
     CIOT_ERR_RETURN(ciot_wifi_set_cfg(self, cfg));
 
-    return CIOT_ERR_NOT_SUPPORTED;
+    return ciot_tcp_start(base->tcp);
 }
 
 ciot_err_t ciot_wifi_stop(ciot_wifi_t self)
