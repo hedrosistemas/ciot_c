@@ -186,9 +186,10 @@ static void ciot_ota_task(void *pvParameters)
 
     while (true)
     {
-        base->status.error = esp_https_ota_perform(self->handle);
-        if (base->status.error != ESP_ERR_HTTPS_OTA_IN_PROGRESS)
+        esp_err_t error = esp_https_ota_perform(self->handle);
+        if (error != ESP_ERR_HTTPS_OTA_IN_PROGRESS)
         {
+            base->status.error = error;
             break;
         }
     }
@@ -398,9 +399,8 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
         ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
         break;
     case ESP_HTTPS_OTA_DECRYPT_CB:
-        ESP_LOGI(TAG, "ESP_HTTPS_OTA_DECRYPT_CB");
+        ESP_LOGD(TAG, "ESP_HTTPS_OTA_DECRYPT_CB");
         status->state = CIOT_OTA_STATE_DECRYPTING;
-        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
         break;
     case ESP_HTTPS_OTA_WRITE_FLASH:
         status->state = CIOT_OTA_STATE_FLASHING;
