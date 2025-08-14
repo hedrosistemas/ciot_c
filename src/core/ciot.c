@@ -175,16 +175,17 @@ ciot_err_t ciot_get_ifaces_info(ciot_t self, ciot_info_t *info)
 ciot_err_t ciot_delete_all(ciot_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
+    CIOT_ERR_NULL_CHECK(self->storage);
     for (size_t i = 0; i < self->ifaces.count; i++)
     {
-        if(self->ifaces.list[i] != NULL)
-        {
-            ciot_err_t err = ciot_delete_cfg(self, &self->ifaces.list[i]->info);
-            if(err != CIOT_ERR_OK) {
-                CIOT_LOGI(TAG, "iface %s cfg file not deleted. reason: %s", 
-                    ciot_iface_type_to_str(self->ifaces.list[i]->info.type) ,
-                    ciot_err_to_message(err));
-            }
+        char filename[16];
+        sprintf(filename, CIOT_IFACE_CFG_FILENAME, i);
+        ciot_err_t err = self->storage->remove(self->storage, filename);
+        CIOT_LOGI(TAG, "Deleting configuration file: %s", filename);
+        if(err != CIOT_ERR_OK) {
+            CIOT_LOGI(TAG, "iface %d cfg file not deleted. reason: %s", 
+                i,
+                ciot_err_to_message(err));
         }
     }
     return CIOT_ERR_OK;
@@ -454,7 +455,7 @@ static ciot_err_t ciot_iface_event_handler(ciot_iface_t *sender, ciot_event_t *e
     ciot_t self = (ciot_t)event_args;
     ciot_receiver_t *receiver = &self->receiver;
 
-    CIOT_LOGI(TAG, "evt: %s(%lu): %s", ciot_iface_to_str(sender), (long unsigned int)sender->info.id, ciot_event_to_str(event));
+    CIOT_LOGD(TAG, "evt: %s(%lu): %s", ciot_iface_to_str(sender), (long unsigned int)sender->info.id, ciot_event_to_str(event));
 
     if(sender->info.id < sizeof(self->status.ifaces))
     {
