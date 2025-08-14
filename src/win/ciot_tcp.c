@@ -70,12 +70,12 @@ ciot_err_t ciot_tcp_stop(ciot_tcp_t self)
 
 static ciot_err_t ciot_tcp_get_addr(ciot_tcp_t self)
 {
-    ULONG outBufLen = 15000;
+    ULONG outBufLen = 100000;
     IP_ADAPTER_ADDRESSES *pAddresses = (IP_ADAPTER_ADDRESSES *)malloc(outBufLen);
 
     if (!pAddresses)
     {
-        printf("Erro de alocação de memória\n");
+        printf("Memory allocation error\n");
         return 1;
     }
 
@@ -88,7 +88,7 @@ static ciot_err_t ciot_tcp_get_addr(ciot_tcp_t self)
 
     if (dwRetVal != NO_ERROR)
     {
-        printf("Erro: %lu\n", dwRetVal);
+        CIOT_LOGE(TAG, "GetAdaptersAddresses failed with error: %lu", dwRetVal);
         free(pAddresses);
         return 1;
     }
@@ -117,6 +117,11 @@ static ciot_err_t ciot_tcp_get_addr(ciot_tcp_t self)
             }
         }
         pCurr = pCurr->Next;
+    }
+
+    if(self->base.status->state != CIOT_TCP_STATE_CONNECTED)
+    {
+        ciot_iface_send_event_type(self->base.iface, CIOT_EVENT_TYPE_STOPPED);
     }
 
     free(pAddresses);

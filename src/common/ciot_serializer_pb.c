@@ -45,6 +45,9 @@ int ciot_serializer_pb_from_bytes(uint8_t *bytes, int size, void *data, const vo
 {
     pb_istream_t stream = pb_istream_from_buffer(bytes, size);
     bool status = pb_decode(&stream, type, data);
+    if(status == false) {
+        CIOT_LOGE(TAG, "Failed to decode message: %s", PB_GET_ERROR(&stream));
+    }
     return status ? sizeof(ciot_msg_t) : 0;
 }
 

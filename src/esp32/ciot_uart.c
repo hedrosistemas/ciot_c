@@ -77,6 +77,12 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 
     CIOT_LOGI(TAG, "num: %d", (int)cfg->num);
 
+    if(base->status.state == CIOT_UART_STATE_STARTED)
+    {
+        CIOT_LOGW(TAG, "UART already started");
+        return CIOT_ERR_OK;
+    }
+
     if(cfg->has_gpio == false)
     {
         cfg->gpio = base->cfg.gpio;
@@ -109,6 +115,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
             xTaskCreatePinnedToCore(ciot_uart2_task, "ciot_uart2_task", CIOT_CONFIG_UART_TASK_SIZE, self, CIOT_CONFIG_UART_TASK_PRIO, &self->task, CIOT_CONFIG_UART_TASK_CORE);
     }
 
+    base->status.state = CIOT_UART_STATE_STARTED;
     ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
 
     return CIOT_ERR_OK;

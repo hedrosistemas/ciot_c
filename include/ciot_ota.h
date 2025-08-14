@@ -32,7 +32,7 @@ extern "C" {
 #define CIOT_CONFIG_OTA_TASK_PRIORITY (tskIDLE_PRIORITY + 4)
 #endif
 #ifndef CIOT_CONFIG_OTA_TASK_CORE_ID
-#define CIOT_CONFIG_OTA_TASK_CORE_ID 1
+#define CIOT_CONFIG_OTA_TASK_CORE_ID 0
 #endif
 
 typedef struct ciot_ota *ciot_ota_t;

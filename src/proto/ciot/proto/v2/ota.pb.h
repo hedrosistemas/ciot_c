@@ -31,6 +31,11 @@ typedef enum ciot_ota_state {
     CIOT_OTA_STATE_ERROR = 10 /* OTA process encountered an error. */
 } ciot_ota_state_t;
 
+typedef enum ciot_ota_cmd {
+    CIOT_OTA_CMD_NONE = 0, /* No command. */
+    CIOT_OTA_CMD_ROLLBACK = 1 /* Rollback command. */
+} ciot_ota_cmd_t;
+
 /* Struct definitions */
 /* Ota stop message */
 typedef struct ciot_ota_stop {
@@ -41,7 +46,6 @@ typedef struct ciot_ota_stop {
 typedef struct ciot_ota_cfg {
     char url[48]; /* URL for the OTA update. */
     bool force; /* Force OTA update. */
-    bool encrypted; /* Encrypted OTA update. */
     bool restart; /* Restart device after OTA update. */
     ciot_ota_type_t type; /* OTA type */
 } ciot_ota_cfg_t;
@@ -56,7 +60,10 @@ typedef struct ciot_ota_status {
 
 /* Message representing an OTA request. */
 typedef struct ciot_ota_req {
-    char dummy_field;
+    pb_size_t which_type;
+    union {
+        ciot_ota_cmd_t cmd; /* OTA command. */
+    };
 } ciot_ota_req_t;
 
 /* Message representing data for the OTA process. */
@@ -97,36 +104,43 @@ extern "C" {
 #define CIOT_OTA_STATE_OTA_STATE_STATE_DONE CIOT_OTA_STATE_STATE_DONE
 #define CIOT_OTA_STATE_OTA_STATE_ERROR CIOT_OTA_STATE_ERROR
 
+#define _CIOT_OTA_CMD_MIN CIOT_OTA_CMD_NONE
+#define _CIOT_OTA_CMD_MAX CIOT_OTA_CMD_ROLLBACK
+#define _CIOT_OTA_CMD_ARRAYSIZE ((ciot_ota_cmd_t)(CIOT_OTA_CMD_ROLLBACK+1))
+#define CIOT_OTA_CMD_OTA_CMD_NONE CIOT_OTA_CMD_NONE
+#define CIOT_OTA_CMD_OTA_CMD_ROLLBACK CIOT_OTA_CMD_ROLLBACK
+
 
 #define ciot_ota_cfg_t_type_ENUMTYPE ciot_ota_type_t
 
 #define ciot_ota_status_t_state_ENUMTYPE ciot_ota_state_t
 
+#define ciot_ota_req_t_type_cmd_ENUMTYPE ciot_ota_cmd_t
 
 
 
 /* Initializer values for message structs */
 #define CIOT_OTA_STOP_INIT_DEFAULT               {0}
-#define CIOT_OTA_CFG_INIT_DEFAULT                {"", 0, 0, 0, _CIOT_OTA_TYPE_MIN}
+#define CIOT_OTA_CFG_INIT_DEFAULT                {"", 0, 0, _CIOT_OTA_TYPE_MIN}
 #define CIOT_OTA_STATUS_INIT_DEFAULT             {_CIOT_OTA_STATE_MIN, 0, 0, 0}
-#define CIOT_OTA_REQ_INIT_DEFAULT                {0}
+#define CIOT_OTA_REQ_INIT_DEFAULT                {0, {_CIOT_OTA_CMD_MIN}}
 #define CIOT_OTA_DATA_INIT_DEFAULT               {0, {CIOT_OTA_STOP_INIT_DEFAULT}}
 #define CIOT_OTA_STOP_INIT_ZERO                  {0}
-#define CIOT_OTA_CFG_INIT_ZERO                   {"", 0, 0, 0, _CIOT_OTA_TYPE_MIN}
+#define CIOT_OTA_CFG_INIT_ZERO                   {"", 0, 0, _CIOT_OTA_TYPE_MIN}
 #define CIOT_OTA_STATUS_INIT_ZERO                {_CIOT_OTA_STATE_MIN, 0, 0, 0}
-#define CIOT_OTA_REQ_INIT_ZERO                   {0}
+#define CIOT_OTA_REQ_INIT_ZERO                   {0, {_CIOT_OTA_CMD_MIN}}
 #define CIOT_OTA_DATA_INIT_ZERO                  {0, {CIOT_OTA_STOP_INIT_ZERO}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define CIOT_OTA_CFG_URL_TAG                     1
 #define CIOT_OTA_CFG_FORCE_TAG                   2
-#define CIOT_OTA_CFG_ENCRYPTED_TAG               3
 #define CIOT_OTA_CFG_RESTART_TAG                 4
 #define CIOT_OTA_CFG_TYPE_TAG                    5
 #define CIOT_OTA_STATUS_STATE_TAG                1
 #define CIOT_OTA_STATUS_ERROR_TAG                2
 #define CIOT_OTA_STATUS_IMAGE_SIZE_TAG           3
 #define CIOT_OTA_STATUS_IMAGE_WRITTEN_TAG        4
+#define CIOT_OTA_REQ_CMD_TAG                     1
 #define CIOT_OTA_DATA_STOP_TAG                   1
 #define CIOT_OTA_DATA_CONFIG_TAG                 2
 #define CIOT_OTA_DATA_STATUS_TAG                 3
@@ -141,7 +155,6 @@ extern "C" {
 #define CIOT_OTA_CFG_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   url,               1) \
 X(a, STATIC,   SINGULAR, BOOL,     force,             2) \
-X(a, STATIC,   SINGULAR, BOOL,     encrypted,         3) \
 X(a, STATIC,   SINGULAR, BOOL,     restart,           4) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              5)
 #define CIOT_OTA_CFG_CALLBACK NULL
@@ -156,7 +169,7 @@ X(a, STATIC,   SINGULAR, UINT32,   image_written,     4)
 #define CIOT_OTA_STATUS_DEFAULT NULL
 
 #define CIOT_OTA_REQ_FIELDLIST(X, a) \
-
+X(a, STATIC,   ONEOF,    UENUM,    (type,cmd,cmd),    1)
 #define CIOT_OTA_REQ_CALLBACK NULL
 #define CIOT_OTA_REQ_DEFAULT NULL
 
@@ -187,9 +200,9 @@ extern const pb_msgdesc_t ciot_ota_data_t_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CIOT_CIOT_PROTO_V2_OTA_PB_H_MAX_SIZE     CIOT_OTA_DATA_SIZE
-#define CIOT_OTA_CFG_SIZE                        57
-#define CIOT_OTA_DATA_SIZE                       59
-#define CIOT_OTA_REQ_SIZE                        0
+#define CIOT_OTA_CFG_SIZE                        55
+#define CIOT_OTA_DATA_SIZE                       57
+#define CIOT_OTA_REQ_SIZE                        2
 #define CIOT_OTA_STATUS_SIZE                     25
 #define CIOT_OTA_STOP_SIZE                       0
 

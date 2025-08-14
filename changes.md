@@ -1,14 +1,11 @@
 # ciot_c Release
 
 ### Changed
-    - add homepage configuration support to HTTP server
-    - add support for Access-Control-Allow-Origin header in HTTP server
-    - add CIOT_ERR_MSG_DATA_TAG_CHECK macro for enhanced error handling
-    - add support to linux
-    - improve code quality solving some warnings
-    - add support to encrypted OTA on ESP32
-    - fixed http server context on ESP32 and ES8266
-    - improve wifi interface on ESP32 and ESP8266
-    - fix nrf-uart implementation
-    - fix remove incorrect event notification for ethernet start on ESP32
-    - improved tcp state and ip addr handling on windows wifi/eth implementation
+    - fixed ota decrypted null handler error on ESP32
+    - decreased OTA task priority on ESP32 to prevent wifi ap disconnection duging OTA
+    - fixed NRF DFU over UART interface
+    - fixed OTA triggering an error event on startup
+    - fixed ESP32 resetting starting UART interface
+    - created request do perform OTA Rollback
+    - increased pAddress buffer size on ciot_tcp windows implementation
+    - improved ciot_delete_all method
