@@ -381,7 +381,7 @@ static void ciot_ota_event_handler(void *arg, esp_event_base_t event_base, int32
     case ESP_HTTPS_OTA_START:
         ESP_LOGI(TAG, "ESP_HTTPS_OTA_START");
         status->state = CIOT_OTA_STATE_START;
-        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_ERROR);
+        ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_STARTED);
         break;
     case ESP_HTTPS_OTA_CONNECTED:
         ESP_LOGI(TAG, "ESP_HTTPS_OTA_CONNECTED");
