@@ -69,6 +69,12 @@ typedef enum ciot_err {
     CIOT_ERR_MBUS_EXCEPTION_SERVER_DEVICE_FAILURE = 104 /* Modbus exception 4 */
 } ciot_err_t;
 
+/* Struct definitions */
+typedef struct ciot_err_data {
+    ciot_err_t err;
+} ciot_err_data_t;
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -133,6 +139,30 @@ extern "C" {
 #define CIOT_ERR_ERR_MBUS_EXCEPTION_ILLEGAL_DATA_VAL CIOT_ERR_MBUS_EXCEPTION_ILLEGAL_DATA_VAL
 #define CIOT_ERR_ERR_MBUS_EXCEPTION_SERVER_DEVICE_FAILURE CIOT_ERR_MBUS_EXCEPTION_SERVER_DEVICE_FAILURE
 
+#define ciot_err_data_t_err_ENUMTYPE ciot_err_t
+
+
+/* Initializer values for message structs */
+#define CIOT_ERR_DATA_INIT_DEFAULT               {_CIOT_ERR_MIN}
+#define CIOT_ERR_DATA_INIT_ZERO                  {_CIOT_ERR_MIN}
+
+/* Field tags (for use in manual encoding/decoding) */
+#define CIOT_ERR_DATA_ERR_TAG                    1
+
+/* Struct field encoding specification for nanopb */
+#define CIOT_ERR_DATA_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    err,               1)
+#define CIOT_ERR_DATA_CALLBACK NULL
+#define CIOT_ERR_DATA_DEFAULT NULL
+
+extern const pb_msgdesc_t ciot_err_data_t_msg;
+
+/* Defines for backwards compatibility with code written before nanopb-0.4.0 */
+#define CIOT_ERR_DATA_FIELDS &ciot_err_data_t_msg
+
+/* Maximum encoded size of messages (where known) */
+#define CIOT_CIOT_PROTO_V2_ERRORS_PB_H_MAX_SIZE  CIOT_ERR_DATA_SIZE
+#define CIOT_ERR_DATA_SIZE                       2
 
 #ifdef __cplusplus
 } /* extern "C" */
