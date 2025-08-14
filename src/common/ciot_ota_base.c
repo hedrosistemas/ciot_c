@@ -19,6 +19,7 @@
 static ciot_err_t ciot_ota_process_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_ota_get_data(ciot_iface_t *iface, ciot_msg_data_t *data);
 static ciot_err_t ciot_ota_send_data(ciot_iface_t *iface, uint8_t *data, int size);
+static ciot_err_t ciot_ota_process_cmd(ciot_ota_t self, ciot_ota_cmd_t cmd);
 
 ciot_err_t ciot_ota_init(ciot_ota_t self)
 {
@@ -37,7 +38,14 @@ ciot_err_t ciot_ota_process_req(ciot_ota_t self, ciot_ota_req_t *req)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(req);
-    return CIOT_ERR_NOT_SUPPORTED;    
+
+    switch (req->which_type)
+    {
+        case CIOT_OTA_REQ_CMD_TAG:
+            return ciot_ota_process_cmd(self, req->cmd);
+        default:
+            return CIOT_ERR_INVALID_TYPE;
+    }
 }
 
 static ciot_err_t ciot_ota_process_data(ciot_iface_t *iface, ciot_msg_data_t *data)
@@ -92,6 +100,18 @@ static ciot_err_t ciot_ota_send_data(ciot_iface_t *iface, uint8_t *data, int siz
     CIOT_ERR_NULL_CHECK(iface);
     CIOT_ERR_NULL_CHECK(data);
     return CIOT_ERR_NOT_SUPPORTED;
+}
+
+static ciot_err_t ciot_ota_process_cmd(ciot_ota_t self, ciot_ota_cmd_t cmd)
+{
+    CIOT_ERR_NULL_CHECK(self);
+    switch (cmd)
+    {
+    case CIOT_OTA_CMD_ROLLBACK:
+        return ciot_ota_rollback(self);
+    default:
+        return CIOT_ERR_INVALID_TYPE;
+    }
 }
 
 ciot_err_t ciot_ota_get_cfg(ciot_ota_t self, ciot_ota_cfg_t *cfg)
