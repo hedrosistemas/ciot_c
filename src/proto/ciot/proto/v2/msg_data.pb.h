@@ -34,6 +34,7 @@
 typedef struct ciot_msg_data {
     pb_size_t which_type;
     union {
+        /* CustomType custom = 1;        // Custom data. */
         ciot_common_t common; /* Common data. */
         ciot_get_data_t get_data; /* Get data request. */
         ciot_data_t ciot; /* CioT data. */
@@ -69,53 +70,53 @@ extern "C" {
 #define CIOT_MSG_DATA_INIT_ZERO                  {0, {CIOT_COMMON_INIT_ZERO}}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define CIOT_MSG_DATA_COMMON_TAG                 1
-#define CIOT_MSG_DATA_GET_DATA_TAG               2
-#define CIOT_MSG_DATA_CIOT_TAG                   3
-#define CIOT_MSG_DATA_SYS_TAG                    4
-#define CIOT_MSG_DATA_HTTP_CLIENT_TAG            5
-#define CIOT_MSG_DATA_HTTP_SERVER_TAG            6
-#define CIOT_MSG_DATA_MQTT_CLIENT_TAG            7
-#define CIOT_MSG_DATA_UART_TAG                   8
-#define CIOT_MSG_DATA_NTP_TAG                    9
-#define CIOT_MSG_DATA_BLE_ADV_TAG                10
-#define CIOT_MSG_DATA_BLE_SCN_TAG                11
-#define CIOT_MSG_DATA_BLE_TAG                    12
-#define CIOT_MSG_DATA_DFU_TAG                    13
-#define CIOT_MSG_DATA_GPIO_TAG                   14
-#define CIOT_MSG_DATA_OTA_TAG                    15
-#define CIOT_MSG_DATA_STORAGE_TAG                16
-#define CIOT_MSG_DATA_ETH_TAG                    17
-#define CIOT_MSG_DATA_WIFI_TAG                   18
-#define CIOT_MSG_DATA_LOG_TAG                    19
-#define CIOT_MSG_DATA_USB_TAG                    20
-#define CIOT_MSG_DATA_MBUS_CLIENT_TAG            21
-#define CIOT_MSG_DATA_MBUS_SERVER_TAG            22
+#define CIOT_MSG_DATA_COMMON_TAG                 2
+#define CIOT_MSG_DATA_GET_DATA_TAG               3
+#define CIOT_MSG_DATA_CIOT_TAG                   4
+#define CIOT_MSG_DATA_SYS_TAG                    5
+#define CIOT_MSG_DATA_HTTP_CLIENT_TAG            6
+#define CIOT_MSG_DATA_HTTP_SERVER_TAG            7
+#define CIOT_MSG_DATA_MQTT_CLIENT_TAG            8
+#define CIOT_MSG_DATA_UART_TAG                   9
+#define CIOT_MSG_DATA_NTP_TAG                    10
+#define CIOT_MSG_DATA_BLE_ADV_TAG                11
+#define CIOT_MSG_DATA_BLE_SCN_TAG                12
+#define CIOT_MSG_DATA_BLE_TAG                    13
+#define CIOT_MSG_DATA_DFU_TAG                    14
+#define CIOT_MSG_DATA_GPIO_TAG                   15
+#define CIOT_MSG_DATA_OTA_TAG                    16
+#define CIOT_MSG_DATA_STORAGE_TAG                17
+#define CIOT_MSG_DATA_ETH_TAG                    18
+#define CIOT_MSG_DATA_WIFI_TAG                   19
+#define CIOT_MSG_DATA_LOG_TAG                    20
+#define CIOT_MSG_DATA_USB_TAG                    21
+#define CIOT_MSG_DATA_MBUS_CLIENT_TAG            22
+#define CIOT_MSG_DATA_MBUS_SERVER_TAG            23
 
 /* Struct field encoding specification for nanopb */
 #define CIOT_MSG_DATA_FIELDLIST(X, a) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,common,common),   1) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,get_data,get_data),   2) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,ciot,ciot),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,sys,sys),    4) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,http_client,http_client),   5) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,http_server,http_server),   6) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,mqtt_client,mqtt_client),   7) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,uart,uart),   8) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,ntp,ntp),    9) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,ble_adv,ble_adv),  10) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,ble_scn,ble_scn),  11) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,ble,ble),   12) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,dfu,dfu),   13) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,gpio,gpio),  14) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,ota,ota),   15) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,storage,storage),  16) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,eth,eth),   17) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,wifi,wifi),  18) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,log,log),   19) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,usb,usb),   20) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,mbus_client,mbus_client),  21) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (type,mbus_server,mbus_server),  22)
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,common,common),   2) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,get_data,get_data),   3) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,ciot,ciot),   4) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,sys,sys),    5) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,http_client,http_client),   6) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,http_server,http_server),   7) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,mqtt_client,mqtt_client),   8) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,uart,uart),   9) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,ntp,ntp),   10) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,ble_adv,ble_adv),  11) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,ble_scn,ble_scn),  12) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,ble,ble),   13) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,dfu,dfu),   14) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,gpio,gpio),  15) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,ota,ota),   16) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,storage,storage),  17) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,eth,eth),   18) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,wifi,wifi),  19) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,log,log),   20) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,usb,usb),   21) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,mbus_client,mbus_client),  22) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (type,mbus_server,mbus_server),  23)
 #define CIOT_MSG_DATA_CALLBACK NULL
 #define CIOT_MSG_DATA_DEFAULT NULL
 #define ciot_msg_data_t_type_common_MSGTYPE ciot_common_t
@@ -148,7 +149,7 @@ extern const pb_msgdesc_t ciot_msg_data_t_msg;
 
 /* Maximum encoded size of messages (where known) */
 #if defined(Ciot_MbusClientData_size)
-union Ciot_MsgData_type_size_union {char f21[(7 + Ciot_MbusClientData_size)]; char f0[262];};
+union Ciot_MsgData_type_size_union {char f22[(7 + Ciot_MbusClientData_size)]; char f0[262];};
 #endif
 #if defined(Ciot_MbusClientData_size)
 #define CIOT_CIOT_PROTO_V2_MSG_DATA_PB_H_MAX_SIZE CIOT_MSG_DATA_SIZE

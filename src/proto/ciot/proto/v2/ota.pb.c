@@ -26,3 +26,5 @@ PB_BIND(CIOT_OTA_DATA, ciot_ota_data_t, AUTO)
 
 
 
+
+
