@@ -8,3 +8,4 @@
     - fixed ESP32 resetting starting UART interface
     - created request do perform OTA Rollback
     - increased pAddress buffer size on ciot_tcp windows implementation
+    - improved ciot_delete_all method
