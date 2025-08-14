@@ -117,6 +117,9 @@ ciot_err_t ciot_dfu_nrf_stop(ciot_dfu_nrf_t self)
     self->crc.expected = 0;
     self->crc.received = 0;
     self->object.packet = &self->cfg.init_packet;
+    self->state = CIOT_DFU_NRF_STATE_IDLE;
+    self->last_state = CIOT_DFU_NRF_STATE_IDLE;
+    self->base.status.state = CIOT_DFU_STATE_IDLE;
     ciot_msg_data_t data = {
         .which_type = self->cfg.iface_cfg->which_type,
         .common.which_type = CIOT_COMMON_STOP_TAG,
@@ -573,10 +576,6 @@ static ciot_err_t ciot_dfu_nrf_set_state(ciot_dfu_nrf_t self, ciot_dfu_state_t s
 {
     ciot_dfu_t *base = &self->base;
     base->status.state = state;
-    if (state == CIOT_DFU_STATE_ERROR)
-    {
-        ciot_dfu_nrf_stop(self);
-    }
     if (base->iface.event_handler != NULL)
     {
         ciot_iface_send_event_type(&base->iface, CIOT_EVENT_TYPE_INTERNAL);
@@ -597,7 +596,7 @@ static ciot_err_t ciot_dfu_nrf_event_handler(ciot_iface_t *sender, ciot_event_t 
         self->state = CIOT_DFU_NRF_STATE_SEND_PING;
     }
 
-    if (event->type == CIOT_EVENT_TYPE_DATA)
+    if (event->type == CIOT_EVENT_TYPE_REQUEST)
     {
         ciot_err_t err = ciot_dfu_nrf_process_response(self, event->raw.bytes, event->raw.size);
         if (err != CIOT_ERR_OK)

@@ -32,13 +32,13 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
     ciot_wifi_t self = calloc(1, sizeof(struct ciot_wifi));
     ciot_wifi_base_t *base = &self->base;
 
-    if (base->cfg.type == CIOT_WIFI_TYPE_AP)
+    if (type == CIOT_WIFI_TYPE_AP)
     {
         CIOT_LOGI(TAG, "Creating wifi ap");
         base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_AP);
     }
 
-    if (base->cfg.type == CIOT_WIFI_TYPE_STA)
+    if (type == CIOT_WIFI_TYPE_STA)
     {
         CIOT_LOGI(TAG, "Creating wifi sta");
         base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_STA);
@@ -46,18 +46,6 @@ ciot_wifi_t ciot_wifi_new(ciot_wifi_type_t type)
 
     ciot_wifi_init(self);
     base->cfg.type = type;
-
-    if (base->cfg.type == CIOT_WIFI_TYPE_AP)
-    {
-        CIOT_LOGI(TAG, "Creating wifi ap");
-        base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_AP);
-    }
-
-    if (base->cfg.type == CIOT_WIFI_TYPE_STA)
-    {
-        CIOT_LOGI(TAG, "Creating wifi sta");
-        base->tcp = ciot_tcp_new(&base->iface, CIOT_TCP_TYPE_WIFI_STA);
-    }
 
     return self;
 }
