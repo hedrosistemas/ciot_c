@@ -6,3 +6,4 @@
     - fixed NRF DFU over UART interface
     - fixed OTA triggering an error event on startup
     - foxed ESP32 resetting starting UART interface
+    - created request do perform OTA Rollback
