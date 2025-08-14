@@ -5,3 +5,4 @@
     - decreased OTA task priority on ESP32 to prevent wifi ap disconnection duging OTA
     - fixed NRF DFU over UART interface
     - fixed OTA triggering an error event on startup
+    - foxed ESP32 resetting starting UART interface
