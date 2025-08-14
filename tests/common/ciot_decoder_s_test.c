@@ -75,7 +75,7 @@ void test_ciot_decoder_s_decode_ok()
     }
     
     TEST_ASSERT_EQUAL(err, CIOT_ERR_OK);
-    TEST_ASSERT_EQUAL_MEMORY(expected, buf, sizeof(expected));
+    TEST_ASSERT_EQUAL_MEMORY(expected, iface.decoder->result.buf, sizeof(expected));
 }
 
 void test_ciot_decoder_s()

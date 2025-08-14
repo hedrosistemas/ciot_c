@@ -79,7 +79,8 @@ void test_ciot_decoder_slip_decode_ok()
     }
 
     TEST_ASSERT_EQUAL(err, CIOT_ERR_OK);
-    TEST_ASSERT_EQUAL_MEMORY(expected, buf, sizeof(expected));
+    TEST_ASSERT_EQUAL(iface.decoder->state, CIOT_DECODER_STATE_DONE);
+    TEST_ASSERT_EQUAL_MEMORY(expected, iface.decoder->result.buf, sizeof(expected));
 }
 
 static ciot_err_t iface_send(ciot_iface_t *iface, uint8_t *bytes, int size)
