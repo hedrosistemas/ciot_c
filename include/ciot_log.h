@@ -19,6 +19,32 @@ extern "C"
 #include <stdio.h>
 #include "ciot_config.h"
 
+#define CIOT_LOG(log)                                      \
+    do                                                     \
+    {                                                      \
+        ciot_log_data_t log_msg = log;                     \
+        if (log_msg.level == CIOT_LOG_LEVEL_DEBUG)         \
+        {                                                  \
+            CIOT_LOGD(log_msg.tag, "%s", log_msg.message); \
+        }                                                  \
+        else if (log_msg.level == CIOT_LOG_LEVEL_VERBOSE)  \
+        {                                                  \
+            CIOT_LOGV(log_msg.tag, "%s", log_msg.message); \
+        }                                                  \
+        else if (log_msg.level == CIOT_LOG_LEVEL_INFO)     \
+        {                                                  \
+            CIOT_LOGI(log_msg.tag, "%s", log_msg.message); \
+        }                                                  \
+        else if (log_msg.level == CIOT_LOG_LEVEL_WARNING)  \
+        {                                                  \
+            CIOT_LOGW(log_msg.tag, "%s", log_msg.message); \
+        }                                                  \
+        else if (log_msg.level == CIOT_LOG_LEVEL_ERROR)    \
+        {                                                  \
+            CIOT_LOGE(log_msg.tag, "%s", log_msg.message); \
+        }                                                  \
+    } while (0)
+
 #if CIOT_CONFIG_FEATURE_LOGGER
 
 #include "ciot_logger.h"

@@ -41,6 +41,7 @@ typedef struct ciot_mqtt_client_base
     char topic_pub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
     char topic_sub[CIOT_CONFIG_MQTT_TOPIC_SIZE];
     uint16_t topic_len;
+    bool process_all_topics;
 } ciot_mqtt_client_base_t;
 
 ciot_mqtt_client_t ciot_mqtt_client_new(void *handle);
@@ -50,6 +51,7 @@ ciot_err_t ciot_mqtt_client_stop(ciot_mqtt_client_t self);
 ciot_err_t ciot_mqtt_client_process_req(ciot_mqtt_client_t self, ciot_mqtt_client_req_t *req);
 ciot_err_t ciot_mqtt_client_get_cfg(ciot_mqtt_client_t self, ciot_mqtt_client_cfg_t *cfg);
 ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client_status_t *status);
+ciot_err_t ciot_mqtt_client_set_process_all_topics(ciot_mqtt_client_t self, bool process_all_topics);
 
 ciot_err_t ciot_mqtt_client_sub(ciot_mqtt_client_t self, char *topic, int qos);
 ciot_err_t ciot_mqtt_client_pub(ciot_mqtt_client_t self, char *topic, uint8_t *data, int size, int qos);
