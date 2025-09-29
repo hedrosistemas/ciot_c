@@ -176,7 +176,7 @@ ciot_err_t ciot_delete_all(ciot_t self)
 {
     CIOT_ERR_NULL_CHECK(self);
     CIOT_ERR_NULL_CHECK(self->storage);
-    for (size_t i = 0; i < self->ifaces.count; i++)
+    for (int i = 0; i < self->ifaces.count; i++)
     {
         char filename[16];
         sprintf(filename, CIOT_IFACE_CFG_FILENAME, i);

@@ -171,9 +171,10 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     }
     case MG_EV_MQTT_OPEN:
     {
-        if(base->status.state != CIOT_MQTT_CLIENT_STATE_CONNECTED)
+        CIOT_LOGI(TAG, "MG_EV_MQTT_OPEN url:%s ack:%d", base->cfg.url, *(int*)ev_data);
+        int ack = *(int*)ev_data;
+        if(base->status.state != CIOT_MQTT_CLIENT_STATE_CONNECTED && ack == 0)
         {
-            CIOT_LOGI(TAG, "MG_EV_MQTT_OPEN url:%s", base->cfg.url);
             base->status.conn_count++;
             base->status.state = CIOT_MQTT_CLIENT_STATE_CONNECTED;
             event.type = CIOT_EVENT_TYPE_STARTED;
