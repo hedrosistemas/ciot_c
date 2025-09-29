@@ -160,8 +160,8 @@ static void ciot_mqtt_event_handler(void *handler_args, esp_event_base_t event_b
             ciot_mqtt_client_event_data_t *event_data = (ciot_mqtt_client_event_data_t*)&event.raw.bytes[0];
             event.type = CIOT_EVENT_TYPE_DATA;
             event.raw.size = mqtt_event->data_len;
-            memcpy(event_data->topic, mm->topic.buf, mm->topic.len);
-            memcpy(event_data->data, mm->data.buf, mm->data.len);
+            memcpy(event_data->topic, mqtt_event->topic, mqtt_event->topic_len);
+            memcpy(event_data->data, mqtt_event->data, mqtt_event->data_len);
             ciot_iface_send_event(&base->iface, &event);
         }
         break;
