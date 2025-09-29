@@ -190,8 +190,7 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
     {
         CIOT_LOGI(TAG, "MG_EV_MQTT_MSG");
         struct mg_mqtt_message *mm = (struct mg_mqtt_message *)ev_data;
-        if(strlen(base->cfg.topics.sub) == mm->topic.len && 
-           strncmp(mm->topic.buf, base->cfg.topics.sub, mm->topic.len) == 0)
+        if(base->process_all_topics || (strlen(base->cfg.topics.sub) == mm->topic.len && strncmp(mm->topic.buf, base->cfg.topics.sub, mm->topic.len) == 0))
         {
             event.type = CIOT_EVENT_TYPE_REQUEST;
             memcpy(event.raw.bytes, mm->data.buf, mm->data.len);
@@ -200,10 +199,11 @@ static void ciot_mqtt_client_event_handler(struct mg_connection *c, int ev, void
         }
         else
         {
-            ciot_mqtt_client_event_data_t *event_data = (ciot_mqtt_client_event_data_t*)&event.raw;
+            ciot_mqtt_client_event_data_t *event_data = (ciot_mqtt_client_event_data_t*)&event.raw.bytes[0];
+            event.type = CIOT_EVENT_TYPE_DATA;
+            event.raw.size = mm->data.len;
             memcpy(event_data->topic, mm->topic.buf, mm->topic.len);
             memcpy(event_data->data, mm->data.buf, mm->data.len);
-            event.type = CIOT_EVENT_TYPE_DATA;
             ciot_iface_send_event(&base->iface, &event);
         }
         break;
