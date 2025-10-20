@@ -176,4 +176,12 @@ ciot_err_t ciot_mqtt_client_get_status(ciot_mqtt_client_t self, ciot_mqtt_client
     return CIOT_ERR_OK;
 }
 
+ciot_err_t ciot_mqtt_client_set_process_all_topics(ciot_mqtt_client_t self, bool process_all_topics)
+{
+    ciot_mqtt_client_base_t *base = (ciot_mqtt_client_base_t*)self;
+    CIOT_ERR_NULL_CHECK(self);
+    base->process_all_topics = process_all_topics;
+    return CIOT_ERR_OK;
+}
+
 #endif // CIOT_CONFIG_FEATURE_MQTT_CLIENT == 1
