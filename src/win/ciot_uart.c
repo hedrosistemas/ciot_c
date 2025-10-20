@@ -48,6 +48,13 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
     CIOT_ERR_NULL_CHECK(cfg);
     ciot_uart_base_t *base = &self->base;
 
+    if(base->status.state == CIOT_UART_STATE_STARTED &&
+       base->cfg.num == cfg->num)
+    {
+        CIOT_LOGW(TAG, "Port COM%d already started", base->cfg.num);
+        return CIOT_ERR_OK;
+    }
+
     base->cfg = *cfg;
 
     sprintf(self->port_name, "\\\\.\\COM%d", base->cfg.num);
