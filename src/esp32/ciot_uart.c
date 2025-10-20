@@ -92,6 +92,7 @@ ciot_err_t ciot_uart_start(ciot_uart_t self, ciot_uart_cfg_t *cfg)
 
     if(cfg->has_gpio == false)
     {
+        cfg->has_gpio = base->cfg.has_gpio;
         cfg->gpio = base->cfg.gpio;
     }
     base->cfg = *cfg;
